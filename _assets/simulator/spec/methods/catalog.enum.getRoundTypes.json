@@ -98,5 +98,6 @@
     }
   ],
   "page": "/api-reference/catalog/enum/catalog-enum-get-round-types.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

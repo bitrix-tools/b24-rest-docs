@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения лидов
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.field.custom.get](../../rest-v3/fields/crm-entity-field-custom-get-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.lead.userfield.get` возвращает пользовательское поле лидов по идентификатору.
 
 ## Параметры метода
@@ -178,16 +184,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting company user field: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

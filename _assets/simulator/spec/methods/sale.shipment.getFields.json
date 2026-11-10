@@ -354,5 +354,6 @@
     }
   ],
   "page": "/api-reference/sale/shipment/sale-shipment-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

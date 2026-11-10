@@ -24,9 +24,9 @@
 
 ## Связь с другими объектами
 
-**Лента новостей.** Опрос в ленте новостей прикреплен к посту. Связь работает через `ID` поста: передайте его в методы `vote.AttachedVote.*` в параметре `entityId` вместе с `moduleId` со значением `blog`. Получить `ID` поста можно методом [log.blogpost.get](../log/log-blogpost-get.md).
+**Лента новостей.** Опрос в ленте новостей прикреплен к посту. Передайте в методы `vote.AttachedVote.*` параметры `moduleId` = `blog`, `entityType` = `Bitrix\Vote\Attachment\BlogPostConnector` и `entityId` = `ID` поста. Получить `ID` поста можно методом [log.blogpost.get](../log/log-blogpost-get.md).
 
-**Мессенджер.** Опрос в чате прикреплен к сообщению мессенджера. Связь работает через идентификатор сообщения: передайте `messageId` из результата метода [vote.Integration.Im.send](./vote.integration.im.send.md) в методы `vote.AttachedVote.*` в параметре `entityId` вместе с `moduleId` со значением `Im`.
+**Мессенджер.** Опрос в чате прикреплен к сообщению. Передайте в методы `vote.AttachedVote.*` параметры `moduleId` = `Im`, `entityType` = `Bitrix\Vote\Attachment\ImMessageConnector` и `entityId` = `messageId` из результата метода [vote.Integration.Im.send](./vote.integration.im.send.md).
 
 **Пользователь.** Методы [vote.AttachedVote.getAnswerVoted](./vote.attachedvote.getAnswerVoted.md) и [vote.AttachedVote.getWithVoted](./vote.attachedvote.getWithVoted.md) возвращают список проголосовавших пользователей и базовую информацию о них: ID, имя, должность, изображение. Чтобы получить подробную информацию о проголосовавшем пользователе, используйте метод [user.get](../user/user-get.md).
 
@@ -67,6 +67,19 @@
 - [im.message.delete](../chats/messages/im-message-delete.md) — если опрос создан в чате
 
 Методы удалят пост или сообщение с опросом и результатами.
+
+## Типовые ошибки
+
+#|
+|| **Код или ситуация** | **Когда возникает** | **Что проверить** ||
+|| `100` | Не передан корректный способ идентификации опроса | Передайте один из вариантов: `attachId`, `signedAttachId` или полную связку `moduleId` + `entityType` + `entityId` ||
+|| `ATTACH_NOT_FOUND` | Голосование не найдено, в том числе из-за неверной связки `moduleId` + `entityType` + `entityId` | Проверьте модуль, тип объекта и идентификатор сообщения или поста ||
+|| `0` — `Attach read access denied` | У пользователя нет прав на чтение опроса или участие в нем | Выполните запрос от имени пользователя, которому доступен пост или чат с опросом ||
+|| `403` — `The poll is inactive.` | Метод [vote.AttachedVote.vote](./vote.attachedvote.vote.md) вызван для остановленного опроса | Возобновите опрос методом [vote.AttachedVote.resume](./vote.attachedvote.resume.md) или не отправляйте новые голоса ||
+|| Ошибка декодирования JSON на клиенте | Ответ [vote.AttachedVote.download](./vote.attachedvote.download.md) обрабатывается как обычный ответ метода | Выполните прямой HTTP-запрос через вебхук или OAuth и сохраните ответ как бинарный файл ||
+|#
+
+Метод `vote.AttachedVote.download` поддерживает вебхуки. Ограничение относится к способу обработки ответа: метод возвращает файл, поэтому стандартный вызов, который ожидает JSON, использовать нельзя.
 
 ## Обзор методов {#all-methods}
 

@@ -93,5 +93,12 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-movetofolder.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "messageIds": [
+      15,
+      16
+    ],
+    "action": "spam"
+  }
 }

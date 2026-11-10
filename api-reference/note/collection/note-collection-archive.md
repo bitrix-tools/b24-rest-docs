@@ -270,7 +270,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с результатом архивации базы знаний ||
-|| **result**
+|| **result.result**
 [`boolean`](../../data-types.md) | Значение `true`, если база знаний успешно архивирована ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -334,4 +334,5 @@ HTTP-статус: **400**
 - [{#T}](./note-collection-add.md)
 - [{#T}](./note-collection-update.md)
 - [{#T}](./note-collection-delete.md)
+- [{#T}](./note-collection-unarchive.md)
 - [{#T}](./index.md)

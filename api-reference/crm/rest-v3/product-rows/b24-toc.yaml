@@ -1,0 +1,19 @@
+title: Товарные позиции
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить товарную позицию
+    href: crm-entity-product-row-add-rest-v3.md
+  - name: Изменить товарную позицию
+    href: crm-entity-product-row-update-rest-v3.md
+  - name: Получить товарную позицию
+    href: crm-entity-product-row-get-rest-v3.md
+  - name: Получить список товарных позиций
+    href: crm-entity-product-row-list-rest-v3.md
+  - name: Удалить товарную позицию
+    href: crm-entity-product-row-delete-rest-v3.md
+  - name: Заменить все товарные позиции
+    href: crm-entity-product-row-replace-rest-v3.md
+  - name: Получить неоплаченные товарные позиции
+    href: crm-entity-product-row-get-available-for-payment-rest-v3.md

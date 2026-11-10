@@ -11,7 +11,7 @@
 
 Сотрудники в Битрикс24 — это пользователи компании, которые работают с задачами, внутренними коммуникациями, CRM и другими инструментами. В структуре компании сотрудники распределяются по отделам и командам, могут быть руководителями, заместителями или рядовыми участниками.
 
-Методы `humanresources.employee.*` возвращают данные цифрового профиля сотрудника: идентификатор пользователя, имя, должность, аватар, ссылку на профиль, отделы и команды. С помощью методов можно найти сотрудников по имени, получить количество сотрудников, проверить подчиненных пользователя и найти сотрудников, которые состоят в нескольких отделах.
+Методы `humanresources.employee.*` помогают найти сотрудника по имени, посчитать сотрудников компании и подчиненных пользователя, получить сотрудников, которые состоят в нескольких отделах. Поиск возвращает данные цифрового профиля сотрудника: идентификатор пользователя, имя, должность, аватар, ссылку на профиль, отделы и команды.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -19,28 +19,28 @@
 
 {% note info "" %}
 
-Методы раздела относятся к REST 3.0. Особенности вызова и формат ответа новой версии API описаны в [обзоре REST 3.0](../../rest-v3.md).
+Методы раздела относятся к REST 3.0 и вызываются по адресу с `/rest/api/`. PHP SDK, BX24.js и PHP CRest такой адрес пока не поддерживают. Особенности вызова и формат ответа описаны в [обзоре REST 3.0](../../rest-v3.md).
 
 {% endnote %}
 
 ## Как начать работу
 
-1. Найдите сотрудника методом [humanresources.employee.search](./humanresources-employee-search.md), если известна часть имени
-2. Получите `userId` из ответа поиска или методом [user.get](../../user/user-get.md)
-3. Получите описание полей методами [humanresources.employee.field.list](./humanresources-employee-field-list.md) и [humanresources.employee.field.get](./humanresources-employee-field-get.md), если нужно заранее понять, какие данные сотрудника можно получить
-4. Проверьте подчиненных пользователя методом [humanresources.employee.subordinates](./humanresources-employee-subordinates.md), если нужно оценить состав отделов, где пользователь является руководителем или заместителем
-5. Получите общее количество сотрудников методом [humanresources.employee.count](./humanresources-employee-count.md)
-6. Найдите сотрудников в нескольких отделах методом [humanresources.employee.multidepartment](./humanresources-employee-multidepartment.md), если нужно проверить совместительство
+1. Если известна часть имени, найдите сотрудника методом [humanresources.employee.search](./humanresources-employee-search.md)
+2. Возьмите `userId` найденного сотрудника из ответа поиска
+3. Если нужно заранее понять, какие данные сотрудника можно получить, вызовите методы [humanresources.employee.field.list](./humanresources-employee-field-list.md) и [humanresources.employee.field.get](./humanresources-employee-field-get.md)
+4. Если нужно узнать, в каких отделах пользователь руководитель или заместитель и сколько у него подчиненных, вызовите метод [humanresources.employee.subordinates](./humanresources-employee-subordinates.md)
+5. Если нужно общее количество сотрудников, вызовите метод [humanresources.employee.count](./humanresources-employee-count.md)
+6. Если нужно проверить совместительство, найдите сотрудников в нескольких отделах методом [humanresources.employee.multidepartment](./humanresources-employee-multidepartment.md)
 
 ## Ограничения раздела
 
-- Методы раздела доступны авторизованному пользователю, привязанному к отделу в структуре компании
+- Методы раздела доступны авторизованному пользователю, привязанному к отделу в структуре компании. Методы полей `humanresources.employee.field.list` и `humanresources.employee.field.get` доступны любому пользователю
 
 ## Связь с другими объектами
 
 **Пользователи.** Поле `userId` соответствует идентификатору пользователя Битрикс24. Его можно получить методом [user.get](../../user/user-get.md) или из ответа [humanresources.employee.search](./humanresources-employee-search.md).
 
-**Отделы и команды.** В ответах методов возвращаются данные о связи сотрудника с отделами и командами. Детали отдела или команды можно получить методом [humanresources.node.get](../node/humanresources-node-get.md).
+**Отделы и команды.** Методы возвращают отделы и команды сотрудника. Остальные данные отдела или команды можно получить методом [humanresources.node.get](../node/humanresources-node-get.md).
 
 **Участники отделов и команд.** Если нужно изменить состав отдела или команды после поиска сотрудника, используйте методы [humanresources.node.member.add](../node-member/humanresources-node-member-add.md), [humanresources.node.member.move](../node-member/humanresources-node-member-move.md) и [humanresources.node.member.remove](../node-member/humanresources-node-member-remove.md).
 
@@ -53,7 +53,7 @@
 #|
 || **Метод** | **Описание** ||
 || [humanresources.employee.search](./humanresources-employee-search.md) | Ищет сотрудников по имени ||
-|| [humanresources.employee.subordinates](./humanresources-employee-subordinates.md) | Возвращает подчиненных пользователя по отделам ||
+|| [humanresources.employee.subordinates](./humanresources-employee-subordinates.md) | Возвращает количество подчиненных пользователя по отделам ||
 || [humanresources.employee.count](./humanresources-employee-count.md) | Возвращает количество сотрудников в структуре компании ||
 || [humanresources.employee.multidepartment](./humanresources-employee-multidepartment.md) | Возвращает сотрудников, которые состоят в нескольких отделах ||
 || [humanresources.employee.field.list](./humanresources-employee-field-list.md) | Возвращает список полей сотрудника ||

@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с одним из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение элементов инфоблока каталога
 
-Метод скачивает файлы услуги по переданным параметрам. 
+Метод `catalog.product.service.download` скачивает файл услуги.
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей для скачивания файлов услуги ||
+[`object`](../../../data-types.md) | Параметры файла услуги [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -34,22 +34,16 @@
 || **Название**
 `тип` | **Описание** ||
 || **fileId***
-[`integer`](../../../data-types.md) | Идентификатор зарегистрированного файла.
-
-Для получения идентификаторов файлов услуги необходимо использовать [catalog.product.service.get](./catalog-product-service-get.md) либо [catalog.product.service.list](./catalog-product-service-list.md)
-||
+[`integer`](../../../data-types.md) | Идентификатор файла. Получить его можно методом [catalog.product.service.get](./catalog-product-service-get.md) или [catalog.product.service.list](./catalog-product-service-list.md): поле `id` в `detailPicture`, `previewPicture` или в значении файлового свойства ||
 || **productId***
-[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги.
-
-Для получения идентификаторов услуги необходимо использовать [catalog.product.service.list](./catalog-product-service-list.md)
-||
+[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги. Идентификатор можно получить методом [catalog.product.service.list](./catalog-product-service-list.md) ||
 || **fieldName***
 [`string`](../../../data-types.md) | Имя поля (свойства или поля элемента информационного блока), в котором хранится файл. Возможные значения:
-- `DETAIL_PICTURE` — детальная картинка, поле доступно в старой карточке товара
-- `PREVIEW_PICTURE` — картинка для анонса, поле доступно в старой карточке товара
-- `PROPERTY_N` — свойство, где `N` — идентификатор свойства либо код свойства
+- `detailPicture` — детальная картинка
+- `previewPicture` — картинка для анонса
+- `propertyN` — файловое свойство, где `N` — идентификатор или символьный код свойства, например `property258` или `propertyMorePhoto`
 
-Для получения существующих идентификаторов либо кодов свойств услуг необходимо использовать [catalog.productProperty.list](../../product-property/catalog-product-property-list.md)
+Получить идентификаторы и символьные коды свойств услуги можно методом [catalog.productProperty.list](../../product-property/catalog-product-property-list.md). Для скачивания подходят только свойства файлового типа
 ||
 |#
 
@@ -65,7 +59,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"fileId":6497,"productId":1265,"fieldName":"detailPicture"}}' \
+    -d '{"fields":{"fileId":40055,"productId":7623,"fieldName":"previewPicture"}}' \
+    -o service-picture.png \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.download
     ```
 
@@ -75,7 +70,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"fileId":6497,"productId":1265,"fieldName":"detailPicture"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"fileId":40055,"productId":7623,"fieldName":"previewPicture"},"auth":"**put_access_token_here**"}' \
+    -o service-picture.png \
     https://**put_your_bitrix24_address**/rest/catalog.product.service.download
     ```
 
@@ -94,9 +90,9 @@
         method: 'catalog.product.service.download',
         params: {
           fields: {
-            fileId: 6497,
-            productId: 1265,
-            fieldName: 'detailPicture',
+            fileId: 40055,
+            productId: 7623,
+            fieldName: 'previewPicture',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -130,9 +126,9 @@
             method: 'catalog.product.service.download',
             params: {
               fields: {
-                fileId: 6497,
-                productId: 1265,
-                fieldName: 'detailPicture',
+                fileId: 40055,
+                productId: 7623,
+                fieldName: 'previewPicture',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -164,9 +160,9 @@
     try:
         bitrix_response = client.catalog.product.service.download(
             fields={
-                "fileId": 6497,
-                "productId": 1265,
-                "fieldName": "detailPicture",
+                "fileId": 40055,
+                "productId": 7623,
+                "fieldName": "previewPicture",
             },
         ).response
         result = bitrix_response.result
@@ -195,21 +191,21 @@
                 'catalog.product.service.download',
                 [
                     'fields' => [
-                        'fileId'    => 6497,
-                        'productId' => 1265,
-                        'fieldName' => 'detailPicture',
+                        'fileId'    => 40055,
+                        'productId' => 7623,
+                        'fieldName' => 'previewPicture',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error downloading product service: ' . $e->getMessage();
@@ -223,9 +219,9 @@
         'catalog.product.service.download',
         {
             fields: {
-                fileId: 6497,
-                productId: 1265,
-                fieldName: 'detailPicture',
+                fileId: 40055,
+                productId: 7623,
+                fieldName: 'previewPicture',
             }
         },
         function(result) {
@@ -247,9 +243,9 @@
         'catalog.product.service.download',
         [
             'fields' => [
-                'fileId' => 6497,
-                'productId' => 1265,
-                'fieldName' => 'detailPicture'
+                'fileId' => 40055,
+                'productId' => 7623,
+                'fieldName' => 'previewPicture'
             ]
         ]
     );
@@ -265,9 +261,9 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.service.download", b24.Params{
     	"fields": b24.Params{
-    		"fileId":    6497,
-    		"productId": 1265,
-    		"fieldName": "detailPicture",
+    		"fileId":    40055,
+    		"productId": 7623,
+    		"fieldName": "previewPicture",
     	},
     })
     if err != nil {
@@ -285,19 +281,19 @@
 
 HTTP-статус: **200**
 
-В качестве ответа приходит файл по переданным параметрам.
+Метод возвращает сам файл, а не JSON. Тип содержимого в заголовке `Content-Type` соответствует файлу, например `image/png`, имя файла передается в заголовке `Content-Disposition`, например `attachment; filename="ac.png"`.
 
 ### Возвращаемые данные
 
-Возвращается файл по переданным параметрам.
+Содержимое файла. Сохраните тело ответа в файл с именем из заголовка `Content-Disposition`. Идентификатор файла можно получить из `detailPicture`, `previewPicture` или файлового свойства в ответе [catalog.product.service.get](./catalog-product-service-get.md).
 
 ## Обработка ошибок
 
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":0,
+{
+    "error":"0",
     "error_description":"Required fields: fileId"
 }
 ```
@@ -307,19 +303,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `0` | Услуга с указанным идентификатором не существует
-|| 
-|| `0` | Указанное свойство не существует либо не является файловым
-|| 
-|| `0` | Файл с указанным идентификатором не существует
-|| 
-|| `0` | Не переданы обязательные поля
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права на чтение элемента инфоблока каталога ||
+|| `400` | Пустое значение | service does not exist. | Услуга с указанным `productId` не найдена ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: fileId | Не передано обязательное поле. В тексте перечислены недостающие поля ||
+|| `400` | `0` | Name file field is not available | В `fieldName` передано поле, которое не хранит файлы ||
+|| `400` | `0` | Product file wrong | Файла с указанным `fileId` нет в поле `fieldName` услуги ||
+|| `400` | `0` | Product is empty | Файл не найден в хранилище ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

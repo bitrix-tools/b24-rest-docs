@@ -17,7 +17,11 @@
 
 ## Особенности методов задач
 
-В методах задач нужно соблюдать порядок следования параметров в запросе, указанный в таблицах параметров. Иначе запрос выполнится с ошибками.
+Методы групп `task.*`, например `task.checklistitem.*`, `task.elapseditem.*` и `task.commentitem.*`, читают параметры по позиции. Передавайте параметры в том порядке, в котором они указаны в таблице параметров метода, иначе запрос завершится ошибкой. Методы `tasks.task.*` принимают именованные параметры в любом порядке.
+
+## Актуальные и устаревшие методы
+
+Для новой разработки используйте методы `tasks.task.*`. Методы `task.item.*`, `task.items.*`, `task.logitem.*` и `task.comment.*` устарели и оставлены для поддержки существующих интеграций, их список — в статье [Устаревшие методы задач](./deprecated/index.md). На странице каждого устаревшего метода указан актуальный метод, который его заменяет.
 
 ## Задачи в REST 3.0
 
@@ -46,7 +50,7 @@
 
 Связь с задачами создавайте методом [task.dependence.add](./task-dependence-add.md). Удаляйте — методом [task.dependence.delete](./task-dependence-delete.md).
 
-При создании задачи заполните системные поля: укажите исполнителя, наблюдателей, крайний срок выполнения, теги и так далее. 
+При создании задачи заполните системные поля: укажите исполнителя, наблюдателей, крайний срок выполнения, теги и так далее. Описание всех системных полей — в статье [Поля задачи](./fields.md).
 
 Если системных полей недостаточно, вы можете создать собственные пользовательские поля. Они позволяют хранить информацию в различных форматах данных: строка, число, дата со временем и да/нет. Создавать, изменять, получать или удалять пользовательские поля задач можно группой методов [task.item.userfield.*](./user-field/index.md).
 
@@ -173,9 +177,9 @@
 
 В карточку задачи можно встроить приложение. Благодаря встраиванию можно будет использовать приложение и не покидать карточку. 
 
-- [Виджет на вкладке карточки задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
-- [Виджет в правой панели карточки задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
-- [Виджет в верхней части карточки задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
+- [Виджет в карточке задачи](../widgets/task/view-tab.md) `TASK_VIEW_TAB`
+- [Виджет в карточке задачи](../widgets/task/view-sidebar.md) `TASK_VIEW_SIDEBAR`
+- [Виджет в карточке задачи](../widgets/task/view-top-panel.md) `TASK_VIEW_TOP_PANEL`
 
 Приложение можно встроить в списке задач:
 
@@ -230,12 +234,8 @@
     || [tasks.task.field.get](./tasks-task-field-get.md) | Получает описание поля задачи ||
     || [tasks.task.getaccess](./tasks-task-get-access.md) | Проверяет доступ к задаче ||
     || [tasks.task.access.get](./tasks-task-access-get.md) | Проверяет доступ к задаче v 3.0 ||
-    || [tasks.task.access.field.list](./tasks-task-access-field-list.md) | Получает список полей прав доступа ||
-    || [tasks.task.access.field.get](./tasks-task-access-field-get.md) | Получает описание поля прав доступа ||
     || [tasks.task.files.attach](./tasks-task-files-attach.md) | Прикрепляет файлы к задаче ||
     || [tasks.task.file.attach](./tasks-task-file-attach.md) | Прикрепляет файлы к задаче v 3.0 ||
-    || [tasks.task.file.field.list](./tasks-task-file-field-list.md) | Получает список полей файлов задачи ||
-    || [tasks.task.file.field.get](./tasks-task-file-field-get.md) | Получает описание поля файлов задачи ||
     || [tasks.task.chat.message.send](./tasks-task-chat-message-send.md) | Отправляет сообщение в чат задачи ||
     || [tasks.task.chat.message.field.list](./tasks-task-chat-message-field-list.md) | Получает список полей сообщения чата задачи ||
     || [tasks.task.chat.message.field.get](./tasks-task-chat-message-field-get.md) | Получает описание поля сообщения чата задачи ||
@@ -310,6 +310,7 @@
 || [task.checklistitem.complete](./checklist-item/task-checklist-item-complete.md) | Отмечает элемент чек-листа как выполненный ||
 || [task.checklistitem.renew](./checklist-item/task-checklist-item-renew.md) | Отмечает выполненный элемент чек-листа как вновь активный ||
 || [task.checklistitem.delete](./checklist-item/task-checklist-item-delete.md) | Удаляет элемент чек-листа ||
+|| [task.checklistitem.deleteall](./checklist-item/task-checklist-item-delete-all.md) | Удаляет все чек-листы задачи ||
 || [task.checklistitem.isactionallowed](./checklist-item/task-checklist-item-is-action-allowed.md) | Проверяет, разрешено ли действие для элемента чек-листа ||
 || [task.checklistitem.getmanifest](./checklist-item/task-checklist-item-get-manifest.md) | Получает список методов и их описание ||
 |#
@@ -322,14 +323,29 @@
 
 {% endnote %}
 
-#|
-|| **Метод** | **Описание** ||
-|| [task.commentitem.add](./comment-item/task-comment-item-add.md) | Создает новый комментарий к задаче ||
-|| [task.commentitem.update](./comment-item/task-comment-item-update.md) | Обновляет данные комментария ||
-|| [task.commentitem.get](./comment-item/task-comment-item-get.md) | Получает комментарий к задаче ||
-|| [task.commentitem.getlist](./comment-item/task-comment-item-get-list.md) | Получает список комментариев к задаче ||
-|| [task.commentitem.delete](./comment-item/task-comment-item-delete.md) | Удаляет комментарий ||
-|#
+{% list tabs %}
+
+- Методы
+
+    #|
+    || **Метод** | **Описание** ||
+    || [task.commentitem.add](./comment-item/task-comment-item-add.md) | Создает новый комментарий к задаче ||
+    || [task.commentitem.update](./comment-item/task-comment-item-update.md) | Обновляет данные комментария ||
+    || [task.commentitem.get](./comment-item/task-comment-item-get.md) | Получает комментарий к задаче ||
+    || [task.commentitem.getlist](./comment-item/task-comment-item-get-list.md) | Получает список комментариев к задаче ||
+    || [task.commentitem.delete](./comment-item/task-comment-item-delete.md) | Удаляет комментарий ||
+    |#
+
+- События
+
+    #|
+    || **Событие** | **Вызывается** ||
+    || [OnTaskCommentAdd](./comment-item/events-comment/on-task-comment-add.md) | При добавлении комментария к задаче. В новой карточке вызывается при добавлении сообщения в чат задачи ||
+    || [OnTaskCommentUpdate](./comment-item/events-comment/on-task-comment-update.md) | При обновлении комментария в задаче. В новой карточке не вызывается ||
+    || [OnTaskCommentDelete](./comment-item/events-comment/on-task-comment-delete.md) | При удалении комментария из задачи. В новой карточке не вызывается ||
+    |#
+
+{% endlist %}
 
 ### Затраченное время
 
@@ -364,9 +380,9 @@
 || [task.stages.add](./stages/task-stages-add.md) | Добавляет стадии канбана или «Моего плана» ||
 || [task.stages.update](./stages/task-stages-update.md) | Обновляет стадии канбана или «Моего плана» ||
 || [task.stages.get](./stages/task-stages-get.md) | Получает стадии канбана или «Моего плана» ||
+|| [task.stages.delete](./stages/task-stages-delete.md) | Удаляет стадии канбана или «Моего плана» ||
 || [task.stages.canmovetask](./stages/task-stages-can-move-task.md) | Определяет, может ли текущий пользователь перемещать задачи в указанном объекте ||
 || [task.stages.movetask](./stages/task-stages-move-task.md) | Перемещает задачи из одной стадии в другую ||
-|| [task.stages.delete](./stages/task-stages-delete.md) | Удаляет стадии канбана или «Моего плана» ||
 |#
 
 ### Задачи в «Плане на день»
@@ -380,11 +396,47 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [tasks.flow.Flow.create](./flow/tasks-flow-flow-create.md) | Создать поток ||
-|| [tasks.flow.Flow.get](./flow/tasks-flow-flow-get.md) | Получить поток ||
-|| [tasks.flow.Flow.update](./flow/tasks-flow-flow-update.md) | Изменить поток ||
-|| [tasks.flow.Flow.delete](./flow/tasks-flow-flow-delete.md) | Удалить поток ||
-|| [tasks.flow.Flow.isExists](./flow/tasks-flow-flow-is-exists.md) | Проверить, существует ли поток с таким названием ||
-|| [tasks.flow.Flow.activate](./flow/tasks-flow-flow-activate.md) | Включить или выключить поток ||
+|| [tasks.flow.Flow.create](./flow/tasks-flow-flow-create.md) | Создает поток ||
+|| [tasks.flow.Flow.get](./flow/tasks-flow-flow-get.md) | Получает поток ||
+|| [tasks.flow.Flow.update](./flow/tasks-flow-flow-update.md) | Изменяет поток ||
+|| [tasks.flow.Flow.delete](./flow/tasks-flow-flow-delete.md) | Удаляет поток ||
+|| [tasks.flow.Flow.isExists](./flow/tasks-flow-flow-is-exists.md) | Проверяет, существует ли поток с таким названием ||
+|| [tasks.flow.Flow.activate](./flow/tasks-flow-flow-activate.md) | Включает или выключает поток ||
+|| [tasks.flow.Flow.pin](./flow/tasks-flow-flow-pin.md) | Закрепляет или открепляет поток в списке ||
 |#
+
+### Шаблоны задач
+
+Описание полей шаблона — в статье [Поля шаблона задачи](./template/fields.md).
+
+#|
+|| **Метод** | **Описание** ||
+|| [tasks.template.add](./template/tasks-template-add.md) | Добавляет шаблон задачи ||
+|| [tasks.template.update](./template/tasks-template-update.md) | Изменяет шаблон задачи ||
+|| [tasks.template.get](./template/tasks-template-get.md) | Получает шаблон задачи по `id` ||
+|| [tasks.template.delete](./template/tasks-template-delete.md) | Удаляет шаблон задачи ||
+|| [tasks.template.fields](./template/tasks-template-fields.md) | Получает описание полей шаблона задачи ||
+|#
+
+### Чек-листы шаблонов задач
+
+#|
+|| **Метод** | **Описание** ||
+|| [tasks.template.checklist.add](./template/checklist/tasks-template-checklist-add.md) | Добавляет пункт чек-листа ||
+|| [tasks.template.checklist.update](./template/checklist/tasks-template-checklist-update.md) | Обновляет пункт чек-листа ||
+|| [tasks.template.checklist.get](./template/checklist/tasks-template-checklist-get.md) | Получает пункт чек-листа по `id` ||
+|| [tasks.template.checklist.list](./template/checklist/tasks-template-checklist-list.md) | Получает список пунктов чек-листа ||
+|| [tasks.template.checklist.delete](./template/checklist/tasks-template-checklist-delete.md) | Удаляет пункт чек-листа ||
+|| [tasks.template.checklist.moveAfter](./template/checklist/tasks-template-checklist-move-after.md) | Перемещает пункт после указанного ||
+|| [tasks.template.checklist.moveBefore](./template/checklist/tasks-template-checklist-move-before.md) | Перемещает пункт перед указанным ||
+|| [tasks.template.checklist.complete](./template/checklist/tasks-template-checklist-complete.md) | Отмечает пункт как выполненный ||
+|| [tasks.template.checklist.renew](./template/checklist/tasks-template-checklist-renew.md) | Возвращает пункт в невыполненное состояние ||
+|| [tasks.template.checklist.addAttachmentByContent](./template/checklist/tasks-template-checklist-add-attachment-by-content.md) | Добавляет вложение из содержимого ||
+|| [tasks.template.checklist.addAttachmentsFromDisk](./template/checklist/tasks-template-checklist-add-attachments-from-disk.md) | Добавляет вложения из Диска ||
+|| [tasks.template.checklist.removeAttachments](./template/checklist/tasks-template-checklist-remove-attachments.md) | Удаляет вложения пункта чек-листа ||
+|#
+
+### Устаревшие методы
+
+Методы `task.item.*`, `task.items.*`, `task.logitem.*` и `task.comment.*` перечислены в статье [Устаревшие методы задач](./deprecated/index.md). Замена для каждого метода указана на его странице.
 

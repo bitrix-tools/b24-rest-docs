@@ -21,6 +21,8 @@
 
 Метод `note.document.get` возвращает один документ с содержимым в Markdown.
 
+Архивный документ или документ в корзине может оставаться доступным для чтения. Проверяйте его состояние по полю `state`.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -88,6 +90,11 @@
         updatedBy: number
         createdAt: ISODate
         updatedAt: ISODate
+        contentUpdatedAt: ISODate
+        state: 'live' | 'archived' | 'trashed'
+        isArchived: boolean
+        isTrashed: boolean
+        isOrphan: boolean
       }
     }
 
@@ -280,7 +287,12 @@ HTTP-статус: **200**
             "createdBy": 1,
             "updatedBy": 1,
             "createdAt": "2026-04-20T12:00:00Z",
-            "updatedAt": "2026-04-21T09:15:30Z"
+            "updatedAt": "2026-04-21T09:15:30Z",
+            "contentUpdatedAt": "2026-04-21T09:15:30Z",
+            "state": "live",
+            "isArchived": false,
+            "isTrashed": false,
+            "isOrphan": false
         }
     },
     "time": {
@@ -303,28 +315,38 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с данными документа ||
-|| **item**
+|| **result.item**
 [`object`](../../data-types.md) | Объект документа ||
-|| **id**
+|| **result.item.id**
 [`integer`](../../data-types.md) | Идентификатор документа ||
-|| **collectionId**
+|| **result.item.collectionId**
 [`integer`](../../data-types.md) | Идентификатор базы знаний или `null`, если документ доступен через прямой доступ к документу ||
-|| **parentId**
+|| **result.item.parentId**
 [`integer`](../../data-types.md) | Идентификатор родительского документа или `null` ||
-|| **title**
+|| **result.item.title**
 [`string`](../../data-types.md) | Заголовок документа ||
-|| **markdown**
+|| **result.item.markdown**
 [`string`](../../data-types.md) | Содержимое документа в Markdown ||
-|| **position**
+|| **result.item.position**
 [`integer`](../../data-types.md) | Позиция документа среди соседних страниц ||
-|| **createdBy**
+|| **result.item.createdBy**
 [`integer`](../../data-types.md) | Идентификатор автора документа ||
-|| **updatedBy**
+|| **result.item.updatedBy**
 [`integer`](../../data-types.md) | Идентификатор последнего редактора документа ||
-|| **createdAt**
-[`datetime`](../../data-types.md) | Дата и время создания документа в UTC ||
-|| **updatedAt**
-[`datetime`](../../data-types.md) | Дата и время последнего изменения документа в UTC ||
+|| **result.item.createdAt**
+[`datetime`](../../data-types.md) | Дата и время создания документа в формате ISO 8601 со смещением часового пояса ||
+|| **result.item.updatedAt**
+[`datetime`](../../data-types.md) | Дата и время последнего изменения документа в формате ISO 8601 со смещением часового пояса ||
+|| **result.item.contentUpdatedAt**
+[`datetime`](../../data-types.md) | Дата и время изменения содержимого в формате ISO 8601 со смещением часового пояса ||
+|| **result.item.state**
+[`string`](../../data-types.md) | Состояние документа: `live` — активный, `archived` — в архиве, `trashed` — в корзине ||
+|| **result.item.isArchived**
+[`boolean`](../../data-types.md) | Устаревшее поле. Используйте `state`. Признак архивации документа ||
+|| **result.item.isTrashed**
+[`boolean`](../../data-types.md) | Устаревшее поле. Используйте `state`. Признак нахождения документа в корзине ||
+|| **result.item.isOrphan**
+[`boolean`](../../data-types.md) | Устаревшее поле. Признак того, что документ в корзине, а его база знаний удалена ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -377,7 +399,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Документ не найден | Проверьте, что документ существует, не архивирован, не находится в корзине и доступен пользователю ||
+|| `id` | Документ не найден | Проверьте, что документ существует и доступен пользователю ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -386,4 +408,5 @@ HTTP-статус: **400**
 
 - [{#T}](./note-document-tree-list.md)
 - [{#T}](./note-document-search-list.md)
+- [{#T}](./note-document-list.md)
 - [{#T}](./index.md)

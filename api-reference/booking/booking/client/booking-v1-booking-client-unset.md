@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.booking.client.unset` удаляет клиентов для указанного бронирования.
+Метод `booking.v1.booking.client.unset` отвязывает от бронирования всех клиентов.
 
 ## Параметры метода
 
@@ -24,8 +24,17 @@
 `тип` | **Описание** ||
 || **bookingId***
 [`integer`](../../../data-types.md) | Идентификатор бронирования.
+
 Можно получить методами [booking.v1.booking.add](../booking-v1-booking-add.md) и [booking.v1.booking.list](../booking-v1-booking-list.md) ||
 |#
+
+{% note info "" %}
+
+Метод снимает всех клиентов сразу, выбрать отдельного клиента нельзя. Чтобы отвязать одного клиента, получите список методом [booking.v1.booking.client.list](./booking-v1-booking-client-list.md) и передайте оставшихся в [booking.v1.booking.client.set](./booking-v1-booking-client-set.md). Контакты и компании в CRM при этом не удаляются.
+
+Если бронирование связано со сделкой и клиентов у него уже нет, вызов не очищает список, а подставляет контакты и компанию из сделки. Проверить связь со сделкой можно методом [booking.v1.booking.externalData.list](../external-data/booking-v1-booking-externaldata-list.md).
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -39,8 +48,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.booking.client.unset
+    -d '{"bookingId":14}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.client.unset
     ```
 
 - cURL (OAuth)
@@ -49,8 +58,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.client.unset
+    -d '{"bookingId":14,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.booking.client.unset
     ```
 
 - JS (TS)
@@ -164,16 +173,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error unsetting booking client: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -267,7 +270,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1021,
+    "error": "1021",
     "error_description": "Booking not found"
 }
 ```
@@ -278,13 +281,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `1021` | `Booking not found` | Бронирование с указанным `id` не найдено ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
+|| `100` | `Could not find value for parameter {bookingId}` | Не передан обязательный параметр `bookingId` ||
+|| `100` | `Invalid value {abc} to match with parameter {bookingId}. Should be value of type int.` | В `bookingId` передано значение другого типа, а не число ||
+|| `1021` | `Booking not found` | Бронирование с указанным `bookingId` не найдено ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-booking-client-set.md)
 - [{#T}](./booking-v1-booking-client-list.md)

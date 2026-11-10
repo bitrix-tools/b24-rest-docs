@@ -62,5 +62,10 @@
     }
   ],
   "page": "/api-reference/crm/automation/triggers/crm-automation-trigger-execute.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "c5u4m",
+    "OWNER_TYPE_ID": 2,
+    "OWNER_ID": 6
+  }
 }

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 `crm.activity.field.list` из группы [Дела](../../../rest-v3/activities/index.md): средства связи описывает поле `communications`.
+
+{% endnote %}
+
 Метод `crm.activity.communication.fields` возвращает описание коммуникации для дела. Коммуникации хранят номера телефонов в звонках, email-адреса в письмах, имена во встречах.
 
 ## Параметры метода
@@ -162,16 +168,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching communication fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

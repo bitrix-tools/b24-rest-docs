@@ -488,7 +488,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object[]`](../../../data-types.md) | Массив записей SIP-линий, созданных текущим приложением. Состав записей зависит от условий `FILTER`.
+[`object[]`](../../../data-types.md) | Массив записей SIP-линий, созданных текущим приложением [(подробное описание)](#sip). Состав записей зависит от условий `FILTER`.
 
 Пустой массив означает, что записи, соответствующие условиям `FILTER`, отсутствуют ||
 || **total**
@@ -499,6 +499,52 @@ HTTP-статус: **200**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива result {#sip}
+
+Поля `ID` и `APP_ID` в ответе не возвращаются. Набор остальных полей зависит от типа АТС: `REG_ID` приходит только для `cloud`, поля `INCOMING_*` — только для `office`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **TYPE**
+[`string`](../../../data-types.md) | Тип АТС:
+
+- `cloud` — облачная АТС
+- `office` — офисная АТС ||
+|| **TITLE**
+[`string`](../../../data-types.md) | Название подключения. Пустая строка, если название не задано при создании ||
+|| **CONFIG_ID**
+[`string`](../../../data-types.md) | Идентификатор настройки SIP-линии, например `"3"`. Используется в [voximplant.sip.update](./voximplant-sip-update.md), [voximplant.sip.delete](./voximplant-sip-delete.md) и [voximplant.line.outgoing.sip.set](../lines/voximplant-line-outgoing-sip-set.md) ||
+|| **REG_ID**
+[`string`](../../../data-types.md) | Идентификатор SIP-регистрации, например `"150907"`. Только для `cloud`. Используется в [voximplant.sip.status](./voximplant-sip-status.md) ||
+|| **SERVER**
+[`string`](../../../data-types.md) | Адрес сервера SIP-регистрации ||
+|| **LOGIN**
+[`string`](../../../data-types.md) | Логин для подключения к серверу ||
+|| **PASSWORD**
+[`string`](../../../data-types.md) | Пароль для подключения к серверу ||
+|| **INCOMING_SERVER**
+[`string`](../../../data-types.md) | Адрес сервера для входящих звонков. Только для `office`: его указывают в настройках офисной АТС ||
+|| **INCOMING_LOGIN**
+[`string`](../../../data-types.md) | Логин для входящих звонков. Только для `office` ||
+|| **INCOMING_PASSWORD**
+[`string`](../../../data-types.md) | Пароль для входящих звонков. Только для `office` ||
+|| **AUTH_USER**
+[`string`](../../../data-types.md)\|[`null`](../../../data-types.md) | Имя пользователя для SIP-авторизации ||
+|| **OUTBOUND_PROXY**
+[`string`](../../../data-types.md)\|[`null`](../../../data-types.md) | Адрес SIP-прокси для исходящего подключения ||
+|| **DETECT_LINE_NUMBER**
+[`string`](../../../data-types.md) | Признак определения номера линии:
+
+- `Y` — определение номера линии включено
+- `N` — определение номера линии выключено ||
+|| **LINE_DETECT_HEADER_ORDER**
+[`string`](../../../data-types.md) | Порядок SIP-заголовков для определения номера линии, например `diversion;to` ||
+|| **REGISTRATION_STATUS_CODE**
+[`string`](../../../data-types.md)\|[`null`](../../../data-types.md) | Код статуса последней SIP-регистрации, например `"200"`. Обновляется при вызове [voximplant.sip.status](./voximplant-sip-status.md) ||
+|| **REGISTRATION_ERROR_MESSAGE**
+[`string`](../../../data-types.md)\|[`null`](../../../data-types.md) | Текст ошибки последней SIP-регистрации. Пустая строка или `null`, если ошибки нет ||
+|#
 
 ## Обработка ошибок
 
@@ -516,17 +562,17 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для получения списка SIP-линий ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Недостаточно прав для получения списка SIP-линий ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./voximplant-sip-add.md)
 - [{#T}](./voximplant-sip-update.md)
-- [{#T}](./voximplant-sip-get.md)
 - [{#T}](./voximplant-sip-delete.md)
 - [{#T}](./voximplant-sip-status.md)
 - [{#T}](./voximplant-sip-connector-status.md)

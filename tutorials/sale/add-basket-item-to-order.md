@@ -25,19 +25,20 @@
 
 Оба случая закрывает один и тот же метод, отличается только набор полей. Если цену менять не нужно и она должна прийти из каталога, используйте [sale.basketitem.addCatalogProduct](../../api-reference/sale/basket-item/sale-basket-item-add-catalog-product.md) — он сам подставит цену и характеристики товара.
 
-Сценарий состоит из двух шагов, и они независимы. Выполните тот, который подходит вашей задаче, или оба подряд — как в примерах ниже.
+Сценарий состоит из трех шагов. Первый шаг готовит данные, второй и третий независимы: выполните тот, который подходит вашей задаче, или оба подряд — как в примерах ниже.
 
-1. Добавим товар из каталога и назначим свою цену методом [sale.basketitem.add](../../api-reference/sale/basket-item/sale-basket-item-add.md)
-2. Добавим позицию, которой нет в каталоге, тем же методом с другим набором полей
+1. Получим идентификатор заказа и его валюту методом [sale.order.list](../../api-reference/sale/order/sale-order-list.md)
+2. Добавим товар из каталога и назначим свою цену методом [sale.basketitem.add](../../api-reference/sale/basket-item/sale-basket-item-add.md)
+3. Добавим позицию, которой нет в каталоге, тем же методом с другим набором полей
 
-Результат обоих шагов проверим методами [sale.basketitem.list](../../api-reference/sale/basket-item/sale-basket-item-list.md) и [sale.order.get](../../api-reference/sale/order/sale-order-get.md).
+Результат шагов 2 и 3 проверим методами [sale.basketitem.list](../../api-reference/sale/basket-item/sale-basket-item-list.md) и [sale.order.get](../../api-reference/sale/order/sale-order-get.md).
 
-## Подготовим данные
+## Перед началом
 
 До первого вызова соберите значения.
 
-- `orderId` — идентификатор заказа, в который добавляется позиция. Заказ должен существовать: метод только добавляет в него строку. Список заказов вернет [sale.order.list](../../api-reference/sale/order/sale-order-list.md), а создать новый заказ можно методом [sale.order.add](../../api-reference/sale/order/sale-order-add.md). В примерах используется заказ `891`
-- `currency` — валюта позиции. Она должна совпадать с валютой заказа, иначе метод вернет ошибку. В примерах используется валюта `RUB`
+- `orderId` — идентификатор заказа, в который добавляется позиция. Заказ должен существовать: метод только добавляет в него строку. Как получить идентификатор, показано в [шаге 1](#get-order). В примерах используется заказ `891`
+- `currency` — валюта позиции. Она должна совпадать с валютой заказа, иначе метод вернет ошибку. Валюту заказа вернет тот же шаг 1. В примерах используется валюта `RUB`
 - `productId` — идентификатор товара из каталога. Найти его можно методом [catalog.product.list](../../api-reference/catalog/product/catalog-product-list.md). В примерах используется товар `7075`. Для позиции, которой нет в каталоге, передайте `0`
 
 Идентификаторы `891` и `7075` — значения из примеров. Замените их на свои.
@@ -63,7 +64,147 @@
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
-## 1\. Добавим товар из каталога и назначим свою цену
+## 1. Получим заказ и его валюту {#get-order}
+
+Позиция добавляется в существующий заказ, и ее валюта должна совпадать с валютой заказа. Оба значения возьмем из ответа метода [sale.order.list](../../api-reference/sale/order/sale-order-list.md). Если `orderId` и валюта заказа уже известны, переходите к шагу 2.
+
+Запросим последний заказ. Чтобы выбрать конкретный заказ, замените фильтр, например на `{"=accountNumber": "891"}`.
+
+{% list tabs %}
+
+- JS
+
+    ```js
+    import { B24Hook } from '@bitrix24/b24jssdk'
+
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+
+    const response = await $b24.actions.v2.call.make({
+        method: 'sale.order.list',
+        params: {
+            select: ['id', 'accountNumber', 'currency'],
+            order: { id: 'desc' },
+        },
+        requestId: 'order-list'
+    })
+
+    if (response.isSuccess) {
+        const [order] = response.getData().result.orders
+        // order.id — значение для orderId, order.currency — для currency
+        console.log(order.id, order.currency)
+    } else {
+        console.error(response.getErrorMessages().join('; '))
+    }
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk import BitrixWebhook, Client
+    from b24pysdk.errors import BitrixAPIError
+
+    client = Client(
+        BitrixWebhook(
+            domain="your-domain.bitrix24.com",
+            webhook_token="user_id/webhook_key",
+        )
+    )
+
+    try:
+        result = client.sale.order.list(
+            select=["id", "accountNumber", "currency"],
+            order={"id": "desc"},
+        ).response.result
+        order = result["orders"][0]
+        # order["id"] — значение для orderId, order["currency"] — для currency
+        print(order["id"], order["currency"])
+    except BitrixAPIError as error:
+        print(error)
+    ```
+
+- PHP
+
+    ```php
+    <?php
+    // composer require bitrix24/b24phpsdk:"^3.0"
+    require_once 'vendor/autoload.php';
+
+    use Bitrix24\SDK\Services\ServiceBuilderFactory;
+    use Symfony\Component\EventDispatcher\EventDispatcher;
+    use Monolog\Logger;
+    use Monolog\Handler\StreamHandler;
+
+    $log = new Logger('b24');
+    $log->pushHandler(new StreamHandler('php://stdout'));
+
+    $sb = (new ServiceBuilderFactory(new EventDispatcher(), $log))
+        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+
+    $response = $sb->core->call('sale.order.list', [
+        'select' => ['id', 'accountNumber', 'currency'],
+        'order' => ['id' => 'desc'],
+    ]);
+
+    $order = $response->getResponseData()->getResult()['orders'][0];
+    // $order['id'] — значение для orderId, $order['currency'] — для currency
+    echo $order['id'] . ' ' . $order['currency'];
+    ```
+
+- Go
+
+    ```go
+    // Пример на Go в шаге 2 самодостаточный: он сам создает заказ функцией
+    // addOrder и берет его идентификатор. Если нужно работать с существующим
+    // заказом, запросите его так:
+    res, err := core.Call(ctx, "sale.order.list", b24.Params{
+    	"select": []string{"id", "accountNumber", "currency"},
+    	"order":  b24.Params{"id": "desc"},
+    }, b24.WithIdempotent())
+    if err != nil {
+    	return fmt.Errorf("sale.order.list: %w", err)
+    }
+    var out struct {
+    	Orders []struct {
+    		ID       b24.ID `json:"id"`
+    		Currency string `json:"currency"`
+    	} `json:"orders"`
+    }
+    if err := json.Unmarshal(res.Result, &out); err != nil {
+    	return err
+    }
+    if len(out.Orders) == 0 {
+    	return fmt.Errorf("в Битрикс24 нет заказов")
+    }
+    orderID, currency := out.Orders[0].ID, out.Orders[0].Currency
+    ```
+
+{% endlist %}
+
+Ответ:
+
+```json
+{
+    "result": {
+        "orders": [
+            {
+                "accountNumber": "891",
+                "currency": "RUB",
+                "id": 891
+            }
+        ]
+    }
+}
+```
+
+Из ответа возьмем два значения:
+
+- `id` — передадим в `orderId` на шагах 2 и 3
+- `currency` — передадим в `currency` позиции. Если валюты различаются, метод `sale.basketitem.add` вернет ошибку `200140400011`
+
+Если массив `orders` пустой, в Битрикс24 нет заказов. Создайте заказ методом [sale.order.add](../../api-reference/sale/order/sale-order-add.md) и возьмите `id` из его ответа.
+
+## 2. Добавим товар из каталога и назначим свою цену
 
 Передадим идентификатор товара в `productId` и зададим цену вручную. Название, единицу измерения и внешние коды метод возьмет из карточки товара.
 
@@ -426,7 +567,7 @@
 
 Название `name`, единица измерения `measureCode` и `measureName`, внешние коды `catalogXmlId` и `productXmlId` пришли из карточки товара. Сохраните `id` позиции — он лежит в `result.basketItem.id`. Этот идентификатор передается в параметр `id` методов [sale.basketitem.update](../../api-reference/sale/basket-item/sale-basket-item-update.md) и [sale.basketitem.delete](../../api-reference/sale/basket-item/sale-basket-item-delete.md), если строку нужно изменить или удалить.
 
-## 2\. Добавим позицию, которой нет в каталоге
+## 3. Добавим позицию, которой нет в каталоге
 
 Для разовой услуги или работы по договору товара в каталоге нет, поэтому передадим `productId: 0` и заполним характеристики сами.
 
@@ -722,7 +863,7 @@
 
 В интерфейсе результат виден в карточке заказа: новые строки появятся в списке товаров.
 
-## Если метод вернул ошибку
+## Ошибки и диагностика {#errors}
 
 Проверьте данные запроса.
 

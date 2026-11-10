@@ -179,5 +179,13 @@
     }
   ],
   "page": "/api-reference/note/document/note-document-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "collectionId": 42,
+      "title": "Глава 1",
+      "parentId": 10,
+      "markdown": "# Глава 1\n\nТекст документа"
+    }
+  }
 }

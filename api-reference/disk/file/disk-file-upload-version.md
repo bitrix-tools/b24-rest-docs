@@ -27,8 +27,23 @@
 
 Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если файл находится в корне хранилища, и с помощью метода [disk.folder.getChildren](../folder/disk-folder-get-children.md), если файл находится в папке ||
 || **fileContent***
-[`array`](../../data-types.md) | Массив из имени файла и строки с [Base64](../../files/how-to-upload-files.md) ||
+[`array`](../../data-types.md) | Содержимое новой версии [(подробное описание)](#file-content) ||
 |#
+
+### Параметр fileContent {#file-content}
+
+Позиционный массив из двух элементов:
+
+#|
+|| **Позиция**
+`тип` | **Описание** ||
+|| **0**
+[`string`](../../data-types.md) | Имя файла с расширением ||
+|| **1**
+[`string`](../../data-types.md) | Содержимое файла в формате [Base64](../../files/how-to-upload-files.md#filecontent) ||
+|#
+
+Строка Base64 входит в размер POST-запроса и примерно на треть больше исходного файла. Ограничения размера и времени выполнения описаны в разделе [Ограничения при работе с файлами](../../files/how-to-upload-files.md#limits).
 
 ## Примеры кода
 
@@ -85,7 +100,7 @@
       UPDATED_BY: string
       DELETED_BY: string
       DOWNLOAD_URL: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -161,7 +176,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.file.uploadversion(
+        bitrix_response = client.disk.file.upload_version(
             bitrix_id=9043,
             file_content=[
                 "Тест №2.docx",
@@ -307,7 +322,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "0",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=815094690000071b006e2cf2000004f5000007a108900724af0be51c3d5962bfd124ef&token=disk%7CaWQ9OTA0MyZfPW8zbFN4MU5lU3pFbHpLSm5Ub1JhZzRJRzFnN2FnYldE%7CImRvd25sb2FkfGRpc2t8YVdROU9UQTBNeVpmUFc4emJGTjRNVTVsVTNwRmJIcExTbTVVYjFKaFp6UkpSekZuTjJGbllsZEV8ODE1MDk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDdhMTA4OTAwNzI0YWYwYmU1MWMzZDU5NjJiZmQxMjRlZiI%3D.yD9KHiasOQNb0ymK6NQjHTOCjDsSbYn%2FTAkju8323fc%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Папка/Папка/Тест №2.docx"
     },
     "time": {
@@ -368,7 +383,7 @@ HTTP-статус: **200**
 || **DOWNLOAD_URL**
 [`string`](../../data-types.md) | Ссылка для скачивания файла ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия файла в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия файла в интерфейсе. Для файлов из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

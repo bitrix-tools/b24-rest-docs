@@ -13,67 +13,52 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод возвращает список торговых каталогов.
+Метод `catalog.catalog.list` возвращает список торговых каталогов.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | 
-Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_catalog](../data-types.md#catalog_catalog)).
+[`array`](../../data-types.md) | Массив полей, которые нужно вернуть. Доступны поля объекта [catalog_catalog](../data-types.md#catalog_catalog): `id`, `iblockId`, `iblockTypeId`, `lid`, `name`, `productIblockId`, `skuPropertyId`, `subscription`, `vatId`, `yandexExport`.
 
-Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля торговых каталогов
-||
+Если параметр не передан или передан пустой массив, метод возвращает все поля. Неизвестные поля метод пропускает без ошибки ||
 || **filter**
-[`object`](../../data-types.md) | Объект для фильтрации выбранных записей в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+[`object`](../../data-types.md) | Объект для фильтрации торговых каталогов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_catalog](../data-types.md#catalog_catalog). 
+В `field` передавайте поля объекта [catalog_catalog](../data-types.md#catalog_catalog). Условие с неизвестным полем метод пропускает без ошибки.
 
-Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-- `>=` — больше либо равно
+К ключу можно добавить префикс, который задает условие:
+- `=` — равно. Используется по умолчанию
+- `!` или `!=` — не равно
 - `>` — больше
-- `<=` — меньше либо равно
+- `>=` — больше или равно
 - `<` — меньше
-- `@` — IN, в качестве значения передается массив
-- `!@` — NOT IN, в качестве значения передается массив
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, начинающиеся с «мол»
-    - `"%мол"` — ищет значения, заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где «мол» может быть в любой позиции
-- `%=` — LIKE (аналогично `=%`)
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
-- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, не начинающиеся с «мол»
-    - `"%мол"` — ищет значения, не заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где подстроки «мол» нет в любой позиции
-- `!%=` — NOT LIKE (аналогично `!=%`)
-- `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` — не равно
-- `!` — не равно ||
+- `<=` — меньше или равно
+- `@` — входит в список, значение передается массивом
+- `!@` — не входит в список, значение передается массивом
+- `%` — содержит подстроку. Символ `%` в значении передавать не нужно
+
+Префиксы `=%`, `%=`, `!%`, `!=%` и `!%=` метод не поддерживает: условие с ними не применяется ||
 || **order**
-[`object`](../../data-types.md) | 
-Объект для сортировки выбранных торговых каталогов в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки торговых каталогов в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_catalog](../data-types.md#catalog_catalog).
+В `field` передавайте поля объекта [catalog_catalog](../data-types.md#catalog_catalog).
 
-Возможные значения для `order`:
-- `asc` — в порядке возрастания
-- `desc` — в порядке убывания
-||
+Возможные значения `order`:
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+По умолчанию: `{"id": "asc"}` ||
 || **start**
-[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
+[`integer`](../../data-types.md) | Параметр для постраничной навигации.
 
-Размер страницы результатов всегда статичный — 50 записей.
+Размер страницы результатов — 50 записей. Чтобы получить вторую страницу, передайте `50`, третью — `100` и так далее.
 
-Чтобы выбрать вторую страницу результатов, передайте значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
-
-Формула расчета значения параметра `start`:
-
-`start = (N-1) * 50`, где `N` — номер нужной страницы
-||
+Формула расчета значения: `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
 ## Примеры кода
@@ -88,7 +73,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["iblockId","iblockTypeId","id","lid","name","productIblockId","skuPropertyId","subscription","vatId"],"filter":{">id":10,"@vatId":[1,2],"skuPropertyId":121},"order":{"id":"desc"}}' \
+    -d '{"select":["id","iblockId","iblockTypeId","lid","name","productIblockId","skuPropertyId","subscription","vatId","yandexExport"],"filter":{">=id":25,"@vatId":[1,2],"productIblockId":25},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.catalog.list
     ```
 
@@ -98,7 +83,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["iblockId","iblockTypeId","id","lid","name","productIblockId","skuPropertyId","subscription","vatId"],"filter":{">id":10,"@vatId":[1,2],"skuPropertyId":121},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","iblockId","iblockTypeId","lid","name","productIblockId","skuPropertyId","subscription","vatId","yandexExport"],"filter":{">=id":25,"@vatId":[1,2],"productIblockId":25},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.catalog.list
     ```
 
@@ -115,15 +100,16 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type CatalogCatalogListResult = {
       catalogs: {
-        iblockId: number
-        iblockTypeId: number
         id: number
+        iblockId: number
+        iblockTypeId: string
         lid: string
         name: string
-        productIblockId: number
-        skuPropertyId: number
-        subscription: string
-        vatId: number
+        productIblockId: number | null
+        skuPropertyId: number | null
+        subscription: 'Y' | 'N'
+        vatId: number | null
+        yandexExport: 'Y' | 'N'
       }[]
     }
 
@@ -137,20 +123,21 @@
         method: 'catalog.catalog.list',
         params: {
           select: [
+            'id',
             'iblockId',
             'iblockTypeId',
-            'id',
             'lid',
             'name',
             'productIblockId',
             'skuPropertyId',
             'subscription',
             'vatId',
+            'yandexExport',
           ],
           filter: {
-            '>id': 10,
+            '>=id': 25,
             '@vatId': [1, 2],
-            skuPropertyId: 121,
+            productIblockId: 25,
           },
           order: {
             id: 'desc',
@@ -193,20 +180,21 @@
             method: 'catalog.catalog.list',
             params: {
               select: [
+                'id',
                 'iblockId',
                 'iblockTypeId',
-                'id',
                 'lid',
                 'name',
                 'productIblockId',
                 'skuPropertyId',
                 'subscription',
                 'vatId',
+                'yandexExport',
               ],
               filter: {
-                '>id': 10,
+                '>=id': 25,
                 '@vatId': [1, 2],
-                skuPropertyId: 121,
+                productIblockId: 25,
               },
               order: {
                 id: 'desc',
@@ -242,23 +230,24 @@
     try:
         bitrix_response = client.catalog.catalog.list(
             select=[
+                "id",
                 "iblockId",
                 "iblockTypeId",
-                "id",
                 "lid",
                 "name",
                 "productIblockId",
                 "skuPropertyId",
                 "subscription",
                 "vatId",
+                "yandexExport",
             ],
             filter={
-                ">id": 10,
+                ">=id": 25,
                 "@vatId": [
                     1,
                     2,
                 ],
-                "skuPropertyId": 121,
+                "productIblockId": 25,
             },
             order={
                 "id": "desc",
@@ -282,7 +271,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -291,33 +279,33 @@
                 'catalog.catalog.list',
                 [
                     'select' => [
+                        'id',
                         'iblockId',
                         'iblockTypeId',
-                        'id',
                         'lid',
                         'name',
                         'productIblockId',
                         'skuPropertyId',
                         'subscription',
                         'vatId',
+                        'yandexExport',
                     ],
                     'filter' => [
-                        '>id'          => 10,
-                        '@vatId'       => [1, 2],
-                        'skuPropertyId' => 121,
+                        '>=id' => 25,
+                        '@vatId' => [1, 2],
+                        'productIblockId' => 25,
                     ],
                     'order' => [
                         'id' => 'desc',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching catalog list: ' . $e->getMessage();
@@ -330,23 +318,24 @@
     BX24.callMethod(
         "catalog.catalog.list", {
             "select": [
+                "id",
                 "iblockId",
                 "iblockTypeId",
-                "id",
                 "lid",
                 "name",
                 "productIblockId",
                 "skuPropertyId",
                 "subscription",
-                "vatId"
+                "vatId",
+                "yandexExport"
             ],
             "filter": {
-                ">id": 10,
+                ">=id": 25,
                 "@vatId": [1, 2],
-                "skuPropertyId": 121,
+                "productIblockId": 25
             },
             "order": {
-                "id": "desc",
+                "id": "desc"
             }
         },
         function(result) {
@@ -368,20 +357,21 @@
         'catalog.catalog.list',
         [
             'select' => [
+                'id',
                 'iblockId',
                 'iblockTypeId',
-                'id',
                 'lid',
                 'name',
                 'productIblockId',
                 'skuPropertyId',
                 'subscription',
-                'vatId'
+                'vatId',
+                'yandexExport',
             ],
             'filter' => [
-                '>id' => 10,
+                '>=id' => 25,
                 '@vatId' => [1, 2],
-                'skuPropertyId' => 121,
+                'productIblockId' => 25,
             ],
             'order' => [
                 'id' => 'desc',
@@ -399,11 +389,11 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.catalog.list", b24.Params{
-    	"select": []string{"iblockId", "iblockTypeId", "id", "lid", "name", "productIblockId", "skuPropertyId", "subscription", "vatId"},
+    	"select": []string{"id", "iblockId", "iblockTypeId", "lid", "name", "productIblockId", "skuPropertyId", "subscription", "vatId", "yandexExport"},
     	"filter": b24.Params{
-    		">id":           10,
-    		"@vatId":        []int{1, 2},
-    		"skuPropertyId": 121,
+    		">=id":            25,
+    		"@vatId":          []int{1, 2},
+    		"productIblockId": 25,
     	},
     	"order": b24.Params{
     		"id": "desc",
@@ -421,7 +411,7 @@
 
     var items []struct {
     	IblockID        b24.ID `json:"iblockId"`
-    	IblockTypeID    b24.ID `json:"iblockTypeId"`
+    	IblockTypeID    string `json:"iblockTypeId"`
     	ID              b24.ID `json:"id"`
     	Lid             string `json:"lid"`
     	Name            string `json:"name"`
@@ -446,26 +436,29 @@ HTTP-статус: **200**
     "result": {
         "catalogs": [
             {
-                "iblockId": 24,
-                "iblockTypeId": 0,
-                "id": 24,
+                "iblockId": 27,
+                "iblockTypeId": "CRM_PRODUCT_CATALOG",
+                "id": 27,
                 "lid": "s1",
                 "name": "Товарный каталог CRM (предложения)",
-                "productIblockId": 23,
-                "skuPropertyId": 97,
+                "productIblockId": 25,
+                "skuPropertyId": 101,
                 "subscription": "N",
-                "vatId": 1
+                "vatId": 1,
+                "yandexExport": "N"
             }
         ]
     },
     "total": 1,
     "time": {
-        "start": 1716796276.902035,
-        "finish": 1716796277.31202,
-        "duration": 0.4099850654602051,
-        "processing": 0.01759815216064453,
-        "date_start": "2024-05-27T10:51:16+03:00",
-        "date_finish": "2024-05-27T10:51:17+03:00"
+        "start": 1793613124,
+        "finish": 1793613124.823565,
+        "duration": 0.8235650062561035,
+        "processing": 0,
+        "date_start": "2026-11-02T12:52:04+03:00",
+        "date_finish": "2026-11-02T12:52:04+03:00",
+        "operating_reset_at": 1793613720,
+        "operating": 0
     }
 }
 ```
@@ -477,12 +470,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **catalogs**
+|| **result.catalogs**
 [`catalog_catalog[]`](../data-types.md#catalog_catalog) | Массив объектов с информацией о выбранных торговых каталогах ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -491,8 +484,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -501,13 +494,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торговых каталогов
-|| 
-|| `200040300030` | Недостаточно прав для чтения торговых каталогов
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр настроек Битрикс24 ||
+|| `400` | `200040300030` | Access Denied | У пользователя нет права на чтение торгового каталога ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -1,4 +1,4 @@
-# Нумераторы: обзор методов
+# Нумераторы генератора документов: обзор методов
 
 {% note tip "" %}
 
@@ -24,11 +24,41 @@
 5. Измените параметры пользовательского нумератора методом [documentgenerator.numerator.update](./document-generator-numerator-update.md)
 6. Удалите ненужный пользовательский нумератор методом [documentgenerator.numerator.delete](./document-generator-numerator-delete.md)
 
-{% note info " " %}
+{% note info "" %}
 
 Метод [documentgenerator.numerator.list](./document-generator-numerator-list.md) возвращает нумераторы генератора документов, в том числе созданные методами [CRM нумераторов](../../crm/document-generator/numerator/index.md). Нумераторы других инструментов, например счетов CRM, в выборку не попадают.
 
 {% endnote %}
+
+## Как выглядит нумератор в ответе
+
+Метод [documentgenerator.numerator.list](./document-generator-numerator-list.md) возвращает массив `result.numerators`. Каждый элемент содержит идентификатор, название, шаблон номера и настройки генераторов. Сокращенный пример ответа:
+
+```json
+{
+    "result": {
+        "numerators": [
+            {
+                "id": "55",
+                "name": "Нумератор счетов",
+                "template": "INV-{NUMBER}",
+                "settings": {
+                    "Bitrix_Main_Numerator_Generator_SequentNumberGenerator": {
+                        "start": 1000,
+                        "step": 1,
+                        "length": 6,
+                        "padString": "0",
+                        "periodicBy": "year",
+                        "timezone": "Europe/Moscow",
+                        "isDirectNumeration": false
+                    }
+                }
+            }
+        ]
+    },
+    "total": 1
+}
+```
 
 ## Связь нумераторов с другими объектами
 
@@ -38,7 +68,7 @@
 
 ## Что учитывать при изменении и удалении нумератора
 
-Методы [documentgenerator.numerator.update](./document-generator-numerator-update.md) и [documentgenerator.numerator.delete](./document-generator-numerator-delete.md) работают только для нумераторов, созданных через [documentgenerator.numerator.add](./document-generator-numerator-add.md).
+Методы [documentgenerator.numerator.update](./document-generator-numerator-update.md) и [documentgenerator.numerator.delete](./document-generator-numerator-delete.md) работают только для нумераторов, созданных через [documentgenerator.numerator.add](./document-generator-numerator-add.md). При попытке изменить или удалить нумератор, созданный в интерфейсе Битрикс24 или через другую группу методов, возвращается ошибка `DOCGEN_ACCESS_ERROR` с описанием `Access denied`.
 
 ## Обзор методов {#all-methods}
 

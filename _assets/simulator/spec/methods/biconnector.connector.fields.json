@@ -4,14 +4,25 @@
   "scope": "biconnector",
   "kind": "read",
   "title": "Получить поля коннектора biconnector.connector.fields",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей коннектора. Структура элемента массива описана в статье Коннектор: обзор методов",
+      "description": "Корневой элемент ответа. Содержит единственный ключ fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "result.fields",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив дескрипторов полей коннектора, один элемент — одно поле (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -119,6 +130,22 @@
           "isMultiple": true
         },
         {
+          "title": "supportMapping",
+          "type": "boolean",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
+          "title": "sourceCode",
+          "type": "string",
+          "isRequired": false,
+          "isReadOnly": false,
+          "isImmutable": false,
+          "isMultiple": false
+        },
+        {
           "title": "dateCreate",
           "type": "datetime",
           "isRequired": true,
@@ -143,7 +170,14 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей коннектора. Структура элемента массива описана в статье Коннектор: обзор методов"
+      "description": "Корневой элемент ответа. Содержит единственный ключ fields"
+    },
+    {
+      "name": "result.fields",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив дескрипторов полей коннектора, один элемент — одно поле (подробное описание)"
     },
     {
       "name": "time",
@@ -154,5 +188,6 @@
     }
   ],
   "page": "/api-reference/biconnector/connector/biconnector-connector-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

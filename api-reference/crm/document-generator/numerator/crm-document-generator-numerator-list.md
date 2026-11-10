@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
 
-Метод `crm.documentgenerator.numerator.list` возвращает список нумераторов.
+Метод `crm.documentgenerator.numerator.list` возвращает постраничный список нумераторов.
 
 ## Параметры метода
 
@@ -21,8 +21,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **start**
-[`integer`](../../../data-types.md) | Смещение для постраничной навигации. Подробнее в статье [Особенности списочных методов](../../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
+[`integer`](../../../data-types.md) | Смещение для постраничной навигации. Размер страницы — 50 записей.
+
+Для страницы с номером `N` вычислите значение по формуле:
+
+`start = (N - 1) * 50`, где `N` — номер нужной страницы ||
 |#
+
+Метод не возвращает общее количество нумераторов и поле `next`. Для последовательной загрузки увеличивайте `start` на 50, пока массив `numerators` не станет пустым или не вернет меньше 50 элементов.
 
 ## Примеры кода
 
@@ -79,11 +85,6 @@
     }
 
     try {
-      // crm.documentgenerator.numerator.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<NumeratorResult>({
         method: 'crm.documentgenerator.numerator.list',
         params: {
@@ -116,11 +117,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.documentgenerator.numerator.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.documentgenerator.numerator.list',
             params: {
@@ -247,7 +243,9 @@
     ```js
     BX24.callMethod(
         'crm.documentgenerator.numerator.list',
-        {},
+        {
+            start: 0,
+        },
         (result) => {
             if (result.error()) {
                 console.error(result.error());
@@ -255,10 +253,6 @@
             }
 
             console.info(result.data());
-
-            if (result.more()) {
-                result.next();
-            }
         },
     );
     ```
@@ -374,7 +368,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа. Содержит массив объектов [`numerators`](#numerators) ||
 || **total**
-[`integer`](../../../data-types.md) | Общее количество нумераторов ||
+[`integer`](../../../data-types.md) | Количество нумераторов на текущей странице. Поле не содержит общее количество записей во всей выборке ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -399,6 +393,15 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **Bitrix_Main_Numerator_Generator_SequentNumberGenerator**
+[`object`](../../../data-types.md) | Настройки генератора последовательных номеров [(подробное описание)](#sequent-number-generator) ||
+|#
+
+#### Тип Bitrix_Main_Numerator_Generator_SequentNumberGenerator {#sequent-number-generator}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **start**
 [`integer`](../../../data-types.md) | Начальное значение счетчика ||
 || **step**
@@ -408,9 +411,9 @@ HTTP-статус: **200**
 || **padString**
 [`string`](../../../data-types.md) | Символ добивки слева ||
 || **periodicBy**
-[`string`](../../../data-types.md) | Период сброса счетчика: `null`, `day`, `month` или `year` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Период сброса счетчика. Возвращается `null`, если периодический сброс выключен ||
 || **timezone**
-[`string`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Может быть `null` ||
+[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор часового пояса для периодического сброса. Возвращается `null`, если часовой пояс не задан ||
 || **isDirectNumeration**
 [`boolean`](../../../data-types.md) | Признак прямой нумерации ||
 |#
@@ -440,6 +443,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-document-generator-numerator-add.md)
 - [{#T}](./crm-document-generator-numerator-update.md)
 - [{#T}](./crm-document-generator-numerator-get.md)

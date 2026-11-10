@@ -11,7 +11,21 @@
       "type": "integer",
       "base": "integer",
       "required": false,
-      "description": "Идентификатор типа объекта. Возможные значения: - 1 — лид - 3 — контакт - 4 — компания Если не указан, возвращаются поля для всех типов"
+      "description": "Идентификатор типа объекта. Возможные значения: - 1 — лид - 3 — контакт - 4 — компания Если не указан, возвращаются поля для всех типов",
+      "values": [
+        {
+          "value": "1",
+          "title": "лид"
+        },
+        {
+          "value": "3",
+          "title": "контакт"
+        },
+        {
+          "value": "4",
+          "title": "компания Если не указан, возвращаются поля для всех типов"
+        }
+      ]
     }
   ],
   "defs": {},
@@ -51,5 +65,8 @@
     }
   ],
   "page": "/api-reference/crm/duplicates/volatile-type/crm-duplicate-volatile-type-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 1
+  }
 }

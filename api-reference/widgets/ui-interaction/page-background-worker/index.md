@@ -110,7 +110,6 @@ BX24.ready(function () {
     || [BackgroundCallCard::answerButtonClick](./events/answer-button-click.md) | При нажатии на кнопку «ответить» ||
     || [BackgroundCallCard::entityChanged](./events/entity-changed.md) | При загрузке или смене связанного со звонком объекта CRM ||
     || [BackgroundCallCard::makeCallButtonClick](./events/make-call-button-click.md) | При нажатии на кнопку «позвонить» или «перезвонить» ||
-    || [BackgroundCallCard::qualityMeterClick](./events/quality-meter-click.md) | При оценке качества связи ||
     || [BackgroundCallCard::dialpadButtonClick](./events/dialpad-button-click.md) | При нажатии на одну из цифровых кнопок телефона ||
     || [BackgroundCallCard::notifyAdminButtonClick](./events/notify-admin-button-click.md) | При нажатии на кнопку «уведомить администратора» ||
     |#

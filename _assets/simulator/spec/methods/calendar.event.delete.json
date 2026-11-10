@@ -41,5 +41,8 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-event/calendar-event-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 698
+  }
 }

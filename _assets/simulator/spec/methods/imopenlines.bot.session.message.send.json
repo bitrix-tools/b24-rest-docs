@@ -18,7 +18,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Код типа автоответа. Допустимые значения: - WELCOME — отправляет автоматическое приветствие из настроек Открытой линии, параметр MESSAGE в этом режиме игнорируется - DEFAULT — отправляет текст из параметра MESSAGE"
+      "description": "Код типа автоответа. Допустимые значения: - WELCOME — отправляет автоматическое приветствие из настроек Открытой линии, параметр MESSAGE в этом режиме игнорируется - DEFAULT — отправляет текст из параметра MESSAGE",
+      "values": [
+        {
+          "value": "WELCOME",
+          "title": "отправляет автоматическое приветствие из настроек Открытой линии, параметр MESSA"
+        },
+        {
+          "value": "DEFAULT",
+          "title": "отправляет текст из параметра MESSAGE"
+        }
+      ]
     },
     {
       "name": "MESSAGE",
@@ -63,5 +73,10 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-message-send.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 112,
+    "NAME": "DEFAULT",
+    "MESSAGE": "Здравствуйте! Чем могу помочь?"
+  }
 }

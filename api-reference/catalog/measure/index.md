@@ -11,13 +11,32 @@
 
 У каждого товара есть единица измерения: вес, количество, объем и так далее. В Битрикс24 доступны популярные варианты, но вы можете добавить свои.
 
-Чтобы установить основную единицу измерения, укажите в параметре `isDefault` значение `Y`. Тогда при создании нового товара она будет автоматически выбрана в карточке.
+Чтобы установить основную единицу измерения, укажите в параметре `isDefault` значение `Y`. Тогда при создании нового товара она будет автоматически выбрана в карточке. Основная единица может быть только одна: чтобы сменить ее, сначала снимите признак с текущей единицы, затем установите его новой.
+
+У единицы измерения есть уникальный числовой `code`, название `measureTitle` и условное обозначение `symbol`. Поле `isDefault` показывает, выбрана ли она по умолчанию. Состав объекта приведен в [типе `catalog_measure`](../data-types.md#catalog_measure), а свойства полей возвращает [catalog.measure.getFields](./catalog-measure-get-fields.md).
 
 > Быстрый переход: [все методы и события](#all-methods)
 >
 > Пользовательская документация:
 > - [Как добавить и настроить единицы измерения в CRM](https://helpdesk.bitrix24.ru/open/5488453/)
 > - [Единицы измерения в услугах](https://helpdesk.bitrix24.ru/open/17277938/)
+
+## Как начать работу
+
+1. Получите доступные поля и их свойства методом [catalog.measure.getFields](./catalog-measure-get-fields.md)
+2. Найдите существующую единицу методом [catalog.measure.list](./catalog-measure-list.md) или создайте свою методом [catalog.measure.add](./catalog-measure-add.md), указав `code` и `measureTitle`
+3. Получите ее `id` из ответа метода добавления или списка и передайте его в [catalog.measure.get](./catalog-measure-get.md) для проверки данных
+4. При необходимости измените единицу методом [catalog.measure.update](./catalog-measure-update.md) или удалите методом [catalog.measure.delete](./catalog-measure-delete.md)
+
+## Единицы измерения в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для единиц измерения есть методы добавления, изменения, получения, удаления и методы получения схемы полей `catalog.measure.field.list` и `catalog.measure.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- поле `isDefault` принимает и возвращает `true` или `false`, значения `Y` и `N` не поддерживаются
+- чтобы сменить единицу по умолчанию, передайте `isDefault: false` текущей единице методом [catalog.measure.update](./catalog-measure-update-rest-v3.md), затем `isDefault: true` новой. Повторная передача `true` текущей единице по умолчанию проходит без ошибки, в отличие от прежней версии
+- пустые строковые поля приходят пустой строкой, а не `null`
 
 ## Коэффициент единицы измерения
 
@@ -41,7 +60,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада». Для добавления, обновления и удаления также нужно право «Создание и изменение единиц измерения». Методы `catalog.measure.field.list` и `catalog.measure.field.get` — любой пользователь
 
 {% list tabs %}
 
@@ -50,11 +69,18 @@
     #|
     || **Метод** | **Описание** ||
     || [catalog.measure.add](./catalog-measure-add.md) | Добавляет единицу измерения ||
+    || [catalog.measure.add](./catalog-measure-add-rest-v3.md) | Добавляет единицу измерения v 3.0 ||
     || [catalog.measure.update](./catalog-measure-update.md) | Обновляет единицу измерения ||
+    || [catalog.measure.update](./catalog-measure-update-rest-v3.md) | Обновляет единицу измерения v 3.0 ||
     || [catalog.measure.get](./catalog-measure-get.md) | Возвращает информацию о единице измерения по ее идентификатору ||
+    || [catalog.measure.get](./catalog-measure-get-rest-v3.md) | Возвращает информацию о единице измерения по ее идентификатору v 3.0 ||
     || [catalog.measure.list](./catalog-measure-list.md) | Возвращает список единиц измерения ||
+    || [catalog.measure.list](./catalog-measure-list-rest-v3.md) | Возвращает список единиц измерения v 3.0 ||
     || [catalog.measure.delete](./catalog-measure-delete.md) | Удаляет единицу измерения ||
+    || [catalog.measure.delete](./catalog-measure-delete-rest-v3.md) | Удаляет единицу измерения v 3.0 ||
     || [catalog.measure.getFields](./catalog-measure-get-fields.md) | Возвращает доступные поля единиц измерения ||
+    || [catalog.measure.field.list](./catalog-measure-field-list.md) | Возвращает список полей единицы измерения v 3.0 ||
+    || [catalog.measure.field.get](./catalog-measure-field-get.md) | Возвращает описание поля единицы измерения ||
     |#
 
 - События

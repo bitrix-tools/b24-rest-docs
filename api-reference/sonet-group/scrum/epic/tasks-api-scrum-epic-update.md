@@ -27,7 +27,7 @@
 
 Получить идентификаторы эпиков можно методом [`tasks.api.scrum.epic.list`](./tasks-api-scrum-epic-list.md) ||
 || **fields***
-[`array`](../../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления нового эпика в виде структуры:
+[`object`](../../../data-types.md) | Поля эпика, которые нужно изменить [(подробное описание)](#fields), в виде структуры:
 
 ```js
 fields: {
@@ -46,33 +46,37 @@ fields: {
 ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+Передайте только те поля, которые нужно изменить. Остальные поля эпика метод оставит без изменений.
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **name***
-[`string`](../../../data-types.md) | Название эпика ||
+|| **name**
+[`string`](../../../data-types.md) | Название эпика, до 255 символов. Пустую строку метод не сохраняет ||
 || **description**
 [`string`](../../../data-types.md) | Описание эпика ||
-|| **groupId***
-[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой относится эпик ||
+|| **groupId**
+[`integer`](../../../data-types.md) | Идентификатор Скрама, в который нужно перенести эпик. Нужен доступ к задачам обеих групп ||
 || **color**
-[`string`](../../../data-types.md) | Цвет эпика ||
+[`string`](../../../data-types.md) | Цвет эпика, например `#bbecf1`, до 18 символов ||
 || **files**
-[`array`](../../../data-types.md) | Массив файлов, привязанных к эпику.
+[`array`](../../../data-types.md) | Массив идентификаторов файлов Диска с префиксом `n`, например `["n429"]`.
 
-В `files` можно передать массив значений с идентификаторами файлов, указав префикс `n` для каждого идентификатора.
+Новые файлы добавляются к уже прикрепленным.
 
 {% note warning "Внимание" %}
 
-Если передать пустой массив — файлы удалятся
+Если передать пустой массив, метод открепит от эпика все файлы. Идентификатор без префикса `n` метод пропускает без ошибки
 
 {% endnote %}
 
 ||
+|| **createdBy**
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который будет указан создателем эпика ||
+|| **modifiedBy**
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который будет указан последним изменившим эпик. По умолчанию — текущий пользователь ||
 |#
 
 ## Примеры кода
@@ -87,15 +91,13 @@ fields: {
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
+    "id": 1,
     "fields": {
-        "id": 1,
-        "fields": {
-            "name": "Updated epic name",
-            "description": "Updated description text",
-            "color": "#bbecf1",
-            "files": ["n429", "n243"]
-        }
-    },
+        "name": "Updated epic name",
+        "description": "Updated description text",
+        "color": "#bbecf1",
+        "files": ["n429", "n243"]
+    }
     }' \
     https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.api.scrum.epic.update
     ```
@@ -106,16 +108,14 @@ fields: {
     curl -X POST \
     -H "Content-Type: application/json" \
     -d '{
+    "id": 1,
     "fields": {
-        "id": 1,
-        "fields": {
-            "name": "Updated epic name",
-            "description": "Updated description text",
-            "color": "#bbecf1",
-            "files": ["n429", "n243"]
-        }
+        "name": "Updated epic name",
+        "description": "Updated description text",
+        "color": "#bbecf1",
+        "files": ["n429", "n243"]
     },
-    auth=YOUR_ACCESS_TOKEN
+    "auth": "YOUR_ACCESS_TOKEN"
     }' \
     https://your-domain.bitrix24.com/rest/tasks.api.scrum.epic.update
     ```
@@ -343,17 +343,29 @@ fields: {
 
 ## Обработка ответа
 
-HTTP-Статус: **200**
+HTTP-статус: **200**
 
 ```json
 {
-    "id": 1,
-    "groupId": 143,
-    "name": "Updated epic name",
-    "description": "Updated description text",
-    "createdBy": 1,
-    "modifiedBy": 1,
-    "color": "#bbecf1"
+    "result": {
+        "id": 1,
+        "groupId": 143,
+        "name": "Updated epic name",
+        "description": "Updated description text",
+        "createdBy": 1,
+        "modifiedBy": 1,
+        "color": "#bbecf1"
+    },
+    "time": {
+        "start": 1790263154,
+        "finish": 1790263154.532794,
+        "duration": 0.5327939987182617,
+        "processing": 0,
+        "date_start": "2026-09-24T18:19:14+03:00",
+        "date_finish": "2026-09-24T18:19:14+03:00",
+        "operating_reset_at": 1790263754,
+        "operating": 0
+    }
 }
 ```
 
@@ -362,10 +374,21 @@ HTTP-Статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Данные эпика после изменения [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор эпика ||
 || **groupId**
-[`integer`](../../../data-types.md) | Идентификатор группы (скрама), к которой привязан эпик ||
+[`integer`](../../../data-types.md) | Идентификатор Скрама, к которому относится эпик ||
 || **name**
 [`string`](../../../data-types.md) | Название эпика ||
 || **description**
@@ -373,10 +396,12 @@ HTTP-Статус: **200**
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего эпик ||
 || **modifiedBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменял эпик ||
+[`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменил эпик ||
 || **color**
 [`string`](../../../data-types.md) | Цвет эпика ||
 |#
+
+Прикрепленные файлы метод не возвращает. Получить их можно методом [tasks.api.scrum.epic.get](./tasks-api-scrum-epic-get.md).
 
 ## Обработка ошибок
 
@@ -384,8 +409,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description": "Epic not updated"
+    "error": "0",
+    "error_description": "Epic not found"
 }
 ```
 
@@ -394,19 +419,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание**  | **Значение** ||
-|| `0` | Access denied | Нет доступа для просмотра данных эпика ||
-|| `0` | Epic not found | Такого эпика не существует ||
-|| `0` | Epic not updated | Не удалось обновить эпик ||
-|| `0` | createdBy user not found | Пользователь в поле «создатель» не найден ||
-|| `0` | modifiedBy user not found | Пользователь в поле «последний изменивший» не найден ||
-|| `100` | Could not find value for parameter {id} | Неверно указано имя параметра или не задан параметр ||
-|| `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Epic not found | Эпика с таким `id` не существует ||
+|| `400` | `0` | Access denied | У пользователя нет доступа к задачам группы эпика или группы из `groupId`, либо такой группы не существует ||
+|| `400` | `0` | createdBy user not found | Пользователя из `createdBy` не существует ||
+|| `400` | `0` | modifiedBy user not found | Пользователя из `modifiedBy` не существует ||
+|| `400` | `0` | Epic not updated | Не удалось сохранить изменения, например название длиннее 255 символов или цвет длиннее 18 символов ||
+|| `400` | `0` | Epic files not attached | Изменения сохранены, но файлы прикрепить не удалось ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-epic-add.md)

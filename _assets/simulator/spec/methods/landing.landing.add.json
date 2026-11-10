@@ -152,5 +152,16 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TITLE": "Весенняя акция",
+      "SITE_ID": 292,
+      "CODE": "spring-sale",
+      "DESCRIPTION": "Страница для сезонной акции",
+      "ADDITIONAL_FIELDS": {
+        "THEME_CODE": "wedding"
+      }
+    }
+  }
 }

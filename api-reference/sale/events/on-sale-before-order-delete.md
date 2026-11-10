@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnSaleBeforeOrderDelete` вызывается перед удалением заказа.
+Событие `OnSaleBeforeOrderDelete` вызывается перед удалением заказа из базы вручную или методом [sale.order.delete](../order/sale-order-delete.md). В отличие от события [OnOrderDeleted](./on-order-deleted.md), передает внешний идентификатор заказа `XML_ID`.
 
 {% note info "" %}
 
@@ -94,9 +94,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа. Для получения всех полей заказа по идентификатору используется метод [sale.order.get](../order/sale-order-get.md) ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор удаляемого заказа. Метод [sale.order.get](../order/sale-order-get.md) для удаленного заказа не вернет данные. Если обработчику нужны поля заказа, сохраняйте их заранее, например по событию [OnSaleOrderSaved](./on-sale-order-saved.md) ||
 || **XML_ID***
-[`string`](../../data-types.md) | Внешний идентификатор заказа ||
+[`string`](../../data-types.md) | Внешний идентификатор удаляемого заказа ||
 || **ACTION***
 [`string`](../../data-types.md) | Действие. Для данного события имеет постоянное значение `delete` ||
 |#
@@ -109,6 +109,7 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-sale-order-saved.md)
 - [{#T}](./on-order-deleted.md)
 - [{#T}](./on-order-entity-saved.md)

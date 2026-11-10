@@ -28,11 +28,13 @@
 Идентификатор можно получить с помощью метода [disk.storage.getList](./disk-storage-get-list.md)
 ||
 || **data***
-[`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя новой папки ||
+[`object`](../../data-types.md) | Параметры новой папки [(подробное описание)](#data) ||
 || **rights**
-[`array`](../../data-types.md) | Массив прав доступа на папку в формате `{"TASK_ID": 42, "ACCESS_CODE": "U35"}`, где
-- `TASK_ID` — идентификатор уровня доступа
-- `ACCESS_CODE` — код доступа, состоящий из буквенного кода пользователя или отдела и идентификатора
+[`array`](../../data-types.md) | Массив прав доступа на папку. Каждый элемент содержит:
+
+- `ACCESS_CODE` — непустая строка длиной до 50 символов с кодом получателя права, например `U35`
+- `TASK_ID` — целочисленный идентификатор существующего уровня доступа
+- `NEGATIVE` — необязательный логический признак запрещающего права. Значения `true`, `yes` и `on`, переданные строкой, соответствуют запрещающему праву
 
 Категории пользователей:
 - `U` — пользователь
@@ -40,7 +42,18 @@
 - `D` — все сотрудники отдела
 - `DR` — все сотрудники отдела с подотделами
 
-Список доступных идентификаторов `TASK_ID` для установки прав можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md) ||
+Список доступных идентификаторов `TASK_ID` для установки прав можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md).
+
+Дополнительные поля, включая `DOMAIN` и `OBJECT_ID`, не учитываются ||
+|#
+
+### Параметр data {#data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../../data-types.md) | Имя новой папки. Максимальная длина — 255 символов. Имя не должно содержать символы, запрещенные в именах файлов ||
 |#
 
 ## Примеры кода
@@ -95,7 +108,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string | null
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -181,7 +194,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.addfolder(
+        bitrix_response = client.disk.storage.add_folder(
             bitrix_id=1357,
             data={
                 "NAME": "Новая папка",
@@ -374,7 +387,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о созданной папке ||
+[`object`](../../data-types.md) | Объект с данными о созданной папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**
@@ -384,7 +397,7 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится папка ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Значение — `folder` ||
 || **REAL_OBJECT_ID**
 [`integer`](../../data-types.md) | Идентификатор объекта ||
 || **PARENT_ID**
@@ -407,14 +420,14 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400** или **403**
 
 ```json
 {
@@ -428,11 +441,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не передано обязательное поле `NAME` в массиве `data` ||
-|| `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
-|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав для создания папки ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр `data` ||
+|| `400` | `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не передано обязательное поле `NAME` в объекте `data` или передано пустое значение ||
+|| `400` | `DISK_MO_28000` | Название содержит недопустимые символы | В `NAME` переданы символы, запрещенные в именах файлов ||
+|| `400` | `DISK_MO_28000` | Для значения поля «Название» превышена максимальная длина: 255 | Длина `NAME` превышает 255 символов ||
+|| `400` | `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
+|| `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
+|| `400` | Пустое значение | Invalid format: Right `N` should be array | Элемент `rights` с индексом `N` передан не в виде массива ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE and TASK_ID | В элементе `rights` с индексом `N` отсутствует `ACCESS_CODE` или `TASK_ID` ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE as not empty string | `ACCESS_CODE` передан не строкой или содержит пустую строку ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE not longer than 50 characters | Длина `ACCESS_CODE` превышает 50 символов ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain TASK_ID as integer | `TASK_ID` не является целым числом ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain known TASK_ID | Уровень доступа с указанным `TASK_ID` не найден ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain NEGATIVE as 0 or 1 | `NEGATIVE` нельзя преобразовать в логическое значение ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Недостаточно прав для создания папки или изменения прав доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

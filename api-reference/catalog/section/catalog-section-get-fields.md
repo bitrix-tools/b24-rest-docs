@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога»
 
-Метод `catalog.section.getFields` возвращает доступные поля раздела каталога. 
+Метод `catalog.section.getFields` возвращает доступные поля раздела каталога.
+
+## Параметры метода
 
 Без параметров.
 
@@ -25,8 +27,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
@@ -35,8 +37,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
@@ -144,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,20 +154,14 @@
                 'catalog.section.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting catalog section fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -229,75 +224,76 @@ HTTP-статус: **200**
 {
     "result": {
         "section": {
-        "active": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "char"
-        },
-        "code": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "string"
-        },
-        "description": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "string"
-        },
-        "descriptionType": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "string"
-        },
-        "iblockId": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": true,
-            "type": "integer"
-        },
-        "iblockSectionId": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "integer"
-        },
-        "id": {
-            "isImmutable": false,
-            "isReadOnly": true,
-            "isRequired": false,
-            "type": "integer"
-        },
-        "name": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": true,
-            "type": "string"
-        },
-        "sort": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "integer"
-        },
-        "xmlId": {
-            "isImmutable": false,
-            "isReadOnly": false,
-            "isRequired": false,
-            "type": "string"
-        }
+            "active": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "code": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "description": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "descriptionType": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "iblockId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "iblockSectionId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "name": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "sort": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "xmlId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            }
         }
     },
     "time": {
-        "start": 1716552521.40908,
-        "finish": 1716552521.69852,
-        "duration": 0.289434909820557,
-        "processing": 0.011207103729248,
-        "date_start": "2024-05-24T14:08:41+02:00",
-        "date_finish": "2024-05-24T14:08:41+02:00",
+        "start": 1793615593,
+        "finish": 1793615593.086393,
+        "duration": 0.08639311790466309,
+        "processing": 0,
+        "date_start": "2026-11-02T13:33:13+03:00",
+        "date_finish": "2026-11-02T13:33:13+03:00",
+        "operating_reset_at": 1793616180,
         "operating": 0
     }
 }
@@ -310,10 +306,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **section**
+|| **result.section**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`catalog_section`](../data-types.md#catalog_section) , а `value` — объект типа [`rest_field_description`](../data-types.md) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -322,8 +318,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -332,8 +328,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

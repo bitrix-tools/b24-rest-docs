@@ -3,7 +3,7 @@
   "method": "sale.basketitem.updateCatalogProduct",
   "scope": "sale",
   "kind": "write",
-  "title": "Изменить позицию корзины (товар из каталога) существующего заказа sale.basketitem.updateCatalogProduct",
+  "title": "Изменить позицию с товаром из каталога sale.basketitem.updateCatalogProduct",
   "permissions": "администратор",
   "params": [
     {
@@ -11,14 +11,14 @@
       "type": "sale_basket_item.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор элемента (позиции) корзины. Может быть получен методами sale.basketitem.addCatalogProduct и sale.basketitem.list"
+      "description": "Идентификатор позиции корзины. Получить его можно методами sale.basketitem.addCatalogProduct и sale.basketitem.list"
     },
     {
       "name": "fields",
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Объект с изменяемыми полями",
+      "description": "Объект с изменяемыми полями (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -31,18 +31,25 @@
       },
       "fields": [
         {
+          "name": "quantity",
+          "type": "double",
+          "base": "number",
+          "required": true,
+          "description": "Количество товара, например 4 или 1.5. Передавайте всегда, даже если меняете только другие поля: без него метод вернет ошибку Required fields: quantity. Значение 0, отрицательное число или строку метод пропускает без ошибки, количество остается прежним. Чтобы убрать позицию из заказа, используйте метод sale.basketitem.delete"
+        },
+        {
+          "name": "price",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Цена за единицу товара. Если не передать, остается текущая цена позиции"
+        },
+        {
           "name": "sort",
           "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Положение в списке позиций заказа"
-        },
-        {
-          "name": "quantity",
-          "type": "double",
-          "base": "number",
-          "required": true,
-          "description": "Количество товара"
         },
         {
           "name": "xmlId",
@@ -62,43 +69,55 @@
   "resultExample": {
     "result": {
       "basketItem": {
-        "basePrice": 1234,
+        "barcodeMulti": "N",
+        "basePrice": 100,
         "canBuy": "Y",
-        "catalogXmlId": "FUTURE-ERP-CATALOG",
+        "catalogXmlId": "FUTURE-1C-CATALOG",
         "currency": "RUB",
-        "customPrice": "N",
-        "dateInsert": "2024-04-22T16:23:43+02:00",
-        "dateUpdate": "2024-04-22T16:32:26+02:00",
+        "customPrice": "Y",
+        "dateInsert": "2026-09-28T07:46:42+03:00",
+        "dateUpdate": "2026-09-28T07:46:49+03:00",
         "dimensions": "a:3:{s:5:\"WIDTH\";N;s:6:\"HEIGHT\";N;s:6:\"LENGTH\";N;}",
-        "discountPrice": 124,
+        "discountPrice": 0,
         "id": 6783,
         "measureCode": "796",
         "measureName": "шт",
-        "name": " Разработка дизайна ",
+        "name": "Головной товар",
         "orderId": 5147,
-        "price": 1110,
-        "roductid": 4347,
-        "productXmlId": "4347",
+        "price": 100,
+        "productId": 6967,
+        "productXmlId": "6967",
         "properties": [],
         "quantity": 4,
-        "reservations": [],
+        "reservations": [
+          {
+            "basketId": 6783,
+            "dateReserve": "2026-09-28T07:46:42+03:00",
+            "dateReserveEnd": "2026-10-01T21:00:00+03:00",
+            "id": 329,
+            "quantity": 1,
+            "reservedBy": null,
+            "storeId": 1
+          }
+        ],
         "sort": 100,
-        "type": 2,
+        "type": null,
         "vatIncluded": "N",
-        "vatRate": null,
+        "vatRate": 0,
         "weight": 0,
-        "xmlId": "bx_662672ef370c6"
+        "xmlId": "bx_6ab9ff420a704"
       }
     },
     "total": 1,
     "time": {
-      "start": 1713796344.951712,
-      "finish": 1713796346.586924,
-      "duration": 1.6352121829986572,
-      "processing": 0.6428370475769043,
-      "date_start": "2024-04-22T16:32:24+02:00",
-      "date_finish": "2024-04-22T16:32:26+02:00",
-      "operating": 0
+      "start": 1790574409,
+      "finish": 1790574410.105003,
+      "duration": 1.1050031185150146,
+      "processing": 1,
+      "date_start": "2026-09-28T08:46:49+03:00",
+      "date_finish": "2026-09-28T08:46:50+03:00",
+      "operating_reset_at": 1790575009,
+      "operating": 0.23203706741333008
     }
   },
   "returns": [
@@ -114,7 +133,7 @@
       "type": "sale_basket_item",
       "base": "any",
       "required": false,
-      "description": "Объект с данными созданного элемента (позиции) корзины"
+      "description": "Объект с данными измененной позиции корзины. Основные поля: - id — идентификатор позиции - orderId — идентификатор заказа - productId — идентификатор товара в каталоге - name — название товара из каталога - quantity — количество - price — цена за единицу с учетом скидок и наценок, basePrice — цена без них - customPrice — Y, если цена зафиксирована вручную - currency — валюта цены - properties — св…"
     },
     {
       "name": "total",
@@ -132,5 +151,11 @@
     }
   ],
   "page": "/api-reference/sale/basket-item/sale-basket-item-update-catalog-product.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 6783,
+    "fields": {
+      "quantity": 4
+    }
+  }
 }

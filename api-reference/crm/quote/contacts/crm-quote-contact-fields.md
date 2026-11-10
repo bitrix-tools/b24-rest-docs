@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Точной замены для описания полей привязки нет. Для новой разработки описание поля `contactIds` предложения можно получить методом [crm.item.fields](../../universal/crm-item-fields.md) с `entityTypeId = 7`. Он не возвращает описание `CONTACT_ID`, `SORT` и `IS_PRIMARY` отдельных привязок.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: любой пользователь

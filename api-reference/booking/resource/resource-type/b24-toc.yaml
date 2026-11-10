@@ -1,10 +1,10 @@
 title: Тип ресурса
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Добавить тип ресурса
-    href: booking-v1-resourcetype-add.md 
+    href: booking-v1-resourcetype-add.md
   - name: Обновить тип ресурса
     href: booking-v1-resourcetype-update.md
   - name: Получить тип ресурса
@@ -12,10 +12,8 @@ items:
   - name: Получить список типов ресурсов
     href: booking-v1-resourcetype-list.md
   - name: Удалить тип ресурса
-    href: booking-v1-resourcetype-delete.md    
+    href: booking-v1-resourcetype-delete.md
   - name: События
     include:
       path: events/b24-toc.yaml
-      mode: link                
-
-
+      mode: link

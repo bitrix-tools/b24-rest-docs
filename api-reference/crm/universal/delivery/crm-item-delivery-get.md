@@ -11,9 +11,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на чтение заказа доставки
+> Кто может выполнять метод: пользователь с правом на чтение заказа, к которому относится доставка
 
-Метод получает краткую информацию о доставке.
+Метод `crm.item.delivery.get` возвращает краткую информацию о доставке.
+
+Доставка — это отгрузка заказа, привязанного к объекту CRM. Метод возвращает фиксированный набор полей — выбрать другие поля отгрузки нельзя. Полный набор возвращает метод [sale.shipment.get](../../../sale/shipment/sale-shipment-get.md), но он доступен только администратору.
+
+Как доставки связаны с объектами CRM, описано в [обзоре методов раздела](./index.md).
+
+Метод не проверяет, к какому объекту CRM относится доставка, и вернет любую доставку, доступную пользователю по правам. Метод `crm.item.delivery.list` не включает в список служебные отгрузки и отгрузки без службы доставки, а `crm.item.delivery.get` их возвращает.
 
 ## Параметры метода
 
@@ -23,7 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_shipment.id`](../../../sale/data-types.md#sale_order_shipment) | Идентификатор доставки ||
+[`sale_order_shipment.id`](../../../sale/data-types.md#sale_order_shipment) | Идентификатор доставки.
+
+Получить идентификаторы доставок объекта CRM можно методом [crm.item.delivery.list](./crm-item-delivery-list.md) ||
 |#
 
 ## Примеры кода
@@ -66,11 +74,11 @@
     type DeliveryGetResult = {
       id: number
       accountNumber: string
-      priceDelivery: number
-      currency: string
       deducted: string
       dateDeducted: ISODate | null
       deliveryId: number
+      priceDelivery: number
+      currency: string
       deliveryName: string
     }
 
@@ -159,7 +167,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -170,13 +177,13 @@
                     'id' => 4077,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting delivery item: ' . $e->getMessage();
@@ -231,20 +238,22 @@
     var item struct {
     	ID            b24.ID  `json:"id"`
     	AccountNumber string  `json:"accountNumber"`
+    	Deducted      string  `json:"deducted"`
+    	DateDeducted  *string `json:"dateDeducted"`
+    	DeliveryID    b24.ID  `json:"deliveryId"`
     	PriceDelivery float64 `json:"priceDelivery"`
     	Currency      string  `json:"currency"`
-    	Deducted      string  `json:"deducted"`
-    	DeliveryID    b24.ID  `json:"deliveryId"`
+    	DeliveryName  string  `json:"deliveryName"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ID, item.AccountNumber)
+    fmt.Println(item.ID, item.AccountNumber, item.DeliveryName)
     ```
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -253,11 +262,11 @@ HTTP-статус: **200**
    "result":{
       "id":4077,
       "accountNumber":"3657\/2",
-      "priceDelivery":79.99,
-      "currency":"RUB",
       "deducted":"N",
       "dateDeducted":null,
       "deliveryId":228,
+      "priceDelivery":79.99,
+      "currency":"RUB",
       "deliveryName":"Uber Taxi (Cargo)"
    },
    "time":{
@@ -277,13 +286,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`sale_order_shipment_crm_simple`](#sale_order_shipment_crm_simple) | Объект, содержащий краткую информацию о доставке ||
+[`object`](../../../data-types.md) | Объект с краткой информацией о доставке [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Ключ result. Объект типа 
-### sale_order_shipment_crm_simple 
+#### Объект result {#result}
 
 #|
 || **Название**
@@ -291,23 +299,23 @@ HTTP-статус: **200**
 || **id**
 [`sale_order_shipment.id`](../../../sale/data-types.md#sale_order_shipment) | Идентификатор доставки ||
 || **accountNumber**
-[`string`](../../../data-types.md) | Системный номер доставки  ||
+[`string`](../../../data-types.md) | Системный номер доставки. Например, `3657/2` ||
 || **deducted**
-[`string`](../../../data-types.md) | Признак того, является ли доставка отгруженной.
+[`string`](../../../data-types.md) | Признак того, отгружена ли доставка.
+
 Возможные значения:
-- `Y` — да (отгружена)
-- `N` — нет (не отгружена)
- ||
+- `Y` — отгружена
+- `N` — не отгружена ||
 || **dateDeducted**
-[`datetime`](../../../data-types.md)  | Дата изменения флага отгруженности отгрузки ||
-|| **priceDelivery**
-[`double`](../../../data-types.md)  | Стоимость доставки ||
-|| **currency**
-[`string`](../../../data-types.md)  | Валюта доставки ||
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения признака `deducted`. Поле возвращает `null`, если признак ни разу не меняли ||
 || **deliveryId**
-[`sale_delivery_service.ID`](../../../sale/data-types.md#sale_delivery_service)  | Идентификатор службы доставки ||
+[`sale_delivery_service.id`](../../../sale/data-types.md#sale_delivery_service) | Идентификатор службы доставки. Получить список служб доставки можно методом [sale.delivery.getlist](../../../sale/delivery/delivery/sale-delivery-get-list.md) ||
+|| **priceDelivery**
+[`double`](../../../data-types.md) | Стоимость доставки ||
+|| **currency**
+[`string`](../../../data-types.md) | Символьный код валюты доставки. Например, `RUB` ||
 || **deliveryName**
-[`string`](../../../data-types.md)  | Название службы доставки ||
+[`string`](../../../data-types.md) | Название службы доставки. Например, `Uber Taxi (Cargo)` ||
 |#
 
 ## Обработка ошибок
@@ -316,8 +324,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"Недостаточно прав"
+   "error":"0",
+   "error_description":"Delivery has not been found"
 }
 ```
 
@@ -326,10 +334,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Доставка не найдена или доступ запрещен ||
-|| `100` | Не указан параметр id ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Delivery has not been found | Доставки с таким `id` нет в Битрикс24 ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Invalid value {value} to match with parameter {id}. Should be value of type int | Значение `id` не приводится к целому числу ||
+|| `400` | `ACCESS_DENIED` | Access denied | У пользователя нет права на чтение заказа, к которому относится доставка. Право на чтение объекта CRM, в котором видна эта доставка, ошибку не снимает ||
 |#
 
 {% include notitle [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -337,3 +346,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-item-delivery-list.md)
+- [{#T}](./index.md)
+- [{#T}](../payment/delivery-in-payment/index.md)
+- [{#T}](../../../sale/delivery/delivery/sale-delivery-get-list.md)

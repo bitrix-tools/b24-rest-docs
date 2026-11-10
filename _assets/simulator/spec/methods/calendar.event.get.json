@@ -54,5 +54,15 @@
   },
   "returns": [],
   "page": "/api-reference/calendar/calendar-event/calendar-event-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "user",
+    "ownerId": 1,
+    "from": "2024-06-20",
+    "to": "2024-08-20",
+    "section": [
+      21,
+      44
+    ]
+  }
 }

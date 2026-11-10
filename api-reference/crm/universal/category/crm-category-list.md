@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.category.list](../../rest-v3/categories/crm-entity-category-list-rest-v3.md). Воронки счетов, документов CRM и документов КЭДО в REST 3.0 пока недоступны, для них используйте этот метод.
+
+{% endnote %}
+
 Метод получает список воронок (направлений), которые относятся к типу объекта CRM с идентификатором `entityTypeId`.
 
 {% note warning "Какие воронки попадут в список" %}
@@ -195,17 +201,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching category list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

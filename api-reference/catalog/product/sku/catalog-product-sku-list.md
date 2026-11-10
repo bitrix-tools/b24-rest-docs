@@ -11,58 +11,58 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение инфоблока каталога
 
-Метод возвращает список головных товаров по фильтру.
+Метод `catalog.product.sku.list` возвращает список головных товаров каталога по фильтру. В список попадают головные товары с вариациями (тип `3`) и без вариаций (тип `6`).
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **select**
-[`array`](../../../data-types.md) | 
-Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_sku](../../data-types.md#catalog_product_sku)).
+|| **select***
+[`array`](../../../data-types.md) | Массив полей, которые нужно вернуть. Поля описаны в объекте [catalog_product_sku](../../data-types.md#catalog_product_sku).
 
-Обязательные поля: `id`, `iblockId`
-||
-|| **filter**
-[`object`](../../../data-types.md) | Объект для фильтрации выбранных головных товаров в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+Обязательно передайте поля `id` и `iblockId`. Значения свойств выбираются ключами `propertyN`, где `N` — идентификатор свойства.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_product_sku](../../data-types.md#catalog_product_sku). 
+В `select` можно перечислить поля торгового каталога, например `canBuyZero`, `quantity`, `vatId`: методы `get`, `add` и `update` их не возвращают.
 
-Обязательные поля: `iblockId`.
+Неизвестные поля и имена в верхнем регистре, например `NAME`, метод пропускает без ошибки ||
+|| **filter***
+[`object`](../../../data-types.md) | Объект для фильтрации головных товаров в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
-Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-- `>=` — больше либо равно
-- `>` — больше
-- `<=` — меньше либо равно
-- `<` — меньше
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, начинающиеся с «мол»
-    - `"%мол"` — ищет значения, заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где «мол» может быть в любой позиции
-- `%=` — LIKE (аналогично `=%`)
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
-- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, не начинающиеся с «мол»
-    - `"%мол"` — ищет значения, не заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где подстроки «мол» нет в любой позиции
-- `!%=` — NOT LIKE (аналогично `!=%`)
-- `=` — равно, точное совпадение (используется по умолчанию). Для поиска IN можно передавать несколько значений массивом 
+Обязательно передайте `iblockId` — идентификатор инфоблока каталога товаров. Получить его можно методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md).
+
+Фильтровать можно по полям объекта [catalog_product_sku](../../data-types.md#catalog_product_sku) и по одиночным свойствам, например `{"property303": "Текстиль Плюс"}`. Фильтр по множественному свойству не применяется.
+
+Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+- `=` — равно, точное совпадение (используется по умолчанию). Массив значений работает как IN: `{"id": [7679, 7637]}`
 - `!=` — не равно
-- `!` — не равно. Для поиска NOT IN можно передавать несколько значений массивом ||
-|| **order**
-[`object`](../../../data-types.md) | 
-Объект для сортировки выбранных головных товаров в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+- `!` — не равно. С массивом значений работает как NOT IN
+- `>` — больше
+- `>=` — больше либо равно
+- `<` — меньше
+- `<=` — меньше либо равно
+- `%` — LIKE, поиск подстроки в любой позиции. Символ `%` в значении передавать не нужно
+- `!%` — NOT LIKE, значения без подстроки
 
-Возможные значения для `field` соответствуют полям объекта [catalog_product_sku](../../data-types.md#catalog_product_sku).
+Префиксы `=%`, `%=`, `!=%`, `!%=`, `@` и `!@` метод не применяет и возвращает записи без учета такого условия.
+
+Поле `type` фильтрует только по значениям `3` и `6`. Другое значение не сужает выборку.
+
+Неизвестные поля и имена в верхнем регистре, например `ID`, метод пропускает без ошибки и возвращает товары без учета такого условия ||
+|| **order**
+[`object`](../../../data-types.md) | Объект для сортировки головных товаров в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
-||
+
+Регистр направления не важен. Неизвестные поля и неверное направление метод пропускает без ошибки.
+
+По умолчанию — по возрастанию `id` ||
 || **start**
 [`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -72,13 +72,20 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы
-||
+`start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
+
+{% note warning "" %}
+
+Значение `start` за пределами списка возвращает первую страницу, а не пустой массив. Не завершайте обход по пустой странице: цикл не остановится. Ориентируйтесь на поле `total` и наличие поля `next` в ответе.
+
+{% endnote %}
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
+
+Пример получает головные товары раздела `31`, у которых сортировка не меньше `100`, а символьный код содержит `futbolka`.
 
 {% list tabs %}
 
@@ -88,7 +95,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","iblockId","name","active","available","bundle","canBuyZero","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","height","iblockSectionId","length","measure","modifiedBy","previewPicture","previewText","previewTextType","purchasingCurrency","purchasingPrice","quantity","sort","subscribe","timestampX","type","vatId","vatIncluded","weight","width","xmlId","property258","property259"],"filter":{"iblockId":23,">id":10,"vatId":[1,2]},"order":{"id":"desc"}}' \
+    -d '{"select":["id","iblockId","name","active","sort","code","iblockSectionId","property303"],"filter":{"iblockId":25,"iblockSectionId":31,">=sort":100,"%code":"futbolka"},"order":{"sort":"asc"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.list
     ```
 
@@ -98,7 +105,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","iblockId","name","active","available","bundle","canBuyZero","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","height","iblockSectionId","length","measure","modifiedBy","previewPicture","previewText","previewTextType","purchasingCurrency","purchasingPrice","quantity","sort","subscribe","timestampX","type","vatId","vatIncluded","weight","width","xmlId","property258","property259"],"filter":{"iblockId":23,">id":10,"vatId":[1,2]},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","iblockId","name","active","sort","code","iblockSectionId","property303"],"filter":{"iblockId":25,"iblockSectionId":31,">=sort":100,"%code":"futbolka"},"order":{"sort":"asc"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.sku.list
     ```
 
@@ -108,110 +115,37 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    type SkuItem = {
+    // Shape of one item returned in result.units (only the selected fields)
+    type SkuListItem = {
       id: number
       iblockId: number
-      iblockSectionId: number | null
       name: string
       active: string
-      available: string
-      bundle: string
-      canBuyZero: string
-      code: string
-      createdBy: number
-      dateActiveFrom: ISODate | null
-      dateActiveTo: ISODate | null
-      dateCreate: ISODate | null
-      detailPicture: { id: string; url: string; urlMachine: string } | null
-      detailText: string | null
-      detailTextType: string
-      height: number | null
-      length: number | null
-      measure: number | null
-      modifiedBy: number
-      previewPicture: { id: string; url: string; urlMachine: string } | null
-      previewText: string | null
-      previewTextType: string
-      purchasingCurrency: string | null
-      purchasingPrice: string | null
-      quantity: number | null
-      sort: number
-      subscribe: string
-      timestampX: ISODate | null
-      type: number
-      vatId: number | null
-      vatIncluded: string
-      weight: number | null
-      width: number | null
-      xmlId: string
-      property258: { value: string; valueId: string } | null
-      property259: Array<{ value: string; valueId: string }>
-    }
-
-    // Shape of the payload returned in result (match the "response handling" section of the page)
-    type SkuListResult = {
-      units: SkuItem[]
+      sort: number | null
+      code: string | null
+      iblockSectionId: number | null
+      property303: { value: string; valueId: string } | null
     }
 
     try {
-      // catalog.product.sku.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
-      const response = await $b24.actions.v2.call.make<SkuListResult>({
+      // catalog.product.sku.list returns a single page (max 50 records).
+      // The list is returned under the "units" key.
+      const response = await $b24.actions.v2.call.make<{ units: SkuListItem[] }>({
         method: 'catalog.product.sku.list',
         params: {
-          select: [
-            'id',
-            'iblockId',
-            'name',
-            'active',
-            'available',
-            'bundle',
-            'canBuyZero',
-            'code',
-            'createdBy',
-            'dateActiveFrom',
-            'dateActiveTo',
-            'dateCreate',
-            'detailPicture',
-            'detailText',
-            'detailTextType',
-            'height',
-            'iblockSectionId',
-            'length',
-            'measure',
-            'modifiedBy',
-            'previewPicture',
-            'previewText',
-            'previewTextType',
-            'purchasingCurrency',
-            'purchasingPrice',
-            'quantity',
-            'sort',
-            'subscribe',
-            'timestampX',
-            'type',
-            'vatId',
-            'vatIncluded',
-            'weight',
-            'width',
-            'xmlId',
-            'property258',
-            'property259',
-          ],
+          select: ['id', 'iblockId', 'name', 'active', 'sort', 'code', 'iblockSectionId', 'property303'],
           filter: {
-            iblockId: 23,
-            '>id': 10,
-            vatId: [1, 2],
+            iblockId: 25,
+            iblockSectionId: 31,
+            '>=sort': 100,
+            '%code': 'futbolka',
           },
           order: {
-            id: 'desc',
+            sort: 'asc',
           },
           start: 0,
         },
@@ -223,7 +157,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('SKUs on this page:', result.units.length, result.units)
+        console.info('SKU products on page:', result.units.length)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -237,65 +171,23 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function listProductSkus() {
+      async function listSkuProducts() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // catalog.product.sku.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.sku.list',
             params: {
-              select: [
-                'id',
-                'iblockId',
-                'name',
-                'active',
-                'available',
-                'bundle',
-                'canBuyZero',
-                'code',
-                'createdBy',
-                'dateActiveFrom',
-                'dateActiveTo',
-                'dateCreate',
-                'detailPicture',
-                'detailText',
-                'detailTextType',
-                'height',
-                'iblockSectionId',
-                'length',
-                'measure',
-                'modifiedBy',
-                'previewPicture',
-                'previewText',
-                'previewTextType',
-                'purchasingCurrency',
-                'purchasingPrice',
-                'quantity',
-                'sort',
-                'subscribe',
-                'timestampX',
-                'type',
-                'vatId',
-                'vatIncluded',
-                'weight',
-                'width',
-                'xmlId',
-                'property258',
-                'property259',
-              ],
+              select: ['id', 'iblockId', 'name', 'active', 'sort', 'code', 'iblockSectionId', 'property303'],
               filter: {
-                iblockId: 23,
-                '>id': 10,
-                vatId: [1, 2],
+                iblockId: 25,
+                iblockSectionId: 31,
+                '>=sort': 100,
+                '%code': 'futbolka',
               },
               order: {
-                id: 'desc',
+                sort: 'asc',
               },
               start: 0,
             },
@@ -309,14 +201,14 @@
           }
 
           const result = response.getData().result
-          console.info('SKUs on this page:', result.units.length, result.units)
+          console.info('SKU products on page:', result.units.length)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', listProductSkus)
+      document.addEventListener('DOMContentLoaded', listSkuProducts)
     </script>
     ```
 
@@ -327,55 +219,15 @@
 
     try:
         bitrix_response = client.catalog.product.sku.list(
-            select=[
-                "id",
-                "iblockId",
-                "name",
-                "active",
-                "available",
-                "bundle",
-                "canBuyZero",
-                "code",
-                "createdBy",
-                "dateActiveFrom",
-                "dateActiveTo",
-                "dateCreate",
-                "detailPicture",
-                "detailText",
-                "detailTextType",
-                "height",
-                "iblockSectionId",
-                "length",
-                "measure",
-                "modifiedBy",
-                "previewPicture",
-                "previewText",
-                "previewTextType",
-                "purchasingCurrency",
-                "purchasingPrice",
-                "quantity",
-                "sort",
-                "subscribe",
-                "timestampX",
-                "type",
-                "vatId",
-                "vatIncluded",
-                "weight",
-                "width",
-                "xmlId",
-                "property258",
-                "property259",
-            ],
+            select=["id", "iblockId", "name", "active", "sort", "code", "iblockSectionId", "property303"],
             filter={
-                "iblockId": 23,
-                ">id": 10,
-                "vatId": [
-                    1,
-                    2,
-                ],
+                "iblockId": 25,
+                "iblockSectionId": 31,
+                ">=sort": 100,
+                "%code": "futbolka",
             },
             order={
-                "id": "desc",
+                "sort": "asc",
             },
             start=0,
         ).response
@@ -396,7 +248,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -404,65 +255,27 @@
             ->call(
                 'catalog.product.sku.list',
                 [
-                    'select' => [
-                        'id',
-                        'iblockId',
-                        'name',
-                        'active',
-                        'available',
-                        'bundle',
-                        'canBuyZero',
-                        'code',
-                        'createdBy',
-                        'dateActiveFrom',
-                        'dateActiveTo',
-                        'dateCreate',
-                        'detailPicture',
-                        'detailText',
-                        'detailTextType',
-                        'height',
-                        'iblockSectionId',
-                        'length',
-                        'measure',
-                        'modifiedBy',
-                        'previewPicture',
-                        'previewText',
-                        'previewTextType',
-                        'purchasingCurrency',
-                        'purchasingPrice',
-                        'quantity',
-                        'sort',
-                        'subscribe',
-                        'timestampX',
-                        'type',
-                        'vatId',
-                        'vatIncluded',
-                        'weight',
-                        'width',
-                        'xmlId',
-                        'property258',
-                        'property259',
-                    ],
+                    'select' => ['id', 'iblockId', 'name', 'active', 'sort', 'code', 'iblockSectionId', 'property303'],
                     'filter' => [
-                        'iblockId' => 23,
-                        '>id'      => 10,
-                        'vatId'    => [1, 2],
+                        'iblockId'        => 25,
+                        'iblockSectionId' => 31,
+                        '>=sort'          => 100,
+                        '%code'           => 'futbolka',
                     ],
                     'order'  => [
-                        'id' => 'desc',
+                        'sort' => 'asc',
                     ],
+                    'start'  => 0,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching product SKUs: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -470,61 +283,26 @@
 
     ```js
     BX24.callMethod(
-        "catalog.product.sku.list", {
-            "select": [
-                "id",
-                "iblockId",
-                "name",
-                "active",
-                "available",
-                "bundle",
-                "canBuyZero",
-                "code",
-                "createdBy",
-                "dateActiveFrom",
-                "dateActiveTo",
-                "dateCreate",
-                "detailPicture",
-                "detailText",
-                "detailTextType",
-                "height",
-                "iblockSectionId",
-                "length",
-                "measure",
-                "modifiedBy",
-                "previewPicture",
-                "previewText",
-                "previewTextType",
-                "purchasingCurrency",
-                "purchasingPrice",
-                "quantity",
-                "sort",
-                "subscribe",
-                "timestampX",
-                "type",
-                "vatId",
-                "vatIncluded",
-                "weight",
-                "width",
-                "xmlId",
-                "property258",
-                "property259",
-            ],
-            "filter": {
-                "iblockId": 23,
-                ">id": 10,
-                "vatId": [1, 2],
+        'catalog.product.sku.list',
+        {
+            select: ['id', 'iblockId', 'name', 'active', 'sort', 'code', 'iblockSectionId', 'property303'],
+            filter: {
+                iblockId: 25,
+                iblockSectionId: 31,
+                '>=sort': 100,
+                '%code': 'futbolka',
             },
-            "order": {
-                "id": "desc",
-            }
+            order: {
+                sort: 'asc',
+            },
+            start: 0,
         },
-        function(result) {
-            if (result.error()) {
+        function(result)
+        {
+            if (result.error())
                 console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+            else
+                console.log(result.data());
         }
     );
     ```
@@ -537,53 +315,17 @@
     $result = CRest::call(
         'catalog.product.sku.list',
         [
-            'select' => [
-                "id",
-                "iblockId",
-                "name",
-                "active",
-                "available",
-                "bundle",
-                "canBuyZero",
-                "code",
-                "createdBy",
-                "dateActiveFrom",
-                "dateActiveTo",
-                "dateCreate",
-                "detailPicture",
-                "detailText",
-                "detailTextType",
-                "height",
-                "iblockSectionId",
-                "length",
-                "measure",
-                "modifiedBy",
-                "previewPicture",
-                "previewText",
-                "previewTextType",
-                "purchasingCurrency",
-                "purchasingPrice",
-                "quantity",
-                "sort",
-                "subscribe",
-                "timestampX",
-                "type",
-                "vatId",
-                "vatIncluded",
-                "weight",
-                "width",
-                "xmlId",
-                "property258",
-                "property259",
-            ],
+            'select' => ['id', 'iblockId', 'name', 'active', 'sort', 'code', 'iblockSectionId', 'property303'],
             'filter' => [
-                "iblockId" => 23,
-                ">id" => 10,
-                "vatId" => [1, 2],
+                'iblockId' => 25,
+                'iblockSectionId' => 31,
+                '>=sort' => 100,
+                '%code' => 'futbolka',
             ],
             'order' => [
-                "id" => "desc",
-            ]
+                'sort' => 'asc',
+            ],
+            'start' => 0,
         ]
     );
 
@@ -597,39 +339,47 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.sku.list", b24.Params{
-    	"select": []string{"id", "iblockId", "name", "active", "available", "bundle", "canBuyZero", "code", "createdBy", "dateActiveFrom", "dateActiveTo", "dateCreate", "detailPicture", "detailText", "detailTextType", "height", "iblockSectionId", "length", "measure", "modifiedBy", "previewPicture", "previewText", "previewTextType", "purchasingCurrency", "purchasingPrice", "quantity", "sort", "subscribe", "timestampX", "type", "vatId", "vatIncluded", "weight", "width", "xmlId", "property258", "property259"},
+    	"select": []string{"id", "iblockId", "name", "active", "sort", "code", "iblockSectionId", "property303"},
     	"filter": b24.Params{
-    		"iblockId": 23,
-    		">id":      10,
-    		"vatId":    []int{1, 2},
+    		"iblockId":        25,
+    		"iblockSectionId": 31,
+    		">=sort":          100,
+    		"%code":           "futbolka",
     	},
     	"order": b24.Params{
-    		"id": "desc",
+    		"sort": "asc",
     	},
+    	"start": 0,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.product.sku.list: %w", err)
     }
 
-    // Метод заворачивает ответ в объект с ключом "units".
+    // Метод возвращает список под ключом "units".
     raw, ok := b24.Unwrap(res.Result, "units")
     if !ok {
     	return fmt.Errorf("в ответе нет ключа units")
     }
 
+    // Необязательные поля могут прийти как null, поэтому для них указатели.
     var items []struct {
-    	Active     string `json:"active"`
-    	Available  string `json:"available"`
-    	Bundle     string `json:"bundle"`
-    	CanBuyZero string `json:"canBuyZero"`
-    	Code       string `json:"code"`
-    	CreatedBy  int    `json:"createdBy"`
+    	ID              b24.ID  `json:"id"`
+    	IblockID        int     `json:"iblockId"`
+    	Name            string  `json:"name"`
+    	Active          string  `json:"active"`
+    	Sort            *int    `json:"sort"`
+    	Code            *string `json:"code"`
+    	IblockSectionID *int    `json:"iblockSectionId"`
+    	Property303     *struct {
+    		Value   string `json:"value"`
+    		ValueID string `json:"valueId"`
+    	} `json:"property303"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
     for _, it := range items {
-    	fmt.Println(it.Active)
+    	fmt.Println(it.ID, it.Name)
     }
     ```
 
@@ -645,73 +395,29 @@ HTTP-статус: **200**
         "units": [
             {
                 "active": "Y",
-                "available": "N",
-                "bundle": "N",
-                "canBuyZero": "N",
-                "code": "product_sku",
-                "createdBy": 1,
-                "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-                "dateActiveTo": "2024-05-29T10:00:00+03:00",
-                "dateCreate": "2024-05-27T10:00:00+03:00",
-                "detailPicture": {
-                    "id": "6546",
-                    "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6546\u0026fields%5BproductId%5D=1289",
-                    "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6546\u0026fields%5BproductId%5D=1289"
+                "code": "futbolka-bazovaya",
+                "iblockId": 25,
+                "iblockSectionId": 31,
+                "id": 7679,
+                "name": "Футболка базовая",
+                "property303": {
+                    "value": "Хлопковый двор",
+                    "valueId": "4117"
                 },
-                "detailText": null,
-                "detailTextType": "text",
-                "height": null,
-                "iblockId": 23,
-                "iblockSectionId": 47,
-                "id": 1289,
-                "length": null,
-                "measure": null,
-                "modifiedBy": 1,
-                "name": "Головной товар",
-                "previewPicture": {
-                    "id": "6545",
-                    "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6545\u0026fields%5BproductId%5D=1289",
-                    "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6545\u0026fields%5BproductId%5D=1289"
-                },
-                "previewText": null,
-                "previewTextType": "text",
-                "property258": {
-                    "value": "test",
-                    "valueId": "9877"
-                },
-                "property259": [
-                    {
-                        "value": "test1",
-                        "valueId": "9878"
-                    },
-                    {
-                        "value": "test2",
-                        "valueId": "9879"
-                    }
-                ],
-                "purchasingCurrency": null,
-                "purchasingPrice": null,
-                "quantity": null,
-                "sort": 100,
-                "subscribe": "Y",
-                "timestampX": "2024-06-17T14:30:33+03:00",
-                "type": 6,
-                "vatId": null,
-                "vatIncluded": "N",
-                "weight": null,
-                "width": null,
-                "xmlId": "1289"
+                "sort": 300
             }
         ]
     },
     "total": 1,
     "time": {
-        "start": 1718631434.15105,
-        "finish": 1718631434.921837,
-        "duration": 0.7707870006561279,
-        "processing": 0.3575417995452881,
-        "date_start": "2024-06-17T16:37:14+03:00",
-        "date_finish": "2024-06-17T16:37:14+03:00"
+        "start": 1793893107,
+        "finish": 1793893107.413658,
+        "duration": 0.41365790367126465,
+        "processing": 0,
+        "date_start": "2026-11-05T18:38:27+03:00",
+        "date_finish": "2026-11-05T18:38:27+03:00",
+        "operating_reset_at": 1793893200,
+        "operating": 0.13479113578796387
     }
 }
 ```
@@ -723,12 +429,16 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **units**
-[`catalog_product_sku[]`](../../data-types.md#catalog_product_sku) | Массив объектов с информацией о выбранных головных товарах ||
+|| **result.units**
+[`catalog_product_sku[]`](../../data-types.md#catalog_product_sku) | Массив головных товаров. Метод возвращает список под ключом `units`, а не `skus`.
+
+У каждого товара только поля из `select`. У заполненного свойства значение — объект `{"value": ..., "valueId": ...}`, у множественного — массив таких объектов ||
 || **total**
-[`integer`](../../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../../data-types.md) | Общее количество найденных головных товаров ||
+|| **next**
+[`integer`](../../../data-types.md) | Значение `start` для следующей страницы. Приходит, если найдено больше 50 записей и страница не последняя ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -737,8 +447,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access denied"
+    "error": "0",
+    "error_description": "Required filter fields: iblockId"
 }
 ```
 
@@ -747,15 +457,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `0` | Не указаны поля `id`, `iblockId` в полях выбора
-|| 
-|| `0` | Не указано поле `iblockId` в фильтре
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр каталога ||
+|| `400` | `200040300030` | Access Denied | У пользователя нет права на чтение инфоблока каталога ||
+|| `400` | `0` | Required filter fields: iblockId | В `filter` не передан `iblockId` ||
+|| `400` | `0` | Required select fields: iblockId | В `select` нет поля `iblockId`. Если нет поля `id`, приходит ошибка `Required select fields: id` ||
+|| `400` | `0` | iblock is not catalog | Инфоблок из `iblockId` не является торговым каталогом ||
+|| `400` | `0` | productType is not allowed for this catalog | В `iblockId` передан инфоблок вариаций ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {filter}. Should be value of type array. | В `filter` передан не объект. Такая же ошибка с `{select}` — если в `select` передан не массив ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

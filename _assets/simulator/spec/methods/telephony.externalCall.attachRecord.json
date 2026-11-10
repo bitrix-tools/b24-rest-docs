@@ -94,5 +94,10 @@
     }
   ],
   "page": "/api-reference/telephony/telephony-external-call-attach-record.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CALL_ID": "externalCall.716f1cb73def9700a23842adf9c4c568.1773130779",
+    "FILENAME": "call-001.mp3",
+    "FILE_CONTENT": "SUQzAwAAAAAiVVRJVDI...AAAAAAAAAAAAP8="
+  }
 }

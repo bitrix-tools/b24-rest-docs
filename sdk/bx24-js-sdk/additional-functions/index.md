@@ -11,34 +11,82 @@
 
 {% include notitle [Приложение работает во фрейме](../../../_includes/app-runs-in-iframe.md) %}
 
-Дополнительные методы управляют интерфейсом встроенного приложения в Битрикс24. С их помощью можно менять размер фрейма, открывать слайдеры и окна, работать с событиями страницы и отправлять команды мессенджеру и телефонии.
+Эти методы BX24.js управляют интерфейсом встроенного приложения в Битрикс24. С их помощью можно менять размер фрейма, открывать страницы Битрикс24 и окно приложения, обрабатывать события на странице приложения и отправлять команды мессенджеру и телефонии.
 
 > Быстрый переход: [все методы](#all-methods)
 
 ## Как выбрать нужный метод
 
-1. Если нужно управлять окном или фреймом приложения, начните с [BX24.resizeWindow](./bx24-resize-window.md), [BX24.fitWindow](./bx24-fit-window.md), [BX24.setTitle](./bx24-set-title.md), [BX24.openApplication](./bx24-open-application.md) и [BX24.closeApplication](./bx24-close-application.md)
-2. Если нужно открыть раздел Битрикс24, чат или звонок из интерфейса приложения, используйте [BX24.openPath](./bx24-open-path.md), [BX24.im.callTo](./bx24-im-call-to.md), [BX24.im.phoneTo](./bx24-im-phone-to.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md) или [BX24.im.openHistory](./bx24-im-open-history.md)
-3. Если нужно дождаться, пока DOM-структура страницы будет готова, или привязать обработчик события, используйте [BX24.ready](./bx24-ready.md), [BX24.isReady](./bx24-is-ready.md), [BX24.bind](./bx24-bind.md), [BX24.unbind](./bx24-unbind.md), [BX24.proxy](./bx24-proxy.md) и [BX24.proxyContext](./bx24-proxy-context.md)
-4. Если нужно получить данные о среде выполнения, проверьте [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md) и [BX24.getScrollSize](./bx24-get-scroll-size.md)
-5. Если нужно подключить внешний javascript-файл на странице приложения, используйте [BX24.loadScript](./bx24-load-script.md)
+#|
+|| **Если нужно** | **Используйте** ||
+|| Задать размер фрейма или подогнать его под содержимое | [BX24.resizeWindow](./bx24-resize-window.md), [BX24.fitWindow](./bx24-fit-window.md) ||
+|| Сменить заголовок страницы Битрикс24, прокрутить или перезагрузить ее | [BX24.setTitle](./bx24-set-title.md), [BX24.scrollParentWindow](./bx24-scroll-parent-window.md), [BX24.reloadWindow](./bx24-reload-window.md) ||
+|| Открыть приложение во всплывающем окне и закрыть это окно | [BX24.openApplication](./bx24-open-application.md), [BX24.closeApplication](./bx24-close-application.md) ||
+|| Открыть страницу Битрикс24 или чат, начать звонок | [BX24.openPath](./bx24-open-path.md), [BX24.im.callTo](./bx24-im-call-to.md), [BX24.im.phoneTo](./bx24-im-phone-to.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md), [BX24.im.openHistory](./bx24-im-open-history.md) ||
+|| Дождаться готовности страницы приложения или проверить ее состояние | [BX24.ready](./bx24-ready.md), [BX24.isReady](./bx24-is-ready.md) ||
+|| Назначить или снять обработчик события на странице приложения | [BX24.bind](./bx24-bind.md), [BX24.unbind](./bx24-unbind.md), [BX24.proxy](./bx24-proxy.md), [BX24.proxyContext](./bx24-proxy-context.md) ||
+|| Узнать язык интерфейса, адрес Битрикс24, размеры страницы или право пользователя устанавливать приложение | [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md), [BX24.getScrollSize](./bx24-get-scroll-size.md), [BX24.isAdmin](./bx24-is-admin.md) ||
+|| Подключить javascript-файл к странице приложения | [BX24.loadScript](./bx24-load-script.md) ||
+|#
+
+## Как начать работу
+
+1. Подключите библиотеку BX24.js на страницу приложения — как это сделать, описывает [обзор библиотеки](../index.md)
+2. Вызовите нужный метод в обработчике [BX24.init](../system-functions/bx24-init.md): к этому моменту библиотека уже получила данные от Битрикс24
+3. Обработайте результат: одни методы возвращают его сразу, другие передают в функцию обратного вызова
+
+Например, приложение может узнать размеры своей страницы и подогнать под них фрейм:
+
+```js
+BX24.init(function () {
+    const size = BX24.getScrollSize(); // { scrollWidth: 1108, scrollHeight: 1579 }
+
+    if (size.scrollHeight > window.innerHeight) {
+        BX24.fitWindow(function (result) {
+            console.log('Новый размер фрейма:', result.width, result.height); // например, 1108 1579
+        });
+    }
+});
+```
 
 ## Что важно учитывать
 
-- Методы работают только внутри фрейма приложения и вызываются после [BX24.init](../system-functions/bx24-init.md). Исключение — [BX24.ready](./bx24-ready.md) и [BX24.loadScript](./bx24-load-script.md): они привязаны к готовности страницы, а не библиотеки
-- Большинство методов не возвращают данные. Они отправляют команду в интерфейс Битрикс24, а результат приходит в функцию обратного вызова
-- Данные о среде — [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md), [BX24.getDomain](./bx24-get-domain.md), [BX24.getScrollSize](./bx24-get-scroll-size.md), [BX24.isReady](./bx24-is-ready.md), [BX24.proxy](./bx24-proxy.md), [BX24.proxyContext](./bx24-proxy-context.md) — возвращаются сразу, без обратного вызова
-- Методы `BX24.im.*` — исключение: обратного вызова у них нет, данные они не возвращают. Команда уходит в родительское окно, и ответа на нее не приходит, поэтому успешный вызов означает только, что команда отправлена, а не что звонок начался или чат открылся
-- [BX24.openPath](./bx24-open-path.md) не работает в мобильном приложении. Об этом и о недоступном пути метод сообщает кодами `METHOD_NOT_SUPPORTED_ON_DEVICE` и `PATH_NOT_AVAILABLE` в обратном вызове. Других кодов ошибок методы раздела не возвращают
-- Собственный scope методам не нужен: они управляют интерфейсом, а не обращаются к REST API
+Методы работают только внутри фрейма приложения. Одни из них нужно вызывать после инициализации библиотеки в обработчике [BX24.init](../system-functions/bx24-init.md), другие можно вызывать сразу:
+
+#|
+|| **Методы** | **Вызывать после BX24.init** | **Как приходит результат** ||
+|| [BX24.resizeWindow](./bx24-resize-window.md), [BX24.fitWindow](./bx24-fit-window.md), [BX24.setTitle](./bx24-set-title.md), [BX24.scrollParentWindow](./bx24-scroll-parent-window.md), [BX24.openPath](./bx24-open-path.md) | Да | В функцию обратного вызова ||
+|| [BX24.openApplication](./bx24-open-application.md) | Да | В функцию обратного вызова, когда окно закроется ||
+|| [BX24.reloadWindow](./bx24-reload-window.md), [BX24.closeApplication](./bx24-close-application.md) | Да | Никак: функцию обратного вызова Битрикс24 не вызывает ||
+|| [BX24.isAdmin](./bx24-is-admin.md), [BX24.getLang](./bx24-get-lang.md) | Да: до инициализации методы вернут `false` и пустую строку | Сразу, значением метода ||
+|| [BX24.getDomain](./bx24-get-domain.md), [BX24.getScrollSize](./bx24-get-scroll-size.md), [BX24.isReady](./bx24-is-ready.md), [BX24.proxy](./bx24-proxy.md), [BX24.proxyContext](./bx24-proxy-context.md) | Нет | Сразу, значением метода ||
+|| [BX24.ready](./bx24-ready.md), [BX24.loadScript](./bx24-load-script.md) | Нет | В функцию обратного вызова, без параметров ||
+|| [BX24.bind](./bx24-bind.md) | Нет | Данных не возвращает. Обработчик получает объект события браузера ||
+|| [BX24.unbind](./bx24-unbind.md) | Нет | Данных не возвращает ||
+|| [BX24.im.callTo](./bx24-im-call-to.md), [BX24.im.phoneTo](./bx24-im-phone-to.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md), [BX24.im.openHistory](./bx24-im-open-history.md) | Да | Никак: команда уходит в Битрикс24, и ответа на нее не приходит. Успешный вызов значит только, что команда отправлена, а не что звонок начался или чат открылся ||
+|#
+
+Собственный scope методам не нужен: они управляют интерфейсом, а не обращаются к REST API.
+
+## Обработка ошибок {#errors}
+
+Коды ошибок возвращает только [BX24.openPath](./bx24-open-path.md): `PATH_NOT_AVAILABLE`, если путь задан неверно, и `METHOD_NOT_SUPPORTED_ON_DEVICE` на телефоне или планшете. У остальных методов кодов нет, а сбой проявляется одним из трех способов.
+
+**Исключение JavaScript.** Код приложения останавливается с ошибкой, например если передать `null` в [BX24.setTitle](./bx24-set-title.md).
+
+**Молчаливый отказ.** Команда не выполняется, и функция обратного вызова не приходит. Например, [BX24.resizeWindow](./bx24-resize-window.md) не меняет размер окна, которое открыл [BX24.openApplication](./bx24-open-application.md).
+
+**Ложный успех.** Функция обратного вызова приходит, хотя ничего не произошло. Например, [BX24.scrollParentWindow](./bx24-scroll-parent-window.md) в слайдере не прокручивает страницу.
+
+Что делать в каждой ситуации, разбирают разделы «Обработка ошибок» на страницах методов.
 
 ## Связь с другими объектами
 
 **Системный интерфейс Битрикс24.** Метод [BX24.openPath](./bx24-open-path.md) открывает страницы и карточки объектов во встроенном слайдере Битрикс24. Путь передается относительным, от корня Битрикс24: например, `/crm/deal/details/5/` для сделки. Методы [BX24.im.callTo](./bx24-im-call-to.md), [BX24.im.phoneTo](./bx24-im-phone-to.md), [BX24.im.openMessenger](./bx24-im-open-messenger.md) и [BX24.im.openHistory](./bx24-im-open-history.md) запускают звонок по внутренней связи и звонок на телефонный номер, открывают окно мессенджера и историю диалога.
 
-**Места встраивания.** Для сценариев со встройками зарегистрируйте обработчик через [placement.bind](../../../api-reference/widgets/placement-bind.md) и выберите подходящее место встраивания из [списка мест встраивания](../../../api-reference/widgets/placements.md). Это особенно важно для методов [BX24.reloadWindow](./bx24-reload-window.md) и [BX24.scrollParentWindow](./bx24-scroll-parent-window.md), которые зависят от контекста размещения приложения.
+**Места встраивания.** Чтобы приложение открывалось в интерфейсе Битрикс24, например во вкладке карточки CRM, зарегистрируйте обработчик через [placement.bind](../../../api-reference/widgets/placement-bind.md) и выберите подходящее место встраивания из [списка мест встраивания](../../../api-reference/widgets/placements.md).
 
-**Инициализация и настройки приложения.** Данные о среде появляются после инициализации библиотеки — ее описывает раздел [Инициализация и авторизация](../system-functions/index.md). Вызывать методы Битрикс24 из клиентской части помогает раздел [Вызов методов REST](../how-to-call-rest-methods/index.md), а хранить выбор пользователя между запусками — раздел [Настройки приложения](../options/index.md).
+**Инициализация и настройки приложения.** Язык интерфейса и права пользователя приложение получает при инициализации библиотеки — ее описывает раздел [Инициализация и авторизация](../system-functions/index.md). Вызывать методы Битрикс24 из клиентской части помогает раздел [Вызов методов REST](../how-to-call-rest-methods/index.md), а хранить выбор пользователя между запусками — раздел [Настройки приложения](../options/index.md).
 
 ## Обзор методов {#all-methods}
 
@@ -47,12 +95,12 @@
 #|
 || **Метод** | **Описание** ||
 || [BX24.resizeWindow](./bx24-resize-window.md) | Изменяет размер фрейма с приложением ||
-|| [BX24.fitWindow](./bx24-fit-window.md) | Устанавливает размер фрейма с приложением в соответствии с размерами содержимого фрейма ||
+|| [BX24.fitWindow](./bx24-fit-window.md) | Растягивает фрейм на всю ширину и подгоняет его высоту под содержимое ||
 || [BX24.reloadWindow](./bx24-reload-window.md) | Перезагружает всю страницу с приложением, а не только фрейм ||
-|| [BX24.setTitle](./bx24-set-title.md) | Устанавливает заголовок страницы ||
+|| [BX24.setTitle](./bx24-set-title.md) | Меняет заголовок страницы Битрикс24 над приложением ||
 || [BX24.openApplication](./bx24-open-application.md) | Открывает всплывающее окно с фреймом приложения ||
-|| [BX24.closeApplication](./bx24-close-application.md) | Закрывает всплывающее окно с приложением ||
-|| [BX24.scrollParentWindow](./bx24-scroll-parent-window.md) | Прокручивает родительское окно до указанной вертикальной позиции ||
+|| [BX24.closeApplication](./bx24-close-application.md) | Закрывает окно, в котором открыто приложение ||
+|| [BX24.scrollParentWindow](./bx24-scroll-parent-window.md) | Прокручивает страницу Битрикс24 до указанной позиции по вертикали ||
 |#
 
 ### События страницы и контекст вызова
@@ -71,18 +119,18 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [BX24.isAdmin](./bx24-is-admin.md) | Определяет, есть ли у текущего пользователя права администратора Битрикс24 ||
-|| [BX24.getLang](./bx24-get-lang.md) | Возвращает идентификатор языка в текущем Битрикс24 ||
+|| [BX24.isAdmin](./bx24-is-admin.md) | Проверяет, может ли текущий пользователь устанавливать это приложение ||
+|| [BX24.getLang](./bx24-get-lang.md) | Возвращает код языка интерфейса Битрикс24 ||
 || [BX24.getDomain](./bx24-get-domain.md) | Возвращает адрес Битрикс24, в котором открыто приложение ||
-|| [BX24.getScrollSize](./bx24-get-scroll-size.md) | Возвращает размеры содержимого фрейма приложения ||
-|| [BX24.loadScript](./bx24-load-script.md) | Загружает и выполняет клиентский javascript-файл ||
+|| [BX24.getScrollSize](./bx24-get-scroll-size.md) | Возвращает размеры страницы приложения ||
+|| [BX24.loadScript](./bx24-load-script.md) | Загружает и выполняет javascript-файлы ||
 |#
 
 ### Навигация и общение
 
 #|
 || **Метод** | **Описание** ||
-|| [BX24.openPath](./bx24-open-path.md) | Открывает путь внутри Битрикс24 в слайдере ||
+|| [BX24.openPath](./bx24-open-path.md) | Открывает страницу Битрикс24 в слайдере ||
 || [BX24.im.callTo](./bx24-im-call-to.md) | Отправляет команду на звонок пользователю Битрикс24 по внутренней связи ||
 || [BX24.im.phoneTo](./bx24-im-phone-to.md) | Отправляет команду на звонок по телефонному номеру ||
 || [BX24.im.openMessenger](./bx24-im-open-messenger.md) | Отправляет команду на открытие окна мессенджера ||

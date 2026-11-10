@@ -111,5 +111,9 @@
     "templateId",
     "title",
     "userId"
-  ]
+  ],
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 37
+  }
 }

@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Бейдж — это значок на карточке элемента в канбане. Бейдж помогает выделить элементы, которые требуют внимания. Если к элементу добавлено несколько бейджей, будет показан последний добавленный.
+Бейдж — значок на карточке элемента в канбане, который обращает на элемент внимание менеджера. Значок берется из поля `badgeCode` дела, а не из привязки к самому элементу: если у элемента несколько дел с бейджами, покажется последний добавленный.
 
 ![Последний бейдж](./_images/badge.png)
 
@@ -17,40 +17,51 @@
 
 ## Связь с конфигурируемым делом
 
-Бейдж не привязывается к элементу CRM напрямую. Сначала приложение регистрирует бейдж методом [crm.activity.badge.add](./crm-activity-badge-add.md), а затем указывает его код в поле `badgeCode` [конфигурируемого дела](../index.md) при вызове [crm.activity.configurable.add](../crm-activity-configurable-add.md) или [crm.activity.configurable.update](../crm-activity-configurable-update.md).
+Код зарегистрированного бейджа указывают в поле `badgeCode` [конфигурируемого дела](../index.md) при вызове [crm.activity.configurable.add](../crm-activity-configurable-add.md) или [crm.activity.configurable.update](../crm-activity-configurable-update.md).
 
-Бейдж показывается на канбане того объекта, к которому привязано дело, до тех пор, пока дело не будет закрыто.
+Бейдж показывается на канбане того объекта, к которому привязано дело, пока дело не закрыто, то есть при `completed = false`.
 
 ## Что учитывать перед вызовом методов
 
-- Методами [crm.activity.badge.add](./crm-activity-badge-add.md) и [crm.activity.badge.delete](./crm-activity-badge-delete.md) управляет только пользователь с административным доступом к разделу CRM.
-- Методы [crm.activity.badge.get](./crm-activity-badge-get.md) и [crm.activity.badge.list](./crm-activity-badge-list.md) доступны любому пользователю.
-- Код бейджа `code` должен быть уникальным. Бейдж с уже занятым кодом добавить не получится.
-- Бейдж находят и удаляют по коду, а не по идентификатору.
+- Бейдж, который уже используется в делах, удалить нельзя — метод вернет ошибку `ENTITY_WITH_BADGE_EXISTS`. Сначала уберите код из поля `badgeCode` этих дел.
+- Методы работают и в приложении, и через входящий вебхук. Контекст приложения обязателен только для самих [конфигурируемых дел](../index.md).
 
 ## Как работать с бейджами
 
-1. Проверьте занятые коды методом [crm.activity.badge.list](./crm-activity-badge-list.md).
+1. Посмотрите занятые коды методом [crm.activity.badge.list](./crm-activity-badge-list.md).
 2. Зарегистрируйте бейдж методом [crm.activity.badge.add](./crm-activity-badge-add.md).
-3. Проверьте бейдж по коду методом [crm.activity.badge.get](./crm-activity-badge-get.md).
-4. Укажите код бейджа в поле `badgeCode` конфигурируемого дела.
+3. Укажите код бейджа в поле `badgeCode` конфигурируемого дела.
+4. Получите настройки бейджа по коду методом [crm.activity.badge.get](./crm-activity-badge-get.md), если нужно их проверить.
 5. Удалите ненужный бейдж методом [crm.activity.badge.delete](./crm-activity-badge-delete.md).
 
-## Поля записи о бейдже {#badge-fields}
+## Поля бейджа {#badge-fields}
+
+Бейдж состоит из четырех полей. В таком виде его возвращают методы [crm.activity.badge.get](./crm-activity-badge-get.md) и [crm.activity.badge.list](./crm-activity-badge-list.md):
+
+```json
+{
+    "code": "missedCall",
+    "title": "Статус звонка",
+    "value": "Пропущен",
+    "type": "failure"
+}
+```
 
 #|
 || **Поле** | **Описание** ||
 || **code**
-[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall`. По коду бейдж указывают в деле, получают и удаляют ||
+[`string`](../../../../../data-types.md) | Код бейджа, например `missedCall`. По коду бейдж указывают в поле `badgeCode` дела, получают и удаляют ||
 || **title**
-[`string`\|`array`](../../../../data-types.md) | Название бейджа. Может быть строкой или массивом строк для разных языков ||
+[`string`\|`object`](../../../../../data-types.md) | Название бейджа — подпись, по которой его отличают от других. В самом значке выводится не оно, а `value`. Строка или объект с переводами для разных языков ||
 || **value**
-[`string`\|`array`](../../../../data-types.md) | Текст, который выводится в самом значке. Показывается в верхнем регистре. Может быть строкой или массивом строк для разных языков ||
+[`string`\|`object`](../../../../../data-types.md) | Текст, который выводится в самом значке. Показывается в верхнем регистре. Строка или объект с переводами для разных языков ||
 || **type**
 [`string`](../../../../../data-types.md) | [Тип бейджа](#tip-bejdzha), определяет цвет значка ||
 |#
 
-Если **title** или **value** содержит массив, то ключами в них должны быть коды языков, а значениями текст на этих языках, например:
+Ограничения на значения полей и коды ошибок описаны на странице [crm.activity.badge.add](./crm-activity-badge-add.md).
+
+Если `title` или `value` содержит объект, то ключами в нем должны быть коды языков, которые знает Битрикс24, а значениями — текст на этих языках, например:
 
 ```json
 {
@@ -59,17 +70,19 @@
 }
 ```
 
-Если перевод для текущего языка не найден, то будет использован английский. Если английский перевод не найден, то будет использован первый элемент массива.
+Если перевода на текущий язык нет, Битрикс24 подставит английский, а если нет и его — первое значение объекта.
 
-## Тип бейджа
+## Тип бейджа {#tip-bejdzha}
 
-В Битрикс24 есть несколько стандартных бейджей для разных сценариев. Тип бейджа может принимать следующие значения:
+Тип бейджа принимает одно из пяти значений:
 
-- **success** — зеленый фон
-- **failure** — красный фон
-- **warning** — желтый фон
-- **primary** — голубой фон
-- **secondary** — серый фон
+- `success` — зеленый фон
+- `failure` — красный фон
+- `warning` — желтый фон
+- `primary` — голубой фон
+- `secondary` — серый фон
+
+Другое значение метод [crm.activity.badge.add](./crm-activity-badge-add.md) отклонит с ошибкой `WRONG_TYPE_VALUE`.
 
 ![Варианты бейджей](./_images/badge_colors.png)
 
@@ -77,7 +90,7 @@
 
 > Scope: [`crm`](../../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователи с административным доступом к разделу crm — для [crm.activity.badge.add](./crm-activity-badge-add.md) и [crm.activity.badge.delete](./crm-activity-badge-delete.md), любой пользователь — для [crm.activity.badge.get](./crm-activity-badge-get.md) и [crm.activity.badge.list](./crm-activity-badge-list.md)
+> Кто может выполнять метод: пользователь с административным доступом к разделу CRM — для [crm.activity.badge.add](./crm-activity-badge-add.md) и [crm.activity.badge.delete](./crm-activity-badge-delete.md), любой пользователь — для [crm.activity.badge.get](./crm-activity-badge-get.md) и [crm.activity.badge.list](./crm-activity-badge-list.md)
 
 #|
 || **Метод** | **Описание** ||
@@ -86,9 +99,3 @@
 || [crm.activity.badge.list](./crm-activity-badge-list.md) | Получает список бейджей ||
 || [crm.activity.badge.delete](./crm-activity-badge-delete.md) | Удаляет бейдж по коду ||
 |#
-
-## Дополнительно
-
-- [{#T}](../crm-activity-configurable-add.md)
-- [{#T}](../crm-activity-configurable-update.md)
-- [{#T}](../crm-activity-configurable-get.md)

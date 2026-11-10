@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/tasks/user-field/task-item-user-field-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 1325
+  }
 }

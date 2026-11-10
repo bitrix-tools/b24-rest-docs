@@ -52,7 +52,7 @@ BX24.ready(function () {
 || Оператор нажимает кнопки управления звонком | [BackgroundCallCard::muteButtonClick](mute-button-click.md), [BackgroundCallCard::holdButtonClick](hold-button-click.md), [BackgroundCallCard::hangupButtonClick](hang-up-button-click.md), [BackgroundCallCard::answerButtonClick](answer-button-click.md) | Данные конкретного действия в интерфейсе ||
 || Оператор работает с переводом звонка | [BackgroundCallCard::transferButtonClick](transfer-button-click.md), [BackgroundCallCard::cancelTransferButtonClick](cancel-transfer-button-click.md), [BackgroundCallCard::completeTransferButtonClick](complete-transfer-button-click.md) | Данные по сценарию перевода ||
 || Карточка загрузила данные клиента из CRM, клиента опознали или в обзвоне сменился текущий клиент | [BackgroundCallCard::entityChanged](entity-changed.md) | Номер клиента и текущая CRM-привязка ||
-|| Нужны дополнительные действия из интерфейса карточки, например сохранить комментарий, оценить качество связи или ввести цифру на клавиатуре | [BackgroundCallCard::addCommentButtonClick](add-comment-button-click.md), [BackgroundCallCard::dialpadButtonClick](dialpad-button-click.md), [BackgroundCallCard::qualityMeterClick](quality-meter-click.md), [BackgroundCallCard::notifyAdminButtonClick](notify-admin-button-click.md), [BackgroundCallCard::nextButtonClick](next-button-click.md), [BackgroundCallCard::skipButtonClick](skip-button-click.md), [BackgroundCallCard::makeCallButtonClick](make-call-button-click.md), [BackgroundCallCard::closeButtonClick](close-button-click.md) | Значение, выбранное пользователем, или параметры действия ||
+|| Нужны дополнительные действия из интерфейса карточки, например сохранить комментарий или ввести цифру на клавиатуре | [BackgroundCallCard::addCommentButtonClick](add-comment-button-click.md), [BackgroundCallCard::dialpadButtonClick](dialpad-button-click.md), [BackgroundCallCard::notifyAdminButtonClick](notify-admin-button-click.md), [BackgroundCallCard::nextButtonClick](next-button-click.md), [BackgroundCallCard::skipButtonClick](skip-button-click.md), [BackgroundCallCard::makeCallButtonClick](make-call-button-click.md), [BackgroundCallCard::closeButtonClick](close-button-click.md) | Значение, выбранное пользователем, или параметры действия ||
 |#
 
 Какие кнопки видит оператор в каждом состоянии карточки и какое событие они вызывают, показано на странице [{#T}](../card.md).
@@ -70,7 +70,7 @@ BX24.ready(function () {
 || [BackgroundCallCard::muteButtonClick](mute-button-click.md) | При нажатии на кнопку выключения микрофона | `boolean` — состояние микрофона ||
 || [BackgroundCallCard::holdButtonClick](hold-button-click.md) | При нажатии на кнопку удержания звонка | `boolean` — состояние удержания ||
 || [BackgroundCallCard::closeButtonClick](close-button-click.md) | При нажатии на кнопку закрытия карточки звонка | Нет данных ||
-|| [BackgroundCallCard::transferButtonClick](transfer-button-click.md) | При выборе оператора, на которого текущий оператор хочет перевести звонок | Объект с номером и целью перевода ||
+|| [BackgroundCallCard::transferButtonClick](transfer-button-click.md) | При выборе оператора для перевода звонка | Объект с номером и целью перевода ||
 || [BackgroundCallCard::cancelTransferButtonClick](cancel-transfer-button-click.md) | При нажатии на кнопку «вернуться к звонку» | Нет данных ||
 || [BackgroundCallCard::completeTransferButtonClick](complete-transfer-button-click.md) | При нажатии на кнопку «перенаправить» | Нет данных ||
 || [BackgroundCallCard::hangupButtonClick](hang-up-button-click.md) | При нажатии на кнопку «завершить» | Нет данных ||
@@ -79,7 +79,6 @@ BX24.ready(function () {
 || [BackgroundCallCard::answerButtonClick](answer-button-click.md) | При нажатии на кнопку «ответить» | Нет данных ||
 || [BackgroundCallCard::entityChanged](entity-changed.md) | При загрузке или смене связанного со звонком объекта CRM | Объект с номером и привязкой к CRM ||
 || [BackgroundCallCard::makeCallButtonClick](make-call-button-click.md) | При нажатии на кнопку «позвонить» или «перезвонить» | Нет данных ||
-|| [BackgroundCallCard::qualityMeterClick](quality-meter-click.md) | При оценке качества связи | Строка с оценкой от 1 до 5 ||
 || [BackgroundCallCard::dialpadButtonClick](dialpad-button-click.md) | При нажатии на одну из цифровых кнопок телефона | Строка с нажатой клавишей ||
 || [BackgroundCallCard::notifyAdminButtonClick](notify-admin-button-click.md) | При нажатии на кнопку «уведомить администратора» | Нет данных ||
 |#

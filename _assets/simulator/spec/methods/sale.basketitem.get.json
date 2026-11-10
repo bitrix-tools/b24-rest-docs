@@ -3,7 +3,7 @@
   "method": "sale.basketitem.get",
   "scope": "sale",
   "kind": "read",
-  "title": "Получить информацию об элементе (позиции) корзины заказа sale.basketitem.get",
+  "title": "Получить позицию корзины sale.basketitem.get",
   "permissions": "менеджер магазина",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "sale_basket_item.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор элемента (позиции) корзины. Можно получить методом sale.basketitem.list"
+      "description": "Идентификатор позиции корзины. Можно получить методом sale.basketitem.list"
     }
   ],
   "defs": {},
@@ -23,6 +23,7 @@
   "resultExample": {
     "result": {
       "basketItem": {
+        "barcodeMulti": "N",
         "basePrice": 1000,
         "canBuy": "Y",
         "catalogXmlId": "FUTURE-ERP-CATALOG",
@@ -44,6 +45,7 @@
         "quantity": 1,
         "reservations": [],
         "sort": 100,
+        "type": null,
         "vatIncluded": "N",
         "vatRate": null,
         "weight": 0,
@@ -73,7 +75,7 @@
       "type": "sale_basket_item",
       "base": "any",
       "required": false,
-      "description": "Объект с данными элемента (позиции) корзины"
+      "description": "Объект с данными позиции корзины. Ключевые поля: - id, orderId, productId — идентификаторы позиции, заказа и товара - name, quantity, currency — название товара, количество и валюта позиции - price, basePrice, discountPrice — цена за единицу, цена без скидок и размер скидки - customPrice — Y, если цена задана вручную, N, если рассчитана по каталогу - vatRate, vatIncluded — ставка налога и признак…"
     },
     {
       "name": "time",
@@ -86,6 +88,7 @@
   "page": "/api-reference/sale/basket-item/sale-basket-item-get.html",
   "executable": false,
   "entityFields": [
+    "barcodeMulti",
     "basePrice",
     "canBuy",
     "catalogXmlId",
@@ -103,14 +106,17 @@
     "price",
     "productId",
     "productXmlId",
-    "productid",
     "properties",
     "quantity",
     "reservations",
     "sort",
+    "type",
     "vatIncluded",
     "vatRate",
     "weight",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 6801
+  }
 }

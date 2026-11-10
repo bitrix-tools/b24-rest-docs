@@ -130,5 +130,10 @@
     }
   ],
   "page": "/api-reference/note/file/note-file-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "documentId": 77,
+    "fileName": "diagram.png",
+    "fileContent": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
+  }
 }

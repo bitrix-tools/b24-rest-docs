@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Удалить перевод названия типа цены catalog.priceTypeLang.delete",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Управление типами цен»",
   "params": [
     {
       "name": "id",
@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 3
+  }
 }

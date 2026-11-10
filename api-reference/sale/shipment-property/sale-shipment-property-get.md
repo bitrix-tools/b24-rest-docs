@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_shipment_property.id`](../data-types.md) | Идентификатор свойства отгрузки ||
+[`sale_shipment_property.id`](../data-types.md#sale_shipment_property) | Идентификатор свойства отгрузки.
+
+Получить идентификатор можно методом [sale.shipmentproperty.list](./sale-shipment-property-list.md). Идентификатор нового свойства возвращает метод [sale.shipmentproperty.add](./sale-shipment-property-add.md) ||
 |#
 
 ## Примеры кода
@@ -331,7 +333,15 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **property**
-[`sale_shipment_property`](../data-types.md) | Информация о свойстве отгрузки ||
+[`sale_shipment_property`](../data-types.md#sale_shipment_property) | Свойство отгрузки. Ключевые поля:
+- `id` — идентификатор свойства
+- `personTypeId`, `propsGroupId` — идентификаторы типа плательщика и группы свойств
+- `name`, `code` — название и символьный код свойства
+- `type` — тип свойства: `STRING`, `Y/N`, `NUMBER`, `ENUM`, `FILE`, `DATE`, `LOCATION` или `ADDRESS`
+- `active`, `required`, `multiple` — активность, обязательность и множественность: `Y` или `N`
+- `settings` — настройки, которые зависят от типа свойства. Набор настроек для типа возвращает метод [sale.shipmentproperty.getFieldsByType](./sale-shipment-property-get-fields-by-type.md)
+
+Описание всех полей — в типе [sale_order_property](../data-types.md#sale_order_property) ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -342,7 +352,7 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":200840400001,
+   "error":"200840400001",
    "error_description":"property is not exists"
 }
 ```

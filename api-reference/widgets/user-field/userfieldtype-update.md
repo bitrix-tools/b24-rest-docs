@@ -13,7 +13,17 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `userfieldtype.update` изменяет настройки зарегистрированного приложением типа пользовательских полей. Возвращает _true_ или ошибку с описанием причины.
+Метод `userfieldtype.update` изменяет настройки типа пользовательских полей, который ранее зарегистрировало приложение. Метод обновляет адрес обработчика, название, описание и высоту поля, но не меняет код типа.
+
+Поле такого типа выводится в карточке элемента CRM. Когда пользователь открывает карточку, Битрикс24 загружает адрес из `HANDLER` во фрейме внутри поля. Общая схема работы и формат данных обработчика описаны в статье [Пользовательские типы полей](./index.md).
+
+Метод возвращает `true`, если настройки изменены.
+
+{% note info "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md)
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,45 +33,31 @@
 || **Название**
 `тип` | **Описание** | **Ограничения** ||
 || **USER_TYPE_ID***
-[`string`](../../data-types.md) | Строковый код типа | 
-- a-z0-9
-- должен быть уникальным ||
-|| **HANDLER***
-[`string`](../../data-types.md) | Адрес обработчика пользовательского типа | 
-- в том же домене, что и основной адрес приложения
-- уникальным ||
-|| **TITLE***
+[`string`](../../data-types.md) | Короткий код уже зарегистрированного типа пользовательских полей. Получить код можно методом [userfieldtype.list](./userfieldtype-list.md) | ||
+|| **HANDLER**
+[`string`](../../data-types.md) | Новый адрес обработчика пользовательского типа. Битрикс24 загружает этот адрес во фрейме внутри поля | Допустимы абсолютные адреса с протоколом `http` или `https` ||
+|| **TITLE**
 [`string`](../../data-types.md) | Текстовое название типа. Будет выводиться в административном интерфейсе настройки пользовательских полей | ||
 || **DESCRIPTION**
 [`string`](../../data-types.md) | Текстовое описание типа. Будет выводиться в административном интерфейсе настройки пользовательских полей | ||
 || **OPTIONS**
-[`array`](../../data-types.md) | Дополнительные настройки. На данный момент доступен один ключ: `height` — указывает высоту пользовательского поля в пикселях. Применится любое положительное значение.
+[`object`](../../data-types.md) | Дополнительные настройки. На данный момент доступен один ключ: `height` — указывает высоту пользовательского поля в пикселях. Значение преобразуется в целое число.
 По умолчанию — `0`. Если указано `0`, то будет использована стандартная высота для отображения этого виджета | ||
+|| **LANG_ALL**
+[`object`](../../data-types.md) | Название и описание типа для разных языков. Ключ объекта — код языка, значение — объект с полями `TITLE` и `DESCRIPTION` | ||
 |#
+
+{% note info "" %}
+
+Кроме `USER_TYPE_ID`, передайте хотя бы один параметр с новыми настройками: `HANDLER`, `TITLE`, `DESCRIPTION`, `OPTIONS` или `LANG_ALL`.
+
+{% endnote %}
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "USER_TYPE_ID": "test_type",
-        "HANDLER": "https://www.myapplication.com/handler/",
-        "TITLE": "Updated test type",
-        "DESCRIPTION": "Test userfield type for documentation with updated description",
-        "OPTIONS": {
-            "height": 60
-        }
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldtype.update
-    ```
 
 - cURL (OAuth)
 
@@ -250,7 +246,7 @@
         [
             'USER_TYPE_ID' => 'test_type',
             'HANDLER' => 'https://www.myapplication.com/handler/',
-            'TITLE' => 'Upd ated test type',
+            'TITLE' => 'Updated test type',
             'DESCRIPTION' => 'Test userfield type for documentation with updated description',
             'OPTIONS' => [
                 'height' => 60
@@ -321,7 +317,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400 или 403**
 
 ```json
 {
@@ -336,15 +332,22 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_CORE` | Unable to set placement handler: Handler already binded | `HANDLER` уже занят другим типом пользовательских полей этого приложения или `USER_TYPE_ID` уже используется другим приложением ||
+|| `ERROR_CORE` | Unable to update User Field Type: Handler already binded | `HANDLER` уже занят другим типом пользовательских полей этого приложения ||
 || `ERROR_ARGUMENT` | Argument 'USER_TYPE_ID' is null or empty | Не задан `USER_TYPE_ID` ||
-|| `ERROR_NOT_FOUND` | User Field Type not found | Не найдено пользовательское поле с указанным `USER_TYPE_ID` ||
+|| `ERROR_ARGUMENT` | Argument 'HANDLER\|TITLE\|DESCRIPTION' is null or empty | Не переданы настройки для изменения: `HANDLER`, `TITLE`, `DESCRIPTION`, `OPTIONS` или `LANG_ALL` ||
+|| `ERROR_NOT_FOUND` | User Field Type not found | Не найден зарегистрированный тип пользовательских полей с указанным `USER_TYPE_ID` ||
+|| `ERROR_UNSUPPORTED_PROTOCOL` | Unsupported handler protocol | В `HANDLER` указан протокол, отличный от `http` или `https` ||
+|| `ERROR_WRONG_HANDLER_URL` | Wrong handler URL | В `HANDLER` указан некорректный абсолютный адрес ||
+|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения ||
+|| `ACCESS_DENIED` | Access denied! | Метод вызвал пользователь без прав администратора ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./userfieldtype-add.md)
 - [{#T}](./userfieldtype-list.md)
 - [{#T}](./userfieldtype-delete.md)
+- [{#T}](../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md)

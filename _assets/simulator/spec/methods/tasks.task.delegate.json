@@ -397,5 +397,9 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-delegate.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8017,
+    "userId": 547
+  }
 }

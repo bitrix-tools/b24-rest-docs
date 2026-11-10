@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на чтение заказа оплаты
+> Кто может выполнять метод: пользователь с правом «Чтение» для объекта CRM, к которому относится оплата
 
-Метод получает список товарных позиций (товары или услуги) по конкретной оплате.
+Метод `crm.item.payment.product.list` возвращает все товарные позиции оплаты одним ответом, без постраничной навигации.
 
 ## Параметры метода
 
@@ -23,51 +23,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **paymentId***
-[`sale_order_payment.id`](../../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты.
-Можно получить с помощью метода [`sale.payment.list`](../../../../sale/payment/sale-payment-list.md) ||
-|| **filter***
-[`object`](../../../../data-types.md) | Объект для фильтрации выбранных товарных позиций оплаты в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
- 
-Возможные значения для `field`:
-- `id`
-- `quantity`
+[`sale_order_payment.id`](../../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты. Получить идентификаторы оплат объекта CRM можно методом [crm.item.payment.list](../crm-item-payment-list.md) ||
+|| **filter**
+[`object`](../../../../data-types.md) | Фильтр в формате `{"поле": "значение"}`. Доступные поля:
+- `id` — идентификатор товарной позиции в оплате
+- `quantity` — количество
+- `entityId` — идентификатор товара в корзине заказа
 
-Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-
-- `=` — равно, точное совпадение (используется по умолчанию)
-- `%` — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `>` — больше
-- `<` — меньше
+К ключу можно добавить префикс оператора:
+- `=` — равно, используется по умолчанию
 - `!=` — не равно
-- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
-- `>=` — больше либо равно
-- `<=` — меньше либо равно
-- `@` — IN, в качестве значения передается массив
-- `!@` — NOT IN, в качестве значения передается массив
-- `=%` — LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры: 
-    - `"мол%"` — ищем значения начинающиеся с «мол»
-    - `"%мол"` — ищем значения заканчивающиеся на «мол»
-    - `"%мол%"` — ищем значения, где «мол» может быть в любой позиции
-- `%=` — LIKE (смотрите описание выше)
-- `!=%` — NOT LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры:
-    - `"мол%"` — ищем значения не начинающиеся с «мол»
-    - `"%мол"` — ищем значения не заканчивающиеся на «мол»
-    - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
-- `!%=` — NOT LIKE (смотрите описание выше)
-||
-|| **order**
-[`object`](../../../../data-types.md) | Объект для сортировки выбранных товарных позиций оплаты в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
- 
-Возможные значения для `field`:
-- `id`
-- `quantity`
- 
-Возможные значения для `order`:
+- `>`, `>=`, `<`, `<=` — больше, больше или равно, меньше, меньше или равно
+- `@` — входит в массив значений
+- `!@` — не входит в массив значений
 
-- `asc` — в порядке возрастания
-- `desc` — в порядке убывания
- ||
+Все поля фильтра числовые, поэтому операторы поиска по подстроке `%`, `=%`, `%=` и их отрицания не подходят: метод принимает их без ошибки, но совпадений не находит.
+
+Если передать другое поле, метод вернет ошибку `Internal server error.` По умолчанию фильтр не применяется. В Python SDK `filter` — обязательный аргумент метода: если фильтр не нужен, передайте `{}` ||
+|| **order**
+[`object`](../../../../data-types.md) | Сортировка в формате `{"поле": "направление"}`. Поля те же, что в `filter`. Направление:
+- `ASC` — по возрастанию
+- `DESC` — по убыванию
+
+По умолчанию `{"id": "ASC"}` ||
 |#
+
+Метод не поддерживает параметр `start`: все позиции оплаты возвращаются в одном ответе.
 
 ## Примеры кода
 
@@ -110,15 +91,11 @@
       id: number,
       paymentId: number,
       quantity: number,
-      rowId: number,
+      entityId?: number,
+      rowId?: number,
     }
 
     try {
-      // crm.item.payment.product.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<PaymentProductItem[]>({
         method: 'crm.item.payment.product.list',
         params: {
@@ -127,7 +104,6 @@
             '>=quantity': 2,
             '@id': [1195, 1196],
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -156,11 +132,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.item.payment.product.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.item.payment.product.list',
             params: {
@@ -169,7 +140,6 @@
                 '>=quantity': 2,
                 '@id': [1195, 1196],
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -257,40 +227,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.item.payment.product.list(
-            payment_id=1039,
-            filter={
-                ">=quantity": 2,
-                "@id": [
-                    1195,
-                    1196,
-                ],
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
-
 
     ```php
     try {
@@ -377,10 +314,11 @@
     }
 
     var items []struct {
-    	ID        b24.ID `json:"id"`
-    	PaymentID b24.ID `json:"paymentId"`
-    	Quantity  int    `json:"quantity"`
-    	RowID     b24.ID `json:"rowId"`
+        ID        b24.ID  `json:"id"`
+        PaymentID b24.ID  `json:"paymentId"`
+        Quantity  int     `json:"quantity"`
+        EntityID  *b24.ID `json:"entityId"`
+        RowID     *b24.ID `json:"rowId"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -398,7 +336,7 @@
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -406,25 +344,21 @@ HTTP-статус: **200**
 {
    "result":[
       {
-         "id":1195,
-         "paymentId":1039,
+         "id":433,
+         "paymentId":553,
          "quantity":2,
-         "rowId":17587
-      },
-      {
-         "id":1196,
-         "paymentId":1039,
-         "quantity":3,
-         "rowId":17588
+         "entityId":1349
       }
    ],
    "time":{
-      "start":1716286140.489916,
-      "finish":1716286140.802505,
-      "duration":0.3125889301300049,
-      "processing":0.053195953369140625,
-      "date_start":"2024-05-21T13:09:00+03:00",
-      "date_finish":"2024-05-21T13:09:00+03:00"
+      "start":1790581835,
+      "finish":1790581835.956596,
+      "duration":0.9565958976745605,
+      "processing":0,
+      "date_start":"2026-09-28T10:50:35+03:00",
+      "date_finish":"2026-09-28T10:50:35+03:00",
+      "operating_reset_at":1790582435,
+      "operating":0
    }
 }
 ```
@@ -435,12 +369,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-`crm_item_payment_product[]` | Массив объектов, содержащий информацию о выбранных товарных позициях оплаты ||
+[`crm_item_payment_product[]`](#crm_item_payment_product) | Массив товарных позиций оплаты [(подробное описание)](#crm_item_payment_product). Если позиций нет, возвращается пустой массив ||
 || **time**
 [`time`](../../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
-### Ключ result. Объект типа crm_item_payment_product 
+#### crm_item_payment_product {#crm_item_payment_product}
 
 #|
 || **Название**
@@ -451,8 +385,10 @@ HTTP-статус: **200**
 [`sale_order_payment.id`](../../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты ||
 || **quantity**
 [`double`](../../../../data-types.md) | Количество товара ||
+|| **entityId**
+[`integer`](../../../../data-types.md) | Идентификатор товарной позиции заказа. Возвращается, если позиция оплаты не сопоставлена с товарной строкой объекта CRM ||
 || **rowId**
-[`integer`](../../../../data-types.md) | Идентификатор товарной позиции в сущности CRM ||
+[`integer`](../../../../data-types.md) | Идентификатор товарной строки объекта CRM. Возвращается, если позиция оплаты сопоставлена с товарной строкой объекта CRM ||
 |#
 
 ## Обработка ошибок
@@ -461,8 +397,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"Payment has not been found"
+    "error": "0",
+    "error_description": "Payment has not been found"
 }
 ```
 
@@ -471,21 +407,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Оплата не найдена ||
-|| `0` | Доступ запрещен ||
-|| `100` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Payment has not been found | Оплата с переданным `paymentId` не найдена ||
+|| `400` | `ACCESS_DENIED` | Access denied | У пользователя нет права на чтение оплаты ||
+|| `400` | `100` | Internal server error. | В `filter` или `order` передано неподдерживаемое поле ||
+|| `400` | `100` | Could not find value for parameter {paymentId} | Не передан обязательный параметр `paymentId` ||
 |#
 
-### Особенности обработки ошибок
+Код `0` метод возвращает для нескольких разных ошибок. Чтобы определить причину, проверяйте текст в `error_description`.
 
-Для бизнес-ошибок метод может вернуть `error: 0`. В этом случае ориентируйтесь на `error_description` и сопоставляйте его со списком ошибок выше.
-
-{% include notitle [системные ошибки](../../../../../_includes/system-errors.md) %}
+{% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./crm-item-payment-product-add.md)
-- [{#T}](./crm-item-payment-product-set-quantity.md)
 - [{#T}](./crm-item-payment-product-delete.md)
+- [{#T}](./crm-item-payment-product-set-quantity.md)

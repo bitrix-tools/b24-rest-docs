@@ -116,5 +116,13 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-send.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "from": "user@example.com",
+    "to": [
+      "client@example.com"
+    ],
+    "subject": "Коммерческое предложение",
+    "body": "Здравствуйте. Отправляю материалы."
+  }
 }

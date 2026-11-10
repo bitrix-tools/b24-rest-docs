@@ -8,8 +8,8 @@
   "params": [
     {
       "name": "id",
-      "type": "number",
-      "base": "number",
+      "type": "integer",
+      "base": "integer",
       "required": true,
       "description": "Идентификатор стадии"
     }

@@ -14,6 +14,6 @@ items:
   - name: Добавить конфигурируемое дело
     href: crm-activity-configurable-add.md
   - name: Обновить конфигурируемое дело
-    href: crm-activity-configurable-update.md    
-  - name: Получить информацию о конфигурируемом деле
+    href: crm-activity-configurable-update.md
+  - name: Получить конфигурируемое дело
     href: crm-activity-configurable-get.md

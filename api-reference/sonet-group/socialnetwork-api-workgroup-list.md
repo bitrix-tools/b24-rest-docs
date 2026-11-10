@@ -53,7 +53,7 @@
 
 Смотрите ниже [список доступных полей для выборки](#selectable).
 
-Если параметр не передан или пуст, выбирается только `ID` ||
+Если параметр не передан или пуст, выбирается только `ID`. Поле `ID` возвращается всегда, даже если его нет в `select`. Неизвестные поля метод игнорирует ||
 || **order**
 [`object`](../data-types.md) | Объект сортировки в формате `{"field_1": "order_1", ..., "field_N": "order_N"}`.
 
@@ -89,15 +89,15 @@
 || **OWNER_ID**
 [`integer`](../data-types.md) | Идентификатор владельца ||
 || **ACTIVE**
-[`string`](../data-types.md) | Признак активности группы: `Y` или `N` ||
+[`boolean`](../data-types.md) | Признак активности группы: `Y` или `N` ||
 || **VISIBLE**
-[`string`](../data-types.md) | Видимость группы в общем списке: `Y` или `N` ||
+[`boolean`](../data-types.md) | Видимость группы в общем списке: `Y` или `N` ||
 || **OPENED**
-[`string`](../data-types.md) | Открыта ли группа для свободного вступления: `Y` или `N` ||
+[`boolean`](../data-types.md) | Открыта ли группа для свободного вступления: `Y` или `N` ||
 || **CLOSED**
-[`string`](../data-types.md) | Находится ли группа в архиве: `Y` или `N` ||
+[`boolean`](../data-types.md) | Находится ли группа в архиве: `Y` или `N` ||
 || **PROJECT**
-[`string`](../data-types.md) | Тип объекта: `Y` — проект, `N` — группа ||
+[`boolean`](../data-types.md) | Тип объекта: `Y` — проект, `N` — группа ||
 || **SUBJECT_ID**
 [`integer`](../data-types.md) | Идентификатор тематики группы ||
 || **SITE_ID**
@@ -118,25 +118,25 @@
 || **ID**
 [`integer`](../data-types.md) | Идентификатор группы ||
 || **ACTIVE**
-[`string`](../data-types.md) | Признак активности группы ||
+[`boolean`](../data-types.md) | Признак активности группы: `Y` или `N` ||
 || **SUBJECT_ID**
 [`integer`](../data-types.md) | Идентификатор тематики группы ||
 || **NAME**
 [`string`](../data-types.md) | Название группы ||
 || **DESCRIPTION**
-[`string`](../data-types.md) | Описание группы ||
+[`text`](../data-types.md) | Описание группы ||
 || **KEYWORDS**
 [`string`](../data-types.md) | Ключевые слова группы ||
 || **CLOSED**
-[`string`](../data-types.md) | Признак архивной группы ||
+[`boolean`](../data-types.md) | Признак архивной группы: `Y` или `N` ||
 || **VISIBLE**
-[`string`](../data-types.md) | Признак видимости группы ||
+[`boolean`](../data-types.md) | Признак видимости группы: `Y` или `N` ||
 || **OPENED**
-[`string`](../data-types.md) | Признак открытой группы ||
+[`boolean`](../data-types.md) | Признак открытой группы: `Y` или `N` ||
 || **PROJECT**
-[`string`](../data-types.md) | Признак проекта ||
+[`boolean`](../data-types.md) | Признак проекта: `Y` или `N` ||
 || **LANDING**
-[`string`](../data-types.md) | Признак группы для публикации ||
+[`boolean`](../data-types.md) | Признак группы для публикации: `Y` или `N` ||
 || **DATE_CREATE**
 [`datetime`](../data-types.md) | Дата создания ||
 || **DATE_UPDATE**
@@ -154,7 +154,11 @@
 || **NUMBER_OF_MODERATORS**
 [`integer`](../data-types.md) | Количество модераторов ||
 || **INITIATE_PERMS**
-[`string`](../data-types.md) | Права на приглашение участников ||
+[`enum`](../data-types.md) | Кто может приглашать участников:
+
+- `A` — только владелец группы
+- `E` — владелец и модераторы
+- `K` — все участники ||
 || **PROJECT_DATE_START**
 [`datetime`](../data-types.md) | Дата начала проекта ||
 || **PROJECT_DATE_FINISH**
@@ -166,7 +170,10 @@
 || **SCRUM_SPRINT_DURATION**
 [`integer`](../data-types.md) | Длительность спринта в секундах ||
 || **SCRUM_TASK_RESPONSIBLE**
-[`string`](../data-types.md) | Исполнитель по умолчанию в скраме ||
+[`enum`](../data-types.md) | Ответственный по умолчанию в скраме:
+
+- `A` — постановщик
+- `M` — скрам-мастер ||
 || **TYPE**
 [`string`](../data-types.md) | Тип группы: `group`, `project`, `scrum`, `collab` ||
 || **AVATAR**
@@ -202,9 +209,27 @@
     - `G` — группа (например, пользователю отправили приглашение)
   - `features` — список доступных инструментов группы (возвращается, если переданы `features`/`mandatoryFeatures`) ||
 || **features**
-[`array`](../data-types.md) | Список кодов инструментов группы, которые нужно учитывать при формировании `additionalData` в режиме `mobile` ||
+[`string[]`](../data-types.md) | Список кодов инструментов группы, которые нужно учитывать при формировании `additionalData` в режиме `mobile` ||
 || **mandatoryFeatures**
-[`array`](../data-types.md) | Список кодов инструментов, которые всегда нужно включать в `additionalData` в режиме `mobile` ||
+[`string[]`](../data-types.md) | Коды инструментов из `features`, которые нужно включить в `additionalData.features` независимо от прав текущего пользователя ||
+|| **shouldSelectHasCollabers**
+[`boolean`](../data-types.md) | Добавлять ли в `additionalData` признак наличия внешних участников `hasCollabers`.
+
+Возможные значения:
+- `true` или `Y` — добавить признак
+- `false` или `N` — не добавлять признак
+
+По умолчанию — `false` ||
+|| **shouldEnsureHasCollabers**
+[`boolean`](../data-types.md) | Пересчитать ли признак `hasCollabers` перед возвратом ответа.
+
+Параметр учитывается, только если `shouldSelectHasCollabers` имеет значение `true` или `Y`.
+
+Возможные значения:
+- `true` или `Y` — пересчитать признак
+- `false` или `N` — вернуть сохраненное значение
+
+По умолчанию — `false` ||
 || **shouldSelectDialogId**
 [`string`](../data-types.md) | Добавлять ли в элемент списка поле с идентификатором чата `dialogId`.
 
@@ -257,13 +282,17 @@
     }
 
     type Workgroup = {
-      id: string
+      id: number
       name: string
-      type: string
+      type: 'group' | 'project' | 'scrum' | 'collab' | null
+      imageId: number
+      avatarType: string | null
       avatar: string
       additionalData: {
         role: string
         initiatedByType: string
+        features?: string[]
+        hasCollabers?: boolean
       }
       dialogId: string
     }
@@ -592,32 +621,32 @@ HTTP-статус: **200**
 {
     "result": {
         "workgroups": [
-                {
-            "id": "5",
-            "name": "Открытая группа для всех",
-            "type": "group",
-            "imageId": "5",
-            "avatarType": null,
-            "avatar": "https://test.bitrix24.ru/b13743910/resize_cache/5/7acf4caaf5d8/socialnetwork/8d6/8d2c04ece929572/3.png",
-            "additionalData": {
-            "role": "",
-            "initiatedByType": ""
+            {
+                "id": 5,
+                "name": "Открытая группа для всех",
+                "type": "group",
+                "imageId": 5,
+                "avatarType": null,
+                "avatar": "https://test.bitrix24.ru/b13743910/resize_cache/5/7acf4caaf5d8/socialnetwork/8d6/8d2c04ece929572/3.png",
+                "additionalData": {
+                    "role": "",
+                    "initiatedByType": ""
+                },
+                "dialogId": ""
             },
-            "dialogId": ""
-        },
-        {
-            "id": "1",
-            "name": "Закрытая видимая группа",
-            "type": "group",
-            "imageId": "1",
-            "avatarType": null,
-            "avatar": "",
-            "additionalData": {
-            "role": "",
-            "initiatedByType": ""
-            },
-            "dialogId": "chat177"
-        }
+            {
+                "id": 1,
+                "name": "Закрытая видимая группа",
+                "type": "group",
+                "imageId": 1,
+                "avatarType": null,
+                "avatar": "",
+                "additionalData": {
+                    "role": "",
+                    "initiatedByType": ""
+                },
+                "dialogId": "chat177"
+            }
         ]
     },
     "total": 2,
@@ -642,7 +671,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../data-types.md) | Корневой объект ответа ||
 || **workgroups**
-[`object[]`](../data-types.md) | Список рабочих групп.
+[`object[]`](../data-types.md) | Список рабочих групп с [описанием полей](#workgroup-fields).
 
 Состав объекта зависит от переданных полей в `select` и параметров `params`.
 
@@ -655,7 +684,114 @@ HTTP-статус: **200**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+### Поля объекта workgroup {#workgroup-fields}
+
+Поля для выборки передаются в `select` в формате `UPPER_SNAKE_CASE`, а в ответе возвращаются в формате `camelCase`. Например, `DATE_CREATE` соответствует `dateCreate`, а `NUMBER_OF_MEMBERS` — `numberOfMembers`.
+
+#|
+|| **Поле ответа**
+`тип` | **Поле в select или условие возврата** | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | `ID` | Идентификатор группы. Возвращается всегда ||
+|| **active**
+[`boolean`](../data-types.md) | `ACTIVE` | Признак активности группы: `Y` или `N` ||
+|| **subjectId**
+[`integer`](../data-types.md) | `SUBJECT_ID` | Идентификатор тематики группы ||
+|| **name**
+[`string`](../data-types.md) | `NAME` | Название группы ||
+|| **description**
+[`text`](../data-types.md) | `DESCRIPTION` | Описание группы ||
+|| **keywords**
+[`string`](../data-types.md) | `KEYWORDS` | Ключевые слова группы ||
+|| **closed**
+[`boolean`](../data-types.md) | `CLOSED` | Признак архивной группы: `Y` или `N` ||
+|| **visible**
+[`boolean`](../data-types.md) | `VISIBLE` | Признак видимости группы: `Y` или `N` ||
+|| **opened**
+[`boolean`](../data-types.md) | `OPENED` | Признак открытой группы: `Y` или `N` ||
+|| **project**
+[`boolean`](../data-types.md) | `PROJECT` | Признак проекта: `Y` или `N` ||
+|| **landing**
+[`boolean`](../data-types.md) | `LANDING` | Признак группы для публикации: `Y` или `N` ||
+|| **dateCreate**
+[`datetime`](../data-types.md) | `DATE_CREATE` | Дата создания группы ||
+|| **dateUpdate**
+[`datetime`](../data-types.md) | `DATE_UPDATE` | Дата изменения группы ||
+|| **dateActivity**
+[`datetime`](../data-types.md) | `DATE_ACTIVITY` | Дата последней активности ||
+|| **imageId**
+[`integer`](../data-types.md) | `IMAGE_ID` или `AVATAR` | Идентификатор пользовательского аватара ||
+|| **avatarType**
+[`string`](../data-types.md) \| `null` | `AVATAR_TYPE` или `AVATAR` | Тип системного аватара ||
+|| **avatar**
+[`string`](../data-types.md) | `AVATAR` | URL аватара. Если аватар не задан, возвращается пустая строка ||
+|| **ownerId**
+[`integer`](../data-types.md) | `OWNER_ID` | Идентификатор владельца ||
+|| **numberOfMembers**
+[`integer`](../data-types.md) | `NUMBER_OF_MEMBERS` | Количество участников ||
+|| **numberOfModerators**
+[`integer`](../data-types.md) | `NUMBER_OF_MODERATORS` | Количество модераторов ||
+|| **initiatePerms**
+[`enum`](../data-types.md) | `INITIATE_PERMS` | Кто может приглашать участников: `A` — владелец, `E` — владелец и модераторы, `K` — все участники ||
+|| **projectDateStart**
+[`datetime`](../data-types.md) \| `null` | `PROJECT_DATE_START` | Дата начала проекта ||
+|| **projectDateFinish**
+[`datetime`](../data-types.md) \| `null` | `PROJECT_DATE_FINISH` | Дата окончания проекта ||
+|| **scrumOwnerId**
+[`integer`](../data-types.md) | `SCRUM_OWNER_ID` | Идентификатор владельца скрама ||
+|| **scrumMasterId**
+[`integer`](../data-types.md) | `SCRUM_MASTER_ID` | Идентификатор скрам-мастера ||
+|| **scrumSprintDuration**
+[`integer`](../data-types.md) | `SCRUM_SPRINT_DURATION` | Длительность спринта в секундах ||
+|| **scrumTaskResponsible**
+[`enum`](../data-types.md) | `SCRUM_TASK_RESPONSIBLE` | Ответственный по умолчанию: `A` — постановщик, `M` — скрам-мастер ||
+|| **type**
+[`string`](../data-types.md) \| `null` | `TYPE` | Тип группы: `group`, `project`, `scrum`, `collab` ||
+|| **additionalData**
+[`object`](../data-types.md) | `params[mode] = mobile` | Дополнительные данные о группе и текущем пользователе [(подробное описание)](#additional-data) ||
+|| **dialogId**
+[`string`](../data-types.md) | `params[shouldSelectDialogId] = Y` | Идентификатор чата группы. Если чат не найден, возвращается пустая строка ||
+|#
+
+#### Объект additionalData {#additional-data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **role**
+[`string`](../data-types.md) | Роль текущего пользователя в группе. Если пользователь не связан с группой, возвращается пустая строка ||
+|| **initiatedByType**
+[`string`](../data-types.md) | Кто инициировал связь пользователя с группой:
+
+- `U` — пользователь
+- `G` — группа
+
+Если пользователь не связан с группой, возвращается пустая строка ||
+|| **features**
+[`string[]`](../data-types.md) | Коды доступных инструментов группы. Поле возвращается, если в `params` переданы `features` или `mandatoryFeatures` ||
+|| **hasCollabers**
+[`boolean`](../data-types.md) | Есть ли в группе внешние участники. Поле возвращается, если `params[shouldSelectHasCollabers]` имеет значение `true` или `Y` ||
+|#
+
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the webhook token"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `insufficient_scope` | Недостаточно скоупа у токена | Токен не содержит скоуп `socialnetwork` ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 

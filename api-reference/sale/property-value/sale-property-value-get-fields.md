@@ -128,7 +128,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.sale.propertyvalue.get_fields().response
+        bitrix_response = client.sale.propertyvalue.getfields().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -159,16 +159,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting sale property fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

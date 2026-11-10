@@ -18,7 +18,21 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип услуги. Возможные значения: - enum — список (выбор опции из заранее сформированного списка) - checkbox — единичная услуга (например, доставка до двери) - quantity — количественная услуга (например, требуемое количество грузчиков)"
+      "description": "Тип услуги. Возможные значения: - enum — список (выбор опции из заранее сформированного списка) - checkbox — единичная услуга (например, доставка до двери) - quantity — количественная услуга (например, требуемое количество грузчиков)",
+      "values": [
+        {
+          "value": "enum",
+          "title": "список (выбор опции из заранее сформированного списка)"
+        },
+        {
+          "value": "checkbox",
+          "title": "единичная услуга (например, доставка до двери)"
+        },
+        {
+          "value": "quantity",
+          "title": "количественная услуга (например, требуемое количество грузчиков)"
+        }
+      ]
     },
     {
       "name": "NAME",
@@ -32,7 +46,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Индикатор активности услуги. Возможные значения: - Y — да - N — нет Если значение не передано, то по умолчанию используется N"
+      "description": "Индикатор активности услуги. Возможные значения: - Y — да - N — нет Если значение не передано, то по умолчанию используется N",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет Если значение не передано, то по умолчанию используется N"
+        }
+      ]
     },
     {
       "name": "CODE",
@@ -136,5 +160,26 @@
     }
   ],
   "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DELIVERY_ID": 198,
+    "ACTIVE": "Y",
+    "CODE": "cargo_type",
+    "NAME": "Cargo Type",
+    "DESCRIPTION": "Cargo Type Description",
+    "TYPE": "enum",
+    "SORT": 100,
+    "ITEMS": [
+      {
+        "TITLE": "Small Package(s)",
+        "CODE": "small_package",
+        "PRICE": 129.99
+      },
+      {
+        "TITLE": "Documents",
+        "CODE": "documents",
+        "PRICE": 69.99
+      }
+    ]
+  }
 }

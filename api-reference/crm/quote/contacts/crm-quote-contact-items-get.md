@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.get](../../rest-v3/items/crm-entity-get-rest-v3.md). Привязки возвращает поле `contactsId`, основную привязку — поле `contactId`.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «чтения» коммерческих предложений

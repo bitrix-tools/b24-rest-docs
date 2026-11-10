@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/user/userfields/user-userfield-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 123
+  }
 }

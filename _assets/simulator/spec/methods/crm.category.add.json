@@ -80,5 +80,13 @@
     }
   },
   "page": "/api-reference/crm/universal/category/crm-category-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 1152,
+    "fields": {
+      "name": "Новая воронка по умолчанию",
+      "sort": 50,
+      "isDefault": "Y"
+    }
+  }
 }

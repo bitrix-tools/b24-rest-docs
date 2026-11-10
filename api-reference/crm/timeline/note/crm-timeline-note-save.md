@@ -147,11 +147,11 @@
 
     try:
         bitrix_response = client.crm.timeline.note.save(
-            entity_type_id=2,
-            entity_id=15,
+            owner_type_id=1,
+            owner_id=1,
             item_type=1,
-            item_id=128,
-            text="Client asked to update the delivery date.",
+            item_id=2,
+            text="Test note",
         ).response
         result = bitrix_response.result
         print(result)
@@ -189,16 +189,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error saving note: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

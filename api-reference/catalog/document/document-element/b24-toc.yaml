@@ -5,11 +5,23 @@ items:
     href: index.md
   - name: Добавить товар в документ
     href: catalog-document-element-add.md
+  - name: Добавить товар в документ складского учета v 3.0
+    href: catalog-document-element-add-rest-v3.md
   - name: Изменить товар в документе
     href: catalog-document-element-update.md
+  - name: Обновить товар в документе складского учета v 3.0
+    href: catalog-document-element-update-rest-v3.md
   - name: Получить список товаров в документах
     href: catalog-document-element-list.md
+  - name: Получить список товаров в документах складского учета v 3.0
+    href: catalog-document-element-list-rest-v3.md
   - name: Удалить товар из документа
     href: catalog-document-element-delete.md
+  - name: Удалить товар из документа складского учета v 3.0
+    href: catalog-document-element-delete-rest-v3.md
   - name: Получить поля товара документа
     href: catalog-document-element-get-fields.md
+  - name: Получить список полей товаров для документа складского учета v 3.0
+    href: catalog-document-element-field-list.md
+  - name: Получить поле товара в документе складского учета
+    href: catalog-document-element-field-get.md

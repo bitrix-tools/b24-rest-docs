@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных оплат в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта saleorderpayment. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -122,5 +132,64 @@
     "updated1c",
     "version1c",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "paySystemXmlId",
+      "paySystemIsCash",
+      "accountNumber",
+      "id",
+      "orderId",
+      "paid",
+      "datePaid",
+      "empPaidId",
+      "paySystemId",
+      "psStatus",
+      "psStatusCode",
+      "psStatusDescription",
+      "psStatusMessage",
+      "psSum",
+      "psCurrency",
+      "psResponseDate",
+      "payVoucherNum",
+      "payVoucherDate",
+      "datePayBefore",
+      "dateBill",
+      "xmlId",
+      "sum",
+      "currency",
+      "paySystemName",
+      "companyId",
+      "payReturnNum",
+      "priceCod",
+      "payReturnDate",
+      "empReturnId",
+      "payReturnComment",
+      "responsibleId",
+      "empResponsibleId",
+      "dateResponsibleId",
+      "isReturn",
+      "comments",
+      "updated1c",
+      "id1c",
+      "version1c",
+      "externalPayment",
+      "psInvoiceId",
+      "marked",
+      "reasonMarked",
+      "dateMarked",
+      "empMarkedId"
+    ],
+    "filter": {
+      "<id": 10,
+      "@personTypeId": [
+        3,
+        4
+      ],
+      "payed": "N"
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

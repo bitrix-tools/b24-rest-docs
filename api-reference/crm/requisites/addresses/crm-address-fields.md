@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 `crm.address.field.list` из группы [Адреса](../../rest-v3/addresses/index.md).
+
+{% endnote %}
+
 Метод возвращает формально описание полей адреса.
 
 Без параметров.
@@ -160,16 +166,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching CRM address fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

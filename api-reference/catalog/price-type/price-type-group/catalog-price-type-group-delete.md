@@ -1,4 +1,4 @@
-# Удалить привязку типа цен к группе покупателей catalog.priceTypeGroup.delete
+# Удалить привязку типа цены к группе покупателей catalog.priceTypeGroup.delete
 
 {% note tip "" %}
 
@@ -159,20 +159,14 @@
                     'id' => 109
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting price type group: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -267,7 +261,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
+    "error": "200040300020",
     "error_description": "Access Denied"
 }
 ```
@@ -277,10 +271,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав для редактирования типов цен ||
-|| `0` | Entity is not exists | Сущность с указанным `id` не существует ||
-|| `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Недостаточно прав для редактирования типов цен ||
+|| `400` | `0` | Entity is not exists | Привязка с указанным `id` не существует ||
+|| `400` | `100` | Could not find value for parameter {id} | Не указан параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

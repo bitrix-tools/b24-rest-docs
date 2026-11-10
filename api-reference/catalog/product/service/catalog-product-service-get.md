@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с одним из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение элементов инфоблока каталога
 
-Метод возвращает значения полей услуги по идентификатору. 
+Метод `catalog.product.service.get` возвращает значения полей услуги по идентификатору.
 
 ## Параметры метода
 
@@ -23,10 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги.
-
-Для получения идентификаторов услуг необходимо использовать [catalog.product.service.list](./catalog-product-service-list.md) 
-||
+[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги. Получить идентификатор можно методом [catalog.product.service.list](./catalog-product-service-list.md) ||
 |#
 
 {% note warning "Работа с ценой услуг" %}
@@ -47,7 +44,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1265}' \
+    -d '{"id":7623}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.get
     ```
 
@@ -57,7 +54,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1265,"auth":"**put_access_token_here**"}' \
+    -d '{"id":7623,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.service.get
     ```
 
@@ -106,7 +103,7 @@
       const response = await $b24.actions.v2.call.make<GetServiceResult>({
         method: 'catalog.product.service.get',
         params: {
-          id: 1265,
+          id: 7623,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -138,7 +135,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.service.get',
             params: {
-              id: 1265,
+              id: 7623,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -168,7 +165,7 @@
 
     try:
         bitrix_response = client.catalog.product.service.get(
-            bitrix_id=1265,
+            bitrix_id=7623,
         ).response
         result = bitrix_response.result
         print(result)
@@ -195,18 +192,18 @@
             ->call(
                 'catalog.product.service.get',
                 [
-                    'id' => 1265
+                    'id' => 7623
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting product service: ' . $e->getMessage();
@@ -218,7 +215,7 @@
     ```js
     BX24.callMethod(
         'catalog.product.service.get', {
-            id: 1265
+            id: 7623
         },
         function(result) {
             if (result.error()) {
@@ -238,7 +235,7 @@
     $result = CRest::call(
         'catalog.product.service.get',
         [
-            'id' => 1265
+            'id' => 7623
         ]
     );
 
@@ -252,7 +249,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.service.get", b24.Params{
-    	"id": 1265,
+    	"id": 7623,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.product.service.get: %w", err)
@@ -291,59 +288,54 @@ HTTP-статус: **200**
             "active": "Y",
             "available": "N",
             "bundle": "N",
-            "code": "service",
-            "createdBy": 1,
-            "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-            "dateActiveTo": "2024-05-29T10:00:00+03:00",
-            "dateCreate": "2024-05-27T10:00:00+03:00",
-            "detailPicture": {
-                "id": "6497",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6497\u0026fields%5BproductId%5D=1265",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6497\u0026fields%5BproductId%5D=1265"
-            },
-            "detailText": null,
-            "detailTextType": "text",
-            "iblockId": 23,
-            "iblockSectionId": 47,
-            "id": 1265,
-            "modifiedBy": 1,
-            "name": "Услуга",
+            "code": "ac_installation",
+            "createdBy": 1269,
+            "dateActiveFrom": null,
+            "dateActiveTo": null,
+            "dateCreate": "2026-11-05T18:19:49+03:00",
+            "detailPicture": null,
+            "detailText": "<p>Монтаж внутреннего и наружного блоков</p>",
+            "detailTextType": "html",
+            "iblockId": 25,
+            "iblockSection": null,
+            "iblockSectionId": null,
+            "id": 7623,
+            "measure": 9,
+            "modifiedBy": 1269,
+            "name": "Монтаж кондиционера",
             "previewPicture": {
-                "id": "6496",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6496\u0026fields%5BproductId%5D=1265",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6496\u0026fields%5BproductId%5D=1265"
+                "id": "40055",
+                "url": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=40055&fields%5BproductId%5D=7623",
+                "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=previewPicture&fields%5BfileId%5D=40055&fields%5BproductId%5D=7623"
             },
-            "previewText": null,
+            "previewText": "Установка сплит-системы мощностью до 3,5 кВт под ключ",
             "previewTextType": "text",
-            "property258": {
-                "value": "test",
-                "valueId": "9809"
+            "property301": {
+                "value": "SRV-AC-01",
+                "valueId": "4147"
             },
-            "property259": [
-                {
-                    "value": "test1",
-                    "valueId": "9810"
-                },
-                {
-                    "value": "test2",
-                    "valueId": "9811"
-                }
-            ],
-            "sort": 100,
-            "timestampX": "2024-06-14T11:59:04+03:00",
+            "property303": {
+                "value": "Климат-Сервис",
+                "valueId": "4061"
+            },
+            "property305": null,
+            "sort": 200,
+            "timestampX": "2026-11-05T19:09:53+03:00",
             "type": 7,
-            "vatId": 1,
+            "vatId": 9,
             "vatIncluded": "Y",
-            "xmlId": "1265"
+            "xmlId": "srv-ac-01"
         }
     },
     "time": {
-        "start": 1718363239.355821,
-        "finish": 1718363240.027938,
-        "duration": 0.6721169948577881,
-        "processing": 0.2661628723144531,
-        "date_start": "2024-06-14T14:07:19+03:00",
-        "date_finish": "2024-06-14T14:07:20+03:00"
+        "start": 1793964025,
+        "finish": 1793964025.810799,
+        "duration": 0.8107988834381104,
+        "processing": 0,
+        "date_start": "2026-11-06T14:20:25+03:00",
+        "date_finish": "2026-11-06T14:20:25+03:00",
+        "operating_reset_at": 1793964600,
+        "operating": 0
     }
 }
 ```
@@ -355,10 +347,14 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **service**
-[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с информацией об услуге ||
+|| **result.service**
+[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с полями услуги. Пустые поля приходят со значением `null`.
+
+В ответе приходят все свойства инфоблока в виде ключей `propertyN`: у заполненного свойства — объект `{"value": ..., "valueId": ...}`, у множественного — массив таких объектов. В примере показаны только свойства `property301`, `property303` и `property305`.
+
+Если `id` принадлежит товару другого типа, например простому товару, в `service` приходит пустой массив `[]` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -367,7 +363,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
+    "error":"200040300010",
     "error_description":"Access Denied"
 }
 ```
@@ -377,19 +373,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300000` | Информационный блок с указанным идентификатором не существует
-|| 
-|| `200040300040` | Недостаточно прав для чтения элемента информационного блока
-|| 
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Услуга не существует
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права на чтение элемента инфоблока каталога ||
+|| `400` | Пустое значение | service does not exist. | Услуга с указанным `id` не найдена. Ту же ошибку метод возвращает, если в `id` передана строка, которая не является числом ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -399,6 +387,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-service-add.md)
 - [{#T}](./catalog-product-service-update.md)
 - [{#T}](./catalog-product-service-list.md)
-- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-delete.md)
+- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-get-fields-by-filter.md)

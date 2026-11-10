@@ -150,5 +150,14 @@
     }
   ],
   "page": "/api-reference/catalog/section/catalog-section-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 32,
+    "fields": {
+      "iblockId": 14,
+      "name": "Детские игрушки",
+      "description": "<H1>Детские игрушки</H1> <p>Товары для детей</p>",
+      "descriptionType": "html"
+    }
+  }
 }

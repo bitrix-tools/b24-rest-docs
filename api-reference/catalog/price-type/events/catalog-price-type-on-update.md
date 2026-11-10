@@ -13,7 +13,9 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `CATALOG.PRICE.TYPE.ON.UPDATE` срабатывает при обновлении типа цены.
+Событие `CATALOG.PRICE.TYPE.ON.UPDATE` срабатывает при изменении типа цены вручную или методами [catalog.priceType.update](../catalog-price-type-update.md), [catalog.pricetype.update](../catalog-price-type-update-rest-v3.md).
+
+Событие приходит и при добавлении типа цены — сразу после события [CATALOG.PRICE.TYPE.ON.ADD](./catalog-price-type-on-add.md) с тем же `ID`. Чтобы не обработать новый тип цены как измененный, учитывайте, что событие добавления для этого `ID` уже пришло.
 
 {% note info "" %}
 

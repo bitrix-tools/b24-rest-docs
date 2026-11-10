@@ -104,5 +104,13 @@
     }
   ],
   "page": "/api-reference/mail/recipient/mail-recipient-listcontacts.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "query": "client",
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

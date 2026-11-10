@@ -9,11 +9,11 @@
 
 {% endnote %}
 
-Исходящие линии определяют, какой номер будет использоваться для исходящих звонков сотрудников. Методы `voximplant.line.*` позволяют:
+Исходящая линия задает номер или подключение для звонков сотрудников. Методы `voximplant.line.*` позволяют:
 
-- как получить список доступных линий
-- как узнать текущую исходящую линию по умолчанию
-- как установить обычную или SIP-линию для исходящих звонков
+- получить список доступных линий
+- узнать текущую исходящую линию по умолчанию
+- установить линию для исходящих звонков
 
 Для вызова методов нужно право `Управление номерами — изменение`.
 
@@ -21,11 +21,17 @@
 >
 > Пользовательская документация: [Общие настройки телефонии](https://helpdesk.bitrix24.ru/open/18392082/)
 
-## Связь с другими объектами
+## Как выбрать метод установки
 
-**Исходящая линия.** В методах используется идентификатор линии `LINE_ID`. Его можно получить через [voximplant.line.get](./voximplant-line-get.md), а затем передать в [voximplant.line.outgoing.set](./voximplant-line-outgoing-set.md), чтобы изменить линию по умолчанию.
+Для установки исходящей линии можно передать идентификатор линии `LINE_ID` или идентификатор SIP-подключения `CONFIG_ID`. Выбор метода зависит от того, какой идентификатор у вас есть.
 
-**SIP-линия.** Для установки SIP-линии по умолчанию используется `CONFIG_ID` в [voximplant.line.outgoing.sip.set](./voximplant-line-outgoing-sip-set.md). Идентификатор `CONFIG_ID` можно получить методом [voximplant.sip.get](../sip/voximplant-sip-get.md).
+#|
+|| **Если у вас есть** | **Метод** | **Что передать** ||
+|| Идентификатор линии из [voximplant.line.get](./voximplant-line-get.md), в том числе SIP-линии | [voximplant.line.outgoing.set](./voximplant-line-outgoing-set.md) | Идентификатор линии `LINE_ID`, например `reg150907` или `sip7` ||
+|| Идентификатор SIP-подключения текущего приложения из [voximplant.sip.get](../sip/voximplant-sip-get.md) | [voximplant.line.outgoing.sip.set](./voximplant-line-outgoing-sip-set.md) | Идентификатор подключения `CONFIG_ID`, например `9` ||
+|#
+
+`LINE_ID` и `CONFIG_ID` не взаимозаменяемы: `LINE_ID` — идентификатор линии, а `CONFIG_ID` — идентификатор настройки SIP-подключения.
 
 {% note tip "Пользовательская документация" %}
 
@@ -35,9 +41,9 @@
 
 ## Как начать работу
 
-1. Получите список доступных исходящих линий через [voximplant.line.get](./voximplant-line-get.md)
-2. Проверьте текущую исходящую линию методом [voximplant.line.outgoing.get](./voximplant-line-outgoing-get.md)
-3. Установите нужную линию через [voximplant.line.outgoing.set](./voximplant-line-outgoing-set.md) или SIP-линию через [voximplant.line.outgoing.sip.set](./voximplant-line-outgoing-sip-set.md)
+1. Проверьте текущую исходящую линию методом [voximplant.line.outgoing.get](./voximplant-line-outgoing-get.md)
+2. Получите `LINE_ID` через [voximplant.line.get](./voximplant-line-get.md) или `CONFIG_ID` через [voximplant.sip.get](../sip/voximplant-sip-get.md)
+3. Выберите метод установки по таблице выше и передайте соответствующий идентификатор
 4. Повторно вызовите [voximplant.line.outgoing.get](./voximplant-line-outgoing-get.md), чтобы проверить фактически установленную исходящую линию
 
 ## Обзор методов {#all-methods}

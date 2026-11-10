@@ -60,5 +60,11 @@
     }
   ],
   "page": "/api-reference/crm/universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 2,
+    "extras": {
+      "dealCategoryId": 9
+    }
+  }
 }

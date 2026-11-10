@@ -180,5 +180,8 @@
     }
   ],
   "page": "/api-reference/sale/shipment-property/sale-shipment-property-get-fields-by-type.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "NUMBER"
+  }
 }

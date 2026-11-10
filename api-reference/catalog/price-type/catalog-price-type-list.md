@@ -11,22 +11,24 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает список типов цен по фильтру.
+Метод `catalog.priceType.list` возвращает список типов цен по фильтру.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **select** 
-[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_price_type](../data-types.md#catalog_price_type)).
+|| **select**
+[`array`](../../data-types.md) | Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_price_type](../data-types.md#catalog_price_type)).
 
 Если массив не передан или же передан пустой массив, то будут выбраны все доступные поля типа цены
 ||
-|| **filter** 
-[`object`](../../data-types.md)| Объект для фильтрации выбранных типов цен в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
+|| **filter**
+[`object`](../../data-types.md) | Объект для фильтрации выбранных типов цен в формате `{"field_1": "value_1", ..., "field_N": "value_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type](../data-types.md#catalog_price_type).
 
@@ -54,7 +56,7 @@
 - `!` — не равно
 ||
 || **order**
-[`object`](../../data-types.md)| Объект для сортировки выбранных типов цен в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки выбранных типов цен в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [catalog_price_type](../data-types.md#catalog_price_type).
 
@@ -63,8 +65,8 @@
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
 ||
-|| **start** 
-[`integer`](../../data-types.md)| Параметр используется для управления постраничной навигацией.
+|| **start**
+[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный — 50 записей.
 
@@ -256,14 +258,13 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        $result->next();
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching price types: ' . $e->getMessage();
@@ -356,26 +357,39 @@ HTTP-статус: **200**
 
 ```json
 {
-    "priceTypes": [
-        {
-            "id": 1,
-            "name": "BASE",
-            "xmlId": "BASE"
-        },
-        {
-            "id": 2,
-            "name": "Base wholesale price",
-            "xmlId": "basewholesale"
-        }
-    ],
-    "total": 2,
+    "result": {
+        "priceTypes": [
+            {
+                "id": 3,
+                "name": "2base",
+                "xmlId": null
+            },
+            {
+                "id": 5,
+                "name": "Wholesale price",
+                "xmlId": "wholesale"
+            },
+            {
+                "id": 7,
+                "name": "Wholesale price",
+                "xmlId": "wholesale"
+            },
+            {
+                "id": 9,
+                "name": "Wholesale price22222",
+                "xmlId": "wholesale"
+            }
+        ]
+    },
+    "total": 4,
     "time": {
-        "start": 1712326352.63409,
-        "finish": 1712326352.8319,
-        "duration": 0.197818040847778,
-        "processing": 0.00833678245544434,
-        "date_start": "2024-04-05T16:24:46+02:00",
-        "date_finish": "2024-04-05T16:24:46+02:00",
+        "start": 1793700363,
+        "finish": 1793700363.280279,
+        "duration": 0.28027892112731934,
+        "processing": 0,
+        "date_start": "2026-11-03T13:06:03+03:00",
+        "date_finish": "2026-11-03T13:06:03+03:00",
+        "operating_reset_at": 1793700960,
         "operating": 0
     }
 }
@@ -388,10 +402,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypes**
+|| **result.priceTypes**
 [`catalog_price_type[]`](../data-types.md#catalog_price_type) | Массив объектов с информацией о выбранных типах цен ||
 || **total**
-[`integer`](../../data-types.md#time) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество найденных записей ||
+|| **next**
+[`integer`](../../data-types.md) | Значение параметра `start` для получения следующей страницы. Поле отсутствует, если получена последняя страница ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -402,8 +418,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "100",
+    "error_description": "Invalid order \"BAD\""
 }
 ```
 
@@ -412,11 +428,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
+|| `400` | `100` | Invalid order "<VALUE>" | В `order` передано направление сортировки, отличное от `asc` и `desc` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

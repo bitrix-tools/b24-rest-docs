@@ -1,7 +1,7 @@
 title: Частые кейсы и сценарии в задачах 
 href: index.md
 items: 
-  - name: Типовые кейсы использования REST API в Задачах и туториалы
+  - name: Типовые кейсы использования REST API в задачах
     href: index.md
   - name: Как создать задачу с прикрепленным файлом
     href: how-to-create-task-with-file.md
@@ -15,3 +15,5 @@ items:
     href: how-to-connect-task-to-spa.md  
   - name: Как посчитать затраченное время по задачам для каждого сотрудника
     href: how-to-calculate-employee-time-by-tasks.md
+  - name: Как передать незавершенные задачи уволенного сотрудника
+    href: how-to-delegate-fired-employee-tasks.md

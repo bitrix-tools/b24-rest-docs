@@ -4,28 +4,28 @@
   "scope": "crm",
   "kind": "write",
   "title": "Добавить конфигурируемое дело crm.activity.configurable.add",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с доступом на изменение элемента CRM, в который добавляется дело",
   "params": [
     {
       "name": "ownerTypeId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Целочисленный идентификатор типа объекта CRM, в котором создаем дело, например 2 для сделки"
+      "description": "Целочисленный идентификатор типа объекта CRM, в элементе которого создается дело, например 2 для сделки"
     },
     {
       "name": "ownerId",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Целочисленный идентификатор элемента CRM, в котором создаем дело, например 1"
+      "description": "Целочисленный идентификатор элемента CRM, в котором создается дело, например 1"
     },
     {
       "name": "fields",
       "type": "array",
       "base": "array",
       "required": true,
-      "description": "Ассоциативный массив значений полей дела в виде структуры:",
+      "description": "Ассоциативный массив значений полей дела в виде структуры: Параметр обязательный, но может быть пустым массивом",
       "ref": "#/defs/fieldsFields"
     },
     {
@@ -33,7 +33,7 @@
       "type": "LayoutDto",
       "base": "any",
       "required": true,
-      "description": "Ассоциативный массив особой структуры, описывающий внешний вид дела в таймлайне"
+      "description": "Структура, которая задает внешний вид записи в таймлайне. Готовый пример объекта — на странице структуры"
     }
   ],
   "defs": {
@@ -49,49 +49,49 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип конфигурируемого дела. Если значение не указано, то оно устанавливается в значение по умолчанию CONFIGURABLE. Если указано, то значение должно соответствовать одному из типов, созданных методом crm.activity.type.add с полем IS_CONFIGURABLE_TYPE равным Y в контексте того же приложения"
+          "description": "Тип конфигурируемого дела. Значение, отличное от CONFIGURABLE, должно соответствовать типу, который создало то же приложение методом crm.activity.type.add с полем IS_CONFIGURABLE_TYPE равным Y"
         },
         {
           "name": "completed",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Флаг, говорящий закрыто ли дело. Для установки значения можно использовать Y/N, 1/0, true/false"
+          "description": "Закрыто ли дело. Значение можно передать как Y/N, 1/0 или true/false"
         },
         {
           "name": "deadline",
           "type": "datetime",
           "base": "datetime",
           "required": false,
-          "description": "Крайний срок исполнения дела"
+          "description": "Крайний срок исполнения дела в формате ISO 8601, например 2025-02-01T12:00:00+03:00. Входящему делу крайний срок задать нельзя — метод вернет ошибку INCOMING_ACTIVITY_CAN_NOT_BE_WITH_DEADLINE"
         },
         {
           "name": "pingOffsets",
           "type": "array",
           "base": "array",
           "required": false,
-          "description": "Массив смещений в минутах относительно крайнего срока, определяющий когда нужно сформировать записи-пинги по этому делу"
+          "description": "Смещения в минутах относительно крайнего срока. Задают, когда Битрикс24 сформирует по делу записи-пинги. Повторяющиеся значения Битрикс24 отбрасывает"
         },
         {
           "name": "isIncomingChannel",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Флаг, говорящий создано ли дело из входящего канала. Для установки значения можно использовать Y/N, 1/0, true/false"
+          "description": "Создано ли дело из входящего канала. Значение можно передать как Y/N, 1/0 или true/false"
         },
         {
           "name": "responsibleId",
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Ответственный за дело"
+          "description": "Идентификатор ответственного за дело"
         },
         {
           "name": "badgeCode",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Код значка на канбане, соответствующего делу"
+          "description": "Код бейджа — значка на карточке элемента в канбане. Бейдж должен быть заранее зарегистрирован методом crm.activity.badge.add, иначе метод вернет ошибку WRONG_FIELD_VALUE"
         },
         {
           "name": "originatorId",
@@ -115,13 +115,29 @@
   "source": {
     "file": "api-reference/crm/timeline/activities/configurable/crm-activity-configurable-add.md"
   },
+  "resultExample": {
+    "result": {
+      "activity": {
+        "id": 999
+      }
+    },
+    "time": {
+      "start": 1724068028.331234,
+      "finish": 1724068028.726591,
+      "duration": 0.3953571319580078,
+      "processing": 0.13033390045166016,
+      "date_start": "2025-01-21T13:47:08+02:00",
+      "date_finish": "2025-01-21T13:47:08+02:00",
+      "operating": 0
+    }
+  },
   "returns": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа, содержащий информацию о добавленном идентификаторе дела id в случае успеха. В случае неудачи вернет null"
+      "description": "Корневой элемент ответа с единственным ключом activity (подробное описание)"
     },
     {
       "name": "time",

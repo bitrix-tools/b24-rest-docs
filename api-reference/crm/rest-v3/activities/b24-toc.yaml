@@ -1,0 +1,47 @@
+title: Дела
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Дела элемента
+    items:
+      - name: Получить дело
+        href: crm-entity-activity-get-rest-v3.md
+      - name: Получить список дел элемента
+        href: crm-entity-activity-list-rest-v3.md
+      - name: Удалить дело
+        href: crm-entity-activity-delete-rest-v3.md
+      - name: Завершить дело
+        href: crm-entity-activity-complete-rest-v3.md
+      - name: Вернуть дело в работу
+        href: crm-entity-activity-uncomplete-rest-v3.md
+  - name: Дела без типа объекта
+    items:
+      - name: Получить дело
+        href: crm-activity-get-rest-v3.md
+      - name: Получить список дел
+        href: crm-activity-list-rest-v3.md
+      - name: Удалить дело
+        href: crm-activity-delete-rest-v3.md
+      - name: Завершить дело
+        href: crm-activity-complete-rest-v3.md
+      - name: Вернуть дело в работу
+        href: crm-activity-uncomplete-rest-v3.md
+  - name: Привязки дела
+    items:
+      - name: Привязать дело к элементу
+        href: crm-activity-binding-bind-rest-v3.md
+      - name: Отвязать дело от элемента
+        href: crm-activity-binding-unbind-rest-v3.md
+      - name: Перенести привязку дела
+        href: crm-activity-binding-move-rest-v3.md
+      - name: Получить привязки дела
+        href: crm-activity-binding-list-rest-v3.md
+  - name: Письма
+    items:
+      - name: Получить текст письма
+        href: crm-activity-mail-get-content-rest-v3.md
+      - name: Получить цепочку писем
+        href: crm-activity-mail-get-thread-rest-v3.md
+      - name: Ответить на письмо
+        href: crm-activity-mail-reply-rest-v3.md

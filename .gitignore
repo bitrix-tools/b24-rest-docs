@@ -9,3 +9,6 @@ CLAUDE.md
 agents.md
 .scripts
 node_modules
+
+# Копия ядра валидации для деплоя дашборда: кладётся package.js из simulator/lib/core.js
+simulator/dashboard/lib/core.js

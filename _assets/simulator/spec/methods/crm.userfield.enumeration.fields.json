@@ -87,5 +87,6 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-fields/crm-userfield-enumeration-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -17,11 +17,13 @@
 
 ## Связь с другими объектами
 
-**Бронирование.** Используйте `ID` брони в параметре `bookingId` методов [booking.v1.booking.client.*](./index.md), чтобы добавить или заменить клиента. Получить `ID` брони можно методами [создания](../booking-v1-booking-add.md) или [фильтрации](../booking-v1-booking-list.md).
+**Бронирование.** Используйте `ID` брони в параметре `bookingId`, чтобы [добавить или заменить](./booking-v1-booking-client-set.md), [получить](./booking-v1-booking-client-list.md) или [удалить](./booking-v1-booking-client-unset.md) клиента. Получить `ID` брони можно методами [создания](../booking-v1-booking-add.md) или [фильтрации](../booking-v1-booking-list.md).
 
 **Контакт.** Чтобы прикрепить к брони контакт, передайте `ID` контакта в методе [booking.v1.booking.client.set](./booking-v1-booking-client-set.md). Получить `ID` контакта можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 3`.
 
 **Компания.** Чтобы прикрепить к брони компанию, передайте `ID` компании в методе [booking.v1.booking.client.set](./booking-v1-booking-client-set.md). Получить `ID` компании можно методом [crm.item.list](../../../crm/universal/crm-item-list.md) с параметром `entityTypeId = 4`.
+
+**Сделка.** Если бронь связана со сделкой и клиентов у брони нет, пустой список клиентов в [booking.v1.booking.client.set](./booking-v1-booking-client-set.md) или вызов [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md) подставляют контакты и компанию из сделки. Связь брони со сделкой возвращает метод [booking.v1.booking.externalData.list](../external-data/booking-v1-booking-externaldata-list.md).
 
 {% note info "" %}
 
@@ -34,9 +36,9 @@
 1. Получите `ID` брони методом [booking.v1.booking.add](../booking-v1-booking-add.md) или [booking.v1.booking.list](../booking-v1-booking-list.md)
 2. Найдите контакт или компанию в CRM методом [crm.item.list](../../../crm/universal/crm-item-list.md)
 3. Если клиента нет в CRM, создайте контакт или компанию методом [crm.item.add](../../../crm/universal/crm-item-add.md)
-4. Передайте `ID` брони и клиента в метод [booking.v1.booking.client.set](./booking-v1-booking-client-set.md)
+4. Передайте `ID` брони и полный список клиентов в метод [booking.v1.booking.client.set](./booking-v1-booking-client-set.md). Метод заменяет текущий список, поэтому, чтобы добавить клиента, передайте его вместе с уже привязанными
 5. Проверьте привязку методом [booking.v1.booking.client.list](./booking-v1-booking-client-list.md)
-6. При необходимости удалите клиента из брони методом [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md)
+6. Чтобы отвязать всех клиентов, вызовите [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md). Чтобы отвязать одного, передайте в `set` список без него
 
 ## Обзор методов {#all-methods}
 
@@ -45,7 +47,8 @@
 > Кто может выполнять метод: любой пользователь
 
 #|
-|| [booking.v1.booking.client.list](./booking-v1-booking-client-list.md) | Возвращает контакт и компанию, привязанные к бронированию ||
-|| [booking.v1.booking.client.set](./booking-v1-booking-client-set.md) | Добавляет контакт или компанию к бронированию ||
-|| [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md) | Удаляет контакт или компанию из бронирования ||
+|| **Метод** | **Описание** ||
+|| [booking.v1.booking.client.set](./booking-v1-booking-client-set.md) | Заменяет список контактов и компаний бронирования ||
+|| [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md) | Отвязывает от бронирования всех клиентов ||
+|| [booking.v1.booking.client.list](./booking-v1-booking-client-list.md) | Возвращает контакты и компании, привязанные к бронированию ||
 |#

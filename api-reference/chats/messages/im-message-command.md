@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: участник чата
 
-Метод `im.message.command` выполняет команду чат-бота в контексте сообщения.
+Метод `im.message.command` отправляет команду чат-боту от имени текущего пользователя в контексте сообщения, так же как нажатие кнопки клавиатуры с параметром `COMMAND`.
+
+{% note warning "" %}
+
+Метод не проверяет, что бот существует и зарегистрировал команду. Ответ `true` означает, что команда передана на обработку.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -29,14 +35,22 @@
 || **BOT_ID***
 [`integer`](../../data-types.md) | Идентификатор бота.
 
-Идентификатор можно получить с помощью метода [imbot.bot.list](../../chat-bots/outdated/bots/imbot-bot-list.md). ||
+Совпадает с идентификатором пользователя-бота, например с `author_id` сообщения бота в ответе метода [im.dialog.messages.get](./im-dialog-messages-get.md). Владелец бота может получить идентификатор методом [imbot.v2.Bot.list](../../chat-bots/chat-bots-v2/imbot.v2/bots/bot-list.md) ||
 || **COMMAND***
 [`string`](../../data-types.md) | Команда бота.
 
-Текст указывается при регистрации команды чат-ботом через метод [imbot.command.register](../../chat-bots/outdated/commands/imbot-command-register.md) ||
+Код команды без символа `/`, например `task`. Бот задает команду при регистрации методом [imbot.v2.Command.register](../../chat-bots/chat-bots-v2/imbot.v2/commands/command-register.md).
+
+Бот получает команду в событии [ONIMBOTV2COMMANDADD](../../chat-bots/chat-bots-v2/imbot.v2/events/events.md#onimbotv2commandadd) со значением `command.context: "keyboard"` ||
 || **COMMAND_PARAMS**
-[`string`](../../data-types.md) | Параметр команды ||
+[`string`](../../data-types.md) | Параметры команды — текст, который передается боту после команды ||
 |#
+
+{% note warning "" %}
+
+Если сообщение `MESSAGE_ID` находится в личном чате с ботом, передавайте параметры в формате `application/x-www-form-urlencoded`. При передаче в JSON метод вернет `true`, но бот не получит команду. В групповых чатах работают оба формата.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -285,7 +299,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если команда выполнена ||
+[`boolean`](../../data-types.md) | `true`, если команда передана на обработку. Существование бота и команды не проверяется ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -310,7 +324,8 @@ HTTP-статус: **400**
 || `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан или некорректен `MESSAGE_ID` ||
 || `BOT_ID_ERROR` | Bot ID can't be empty | Не передан или некорректен `BOT_ID` ||
 || `COMMAND_ERROR` | Command can't be empty | Не передан `COMMAND` ||
-|| `PARAMS_ERROR` | Incorrect params | Некорректные параметры команды ||
+|| `PARAMS_ERROR` | Incorrect params | Сообщение `MESSAGE_ID` не найдено или текущий пользователь не участник чата, в котором оно находится ||
+|| `COPILOT_SUGGESTS_QUENCH_FAILED` | Could not save suggestion state. | Не удалось сохранить состояние подсказок CoPilot в чате. Текст ошибки возвращается на языке Битрикс24 ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -320,5 +335,5 @@ HTTP-статус: **400**
 - [{#T}](./im-message-add.md)
 - [{#T}](./keyboards.md)
 - [{#T}](./menu.md)
-
-
+- [{#T}](../../chat-bots/chat-bots-v2/imbot.v2/commands/command-register.md)
+- [{#T}](../../chat-bots/chat-bots-v2/imbot.v2/commands/command-answer.md)

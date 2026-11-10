@@ -13,13 +13,22 @@
 
 Отличия головного товара от простого товара:
 
-- головной товар нельзя купить — нужно выбрать одну из его вариаций. Для работы с вариациями используйте группу методов [catalog.product.offer.\*](../offer/index.md).
+- головной товар нельзя купить — нужно выбрать одну из его вариаций. Для работы с вариациями используйте группу методов [catalog.product.offer.\*](../offer/index.md)
+- простой товар — единичный товар без вариаций. Его можно сразу добавить в корзину и купить. Для работы с простыми товарами используйте группу методов [catalog.product.\*](../index.md)
 
-- простой товар — единичный товар без вариаций. Его можно сразу добавить в корзину и купить. Для работы с простыми товарами используйте группу методов [catalog.product.\*](../index.md).
+Методы головных товаров есть в двух версиях API: REST 2 и [REST 3.0](../../../rest-v3.md). В таблице методов REST 3.0 помечены как `v 3.0`. Чем различаются версии, описано в разделах [Особенности методов](#features) и [Головные товары в REST 3.0](#rest3).
 
 > Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Как создать новый товар в каталоге](https://helpdesk.bitrix24.ru/open/11657084/)
+
+## Как начать работу
+
+1. Получите идентификатор инфоблока каталога товаров методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md): это каталог, у которого `productIblockId` пустой
+2. Создайте головной товар методом [catalog.product.sku.add](./catalog-product-sku-add.md)
+3. Создайте вариации для головного товара методом [catalog.product.offer.add](../offer/catalog-product-offer-add.md)
+4. При необходимости добавьте изображения методом [catalog.productImage.add](../../product-image/catalog-product-image-add.md)
+5. Укажите цены вариаций методами [catalog.price.*](../../price/index.md)
 
 ## Связь головных товаров с другими объектами
 
@@ -35,27 +44,41 @@
 
 **CRM.** В головных товарах можно указать [лиды](../../../crm/leads/index.md), [сделки](../../../crm/deals/index.md), [смарт-процессы](../../../crm/universal/index.md), [счета](../../../crm/universal/invoice.md), [контакты](../../../crm/contacts/index.md) и [компании](../../../crm/companies/index.md) с помощью свойства типа «Привязка к элементам CRM».
 
-## Как начать работу
+## Особенности методов {#features}
 
-1. Получите идентификатор торгового каталога методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md)
-2. Создайте головной товар методом [catalog.product.sku.add](./catalog-product-sku-add.md)
-3. Создайте вариации для головного товара методом [catalog.product.offer.add](../offer/catalog-product-offer-add.md)
-4. При необходимости добавьте изображения методом [catalog.productImage.add](../../product-image/catalog-product-image-add.md)
-5. Укажите цены вариаций методами [catalog.price.*](../../price/index.md)
+- Новый головной товар получает тип `6` — головной товар без вариаций. После добавления первой вариации тип меняется на `3`. Если удалить последнюю вариацию, головной товар становится простым товаром и пропадает из выдачи методов `catalog.product.sku.*`
+- Методы удаления удаляют головной товар вместе со всеми его вариациями
+- В REST 2 методы [catalog.product.sku.update](./catalog-product-sku-update.md) и [catalog.product.sku.delete](./catalog-product-sku-delete.md) не проверяют тип товара: с идентификатором простого товара или вариации они изменят или удалят этот товар. Проверяйте идентификатор методом [catalog.product.sku.get](./catalog-product-sku-get.md): для товара другого типа он возвращает пустой массив
+- В REST 2 поля торгового каталога — НДС, количество, закупочная цена, вес и размеры — у головного товара в облачном Битрикс24 не сохраняются. Задавайте их вариациям
+- В REST 2 метод [catalog.product.sku.list](./catalog-product-sku-list.md) возвращает список под ключом `units`
+
+## Головные товары в REST 3.0 {#rest3}
+
+В [REST 3.0](../../../rest-v3.md) для головных товаров есть методы добавления, изменения, получения, удаления, скачивания файлов и методы получения схемы полей `catalog.product.sku.field.list` и `catalog.product.sku.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`. Общие особенности методов товаров новой версии описаны в [обзоре товаров](../index.md).
+
+В новой версии методы проверяют тип товара: для простого товара или вариации они возвращают ошибку «Запись не найдена». Поля торгового каталога у головного товара сохраняются.
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правами на инфоблок каталога. Для добавления, изменения и удаления нужны также права «Создание товара», «Редактирование товара» или «Удаление товара»
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.product.sku.add](./catalog-product-sku-add.md) | Добавляет головной товар в торговый каталог ||
+|| [catalog.product.sku.add](./catalog-product-sku-add-rest-v3.md) | Добавляет головной товар в торговый каталог v 3.0 ||
 || [catalog.product.sku.update](./catalog-product-sku-update.md) | Обновляет поля головного товара ||
+|| [catalog.product.sku.update](./catalog-product-sku-update-rest-v3.md) | Обновляет поля головного товара v 3.0 ||
 || [catalog.product.sku.get](./catalog-product-sku-get.md) | Возвращает значения полей головного товара по идентификатору ||
+|| [catalog.product.sku.get](./catalog-product-sku-get-rest-v3.md) | Возвращает значения полей головного товара по идентификатору v 3.0 ||
 || [catalog.product.sku.list](./catalog-product-sku-list.md) | Возвращает список головных товаров по фильтру ||
+|| [catalog.product.sku.list](./catalog-product-sku-list-rest-v3.md) | Возвращает список головных товаров по фильтру v 3.0 ||
 || [catalog.product.sku.download](./catalog-product-sku-download.md) | Скачивает файлы головного товара по переданным параметрам ||
+|| [catalog.product.sku.download](./catalog-product-sku-download-rest-v3.md) | Скачивает файлы головного товара по переданным параметрам v 3.0 ||
 || [catalog.product.sku.delete](./catalog-product-sku-delete.md) | Удаляет головной товар ||
+|| [catalog.product.sku.delete](./catalog-product-sku-delete-rest-v3.md) | Удаляет головной товар v 3.0 ||
 || [catalog.product.sku.getFieldsByFilter](./catalog-product-sku-get-fields-by-filter.md) | Возвращает поля головного товара по фильтру ||
+|| [catalog.product.sku.field.list](./catalog-product-sku-field-list.md) | Возвращает список полей головного товара v 3.0 ||
+|| [catalog.product.sku.field.get](./catalog-product-sku-field-get.md) | Возвращает описание поля головного товара ||
 |#

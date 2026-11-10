@@ -11,15 +11,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.activity.todo.*](../../../timeline/activities/todo/index.md).
+Развитие метода остановлено. Значения перечисления собраны в описании [типов данных CRM](../../../data-types.md#activity-enums), а работу с делами описывает раздел [Дела CRM](../../../timeline/activities/index.md).
 
 {% endnote %}
 
-Метод `crm.enum.activitydirection` возвращает направления активности для поля `DIRECTION` [дел](../../../timeline/activities/index.md) — писем и звонков.
+Метод `crm.enum.activitydirection` возвращает направления [дел](../../../timeline/activities/index.md) — писем и звонков: входящее и исходящее. Номер направления стоит в поле `DIRECTION` дела — например, `1` означает входящий звонок или письмо.
 
 ## Параметры метода
 
@@ -164,13 +164,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $direction) {
+            echo $direction['ID'] . ' — ' . $direction['NAME'] . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.activitydirection: ' . $e->getMessage();
@@ -286,21 +282,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../data-types.md) | Идентификатор направления активности ||
+[`integer`](../../../../data-types.md) | Идентификатор направления активности: `1` — входящее, `2` — исходящее. `0` с пустым названием — направление не определено ||
 || **NAME**
 [`string`](../../../../data-types.md) | Название направления активности ||
 || **SYMBOL_CODE**
-[`string`](../../../../data-types.md) | Символьный код ||
+[`string`](../../../../data-types.md) \| [`null`](../../../../data-types.md) | Символьный код. У этого перечисления всегда `null` ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../../data-types.md) \| [`null`](../../../../data-types.md) | Краткий символьный код. У этого перечисления всегда `null` ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](../index.md)
+- [{#T}](../../../timeline/activities/index.md)

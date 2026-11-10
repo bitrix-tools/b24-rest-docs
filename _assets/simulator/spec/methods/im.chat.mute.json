@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/chats/special-operations/im-chat-mute.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 1489,
+    "MUTE": "Y"
+  }
 }

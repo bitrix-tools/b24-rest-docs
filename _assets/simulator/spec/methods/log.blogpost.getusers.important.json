@@ -53,5 +53,8 @@
     }
   ],
   "page": "/api-reference/log/log-blogpost-getusers-important.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "POST_ID": 221
+  }
 }

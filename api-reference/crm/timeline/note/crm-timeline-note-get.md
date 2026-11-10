@@ -152,10 +152,10 @@
 
     try:
         bitrix_response = client.crm.timeline.note.get(
-            entity_type_id=2,
-            entity_id=15,
+            owner_type_id=1,
+            owner_id=1,
             item_type=1,
-            item_id=128,
+            item_id=2,
         ).response
         result = bitrix_response.result
         print(result)
@@ -192,16 +192,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting timeline note: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

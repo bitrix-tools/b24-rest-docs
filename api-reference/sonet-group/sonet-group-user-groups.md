@@ -66,11 +66,7 @@
     }
 
     try {
-      // sonet_group.user.groups returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // sonet_group.user.groups takes no parameters and returns all groups of the current user in one call: there is no pagination.
       const response = await $b24.actions.v2.call.make<UserGroupItem[]>({
         method: 'sonet_group.user.groups',
         params: {},
@@ -101,11 +97,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // sonet_group.user.groups returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // sonet_group.user.groups takes no parameters and returns all groups of the current user in one call: there is no pagination.
           const response = await $b24.actions.v2.call.make({
             method: 'sonet_group.user.groups',
             params: {},
@@ -278,6 +270,8 @@ HTTP-статус: **200**
 || **result**
 [`array`](../data-types.md) | Массив групп текущего пользователя.
 
+В массив входят группы, где пользователь владелец, модератор или участник. Группы, в которые пользователь отправил запрос на вступление или получил приглашение, не возвращаются.
+
 Пустой массив означает, что пользователь не состоит ни в одной группе или проекте ||
 || **GROUP_ID**
 [`integer`](../data-types.md) | Идентификатор группы ||
@@ -304,6 +298,10 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+У метода нет собственных ошибок. Возможны только общие ошибки REST API.
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 

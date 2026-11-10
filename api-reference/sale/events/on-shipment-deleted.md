@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnShipmentDeleted` происходит при непосредственном удалении отгрузки из базы.
+Событие `OnShipmentDeleted` происходит при удалении отгрузки из базы вручную, методом [sale.shipment.delete](../shipment/sale-shipment-delete.md) или вместе с заказом.
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order_shipment.id`](../data-types.md) | Идентификатор отгрузки. Для получения всех полей отгрузки по идентификатору используется метод [sale.shipment.get](../shipment/sale-shipment-get.md) ||
+[`sale_order_shipment.id`](../data-types.md#sale_order_shipment) | Идентификатор удаленной отгрузки. Отгрузка уже удалена, поэтому метод [sale.shipment.get](../shipment/sale-shipment-get.md) не вернет данные. Если обработчику нужны поля отгрузки, сохраняйте их заранее, например по событию [OnShipmentEntitySaved](./on-shipment-entity-saved.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,4 +103,6 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-shipment-entity-saved.md)
+- [{#T}](./on-order-deleted.md)

@@ -92,5 +92,13 @@
     }
   ],
   "page": "/api-reference/crm/outdated/vat/crm-vat-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "ACTIVE": "Y",
+      "C_SORT": 100,
+      "NAME": "НДС 20%",
+      "RATE": 20
+    }
+  }
 }

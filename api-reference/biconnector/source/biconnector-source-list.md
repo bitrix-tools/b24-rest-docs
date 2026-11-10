@@ -11,17 +11,29 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.source.list` возвращает список источников по фильтру. Является реализацией списочного метода для источников.
+Метод `biconnector.source.list` возвращает список источников по фильтру.
+
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и возвращает только те источники, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
+
+Размер страницы результатов — 50 записей. Метод не возвращает ни общее количество источников, ни ссылку на следующую страницу, поэтому [обход списка](../index.md#pagination) строится по номеру страницы: выборка закончилась, когда в ответе пришло меньше 50 записей.
 
 ## Параметры метода
+
+Все параметры необязательные: метод можно вызвать с пустым телом запроса.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у источников в выборке. По умолчанию берутся все поля ||
+[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у источников в выборке. Допустимые значения — названия полей из схемы метода [biconnector.source.fields](./biconnector-source-fields.md) и `*`. По умолчанию берутся все поля, то же дает значение `*`.
+
+Если передать в `select` только поле `settings`, в элементах выборки не будет идентификатора `id` ||
 || **filter**
 [`object`](../../data-types.md) | Фильтр для выборки источников. Пример формата:
 
@@ -34,6 +46,7 @@
 
 К ключам `field_n` можно добавить префикс, уточняющий работу фильтра.
 Возможные значения префикса:
+
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
@@ -51,6 +64,13 @@
 - `!` — не равно
 
 Список доступных полей для фильтрации можно узнать с помощью метода [biconnector.source.fields](./biconnector-source-fields.md).
+
+Ключ `logic` задает, как объединяются условия фильтра:
+
+- `AND` — источник попадает в выборку, если выполнены все условия. Используется по умолчанию
+- `OR` — достаточно одного выполненного условия
+
+Любое другое значение ключа `logic` приводит к ошибке `VALIDATION_INVALID_FILTER_LOGIC`.
 
 Фильтр не поддерживает поле `settings`, оно будет проигнорировано
 ||
@@ -70,9 +90,15 @@
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
+
+Без этого параметра сортировка не применяется и порядок записей в выборке не гарантирован.
+
+Значение направления регистронезависимо, но других значений поле не принимает. Пустая строка, число или любое слово кроме `ASC` и `DESC` обрываются на уровне ORM: ответ приходит с HTTP-статусом **400** и ошибкой `ERROR_ARGUMENT` в корне, а не [внутри `result`](../index.md#errors), как остальные ошибки раздела
+
+Сортировка, как и фильтр, не работает по полю `settings`
 ||
 || **page**
-[`integer`](../../data-types.md) | Управление постраничной навигацией. Размер страницы результатов — 50 записей. Для перехода по результатам передавайте номер страницы  ||
+[`integer`](../../data-types.md) | Номер страницы результатов. Нумерация начинается с единицы, значение по умолчанию — 1. Нечисловое, нулевое или отрицательное значение ошибки не вызывает: метод молча отдает первую страницу. Параметр `start`, общий для большинства списочных методов REST API, здесь не работает ||
 |#
 
 ## Примеры кода
@@ -80,27 +106,19 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 Получить список источников, у которых:
+
 - название начинается на `Sql`
 - описание не пустое
 - идентификатор коннектора равен `2` или `4`
 
-Отобразить только необходимые поля:
+Вернуть только нужные поля:
+
 - идентификатор `id`
 - название `title`
 - активность `active`
-- дата создания `dateCreate`
+- описание `description`
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"select":["id","title","active","dateCreate"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.source.list
-    ```
 
 - cURL (OAuth)
 
@@ -108,7 +126,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","title","active","dateCreate"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","title","active","description"],"filter":{"%=title":"Sql%","!description":"","@connectorId":[2,4]},"order":{"dateCreate":"DESC"},"page":1,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/biconnector.source.list
     ```
 
@@ -118,28 +136,35 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     // Shape of each SourceItem returned in result[]
     type SourceItem = {
-      id: string
+      id: number
       title: string
       active: boolean
-      dateCreate: ISODate
+      description: string
     }
 
     try {
-      // biconnector.source.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
-      const response = await $b24.actions.v2.call.make<SourceItem[]>({
+      // biconnector.source.list returns a single page (max 50 records). The list helpers
+      // ($b24.actions.v2.callList.make, fetchList.make) do not work here: this method uses
+      // its own `page` navigation and returns neither `total` nor `next`. Walk the pages
+      // yourself, increasing `page` until a response comes back with fewer than 50 records.
+      const response = await $b24.actions.v2.call.make<SourceItem[] | BiconnectorError>({
         method: 'biconnector.source.list',
         params: {
-          select: ['id', 'title', 'active', 'dateCreate'],
+          select: ['id', 'title', 'active', 'description'],
           filter: {
             '%=title': 'Sql%',
             '!description': '',
@@ -148,7 +173,7 @@
           order: {
             dateCreate: 'DESC',
           },
-          start: 0,
+          page: 1,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -158,7 +183,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Sources fetched:', result.length, result)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if (!Array.isArray(result)) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Sources fetched:', result.length, result)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -177,15 +208,14 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // biconnector.source.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // biconnector.source.list returns a single page (max 50 records). The list helpers
+          // ($b24.actions.v2.callList.make, fetchList.make) do not work here: this method uses
+          // its own `page` navigation and returns neither `total` nor `next`. Walk the pages
+          // yourself, increasing `page` until a response comes back with fewer than 50 records.
           const response = await $b24.actions.v2.call.make({
             method: 'biconnector.source.list',
             params: {
-              select: ['id', 'title', 'active', 'dateCreate'],
+              select: ['id', 'title', 'active', 'description'],
               filter: {
                 '%=title': 'Sql%',
                 '!description': '',
@@ -194,7 +224,7 @@
               order: {
                 dateCreate: 'DESC',
               },
-              start: 0,
+              page: 1,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -206,6 +236,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Sources fetched:', result.length, result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -228,7 +265,7 @@
                 "id",
                 "title",
                 "active",
-                "dateCreate",
+                "description",
             ],
             filter={
                 "%=title": "Sql%",
@@ -241,9 +278,20 @@
             order={
                 "dateCreate": "DESC",
             },
+            page=1,
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -259,7 +307,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -271,7 +318,7 @@
                         "id",
                         "title",
                         "active",
-                        "dateCreate"
+                        "description"
                     ],
                     'filter' => [
                         '%=title'      => "Sql%",
@@ -280,23 +327,25 @@
                     ],
                     'order'  => [
                         'dateCreate' => "DESC"
-                    ]
+                    ],
+                    'page'   => 1
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
+
+        $data = $result;
+
+        // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if (isset($data['error'])) {
+            echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
         } else {
-            echo 'Data: ' . print_r($result->data(), true);
+            echo 'Data: ' . print_r($data, true);
         }
-    
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching source list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -310,7 +359,7 @@
                 "id",
                 "title",
                 "active",
-                "dateCreate"
+                "description"
             ],
             filter: {
                 '%=title': "Sql%",
@@ -319,12 +368,24 @@
             },
             order: {
                 dateCreate: "DESC"
-            }
+            },
+            page: 1
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         }
     );
     ```
@@ -341,7 +402,7 @@
                 "id",
                 "title",
                 "active",
-                "dateCreate"
+                "description"
             ],
             'filter' => [
                 '%=title' => "Sql%",
@@ -350,13 +411,20 @@
             ],
             'order' => [
                 'dateCreate' => "DESC"
-            ]
+            ],
+            'page' => 1
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -364,7 +432,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "biconnector.source.list", b24.Params{
-    	"select": []string{"id", "title", "active", "dateCreate"},
+    	"select": []string{"id", "title", "active", "description"},
     	"filter": b24.Params{
     		"%=title":      "Sql%",
     		"!description": "",
@@ -373,16 +441,28 @@
     	"order": b24.Params{
     		"dateCreate": "DESC",
     	},
+    	"page": 1,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("biconnector.source.list: %w", err)
     }
 
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.source.list: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    }
+
     var items []struct {
-    	ID         b24.ID `json:"id"`
-    	Title      string `json:"title"`
-    	Active     bool   `json:"active"`
-    	DateCreate string `json:"dateCreate"`
+    	ID          b24.ID `json:"id"`
+    	Title       string `json:"title"`
+    	Active      bool   `json:"active"`
+    	Description string `json:"description"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -391,11 +471,8 @@
     	fmt.Println(it.ID, it.Title)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
+    // Total и Next этот метод не возвращает: постраничный обход
+    // строится по параметру page, пока в ответе приходит 50 записей.
     ```
 
 {% endlist %}
@@ -408,16 +485,16 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "id": "11",
+            "id": 11,
             "title": "Sql_host",
             "active": true,
-            "dateCreate": "2025-03-24 07:25:59"
+            "description": "Подключение для отчетов по хостам"
         },
         {
-            "id": "10",
+            "id": 10,
             "title": "Sql_partner",
             "active": false,
-            "dateCreate": "2025-03-21 12:22:32"
+            "description": "Подключение для отчетов по партнерам"
         }
     ],
     "time": {
@@ -434,13 +511,46 @@ HTTP-статус: **200**
 ### Возвращаемые данные
 
 #|
+|| **Название**
+`тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Корневой элемент ответа. Содержит массив объектов с информацией об источниках.
-
-Стоит учитывать, что структура полей может быть изменена из-за параметра `select` ||
+[`array`](../../data-types.md) | Корневой элемент ответа. Массив источников без дополнительной обертки [(подробное описание)](#source) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+#### Элемент массива result {#source}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Уникальный идентификатор источника ||
+|| **title**
+[`string`](../../data-types.md) | Название источника ||
+|| **type**
+[`string`](../../data-types.md) | Тип источника. У источников, созданных через REST, значение всегда равно `rest` ||
+|| **code**
+[`string`](../../data-types.md) | Код источника. Формируется автоматически по шаблону `rest_<connectorId>` ||
+|| **description**
+[`string`](../../data-types.md) | Описание источника ||
+|| **active**
+[`boolean`](../../data-types.md) | Активность источника. Неактивный источник перестает отдавать данные ||
+|| **dateCreate**
+[`datetime`](../../data-types.md) | Дата создания источника в формате `Y-m-d H:i:s` ||
+|| **dateUpdate**
+[`datetime`](../../data-types.md) | Дата обновления источника в формате `Y-m-d H:i:s` ||
+|| **createdById**
+[`integer`](../../data-types.md) | Идентификатор пользователя, создавшего источник ||
+|| **updatedById**
+[`integer`](../../data-types.md) | Идентификатор пользователя, обновившего источник ||
+|| **connectorId**
+[`integer`](../../data-types.md) | Идентификатор коннектора, к которому привязан источник ||
+|| **settings**
+[`array`](../../data-types.md) | Параметры авторизации источника. Структура элемента — в разделе [Поле settings](./index.md#settings) ||
+|#
+
+Если задан параметр `select`, в элементах остаются только перечисленные поля.
 
 ## Обработка ошибок
 
@@ -448,8 +558,27 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_SELECT_TYPE",
-    "error_description": "Parameter \"select\" must be array."
+    "result": {
+        "error": {
+            "error": "VALIDATION_SELECT_TYPE",
+            "error_description": "Parameter \"select\" must be array."
+        }
+    }
+}
+```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
+
+Одна ошибка метода приходит иначе. Если в параметре `order` передать направление сортировки, отличное от `ASC` и `DESC`, запрос обрывается на уровне ORM: ответ получает HTTP-статус **400**, а код ошибки лежит в корне, а не внутри `result`.
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Invalid order \"UPWARDS\""
 }
 ```
 
@@ -459,20 +588,24 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_SELECT_TYPE` | Parameter "select" must be array. | Параметр `select` должен быть массивом ||
 || `VALIDATION_FILTER_TYPE` | Parameter "filter" must be array. | Параметр `filter` должен быть массивом ||
 || `VALIDATION_ORDER_TYPE` | Parameter "order" must be array. | Параметр `order` должен быть массивом ||
 || `VALIDATION_FIELD_NOT_ALLOWED_IN_SELECT` | Field "#TITLE#" is not allowed in the "select". | Данные поля недопустимы в выборке ||
 || `VALIDATION_FIELD_NOT_ALLOWED_IN_FILTER` | Field "#TITLE#" is not allowed in the "filter". | Данные поля недопустимы в фильтре ||
 || `VALIDATION_FIELD_NOT_ALLOWED_IN_ORDER` | Field "#TITLE#" is not allowed in the "order". | Данные поля недопустимы для сортировки ||
+|| `VALIDATION_INVALID_FILTER_LOGIC` | Field "logic" must be either "AND" or "OR". | Поле `logic` может иметь значение только "AND" или "OR" ||
+|| `ERROR_ARGUMENT` | Invalid order "#VALUE#". | Направление сортировки в `order` отличается от `ASC` и `DESC`. Вместо `#VALUE#` подставляется переданное значение в верхнем регистре. Единственная ошибка метода с HTTP-статусом 400: код приходит в корне ответа, а не внутри `result` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./biconnector-source-add.md)
 - [{#T}](./biconnector-source-update.md)
 - [{#T}](./biconnector-source-get.md)
-- [{#T}](./biconnector-source-add.md)
 - [{#T}](./biconnector-source-delete.md)
 - [{#T}](./biconnector-source-fields.md)

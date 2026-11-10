@@ -35,7 +35,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Индикатор активности ставки НДС. Возможные значения: - Y — активен - N — неактивен По умолчанию Y"
+          "description": "Индикатор активности ставки НДС. Возможные значения: - Y — активен - N — неактивен По умолчанию Y",
+          "values": [
+            {
+              "value": "Y",
+              "title": "активен"
+            },
+            {
+              "value": "N",
+              "title": "неактивен По умолчанию Y"
+            }
+          ]
         },
         {
           "name": "rate",
@@ -104,5 +114,13 @@
     }
   ],
   "page": "/api-reference/catalog/vat/catalog-vat-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Налог 13%",
+      "rate": 13,
+      "sort": 10,
+      "active": "Y"
+    }
+  }
 }

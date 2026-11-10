@@ -143,5 +143,8 @@
     "NAME",
     "OBJECT_ID",
     "SIZE"
-  ]
+  ],
+  "requestExample": {
+    "id": 495
+  }
 }

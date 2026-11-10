@@ -53,5 +53,8 @@
     }
   ],
   "page": "/api-reference/crm/leads/crm-lead-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "123"
+  }
 }

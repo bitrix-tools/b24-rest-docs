@@ -27,7 +27,7 @@
 
 Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке ||
 || **newName***
-[`string`](../../data-types.md) | Новое имя папки ||
+[`string`](../../data-types.md) | Новое имя папки. Максимальная длина — 255 символов. Имя не должно содержать символы, запрещенные в именах файлов ||
 |#
 
 ## Примеры кода
@@ -82,7 +82,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -90,7 +90,7 @@
         method: 'disk.folder.rename',
         params: {
           id: 8968,
-          newName: 'New folder name',
+          newName: 'Новое имя папки',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -123,7 +123,7 @@
             method: 'disk.folder.rename',
             params: {
               id: 8968,
-              newName: 'New folder name',
+              newName: 'Новое имя папки',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -305,7 +305,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о папке ||
+[`object`](../../data-types.md) | Объект с данными о папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**
@@ -338,7 +338,7 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -361,6 +361,8 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр `id` или `newName` ||
+|| `DISK_MO_28001` | Название содержит недопустимые символы | В `newName` переданы символы, запрещенные в именах файлов ||
+|| `DISK_MO_28001` | Для значения поля «Название» превышена максимальная длина: 255 | Длина `newName` превышает 255 символов ||
 || `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` не найдена ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для переименовывания папки ||
 |#

@@ -25,6 +25,30 @@
 4. Сохраните изменения методом [crm.item.details.configuration.set](./crm-item-details-configuration-set.md) или сбросьте настройки к значениям по умолчанию через [crm.item.details.configuration.reset](./crm-item-details-configuration-reset.md).
 5. Чтобы сделать общую конфигурацию обязательной для всех пользователей, используйте [crm.item.details.configuration.forceCommonScopeForAll](./crm-item-details-configuration-forceCommonScopeForAll.md).
 
+## Структура конфигурации карточки
+
+Конфигурация — это массив разделов. Методы [crm.item.details.configuration.get](./crm-item-details-configuration-get.md) и [crm.item.details.configuration.set](./crm-item-details-configuration-set.md) используют одну и ту же структуру, поэтому ответ `get` можно изменить и передать в `set` без преобразований.
+
+```json
+[
+    {
+        "name": "main",
+        "title": "О сделке",
+        "type": "section",
+        "elements": [
+            { "name": "TITLE", "optionFlags": 1 },
+            { "name": "CLIENT", "options": { "defaultCountry": "RU" } }
+        ]
+    }
+]
+```
+
+- раздел `section` содержит код `name`, заголовок `title`, тип `type` со значением `section` и список полей `elements`
+- поле `section_element` содержит код поля `name`, флаг `optionFlags` и опции `options`. Код поля берется из ответа метода [crm.item.fields](../crm-item-fields.md)
+- порядок разделов и полей в массивах задает порядок вывода в карточке
+
+Метод `set` заменяет конфигурацию целиком: разделы и поля, которых нет в переданном массиве, исчезают из карточки. Если конфигурация для области `scope` не сохранена, метод `get` возвращает `null`.
+
 ## Область действия настроек
 
 Параметр `scope` определяет, чьи настройки будут изменены.
@@ -61,9 +85,10 @@
 
 ## Частые причины ошибок
 
-- Указан неподдерживаемый тип объекта CRM.
-- Переданы некорректные параметры `extras` для выбранного типа.
-- Недостаточно прав для изменения общей конфигурации.
+- не передан `entityTypeId` или указан тип объекта, у которого нет детальной карточки, — ошибки `Parameter 'entityTypeID' is not defined` и `The entity type '...' is not supported in current context.`
+- переданы ключи `extras`, которые не подходят выбранному типу объекта
+- нет прав администратора для изменения общей конфигурации или личных настроек другого пользователя — ошибка `Access denied.`
+- в `set` передан неполный раздел: без `name` или `title`
 
 ## Обзор методов {#all-methods}
 

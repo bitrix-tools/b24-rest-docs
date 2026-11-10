@@ -88,5 +88,10 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/voximplant-infocall-start-with-text.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "FROM_LINE": "reg151083",
+    "TO_NUMBER": "79991234567",
+    "TEXT_TO_PRONOUNCE": "Добрый день. Напоминаем о записи"
+  }
 }

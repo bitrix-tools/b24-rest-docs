@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для нужного файла
 
-Метод `disk.file.getExternalLink`  возвращает публичную ссылку на файл. 
+Метод `disk.file.getExternalLink` возвращает публичную ссылку на файл.
 
 ## Параметры метода
 
@@ -42,7 +42,7 @@
     -H "Accept: application/json" \
     -d '{"id":8964}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.file.getExternalLink
-        ```
+    ```
 
 - cURL (OAuth)
 
@@ -278,7 +278,11 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр `id` ||
 || `ERROR_NOT_FOUND` | Could not find entity with id `X` | Файл с указанным `id` не найден ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав для получения ссылки на файл ||
+|| `ACCESS_DENIED` | Access denied | HTTP-статус **403**. Возможные причины:
+- у пользователя нет права управлять публичной ссылкой на файл
+- в настройках Битрикс24 запрещены публичные ссылки
+
+По ответу причины не различить ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

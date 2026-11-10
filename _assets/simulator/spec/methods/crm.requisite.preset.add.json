@@ -56,7 +56,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак активности. Используются значения Y или N. Определяет доступность шаблона в списке выбора при добавлении реквизитов"
+          "description": "Признак активности. Используются значения Y или N. Определяет доступность шаблона в списке выбора при добавлении реквизитов",
+          "flag": true
         },
         {
           "name": "SORT",
@@ -102,5 +103,15 @@
     }
   ],
   "page": "/api-reference/crm/requisites/presets/crm-requisite-preset-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "ENTITY_TYPE_ID": 8,
+      "COUNTRY_ID": 1,
+      "NAME": "ИП",
+      "XML_ID": "EXAMPLE_COMPANY__VALUE_1",
+      "ACTIVE": "Y",
+      "SORT": 520
+    }
+  }
 }

@@ -81,5 +81,14 @@
     "id",
     "name",
     "senderName"
-  ]
+  ],
+  "requestExample": {
+    "id": 1,
+    "select": [
+      "id",
+      "name",
+      "email",
+      "senderName"
+    ]
+  }
 }

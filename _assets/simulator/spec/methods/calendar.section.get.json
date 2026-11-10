@@ -170,5 +170,9 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-section-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "user",
+    "ownerId": 1
+  }
 }

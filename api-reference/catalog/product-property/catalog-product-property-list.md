@@ -25,7 +25,7 @@
 || **select**
 [`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_property](../data-types.md#catalog_product_property)).
 
-Если параметр не передан, будут выбраны все поля ||
+Если параметр не передан, будут выбраны все поля. Неизвестные поля метод пропускает без ошибки, а если в `select` нет ни одного поля объекта, возвращает все поля ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных свойств в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
@@ -46,6 +46,8 @@
 - `!=` — не равно
 - `!` — не равно
 
+Поля, которых нет у объекта, метод пропускает без ошибки.
+
 Если `iblockId` не передан, метод выбирает свойства всех торговых каталогов. Если передан `iblockId`, который не является каталогом, метод вернет пустой список ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных свойств в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
@@ -56,7 +58,7 @@
 - `ASC` — в порядке возрастания
 - `DESC` — в порядке убывания
 
-Если параметр не передан, применяется сортировка `id ASC` ||
+Если параметр не передан, применяется сортировка `id ASC`. Неизвестные поля метод пропускает без ошибки ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -81,7 +83,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"select":["id","name","iblockId","propertyType"],"filter":{"iblockId":19},"order":{"id":"ASC"}}' \
+      -d '{"select":["id","name","iblockId","propertyType"],"filter":{"iblockId":25,"propertyType":"L"},"order":{"id":"ASC"}}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.productProperty.list
     ```
 
@@ -91,7 +93,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"select":["id","name","iblockId","propertyType"],"filter":{"iblockId":19},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
+      -d '{"select":["id","name","iblockId","propertyType"],"filter":{"iblockId":25,"propertyType":"L"},"order":{"id":"ASC"},"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/catalog.productProperty.list
     ```
 
@@ -125,7 +127,7 @@
         method: 'catalog.productProperty.list',
         params: {
           select: ['id', 'name', 'iblockId', 'propertyType'],
-          filter: { iblockId: 19 },
+          filter: { iblockId: 25, propertyType: 'L' },
           order: { id: 'ASC' },
           start: 0,
         },
@@ -165,7 +167,7 @@
             method: 'catalog.productProperty.list',
             params: {
               select: ['id', 'name', 'iblockId', 'propertyType'],
-              filter: { iblockId: 19 },
+              filter: { iblockId: 25, propertyType: 'L' },
               order: { id: 'ASC' },
               start: 0,
             },
@@ -204,7 +206,8 @@
                 "propertyType",
             ],
             filter={
-                "iblockId": 19,
+                "iblockId": 25,
+                "propertyType": "L",
             },
             order={
                 "id": "ASC",
@@ -238,7 +241,8 @@
                 [
                     'select' => ['id', 'name', 'iblockId', 'propertyType'],
                     'filter' => [
-                        'iblockId' => 19,
+                        'iblockId' => 25,
+                        'propertyType' => 'L',
                     ],
                     'order' => ['id' => 'ASC'],
                 ]
@@ -258,7 +262,8 @@
         {
             select: ['id', 'name', 'iblockId', 'propertyType'],
             filter: {
-                iblockId: 19
+                iblockId: 25,
+                propertyType: 'L'
             },
             order: { id: 'ASC' }
         },
@@ -281,7 +286,7 @@
         'catalog.productProperty.list',
         [
             'select' => ['id', 'name', 'iblockId', 'propertyType'],
-            'filter' => ['iblockId' => 19],
+            'filter' => ['iblockId' => 25, 'propertyType' => 'L'],
             'order' => ['id' => 'ASC'],
         ]
     );
@@ -296,7 +301,8 @@
     res, err := client.Core().Call(ctx, "catalog.productProperty.list", b24.Params{
     	"select": []string{"id", "name", "iblockId", "propertyType"},
     	"filter": b24.Params{
-    		"iblockId": 19,
+    		"iblockId":     25,
+    		"propertyType": "L",
     	},
     	"order": b24.Params{
     		"id": "ASC",
@@ -322,30 +328,46 @@ HTTP-статус: **200**
     "result": {
         "productProperties": [
             {
-                "iblockId": 19,
-                "id": 115,
-                "name": "Марка",
+                "iblockId": 25,
+                "id": 295,
+                "name": "Новинка",
                 "propertyType": "L"
             },
             {
-                "iblockId": 19,
-                "id": 659,
-                "name": "Рубрика",
-                "propertyType": "S"
+                "iblockId": 25,
+                "id": 297,
+                "name": "Лидер продаж",
+                "propertyType": "L"
             },
-            ... // описание для каждого свойства
+            {
+                "iblockId": 25,
+                "id": 299,
+                "name": "Спецпредложение",
+                "propertyType": "L"
+            },
+            {
+                "iblockId": 25,
+                "id": 431,
+                "name": "Размер",
+                "propertyType": "L"
+            },
+            {
+                "iblockId": 25,
+                "id": 893,
+                "name": "Тип упаковки",
+                "propertyType": "L"
+            }
         ]
     },
-    "next": 50,
-    "total": 51,
+    "total": 5,
     "time": {
-        "start": 1773933226,
-        "finish": 1773933226.400275,
-        "duration": 0.40027499198913574,
+        "start": 1793618255,
+        "finish": 1793618255.448881,
+        "duration": 0.4488809108734131,
         "processing": 0,
-        "date_start": "2026-03-19T18:13:46+03:00",
-        "date_finish": "2026-03-19T18:13:46+03:00",
-        "operating_reset_at": 1773933826,
+        "date_start": "2026-11-02T14:17:35+03:00",
+        "date_finish": "2026-11-02T14:17:35+03:00",
+        "operating_reset_at": 1793618820,
         "operating": 0
     }
 }
@@ -358,7 +380,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productProperties**
+|| **result.productProperties**
 [`catalog_product_property[]`](../data-types.md#catalog_product_property) | Массив объектов с информацией о выбранных свойствах ||
 || **next**
 [`integer`](../../data-types.md) | Смещение для следующей страницы. Поле возвращается, если есть еще записи ||
@@ -386,9 +408,9 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога ||
-|| `400` | `100` | Invalid value {`...`} to match with parameter {filter}. Should be value of type array | Неверный тип данных у значения параметра `filter` ||
-|| `400` | `100` | Invalid value {`...`} to match with parameter {select}. Should be value of type array | Неверный тип данных у значения параметра `select` ||
-|| `400` | `100` | Invalid value {`...`} to match with parameter {order}. Should be value of type array | Неверный тип данных у значения параметра `order` ||
+|| `400` | `100` | Invalid value {`...`} to match with parameter {filter}. Should be value of type array. | Неверный тип данных у значения параметра `filter` ||
+|| `400` | `100` | Invalid value {`...`} to match with parameter {select}. Should be value of type array. | Неверный тип данных у значения параметра `select` ||
+|| `400` | `100` | Invalid value {`...`} to match with parameter {order}. Should be value of type array. | Неверный тип данных у значения параметра `order` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Chat.update` обновляет свойства чата. Объединяет обновление заголовка, описания, цвета и аватара в одном вызове.
+Метод `imbot.v2.Chat.update` обновляет свойства группового чата: название, описание, цвет и аватар. Передавайте в `fields` только те свойства, которые нужно изменить. Бот должен быть владельцем чата — это требование не зависит от настроек прав в чате.
 
 ## Параметры метода
 
@@ -21,32 +21,32 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **botId***
 [`integer`](../../../../data-types.md) | ID бота ||
 || **botToken**
-[`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
+[`string`](../../../../data-types.md) | Токен бота. Обязателен при авторизации через вебхук, для OAuth не нужен.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте тот же `botToken`, который указали при регистрации бота ||
 || **dialogId***
-[`string`](../../../../data-types.md) | ID диалога. Для групповых чатов — `chat{chatId}`, для личных — `{userId}` ||
-|| **fields***
-[`object`](../../../../data-types.md) | Обновляемые свойства чата. Структура объекта описана [ниже](#fields) ||
+[`string`](../../../../data-types.md) | ID группового чата в [формате dialogId](../../index.md#dialog-id): `chat{chatId}` ||
+|| **fields**
+[`object`](../../../../data-types.md) | Обновляемые свойства чата [(подробное описание)](#fields). Без `fields` метод ничего не меняет и возвращает `true` ||
 |#
 
 ### Параметр fields {#fields}
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **title**
 [`string`](../../../../data-types.md) | Новое название чата ||
 || **description**
 [`string`](../../../../data-types.md) | Новое описание чата ||
 || **color**
-[`string`](../../../../data-types.md) | Цвет чата — [доступные цвета](#available-colors) ||
+[`string`](../../../../data-types.md) | Цвет чата — [доступные цвета](#available-colors). Неизвестный код цвета игнорируется без ошибки, цвет не меняется ||
 || **avatar**
-[`file`](../../../../data-types.md) | Новый аватар чата в формате [Base64](../../../../files/how-to-upload-files.md) ||
+[`file`](../../../../data-types.md) | Новый аватар чата в формате [Base64](../../../../files/how-to-upload-files.md). Если строка не содержит изображение, текущий аватар снимается без ошибки ||
 |#
 
 ### Доступные цвета {#available-colors}
@@ -274,7 +274,7 @@ HTTP-статус: **200**
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`object`](../../../../data-types.md) | Результат операции ||
 || **result.result**
@@ -285,12 +285,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied"
+    "error_description": "ACCESS_DENIED"
 }
 ```
 
@@ -300,11 +300,13 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `ACCESS_DENIED` | Access denied | Бот не является участником чата ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением ||
+|| `CHAT_NOT_FOUND` | CHAT_NOT_FOUND | Чат с указанным `dialogId` не найден ||
+|| `ACCESS_DENIED` | ACCESS_DENIED | Бот не является владельцем чата или тип чата не поддерживает изменение ||
+|| `WRONG_MESSAGE_TYPE` | WRONG_MESSAGE_TYPE | Чат не групповой ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -316,3 +318,5 @@ HTTP-статус: **400**, **403**
 - [{#T}](./chat-get.md)
 - [{#T}](./chat-user-add.md)
 - [{#T}](./chat-set-owner.md)
+- [{#T}](./index.md)
+- [{#T}](../../migration.md)

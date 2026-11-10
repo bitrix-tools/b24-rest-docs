@@ -134,5 +134,25 @@
     "PARENT_ID",
     "SORT_INDEX",
     "TITLE"
-  ]
+  ],
+  "requestExample": {
+    "templateId": 139,
+    "filter": {
+      "IS_COMPLETE": "N",
+      "IS_IMPORTANT": "N"
+    },
+    "select": [
+      "ID",
+      "TEMPLATE_ID",
+      "PARENT_ID",
+      "TITLE",
+      "SORT_INDEX",
+      "IS_COMPLETE",
+      "IS_IMPORTANT"
+    ],
+    "order": {
+      "SORT_INDEX": "asc",
+      "ID": "desc"
+    }
+  }
 }

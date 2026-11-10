@@ -15,7 +15,7 @@
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.fields](../universal/crm-item-fields.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.company.field.list](../rest-v3/fields/crm-entity-field-list-rest-v3.md). Варианты значений полей-списков возвращает метод [crm.company.field.custom.enum.list](../rest-v3/fields/crm-entity-field-custom-enum-list-rest-v3.md).
 
 {% endnote %}
 

@@ -11,7 +11,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: зависит от проверяемого действия и прав пользователя на задачу
 
 Метод `task.elapseditem.isactionallowed` проверяет, разрешено ли действие над записью: создание, изменение и удаление.
 
@@ -20,6 +20,8 @@
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
+|| **Название**
+`тип` | **Описание** ||
 || **TASKID***
 [`integer`](../../data-types.md) | Идентификатор задачи.
 
@@ -35,7 +37,7 @@
 - **3** — удалить запись (`ACTION_ELAPSED_TIME_REMOVE`) ||
 |#
 
-{% note warning %}
+{% note warning "" %}
 
 Соблюдать указанный в таблице порядок следования параметров в запросе — обязательно. Иначе запрос выполнится с ошибками.
 
@@ -185,11 +187,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Info: ' . print_r($result->data(), true);
-        }
+        echo 'Info: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -287,10 +285,29 @@ HTTP-статус: **200**
 - `false` — не разрешено
  ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error":"ERROR_CORE",
+    "error_description":"TASKS_ERROR_EXCEPTION_#512; Check listitem not found or not accessible; 512/TE/ITEM_NOT_FOUND_OR_NOT_ACCESSIBLE"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Внутренний код** | **Описание** ||
+|| `ERROR_CORE` | `0x000100` | Не передан обязательный параметр или указан неверный тип ||
+|| `ERROR_CORE` | `0x000200` | Задача или запись не найдена либо недоступна при проверке изменения или удаления ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

@@ -1,4 +1,4 @@
-# Версии User Scope
+# Версии скоупа user
 
 {% note tip "" %}
 
@@ -9,159 +9,199 @@
 
 {% endnote %}
 
-Чтобы обеспечить безопасность данных сотрудников, для приложений и вебхуков с [версии модуля](../../settings/cloud-and-on-premise/on-premise/versions.md) **Rest 21.600.0** доступны разные версии скоупа `User`.
+Скоуп `user` существует в трех версиях. Это три самостоятельных кода: `user_brief`, `user_basic` и `user`. Версия определяет, какие поля профиля сотрудников вернут методы. От нее же зависит, может ли приложение приглашать сотрудников и менять их профили. Версии позволяют выдать приложению только те персональные данные, которые нужны его сценарию.
 
-- `user_brief` дает доступ к информации о пользователях без контактных данных. Этого достаточно для сценариев, в которых требуется отобразить ФИО пользователя в интерфейсе стороннего приложения.
-- `user_basic` открывает базовую информацию и контактные данные пользователей. Это требуется сценариям, связанным с совершением звонков или отправкой e-mail сообщений.
-- `user` дает полный доступ к информации пользователей, возможность приглашать новых пользователей и изменять данные существующих.
+В облачном Битрикс24 доступны все три версии. В коробочном Битрикс24 они появились с [версии модуля](../../settings/cloud-and-on-premise/on-premise/versions.md) `Rest 21.600.0`. До нее доступен только скоуп `user`.
 
-Для получения доступа к пользовательским полям добавьте приложению скоуп `user.userfield`.
+Скоупы выбирают в настройках приложения или вебхука — порядок описан в статье [Доступные скоупы Битрикс24](../scopes/permissions.md). Значения полей профиля и формат ответа смотрите на страницах методов [user.get](./user-get.md) и [user.fields](./user-fields.md).
 
-## Ограниченные версии скоупа user
+## Чем версии отличаются
 
-В этих скоупах нельзя добавлять и обновлять пользователей: не доступны методы [user.add](./user-add.md) и [user.update](./user-update.md). Во всех остальных методах получения информации о пользователе доступны только перечисленные поля.
+| Скоуп | Название в списке прав | Доступ |
+|---|---|---|
+| `user_brief` | Пользователи (минимальный) | Чтение 30 полей: имя, должность, фото, город, дата рождения, внутренний номер |
+| `user_basic` | Пользователи (базовый) | Чтение 60 полей: контакты сотрудника — e-mail, телефоны, адреса и ссылки на внешние профили |
+| `user` | Пользователи | Чтение 63 полей, приглашение сотрудников и изменение профилей |
 
-| user_basic | user_brief |
-|------------|------------|
-| ID | ID |
-| XML_ID | XML_ID |
-| ACTIVE | ACTIVE |
-| NAME | NAME |
-| LAST_NAME | LAST_NAME |
-| SECOND_NAME | SECOND_NAME |
-| TITLE | TITLE |
-| EMAIL | IS_ONLINE |
-| PERSONAL_PHONE | TIME_ZONE |
-| WORK_PHONE | PERSONAL_PHOTO |
-| WORK_POSITION | TIMESTAMP_X |
-| WORK_COMPANY | DATE_REGISTER |
-| IS_ONLINE | PERSONAL_PROFESSION |
-| TIME_ZONE | PERSONAL_GENDER |
-| TIMESTAMP_X | PERSONAL_BIRTHDAY |
-| DATE_REGISTER | PERSONAL_CITY |
-| LAST_ACTIVITY_DATE | PERSONAL_STATE |
-| PERSONAL_PROFESSION | PERSONAL_COUNTRY |
-| PERSONAL_GENDER | WORK_POSITION |
-| PERSONAL_BIRTHDAY | WORK_CITY |
-| PERSONAL_PHOTO | WORK_STATE |
-| PERSONAL_PHONE | WORK_COUNTRY |
-| PERSONAL_FAX | LAST_ACTIVITY_DATE |
-| PERSONAL_MOBILE | UF_EMPLOYMENT_DATE |
-| PERSONAL_PAGER | UF_TIMEMAN |
-| PERSONAL_STREET | UF_SKILLS |
-| PERSONAL_MAILBOX | UF_INTERESTS |
-| PERSONAL_CITY | UF_DEPARTMENT |
-| PERSONAL_STATE | UF_PHONE_INNER |
-| PERSONAL_ZIP | |
-| PERSONAL_COUNTRY | |
-| PERSONAL_NOTES | |
-| WORK_COMPANY | |
-| WORK_DEPARTMENT | |
-| WORK_POSITION | |
-| WORK_WWW | |
-| WORK_PHONE | |
-| WORK_FAX | |
-| WORK_PAGER | |
-| WORK_STREET | |
-| WORK_MAILBOX | |
-| WORK_CITY | |
-| WORK_STATE | |
-| WORK_ZIP | |
-| WORK_COUNTRY | |
-| WORK_PROFILE | |
-| WORK_LOGO | |
-| WORK_NOTES | |
-| UF_DEPARTMENT | |
-| UF_DISTRICT | |
-| UF_SKYPE | |
-| UF_SKYPE_LINK | |
-| UF_ZOOM | |
-| UF_TWITTER | |
-| UF_FACEBOOK* | |
-| UF_LINKEDIN | |
-| UF_XING | |
-| UF_WEB_SITES | |
-| UF_PHONE_INNER | |
-| UF_EMPLOYMENT_DATE | |
-| UF_TIMEMAN | |
-| UF_SKILLS | |
-| UF_INTERESTS | |
+Версии вложены друг в друга: `user_basic` включает все поля `user_brief`, а `user` — все поля `user_basic`.
 
-## Полная версия скоупа user
+Минимальная версия скрывает не все персональные данные. В `user_brief` закрыты в первую очередь контактные данные: e-mail, личный и рабочий телефоны, улица и индекс, ссылки на внешние профили. При этом пол, дата рождения и фото сотрудника доступны во всех трех версиях. Полный состав каждой версии — в таблицах ниже.
 
-{% note info " " %}
+Версия `user` добавляет к `user_basic` три поля: `LAST_LOGIN`, `PERSONAL_WWW` и `PERSONAL_ICQ`. Главное ее отличие не в полях, а в операциях записи.
 
-Это максимальный уровень доступа к персональной информации, запрашивать его нужно очень ответственно.
+## Как выбрать версию
+
+Запрашивайте самую узкую версию, которой хватит для сценария: приложение получит меньше персональных данных, а администратор Битрикс24 увидит в списке прав более низкий уровень доступа.
+
+| Сценарий приложения | Версия |
+|---|---|
+| Показать имя, фото или должность сотрудника в интерфейсе | `user_brief` |
+| Найти сотрудника по имени, должности или отделу | `user_brief` |
+| Позвонить сотруднику или отправить ему письмо | `user_basic` |
+| Передать контакты сотрудников во внешнюю систему | `user_basic` |
+| Пригласить сотрудников или обновить профили из кадровой системы | `user` |
+| Узнать дату последней авторизации сотрудника | `user` |
+
+{% note info "" %}
+
+Версия `user` — максимальный уровень доступа к персональным данным сотрудников.
 
 {% endnote %}
 
-В полной версии доступны все системные поля, создание и изменение профилей пользователей.
+## Как работает ограничение по версии
 
-#|
-|| **user** ||
-|| ID ||
-|| XML_ID ||
-|| ACTIVE ||
-|| NAME ||
-|| LAST_NAME ||
-|| SECOND_NAME ||
-|| TITLE ||
-|| EMAIL ||
-|| LAST_LOGIN ||
-|| DATE_REGISTER ||
-|| TIME_ZONE ||
-|| IS_ONLINE ||
-|| TIMESTAMP_X ||
-|| LAST_ACTIVITY_DATE ||
-|| PERSONAL_PROFESSION ||
-|| PERSONAL_GENDER ||
-|| PERSONAL_WWW ||
-|| PERSONAL_BIRTHDAY ||
-|| PERSONAL_PHOTO ||
-|| PERSONAL_ICQ ||
-|| PERSONAL_PHONE ||
-|| PERSONAL_FAX ||
-|| PERSONAL_MOBILE ||
-|| PERSONAL_PAGER ||
-|| PERSONAL_STREET ||
-|| PERSONAL_MAILBOX ||
-|| PERSONAL_CITY ||
-|| PERSONAL_STATE ||
-|| PERSONAL_ZIP ||
-|| PERSONAL_COUNTRY ||
-|| PERSONAL_NOTES ||
-|| WORK_COMPANY ||
-|| WORK_DEPARTMENT ||
-|| WORK_POSITION ||
-|| WORK_WWW ||
-|| WORK_PHONE ||
-|| WORK_FAX ||
-|| WORK_PAGER ||
-|| WORK_STREET ||
-|| WORK_MAILBOX ||
-|| WORK_CITY ||
-|| WORK_STATE ||
-|| WORK_ZIP ||
-|| WORK_COUNTRY ||
-|| WORK_PROFILE ||
-|| WORK_LOGO ||
-|| WORK_NOTES ||
-|| UF_DEPARTMENT ||
-|| UF_DISTRICT ||
-|| UF_SKYPE ||
-|| UF_SKYPE_LINK ||
-|| UF_ZOOM ||
-|| UF_TWITTER ||
-|| UF_FACEBOOK* ||
-|| UF_LINKEDIN ||
-|| UF_XING ||
-|| UF_WEB_SITES ||
-|| UF_PHONE_INNER ||
-|| UF_EMPLOYMENT_DATE ||
-|| UF_TIMEMAN ||
-|| UF_SKILLS ||
-|| UF_INTERESTS ||
-|#
+Ограничение действует при каждом вызове методов, которые читают или меняют профиль: [user.fields](./user-fields.md), [user.current](./user-current.md), [user.get](./user-get.md), [user.search](./user-search.md), [user.add](./user-add.md) и [user.update](./user-update.md).
+
+- Каждый из этих методов возвращает и принимает только разрешенные версией поля.
+- Методы `user.online` и `user.counters` доступны во всех трех версиях: они не возвращают поля профиля.
+- Битрикс24 пропускает поле, которого нет в разрешенном списке. В параметрах `select` и `filter` оно не учитывается, в ответе его нет, метод не возвращает ошибку.
+- Методы `user.add` и `user.update` работают только в версии `user`. В версиях `user_brief` и `user_basic` вызов вернет ошибку `insufficient_scope` с описанием `The request requires higher privileges than provided by the access token`. Ответ одинаков для приложения и вебхука.
+- Скоуп не отменяет проверку прав сотрудника. Приглашать новых сотрудников методом `user.add` может администратор, а в облачном Битрикс24 — еще и сотрудник, которому выдано право приглашать. Метод `user.update` без прав администратора меняет только профиль самого сотрудника — поля `ACTIVE` и `UF_DEPARTMENT` в этом случае не записываются.
+- Приложение получает событие [onUserAdd](../common/events/on-user-add.md) во всех трех версиях. В данных нового сотрудника остаются только разрешенные версией поля.
+- Самая широкая из выданных версий определяет доступ. Например, если выданы `user_brief` и `user_basic`, работает `user_basic`.
+- Выбранная версия не влияет на методы [user.userfield.*](./userfields/index.md): они управляют настройками пользовательских полей и работают в отдельном скоупе `user.userfield`.
+
+Чтобы увидеть фактический список полей для выданной версии, вызовите метод [user.fields](./user-fields.md).
+
+{% list tabs %}
+
+- cURL (Webhook)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.fields
+    ```
+
+- cURL (OAuth)
+
+    ```curl
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/user.fields
+    ```
+
+{% endlist %}
+
+Метод вернет коды полей и их названия — только те, что разрешены выданной версией. По составу ответа видно версию:
+
+- нет поля `EMAIL` — `user_brief`
+- есть `EMAIL`, но нет `LAST_LOGIN` — `user_basic`
+- есть `LAST_LOGIN` — `user`
+
+### Пользовательские поля профиля
+
+Поля с префиксом `UF_USR_` не входят в списки версий.
+
+- В версии `user` они доступны для чтения и записи без дополнительных условий.
+- В версиях `user_brief` и `user_basic` их можно только читать, если приложению выдан скоуп `user.userfield`. Записать значение в такое поле нельзя: для этого нужен метод `user.update`, а он работает только в версии `user`.
+
+Создать и настроить такие поля можно методами [user.userfield.*](./userfields/index.md).
+
+## Какие поля доступны
+
+В таблицах перечислены стандартные поля профиля, включая поля с префиксом `UF_`, которые есть в Битрикс24 по умолчанию. «Да» — поле доступно для чтения в этой версии, «Нет» — недоступно. Записывают поля только методы `user.add` и `user.update`, поэтому в версиях `user_brief` и `user_basic` любое поле доступно лишь для чтения.
+
+Поля `LAST_LOGIN`, `DATE_REGISTER` и `IS_ONLINE` доступны только для чтения. Методы `user.add` и `user.update` не записывают их даже в версии `user`.
+
+### Идентификация и статус
+
+| Поле | `user_brief` | `user_basic` | `user` |
+|---|---|---|---|
+| `ID` | Да | Да | Да |
+| `XML_ID` | Да | Да | Да |
+| `ACTIVE` | Да | Да | Да |
+| `USER_TYPE` | Да | Да | Да |
+| `IS_ONLINE` | Да | Да | Да |
+| `TIME_ZONE` | Да | Да | Да |
+| `DATE_REGISTER` | Да | Да | Да |
+| `TIMESTAMP_X` | Да | Да | Да |
+| `LAST_ACTIVITY_DATE` | Да | Да | Да |
+| `LAST_LOGIN` | Нет | Нет | Да |
+
+### Имя, должность, подразделение
+
+| Поле | `user_brief` | `user_basic` | `user` |
+|---|---|---|---|
+| `NAME` | Да | Да | Да |
+| `LAST_NAME` | Да | Да | Да |
+| `SECOND_NAME` | Да | Да | Да |
+| `TITLE` | Да | Да | Да |
+| `WORK_POSITION` | Да | Да | Да |
+| `UF_DEPARTMENT` | Да | Да | Да |
+| `WORK_COMPANY` | Нет | Да | Да |
+| `WORK_DEPARTMENT` | Нет | Да | Да |
+
+### Контакты
+
+| Поле | `user_brief` | `user_basic` | `user` |
+|---|---|---|---|
+| `UF_PHONE_INNER` | Да | Да | Да |
+| `EMAIL` | Нет | Да | Да |
+| `PERSONAL_PHONE` | Нет | Да | Да |
+| `PERSONAL_MOBILE` | Нет | Да | Да |
+| `PERSONAL_FAX` | Нет | Да | Да |
+| `PERSONAL_PAGER` | Нет | Да | Да |
+| `PERSONAL_MAILBOX` | Нет | Да | Да |
+| `WORK_PHONE` | Нет | Да | Да |
+| `WORK_FAX` | Нет | Да | Да |
+| `WORK_PAGER` | Нет | Да | Да |
+| `WORK_MAILBOX` | Нет | Да | Да |
+| `WORK_WWW` | Нет | Да | Да |
+| `UF_SKYPE` | Нет | Да | Да |
+| `UF_SKYPE_LINK` | Нет | Да | Да |
+| `UF_ZOOM` | Нет | Да | Да |
+| `UF_TWITTER` | Нет | Да | Да |
+| `UF_FACEBOOK`* | Нет | Да | Да |
+| `UF_LINKEDIN` | Нет | Да | Да |
+| `UF_XING` | Нет | Да | Да |
+| `UF_WEB_SITES` | Нет | Да | Да |
+| `PERSONAL_WWW` | Нет | Нет | Да |
+| `PERSONAL_ICQ` | Нет | Нет | Да |
 
 \
 **Принадлежит компании Meta Platforms, Inc., которая признана экстремистской и запрещена на территории Российской Федерации.*
+
+### Адреса
+
+| Поле | `user_brief` | `user_basic` | `user` |
+|---|---|---|---|
+| `PERSONAL_CITY` | Да | Да | Да |
+| `PERSONAL_STATE` | Да | Да | Да |
+| `PERSONAL_COUNTRY` | Да | Да | Да |
+| `WORK_CITY` | Да | Да | Да |
+| `WORK_STATE` | Да | Да | Да |
+| `WORK_COUNTRY` | Да | Да | Да |
+| `PERSONAL_STREET` | Нет | Да | Да |
+| `PERSONAL_ZIP` | Нет | Да | Да |
+| `WORK_STREET` | Нет | Да | Да |
+| `WORK_ZIP` | Нет | Да | Да |
+| `UF_DISTRICT` | Нет | Да | Да |
+
+### Личные и профессиональные данные
+
+| Поле | `user_brief` | `user_basic` | `user` |
+|---|---|---|---|
+| `PERSONAL_PHOTO` | Да | Да | Да |
+| `PERSONAL_BIRTHDAY` | Да | Да | Да |
+| `PERSONAL_GENDER` | Да | Да | Да |
+| `PERSONAL_PROFESSION` | Да | Да | Да |
+| `UF_SKILLS` | Да | Да | Да |
+| `UF_INTERESTS` | Да | Да | Да |
+| `UF_EMPLOYMENT_DATE` | Да | Да | Да |
+| `UF_TIMEMAN` | Да | Да | Да |
+| `PERSONAL_NOTES` | Нет | Да | Да |
+| `WORK_PROFILE` | Нет | Да | Да |
+| `WORK_LOGO` | Нет | Да | Да |
+| `WORK_NOTES` | Нет | Да | Да |
+
+## Продолжите изучение
+
+- [{#T}](../scopes/permissions.md)
+- [{#T}](./user-fields.md)
+- [{#T}](./user-get.md)
+- [{#T}](./index.md)

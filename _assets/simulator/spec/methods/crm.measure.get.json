@@ -32,5 +32,8 @@
     "SYMBOL_INTL",
     "SYMBOL_LETTER_INTL",
     "SYMBOL_RUS"
-  ]
+  ],
+  "requestExample": {
+    "id": "**put_id_here**"
+  }
 }

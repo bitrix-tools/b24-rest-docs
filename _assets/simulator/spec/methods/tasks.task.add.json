@@ -191,5 +191,23 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "TITLE": "Название задачи",
+      "DEADLINE": "2025-12-31T23:59:59",
+      "CREATED_BY": 456,
+      "RESPONSIBLE_ID": 123,
+      "UF_CRM_TASK": [
+        "L_4",
+        "C_7",
+        "CO_5",
+        "D_10"
+      ],
+      "UF_TASK_WEBDAV_FILES": [
+        "n12345",
+        "n67890"
+      ]
+    }
+  }
 }

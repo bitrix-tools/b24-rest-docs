@@ -73,5 +73,11 @@
     }
   ],
   "page": "/api-reference/sale/business-value-person-domain/sale-business-value-person-domain-delete-by-filter.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "personTypeId": 3,
+      "domain": "I"
+    }
+  }
 }

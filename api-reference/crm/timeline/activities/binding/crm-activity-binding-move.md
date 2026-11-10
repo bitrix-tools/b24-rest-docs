@@ -11,9 +11,17 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь c правом редактирования элементов CRM
+> Кто может выполнять метод: пользователь с правом редактирования обоих элементов CRM — исходного и целевого
 
-Метод `crm.activity.binding.move` обновляет связь дела с элементом CRM. 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.binding.move](../../../rest-v3/activities/crm-activity-binding-move-rest-v3.md).
+
+{% endnote %}
+
+Метод `crm.activity.binding.move` переносит связь дела с одного элемента CRM на другой элемент того же типа. Дело пропадет из таймлайна исходного элемента и появится в таймлайне целевого.
+
+Например, можно перенести дело из одной сделки в другую. Перенести дело из сделки в контакт этим методом нельзя. Чтобы перенести дело в контакт, привяжите его к контакту методом [crm.activity.binding.add](./crm-activity-binding-add.md) и удалите связь со сделкой методом [crm.activity.binding.delete](./crm-activity-binding-delete.md).
 
 ## Параметры метода
 
@@ -23,15 +31,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне, например `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) ||
 || **sourceEntityTypeId***
 [`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому привязано дело, например `2` для сделки ||
 || **sourceEntityId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например `1`  ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому привязано дело, например `1`.
+
+Получить идентификатор можно методом [crm.activity.binding.list](./crm-activity-binding-list.md) ||
 || **targetEntityTypeId***
-[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому нужно привязать дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type), к которому нужно привязать дело, например `2` для сделки. Должен совпадать с `sourceEntityTypeId` ||
 || **targetEntityId***
-[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому нужно привязать дело, например `100`  ||
+[`integer`](../../../../data-types.md) | Идентификатор элемента CRM, к которому нужно привязать дело, например `100`.
+
+Получить идентификатор можно методом [crm.item.list](../../../universal/crm-item-list.md) ||
 |#
 
 ## Примеры кода
@@ -146,9 +160,9 @@
         bitrix_response = client.crm.activity.binding.move(
             activity_id=999,
             source_entity_type_id=2,
-            source_entity_id=101,
-            target_entity_type_id=3,
-            target_entity_id=205,
+            source_entity_id=1,
+            target_entity_type_id=2,
+            target_entity_id=100,
         ).response
         result = bitrix_response.result
         print(result)
@@ -182,15 +196,15 @@
                     'targetEntityId'     => 100,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error moving activity binding: ' . $e->getMessage();
@@ -211,9 +225,9 @@
         },
         function(result) {
             if (result.error()) {
-                console.error('Ошибка:', result.error()); 
+                console.error('Ошибка:', result.error());
             } else {
-                console.log('Результат:', result.data()); 
+                console.log('Результат:', result.data());
             }
         }
     );
@@ -278,7 +292,7 @@ HTTP-статус: **200**
         "processing": 0.032338857650756836,
         "date_start": "2024-04-03T10:26:32+02:00",
         "date_finish": "2024-04-03T10:26:33+02:00",
-        "operating_reset_at": 1705765533,
+        "operating_reset_at": 1712133392,
         "operating": 3.3076241016387939
     }
 }
@@ -290,7 +304,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true` если связь успешно изменена, иначе — `false` ||
+[`boolean`](../../../../data-types.md) | Результат операции. Возвращает `true`, если связь перенесена ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -311,24 +325,24 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL_ERROR` | Невозможно перенести дело из одного типа объекта CRM в другой ||
-|| `SOURCE_AND_TARGET_ENTITY_ID_ARE_EQUAL_ERROR` | Невозможно перенести дело в то же самое дело ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнении операции ||
-|| `ACTIVITY_IS_ALREADY_BOUND` | Дело уже привязано к этому элементу ||
-|| `BINDING_NOT_FOUND` | Дело не привязано к указанному элементу ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {targetEntityId} | Не передан обязательный параметр `activityId`, `sourceEntityTypeId`, `sourceEntityId`, `targetEntityTypeId` или `targetEntityId`. В описании указано имя параметра ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {activityId}. Should be value of type int. | Значение параметра не целое число. В описании указано имя параметра ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с идентификатором `activityId` не найдено. В облачном Битрикс24 ошибка возникает и для несуществующего элемента CRM ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права редактирования исходного или целевого элемента CRM ||
+|| `400` | `SOURCE_AND_TARGET_ENTITY_TYPES_ARE_NOT_EQUAL_ERROR` | Source and target entity types are not equal | Значения `sourceEntityTypeId` и `targetEntityTypeId` отличаются ||
+|| `400` | `SOURCE_AND_TARGET_ENTITY_ID_ARE_EQUAL_ERROR` | Source and target entity ID cannot be equal | Значения `sourceEntityId` и `targetEntityId` совпадают ||
+|| `400` | `ACTIVITY_IS_ALREADY_BOUND` | Дело уже привязано к этой сущности | Дело уже привязано к целевому элементу ||
+|| `400` | `BINDING_NOT_FOUND` | Дело не привязано к этой сущности | Дело не привязано к исходному элементу ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./crm-activity-binding-add.md)
 - [{#T}](./crm-activity-binding-list.md)
 - [{#T}](./crm-activity-binding-delete.md)
-- [{#T}](./crm-activity-binding-add.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
-
+- [{#T}](./index.md)

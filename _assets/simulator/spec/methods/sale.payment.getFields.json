@@ -348,5 +348,6 @@
     }
   ],
   "page": "/api-reference/sale/payment/sale-payment-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

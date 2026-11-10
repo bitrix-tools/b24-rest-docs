@@ -44,7 +44,9 @@
 || **featureId***
 [`string`](../../data-types.md) | Код параметра свойства.
 
-Код параметра можно получить методом [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md) ||
+Код параметра можно получить методом [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md).
+
+Метод не проверяет, что пара `moduleId` и `featureId` есть в списке доступных параметров: запись с несуществующим кодом сохранится без ошибки ||
 || **isEnabled***
 [`char`](../../data-types.md) | Признак активности параметра. Допустимые значения:
 - `Y` — включен
@@ -341,7 +343,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyFeature**
+|| **result.productPropertyFeature**
 [`catalog_product_property_features`](../data-types.md#catalog_product_property_features) | Объект добавленного параметра свойства ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -363,12 +365,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для изменения свойства инфоблока ||
-|| `0` | productPropertyFeature does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
-|| `0` | Required fields: moduleId, featureId, isEnabled | Не переданы обязательные поля `moduleId`, `featureId`, `isEnabled` ||
-|| `0` | Ошибочный набор параметров свойства | Передан некорректный набор `moduleId`, `featureId`, `isEnabled` ||
-|| `0` | Mysql query error: (1062) Duplicate entry '...' for key 'b_iblock_property_feature.ix_iblock_property_feature' | Запись с такой комбинацией `propertyId` + `moduleId` + `featureId` уже существует ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или права на изменение инфоблока свойства ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: propertyId, moduleId, featureId, isEnabled | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля ||
+|| `400` | Пустое значение | productPropertyFeature does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
+|| `400` | `0` | The specified property does not belong to a product catalog | Свойство не относится к торговому каталогу ||
+|| `400` | `0` | Ошибочный набор параметров свойства | В `isEnabled` передано значение, отличное от `Y` и `N` ||
+|| `400` | `400` | Internal server error. | У свойства уже есть параметр с такими `moduleId` и `featureId` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

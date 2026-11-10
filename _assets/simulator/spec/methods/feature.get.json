@@ -3,7 +3,7 @@
   "method": "feature.get",
   "scope": "базовый",
   "kind": "read",
-  "title": "Получить информацию о доступности функционала в Битрикс24 feature.get",
+  "title": "Получить информацию о доступности возможности в Битрикс24 feature.get",
   "permissions": "любой пользователь",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Доступные ключи: - rest_offline_extended — доступность офлайн-событий - rest_auth_connector — доступность ключа auth_connector в событиях"
+      "description": "Код возможности. Доступные коды: - rest_offline_extended — расширенный режим офлайн-событий: получение событий методом event.offline.get с параметром clear = 0, без удаления из очереди - rest_auth_connector — доступность ключа auth_connector в событиях Метод не проверяет, существует ли код, и не возвращает ошибку для неизвестного кода.…"
     }
   ],
   "defs": {},
@@ -40,7 +40,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Объект содержит информацию о доступности метода: - value — (Y/N) наличие функционала в Битрикс24 - lang_selfhosted — lang заменяется на en, ru, ua, kz и так далее (используется для коробочной версии Битрикс24)"
+      "description": "Результат проверки (подробное описание)"
     },
     {
       "name": "time",
@@ -54,5 +54,8 @@
   "executable": false,
   "entityFields": [
     "value"
-  ]
+  ],
+  "requestExample": {
+    "CODE": "rest_offline_extended"
+  }
 }

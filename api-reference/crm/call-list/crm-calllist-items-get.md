@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами на чтение элементов CRM
+> Кто может выполнять метод: администратор, создатель обзвона или ответственный за дело обзвона
 
-Метод `crm.calllist.items.get` возвращает список участников, контактов или компаний, и статус обзвона. 
+Метод `crm.calllist.items.get` возвращает участников обзвона — контакты или компании — и статус звонка каждому из них.
+
+В ответ попадут только участники, которых пользователь может читать. Метод возвращает до 50 участников за вызов.
 
 ## Параметры метода
 
@@ -25,8 +27,18 @@
 || **LIST_ID***
 [`integer`](../../data-types.md) | Идентификатор обзвона, можно получить методами [crm.calllist.add](./crm-calllist-add.md) и [crm.calllist.list](./crm-calllist-list.md) ||
 || **FILTER**
-[`object`](../../data-types.md) | Фильтр по статусу обзвона элемента: `{ STATUS: "код_статуса" }`. 
-Получить значения кодов статусов можно методом [crm.calllist.statuslist](./crm-calllist-statuslist.md)||
+[`object`](../../data-types.md) | Фильтр по статусу звонка участнику: `{ STATUS: "код_статуса" }`, например `{ STATUS: "IN_WORK" }`.
+Все коды статусов вернет метод [crm.calllist.statuslist](./crm-calllist-statuslist.md) ||
+|| **start**
+[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
+
+Размер страницы результатов всегда статичный — 50 записей.
+
+Чтобы выбрать вторую страницу результатов, передайте значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+
+По умолчанию `0`.
+
+Метод не возвращает `total` и `next`. Права на участников метод проверяет уже после выборки страницы: недоступные участники из нее выпадают. Поэтому у пользователя без доступа ко всем участникам страница может быть короче 50, даже если дальше есть участники. Если на странице нет ни одного доступного участника, метод вернет ошибку `ACCESS_ERROR`. Администратор получает полные страницы: список закончился, если пришло меньше 50 записей ||
 |#
 
 ## Примеры кода
@@ -41,7 +53,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"LIST_ID":13,"FILTER":{"STATUS":"IN_WORK"}}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.items.get
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.calllist.items.get
     ```
 
 - cURL (OAuth)
@@ -50,7 +62,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"LIST_ID":13,"FILTER":{"STATUS":"IN_WORK"},"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.items.get
+         https://**put_your_bitrix24_address**/rest/crm.calllist.items.get
     ```
 
 - JS (TS)
@@ -178,15 +190,15 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting call list items: ' . $e->getMessage();
@@ -300,9 +312,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив элементов со статусами обзвона и типом объекта ||
+[`array`](../../data-types.md) | Массив участников обзвона [(подробное описание)](#result) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор контакта или компании ||
+|| **STATUS**
+[`string`](../../data-types.md) | Код статуса звонка участнику, например `IN_WORK`. Все коды и названия статусов возвращает метод [crm.calllist.statuslist](./crm-calllist-statuslist.md) ||
+|| **ENTITY_TYPE**
+[`integer`](../../data-types.md) | Тип участника: `3` — контакт, `4` — компания ||
 |#
 
 ## Обработка ошибок
@@ -323,9 +348,9 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `ERROR_ARGUMENT` | `LIST_ID is not found` | Не передан обязательный параметр `LIST_ID` ||
-|| `400` | `LIST_ID_ERROR` | `List id should be positive`, `Call list is not found` | Идентификатор обзвона меньше единицы или обзвона с таким идентификатором нет ||
+|| `400` | `LIST_ID_ERROR` | `List id should be positive`, `Call list is not found` | Идентификатор обзвона меньше единицы, обзвона с таким идентификатором нет или у пользователя нет доступа к обзвону ||
 || `400` | `STATUS_ERROR` | `Incorrect status` | В фильтре `STATUS` передано значение не из списка статусов ||
-|| `403` | `ACCESS_ERROR` | `You do not have access to the participants of this call list` | У пользователя нет доступа ни к одному участнику обзвона ||
+|| `403` | `ACCESS_ERROR` | `You do not have access to the participants of this call list` | На запрошенной странице нет ни одного участника, которого пользователь может читать ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -336,4 +361,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-calllist-get.md)
 - [{#T}](./crm-calllist-list.md)
 - [{#T}](./crm-calllist-statuslist.md)
-- [{#T}](./crm-calllist-update.md) 
+- [{#T}](./crm-calllist-update.md)
+- [{#T}](./index.md)

@@ -40,5 +40,8 @@
     }
   ],
   "page": "/api-reference/tasks/stages/task-stages-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 5
+  }
 }

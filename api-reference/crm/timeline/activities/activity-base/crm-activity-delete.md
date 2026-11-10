@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом на удаление дела
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.delete](../../../rest-v3/activities/crm-activity-delete-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.activity.delete` удаляет дело любого типа.
 
 ## Параметры метода
@@ -162,16 +168,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting activity: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

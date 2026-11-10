@@ -96,5 +96,12 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-system-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 5,
+    "MESSAGE": "Системное уведомление",
+    "MESSAGE_OUT": "Системное уведомление для email",
+    "TAG": "SYSTEM_EVENT_42",
+    "SUB_TAG": "SYSTEM_EVENT|42"
+  }
 }

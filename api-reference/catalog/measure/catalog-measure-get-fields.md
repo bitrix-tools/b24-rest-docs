@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод возвращает доступные поля единиц измерения.
+Метод `catalog.measure.getFields` возвращает доступные поля единиц измерения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -144,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,20 +154,14 @@
                 'catalog.measure.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting measure fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -291,11 +286,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **measure**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_measure](../data-types.md#catalog_measure), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Результат запроса [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **measure**
+[`object`](../../data-types.md) | Объект, в котором ключ — имя поля [`catalog_measure`](../data-types.md#catalog_measure), а значение — дескриптор [`rest_field_description`](../data-types.md#rest_field_description) ||
 |#
 
 ## Обработка ошибок
@@ -304,7 +306,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -314,11 +316,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Нет доступа к чтению
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Нет доступа к чтению ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

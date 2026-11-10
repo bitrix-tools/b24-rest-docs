@@ -4,14 +4,14 @@
   "scope": "crm",
   "kind": "read",
   "title": "Получить информацию о товарной позиции по id crm.item.productrow.get",
-  "permissions": "требуется право на чтение объекта, к которому привязаны товарные позиции",
+  "permissions": "требуется право на чтение объекта CRM, которому принадлежит товарная позиция",
   "params": [
     {
       "name": "id",
       "type": "crm_item_product_row.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор товарной позиции"
+      "description": "Идентификатор товарной позиции. Получить его можно методом crm.item.productrow.list"
     }
   ],
   "defs": {},
@@ -26,14 +26,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "productRow",
-      "type": "crm_item_product_row",
-      "base": "object",
-      "required": false,
-      "description": "Объект, содержащий информацию о товарной позиции"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -58,6 +51,10 @@
     "quantity",
     "sort",
     "taxIncluded",
+    "taxName",
     "taxRate"
-  ]
+  ],
+  "requestExample": {
+    "id": 17622
+  }
 }

@@ -213,5 +213,12 @@
     "UTM_SOURCE",
     "UTM_TERM",
     "WEB"
-  ]
+  ],
+  "datasetHint": {
+    "entity": "contacts",
+    "count": 30,
+    "idFrom": 1,
+    "idTo": 30,
+    "runnableExample": {}
+  }
 }

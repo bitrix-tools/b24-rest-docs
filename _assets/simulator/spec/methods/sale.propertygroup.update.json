@@ -73,5 +73,13 @@
     }
   ],
   "page": "/api-reference/sale/property-group/sale-property-group-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 10,
+    "fields": {
+      "personTypeId": 3,
+      "name": "Обновленная группа свойств",
+      "sort": 100
+    }
+  }
 }

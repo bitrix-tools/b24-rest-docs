@@ -126,5 +126,6 @@
     }
   ],
   "page": "/api-reference/sale/shipment-item/sale-shipment-item-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

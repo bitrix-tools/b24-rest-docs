@@ -1,44 +1,40 @@
 
 ### Статусы и коды системных ошибок
 
-HTTP-статус: **20x**, **40x**, **50x**
+HTTP-статус: **4xx**, **5xx**
 
-Описанные ниже ошибки могут возникнуть при вызове любого метода
+Описанные ниже ошибки возвращает сам REST API, а не логика конкретного метода. Они могут прийти в ответ на любой метод.
 
 #|
 || **Статус** | **Код**
 **Текст ошибки** | **Описание** ||
 || `500` | `INTERNAL_SERVER_ERROR`
-Internal server error | Возникла внутренняя ошибка сервера, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
+Internal server error | Возникла внутренняя ошибка сервера. Повторите вызов, а если ошибка сохраняется, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `500` | `ERROR_UNEXPECTED_ANSWER`
-Server returned an unexpected response | Возникла внутренняя ошибка сервера, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
+Server returned an unexpected response | Сервер вернул неожиданный ответ. Повторите вызов, а если ошибка сохраняется, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `503` | `QUERY_LIMIT_EXCEEDED`
 Too many requests | Превышен [лимит на интенсивность запросов](/limits.html) ||
 || `429` | `OPERATION_TIME_LIMIT`
-Method is blocked due to operation time limit | Метод заблокирован из-за превышения [лимита на ресурсоемкость запросов](/limits.html). Блокировка снимается автоматически через 10 минут ||
-|| `405` | `ERROR_BATCH_METHOD_NOT_ALLOWED`
-Method is not allowed for batch usage | Текущий метод не разрешен для вызова с помощью [batch](/settings/how-to-call-rest-api/batch.html) ||
-|| `400` | `ERROR_BATCH_LENGTH_EXCEEDED`
-Max batch length exceeded | Превышена максимальная длина параметров, переданных в метод [batch](/settings/how-to-call-rest-api/batch.html) ||
+Method is blocked due to operation time limit | Метод заблокирован из-за превышения [лимита на ресурсоемкость запросов](/limits.html). Блокировка снимается автоматически, когда накопленное время выполнения метода перестает превышать лимит ||
 || `401` | `NO_AUTH_FOUND`
-Wrong authorization data | Неверный [access-токен](/settings/oauth/index.html) или [код вебхука](/local-integrations/local-webhooks.html) ||
-|| `400` | `INVALID_REQUEST`
-Https required | Для вызовов методов требуется использовать протокол HTTPS ||
-|| `503` | `OVERLOAD_LIMIT`
-REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка, для снятия необходимо обращаться в [техническую поддержку Битрикс24](/bitrix-support.html) ||
-|| `403` | `ACCESS_DENIED`
-REST API is available only on commercial plans | REST API доступен только на коммерческих планах ||
-|| `403` | `INVALID_CREDENTIALS`
-Invalid request credentials | У пользователя, с чьим [access-токеном](/settings/oauth/index.html) или [вебхуком](/local-integrations/local-webhooks.html) был вызван метод, не хватает прав ||
-|| `404` | `ERROR_MANIFEST_IS_NOT_AVAILABLE`
-Manifest is not available | Манифест недоступен ||
-|| `403` | `insufficient_scope`
-The request requires higher privileges than provided by the webhook token | Запрос требует более высоких привилегий, чем предоставляет токен [вебхука](/local-integrations/local-webhooks.html) ||
+Wrong authorization data | В запросе нет авторизационных данных: не передан ни [access-токен](/settings/oauth/index.html), ни [код вебхука](/local-integrations/local-webhooks.html) ||
+|| `401` | `INVALID_REQUEST`
+Https required | Методы вызываются только по протоколу HTTPS ||
+|| `401` | `OVERLOAD_LIMIT`
+REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка. Чтобы ее снять, обратитесь в [техническую поддержку Битрикс24](/bitrix-support.html) ||
+|| `401` | `ACCESS_DENIED`
+REST is available only on commercial plans | REST API доступен только на коммерческих тарифах. У [вебхука](/local-integrations/local-webhooks.html) текст ошибки другой — `REST is available only by subscription` ||
+|| `401` | `INVALID_CREDENTIALS`
+Invalid request credentials | Не найден активный [вебхук](/local-integrations/local-webhooks.html) с указанным идентификатором пользователя и секретным кодом ||
+|| `404` | `ERROR_METHOD_NOT_FOUND`
+Method not found! | Метод с таким именем не найден. Имя написано с ошибкой, метода нет в REST API или он недоступен без нужного [скоупа](/api-reference/scopes/permissions.html) ||
+|| `401` | `insufficient_scope`
+The request requires higher privileges than provided by the webhook token | Запрос требует более широких прав, чем есть у токена: у [вебхука](/local-integrations/local-webhooks.html) это выданные ему права, у приложения — [скоуп](/api-reference/scopes/permissions.html). У приложения текст ошибки заканчивается на `provided by the access token` ||
 || `401` | `expired_token`
-The access token provided has expired | Предоставленный [access-токен](/settings/oauth/index.html) доступа истек ||
-|| `403` | `user_access_error`
-The user does not have access to the application | Пользователь не имеет доступа к приложению. Это означает, что приложение установлено, но администратор портала разрешил доступ к этому приложению только конкретным пользователям ||
-|| `500` | `PORTAL_DELETED`
-Portal was deleted | Публичная часть сайта закрыта. Чтобы открыть публичную часть сайта на коробочной установке отключите опцию «Временное закрытие публичной части сайта». Путь к настройке: *Рабочий стол > Настройки > Настройки продукта > Настройки модулей > Главный модуль > Временное закрытие публичной части сайта* ||
+The access token provided has expired | Срок действия [access-токена](/settings/oauth/index.html) истек ||
+|| `401` | `user_access_error`
+The user does not have access to the application | Приложение установлено, но администратор Битрикс24 открыл доступ к нему только конкретным пользователям ||
+|| `403` | `PORTAL_DELETED`
+Portal was deleted | Публичная часть сайта закрыта. Чтобы открыть ее на коробочной установке, отключите опцию «Временное закрытие публичной части сайта». Путь к настройке: *Рабочий стол > Настройки > Настройки продукта > Настройки модулей > Главный модуль > Временное закрытие публичной части сайта* ||
 |#
 

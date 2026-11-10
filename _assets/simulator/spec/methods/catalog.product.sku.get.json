@@ -156,5 +156,8 @@
     "weight",
     "width",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1289
+  }
 }

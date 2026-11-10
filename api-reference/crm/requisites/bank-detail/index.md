@@ -84,9 +84,9 @@
 || **RQ_BANK_ADDR**
 [`string`](../../../data-types.md) | Адрес банка ||
 || **RQ_BANK_CODE**
-[`string`](../../../data-types.md) | Código do banco (для страны BR) ||
+[`string`](../../../data-types.md) | Код банка (`Código do banco`, для страны BR) ||
 || **RQ_BANK_ROUTE_NUM**
-[`string`](../../../data-types.md) | Bank Routing Number ||
+[`string`](../../../data-types.md) | Маршрутный номер банка (`Bank Routing Number`) ||
 || **RQ_BIK**
 [`string`](../../../data-types.md) | БИК ||
 || **RQ_CODEB**
@@ -98,13 +98,13 @@
 || **RQ_MFO**
 [`string`](../../../data-types.md) | МФО ||
 || **RQ_ACC_NAME**
-[`string`](../../../data-types.md) | Bank Account Holder Name ||
+[`string`](../../../data-types.md) | Имя владельца банковского счета (`Bank Account Holder Name`) ||
 || **RQ_ACC_NUM**
-[`string`](../../../data-types.md) | Bank Account Number ||
+[`string`](../../../data-types.md) | Номер банковского счета (`Bank Account Number`) ||
 || **RQ_ACC_TYPE**
-[`string`](../../../data-types.md) | Tipo da conta (для страны BR) ||
+[`string`](../../../data-types.md) | Тип счета (`Tipo da conta`, для страны BR) ||
 || **RQ_AGENCY_NAME**
-[`string`](../../../data-types.md) | Agência (для страны BR) ||
+[`string`](../../../data-types.md) | Название отделения банка (`Agência`, для страны BR) ||
 || **RQ_IIK**
 [`string`](../../../data-types.md) | ИИК ||
 || **RQ_ACC_CURRENCY**
@@ -138,6 +138,4 @@
 || [crm.requisite.bankdetail.delete](./crm-requisite-bank-detail-delete.md) | Удаляет банковский реквизит ||
 || [crm.requisite.bankdetail.fields](./crm-requisite-bank-detail-fields.md) | Возвращает формальное описание полей банковских реквизитов ||
 |#
-
-
 

@@ -128,7 +128,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.sale.shipment.getfields().response
+        bitrix_response = client.sale.shipment.get_fields().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -159,16 +159,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting shipment fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

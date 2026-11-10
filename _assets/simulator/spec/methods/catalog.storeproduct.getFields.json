@@ -115,5 +115,6 @@
     }
   ],
   "page": "/api-reference/catalog/store-product/catalog-store-product-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление ставками НДС»
 
-Метод возвращает поля ставки НДС.
+Метод `catalog.vat.getFields` возвращает описание полей ставки НДС: тип, обязательность и доступность для изменения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -144,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,20 +154,14 @@
                 'catalog.vat.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting VAT fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -174,7 +169,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.vat.getFields', 
+        'catalog.vat.getFields',
         {},
         function(result)
         {
@@ -268,12 +263,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1712325642.686926,
-        "finish": 1712325642.949075,
-        "duration": 0.2621490955352783,
-        "processing": 0.004400968551635742,
-        "date_start": "2024-09-05T16:00:42+02:00",
-        "date_finish": "2024-09-05T16:00:42+02:00",
+        "start": 1793117803,
+        "finish": 1793117803.940944,
+        "duration": 0.9409439563751221,
+        "processing": 0,
+        "date_start": "2026-10-27T19:16:43+03:00",
+        "date_finish": "2026-10-27T19:16:43+03:00",
+        "operating_reset_at": 1793118360,
         "operating": 0
     }
 }
@@ -286,9 +282,14 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **vat**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value"}`, где `field` — идентификатор поля объекта 
-[catalog_vat](../data-types.md#catalog_vat), а `value` — объект типа [rest_field_description](../data-types.md)
+|| **result.vat**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_vat](../data-types.md#catalog_vat), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description).
+
+Метод возвращает поля `active`, `id`, `name`, `rate`, `sort`, `timestampX`. Для каждого поля указаны:
+- `type` — тип значения: `char`, `integer`, `string`, `double` или `datetime`
+- `isRequired` — обязательно ли поле при создании и изменении
+- `isReadOnly` — поле только для чтения
+- `isImmutable` — поле нельзя изменить после создания
 ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -300,7 +301,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -310,17 +311,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Управление ставками НДС» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-vat-add.md)
 - [{#T}](./catalog-vat-update.md)
 - [{#T}](./catalog-vat-get.md)

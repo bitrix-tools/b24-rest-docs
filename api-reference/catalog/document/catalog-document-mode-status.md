@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.document.mode.status` проверяет активность складского учета. 
+Метод `catalog.document.mode.status` проверяет, включен ли складской учет на портале.
 
 ## Параметры метода
 
@@ -144,10 +144,9 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'Status: ' . $result;
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting inventory mode: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -183,7 +182,7 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "catalog.document.mode.status", nil)
+    res, err := client.Core().Call(ctx, "catalog.document.mode.status", nil, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.document.mode.status: %w", err)
     }
@@ -199,18 +198,19 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": "Y",
     "time": {
-        "start": 1759484053.115812,
-        "finish": 1759484053.162347,
-        "duration": 0.04653501510620117,
-        "processing": 0.006915092468261719,
-        "date_start": "2025-11-02T12:54:13+03:00",
-        "date_finish": "2025-11-02T12:54:13+03:00",
+        "start": 1793883497,
+        "finish": 1793883497.243981,
+        "duration": 0.24398088455200195,
+        "processing": 0,
+        "date_start": "2026-11-05T15:58:17+03:00",
+        "date_finish": "2026-11-05T15:58:17+03:00",
+        "operating_reset_at": 1793884080,
         "operating": 0
     }
 }
@@ -222,18 +222,18 @@ HTTP-код: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Активность складского учета. Возможные значения:
-- `'Y'` — включен,
-- `'N'` — отключен ||
+[`string`](../../data-types.md) | Состояние складского учета. Возможные значения:
+- `Y` — складской учет включен
+- `N` — складской учет выключен
+
+Когда складской учет выключен, методы [catalog.document.conductList](./catalog-document-conduct-list.md) и [catalog.document.cancelList](./catalog-document-cancel-list.md) возвращают ошибку ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
@@ -242,11 +242,13 @@ HTTP-код: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access denied | У пользователя нет права на чтение каталога товаров ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
@@ -254,7 +256,5 @@ HTTP-код: **400**
 ## Продолжите изучение
 
 - [{#T}](./catalog-document-list.md)
-- [{#T}](./catalog-document-add.md)
-- [{#T}](./catalog-document-delete.md)
-
-
+- [{#T}](./catalog-document-conduct-list.md)
+- [{#T}](./catalog-document-cancel-list.md)

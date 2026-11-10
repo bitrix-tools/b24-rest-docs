@@ -1,0 +1,29 @@
+title: Справочники для настройки формы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить конфигурацию конструктора CRM-форм
+    href: crm-form-configuration-get.md
+  - name: Получить список полей конфигурации конструктора
+    href: crm-form-configuration-field-list.md
+  - name: Получить поле конфигурации конструктора
+    href: crm-form-configuration-field-get.md
+  - name: Получить список сценариев CRM-форм
+    href: crm-form-scenario-list.md
+  - name: Получить список полей сценария
+    href: crm-form-scenario-field-list.md
+  - name: Получить поле сценария
+    href: crm-form-scenario-field-get.md
+  - name: Получить список категорий сценариев
+    href: crm-form-scenariocategory-list.md
+  - name: Получить список полей категории сценариев
+    href: crm-form-scenariocategory-field-list.md
+  - name: Получить поле категории сценариев
+    href: crm-form-scenariocategory-field-get.md
+  - name: Получить поля объектов CRM для формы
+    href: crm-form-entityfield-list.md
+  - name: Получить список полей справочника полей
+    href: crm-form-entityfield-field-list.md
+  - name: Получить поле справочника полей
+    href: crm-form-entityfield-field-get.md

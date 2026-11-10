@@ -71,5 +71,9 @@
     "MC_BANK_DETAIL_ID",
     "MC_REQUISITE_ID",
     "REQUISITE_ID"
-  ]
+  ],
+  "requestExample": {
+    "entityTypeId": 31,
+    "entityId": 315
+  }
 }

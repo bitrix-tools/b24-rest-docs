@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с доступом к настройкам CRM
+> Кто может выполнять метод: пользователь с доступом на чтение хотя бы одного объекта CRM
 
-Метод получает описание полей валюты. Каждое поле описывается в виде структуры настроек поля [crm_rest_field_description](../data-types.md#crm_rest_field_description).
+Метод `crm.currency.fields` возвращает описание полей валюты: тип и название каждого поля, обязательно ли оно и можно ли его менять. Формат описания — [crm_rest_field_description](../data-types.md#crm_rest_field_description).
+
+## Параметры метода
 
 Без параметров.
 
@@ -154,20 +156,14 @@
                 'crm.currency.fields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching currency fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -177,8 +173,6 @@
     BX24.callMethod(
         "crm.currency.fields",
         {},
-    )
-    .then(
         function(result)
         {
             if (result.error())
@@ -189,10 +183,6 @@
             {
                 console.log(result.data());
             }
-        },
-        function(error)
-        {
-            console.info(error);
         }
     );
     ```
@@ -393,16 +383,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустая строка | Access denied. | Недостаточно прав доступа ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет доступа на чтение ни одного объекта CRM ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-currency-add.md)
 - [{#T}](./crm-currency-update.md)
 - [{#T}](./crm-currency-get.md)
 - [{#T}](./crm-currency-list.md)
 - [{#T}](./crm-currency-delete.md)
+- [{#T}](./index.md)

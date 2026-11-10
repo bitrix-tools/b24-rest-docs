@@ -41,18 +41,10 @@ items:
     href: tasks-task-get-access.md
   - name: Проверить доступ к задаче v 3.0
     href: tasks-task-access-get.md
-  - name: Получить список полей прав доступа
-    href: tasks-task-access-field-list.md
-  - name: Получить описание поля прав доступа
-    href: tasks-task-access-field-get.md
   - name: Прикрепить файлы к задаче
     href: tasks-task-files-attach.md
   - name: Прикрепить файлы к задаче v 3.0
     href: tasks-task-file-attach.md
-  - name: Получить список полей файлов задачи
-    href: tasks-task-file-field-list.md
-  - name: Получить описание поля файлов задачи
-    href: tasks-task-file-field-get.md
   - name: Отправить сообщение в чат задачи
     href: tasks-task-chat-message-send.md
   - name: Получить список полей сообщения чата задачи

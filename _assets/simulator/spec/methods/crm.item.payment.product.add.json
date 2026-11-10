@@ -4,7 +4,7 @@
   "scope": "crm",
   "kind": "write",
   "title": "Добавить товарную позицию в оплату crm.item.payment.product.add",
-  "permissions": "требуется право на изменение заказа, в оплату которого добавляется товарная позиция",
+  "permissions": "пользователь с правом «Изменение» для объекта CRM, к которому относится оплата",
   "params": [
     {
       "name": "paymentId",
@@ -18,14 +18,14 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор товарной позиции в объекте CRM. Можно получить с помощью crm.item.productrow.list"
+      "description": "Идентификатор товарной позиции в объекте CRM, к которому относится оплата. Можно получить с помощью метода crm.item.productrow.list"
     },
     {
       "name": "quantity",
-      "type": "double",
-      "base": "number",
+      "type": "integer",
+      "base": "integer",
       "required": true,
-      "description": "Количество товара"
+      "description": "Количество товара. Значение должно быть больше нуля и не превышать остаток, который еще не распределен по оплатам заказа"
     }
   ],
   "defs": {},
@@ -51,5 +51,10 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "paymentId": 1039,
+    "rowId": 17587,
+    "quantity": 2
+  }
 }

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь с административным доступом к разделу CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.category.delete](../../rest-v3/categories/crm-entity-category-delete-rest-v3.md). Воронки счетов, документов CRM и документов КЭДО в REST 3.0 пока недоступны, для них используйте этот метод.
+
+{% endnote %}
+
 Метод удаляет воронку (направление) с идентификатором `id`.
 
 {% note warning "Не получится удалить:" %}
@@ -177,16 +183,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting category: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

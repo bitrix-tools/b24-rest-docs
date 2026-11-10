@@ -123,5 +123,6 @@
     }
   ],
   "page": "/api-reference/disk/rights/disk-rights-get-tasks.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

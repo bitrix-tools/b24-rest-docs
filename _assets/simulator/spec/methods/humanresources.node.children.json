@@ -99,5 +99,22 @@
     }
   ],
   "page": "/api-reference/departments/node/humanresources-node-children.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "select": [
+      "id",
+      "name",
+      "type",
+      "structureId",
+      "parentId",
+      "description",
+      "accessCode",
+      "userCount",
+      "colorName",
+      "xmlId",
+      "createdAt",
+      "updatedAt"
+    ]
+  }
 }

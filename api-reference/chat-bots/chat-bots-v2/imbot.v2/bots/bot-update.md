@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: владелец зарегистрированного бота
 
-Метод `imbot.v2.Bot.update` обновляет свойства бота.
+Метод `imbot.v2.Bot.update` обновляет свойства бота. Он заменяет метод [imbot.update](../../../outdated/bots/imbot-update.md) первой версии API, соответствие параметров — в [таблице миграции](../../migration.md#metody).
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `Тип` | **Описание** ||
 || **botId***
-[`integer`](../../../../data-types.md) | ID бота ||
+[`integer`](../../../../data-types.md) | ID бота. Его возвращает метод [imbot.v2.Bot.register](./bot-register.md) в поле `result.bot.id` ||
 || **botToken**
 [`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
 
@@ -69,7 +69,7 @@
 || **workPosition**
 [`string`](../../../../data-types.md) | Должность бота (отображается в профиле) ||
 || **color**
-[`string`](../../../../data-types.md) | Цвет аватара, [доступные цвета](../chats/chat-add.md#available-colors). 
+[`string`](../../../../data-types.md) | Цвет аватара, [доступные цвета](../chats/chat-add.md#available-colors).
 Если указан некорректно — игнорируется ||
 || **gender**
 [`string`](../../../../data-types.md) | Пол. Допустимые значения: `M`, `F` ||
@@ -86,7 +86,7 @@
 После успешной ротации:
 
 - Все подписки бота на события `ONIMBOTV2*` перепривязываются к новому `APPLICATION_TOKEN`, если бот работает в режиме `webhook`.
-- Старый токен **мгновенно** теряет доступ к боту — последующие запросы с ним вернут ошибку `BOT_OWNERSHIP_ERROR`.
+- Старый токен **мгновенно** теряет права владельца: изменить или удалить бота с ним нельзя, методы вернут ошибку `BOT_OWNERSHIP_ERROR`. Метод [imbot.v2.Bot.get](./bot-get.md) со старым токеном вернет бота в кратком формате, а [imbot.v2.Bot.list](./bot-list.md) — пустой список.
 
 При коллизии (новый токен уже привязан к другому боту) возвращается обобщенная ошибка `BOT_TOKEN_ROTATION_FAILED` без указания причины, чтобы не раскрывать существование чужих токенов.
 
@@ -96,9 +96,9 @@
 
 #|
 || **Изменение** | **Поведение** ||
-|| `webhookUrl` меняется (режим остается `webhook`) | Старые восемь подписок на прежний URL **удаляются**, на новый URL создаются восемь новых. Прежний URL перестает получать события ||
-|| `eventMode`: `webhook` → `fetch` | Все восемь подписок бота **удаляются**. После перехода события доступны только через [imbot.v2.Event.get](../events/event-get.md) ||
-|| `eventMode`: `fetch` → `webhook` | Создаются восемь подписок на указанный `webhookUrl`. Если ранее остались «легаси»-подписки на другой URL — они также удаляются перед созданием новых ||
+|| `webhookUrl` меняется (режим остается `webhook`) | Старые подписки на прежний URL **удаляются**, на новый URL создаются новые. Прежний URL перестает получать события ||
+|| `eventMode`: `webhook` → `fetch` | Все подписки бота **удаляются**. После перехода события доступны только через [imbot.v2.Event.get](../events/event-get.md) ||
+|| `eventMode`: `fetch` → `webhook` | Создаются подписки на все события `ONIMBOTV2*` для указанного `webhookUrl`. Если ранее остались «легаси»-подписки на другой URL — они также удаляются перед созданием новых ||
 || Прочие поля `properties`, `isHidden` и другие | Подписки не изменяются ||
 |#
 
@@ -134,23 +134,92 @@
       https://**put_your_bitrix24_address**/rest/imbot.v2.Bot.update
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('imbot.v2.Bot.update', {
-        botId: 456,
-        fields: {
-          properties: { name: 'Updated Bot' },
-          isHidden: true,
-        },
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      const { result } = response.getData();
-      console.log('result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    declare const $b24: B24Frame
+
+    // Minimal shape of result; the API returns the full Bot and User objects
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type BotUpdateResult = {
+      bot: {
+        id: number
+        isHidden: boolean
+      }
     }
+
+    try {
+      const response = await $b24.actions.v2.call.make<BotUpdateResult>({
+        method: 'imbot.v2.Bot.update',
+        params: {
+          botId: 456,
+          botToken: 'my_bot_token',
+          fields: {
+            properties: { name: 'Updated Bot' },
+            isHidden: true,
+          },
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(`Bot ${result.bot.id} updated`)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateBot() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imbot.v2.Bot.update',
+            params: {
+              botId: 456,
+              botToken: 'my_bot_token',
+              fields: {
+                properties: { name: 'Updated Bot' },
+                isHidden: true,
+              },
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(`Bot ${result.bot.id} updated`)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateBot)
+    </script>
     ```
 
 - Python
@@ -161,6 +230,7 @@
     try:
         bitrix_response = client.imbot.v2.bot.update(
             bot_id=456,
+            bot_token="my_bot_token",
             fields={
                 "properties": {
                     "name": "Updated Bot",
@@ -193,6 +263,7 @@
                 'imbot.v2.Bot.update',
                 [
                     'botId' => 456,
+                    'botToken' => 'my_bot_token',
                     'fields' => [
                         'properties' => ['name' => 'Updated Bot'],
                         'isHidden' => true,
@@ -242,6 +313,7 @@
         'imbot.v2.Bot.update',
         [
             'botId' => 456,
+            'botToken' => 'my_bot_token',
             'fields' => [
                 'properties' => ['name' => 'Updated Bot'],
                 'isHidden' => true,
@@ -318,8 +390,8 @@ HTTP-статус: **200**
         "finish": 1728626400.234,
         "duration": 0.111,
         "processing": 0.045,
-        "date_start": "2024-10-11T10:00:00+03:00",
-        "date_finish": "2024-10-11T10:00:00+03:00"
+        "date_start": "2024-10-11T09:00:00+03:00",
+        "date_finish": "2024-10-11T09:00:00+03:00"
     }
 }
 ```
@@ -376,6 +448,8 @@ HTTP-статус: **200**
 
 ### Поля объекта User {#user-object}
 
+В таблице и в примере ответа — основные поля. Метод возвращает объект User целиком.
+
 #|
 || **Поле**
 `Тип` | **Описание** ||
@@ -395,7 +469,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
@@ -410,14 +484,14 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением или с другим `botToken` ||
 || `BOT_INVALID_EVENT_MODE` | Invalid event mode | Невалидный режим доставки событий ||
 || `BOT_INVALID_CALLBACK` | Invalid callback URL | Невалидный URL обработчика ||
-|| `BOT_AVATAR_INCORRECT_TYPE` | Avatar must be an image | Аватар должен быть изображением (`image/*`) ||
-|| `BOT_AVATAR_INCORRECT_SIZE` | Avatar exceeds maximum size | Размер аватара превышает максимум (5000×5000 px) ||
+|| `BOT_AVATAR_INCORRECT_TYPE` | Avatar must be an image file | Аватар должен быть изображением (`image/*`) ||
+|| `BOT_AVATAR_INCORRECT_SIZE` | Avatar image exceeds maximum dimensions (5000x5000) | Размер аватара превышает максимум (5000×5000 px) ||
 || `BOT_TOKEN_ROTATION_FAILED` | Bot token rotation failed | Ротация `botToken` не выполнена. Обобщенный код ошибки — причина не раскрывается, чтобы не подтверждать существование чужих токенов ||
 |#
 
@@ -430,3 +504,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./bot-get.md)
 - [{#T}](./bot-list.md)
 - [{#T}](./bot-unregister.md)
+- [{#T}](../../migration.md)

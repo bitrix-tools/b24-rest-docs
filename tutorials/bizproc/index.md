@@ -40,11 +40,11 @@
 ## Как выбрать сценарий {#choose-tutorial}
 
 #|
-|| **Если нужно** | **Откройте** ||
-|| Создать свое действие для бизнес-процесса и вернуть результат из обработчика | [Как создать свое действие для бизнес-процесса](./how-to-create-custom-activity.md) ||
-|| Создать действие бизнес-процесса или робота, который формирует счет на основании лида или сделки | [Как добавить действие для создания счета на основании лида или сделки](./activity.md) ||
-|| Добавить в настройки робота интерфейс приложения и сохранять параметры через `BX24.placement.call` | [Как встроить свой UI в параметры робота](./setting-robot.md) ||
-|| Найти задания уволенного сотрудника и завершить связанные бизнес-процессы | [Как завершить бизнес-процессы уволенного сотрудника](./how-to-kill-workflows.md) ||
-|| Найти активные бизнес-процессы по дате запуска и массово завершить их | [Как массово завершить бизнес-процессы с фильтром по дате](./how-to-filter-and-kill-workflows.md) ||
-|| Посмотреть справочник методов бизнес-процессов и роботов | [Бизнес-процессы и роботы](../../api-reference/bizproc/index.md) ||
+|| **Сценарий** | **Основные методы** | **Результат** ||
+|| [Создать свое действие для бизнес-процесса](./how-to-create-custom-activity.md) | [bizproc.activity.add](../../api-reference/bizproc/bizproc-activity/bizproc-activity-add.md), [bizproc.event.send](../../api-reference/bizproc/bizproc-robot/bizproc-event-send.md) | Действие приложения, которое возвращает результат в бизнес-процесс ||
+|| [Создать смарт-счет на основании лида или сделки](./activity.md) | [bizproc.activity.add](../../api-reference/bizproc/bizproc-activity/bizproc-activity-add.md), [crm.item.get](../../api-reference/crm/universal/crm-item-get.md), [crm.item.productrow.list](../../api-reference/crm/universal/product-rows/crm-item-productrow-list.md), [crm.item.add](../../api-reference/crm/universal/crm-item-add.md), [crm.item.productrow.set](../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md) | ID смарт-счета с клиентом и товарными позициями исходного лида или сделки ||
+|| [Встроить свой UI в параметры робота](./setting-robot.md) | [bizproc.robot.add](../../api-reference/bizproc/bizproc-robot/bizproc-robot-add.md), [BX24.placement.call](../../api-reference/widgets/ui-interaction/bx24-placement-call.md), [bizproc.robot.list](../../api-reference/bizproc/bizproc-robot/bizproc-robot-list.md) | Робот с интерфейсом приложения для настройки и сохранения параметров ||
+|| [Завершить бизнес-процессы уволенного сотрудника](./how-to-kill-workflows.md) | [user.get](../../api-reference/user/user-get.md), [bizproc.task.list](../../api-reference/bizproc/bizproc-task/bizproc-task-list.md), [bizproc.workflow.kill](../../api-reference/bizproc/bizproc-workflow-kill.md) | Удаление процессов, связанных с невыполненными заданиями сотрудника ||
+|| [Массово завершить бизнес-процессы с фильтром по дате](./how-to-filter-and-kill-workflows.md) | [bizproc.workflow.instances](../../api-reference/bizproc/bizproc-workflow-instances.md), [bizproc.workflow.kill](../../api-reference/bizproc/bizproc-workflow-kill.md) | Удаление выбранных процессов, запущенных до указанной даты ||
+|| [Посмотреть справочник методов бизнес-процессов и роботов](../../api-reference/bizproc/index.md) | Группы методов `bizproc.activity.*`, `bizproc.robot.*`, `bizproc.task.*`, `bizproc.workflow.*` | Выбор метода для собственного сценария автоматизации ||
 |#

@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.deletefieldvalue](../../rest-v3/items/crm-entity-delete-field-value-rest-v3.md). Передайте в метод поле `contactsId` и идентификатор, который нужно удалить из привязок.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «изменения» коммерческих предложений

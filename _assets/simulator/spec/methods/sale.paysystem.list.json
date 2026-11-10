@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных платежных систем в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта salepaysystem. Возможные значения для order: - ASC — в порядке возрастания - DESC — в порядке убывания",
+      "values": [
+        {
+          "value": "ASC",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "DESC",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -156,5 +166,44 @@
     "SORT",
     "TARIFF",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "SELECT": [
+      "ID",
+      "PERSON_TYPE_ID",
+      "NAME",
+      "PSA_NAME",
+      "SORT",
+      "DESCRIPTION",
+      "ACTION_FILE",
+      "RESULT_FILE",
+      "NEW_WINDOW",
+      "TARIF",
+      "PS_MODE",
+      "HAVE_PAYMENT",
+      "HAVE_ACTION",
+      "HAVE_RESULT",
+      "HAVE_PREPAY",
+      "HAVE_PRICE",
+      "HAVE_RESULT_RECEIVE",
+      "ENCODING",
+      "ACTIVE",
+      "ALLOW_EDIT_PAYMENT",
+      "IS_CASH",
+      "AUTO_CHANGE_1C",
+      "CAN_PRINT_CHECK",
+      "ENTITY_REGISTRY_TYPE",
+      "XML_ID"
+    ],
+    "FILTER": {
+      "@ID": [
+        117,
+        118
+      ]
+    },
+    "ORDER": {
+      "SORT": "ASC",
+      "ID": "DESC"
+    }
+  }
 }

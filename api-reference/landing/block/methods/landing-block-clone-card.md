@@ -37,7 +37,7 @@
 
 Идентификатор блока можно получить методом [landing.block.getlist](./landing-block-get-list.md) с параметром `params.edit_mode = 1` ||
 || **selector***
-[`string`](../../../data-types.md) | Селектор карточки из [ключа cards манифеста блока](../manifest.md#cards).
+[`string`](../../../data-types.md) | Селектор карточки из [ключа cards манифеста блока](../manifest.md#cards-key).
 
 После селектора можно указать позицию через `@<индекс>`. `@0` копирует первую найденную карточку, `@2` — третью.
 
@@ -166,12 +166,16 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.landing.block.clonecard(
-            lid=351,
-            block=6428,
-            selector=".landing-block-card@0",
-        ).response
-        result = bitrix_response.result
+        # У метода нет отдельной обертки в b24pysdk, поэтому вызываем его по имени
+        bitrix_response = bitrix_token.call_method(
+            "landing.block.clonecard",
+            {
+                "lid": 351,
+                "block": 6428,
+                "selector": ".landing-block-card@0",
+            },
+        )
+        result = bitrix_response["result"]
         print(result)
     except BitrixAPIError as error:
         print(

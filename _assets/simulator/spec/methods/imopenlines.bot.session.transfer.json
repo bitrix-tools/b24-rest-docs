@@ -39,7 +39,17 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Флаг присутствия чат-бота в диалоге после перевода. Допустимые значения: - Y — бот покидает чат сразу - N — бот остается до подтверждения перевода По умолчанию используется N"
+      "description": "Флаг присутствия чат-бота в диалоге после перевода. Допустимые значения: - Y — бот покидает чат сразу - N — бот остается до подтверждения перевода По умолчанию используется N",
+      "values": [
+        {
+          "value": "Y",
+          "title": "бот покидает чат сразу"
+        },
+        {
+          "value": "N",
+          "title": "бот остается до подтверждения перевода По умолчанию используется N"
+        }
+      ]
     },
     {
       "name": "CLIENT_ID",
@@ -84,5 +94,11 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/chat-bots/imopenlines-bot-session-transfer.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 112,
+    "USER_ID": 12,
+    "LEAVE": "N",
+    "CLIENT_ID": "**put_your_client_id_or_bot_token_here**"
+  }
 }

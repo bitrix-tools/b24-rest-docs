@@ -31,7 +31,7 @@
 
 Идентификатор пункта чек-листа шаблона можно получить при [создании нового пункта](./tasks-template-checklist-add.md) или методом [получения списка пунктов](./tasks-template-checklist-list.md) ||
 || **filesIds***
-[`array`](../../../data-types.md) | Массив идентификаторов файлов Диска. Перед каждым идентификатором укажите префикс `n`, например, `["n5065", "n5067"]`.
+[`array`](../../../data-types.md) | Массив идентификаторов файлов Диска. Перед каждым идентификатором укажите префикс `n`, например, `["n5065", "n5067"]`. Значения без префикса метод пропускает без ошибки и файл не прикрепляет.
 
 Получить идентификаторы файлов можно двумя способами.
 
@@ -118,7 +118,8 @@
           image: string
           isCollaber: boolean
         }>
-        attachments: Record<string, string>
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -385,7 +386,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **checkListItem**
-[`object`](../../../data-types.md) | Пункт чек-листа после добавления вложений [(подробное описание)](#checklistitem) ||
+[`object`](../../../data-types.md) | Пункт чек-листа после добавления вложений [(подробное описание)](#checklistitem).
+
+В поле `attachments` возвращаются все вложения пункта, включая добавленные этим вызовом. Ключ — идентификатор прикрепления, его передают в `attachmentsIds` метода [tasks.template.checklist.removeAttachments](./tasks-template-checklist-remove-attachments.md). Значение — идентификатор файла на Диске с префиксом `n`, тот же, что был передан в `filesIds` ||
 |#
 
 {% include [Расшифровка объекта checkListItem](./_includes/checklist-item-response.md) %}
@@ -408,17 +411,21 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Bitrix\Tasks\CheckList\Internals\CheckList All parameters in the constructor must have real class type | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Could not find value for parameter {checkListItemId} | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {checkListItemId}. Should be value of type int. | В `checkListItemId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Нет права на чтение шаблона, `templateId` меньше или равен `0`, пункта `checkListItemId` нет в шаблоне или он удален ||
 || `400` | `100` | Could not find value for parameter {filesIds} | Не передан обязательный параметр `filesIds` ||
-|| `400` | `100` | Invalid value {} to match with parameter {filesIds}. Should be value of type array. | Указан пустой или с неверным типом `filesIds` ||
-|| `400` | `0` | Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, ] | Указан несуществующий, пустой или с неверным типом `checkListItemId` ||
-|| `400` | `0` | Изменение элемента: действие недоступно | У пользователя нет прав доступа на изменение шаблона задачи ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {filesIds}. Should be value of type array. | В `filesIds` передано значение другого типа, а не массив ||
+|| `400` | `ERROR_CORE` | Не удалось найти файл.<br> | В `filesIds` передан идентификатор файла, которого нет на Диске ||
+|| `400` | `0` | Изменение элемента: действие недоступно | Нет права на изменение шаблона задачи ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)
 - [{#T}](./tasks-template-checklist-get.md)

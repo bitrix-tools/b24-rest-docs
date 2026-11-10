@@ -117,5 +117,13 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-add-attachment-by-content.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 37,
+    "attachmentParameters": {
+      "NAME": "dashboard-note.txt",
+      "CONTENT": "RGFzaGJvYXJkIG5vdGU="
+    }
+  }
 }

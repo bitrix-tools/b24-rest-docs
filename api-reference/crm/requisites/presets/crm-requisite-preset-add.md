@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом на добавление и контактов, и компаний
 
-Метод создает новый шаблон реквизитов.
+Метод `crm.requisite.preset.add` создает новый шаблон реквизитов.
 
 ## Параметры метода
 
@@ -339,12 +339,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **40x**, **50x**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "",
-    "error_description": "ENTITY_TYPE_ID is not defined or invalid"
+    "error_description": "ENTITY_TYPE_ID is not defined or invalid."
 }
 ```
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
@@ -352,9 +352,11 @@ HTTP-статус: **40x**, **50x**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ENTITY_TYPE_ID is not defined or invalid` | Идентификатор типа родительского объекта не определен или имеет недопустимое значение ||
-|| `Access denied` | Недостаточно прав доступа для добавления шаблона ||
+|| **Статус** | **Код `error`** | **Текст `error_description`** | **Причина** ||
+|| `400` | Пустое значение | `ENTITY_TYPE_ID is not defined or invalid.` | Идентификатор типа родительского объекта не определен или имеет недопустимое значение ||
+|| `400` | Пустое значение | `Invalid value of field: COUNTRY_ID.` | Передан недопустимый идентификатор страны ||
+|| `400` | Пустое значение | `Не заполнено обязательное поле "NAME"` | Не передано название шаблона или передана пустая строка ||
+|| — | — | `Access denied` | Недостаточно прав доступа для добавления шаблона ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -362,10 +364,10 @@ HTTP-статус: **40x**, **50x**
 ## Продолжите изучение
 
 - [{#T}](./crm-requisite-preset-update.md)
-- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-get.md)
 - [{#T}](./crm-requisite-preset-list.md)
 - [{#T}](./crm-requisite-preset-delete.md)
+- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-fields.md)
 
 

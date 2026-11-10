@@ -59,5 +59,16 @@
     }
   ],
   "page": "/api-reference/bizproc/bizproc-workflow-start.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TEMPLATE_ID": 1,
+    "DOCUMENT_ID": [
+      "crm",
+      "CCrmDocumentLead",
+      "LEAD_1"
+    ],
+    "PARAMETERS": {
+      "Parameter1": "user_1"
+    }
+  }
 }

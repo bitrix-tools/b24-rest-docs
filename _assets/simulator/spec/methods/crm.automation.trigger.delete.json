@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/crm/automation/triggers/crm-automation-trigger-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CODE": "c5u4m"
+  }
 }

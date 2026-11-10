@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных реквизитов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям реквизита. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -77,5 +87,19 @@
     }
   ],
   "page": "/api-reference/crm/requisites/universal/crm-requisite-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "order": {
+      "DATE_CREATE": "ASC"
+    },
+    "filter": {
+      "PRESET_ID": "1"
+    },
+    "select": [
+      "ENTITY_TYPE_ID",
+      "ENTITY_ID",
+      "ID",
+      "NAME"
+    ]
+  }
 }

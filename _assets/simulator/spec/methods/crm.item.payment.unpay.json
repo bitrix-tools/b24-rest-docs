@@ -37,5 +37,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/crm-item-payment-unpay.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1038
+  }
 }

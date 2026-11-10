@@ -76,5 +76,12 @@
     }
   },
   "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "groupId": 125,
+      "createdBy": 6
+    }
+  }
 }

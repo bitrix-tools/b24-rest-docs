@@ -172,14 +172,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Saved to quick answers: ' . var_export($result->data(), true);
-        }
+        print_r($result);
     } catch (Throwable $exception) {
-        error_log($exception->getMessage());
-        echo 'Error saving quick answer: ' . $exception->getMessage();
+        echo $exception->getMessage();
     }
     ```
 

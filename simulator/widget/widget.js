@@ -210,16 +210,33 @@
 
     // ------------------------------------------------------- редакторы значений
 
+    // Выпадающий список из перечня значений: пустой вариант плюс всё, что
+    // документация назвала допустимым.
+    function valueSelect(options, value) {
+        var select = gSelect();
+        [['', '— не передавать —']].concat(options).forEach(function (pair) {
+            var option = el('option', null, pair[1]);
+            option.value = pair[0];
+            select.control.appendChild(option);
+        });
+        select.control.value = value === undefined ? '' : String(value);
+        return select;
+    }
+
     function createValueControl(field, value) {
-        if (field.base === 'char' || field.base === 'boolean') {
-            var select = gSelect();
-            [['', '— не передавать —'], ['Y', 'Y'], ['N', 'N']].forEach(function (pair) {
-                var option = el('option', null, pair[1]);
-                option.value = pair[0];
-                select.control.appendChild(option);
-            });
-            select.control.value = value === undefined ? '' : String(value);
-            return select;
+        // Документация перечислила допустимые значения — предлагаем их.
+        if (field.values && field.values.length) {
+            return valueSelect(field.values.map(function (item) {
+                return [item.value, item.title ? item.value + ' — ' + item.title : item.value];
+            }), value);
+        }
+
+        // Y/N только там, где поле действительно флаг. Тип char документация
+        // ставит и флагам, и коротким кодам, и свободному тексту: раньше
+        // «Комментарий к документу» получал выпадашку с Y и N, и клиент
+        // справедливо считал это ошибкой.
+        if (field.base === 'boolean' || (field.base === 'char' && field.flag)) {
+            return valueSelect([['Y', 'Y'], ['N', 'N']], value);
         }
 
         var isNumber = field.base === 'integer' || field.base === 'number';
@@ -406,8 +423,7 @@
             return createFieldsEditor(spec, param);
         }
         if (param.base === 'object') {
-            var hint = param.name === 'filter' ? '{">=DATE_CREATE": "2026-01-01T00:00:00+03:00"}' : param.name === 'order' ? '{"ID": "DESC"}' : '{}';
-            return createJsonEditor(hint);
+            return createJsonEditor(objectPlaceholder(param));
         }
         if (param.base === 'array') {
             return createArrayEditor('ID, TITLE, DATE_CREATE');
@@ -417,6 +433,46 @@
             return readValueControl(control, param);
         };
         return control;
+    }
+
+    // Подсказка в пустом JSON-редакторе объекта. Для filter по умолчанию
+    // показываем период по дате — это частый сценарий списочных методов.
+    // Но страница может перечислять закрытый набор полей фильтра: тогда
+    // подсказка с датой предлагает поле, которое метод молча игнорирует.
+    // В этом случае показываем сами поля со страницы, а не DATE_CREATE.
+    function objectPlaceholder(param) {
+        if (param.name === 'order') {
+            return '{"ID": "DESC"}';
+        }
+        if (param.name !== 'filter') {
+            return '{}';
+        }
+
+        var description = param.description || '';
+        var closedSet = /(?:только|по двум|по трем|по трём|по следующим)[^:]{0,80}:/i.exec(description);
+        if (!closedSet) {
+            return '{">=DATE_CREATE": "2026-01-01T00:00:00+03:00"}';
+        }
+
+        var keys = [];
+        description
+            .slice(closedSet.index + closedSet[0].length)
+            .split(/\s+-\s+/)
+            .forEach(function (item) {
+                var match = item.match(/^\s*([A-Z][A-Z0-9_]+)\b/);
+                if (match && keys.indexOf(match[1]) === -1) {
+                    keys.push(match[1]);
+                }
+            });
+        if (!keys.length) {
+            return '{}';
+        }
+
+        var sample = {};
+        keys.forEach(function (key) {
+            sample[key] = /_ID$/.test(key) ? 0 : 'value';
+        });
+        return JSON.stringify(sample);
     }
 
     // -------------------------------------------------------------- сниппеты
@@ -594,7 +650,10 @@
                 })
                 .then(function (dataset) {
                     run.disabled = false;
-                    output.appendChild(renderResult(spec, params, window.B24Sim.call(spec, params, dataset)));
+                    var started = now();
+                    var response = window.B24Sim.call(spec, params, dataset);
+                    reportRun(spec, response, now() - started);
+                    output.appendChild(renderResult(spec, params, response));
                 });
         });
 
@@ -607,6 +666,32 @@
         });
 
         return details;
+    }
+
+    function now() {
+        return window.performance && window.performance.now ? window.performance.now() : Date.now();
+    }
+
+    // Обезличенная отметка о запуске: какой метод, чем закончилось, сколько
+    // заняло и с какой страницы. Ни параметров, ни ответа наружу не уходит.
+    // Сбор статистики не имеет права ломать виджет, поэтому всё в try.
+    function reportRun(spec, response, elapsed) {
+        var telemetry = window.B24SimTelemetry;
+        if (!telemetry) {
+            return;
+        }
+        try {
+            telemetry.record(telemetry.shape({
+                channel: 'widget',
+                method: spec.method,
+                ms: elapsed,
+                page: window.location.pathname,
+                session: telemetry.sessionId(),
+                response: response,
+            }));
+        } catch (error) {
+            /* молча: витрина статистики не стоит сломанного виджета */
+        }
     }
 
     function renderResult(spec, params, response) {

@@ -39,8 +39,8 @@
 || Отправить письмо клиенту от имени сотрудника | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md) ||
 || Собрать документ по шаблону — счет, договор или акт | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md) ||
 || Написать комментарий в таймлайн смарт-процесса | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md) ||
-|| Добавить свое поле в смарт-процесс | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md) ||
-|| Задать округление числового поля | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md) ||
+|| Добавить свое поле в смарт-процесс | [{#T}](../../tutorials/field-types/how-to-add-user-field-to-spa.md) ||
+|| Задать округление числового поля | [{#T}](../../tutorials/field-types/how-to-add-precision-to-user-field.md) ||
 || Создать воронку и стадии в смарт-процессе | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md) ||
 || Добавить в объект CRM товары со скидками и налогами | [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-product-binding.md) ||
 |#

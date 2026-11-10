@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/chats/chat-update/im-chat-update-title.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2935,
+    "TITLE": "Чат по проекту"
+  }
 }

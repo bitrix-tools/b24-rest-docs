@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.shipmentitem.add` добавляет элемент в табличную часть отгрузки. 
+Метод `sale.shipmentitem.add` добавляет товар из позиции корзины в отгрузку. Позиция корзины и отгрузка должны принадлежать одному заказу. Правила распределения количества между отгрузками — в [обзоре раздела](./index.md#quantity).
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания элемента табличной части отгрузки ||
+[`object`](../../data-types.md) | Значения полей для создания элемента табличной части отгрузки [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -34,15 +34,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **orderDeliveryId***
-[`sale_order_shipment.id`](../data-types.md) | Идентификатор отгрузки ||
-|| **basketId***
-[`sale_basket_item.id`](../data-types.md) | Идентификатор корзины ||
-|| **quantity***
-[`double`](../../data-types.md) | Количество товара ||
-|| **xmlId**
-[`string`](../../data-types.md) | Внешний идентификатор.
+[`sale_order_shipment.id`](../data-types.md#sale_order_shipment) | Идентификатор отгрузки.
 
-Можно использовать для синхронизации текущей товарной позиции доставки с аналогичной позицией во внешней системе ||
+Можно получить методом [sale.shipment.list](../shipment/sale-shipment-list.md) ||
+|| **basketId***
+[`sale_basket_item.id`](../data-types.md#sale_basket_item) | Идентификатор позиции корзины.
+
+Можно получить методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md) ||
+|| **quantity***
+[`double`](../../data-types.md) | Количество товара в отгрузке. Должно быть больше `0`.
+
+Сумма количества по всем отгрузкам заказа не может превышать количество в позиции корзины ||
+|| **xmlId**
+[`string`](../../data-types.md) | Внешний идентификатор. Если не передан, Битрикс24 генерирует значение вида `bx_6abcd8337a3d4`.
+
+Можно использовать для синхронизации элемента табличной части отгрузки с аналогичной позицией во внешней системе ||
 |#
 
 ## Примеры кода
@@ -53,8 +59,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"orderDeliveryId":33,"basketId":18,"quantity":1}}' \
@@ -63,8 +69,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"orderDeliveryId":33,"basketId":18,"quantity":1},"auth":"**put_access_token_here**"}' \
@@ -213,11 +219,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -294,8 +296,8 @@
     	DateInsert       string `json:"dateInsert"`
     	ID               b24.ID `json:"id"`
     	OrderDeliveryID  b24.ID `json:"orderDeliveryId"`
-    	Quantity         int    `json:"quantity"`
-    	ReservedQuantity int    `json:"reservedQuantity"`
+    	Quantity         float64 `json:"quantity"`
+    	ReservedQuantity float64 `json:"reservedQuantity"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -313,13 +315,13 @@ HTTP-статус: **200**
 {
     "result":{
         "shipmentItem":{
-            "basketId":2716,
-            "dateInsert":"2024-04-11T09:10:34+03:00",
+            "basketId":18,
+            "dateInsert":"2024-04-11T10:10:35+03:00",
             "id":7,
-            "orderDeliveryId":2431,
-            "quantity":3,
+            "orderDeliveryId":33,
+            "quantity":1,
             "reservedQuantity":0,
-            "xmlId":"myXmlId"
+            "xmlId":"bx_6617a2e1b3c5d"
         }
     },
     "time":{
@@ -339,11 +341,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **shipmentItem**
-[`sale_order_shipment_item`](../data-types.md) | Объект с информацией о добавленном элементе табличной части отгрузки ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **shipmentItem**
+[`sale_order_shipment_item`](../data-types.md#sale_order_shipment_item) | Добавленный элемент табличной части отгрузки ||
 |#
 
 ## Обработка ошибок
@@ -352,7 +361,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":201250000001,
+    "error":"201250000001",
     "error_description":"Duplicate entry for key [basketId, orderDeliveryId]"
 }
 ```
@@ -363,14 +372,38 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `201250000001` | Элемент с указанными значениями полей `basketId` и `orderDeliveryId` уже существует.
+|| `201250000001` | `Duplicate entry for key [basketId, orderDeliveryId]`
 
-Для изменения значения количества товара воспользуйтесь методом [`sale.shipmentitem.update`](./sale-shipment-item-update.md) ||
-|| `201240400002` | Отгрузка не найдена. Некорректное значение переданного параметра `orderDeliveryId` ||
-|| `201240400003` | Корзина не найдена. Некорректное значение переданного параметра `basketId` ||
-|| `200040300020` | Недостаточно прав для добавления элемента в табличную часть отгрузки ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля ||
+Элемент с указанными значениями полей `basketId` и `orderDeliveryId` уже существует.
+
+Чтобы изменить количество товара, используйте метод [sale.shipmentitem.update](./sale-shipment-item-update.md) ||
+|| `201240400002` | `shipment not exists`
+
+Отгрузка не найдена или относится к другому заказу, чем позиция корзины. Проверьте `orderDeliveryId` ||
+|| `201240400003` | `shipment not exists`
+
+Позиция корзины не найдена. Некорректное значение `basketId` ||
+|| `SALE_SHIPMENT_ITEM_LESS_AVAILABLE_QUANTITY` | `В корзине недостаточное количество свободного товара "<название>" для добавления в отгрузку. Возможно, вы уже добавили часть товара по этому заказу в другие отгрузки`
+
+В корзине недостаточно свободного товара: количество превышает остаток, не распределенный по другим отгрузкам ||
+|| `SALE_SHIPMENT_ITEM_ERR_QUANTITY_EMPTY` | `Количество <название> не может быть меньше или равны 0`
+
+Передано `quantity` = `0` ||
+|| `BARCODE_MORE_ITEM_QUANTITY` | `Штрих-кодов больше чем количества товара`
+
+Передано отрицательное значение `quantity` ||
+|| `200040300020` | `Access Denied`
+
+Недостаточно прав для добавления элемента в табличную часть отгрузки ||
+|| `100` | `Could not find value for parameter {fields}`
+
+Не указан параметр `fields` ||
+|| `0` | `Required fields: ...`
+
+В `fields` не переданы обязательные поля ||
+|| `0` | `Call to a member function setFields() on null`
+
+Отгрузка уже отгружена (`deducted` = `Y`), добавить в нее товар нельзя ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
@@ -378,6 +411,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-shipment-item-update.md)
 - [{#T}](./sale-shipment-item-get.md)
 - [{#T}](./sale-shipment-item-list.md)

@@ -15,6 +15,12 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.lead.isenabled](./rest-v3/lead-mode/crm-lead-is-enabled-rest-v3.md). Он доступен только администратору CRM: если интеграция работает от имени обычного пользователя, используйте этот метод.
+
+{% endnote %}
+
 Метод возвращает текущие настройки режима работы CRM: **классический режим CRM** (с лидами) или **простой режим CRM** (без лидов).
 
 Этот режим влияет на целый ряд сценариев работы CRM и для лучшего понимания мы рекомендуем прочитать [соответствующую статью](https://helpdesk.bitrix24.ru/open/17611420/) пользовательской документации.
@@ -54,20 +60,13 @@
     ```js
     try
     {
-    	const response = await $b24.callMethod(
-    		'crm.settings.mode.get',
-    		{}
-    	);
-    	
-    	const result = response.getData().result;
-    	if (result.error())
-    	{
-    		console.error(result.error());
-    	}
-    	else
-    	{
-    		console.dir(result);
-    	}
+        const response = await $b24.callMethod(
+            'crm.settings.mode.get',
+            {}
+        );
+
+        const result = response.getData().result;
+        console.dir(result);
     }
     catch( error )
     {
@@ -112,12 +111,8 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+
+        echo 'CRM mode: ' . $result;
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -193,15 +188,45 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../data-types.md) | Возвращает значение, определённое в [crm.enum.settings.mode](./auxiliary/enum/crm-enum-settings-mode.md) ||
+[`integer`](../data-types.md) | Идентификатор текущего режима работы CRM. Возможные значения описаны [ниже](#result) ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Возможные значения result {#result}
+
+#|
+|| **Значение** | **Режим** | **Описание** ||
+|| `1` | Классический | CRM работает с лидами ||
+|| `2` | Простой | CRM работает без лидов: новые обращения сразу становятся сделками и контактами или компаниями ||
+|#
+
+Актуальный список режимов и их названия возвращает метод [crm.enum.settings.mode](./auxiliary/enum/crm-enum-settings-mode.md).
+
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the webhook token"
+}
+```
 
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `insufficient_scope` | Недостаточно скоупа у токена | Токен не содержит скоуп `crm` ||
+|#
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./auxiliary/enum/crm-enum-settings-mode.md)
+- [{#T}](./index.md)
+- [{#T}](./leads/index.md)

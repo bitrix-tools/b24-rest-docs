@@ -1,4 +1,4 @@
-# Получить список связей записи в таймлайне crm.timeline.bindings.list
+# Получить список связей записи таймлайна с элементами CRM crm.timeline.bindings.list
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: `любой пользователь`
 
-Метод получает список связей для записи в таймлайне.
+Метод `crm.timeline.bindings.list` получает список связей одной записи таймлайна с элементами CRM.
+
+В выдачу попадает и связь с тем элементом, в котором запись создана: она появляется автоматически, без вызова [crm.timeline.bindings.bind](./crm-timeline-bindings-bind.md).
 
 ## Параметры метода
 
@@ -23,9 +25,36 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter***
-[`object`](../../../data-types.md) | Объект для фильтрации выбранных записей.
+[`object`](../../../data-types.md) | Объект для фильтрации выбранных записей [(подробное описание)](#filter) ||
+|| **start**
+[`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
-Обязательно использовать поле `OWNER_ID`, остальные поля не нужны ||
+Размер страницы результатов всегда статичный: 50 связей.
+
+Чтобы выбрать вторую страницу результатов, необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+
+Формула расчета значения параметра `start`:
+
+`start = (N - 1) * 50`, где `N` — номер нужной страницы.
+
+По умолчанию `0` — первая страница. Если передать значение больше общего количества связей, метод вернет первую страницу, а не пустой результат ||
+|| **order**
+[`object`](../../../data-types.md) | Метод принимает параметр, но не учитывает его: сортировка результата не поддерживается.
+
+Значение должно быть объектом, иначе метод вернет ошибку `Parameter 'order' must be array.` ||
+|#
+
+### Параметр filter {#filter}
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **OWNER_ID***
+[`integer`](../../../data-types.md) | Идентификатор записи таймлайна, связи которой нужно получить. Возьмите его из ответа метода [crm.timeline.comment.add](../comments/crm-timeline-comment-add.md) или [crm.timeline.logmessage.add](../logmessage/crm-timeline-logmessage-add.md) либо получите из списка методом [crm.timeline.comment.list](../comments/crm-timeline-comment-list.md) или [crm.timeline.logmessage.list](../logmessage/crm-timeline-logmessage-list.md).
+
+Метод учитывает только это поле фильтра. Остальные поля не влияют на результат ||
 |#
 
 ## Примеры кода
@@ -72,18 +101,15 @@
     }
 
     try {
-      // crm.timeline.bindings.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // The list helpers (callList.make(), fetchList.make()) page through an id cursor field,
+      // and this method returns no id at all — they would stop after the first page.
+      // Walk the pages manually: repeat the call with `start` increased by 50 while `next` is present.
       const response = await $b24.actions.v2.call.make<TimelineBindingItem[]>({
         method: 'crm.timeline.bindings.list',
         params: {
           filter: {
             OWNER_ID: 999,
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -105,25 +131,22 @@
 
     ```html
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
-    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@2/dist/umd/index.min.js"></script>
     <script>
       async function listTimelineBindings() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.timeline.bindings.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // The list helpers (callList.make(), fetchList.make()) page through an id cursor field,
+          // and this method returns no id at all — they would stop after the first page.
+          // Walk the pages manually: repeat the call with `start` increased by 50 while `next` is present.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.timeline.bindings.list',
             params: {
               filter: {
                 OWNER_ID: 999,
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -201,35 +224,9 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.timeline.bindings.list(
-            filter={
-                "OWNER_ID": 999,
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
+    Быстрый обход `as_list_fast` для этого метода не подходит: он листает список по полю `ID`, которого нет в ответе.
 
 - PHP
-
 
     ```php
     try {
@@ -243,20 +240,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            print_r($result->data());
-            if ($result->more()) {
-                $result->next();
-            }
-        }
-    
+
+        // Следующую страницу получите тем же вызовом с параметром start
+        print_r($result);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching timeline bindings: ' . $e->getMessage();
@@ -273,14 +263,14 @@
                 "OWNER_ID": 999,
             },
         }, result => {
-            if (result.error())
+            if (result.error()) {
                 console.error(result.error());
-            else
+            } else {
                 console.dir(result.data());
-                if (result.more()) 
-                {
+                if (result.more()) {
                     result.next();
                 }
+            }
         }
     );
     ```
@@ -329,8 +319,8 @@
     	fmt.Println(it.OwnerID, it.EntityID)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
+    // Для полного обхода списка подходит client.Core().Pages: он листает по start.
+    // Scan здесь не работает — он идет по идентификатору, которого нет в ответе.
     if res.Total != nil {
     	fmt.Println("всего:", *res.Total)
     }
@@ -373,6 +363,30 @@ HTTP-статус: **200**
 }
 ```
 
+В примере ниже у записи 60 связей — показана одна связь из 50 на первой странице:
+
+```json
+{
+    "result": [
+        {
+            "OWNER_ID": "999",
+            "ENTITY_ID": "39",
+            "ENTITY_TYPE": "deal"
+        }
+    ],
+    "next": 50,
+    "total": 60,
+    "time": {
+        "start": 1715091541.642592,
+        "finish": 1715091541.730599,
+        "duration": 0.08800697326660156,
+        "date_start": "2024-05-03T17:19:01+03:00",
+        "date_finish": "2024-05-03T17:19:01+03:00",
+        "operating": 0
+    }
+}
+```
+
 ### Возвращаемые данные
 
 #|
@@ -380,8 +394,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`array`](../../../data-types.md) | Массив объектов с найденными связями [(подробное описание)](#result) ||
+|| **next**
+[`integer`](../../../data-types.md) | Значение параметра `start` для следующей страницы. Возвращается, только если у записи таймлайна больше 50 связей ||
 || **total**
-[`integer`](../../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../../data-types.md) | Общее количество найденных связей ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -396,7 +412,18 @@ HTTP-статус: **200**
 || **ENTITY_ID**
 [`string`](../../../data-types.md) | Идентификатор элемента CRM ||
 || **ENTITY_TYPE**
-[`string`](../../../data-types.md) | Тип элемента CRM. Возможные значения: `lead`, `deal`, `contact`, `company`, `order` ||
+[`string`](../../../data-types.md) | Символьный код типа объекта CRM `entityTypeName`. Метод всегда возвращает его в нижнем регистре. Возможные значения:
+- `lead` — лид
+- `deal` — сделка
+- `contact` — контакт
+- `company` — компания
+- `quote` — предложение
+- `smart_invoice` — счет
+- `order` — заказ
+- `activity` — дело
+- `dynamic_<entityTypeId>` — элемент смарт-процесса, например `dynamic_128`
+
+В ответе встречаются и другие типы объектов CRM, например `invoice` — счет в старом формате. Как устроены символьные коды типов, описано в разделе [Тип объекта CRM](../../data-types.md#object_type) ||
 |#
 
 ## Обработка ошибок
@@ -415,14 +442,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустое значение | OWNER_ID is not defined or invalid | Не передан обязательный параметр `OWNER_ID` или переданный `OWNER_ID` некорректный ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | OWNER_ID is not defined or invalid. | Не передан обязательный параметр `OWNER_ID`, передано нечисловое значение или число меньше единицы ||
+|| `400` | Пустое значение | Parameter 'filter' must be array. | Параметр `filter` передан не объектом ||
+|| `400` | Пустое значение | Parameter 'order' must be array. | Параметр `order` передан не объектом ||
 |#
+
+Если запись таймлайна с переданным `OWNER_ID` не существует или у нее нет связей, метод возвращает пустой массив в `result` и `total` со значением `0`.
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-bindings-bind.md)
 - [{#T}](./crm-timeline-bindings-unbind.md)
 - [{#T}](./crm-timeline-bindings-fields.md)
+- [{#T}](./index.md)

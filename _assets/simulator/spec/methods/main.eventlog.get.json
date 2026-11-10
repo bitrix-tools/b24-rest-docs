@@ -190,5 +190,8 @@
     "timestampX",
     "userAgent",
     "userId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1250
+  }
 }

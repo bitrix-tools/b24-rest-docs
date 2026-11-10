@@ -4,14 +4,14 @@
   "scope": "biconnector",
   "kind": "read",
   "title": "Получить список датасетов biconnector.dataset.list",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "select",
       "type": "string[]",
       "base": "array",
       "required": "unknown",
-      "description": "Список полей, которые должны быть заполнены у датасетов в выборке. По умолчанию берутся все поля. Не поддерживает поле fields, оно будет проигнорировано",
+      "description": "Список полей, которые должны быть заполнены у датасетов в выборке. Допустимые значения — названия полей из схемы метода biconnector.dataset.fields и *. По умолчанию берутся все поля, допустимо и явное select: [\"*\"]. Поля csvDelimiter, csvEncoding и csvHasHeaders в схему не входят: в ответе они приходят, но в select вызовут ошибку VALIDATION_FIELD_NOT_ALLOWED_IN_SELECT.…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -33,7 +33,7 @@
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Параметры сортировки. Пример формата: где: - field_n — название поля, по которому будет произведена сортировка выборки датасетов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию",
+      "description": "Параметры сортировки. Пример формата: где: - field_n — название поля, по которому будет произведена сортировка выборки датасетов - value_n — значение типа string, равное: - ASC — сортировка по возрастанию - DESC — сортировка по убыванию Без этого параметра сортировка не применяется и порядок записей в выборке не гарантирован.…",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -44,7 +44,7 @@
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Управление постраничной навигацией. Размер страницы результатов — 50 записей. Для перехода по результатам передавайте номер страницы"
+      "description": "Номер страницы выборки, нумерация начинается с единицы, значение по умолчанию — 1. Размер страницы фиксированный — 50 записей. Нечисловое, нулевое или отрицательное значение ошибки не вызывает: метод молча отдает первую страницу.…"
     }
   ],
   "defs": {},
@@ -53,20 +53,23 @@
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-list.md"
   },
+  "deprecated": {
+    "successor": "biconnector.table.list"
+  },
   "resultExample": {
     "result": [
       {
-        "id": "9",
+        "id": 9,
         "name": "sales_data_main",
         "description": "Monthly sales report"
       },
       {
-        "id": "6",
+        "id": 6,
         "name": "sales_data_first_filial",
         "description": "Monthly sales report for first filial"
       },
       {
-        "id": "5",
+        "id": 5,
         "name": "sales_data_second_filial",
         "description": "Monthly sales report for second filial"
       }
@@ -81,6 +84,13 @@
     }
   },
   "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Плоский массив датасетов без дополнительной обертки (подробное описание)"
+    },
     {
       "name": "time",
       "type": "time",

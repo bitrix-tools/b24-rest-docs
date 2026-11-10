@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/chats/users/im-user-status-idle-start.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "AGO": 10
+  }
 }

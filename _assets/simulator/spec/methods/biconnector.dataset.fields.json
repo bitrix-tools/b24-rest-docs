@@ -4,14 +4,25 @@
   "scope": "biconnector",
   "kind": "read",
   "title": "Получить поля датасета biconnector.dataset.fields",
-  "permissions": "пользователь с доступом к разделу «Рабочее место аналитика»",
+  "permissions": "пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно",
   "params": [
     {
       "name": "result",
       "type": "object",
       "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа. Содержит массив fields с описанием полей датасета. Структура элемента массива описана в статье Коннектор: обзор методов",
+      "description": "Корневой элемент ответа. Содержит единственный ключ fields",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "result.fields",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив дескрипторов полей датасета, один элемент — одно поле (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -34,6 +45,9 @@
   "confidence": "parsed",
   "source": {
     "file": "api-reference/biconnector/dataset/biconnector-dataset-fields.md"
+  },
+  "deprecated": {
+    "successor": "biconnector.table.fields"
   },
   "resultExample": {
     "result": {
@@ -153,6 +167,30 @@
       "date_finish": "2025-02-28T15:47:32+00:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Содержит единственный ключ fields"
+    },
+    {
+      "name": "result.fields",
+      "type": "object[]",
+      "base": "array",
+      "required": "unknown",
+      "description": "Массив дескрипторов полей датасета, один элемент — одно поле (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/biconnector/dataset/biconnector-dataset-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

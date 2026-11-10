@@ -1,17 +1,17 @@
-title: Контакты у сделки
+title: Связь сделки с контактами
 href: index.md
 items:
-  - name: Обзор методов 
+  - name: Обзор методов
     href: index.md
-  - name: Добавить один контакт
+  - name: Добавить контакт к сделке
     href: crm-deal-contact-add.md
   - name: Удалить контакт из указанной сделки
     href: crm-deal-contact-delete.md
-  - name: Получить поля для связи сделка-контакт
-    href: crm-deal-contact-fields.md
-  - name: Получить контакты, связанные со сделкой
+  - name: Получить набор контактов, связанных с указанной сделкой
     href: crm-deal-contact-items-get.md
-  - name: Добавить несколько контактов
+  - name: Установить набор контактов, связанных с указанной сделкой
     href: crm-deal-contact-items-set.md
   - name: Удалить набор контактов, связанных с указанной сделкой
     href: crm-deal-contact-items-delete.md
+  - name: Получить поля для связи сделка-контакт
+    href: crm-deal-contact-fields.md

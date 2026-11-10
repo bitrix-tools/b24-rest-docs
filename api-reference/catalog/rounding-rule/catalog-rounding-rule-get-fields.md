@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает поля правила округления цен.
+Метод `catalog.roundingRule.getFields` возвращает описание полей правила округления цен: тип, обязательность и доступность для изменения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -144,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,20 +154,14 @@
                 'catalog.roundingRule.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting rounding rule fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -174,7 +169,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.roundingRule.getFields', 
+        'catalog.roundingRule.getFields',
         {},
         function(result)
         {
@@ -304,7 +299,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **roundingRule**
+|| **result.roundingRule**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_rounding_rule](../data-types.md#catalog_rounding_rule), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -316,7 +311,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -326,9 +321,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Управление типами цен» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

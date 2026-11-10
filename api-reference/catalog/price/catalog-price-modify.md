@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара»
+> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара» и правом изменять цены товара в инфоблоке каталога
 
 Метод `catalog.price.modify` изменяет коллекцию цен товара. Позволяет добавлять, обновлять и удалять разные цены товара за один запрос.
 
@@ -58,7 +58,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены. Если указан, то цена будет обновлена. Если не указан, то будет создана новая цена. Цена, идентификатор которой не был передан, будет удалена. Получить идентификаторы цен можно методом [catalog.price.list](./catalog-price-list.md) ||
+[`catalog_price.id`](../data-types.md#catalog_price) | Идентификатор цены. Если указан, то цена будет обновлена. Если не указан, то будет создана новая цена. Цена, идентификатор которой не был передан, будет удалена. Получить идентификаторы цен можно методом [catalog.price.list](./catalog-price-list.md).
+
+Сейчас передача `id` приводит к ошибке, подробнее в предупреждении под таблицей ||
 || **catalogGroupId***
 [`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены, можно получить методом [catalog.priceType.list](../price-type/catalog-price-type-list.md) ||
 || **price***
@@ -67,6 +69,13 @@
 [`string`](../../data-types.md) | Идентификатор валюты, можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
 |#
 
+{% note warning "" %}
+
+Сейчас метод не обновляет существующие цены. Если передать в `prices` цену с `id`, метод вернет ошибку `Validate price error. Catalog price group is wrong`, и цены товара не изменятся.
+
+Передавайте все цены товара без `id`. Метод удалит текущие цены товара и создаст новые с переданными значениями, поэтому идентификаторы цен изменятся. Чтобы изменить одну цену и сохранить ее идентификатор, используйте метод [catalog.price.update](./catalog-price-update.md).
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -80,7 +89,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001,"id":122}]}}}' \
+    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001}]}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.price.modify
     ```
 
@@ -90,7 +99,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001,"id":122}]},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"product":{"id":8,"prices":[{"catalogGroupId":1,"currency":"RUB","price":2001},{"catalogGroupId":3,"currency":"RUB","price":2001},{"catalogGroupId":5,"currency":"RUB","price":2001}]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.price.modify
     ```
 
@@ -142,7 +151,6 @@
                   catalogGroupId: 5,
                   currency: 'RUB',
                   price: 2001,
-                  id: 122,
                 },
               ],
             },
@@ -196,7 +204,6 @@
                       catalogGroupId: 5,
                       currency: 'RUB',
                       price: 2001,
-                      id: 122,
                     },
                   ],
                 },
@@ -248,7 +255,6 @@
                             "catalogGroupId": 5,
                             "currency": "RUB",
                             "price": 2001,
-                            "id": 122,
                         },
                     ],
                 },
@@ -296,7 +302,6 @@
                                     'catalogGroupId' => 5,
                                     'currency' => 'RUB',
                                     'price' => 2001,
-                                    'id' => 122
                                 ]
                             ]
                         ]
@@ -308,15 +313,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error modifying prices: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -338,13 +337,12 @@
                         {
                             catalogGroupId: 3,
                             currency: 'RUB',
-                            price: 2001               
+                            price: 2001
                         },
                         {
                             catalogGroupId: 5,
                             currency: 'RUB',
-                            price: 2001,                
-                            id: 122
+                            price: 2001,
                         },
                     ]
                 },
@@ -386,7 +384,6 @@
                             'catalogGroupId' => 5,
                             'currency' => 'RUB',
                             'price' => 2001,
-                            'id' => 122
                         ],
                     ]
                 ],
@@ -422,7 +419,6 @@
     					"catalogGroupId": 5,
     					"currency":       "RUB",
     					"price":          2001,
-    					"id":             122,
     				},
     			},
     		},
@@ -470,7 +466,7 @@ HTTP-статус: **200**
                 "extraId": null,
                 "id": 123,
                 "price": 2001,
-                "priceScale":2001,
+                "priceScale": 2001,
                 "productId": 8,
                 "quantityFrom": null,
                 "quantityTo": null,
@@ -482,7 +478,7 @@ HTTP-статус: **200**
                 "extraId": null,
                 "id": 124,
                 "price": 2001,
-                "priceScale":2001,
+                "priceScale": 2001,
                 "productId": 8,
                 "quantityFrom": null,
                 "quantityTo": null,
@@ -494,7 +490,7 @@ HTTP-статус: **200**
                 "extraId": null,
                 "id": 122,
                 "price": 2001,
-                "priceScale":2001,
+                "priceScale": 2001,
                 "productId": 8,
                 "quantityFrom": null,
                 "quantityTo": null,
@@ -521,7 +517,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **prices**
+|| **result.prices**
 [`catalog_price[]`](../data-types.md#catalog_price) | Массив объектов с информацией о ценах товара ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -533,8 +529,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description": "Required fields: price, currency"
+    "error": "0",
+    "error_description": "Product prices are empty"
 }
 ```
 
@@ -543,14 +539,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав на редактирование цены ||
-|| `200040300030` | Access Denied | Недостаточно прав на редактирование товара ||
-|| `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` ||
-|| `0` | Required fields:  | Не переданы обязательные поля ||
-|| `0` | Validate price error. Catalog price group is wrong | Неправильный тип цены ||
-|| `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group | Дублирование типа цены. Были переданы в массиве `prices` две или более записей с одинаковым `catalogGroupId` || 
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | Нет права изменять цены этого товара в инфоблоке каталога или товара с указанным `id` нет ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: [product][id], [product][prices][] | В `fields` нет объекта `product` с полями `id` и `prices` ||
+|| `400` | `0` | Product prices are empty | В `prices` передан пустой массив ||
+|| `400` | `0` | Validate price error. Catalog price group is wrong | Типа цены с указанным `catalogGroupId` нет или в `prices` передан `id` цены ||
+|| `400` | `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group. | В `prices` передано несколько цен одного типа без диапазонов количества ||
+|| `400` | `0` | Validate price error. Ranges of base price are not equal to another price group range | Переданы `quantityFrom` и `quantityTo`, а у базовой цены товара нет такого же диапазона количества ||
+|| `400` | `BX_ERROR` | Неверная цена | В `price` передано отрицательное число ||
+|| `400` | `BX_ERROR` | Неверная валюта | Валюты с кодом из `currency` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

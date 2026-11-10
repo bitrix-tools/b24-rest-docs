@@ -13,9 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.calllist.statuslist` возвращает список статусов обзвона.
+Метод `crm.calllist.statuslist` возвращает статусы звонка участникам обзвона, например «В работе», «Успешно», «Неверный номер».
 
-Чтобы создать новый статус, изменить или удалить существующий, используйте методы [crm.status.*](../status/index.md).
+Создать, изменить или удалить статус можно методами [crm.status.*](../status/index.md) с параметром `ENTITY_ID = CALL_LIST`.
 
 ## Параметры метода
 
@@ -33,7 +33,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.statuslist
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.calllist.statuslist
     ```
 
 - cURL (OAuth)
@@ -42,7 +42,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.statuslist
+         https://**put_your_bitrix24_address**/rest/crm.calllist.statuslist
     ```
 
 - JS (TS)
@@ -156,16 +156,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching call list status: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -280,7 +273,7 @@ HTTP-статус: **200**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Описание полей result {#result}
+#### Элемент массива result {#result}
 
 #|
 || **Название**
@@ -290,9 +283,9 @@ HTTP-статус: **200**
 || **NAME**
 [`string`](../../data-types.md) | Название ||
 || **SORT**
-[`integer`](../../data-types.md) | Порядок сортировки||
+[`integer`](../../data-types.md) | Порядок сортировки ||
 || **STATUS_ID**
-[`string`](../../data-types.md) | Код статуса, используйте в методе [crm.calllist.items.get](./crm-calllist-items-get.md) ||
+[`string`](../../data-types.md) | Код статуса. По нему можно отфильтровать участников в методе [crm.calllist.items.get](./crm-calllist-items-get.md) ||
 |#
 
 ## Обработка ошибок
@@ -308,3 +301,4 @@ HTTP-статус: **200**
 - [{#T}](./crm-calllist-items-get.md)
 - [{#T}](./crm-calllist-list.md)
 - [{#T}](./crm-calllist-update.md)
+- [{#T}](./index.md)

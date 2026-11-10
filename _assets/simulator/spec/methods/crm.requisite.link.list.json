@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных связей реквизитов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям связи реквизитов. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -163,5 +173,18 @@
     "MC_BANK_DETAIL_ID",
     "MC_REQUISITE_ID",
     "REQUISITE_ID"
-  ]
+  ],
+  "requestExample": {
+    "order": {
+      "ENTITY_ID": "ASC"
+    },
+    "filter": {
+      "@ENTITY_TYPE_ID": [
+        1,
+        2,
+        7,
+        31
+      ]
+    }
+  }
 }

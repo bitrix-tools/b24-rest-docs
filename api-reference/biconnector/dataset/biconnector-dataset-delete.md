@@ -11,9 +11,23 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.dataset.delete` удаляет существующий датасет.
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [biconnector.table.delete](../table/biconnector-table-delete.md).
+
+{% endnote %}
+
+Метод `biconnector.dataset.delete` должен удалять датасет вместе с его полями, настройками и связью с источником. Вся операция идет в транзакции: неудачное удаление в BI-Конструкторе откатывает и остальные шаги.
+
+До этой логики дело не доходит: в Битрикс24 с развернутым BI-Конструктором вызов завершается HTTP-статусом 500. Описание ниже приведено для полноты — рабочий сценарий удаления смотрите у метода [biconnector.table.delete](../table/biconnector-table-delete.md).
+
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и удаляет только те датасеты, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -31,16 +45,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"id":4}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.dataset.delete
-    ```
 
 - cURL (OAuth)
 
@@ -62,8 +66,16 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<boolean | BiconnectorError>({
         method: 'biconnector.dataset.delete',
         params: {
           id: 4,
@@ -76,7 +88,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Dataset deleted:', result)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if (typeof result === 'object' && result !== null && 'error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Dataset deleted:', result)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -110,6 +128,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Dataset deleted:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -131,7 +156,17 @@
             bitrix_id=4,
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -147,7 +182,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -158,17 +192,24 @@
                     'id' => 4,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Info: ' . $result->data();
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Info: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting dataset: ' . $e->getMessage();
@@ -184,9 +225,20 @@
             id: 4,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         }
     );
     ```
@@ -203,9 +255,15 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -219,6 +277,17 @@
     	return fmt.Errorf("biconnector.dataset.delete: %w", err)
     }
 
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.dataset.delete: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
+    }
+
     var ok bool
     if err := json.Unmarshal(res.Result, &ok); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -229,6 +298,8 @@
 {% endlist %}
 
 ## Обработка ответа
+
+Ответ ниже метод отдал бы при успешном удалении. В Битрикс24 с развернутым BI-Конструктором до него не доходит: вызов завершается HTTP-статусом 500. Рабочий сценарий удаления — у метода [biconnector.table.delete](../table/biconnector-table-delete.md).
 
 HTTP-статус: **200**
 
@@ -252,7 +323,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа. Содержит `true`, если датасет удален. Другого значения при успехе метод не возвращает и объект удаленного датасета не отдает. Если удалить датасет не удалось, вместо `true` в `result` приходит объект с ключом `error` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -263,10 +334,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_ID_NOT_PROVIDED",
-    "error_description": "ID is missing."
+    "result": {
+        "error": {
+            "error": "VALIDATION_ID_NOT_PROVIDED",
+            "error_description": "ID is missing."
+        }
+    }
 }
 ```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -274,19 +355,21 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
-|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасет не найден ||
-|| `-` | Error deleting dataset | Ошибка удаления датасета ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
+|| Пустое значение | Error deleting dataset | Не удалось удалить датасет в BI-Конструкторе, транзакция откачена. Собственного строкового кода у этой ошибки нет: в поле `error` приходит числовой ноль. В Битрикс24 с развернутым BI-Конструктором до этой ошибки дело не доходит — вызов падает раньше с HTTP-статусом 500 ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./biconnector-dataset-add.md)
 - [{#T}](./biconnector-dataset-update.md)
-- [{#T}](./biconnector-dataset-fields-update.md)
 - [{#T}](./biconnector-dataset-get.md)
 - [{#T}](./biconnector-dataset-list.md)
+- [{#T}](./biconnector-dataset-fields-update.md)
 - [{#T}](./biconnector-dataset-fields.md)

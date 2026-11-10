@@ -57,5 +57,8 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-unpublic-folder.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "folderId": 737
+  }
 }

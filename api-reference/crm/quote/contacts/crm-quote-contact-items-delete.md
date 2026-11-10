@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.update](../../rest-v3/items/crm-entity-update-rest-v3.md). Чтобы удалить все привязки, передайте пустой массив `contactsId: []`.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правами «чтение» и «изменение» коммерческих предложений

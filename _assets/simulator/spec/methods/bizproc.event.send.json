@@ -10,15 +10,15 @@
       "name": "EVENT_TOKEN",
       "type": "string",
       "base": "string",
-      "required": "unknown",
-      "description": "Специальный токен, который приходит на обработчик приложения, когда выполняется действие или робот. Значение этого токена обработчик получает в массиве входных данных. Отправить событие можно, если робот или действие зарегистрированы с 'USE_SUBSCRIPTION': 'Y'"
+      "required": true,
+      "description": "Токен запуска робота или действия. Битрикс24 передает его на обработчик приложения в поле event_token. Процесс примет результат, только если шаг с этим токеном еще ждет ответа. Ожидание включает параметр USE_SUBSCRIPTION: 'Y' при регистрации робота или действия. Если параметр не задали, по умолчанию шаг ответа не ждет, а включить ожидание можно в его настройках"
     },
     {
       "name": "RETURN_VALUES",
       "type": "object",
       "base": "object",
-      "required": "unknown",
-      "description": "Массив возвращаемых значений действия или робота. Указываются значения свойств, которые были зарегистрированы как дополнительные результаты RETURN_PROPERTIES методами: - bizproc.robot.add, bizproc.robot.update - bizproc.activity.add, bizproc.activity.update",
+      "required": false,
+      "description": "Возвращаемые значения робота или действия. Ключи — коды параметров из RETURN_PROPERTIES, которые задали методами: - bizproc.robot.add, bizproc.robot.update - bizproc.activity.add, bizproc.activity.update Регистр ключей не важен. Значение Битрикс24 приводит к типу Type этого параметра. Ключи, которых нет в RETURN_PROPERTIES, Битрикс24 не сохранит",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -28,12 +28,12 @@
       "name": "LOG_MESSAGE",
       "type": "string",
       "base": "string",
-      "required": "unknown",
-      "description": "Текст для журнала бизнес-процесса. По умолчанию имеет значение «Получен ответ от приложения». Запись событий в журнал должна быть включена в шаблоне бизнес-процесса"
+      "required": false,
+      "description": "Текст для журнала бизнес-процесса. Если параметр не передать, в журнал попадет стандартная запись «Получен ответ от приложения». Запись событий в журнал должна быть включена в шаблоне бизнес-процесса"
     }
   ],
   "defs": {},
-  "requiredConvention": false,
+  "requiredConvention": true,
   "confidence": "parsed",
   "source": {
     "file": "api-reference/bizproc/bizproc-robot/bizproc-event-send.md"
@@ -56,14 +56,14 @@
       "name": "result",
       "type": "boolean",
       "base": "boolean",
-      "required": "unknown",
-      "description": "Возвращает true, если значения успешно переданы в процесс"
+      "required": false,
+      "description": "true, если Битрикс24 принял запрос. Это не подтверждает, что процесс применил значения"
     },
     {
       "name": "time",
       "type": "time",
       "base": "object",
-      "required": "unknown",
+      "required": false,
       "description": "Информация о времени выполнения запроса"
     }
   ],

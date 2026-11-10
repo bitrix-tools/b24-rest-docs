@@ -31,5 +31,13 @@
     "successor": null
   },
   "page": "/api-reference/crm/outdated/invoice/crm-invoice-user-field-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "order": {
+      "SORT": "ASC"
+    },
+    "filter": {
+      "MANDATORY": "N"
+    }
+  }
 }

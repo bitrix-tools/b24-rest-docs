@@ -355,14 +355,10 @@ Array
             );
 
         $result = $response->getResponseData()->getResult();
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error binding placement: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -472,6 +468,7 @@ Array
 || **Ошибка** | **Как решить** ||
 || `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
 || `placement.bind` возвращает `ERROR_ARGUMENT` | Не передан обязательный параметр `OPTIONS[iconName]`. Код незаполненного поля приходит в `argument` ||
+|| `placement.bind` возвращает `INVALID_ERROR_ICON_NAME` с описанием `Field iconName is invalid.` и HTTP-статусом 200 | В `OPTIONS[iconName]` передана пустая строка или недопустимое значение. Передайте имя иконки из латинских букв, пробелов и `-`, не длиннее 50 символов ||
 || Пункт не появился в блоке *Приложения* сайдбара чата | Завершите установку приложения и заново откройте чат ||
 || Регистрация не проходит из-за значения `context` | Используйте только допустимые значения: `ALL`, `USER`, `CHAT`, `LINES`, `CRM` ||
 || Пункт виден не в тех чатах, для которых задан `context` | Вместе с другими значениями передан `ALL`, и остальные значения не учитываются. Передавайте либо `ALL`, либо список конкретных контекстов через `;` ||
@@ -489,4 +486,4 @@ Array
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../bx24-widget-methods.md)
 - [{#T}](../../../settings/interactivity/index.md)
-
+- [{#T}](../../../sdk/b24jssdk/iframe-messenger-textarea.md)

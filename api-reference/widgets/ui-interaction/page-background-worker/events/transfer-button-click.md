@@ -1,4 +1,4 @@
-# При выборе оператора, на которого текущий оператор хочет перевести звонок BackgroundCallCard::transferButtonClick
+# При выборе оператора для перевода звонка BackgroundCallCard::transferButtonClick
 
 {% note tip "" %}
 
@@ -13,7 +13,11 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::transferButtonClick` возникает при выборе получателя перевода звонка.
+Событие `BackgroundCallCard::transferButtonClick` возникает, когда оператор нажимает кнопку перевода в карточке звонка и выбирает сотрудника, на которого переводит звонок.
+
+Кнопка перевода есть только в состоянии `connected`, которое приложение включает командой [CallCardSetUiState](../call-card-set-ui-state.md). В режиме обзвона и в карточке звонка, который сам пришел переводом, кнопки нет.
+
+Это первый шаг сценария перевода. Битрикс24 звонок приложения сам не переводит. Приложение получает адресата, соединяет его и переключает карточку в состояние `transferring` той же командой — в нем оператор видит кнопки «Перенаправить» и «Вернуться к звонку». Нажатия этих кнопок приходят событиями [completeTransferButtonClick](./complete-transfer-button-click.md) и [cancelTransferButtonClick](./cancel-transfer-button-click.md).
 
 {% note info "" %}
 
@@ -28,7 +32,7 @@
 ```js
 callback({
     "phoneNumber": "+79001234567",
-    "target": "12"
+    "target": 12
 });
 ```
 
@@ -40,16 +44,17 @@ callback({
 || **Параметр**
 `тип` | **Описание** ||
 || **phoneNumber**
-[`string`](../../../../data-types.md) | Номер текущего звонка ||
+[`string`](../../../../data-types.md) | Номер телефона собеседника ||
 || **target**
-[`string`](../../../../data-types.md) | Куда переводится звонок.
+[`integer`](../../../../data-types.md) или [`string`](../../../../data-types.md) | Куда переводится звонок.
 
 Значение зависит от пункта, который выбрал оператор:
 
-- идентификатор сотрудника — при переводе на внутренний номер
-- номер телефона из профиля сотрудника — мобильный, личный или рабочий, если оператор выбрал звонок на телефон
+- идентификатор сотрудника числом, например `12`, — если в профиле сотрудника нет телефонов и меню выбора не показывается
+- идентификатор сотрудника строкой, например `"12"`, — если оператор выбрал в меню пункт «Внутренний звонок»
+- номер телефона строкой, например `"+79007654321"`, — мобильный, личный или рабочий из профиля сотрудника, если оператор выбрал его в меню
 
-Различить случаи можно по формату значения.
+Тип перевода — на сотрудника или на телефон — в обработчик не передается. Приложение определяет его по значению: идентификатор сотрудника совпадает с `ID` из [user.get](../../../../user/user-get.md), номер телефона — с полями `PERSONAL_MOBILE`, `PERSONAL_PHONE` или `WORK_PHONE` сотрудника.
 
 Если оператор выбрал подразделение, а не сотрудника, событие не возникает ||
 |#
@@ -97,7 +102,7 @@ callback({
 
     declare const $b24: B24Frame
 
-    await $b24.placement.bindEvent('BackgroundCallCard::transferButtonClick', (eventData: { phoneNumber: string; target: string }) => {
+    await $b24.placement.bindEvent('BackgroundCallCard::transferButtonClick', (eventData: { phoneNumber: string; target: number | string }) => {
       console.log(eventData.target)
     })
     ```
@@ -131,5 +136,9 @@ callback({
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../bx24-placement-bind-event.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)
+- [{#T}](./complete-transfer-button-click.md)
+- [{#T}](./cancel-transfer-button-click.md)
+- [{#T}](../call-card-set-ui-state.md)

@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога» и правом на чтение товара
 
-Метод возвращает информацию о конкретном изображении товара, головного товара, вариации или услуги.
+Метод `catalog.productImage.get` возвращает информацию об изображении товара, головного товара, вариации или услуги.
 
 ## Параметры метода
 
@@ -35,7 +35,9 @@
 - для услуг — [catalog.product.service.list](../product/service/catalog-product-service-list.md)
 ||
 || **id***
-[`catalog_product_image.id`](../data-types.md#catalog_product_image) | Идентификатор изображения ||
+[`catalog_product_image.id`](../data-types.md#catalog_product_image) | Идентификатор изображения. Изображение должно относиться к товару из `productId`.
+
+Получить идентификатор можно методом [catalog.productImage.list](./catalog-product-image-list.md) ||
 |#
 
 ## Примеры кода
@@ -77,13 +79,13 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type ProductImageGetResult = {
       productImage: {
-        createTime: ISODate | null,
+        createTime: ISODate,
         detailUrl: string,
         downloadUrl: string,
         id: number,
         name: string,
         productId: number,
-        type: string,
+        type: 'DETAIL_PICTURE' | 'PREVIEW_PICTURE' | 'MORE_PHOTO',
       },
     }
 
@@ -187,20 +189,14 @@
                     'id'        => 1,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting product image: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -208,11 +204,11 @@
 
     ```js
     BX24.callMethod(
-        'catalog.productImage.get', 
+        'catalog.productImage.get',
         {
             productId: 1,
             id: 1,
-        }, 
+        },
         function(result)
         {
             if(result.error())
@@ -268,22 +264,24 @@ HTTP-статус: **200**
 {
     "result": {
         "productImage": {
-            "createTime": "2024-10-17T10:48:05+03:00",
-            "detailUrl": "\/upload\/iblock\/6f1\/bkm7jmwso31wisk423gtp28iagy2e8v0\/test.jpeg",
-            "downloadUrl": "http:\/\/dev.bx\/rest\/download.json?sessid=ae1ada0e5c85babd18ce4af4c702d1d9\u0026token=catalog%7CaWQ9NzY1MSZfPTZWZFhwSDRZRFRvcmNmYWtGMVRQbE4wdjZRcHA5QXBY%7CImRvd25sb2FkfGNhdGFsb2d8YVdROU56WTFNU1pmUFRaV1pGaHdTRFJaUkZSdmNtTm1ZV3RHTVZSUWJFNHdkalpSY0hBNVFYQll8YWUxYWRhMGU1Yzg1YmFiZDE4Y2U0YWY0YzcwMmQxZDki.8jeG4p%2BO6LZSDNqaRR3XdTAM6jSSD4Gtye8zm6Q5Y14%3D",
-            "id": 1,
-            "name": "test.jpeg",
-            "productId": 1,
+            "createTime": "2023-08-21T12:12:19+03:00",
+            "detailUrl": "https:\/\/cdn-ru.bitrix24.ru\/b1234567\/iblock\/c3e\/c3e6943a5f28fb70dc0051fc74352d4f\/FTTH.jpg",
+            "downloadUrl": "https:\/\/your-domain.bitrix24.ru\/rest\/1\/xxxxxxxxxxxxxxxx\/download\/?token=catalog%7CaWQ9MjI0MjEmXz10OUlFWDZTeDJ4eTJ1OUxOaFp1VVNhRm5iQW13eko3eA%3D%3D%7C...",
+            "id": 22421,
+            "name": "FTTH.jpg",
+            "productId": 533,
             "type": "MORE_PHOTO"
         }
     },
     "time": {
-        "start": 1729162290.040193,
-        "finish": 1729162290.63512,
-        "duration": 0.5949268341064453,
-        "processing": 0.20079898834228516,
-        "date_start": "2024-10-17T13:51:30+03:00",
-        "date_finish": "2024-10-17T13:51:30+03:00",
+        "start": 1793615806,
+        "finish": 1793615806.987289,
+        "duration": 0.9872889518737793,
+        "processing": 0,
+        "date_start": "2026-11-02T13:36:46+03:00",
+        "date_finish": "2026-11-02T13:36:46+03:00",
+        "operating_reset_at": 1793616360,
+        "operating": 0
     }
 }
 ```
@@ -295,7 +293,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **productImage**
+|| **result.productImage**
 [`catalog_product_image`](../data-types.md#catalog_product_image) | Объект с информацией об изображении ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -307,8 +305,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "",
+    "error_description": "productImage does not exist."
 }
 ```
 
@@ -317,26 +315,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для просмотра торгового каталога
-||
-|| `200040300010` | Недостаточно прав для просмотра товара 
-||
-|| `100` | Не указан параметр `productId`
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Товар с указанным идентификатором не найден
-|| 
-|| `0` | Изображение с указанным идентификатором не найдено
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» либо права на чтение товара ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {productId} | Не передан обязательный параметр `productId` ||
+|| `400` | `0` | Product was not found | Товар с указанным `productId` не найден ||
+|| `400` | Пустое значение | productImage does not exist. | Изображение с указанным `id` не найдено или не относится к товару ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-product-image-add.md)
 - [{#T}](./catalog-product-image-list.md)

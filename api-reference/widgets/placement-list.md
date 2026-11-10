@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь, авторизованный в приложении
 
-Метод `placement.list` возвращает точки встраивания, доступные приложению.
+Метод `placement.list` возвращает коды точек встраивания, которые приложение может зарегистрировать методом [placement.bind](./placement-bind.md). Обработчики, которые приложение уже зарегистрировало, возвращает метод [placement.get](./placement-get.md).
 
 {% note info "" %}
 
@@ -29,25 +29,35 @@
 || **Название**
 `тип` | **Описание** ||
 || **SCOPE**
-[`string`](../data-types.md) | Ограничивает список одним scope приложения.
+[`string`](../data-types.md) | Код scope, для которого нужно получить точки встраивания, например `crm`, `task` или `sonet_group`. Коды перечислены на странице [Доступные скоупы Битрикс24](../scopes/permissions.md).
 
-Если параметр передан и не пустой, метод возвращает точки встраивания только для указанного scope ||
+Если параметр передан и не пустой, метод возвращает точки встраивания только для указанного scope. Scope не обязательно должен входить в права приложения.
+
+Если параметр передан пустой строкой, метод возвращает только глобальные точки встраивания, которые не относятся ни к одному scope, например `LEFT_MENU`, `REST_APP_URI`, `IM_SIDEBAR`.
+
+Если scope не существует или у него нет точек встраивания, метод возвращает пустой массив без ошибки ||
 || **FULL**
 [`boolean`](../data-types.md) | Флаг получения полного списка точек встраивания.
 
 Если параметр не передан или передан как `false`, метод возвращает точки встраивания для scope текущего приложения и глобальные точки.
 
-Если параметр передан как `true`, метод возвращает точки встраивания для всех scope сервиса.
+Если параметр передан как `true`, метод возвращает точки встраивания для всех scope портала.
 
 Параметр учитывается, только если не передан `SCOPE` ||
 |#
+
+{% note info "" %}
+
+Метод возвращает весь список одним ответом, постраничной выдачи нет: параметр `start` игнорируется, даже если в списке больше 50 кодов. Состав списка зависит от портала: от установленных модулей и созданных смарт-процессов. Служебные точки, которые нельзя зарегистрировать из приложения, в список не попадают.
+
+{% endnote %}
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
-Пример получения точек встраивания, доступных приложению, где:
-- `SCOPE` — scope приложения, для которого нужно получить точки встраивания
+Пример получения точек встраивания CRM, где:
+- `SCOPE` — код scope, для которого нужно получить точки встраивания
 
 {% list tabs %}
 
@@ -74,16 +84,11 @@
     declare const $b24: B24Frame
 
     try {
-      // placement.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // placement.list returns the full list of placement codes in one response
       const response = await $b24.actions.v2.call.make<string[]>({
         method: 'placement.list',
         params: {
           SCOPE: 'crm',
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -112,16 +117,11 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // placement.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // placement.list returns the full list of placement codes in one response
           const response = await $b24.actions.v2.call.make({
             method: 'placement.list',
             params: {
               SCOPE: 'crm',
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -300,7 +300,7 @@ HTTP-статус: **200**
 || **result**
 [`string[]`](../data-types.md) | Список кодов точек встраивания, доступных приложению.
 
-Каждый элемент массива — код точки встраивания ||
+Каждый элемент массива — код точки встраивания, который можно передать в параметре `PLACEMENT` метода [placement.bind](./placement-bind.md). Коды точек смарт-процессов содержат идентификатор типа смарт-процесса, например `CRM_DYNAMIC_136_LIST_TOOLBAR`. Описания точек собраны на странице [Каталог точек встраивания](./placements.md) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

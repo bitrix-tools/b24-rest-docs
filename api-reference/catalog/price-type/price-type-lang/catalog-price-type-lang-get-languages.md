@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает список доступных для перевода языков.
+Метод `catalog.priceTypeLang.getLanguages` возвращает список доступных для перевода языков.
 
 ## Параметры метода
 
@@ -152,20 +152,14 @@
                 'catalog.priceTypeLang.getLanguages',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting price type languages: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -241,12 +235,17 @@ HTTP-статус: **200**
             {
                 "active": "Y",
                 "lid": "ar",
-                "name": "ar"
+                "name": "اَلْعَرَبِيَّةُ"
             },
             {
                 "active": "Y",
                 "lid": "br",
-                "name": "br"
+                "name": "Português (Brasil)"
+            },
+            {
+                "active": "Y",
+                "lid": "de",
+                "name": "Deutsch"
             },
             {
                 "active": "Y",
@@ -256,83 +255,104 @@ HTTP-статус: **200**
             {
                 "active": "Y",
                 "lid": "fr",
-                "name": "fr"
+                "name": "Français"
+            },
+            {
+                "active": "N",
+                "lid": "hi",
+                "name": "हिन्दी"
             },
             {
                 "active": "Y",
                 "lid": "id",
-                "name": "id"
+                "name": "Bahasa Indonesia"
+            },
+            {
+                "active": "N",
+                "lid": "in",
+                "name": "English (India)"
             },
             {
                 "active": "Y",
                 "lid": "it",
-                "name": "it"
+                "name": "Italiano"
             },
             {
                 "active": "Y",
                 "lid": "ja",
-                "name": "ja"
+                "name": "日本語"
             },
             {
                 "active": "Y",
                 "lid": "kz",
-                "name": "kz"
+                "name": "Қазақша"
             },
             {
                 "active": "Y",
                 "lid": "la",
-                "name": "la"
+                "name": "Español"
             },
             {
                 "active": "Y",
                 "lid": "ms",
-                "name": "ms"
+                "name": "Bahasa Melayu"
             },
             {
                 "active": "Y",
                 "lid": "pl",
-                "name": "pl"
+                "name": "Polski"
             },
             {
                 "active": "Y",
                 "lid": "ru",
-                "name": "Russian"
+                "name": "Русский"
             },
             {
                 "active": "Y",
                 "lid": "sc",
-                "name": "sc"
+                "name": "中文（简体）"
             },
             {
                 "active": "Y",
                 "lid": "tc",
-                "name": "tc"
+                "name": "中文（繁體）"
             },
             {
                 "active": "Y",
                 "lid": "th",
-                "name": "th"
+                "name": "ภาษาไทย"
             },
             {
                 "active": "Y",
                 "lid": "tr",
-                "name": "tr"
+                "name": "Türkçe"
+            },
+            {
+                "active": "Y",
+                "lid": "ua",
+                "name": "Українська"
+            },
+            {
+                "active": "Y",
+                "lid": "uz",
+                "name": "Oʻzbek tili"
             },
             {
                 "active": "Y",
                 "lid": "vn",
-                "name": "vn"
+                "name": "Tiếng Việt"
             }
         ]
     },
-    "total": 17,
+    "total": 22,
     "time": {
-        "start": 1733844860.95129,
-        "finish": 1733844861.27092,
-        "duration": 0.319633007049561,
-        "processing": 0.0122489929199219,
-        "date_start": "2024-12-10T17:34:20+02:00",
-        "date_finish": "2024-12-10T17:34:21+02:00",
+        "start": 1793700371,
+        "finish": 1793700371.783719,
+        "duration": 0.7837190628051758,
+        "processing": 0,
+        "date_start": "2026-11-03T13:06:11+03:00",
+        "date_finish": "2026-11-03T13:06:11+03:00",
+        "operating_reset_at": 1793700960,
         "operating": 0
     }
 }
@@ -345,10 +365,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **languages**
+|| **result.languages**
 [`catalog_language[]`](../../data-types.md#catalog_language) | Массив объектов с информацией о доступных для перевода языках ||
+|| **total**
+[`integer`](../../../data-types.md) | Общее количество языков ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -357,7 +379,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -367,11 +389,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

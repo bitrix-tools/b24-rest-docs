@@ -11,8 +11,16 @@ items:
     href: note-document-get.md
   - name: Переместить документ в корзину
     href: note-document-delete.md
+  - name: Восстановить документ из корзины
+    href: note-document-restore.md
   - name: Архивировать документ
     href: note-document-archive.md
+  - name: Вернуть документ из архива
+    href: note-document-unarchive.md
+  - name: Переместить документ
+    href: note-document-move.md
+  - name: Получить список документов
+    href: note-document-list.md
   - name: Получить дерево документов
     href: note-document-tree-list.md
   - name: Найти документы

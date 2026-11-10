@@ -49,7 +49,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак активности. Используются значения Y или N. Определяет доступность шаблона в списке выбора при добавлении реквизитов"
+          "description": "Признак активности. Используются значения Y или N. Определяет доступность шаблона в списке выбора при добавлении реквизитов",
+          "flag": true
         },
         {
           "name": "SORT",
@@ -95,5 +96,12 @@
     }
   ],
   "page": "/api-reference/crm/requisites/presets/crm-requisite-preset-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 347,
+    "fields": {
+      "NAME": "ИП (архив)",
+      "ACTIVE": "N"
+    }
+  }
 }

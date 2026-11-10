@@ -167,16 +167,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting time control reports settings: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -313,6 +307,24 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "TIMEMAN_TOOL_DISABLED",
+    "error_description": "Учет рабочего времени отключен."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

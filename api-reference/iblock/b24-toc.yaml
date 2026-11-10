@@ -1,0 +1,13 @@
+title: Инфоблоки
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить элемент инфоблока
+    href: iblock-element-get.md
+  - name: Получить список элементов инфоблока
+    href: iblock-element-list.md
+  - name: Получить список полей элемента инфоблока
+    href: iblock-element-field-list.md
+  - name: Получить поле элемента инфоблока
+    href: iblock-element-field-get.md

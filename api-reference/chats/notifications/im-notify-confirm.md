@@ -145,8 +145,8 @@
 
     try:
         bitrix_response = client.im.notify.confirm(
-            bitrix_id=288,
-            notify_value="Y",
+            notify_id=288,
+            notify_value=True,
         ).response
         result = bitrix_response.result
         print(result)
@@ -177,11 +177,7 @@
 
         $result = $response->getResponseData()->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            var_dump($result->data());
-        }
+        print_r($result);
     } catch (Throwable $exception) {
         echo $exception->getMessage();
     }

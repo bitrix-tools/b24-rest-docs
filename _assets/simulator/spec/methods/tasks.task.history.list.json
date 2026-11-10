@@ -59,5 +59,14 @@
     }
   ],
   "page": "/api-reference/tasks/tasks-task-history-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8137,
+    "filter": {
+      "FIELD": "COMMENT"
+    },
+    "order": {
+      "createdDate": "ASC"
+    }
+  }
 }

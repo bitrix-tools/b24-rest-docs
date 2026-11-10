@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод проверяет, является ли торговый каталог торговым каталогом вариаций.
+Метод `catalog.catalog.isOffers` проверяет, является ли торговый каталог каталогом вариаций.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога ||
+[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога.
+
+Получить идентификатор можно методом [catalog.catalog.list](./catalog-catalog-list.md) ||
 |#
 
 ## Примеры кода
@@ -38,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":23}' \
+    -d '{"id":27}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.catalog.isOffers
     ```
 
@@ -48,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":23,"auth":"**put_access_token_here**"}' \
+    -d '{"id":27,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.catalog.isOffers
     ```
 
@@ -66,7 +68,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'catalog.catalog.isOffers',
         params: {
-          id: 23,
+          id: 27,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -98,7 +100,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.catalog.isOffers',
             params: {
-              id: 23,
+              id: 27,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -128,7 +130,7 @@
 
     try:
         bitrix_response = client.catalog.catalog.is_offers(
-            bitrix_id=23,
+            bitrix_id=27,
         ).response
         result = bitrix_response.result
         print(result)
@@ -147,7 +149,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -155,23 +156,17 @@
             ->call(
                 'catalog.catalog.isOffers',
                 [
-                    'id' => 23,
+                    'id' => 27,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Info: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error checking if catalog is offers: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -181,7 +176,7 @@
     BX24.callMethod(
         "catalog.catalog.isOffers",
         {
-            id: 23,
+            id: 27,
         },
         function(result) {
             if (result.error()) {
@@ -201,7 +196,7 @@
     $result = CRest::call(
         'catalog.catalog.isOffers',
         [
-            'id' => 23
+            'id' => 27
         ]
     );
 
@@ -215,8 +210,8 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.catalog.isOffers", b24.Params{
-    	"id": 23,
-    })
+    	"id": 27,
+    }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.catalog.isOffers: %w", err)
     }
@@ -225,7 +220,7 @@
     if err := json.Unmarshal(res.Result, &ok); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println("выполнено:", ok)
+    fmt.Println("каталог вариаций:", ok)
     ```
 
 {% endlist %}
@@ -238,12 +233,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1716543897.864191,
-        "finish": 1716543898.270557,
-        "duration": 0.40636587142944336,
-        "processing": 0.011233091354370117,
-        "date_start": "2024-05-24T12:44:57+03:00",
-        "date_finish": "2024-05-24T12:44:58+03:00"
+        "start": 1793613269,
+        "finish": 1793613269.617146,
+        "duration": 0.6171460151672363,
+        "processing": 0,
+        "date_start": "2026-11-02T12:54:29+03:00",
+        "date_finish": "2026-11-02T12:54:29+03:00",
+        "operating_reset_at": 1793613840,
+        "operating": 0
     }
 }
 ```
@@ -254,9 +251,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат проверки, является ли торговый каталог торговым каталогом вариаций ||
+[`boolean`](../../data-types.md) | Результат проверки:
+- `true` — каталог является каталогом вариаций, у него заполнено поле `productIblockId`
+- `false` — каталог не является каталогом вариаций ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -265,8 +264,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "",
+    "error_description": "catalog does not exist."
 }
 ```
 
@@ -275,17 +274,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `200040300030` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Торговый каталог с указанным идентификатором не существует
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр настроек Битрикс24 ||
+|| `400` | `200040300030` | Access Denied | У пользователя нет права на чтение торгового каталога ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | catalog does not exist. | Торговый каталог с указанным `id` не найден ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

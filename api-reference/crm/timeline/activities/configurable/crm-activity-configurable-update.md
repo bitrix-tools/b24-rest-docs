@@ -11,13 +11,17 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с доступом на изменение элемента CRM, к которому привязано дело
 
-Метод `crm.activity.configurable.update` вносит изменения в конфигурируемое дело. 
+Метод `crm.activity.configurable.update` обновляет поля конфигурируемого дела, структуру его записи в таймлайне или и то, и другое сразу.
 
-{% note warning %}
+Обновление частичное: поля, которые не переданы в `fields`, сохраняют прежние значения. Без `layout` запись останется с текущим внешним видом. Переданный `layout` заменяет прежнюю структуру целиком, объединения по полям не происходит.
 
-Вызов метода возможен только в контексте того [приложения](https://helpdesk.bitrix24.ru/examples/app.zip), которое его создало.
+Этим же методом снимают [блокировку записи](./structure/action.md#sobytie), которую ставит поле `animationType` действия при нажатии.
+
+{% note info "" %}
+
+Вызов метода возможен только в контексте того [приложения](../../../../../settings/app-installation/index.md), которое создало дело. Вызов через входящий вебхук вернет ошибку `ERROR_WRONG_CONTEXT`, вызов из другого приложения — `ERROR_WRONG_APPLICATION`.
 
 {% endnote %}
 
@@ -29,28 +33,42 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела, например `999` ||
-|| **fields***
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела, например `999`. Его возвращает метод [crm.activity.configurable.add](./crm-activity-configurable-add.md) ||
+|| **fields**
 [`array`](../../../../data-types.md) | Ассоциативный массив значений [полей дела](./crm-activity-configurable-add.md#parametr-fields) в виде структуры:
 
 ```json
-fields:
 {
-    "typeId": 'значение',
-    "completed": 'значение',
-    "deadline": 'значение',
-    "pingOffsets": 'значение',
-    "isIncomingChannel": 'значение',
-    "responsibleId": 'значение',
-    "badgeCode": 'значение',
-    "originatorId": 'значение',
-    "originId": 'значение',
+    "completed": true,
+    "deadline": "2025-02-01T12:00:00+03:00",
+    "pingOffsets": [15, 60],
+    "isIncomingChannel": "N",
+    "responsibleId": 5,
+    "badgeCode": "CUSTOM",
+    "originatorId": "my_service",
+    "originId": "42"
 }
 ```
+Переданные поля обновятся, остальные сохранят прежние значения
 ||
-|| **layout***
-[`LayoutDto`](./structure/layout.md) | [Ассоциативный массив особой структуры](./structure/layout.md#primer), описывающий внешний вид дела в таймлайне ||
+|| **layout**
+[`LayoutDto`](./structure/layout.md) | Структура, которая задает внешний вид записи в таймлайне. Готовый [пример объекта](./structure/layout.md#primer) — на странице структуры ||
 |#
+
+Обязателен только `id`. Параметры `fields` и `layout` можно передавать по отдельности или вместе.
+
+### Как очистить значение поля
+
+Пустое значение стирает не каждое поле:
+
+#|
+|| **Поле** | **Как очистить** ||
+|| `badgeCode`, `originatorId`, `originId` | Передайте пустую строку ||
+|| `pingOffsets` | Передайте пустой массив ||
+|| `deadline` | Очистить через метод нельзя: пустое значение Битрикс24 игнорирует и оставляет прежний срок ||
+|#
+
+Тип дела `typeId` после создания не меняется: другое значение метод отклонит с ошибкой `CANT_CHANGE_PROVIDER_TYPE_ID`.
 
 ## Примеры кода
 
@@ -64,7 +82,7 @@ fields:
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":999,"fields":{"typeId":"CONFIGURABLE","completed":false,"deadline":"**put_current_date_time_here**","pingOffsets":[300],"isIncomingChannel":"Y","responsibleId":5,"badgeCode":"CUSTOM"},"layout":{"icon":{"code":"call-completed"},"header":{"title":"Входящий звонок"},"body":{"logo":{"code":"call-incoming"},"blocks":{"responsible":{"type":"lineOfBlocks","properties":{"blocks":{"client":{"type":"link","properties":{"text":"Сергей Востриков","bold":true,"action":{"type":"redirect","uri":"/crm/lead/details/789/"}}},"phone":{"type":"text","properties":{"value":"+7 999 888 7777"}}}}}}},"footer":{"buttons":{"startCall":{"title":"О клиенте","action":{"type":"openRestApp","actionParams":{"clientId":456}},"type":"primary"}}}},"auth":"**put_access_token_here**"}' \
+    -d '{"id":999,"fields":{"completed":false,"deadline":"2025-02-01T12:00:00+03:00","pingOffsets":[300],"isIncomingChannel":"Y","responsibleId":5,"badgeCode":"CUSTOM"},"layout":{"icon":{"code":"call-completed"},"header":{"title":"Входящий звонок"},"body":{"logo":{"code":"call-incoming"},"blocks":{"responsible":{"type":"lineOfBlocks","properties":{"blocks":{"client":{"type":"link","properties":{"text":"Сергей Востриков","bold":true,"action":{"type":"redirect","uri":"/crm/lead/details/789/"}}},"phone":{"type":"text","properties":{"value":"+7 999 888 7777"}}}}}}},"footer":{"buttons":{"startCall":{"title":"О клиенте","action":{"type":"openRestApp","actionParams":{"clientId":456}},"type":"primary"}}}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.configurable.update
     ```
 
@@ -91,9 +109,8 @@ fields:
         params: {
           id: 999,
           fields: {
-            typeId: 'CONFIGURABLE',
             completed: false,
-            deadline: '2025-08-01T12:00:00+02:00',
+            deadline: '2025-02-01T12:00:00+03:00',
             pingOffsets: [300],
             isIncomingChannel: 'Y',
             responsibleId: 5,
@@ -104,7 +121,7 @@ fields:
               code: 'call-completed',
             },
             header: {
-              title: 'Incoming call',
+              title: 'Входящий звонок',
             },
             body: {
               logo: {
@@ -118,7 +135,7 @@ fields:
                       client: {
                         type: 'link',
                         properties: {
-                          text: 'John Smith',
+                          text: 'Сергей Востриков',
                           bold: true,
                           action: {
                             type: 'redirect',
@@ -140,7 +157,7 @@ fields:
             footer: {
               buttons: {
                 startCall: {
-                  title: 'About client',
+                  title: 'О клиенте',
                   action: {
                     type: 'openRestApp',
                     actionParams: {
@@ -185,9 +202,8 @@ fields:
             params: {
               id: 999,
               fields: {
-                typeId: 'CONFIGURABLE',
                 completed: false,
-                deadline: '2025-08-01T12:00:00+02:00',
+                deadline: '2025-02-01T12:00:00+03:00',
                 pingOffsets: [300],
                 isIncomingChannel: 'Y',
                 responsibleId: 5,
@@ -198,7 +214,7 @@ fields:
                   code: 'call-completed',
                 },
                 header: {
-                  title: 'Incoming call',
+                  title: 'Входящий звонок',
                 },
                 body: {
                   logo: {
@@ -212,7 +228,7 @@ fields:
                           client: {
                             type: 'link',
                             properties: {
-                              text: 'John Smith',
+                              text: 'Сергей Востриков',
                               bold: true,
                               action: {
                                 type: 'redirect',
@@ -234,7 +250,7 @@ fields:
                 footer: {
                   buttons: {
                     startCall: {
-                      title: 'About client',
+                      title: 'О клиенте',
                       action: {
                         type: 'openRestApp',
                         actionParams: {
@@ -271,21 +287,21 @@ fields:
 - Python
 
     ```python
-    from datetime import datetime, timedelta
-
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
+    # Обертка b24pysdk принимает только fields — обновляются поля дела.
+    # Чтобы заменить структуру записи, вызовите метод напрямую и передайте layout.
     try:
         bitrix_response = client.crm.activity.configurable.update(
             bitrix_id=999,
             fields={
-                "completed": True,
-                "deadline": (datetime.now() + timedelta(days=1)).isoformat(timespec="seconds"),
+                "completed": False,
+                "deadline": "2025-02-01T12:00:00+03:00",
                 "pingOffsets": [
-                    30,
+                    300,
                 ],
-                "responsibleId": 1,
-                "badgeCode": "CUSTOM_STATUS",
+                "responsibleId": 5,
+                "badgeCode": "CUSTOM",
             },
         ).response
         result = bitrix_response.result
@@ -305,7 +321,6 @@ fields:
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -315,9 +330,8 @@ fields:
                 [
                     'id'     => 999,
                     'fields' => [
-                        'typeId'            => 'CONFIGURABLE',
                         'completed'         => false,
-                        'deadline'          => new DateTime(),
+                        'deadline'          => '2025-02-01T12:00:00+03:00',
                         'pingOffsets'       => [300],
                         'isIncomingChannel' => 'Y',
                         'responsibleId'     => 5,
@@ -402,9 +416,8 @@ fields:
             id: 999,
             fields:
             {
-                typeId: 'CONFIGURABLE',
                 completed: false,
-                deadline: new Date(),
+                deadline: '2025-02-01T12:00:00+03:00',
                 pingOffsets: [300],
                 isIncomingChannel: 'Y',
                 responsibleId: 5,
@@ -483,9 +496,8 @@ fields:
         [
             'id' => 999,
             'fields' => [
-                'typeId' => 'CONFIGURABLE',
                 'completed' => false,
-                'deadline' => date('c'), // Используем текущую дату и время в формате ISO 8601
+                'deadline' => '2025-02-01T12:00:00+03:00',
                 'pingOffsets' => [300],
                 'isIncomingChannel' => 'Y',
                 'responsibleId' => 5,
@@ -563,9 +575,8 @@ fields:
     res, err := client.Core().Call(ctx, "crm.activity.configurable.update", b24.Params{
     	"id": 999,
     	"fields": b24.Params{
-    		"typeId":            "CONFIGURABLE",
     		"completed":         false,
-    		"deadline":          "**put_current_date_time_here**",
+    		"deadline":          "2025-02-01T12:00:00+03:00",
     		"pingOffsets":       []int{300},
     		"isIncomingChannel": "Y",
     		"responsibleId":     5,
@@ -644,8 +655,9 @@ HTTP-статус: **200**
 {
     "result": {
         "activity": {
-            "id": 999,
-        },
+            "id": 999
+        }
+    },
     "time": {
         "start": 1724068028.331234,
         "finish": 1724068028.726591,
@@ -654,7 +666,6 @@ HTTP-статус: **200**
         "date_start": "2025-01-21T13:47:08+02:00",
         "date_finish": "2025-01-21T13:47:08+02:00",
         "operating": 0
-        }
     }
 }
 ```
@@ -665,9 +676,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию об идентификаторе дела `id` в случае успеха. В случае неудачи вернет `null` ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа с единственным ключом **activity** [(подробное описание)](#activity) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект activity {#activity}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор обновленного дела ||
 |#
 
 ## Обработка ошибок
@@ -676,8 +696,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "ERROR_WRONG_APPLICATION",
+    "error_description": "Обновить дело может только приложение, которое его создало"
 }
 ```
 
@@ -687,20 +707,20 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| `100` | Не заполнены обязательные поля ||
-|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте приложения ||
+|| `ACCESS_DENIED` | Недостаточно прав на изменение дела ||
+|| `NOT_FOUND` | Дело не найдено или не является конфигурируемым ||
+|| `100` | Не передан обязательный параметр `id` ||
+|| `ERROR_WRONG_CONTEXT` | Метод вызван не из приложения, например через входящий вебхук ||
 || `ERROR_WRONG_APPLICATION` | Обновить дело может только приложение, которое его создало ||
-|| `WRONG_FIELD_VALUE` | Некорректное значение поля ||
+|| `WRONG_FIELD_VALUE` | Некорректное значение поля: неизвестный `badgeCode` или `typeId` в `fields`, неподходящий тип вложенного блока, неверный формат цвета в `sliderParams` ||
 || `INCOMING_ACTIVITY_CAN_NOT_BE_WITH_DEADLINE` | Входящее дело не может иметь крайний срок ||
-|| `ERROR_EMPTY_LAYOUT` | Поле layout должно быть заполнено ||
+|| `CANT_CHANGE_PROVIDER_TYPE_ID` | Тип дела изменить нельзя: переданный `typeId` отличается от типа, с которым дело создали ||
 || `FIELD_IS_REQUIRED` | В объекте структуры не передано обязательное поле ||
 || `FIELD_IS_REDUNDANT` | В объекте структуры передано поле, которого нет в его описании ||
 || `ENUM_FIELD` | Значение поля не входит в список допустимых, например неизвестный тип тега ||
 || `TOO_MANY_ITEMS` | Превышено количество элементов массива, например больше двух тегов или кнопок ||
 || `KEY_CONTAIN_WRONG_SYMBOLS` | Ключ в ассоциативном массиве структуры содержит недопустимые символы. Допустимы только латинские буквы, цифры, дефис и подчеркивание ||
-|| `WRONG_LANG` | В мультиязычном значении передан код языка, не установленного на портале ||
+|| `WRONG_LANG` | В мультиязычном значении передан код языка, не установленного в Битрикс24 ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -709,3 +729,9 @@ HTTP-статус: **400**
 
 - [{#T}](./crm-activity-configurable-add.md)
 - [{#T}](./crm-activity-configurable-get.md)
+- [{#T}](./structure/layout.md)
+- [{#T}](./structure/examples.md)
+- [{#T}](./badges/index.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)
+- [{#T}](./index.md)

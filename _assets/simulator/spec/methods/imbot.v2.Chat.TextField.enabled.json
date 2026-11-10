@@ -55,5 +55,11 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/ui/chat-text-field-enabled.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "my_bot_token",
+    "dialogId": "chat5",
+    "enabled": false
+  }
 }

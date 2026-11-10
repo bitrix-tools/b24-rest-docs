@@ -95,5 +95,50 @@
     }
   ],
   "page": "/api-reference/crm/leads/custom-form/crm-lead-details-configuration-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "P",
+    "userId": 1,
+    "extras": {
+      "leadCustomerType": 2
+    },
+    "data": [
+      {
+        "name": "main",
+        "title": "О лиде",
+        "type": "section",
+        "elements": [
+          {
+            "name": "TITLE"
+          },
+          {
+            "name": "STATUS_ID"
+          },
+          {
+            "name": "SOURCE_ID"
+          },
+          {
+            "name": "NAME"
+          },
+          {
+            "name": "PHONE",
+            "optionFlags": 1
+          }
+        ]
+      },
+      {
+        "name": "additional",
+        "title": "Дополнительно",
+        "type": "section",
+        "elements": [
+          {
+            "name": "ASSIGNED_BY_ID"
+          },
+          {
+            "name": "COMMENTS"
+          }
+        ]
+      }
+    ]
+  }
 }

@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Добавить задачу в канбан Скрама tasks.api.scrum.kanban.addTask",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правом редактирования задач группы Скрама",
   "params": [
     {
       "name": "sprintId",
@@ -45,6 +45,27 @@
       "date_finish": "2024-04-03T12:50:17+03:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если задача успешно добавлена в стадию канбана"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-add-task.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "sprintId": 5,
+    "taskId": 751,
+    "stageId": 58
+  }
 }

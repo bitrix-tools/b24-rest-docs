@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.businessValuePersonDomain.add` добавляет для выбранного типа плательщика соответствие физическому или юридическому лицу. Это необходимо для работы механизма бизнес-смыслов.
+Метод `sale.businessValuePersonDomain.add` задает типу плательщика соответствие физическому или юридическому лицу. Без соответствия тип плательщика не участвует в настройках бизнес-смыслов.
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания соответствия физическому или юридическому лицу ||
+[`object`](../../data-types.md) | Поля нового соответствия [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -34,11 +34,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **personTypeId***
-[`sale_person_type.id`](../data-types.md) | Идентификатор типа плательщика. 
+[`sale_person_type.id`](../data-types.md) | Идентификатор типа плательщика.
 
 Получить идентификаторы типов плательщиков можно с помощью метода [sale.persontype.list](../person-type/sale-person-type-list.md) ||
 || **domain***
-[`string`](../../data-types.md) | Значение, которому соответствует тип плательщика: физическое или юридическое лицо.
+[`string`](../../data-types.md) | Кто платит по этому типу плательщика:
 - `I` — физическое лицо
 - `E` — юридическое лицо ||
 |#
@@ -51,8 +51,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"personTypeId":3,"domain":"I"}}' \
@@ -61,8 +61,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"fields":{"personTypeId":3,"domain":"I"},"auth":"**put_access_token_here**"}' \
@@ -180,7 +180,55 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
+    ```php
+    try {
+        $response = $b24Service
+            ->core
+            ->call(
+                'sale.businessValuePersonDomain.add',
+                [
+                    'fields' => [
+                        'personTypeId' => 3,
+                        'domain'       => 'I',
+                    ],
+                ]
+            );
+
+        $result = $response
+            ->getResponseData()
+            ->getResult();
+
+        print_r($result);
+    } catch (Throwable $e) {
+        echo $e->getMessage();
+    }
+    ```
+
+- BX24.js
+
+    ```js
+    BX24.callMethod(
+        'sale.businessValuePersonDomain.add',
+        {
+            fields: {
+                personTypeId: 3,
+                domain: 'I'
+            }
+        },
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
+        }
+    );
+    ```
+
+- PHP CRest
 
     ```php
     require_once('crest.php');
@@ -228,9 +276,11 @@ HTTP-статус: **200**
 
 ```json
 {
-    "businessValuePersonDomain": {
-        "domain": "I",
-        "personTypeId": 3
+    "result": {
+        "businessValuePersonDomain": {
+            "domain": "I",
+            "personTypeId": 3
+        }
     },
     "time": {
         "start": 1712325642.686926,
@@ -250,11 +300,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **businessValuePersonDomain**
-[`sale_business_value_person_domain`](../data-types.md) | Объект с информацией о добавленном соответствии типа плательщика физическому или юридическому лицу ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **businessValuePersonDomain**
+[`sale_business_value_person_domain`](../data-types.md#sale_business_value_person_domain) | Добавленное соответствие ||
 |#
 
 ## Обработка ошибок
@@ -263,7 +320,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 201450000001,
+    "error": "201450000001",
     "error_description": "Duplicate entry for key [personTypeId]"
 }
 ```
@@ -273,19 +330,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201250000001` | Соответствие для указанного идентификатора типа плательщика уже существует ||
-|| `201240400002` | Тип плательщика с указанным идентификатором не существует ||
-|| `200040300020` | Ошибка доступа к записи ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `201450000001` | Duplicate entry for key [personTypeId] | Для типа плательщика уже задано соответствие. Чтобы изменить домен, удалите соответствие методом [sale.businessValuePersonDomain.deleteByFilter](./sale-business-value-person-domain-delete-by-filter.md) и добавьте заново ||
+|| `400` | `201440400002` | person type is not exists | Тип плательщика с указанным идентификатором не существует ||
+|| `400` | `200040300020` | Access Denied | Нет прав на изменение соответствия ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: `список полей` | Не переданы обязательные поля `personTypeId` или `domain` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-business-value-person-domain-list.md)
 - [{#T}](./sale-business-value-person-domain-delete-by-filter.md)
 - [{#T}](./sale-business-value-person-domain-get-fields.md)

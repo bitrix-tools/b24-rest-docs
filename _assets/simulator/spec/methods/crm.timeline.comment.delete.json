@@ -62,5 +62,10 @@
     }
   ],
   "page": "/api-reference/crm/timeline/comments/crm-timeline-comment-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 999,
+    "ownerTypeId": 2,
+    "ownerId": 10
+  }
 }

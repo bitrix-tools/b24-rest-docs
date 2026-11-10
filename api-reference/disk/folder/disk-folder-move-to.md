@@ -88,7 +88,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -158,7 +158,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.moveto(
+        bitrix_response = client.disk.folder.move_to(
             bitrix_id=8968,
             target_folder_id=8907,
         ).response
@@ -311,7 +311,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о перемещенной папке.
+[`object`](../../data-types.md) \| [`boolean`](../../data-types.md) | Объект с данными о перемещенной папке
 
 Возвращает `false`, если папки находятся в разных хранилищах ||
 || **ID**
@@ -346,7 +346,7 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -371,7 +371,7 @@ HTTP-статус: **400**
 || `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр `id` или `targetFolderId` ||
 || `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
 || `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` или `targetFolderId` не найдена ||
-|| — | Could not move root folder | Попытка переместить корневую папку хранилища ||
+|| Пустое значение | Could not move root folder. | Попытка переместить корневую папку хранилища ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для перемещения папки ||
 |#
 

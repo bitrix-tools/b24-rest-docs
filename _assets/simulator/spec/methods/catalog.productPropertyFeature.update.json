@@ -56,7 +56,18 @@
           "type": "char",
           "base": "char",
           "required": true,
-          "description": "Признак активности параметра. Допустимые значения: - Y — включен - N — выключен"
+          "description": "Признак активности параметра. Допустимые значения: - Y — включен - N — выключен",
+          "values": [
+            {
+              "value": "Y",
+              "title": "включен"
+            },
+            {
+              "value": "N",
+              "title": "выключен"
+            }
+          ],
+          "flag": true
         }
       ]
     }
@@ -111,5 +122,14 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-feature/catalog-product-property-feature-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 101,
+    "fields": {
+      "propertyId": 901,
+      "moduleId": "iblock",
+      "featureId": "LIST_PAGE_SHOW",
+      "isEnabled": "N"
+    }
+  }
 }

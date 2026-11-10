@@ -80,7 +80,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -296,7 +296,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о папке ||
+[`object`](../../data-types.md) | Объект с данными о папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**
@@ -306,7 +306,7 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится папка ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Значение — `folder` ||
 || **REAL_OBJECT_ID**
 [`integer`](../../data-types.md) | Идентификатор объекта ||
 || **PARENT_ID**
@@ -329,7 +329,7 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -372,3 +372,4 @@ HTTP-статус: **400**
 - [{#T}](./disk-folder-restore.md)
 - [{#T}](./disk-folder-share-to-user.md)
 - [{#T}](./disk-folder-upload-file.md)
+- [Папки Диска](./index.md)

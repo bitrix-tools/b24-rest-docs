@@ -72,5 +72,8 @@
     "paymentId",
     "quantity",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "id": 1186
+  }
 }

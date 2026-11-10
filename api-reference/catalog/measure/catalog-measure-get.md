@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод возвращает информацию о единице измерения по ее идентификатору.
+Метод `catalog.measure.get` возвращает информацию о единице измерения по ее идентификатору.
 
 ## Параметры метода
 
@@ -68,7 +68,7 @@
         code: number
         id: number
         isDefault: string
-        measureTitle: string
+        measureTitle: string | null
         symbol: string
         symbolIntl: string
         symbolLetterIntl: string
@@ -160,7 +160,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -171,20 +170,14 @@
                     'id' => 6
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting measure: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -291,11 +284,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **measure**
-[`catalog_measure`](../data-types.md#catalog_measure) | Объект с информацией о единице измерения с заданным идентификатором ||
+[`object`](../../data-types.md) | Результат запроса [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **measure**
+[`catalog_measure`](../data-types.md#catalog_measure) | Единица измерения с заданным идентификатором ||
 |#
 
 ## Обработка ошибок
@@ -304,7 +304,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -314,15 +314,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Нет доступа к чтению
-||
-|| `200600000020` | Единицы измерения с таким идентификатором не существует 
-||
-|| `100` | Не указан параметр `id`
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | `Access Denied` | Нет доступа к чтению ||
+|| `400` | `200600000020` | `measure does not exist.` | Единицы измерения с таким `id` не существует ||
+|| `400` | `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -1,0 +1,8 @@
+{
+    "name": "b24sim-stats",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Дашборд статистики симулятора REST API Битрикс24",
+    "main": "server.js",
+    "engines": { "node": ">=20" }
+}

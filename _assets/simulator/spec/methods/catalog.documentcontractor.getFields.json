@@ -110,5 +110,6 @@
     }
   ],
   "page": "/api-reference/catalog/documentcontractor/catalog-documentcontractor-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

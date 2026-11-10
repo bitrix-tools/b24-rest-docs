@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/currency/crm-currency-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "IDR"
+  }
 }

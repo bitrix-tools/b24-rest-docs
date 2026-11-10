@@ -56,7 +56,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Режим доставки событий. Допустимые значения: - fetch — бот забирает события через imbot.v2.Event.get - webhook — события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch"
+          "description": "Режим доставки событий. Допустимые значения: - fetch — бот забирает события через imbot.v2.Event.get - webhook — события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch",
+          "values": [
+            {
+              "value": "fetch",
+              "title": "бот забирает события через imbot.v2.Event.get"
+            },
+            {
+              "value": "webhook",
+              "title": "события отправляются POST-запросом на webhookUrl Значение по умолчанию: fetch"
+            }
+          ]
         },
         {
           "name": "webhookUrl",
@@ -157,5 +167,17 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/bots/bot-register.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "code": "support_bot",
+      "botToken": "my_bot_token",
+      "properties": {
+        "name": "Support Bot",
+        "workPosition": "AI Assistant"
+      },
+      "type": "bot",
+      "eventMode": "fetch"
+    }
+  }
 }

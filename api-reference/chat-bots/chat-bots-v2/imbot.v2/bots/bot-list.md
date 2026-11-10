@@ -11,9 +11,9 @@
 
 > Scope: [`imbot`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: владелец зарегистрированного бота
+> Кто может выполнять метод: авторизованный пользователь
 
-Метод `imbot.v2.Bot.list` возвращает список ботов текущего приложения в расширенном формате.
+Метод `imbot.v2.Bot.list` возвращает список ботов текущего приложения в расширенном формате. При вызове через вебхук — ботов, зарегистрированных с переданным `botToken`. Он заменяет метод [imbot.bot.list](../../../outdated/bots/imbot-bot-list.md) первой версии API, соответствие параметров — в [таблице миграции](../../migration.md#metody).
 
 ## Параметры метода
 
@@ -30,11 +30,11 @@
 [`object`](../../../../data-types.md) | Фильтр результатов.
 
 Доступные поля фильтра:
-- `type` — тип бота. Описание типов — [Типы ботов](../../index.md#bot-types) ||
+- `type` — тип бота, строка, например `bot` или `supervisor`. Описание типов — [Типы ботов](../../index.md#bot-types) ||
 || **limit**
-[`integer`](../../../../data-types.md) | Количество ботов на страницу. По умолчанию `50` ||
+[`integer`](../../../../data-types.md) | Количество ботов на страницу. По умолчанию `50`. Со значением `0` или меньше метод вернет всех ботов приложения ||
 || **offset**
-[`integer`](../../../../data-types.md) | Смещение для пагинации. По умолчанию `0` ||
+[`integer`](../../../../data-types.md) | Смещение для пагинации. По умолчанию `0`. Чтобы получить следующую страницу, увеличьте `offset` на `limit`, пока в ответе `hasNextPage` равно `true`. Отрицательное значение вызывает ошибку ||
 |#
 
 ## Примеры кода
@@ -63,20 +63,92 @@
       https://**put_your_bitrix24_address**/rest/imbot.v2.Bot.list
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('imbot.v2.Bot.list', {
-        filter: { type: 'bot' },
-        limit: 10,
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      const { result } = response.getData();
-      console.log('result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    declare const $b24: B24Frame
+
+    // Minimal shape of result; the API returns the full Bot and User objects
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type BotListResult = {
+      bots: Array<{
+        id: number
+        code: string
+        type: string
+      }>
+      users: Array<{
+        id: number
+        name: string
+      }>
+      hasNextPage: boolean
     }
+
+    try {
+      const response = await $b24.actions.v2.call.make<BotListResult>({
+        method: 'imbot.v2.Bot.list',
+        params: {
+          botToken: 'my_bot_token',
+          filter: { type: 'bot' },
+          limit: 10,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Bots:', result.bots.length, '| Has next page:', result.hasNextPage)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function listBots() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imbot.v2.Bot.list',
+            params: {
+              botToken: 'my_bot_token',
+              filter: { type: 'bot' },
+              limit: 10,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Bots:', result.bots.length, '| Has next page:', result.hasNextPage)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', listBots)
+    </script>
     ```
 
 - Python
@@ -86,6 +158,7 @@
 
     try:
         bitrix_response = client.imbot.v2.bot.list(
+            bot_token="my_bot_token",
             filter={
                 "type": "bot",
             },
@@ -115,6 +188,7 @@
             ->call(
                 'imbot.v2.Bot.list',
                 [
+                    'botToken' => 'my_bot_token',
                     'filter' => ['type' => 'bot'],
                     'limit' => 10,
                 ]
@@ -158,6 +232,7 @@
     $result = CRest::call(
         'imbot.v2.Bot.list',
         [
+            'botToken' => 'my_bot_token',
             'filter' => ['type' => 'bot'],
             'limit' => 10,
         ]
@@ -239,8 +314,8 @@ HTTP-статус: **200**
         "finish": 1728626400.234,
         "duration": 0.111,
         "processing": 0.045,
-        "date_start": "2024-10-11T10:00:00+03:00",
-        "date_finish": "2024-10-11T10:00:00+03:00"
+        "date_start": "2024-10-11T09:00:00+03:00",
+        "date_finish": "2024-10-11T09:00:00+03:00"
     }
 }
 ```
@@ -299,6 +374,8 @@ HTTP-статус: **200**
 
 ### Поля объекта User {#user-object}
 
+В таблице и в примере ответа — основные поля. Метод возвращает объект User целиком.
+
 #|
 || **Поле**
 `Тип` | **Описание** ||
@@ -319,18 +396,18 @@ HTTP-статус: **200**
 
 {% note info "" %}
 
-Метод всегда возвращает успешный ответ. Если у приложения нет ботов или передано неизвестное значение `filter.type` — возвращается пустой массив `bots`.
+Если у приложения нет ботов, передано неизвестное значение `filter.type` или чужой `botToken`, метод вернет пустой массив `bots` без ошибки.
 
 {% endnote %}
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "BOT_TOKEN_NOT_SPECIFIED",
-    "error_description": "Bot token is not specified"
+    "error_description": "Bot token not specified (botToken is required for webhook auth)"
 }
 ```
 
@@ -340,7 +417,9 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `100` | Invalid value {…} to match with parameter {…}. Should be value of type … | В `limit` или `offset` передано не целое число, в `filter` — не объект ||
+|| `400` | Internal server error. | Передано отрицательное значение `offset` ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -352,3 +431,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./bot-get.md)
 - [{#T}](./bot-update.md)
 - [{#T}](./bot-unregister.md)
+- [{#T}](../../migration.md)

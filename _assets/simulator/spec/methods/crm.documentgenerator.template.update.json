@@ -77,14 +77,16 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Активность шаблона: Y или N"
+          "description": "Активность шаблона: Y или N",
+          "flag": false
         },
         {
           "name": "withStamps",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Подставлять печать и подпись: Y или N"
+          "description": "Подставлять печать и подпись: Y или N",
+          "flag": false
         },
         {
           "name": "sort",
@@ -154,5 +156,26 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/templates/crm-document-generator-template-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 41,
+    "fields": {
+      "name": "Шаблон из файла (обновлен)",
+      "file": [
+        "template-updated.docx",
+        "**base64_encoded_content**"
+      ],
+      "numeratorId": 49,
+      "region": "ru",
+      "entityTypeId": [
+        "2"
+      ],
+      "users": [
+        "UA"
+      ],
+      "active": "Y",
+      "withStamps": "N",
+      "sort": 500
+    }
+  }
 }

@@ -33,7 +33,7 @@
 - `["field", "operator", value]`
 - `["field", value]`, оператор по умолчанию `=`
 
-Обязателен параметр `userId`.
+Условие по `userId` обязательно, например `["userId", 1]`. Для `userId` подходит только оператор `=`: на `in`, `>` и другие операторы метод вернет ошибку `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTFILTERVALIDATIONEXCEPTION`.
 
 Доступные поля:
 - `userId` — идентификатор сотрудника
@@ -52,10 +52,11 @@
 - `endTime` — время завершения рабочего интервала
 - `duration` — длительность рабочего интервала в секундах
 - `breakLength` — длительность перерывов в секундах
-- `state` — состояние записи
-- `isApproved` — признак подтверждения записи ||
+- `isApproved` — признак подтверждения записи
+
+Состояние записи `state` через `select` не получить: оно приходит, только если `select` не передан ||
 || **order**
-[`object`](../../data-types.md) | Сортировка результатов в формате `{ "field": "value" }`.
+[`object`](../../data-types.md) | Сортировка результатов в формате `{ "field": "value" }`. Без параметра метод возвращает записи от новых к старым.
 
 Доступные значения:
 - `ASC` — по возрастанию
@@ -70,7 +71,7 @@
 || **pagination**
 [`object`](../../data-types.md) | Параметры постраничной навигации:
 - `page` — номер страницы
-- `limit` — количество записей на страницу, по умолчанию `50`
+- `limit` — количество записей на страницу, по умолчанию `50`, максимум `1000`
 - `offset` — смещение записей. Если переданы `page` и `limit`, смещение вычисляется автоматически ||
 |#
 
@@ -121,7 +122,7 @@
     type TimemanRecordItem = {
       id: number
       startTime: ISODate
-      endTime: ISODate
+      endTime: ISODate | null
       duration: number
     }
 
@@ -131,11 +132,6 @@
     }
 
     try {
-      // timeman.record.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `pagination` variant when sort matters.
       const response = await $b24.actions.v3.call.make<TimemanRecordListResult>({
         method: 'timeman.record.list',
         params: {
@@ -185,11 +181,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // timeman.record.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `pagination` variant when sort matters.
           const response = await $b24.actions.v3.call.make({
             method: 'timeman.record.list',
             params: {
@@ -266,7 +257,7 @@
 
     pagination = {
         "page": 1,
-        "limit": 20,
+        "limit": 50,
         "offset": 0,
     }
 
@@ -491,9 +482,47 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с записями. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Массив [записей о рабочем времени](#item). Набор полей зависит от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект записи {#item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор записи ||
+|| **userId**
+[`integer`](../../data-types.md) | Идентификатор сотрудника ||
+|| **startTime**
+[`string`](../../data-types.md) | Время начала рабочего интервала в формате ISO 8601 ||
+|| **endTime**
+[`string`](../../data-types.md) | Время завершения рабочего интервала в формате ISO 8601. `null`, если интервал еще не завершен ||
+|| **duration**
+[`integer`](../../data-types.md) | Длительность рабочего интервала в секундах ||
+|| **breakLength**
+[`integer`](../../data-types.md) | Длительность перерывов в секундах ||
+|| **state**
+[`object`](../../data-types.md) | Состояние записи [(подробное описание)](#state). Приходит, только если `select` не передан ||
+|| **isApproved**
+[`boolean`](../../data-types.md) | Подтверждена ли запись ||
+|#
+
+#### Объект state {#state}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **status**
+[`string`](../../data-types.md) | Статус записи. Возможные значения:
+- `opened` — интервал открыт
+- `paused` — на паузе
+- `closed` — интервал завершен
+- `unknown` — статус не определен ||
+|| **recommendedCloseTime**
+[`integer`](../../data-types.md) | Рекомендуемое время завершения интервала. В ответе этого метода всегда `null` ||
 |#
 
 ## Обработка ошибок
@@ -503,12 +532,12 @@ HTTP-статус: **400**
 ```json
 {
     "error": {
-        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION",
-        "message": "Ошибка при валидации объекта запроса",
+        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTFILTERVALIDATIONEXCEPTION",
+        "message": "Ошибка при валидации фильтров объекта запроса",
         "validation": [
             {
-                "field": "filter.userId",
-                "message": "Обязательное поле `filter.userId` не указано"
+                "message": "Требуется указать фильтр по обязательному полю `userId`",
+                "field": "filter.userId"
             }
         ]
     }
@@ -519,13 +548,33 @@ HTTP-статус: **400**
 
 ### Возможные коды ошибок
 
+#### Инструмент отключен
+
+Код ошибки: `TIMEMAN_TOOL_DISABLED`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `-` | Учет рабочего времени отключен. | Включите инструмент Учет рабочего времени в настройках Битрикс24 ||
+|#
+
 #### Ошибки доступа
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
 
+HTTP-статус: **403**
+
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter.userId` | Доступ запрещен | Проверьте право чтения записей о рабочем времени для указанного сотрудника и scope `timeman` ||
+|| — | Доступ запрещен | У пользователя нет права читать записи этого сотрудника. Проверьте права на учет рабочего времени ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INSUFFICIENTSCOPEEXCEPTION`
+
+HTTP-статус: **403**
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| — | Недостаточно прав доступа: отсутствует необходимый scope. | Добавьте вебхуку или приложению scope `timeman` ||
 |#
 
 #### Ошибки валидации запроса
@@ -534,7 +583,15 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter.userId` | Обязательное поле `filter.userId` не указано | Передайте фильтр с условием по `userId` ||
+|| `filter` | Значение поля не может быть пустым | Передайте параметр `filter` с условием по `userId` ||
+|| `filter.userId` | Обязательное поле `filter.userId` не указано | В `userId` передан `0`. Передайте идентификатор сотрудника ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTFILTERVALIDATIONEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `filter.userId` | Требуется указать фильтр по обязательному полю `userId` | Добавьте в `filter` условие `["userId", ID]` с оператором `=` ||
 |#
 
 #### Ошибки фильтра
@@ -543,7 +600,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter.userId` | Передано несколько разных значений `userId` в одном запросе | Передавайте только один идентификатор сотрудника в фильтре ||
+|| — | Не удается распознать выражение фильтра `Multiple different values for filter.userId are not allowed.` | Передавайте в фильтре один идентификатор сотрудника ||
 |#
 
 #### Ошибки пагинации

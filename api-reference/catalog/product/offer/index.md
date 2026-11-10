@@ -15,9 +15,19 @@
 
 Чтобы работать с головными товарами, используйте методы [catalog.product.sku.\*](../sku/index.md).
 
+Методы вариаций есть в двух версиях API: REST 2 и [REST 3.0](../../../rest-v3.md). В таблице методов REST 3.0 помечены как `v 3.0`. Чем различаются версии, описано в разделах [Особенности методов REST 2](#rest2) и [Вариации в REST 3.0](#rest3).
+
 > Быстрый переход: [все методы](#all-methods)
 >
 > Пользовательская документация: [Работа с вариациями товара](https://helpdesk.bitrix24.ru/open/11657102/)
+
+## Как начать работу
+
+1. Получите идентификатор торгового каталога для вариаций методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md)
+2. Получите идентификатор головного товара методом [catalog.product.sku.list](../sku/catalog-product-sku-list.md)
+3. Создайте вариацию методом [catalog.product.offer.add](./catalog-product-offer-add.md)
+4. При необходимости добавьте изображения методом [catalog.productImage.add](../../product-image/catalog-product-image-add.md)
+5. Укажите цену вариации методами [catalog.price.*](../../price/index.md)
 
 ## Связь вариаций товара с другими объектами
 
@@ -47,27 +57,44 @@
 
 **Корзина заказа.** Вариацию товара можно добавить, изменить или удалить из корзины с помощью группы методов [sale.basketitem.\*](../../../sale/basket-item/index.md).
 
-## Как начать работу
+## Особенности методов REST 2 {#rest2}
 
-1. Получите идентификатор торгового каталога для вариаций методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md)
-2. Получите идентификатор головного товара методом [catalog.product.sku.list](../sku/catalog-product-sku-list.md)
-3. Создайте вариацию методом [catalog.product.offer.add](./catalog-product-offer-add.md)
-4. При необходимости добавьте изображения методом [catalog.productImage.add](../../product-image/catalog-product-image-add.md)
-5. Укажите цену вариации методами [catalog.price.*](../../price/index.md)
+- Головной товар передается в поле `parentId` метода [catalog.product.offer.add](./catalog-product-offer-add.md). Без него метод создает вариацию без головного товара с типом `5`, такая вариация недоступна для покупки
+- В методе [catalog.product.offer.update](./catalog-product-offer-update.md) головной товар сменить нельзя: `parentId` метод пропускает без ошибки
+- В `catalog.product.offer.update` значения свойств передавайте объектом `{"value": ...}`: простое значение очищает свойство
+- Поля `dateCreate`, `dateActiveFrom` и `dateActiveTo` сейчас задать нельзя: дата создания сохраняется неверно, а даты активности метод отклоняет
+
+## Вариации в REST 3.0 {#rest3}
+
+В [REST 3.0](../../../rest-v3.md) для вариаций есть методы добавления, изменения, получения, удаления, скачивания файлов и методы получения схемы полей `catalog.product.offer.field.list` и `catalog.product.offer.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`. Общие особенности методов товаров новой версии описаны в [обзоре товаров](../index.md).
+
+Особенности методов новой версии:
+
+- вариация привязывается к головному товару через свойство `PROPERTY_{skuPropertyId}` в `fields.properties`. Поля `parentId`, как в REST 2, нет. Идентификатор свойства `skuPropertyId` возвращает метод [catalog.catalog.get](../../catalog/catalog-catalog-get-rest-v3.md) для каталога вариаций
+- в методе [catalog.product.offer.update](./catalog-product-offer-update-rest-v3.md) значения свойств, в том числе привязку, передавайте объектом `{"VALUE": ...}`: строку или число метод не сохраняет
+- найти вариации одного головного товара фильтром по свойству привязки нельзя
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять методы: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правами на инфоблок вариаций. Для добавления, изменения и удаления нужны также права «Создание товара», «Редактирование товара» или «Удаление товара»
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.product.offer.add](./catalog-product-offer-add.md) | Добавляет вариацию товара ||
+|| [catalog.product.offer.add](./catalog-product-offer-add-rest-v3.md) | Добавляет вариацию товара v 3.0 ||
 || [catalog.product.offer.update](./catalog-product-offer-update.md) | Обновляет поля вариации товара ||
+|| [catalog.product.offer.update](./catalog-product-offer-update-rest-v3.md) | Обновляет поля вариации товара v 3.0 ||
 || [catalog.product.offer.get](./catalog-product-offer-get.md) | Возвращает значения полей вариации товара по идентификатору ||
+|| [catalog.product.offer.get](./catalog-product-offer-get-rest-v3.md) | Возвращает значения полей вариации товара по идентификатору v 3.0 ||
 || [catalog.product.offer.list](./catalog-product-offer-list.md) | Возвращает список вариаций товара по фильтру ||
+|| [catalog.product.offer.list](./catalog-product-offer-list-rest-v3.md) | Возвращает список вариаций товара по фильтру v 3.0 ||
 || [catalog.product.offer.download](./catalog-product-offer-download.md) | Скачивает файлы вариации товара по переданным параметрам ||
+|| [catalog.product.offer.download](./catalog-product-offer-download-rest-v3.md) | Скачивает файлы вариации товара по переданным параметрам v 3.0 ||
 || [catalog.product.offer.delete](./catalog-product-offer-delete.md) | Удаляет вариацию товара ||
+|| [catalog.product.offer.delete](./catalog-product-offer-delete-rest-v3.md) | Удаляет вариацию товара v 3.0 ||
 || [catalog.product.offer.getFieldsByFilter](./catalog-product-offer-get-fields-by-filter.md) | Возвращает поля вариации товара по фильтру ||
+|| [catalog.product.offer.field.list](./catalog-product-offer-field-list.md) | Возвращает список полей вариации товара v 3.0 ||
+|| [catalog.product.offer.field.get](./catalog-product-offer-field-get.md) | Возвращает описание поля вариации товара ||
 |#

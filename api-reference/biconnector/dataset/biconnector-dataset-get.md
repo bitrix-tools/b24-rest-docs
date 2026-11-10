@@ -11,11 +11,25 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
+
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [biconnector.table.get](../table/biconnector-table-get.md).
+
+{% endnote %}
 
 Метод `biconnector.dataset.get` возвращает информацию о датасете по идентификатору.
 
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и возвращает только те датасеты, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
+
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -29,16 +43,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"id":2}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.dataset.get
-    ```
 
 - cURL (OAuth)
 
@@ -60,6 +64,14 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type DatasetGetResult = {
       item: {
@@ -74,6 +86,9 @@
         createdById: number
         updatedById: number
         externalId: number
+        csvDelimiter: string
+        csvEncoding: string
+        csvHasHeaders: boolean
         fields: Array<{
           id: number
           datasetId: number
@@ -81,12 +96,13 @@
           name: string
           externalCode: string
           visible: boolean
+          description: string
         }>
       }
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<DatasetGetResult>({
+      const response = await $b24.actions.v2.call.make<DatasetGetResult | BiconnectorError>({
         method: 'biconnector.dataset.get',
         params: {
           id: 2,
@@ -99,7 +115,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.item.id, result.item.name, result.item.type)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if ('error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info(result.item.id, result.item.name, result.item.type)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -133,6 +155,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info(result.item.id, result.item.name, result.item.type)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -154,7 +183,17 @@
             bitrix_id=2,
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -170,7 +209,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -181,17 +219,24 @@
                     'id' => 2,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Data: ' . print_r($result->data(), true);
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Data: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting dataset: ' . $e->getMessage();
@@ -207,9 +252,20 @@
             id: 2,
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         }
     );
     ```
@@ -226,9 +282,15 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -240,6 +302,17 @@
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("biconnector.dataset.get: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.dataset.get: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     // Метод заворачивает ответ в объект с ключом "item".
@@ -276,20 +349,23 @@ HTTP-статус: **200**
             "type": "rest",
             "name": "rest_dataset11111",
             "description": "new__2_",
-            "externalCode": "extrnalCode",
-            "externalName": "extranalName",
+            "externalCode": "sales_orders",
+            "externalName": "Sales orders",
             "dateCreate": "2025-03-26 15:28:06",
             "dateUpdate": "2025-03-27 07:47:43",
             "createdById": 1,
             "updatedById": 1,
             "externalId": 275,
+            "csvDelimiter": "",
+            "csvEncoding": "",
+            "csvHasHeaders": false,
             "fields": [
-                {"id": 224, "datasetId": 2, "type": "int", "name": "ID", "externalCode": "ID", "visible": true},
-                {"id": 225, "datasetId": 2, "type": "string", "name": "NAME", "externalCode": "NAME", "visible": true},
-                {"id": 226, "datasetId": 2, "type": "string", "name": "SURNAME", "externalCode": "SURNAME", "visible": true},
-                {"id": 227, "datasetId": 2, "type": "double", "name": "SCORE", "externalCode": "SCORE", "visible": true},
-                {"id": 228, "datasetId": 2, "type": "date", "name": "DATA", "externalCode": "DATA", "visible": true},
-                {"id": 229, "datasetId": 2, "type": "datetime", "name": "TIME", "externalCode": "TIME", "visible": true}
+                {"id": 224, "datasetId": 2, "type": "int", "name": "ID", "externalCode": "ID", "visible": true, "description": ""},
+                {"id": 225, "datasetId": 2, "type": "string", "name": "NAME", "externalCode": "NAME", "visible": true, "description": ""},
+                {"id": 226, "datasetId": 2, "type": "string", "name": "SURNAME", "externalCode": "SURNAME", "visible": true, "description": ""},
+                {"id": 227, "datasetId": 2, "type": "double", "name": "SCORE", "externalCode": "SCORE", "visible": true, "description": ""},
+                {"id": 228, "datasetId": 2, "type": "date", "name": "DATA", "externalCode": "DATA", "visible": true, "description": ""},
+                {"id": 229, "datasetId": 2, "type": "datetime", "name": "TIME", "externalCode": "TIME", "visible": true, "description": ""}
             ]
         }
     },
@@ -310,10 +386,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит информацию о полях датасета. Описание полей в статье [Датасеты: обзор методов](./index.md#dataset) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `item` — сам датасет вместе с массивом `fields`. Состав полей описан в статье [Датасеты: обзор методов](./index.md#dataset) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
-|#    
+|#
+
+Поля `sourceId` в ответе нет — идентификатор источника возвращает только метод [biconnector.dataset.list](./biconnector-dataset-list.md). Состав полей датасета, наоборот, доступен только через `get`: в выборке `list` массива `fields` не будет.
 
 ## Обработка ошибок
 
@@ -321,10 +399,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_ID_NOT_PROVIDED",
-    "error_description": "ID is missing."
+    "result": {
+        "error": {
+            "error": "VALIDATION_ID_NOT_PROVIDED",
+            "error_description": "ID is missing."
+        }
+    }
 }
 ```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -332,18 +420,20 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
-|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасет не найден ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./biconnector-dataset-add.md)
 - [{#T}](./biconnector-dataset-update.md)
-- [{#T}](./biconnector-dataset-fields-update.md)
-- [{#T}](./biconnector-dataset-fields.md)
 - [{#T}](./biconnector-dataset-list.md)
 - [{#T}](./biconnector-dataset-delete.md)
+- [{#T}](./biconnector-dataset-fields-update.md)
+- [{#T}](./biconnector-dataset-fields.md)

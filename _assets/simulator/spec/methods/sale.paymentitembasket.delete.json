@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/payment-item-basket/sale-payment-item-basket-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1186
+  }
 }

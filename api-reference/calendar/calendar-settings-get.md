@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает основные настройки календаря. Изменить основные настройки может только администратор портала.
+Метод `calendar.settings.get` получает основные настройки календаря: рабочий график компании, выходные и праздничные дни, шаблоны ссылок и параметры переговорных.
+
+Изменить основные настройки может только администратор Битрикс24 в интерфейсе. Пользовательские настройки сотрудника получают и изменяют методы [calendar.user.settings.get](./calendar-user-settings-get.md) и [calendar.user.settings.set](./calendar-user-settings-set.md).
+
+Экстранет-пользователям метод возвращает только `work_time_start` и `work_time_end`, остальные поля в ответе отсутствуют. Значения этих полей для экстранет-пользователей фиксированы — `9` и `19`, а не рабочий график компании.
+
+## Параметры метода
 
 Без параметров.
 
@@ -55,15 +61,15 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type CalendarSettingsResult = {
-      work_time_start: string
-      work_time_end: string
+      work_time_start: string | number
+      work_time_end: string | number
       year_holidays: string
       year_workdays: string
       week_holidays: string[]
       week_start: string
       user_name_template: string
-      sync_by_push: boolean
-      user_show_login: boolean
+      sync_by_push: string | boolean
+      user_show_login: string | boolean
       path_to_user: string
       path_to_user_calendar: string
       path_to_group: string
@@ -72,14 +78,16 @@
       path_to_rm: string
       rm_iblock_type: string
       rm_iblock_id: string
-      dep_manager_sub: boolean
+      dep_manager_sub: string | boolean
       denied_superpose_types: string[]
-      pathes_for_sites: string
+      pathes_for_sites: string | boolean
+      pathes: Array<Record<string, string>>
       forum_id: string
-      rm_for_sites: boolean
+      rm_for_sites: string | boolean
       path_to_type_company_calendar: string
       path_to_type_location: string
-      path_to_type_open_event: string
+      path_to_type_events: string
+      path_to_type_resource: string
     }
 
     try {
@@ -161,7 +169,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -170,15 +177,14 @@
                 'calendar.settings.get',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+        // Дальше обработайте $result в своем коде
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting calendar settings: ' . $e->getMessage();
@@ -218,9 +224,11 @@
     	return fmt.Errorf("calendar.settings.get: %w", err)
     }
 
+    // Структура сокращена: ниже только поля, которые нужны примеру.
+    // Полный список полей — в разделе «Возвращаемые данные».
     var item struct {
-    	WorkTimeStart    string `json:"work_time_start"`
-    	WorkTimeEnd      string `json:"work_time_end"`
+    	WorkTimeStart    any    `json:"work_time_start"`
+    	WorkTimeEnd      any    `json:"work_time_end"`
     	YearHolidays     string `json:"year_holidays"`
     	YearWorkdays     string `json:"year_workdays"`
     	WeekStart        string `json:"week_start"`
@@ -251,8 +259,8 @@ HTTP-статус: **200**
         ],
         "week_start": "MO",
         "user_name_template": "#NAME# #LAST_NAME#",
-        "sync_by_push": false,
-        "user_show_login": true,
+        "sync_by_push": "",
+        "user_show_login": "1",
         "path_to_user": "/company/personal/user/#user_id#/",
         "path_to_user_calendar": "/company/personal/user/#user_id#/calendar/",
         "path_to_group": "/workgroups/group/#group_id#/",
@@ -261,14 +269,16 @@ HTTP-статус: **200**
         "path_to_rm": "",
         "rm_iblock_type": "",
         "rm_iblock_id": "",
-        "dep_manager_sub": true,
+        "dep_manager_sub": "1",
         "denied_superpose_types": [],
         "pathes_for_sites": "",
+        "pathes": [],
         "forum_id": "8",
-        "rm_for_sites": true,
+        "rm_for_sites": "1",
         "path_to_type_company_calendar": "",
         "path_to_type_location": "",
-        "path_to_type_open_event": ""
+        "path_to_type_events": "",
+        "path_to_type_resource": ""
     },
     "time": {
         "start": 1733924639.802569,
@@ -287,23 +297,34 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
+[`object`](../data-types.md) | Корневой элемент ответа [(подробное описание)](#settings) ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект настроек {#settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **work_time_start**
-[`string`](../data-types.md) | Время начала рабочего дня ||
+[```string|integer```](../data-types.md) | Время начала рабочего дня. Пока настройку не сохраняли, приходит числом `9`, после сохранения — обычно строкой. Если сохраненное значение больше `23`, метод возвращает число `23` ||
 || **work_time_end**
-[`string`](../data-types.md) | Время окончания рабочего дня ||
+[```string|integer```](../data-types.md) | Время окончания рабочего дня. Пока настройку не сохраняли, приходит числом `19`, после сохранения — обычно строкой. Если окончание не позже начала, метод возвращает число — время начала плюс один час. Если значение больше `23.30`, метод возвращает число `23.3` ||
 || **year_holidays**
-[`string`](../data-types.md) | Список праздничных дней ||
+[`string`](../data-types.md) | Праздничные дни в году: даты через запятую в формате `день.месяц`, например `1.01,2.01,7.01` ||
+|| **year_workdays**
+[`string`](../data-types.md) | Рабочие дни в году: даты через запятую в формате `день.месяц`, например `31.12` ||
 || **week_holidays**
-[`array`](../data-types.md) | Массив выходных дней ||
+[`array`](../data-types.md) | Массив выходных дней. Элемент массива — [`string`](../data-types.md), двухбуквенный код дня недели: `MO`, `TU`, `WE`, `TH`, `FR`, `SA`, `SU` ||
 || **week_start**
 [`string`](../data-types.md) | День начала недели ||
 || **user_name_template**
 [`string`](../data-types.md) | Шаблон имени пользователя ||
 || **sync_by_push**
-[`boolean`](../data-types.md) | Флаг автоматической синхронизации календарей по подписке. Push-события от Google/Office365 ||
+[```string|boolean```](../data-types.md) | Флаг автоматической синхронизации календарей по подписке на push-события Google и Office365. Пока настройку не сохраняли, приходит `false`; после сохранения — строкой: `'1'` — включено, пустая строка — выключено ||
 || **user_show_login**
-[`boolean`](../data-types.md) | Флаг отображения логина пользователя ||
+[```string|boolean```](../data-types.md) | Флаг отображения логина пользователя. Пока настройку не сохраняли, приходит `true`; после сохранения — строкой: `'1'` — включено, пустая строка — выключено ||
 || **path_to_user**
 [`string`](../data-types.md) | Шаблон ссылки на профиль пользователя ||
 || **path_to_user_calendar**
@@ -321,28 +342,38 @@ HTTP-статус: **200**
 || **rm_iblock_id**
 [`string`](../data-types.md) | Идентификатор инфоблока бронирования переговорных ||
 || **dep_manager_sub**
-[`boolean`](../data-types.md) | Флаг разрешения начальникам просматривать календари подчиненных ||
+[```string|boolean```](../data-types.md) | Флаг разрешения начальникам просматривать календари подчиненных. Пока настройку не сохраняли, приходит `true`; после сохранения — строкой: `'1'` — включено, пустая строка — выключено ||
 || **denied_superpose_types**
-[`array`](../data-types.md) | Список типов календарей, которые не могут быть добавлены в избранные ||
+[`array`](../data-types.md) | Список типов календарей, которые не могут быть добавлены в избранные. Элемент массива — [`string`](../data-types.md), например `user` или `group` ||
 || **pathes_for_sites**
-[`boolean`](../data-types.md) | Устанавливает шаблоны ссылок общие для всех сайтов ||
+[```string|boolean```](../data-types.md) | Флаг, который включает общие шаблоны ссылок для всех сайтов. Пока настройку не сохраняли, приходит `true`; после сохранения — строкой. Пустая строка означает, что шаблоны задаются отдельно для каждого сайта ||
+|| **pathes**
+[`array`](../data-types.md) | Массив шаблонов ссылок. Метод не передает код сайта, поэтому шаблоны ссылок, заданные отдельно для сайтов, в ответ не попадают. Если массив не пустой, его элемент — объект, в котором ключ — имя пути, например `path_to_user`, а значение — шаблон ссылки ||
 || **forum_id**
 [`string`](../data-types.md) | Идентификатор форума для комментариев ||
 || **rm_for_sites**
-[`boolean`](../data-types.md) | Устанавливает параметры переговорных общие для всех сайтов ||
+[```string|boolean```](../data-types.md) | Флаг общих для всех сайтов параметров переговорных. Пока настройку не сохраняли, приходит `true`; после сохранения — строкой: `'1'` — включено, пустая строка — выключено ||
 || **path_to_type_company_calendar**
 [`string`](../data-types.md) | Шаблон ссылки на просмотр календарей компании ||
 || **path_to_type_location**
 [`string`](../data-types.md) | Шаблон ссылки на просмотр бронирования переговорных ||
+|| **path_to_type_events**
+[`string`](../data-types.md) | Шаблон ссылки на просмотр календаря событий ||
 || **path_to_type_open_event**
 [`string`](../data-types.md) | Шаблон ссылки на просмотр календаря открытых событий ||
+|| **path_to_type_resource**
+[`string`](../data-types.md) | Шаблон ссылки на просмотр календаря ресурса ||
 |#
+
+Ключи `path_to_type_*` метод строит по типам календарей, которые заведены в Битрикс24: для каждого типа, кроме `user` и `group`, приходит ключ `path_to_type_<XML_ID>`. Например, для типа с кодом `open_event` приходит `path_to_type_open_event`. Набор ключей в разных Битрикс24 отличается.
 
 ## Обработка ошибок
 
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./calendar-user-settings-get.md)

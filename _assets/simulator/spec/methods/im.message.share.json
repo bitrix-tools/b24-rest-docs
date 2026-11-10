@@ -25,7 +25,25 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип создаваемого объекта. Допустимые значения: - CHAT — чат - TASK — задача - POST — пост в ленте - CALEND — событие календаря"
+      "description": "Тип создаваемого объекта. Допустимые значения: - CHAT — чат - TASK — задача - POST — пост в ленте - CALEND — событие календаря",
+      "values": [
+        {
+          "value": "CHAT",
+          "title": "чат"
+        },
+        {
+          "value": "TASK",
+          "title": "задача"
+        },
+        {
+          "value": "POST",
+          "title": "пост в ленте"
+        },
+        {
+          "value": "CALEND",
+          "title": "событие календаря"
+        }
+      ]
     }
   ],
   "defs": {},
@@ -64,5 +82,10 @@
     }
   ],
   "page": "/api-reference/chats/messages/im-message-share.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "MESSAGE_ID": 34261,
+    "DIALOG_ID": "chat2941",
+    "TYPE": "TASK"
+  }
 }

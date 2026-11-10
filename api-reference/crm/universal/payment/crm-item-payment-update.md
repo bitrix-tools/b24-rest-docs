@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на изменение заказа оплаты
+> Кто может выполнять метод: пользователь с правом на изменение заказа, к которому относится оплата
 
-Метод изменяет ограниченный набор полей оплаты (см. [`sale.payment.update`](../../../sale/payment/sale-payment-update.md), если требуется возможность расширенной работы с полями оплаты).
+Метод `crm.item.payment.update` изменяет статус оплаты и платежную систему. Остальные поля оплаты можно изменить методом [sale.payment.update](../../../sale/payment/sale-payment-update.md).
 
 ## Параметры метода
 
@@ -23,25 +23,28 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_payment.id`](../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты ||
+[`sale_order_payment.id`](../../../sale/data-types.md#sale_order_payment) | Идентификатор оплаты. Получить идентификаторы оплат объекта CRM можно методом [crm.item.payment.list](./crm-item-payment-list.md) ||
 || **fields***
-[`object`](../../../../api-reference/data-types.md) | Значения полей для обновления оплаты  ||
+[`object`](../../../../api-reference/data-types.md) | Поля оплаты, которые нужно изменить [(подробное описание)](#fields). Непереданные поля сохраняют текущие значения ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
+
+Метод принимает только два поля. Другие ключи игнорируются. Если в `fields` нет ни одного поддерживаемого ключа, метод вернет ошибку `Empty fields`.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **paid**
-[`string`](../../../../api-reference/data-types.md) | Статус оплаты.
+[`string`](../../../../api-reference/data-types.md) | Статус оплаты:
+- `Y` — оплачена
+- `N` — не оплачена
 
-Возможные значения:
-- `Y` – Оплачена
-- `N` – Не оплачена ||
+Работает так же, как методы [crm.item.payment.pay](./crm-item-payment-pay.md) и [crm.item.payment.unpay](./crm-item-payment-unpay.md) ||
 || **paySystemId**
-[`sale_paysystem.id`](../../../sale/data-types.md#sale_paysystem) | Идентификатор платежной системы
- ||
+[`sale_paysystem.id`](../../../sale/data-types.md#sale_paysystem) | Идентификатор платежной системы. Получить список платежных систем можно методом [sale.paysystem.list](../../../pay-system/sale-pay-system-list.md).
+
+Название платежной системы в поле `paySystemName` оплаты обновляется автоматически ||
 |#
 
 ## Примеры кода
@@ -271,7 +274,7 @@
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -295,7 +298,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../../api-reference/data-types.md) | Результат проведения операции  ||
+[`boolean`](../../../../api-reference/data-types.md) | `true`, если оплата изменена ||
 || **time**
 [`time`](../../../../api-reference/data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -306,8 +309,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"Недостаточно прав"
+    "error": "0",
+    "error_description": "Empty fields"
 }
 ```
 
@@ -316,17 +319,24 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Оплата не найдена или доступ запрещен ||
-|| `0` | Платежная система не найдена  ||
-|| `100` | Не указан параметр id ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Empty fields | В `fields` нет ни `paid`, ни `paySystemId` ||
+|| `400` | `0` | Payment system has not been found | Платежная система с переданным `paySystemId` не найдена ||
+|| `400` | `0` | Payment has not been found | Оплата с переданным `id` не найдена ||
+|| `400` | `BX_ERROR` | Недостаточно средств на внутреннем счете | Передан `paid` = `Y`, оплата использует платежную систему «Внутренний счет», а на внутреннем счете клиента не хватает средств ||
+|| `400` | `ACCESS_DENIED` | Access denied | Нет права на изменение заказа, к которому относится оплата ||
+|| `400` | `100` | Could not find value for parameter {`имя параметра`} | Не передан обязательный параметр `id` или `fields` ||
 |#
 
-{% include notitle [системные ошибки](../../../../_includes/system-errors.md) %}
+Код `0` метод возвращает для нескольких разных ошибок. Чтобы определить причину, проверяйте текст в `error_description`.
+
+{% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./products-in-payment/index.md)
+- [{#T}](./delivery-in-payment/index.md)
 - [{#T}](./crm-item-payment-delete.md)
 - [{#T}](./crm-item-payment-get.md)
 - [{#T}](./crm-item-payment-list.md)

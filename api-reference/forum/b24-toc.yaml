@@ -1,0 +1,13 @@
+title: Форум
+href: index.md
+items:
+  - name: Обзор разделов
+    href: index.md
+  - name: Сообщения
+    include:
+      path: message/b24-toc.yaml
+      mode: link
+  - name: Пользовательские поля сообщений
+    include:
+      path: userfield/b24-toc.yaml
+      mode: link

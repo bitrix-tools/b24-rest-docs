@@ -99,7 +99,18 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Доступно ли предложение для всех. Возможные значения: - Y — да - N — нет"
+          "description": "Доступно ли предложение для всех. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "PERSON_TYPE_ID",
@@ -178,7 +189,17 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Создавать ли запись в истории изменения. Возможные значения: - Y — да - N — нет По умолчанию — Y"
+          "description": "Создавать ли запись в истории изменения. Возможные значения: - Y — да - N — нет По умолчанию — Y",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию — Y"
+            }
+          ]
         }
       ]
     }
@@ -221,5 +242,15 @@
     }
   ],
   "page": "/api-reference/crm/quote/crm-quote-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 43,
+    "fields": {
+      "STATUS_ID": "SENT",
+      "COMMENTS": "Уточнены условия и сроки"
+    },
+    "params": {
+      "REGISTER_HISTORY_EVENT": "Y"
+    }
+  }
 }

@@ -24,5 +24,8 @@
     "successor": "crm.category.get"
   },
   "page": "/api-reference/crm/outdated/category-old/crm-deal-category-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "1"
+  }
 }

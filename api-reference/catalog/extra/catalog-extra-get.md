@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Изменение цены продажи товара» или «Управление наценками»
 
-Метод возвращает информацию о наценке по ее идентификатору.
+Метод `catalog.extra.get` возвращает информацию о наценке по ее идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_extra.id`](../data-types.md#catalog_extra) | Идентификатор наценки ||
+[`catalog_extra.id`](../data-types.md#catalog_extra) | Идентификатор наценки.
+
+Получить идентификатор можно методом [catalog.extra.list](./catalog-extra-list.md) ||
 |#
 
 ## Примеры кода
@@ -156,7 +158,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -167,20 +168,14 @@
                     'id' => 1
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting catalog extra: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -258,18 +253,19 @@ HTTP-статус: **200**
     "result": {
         "extra": {
             "id": 1,
-            "name": "test",
-            "percentage": 5.10
+            "name": "Наценка1",
+            "percentage": 10
         }
     },
     "time": {
-        "start": 1716558215.93495,
-        "finish": 1716558216.20731,
-        "duration": 0.272363901138306,
-        "processing": 0.028817892074585,
-        "date_start": "2024-10-24T16:40:59+02:00",
-        "date_finish": "2024-10-24T16:40:59+02:00",
-        "operating": 0
+        "start": 1793688334,
+        "finish": 1793688334.074482,
+        "duration": 0.07448196411132812,
+        "processing": 0,
+        "date_start": "2026-11-03T09:45:34+03:00",
+        "date_finish": "2026-11-03T09:45:34+03:00",
+        "operating_reset_at": 1793688840,
+        "operating": 0.1182100772857666
     }
 }
 ```
@@ -281,7 +277,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **extra**
+|| **result.extra**
 [`catalog_extra`](../data-types.md#catalog_extra) | Объект с информацией о наценке с заданным идентификатором ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -293,8 +289,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "202000000000",
+    "error_description": "extra does not exist."
 }
 ```
 
@@ -303,15 +299,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-||
-|| `202000000000` | Наценки с таким идентификатором не существует 
-||
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров», «Изменение цены продажи товара» или «Управление наценками» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `202000000000` | extra does not exist. | Наценки с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -263,5 +263,20 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 20,
+    "fields": {
+      "isAutomationEnabled": "N",
+      "isBeginCloseDatesEnabled": "N",
+      "isClientEnabled": "N",
+      "isObserversEnabled": "N",
+      "isSourceEnabled": "Y",
+      "isStagesEnabled": "Y",
+      "isUseInUserfieldEnabled": "Y",
+      "linkedUserFields": {
+        "TASKS_TASK|UF_CRM_TASK": "true"
+      }
+    }
+  }
 }

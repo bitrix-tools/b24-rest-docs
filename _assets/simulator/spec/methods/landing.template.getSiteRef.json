@@ -53,5 +53,8 @@
     }
   ],
   "page": "/api-reference/landing/template/landing-template-get-site-ref.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 157
+  }
 }

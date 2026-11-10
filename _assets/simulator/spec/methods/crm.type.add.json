@@ -288,5 +288,54 @@
     }
   ],
   "page": "/api-reference/crm/universal/user-defined-object-types/crm-type-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "title": "Смарт-процесс",
+      "entityTypeId": 2024,
+      "isAutomationEnabled": "Y",
+      "isBeginCloseDatesEnabled": "Y",
+      "isBizProcEnabled": "Y",
+      "isCategoriesEnabled": "Y",
+      "isClientEnabled": "Y",
+      "isDocumentsEnabled": "Y",
+      "isLinkWithProductsEnabled": "Y",
+      "isMycompanyEnabled": "Y",
+      "isObserversEnabled": "Y",
+      "isRecyclebinEnabled": "Y",
+      "isSetOpenPermissions": "Y",
+      "isSourceEnabled": "Y",
+      "isStagesEnabled": "Y",
+      "isUseInUserfieldEnabled": "Y",
+      "linkedUserFields": {
+        "CALENDAR_EVENT|UF_CRM_CAL_EVENT": "true",
+        "TASKS_TASK|UF_CRM_TASK": "true"
+      },
+      "relations": {
+        "parent": [
+          {
+            "entityTypeId": 1,
+            "isChildrenListEnabled": "true"
+          },
+          {
+            "entityTypeId": 2,
+            "isChildrenListEnabled": "true"
+          },
+          {
+            "entityTypeId": 31,
+            "isChildrenListEnabled": "true"
+          }
+        ],
+        "child": [
+          {
+            "entityTypeId": 3,
+            "isChildrenListEnabled": "true"
+          },
+          {
+            "entityTypeId": 4
+          }
+        ]
+      }
+    }
+  }
 }

@@ -110,5 +110,6 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/sip/voximplant-sip-connector-status.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

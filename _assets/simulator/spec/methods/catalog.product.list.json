@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных товаров в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogproduct. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -213,5 +223,64 @@
     "width",
     "withoutOrder",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "iblockId",
+      "name",
+      "active",
+      "available",
+      "barcodeMulti",
+      "bundle",
+      "canBuyZero",
+      "code",
+      "createdBy",
+      "dateActiveFrom",
+      "dateActiveTo",
+      "dateCreate",
+      "detailPicture",
+      "detailText",
+      "detailTextType",
+      "height",
+      "iblockSectionId",
+      "length",
+      "measure",
+      "modifiedBy",
+      "previewPicture",
+      "previewText",
+      "previewTextType",
+      "purchasingCurrency",
+      "purchasingPrice",
+      "quantity",
+      "quantityReserved",
+      "quantityTrace",
+      "recurSchemeLength",
+      "recurSchemeType",
+      "sort",
+      "subscribe",
+      "timestampX",
+      "trialPriceId",
+      "type",
+      "vatId",
+      "vatIncluded",
+      "weight",
+      "width",
+      "withoutOrder",
+      "xmlId",
+      "property258",
+      "property259"
+    ],
+    "filter": {
+      "iblockId": 23,
+      ">id": 10,
+      "vatId": [
+        1,
+        2
+      ]
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

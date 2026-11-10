@@ -115,5 +115,16 @@
     }
   },
   "page": "/api-reference/chat-bots/chat-bots-v2/imbot.v2/commands/command-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "botId": 456,
+    "botToken": "b15f6e80ef345c97e23db31e727281f4",
+    "commandId": 42,
+    "fields": {
+      "title": {
+        "en": "Updated help",
+        "ru": "Обновленная помощь"
+      }
+    }
+  }
 }

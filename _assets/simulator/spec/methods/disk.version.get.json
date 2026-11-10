@@ -45,66 +45,10 @@
   "returns": [
     {
       "name": "result",
-      "type": "array",
-      "base": "array",
+      "type": "object",
+      "base": "object",
       "required": false,
-      "description": "Массив с данными о версии"
-    },
-    {
-      "name": "ID",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор версии"
-    },
-    {
-      "name": "OBJECT_ID",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор файла, к которому принадлежит версия"
-    },
-    {
-      "name": "SIZE",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Размер версии в байтах"
-    },
-    {
-      "name": "NAME",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Название файла на момент создания версии"
-    },
-    {
-      "name": "GLOBAL_CONTENT_VERSION",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Инкрементальный счетчик версии файла"
-    },
-    {
-      "name": "CREATE_TIME",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Время создания версии"
-    },
-    {
-      "name": "CREATED_BY",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, который создал версию"
-    },
-    {
-      "name": "DOWNLOAD_URL",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Ссылка на скачивание версии"
+      "description": "Объект с данными о версии (подробное описание)"
     },
     {
       "name": "time",
@@ -125,5 +69,8 @@
     "NAME",
     "OBJECT_ID",
     "SIZE"
-  ]
+  ],
+  "requestExample": {
+    "id": 7169
+  }
 }

@@ -5,18 +5,32 @@ items:
     href: index.md
   - name: Добавить цену
     href: catalog-price-add.md
+  - name: Добавить цену товара v 3.0
+    href: catalog-price-add-rest-v3.md
   - name: Изменить цену
     href: catalog-price-update.md 
+  - name: Изменить цену товара v 3.0
+    href: catalog-price-update-rest-v3.md
   - name: Обновить коллекцию цен
     href: catalog-price-modify.md
   - name: Получить поля цены
     href: catalog-price-get-fields.md
+  - name: Получить список полей цены v 3.0
+    href: catalog-price-field-list.md
+  - name: Получить поле цены
+    href: catalog-price-field-get.md
   - name: Получить список цен
     href: catalog-price-list.md           
+  - name: Получить список цен по фильтру v 3.0
+    href: catalog-price-list-rest-v3.md
   - name: Удалить цену
     href: catalog-price-delete.md
+  - name: Удалить цену товара v 3.0
+    href: catalog-price-delete-rest-v3.md
   - name: Получить значения полей цены
     href: catalog-price-get.md    
+  - name: Получить цену товара по идентификатору v 3.0
+    href: catalog-price-get-rest-v3.md
   - name: События
     include:
       path: events/b24-toc.yaml

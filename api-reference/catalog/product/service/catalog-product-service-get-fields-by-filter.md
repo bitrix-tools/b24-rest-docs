@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с одним из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара»
 
-Метод возвращает поля услуги по фильтру.
+Метод `catalog.product.service.getFieldsByFilter` возвращает описание полей услуги в указанном каталоге, включая свойства каталога.
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter***
-[`object`](../../../data-types.md) | Фильтр для получения всех полей услуги ||
+[`object`](../../../data-types.md) | Фильтр для получения всех полей услуги [(подробное описание)](#filter) ||
 |#
 
-### Параметр filter
+### Параметр filter {#filter}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -34,10 +34,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **iblockId***
-[`catalog_catalog.id`](../../data-types.md#catalog_catalog) | Идентификатор информационного блока.
+[`catalog_catalog.id`](../../data-types.md#catalog_catalog) | Идентификатор торгового каталога товаров. Получить идентификатор можно методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md).
 
-Для получения существующих идентификаторов информационных блоков необходимо использовать [catalog.catalog.list](../../catalog/catalog-catalog-list.md)
-||
+Для каталога вариаций метод вернет ошибку `productType is not allowed for this catalog` ||
 |#
 
 ## Примеры кода
@@ -52,7 +51,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"iblockId":14}}' \
+    -d '{"filter":{"iblockId":25}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.getFieldsByFilter
     ```
 
@@ -62,7 +61,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"iblockId":14},"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"iblockId":25},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.service.getFieldsByFilter
     ```
 
@@ -98,7 +97,7 @@
         method: 'catalog.product.service.getFieldsByFilter',
         params: {
           filter: {
-            iblockId: 14,
+            iblockId: 25,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -132,7 +131,7 @@
             method: 'catalog.product.service.getFieldsByFilter',
             params: {
               filter: {
-                iblockId: 14,
+                iblockId: 25,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -164,7 +163,7 @@
     try:
         bitrix_response = client.catalog.product.service.get_fields_by_filter(
             filter={
-                "iblockId": 14,
+                "iblockId": 25,
             },
         ).response
         result = bitrix_response.result
@@ -193,24 +192,18 @@
                 'catalog.product.service.getFieldsByFilter',
                 [
                     'filter' => [
-                        'iblockId' => 14,
+                        'iblockId' => 25,
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting fields by filter: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -221,7 +214,7 @@
         'catalog.product.service.getFieldsByFilter',
         {
             filter: {
-                iblockId: 14,
+                iblockId: 25,
             }
         },
         function(result) {
@@ -242,7 +235,7 @@
         'catalog.product.service.getFieldsByFilter',
         [
             'filter' => [
-                'iblockId' => 14,
+                'iblockId' => 25,
             ]
         ]
     );
@@ -258,7 +251,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.service.getFieldsByFilter", b24.Params{
     	"filter": b24.Params{
-    		"iblockId": 14,
+    		"iblockId": 25,
     	},
     })
     if err != nil {
@@ -368,6 +361,13 @@ HTTP-статус: **200**
                 "name": "Идентификатор инфоблока",
                 "type": "integer"
             },
+            "iblockSection": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Разделы",
+                "type": "list"
+            },
             "iblockSectionId": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -380,6 +380,13 @@ HTTP-статус: **200**
                 "isReadOnly": true,
                 "isRequired": false,
                 "name": "Идентификатор",
+                "type": "integer"
+            },
+            "measure": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Единица измерения",
                 "type": "integer"
             },
             "modifiedBy": {
@@ -424,27 +431,27 @@ HTTP-статус: **200**
                 "name": "Тип оплаты",
                 "type": "char"
             },
-            "property258": {
+            "property301": {
                 "isDynamic": true,
                 "isImmutable": false,
                 "isMultiple": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "name": "Новая строка",
+                "name": "Артикул",
                 "propertyType": "S",
                 "type": "productproperty",
                 "userType": ""
             },
-            "property259": {
+            "property305": {
                 "isDynamic": true,
                 "isImmutable": false,
                 "isMultiple": true,
                 "isReadOnly": false,
                 "isRequired": false,
-                "name": "Новая строка 2",
+                "name": "Материал",
                 "propertyType": "S",
                 "type": "productproperty",
-                "userType": ""
+                "userType": null
             },
             "sort": {
                 "isImmutable": false,
@@ -491,12 +498,14 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1718363352.550883,
-        "finish": 1718363353.116101,
-        "duration": 0.5652179718017578,
-        "processing": 0.1428060531616211,
-        "date_start": "2024-06-14T14:09:12+03:00",
-        "date_finish": "2024-06-14T14:09:13+03:00"
+        "start": 1793963980,
+        "finish": 1793963980.92457,
+        "duration": 0.9245700836181641,
+        "processing": 0,
+        "date_start": "2026-11-06T14:19:40+03:00",
+        "date_finish": "2026-11-06T14:19:40+03:00",
+        "operating_reset_at": 1793964540,
+        "operating": 0
     }
 }
 ```
@@ -508,10 +517,17 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **service**
-[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product_service](../../data-types.md#catalog_product_service), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description) ||
+|| **result.service**
+[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product_service](../../data-types.md#catalog_product_service), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description).
+
+Свойства каталога возвращаются с ключом `property{id}`, например `property301`. В их описании есть дополнительные поля:
+
+- `isDynamic` — `true`, поле является свойством каталога
+- `isMultiple` — `true`, если свойство множественное
+- `propertyType` — базовый тип свойства: `S` — строка, `N` — число, `L` — список, `F` — файл, `E` — привязка к элементам, `G` — привязка к разделам
+- `userType` — пользовательский тип свойства, например `directory` или `Date`. Если тип не задан — `null` или пустая строка ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -520,7 +536,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
+    "error":"200040300010",
     "error_description":"Access Denied"
 }
 ```
@@ -530,15 +546,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан или пустой параметр `filter`
-|| 
-|| `0` | Не указан идентификатор информационного блока
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
+|| `400` | `100` | Could not find value for parameter {filter} | Не передан параметр `filter` ||
+|| `400` | `0` | Incorrect filter format | В `filter` передан не объект ||
+|| `400` | `0` | parameter - iblockId is empty | В `filter` не передан `iblockId` ||
+|| `400` | `0` | iblock is not catalog | Инфоблок `iblockId` не является торговым каталогом ||
+|| `400` | `0` | productType is not allowed for this catalog | В `iblockId` передан инфоблок вариаций. Услуги хранятся в инфоблоке товаров ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -549,5 +563,5 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-service-update.md)
 - [{#T}](./catalog-product-service-get.md)
 - [{#T}](./catalog-product-service-list.md)
-- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-delete.md)
+- [{#T}](./catalog-product-service-download.md)

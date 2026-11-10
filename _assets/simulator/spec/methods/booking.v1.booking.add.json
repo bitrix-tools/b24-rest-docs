@@ -90,5 +90,26 @@
     }
   ],
   "page": "/api-reference/booking/booking/booking-v1-booking-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Название",
+      "description": "Описание",
+      "resourceIds": [
+        1,
+        2,
+        3
+      ],
+      "datePeriod": {
+        "from": {
+          "timestamp": 1723446900,
+          "timezone": "Europe/Moscow"
+        },
+        "to": {
+          "timestamp": 1723447800,
+          "timezone": "Europe/Moscow"
+        }
+      }
+    }
+  }
 }

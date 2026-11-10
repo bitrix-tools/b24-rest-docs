@@ -128,6 +128,8 @@
       MODIFIED_BY_ID: string
       DATE_CREATE: string
       DATE_MODIFY: string
+      DATE_CREATE_ISO: string
+      DATE_MODIFY_ISO: string
     }
 
     try {
@@ -378,7 +380,9 @@ HTTP-статус: **200**
             "CREATED_BY_ID": "1",
             "MODIFIED_BY_ID": "29",
             "DATE_CREATE": "11/12/2021 08:39:53 pm",
-            "DATE_MODIFY": "12/28/2021 03:04:04 pm"
+            "DATE_MODIFY": "12/28/2021 03:04:04 pm",
+            "DATE_CREATE_ISO": "2021-11-12T20:39:53+03:00",
+            "DATE_MODIFY_ISO": "2021-12-28T15:04:04+03:00"
         },
         {
             "ID": "33",
@@ -392,7 +396,9 @@ HTTP-статус: **200**
             "CREATED_BY_ID": "29",
             "MODIFIED_BY_ID": "29",
             "DATE_CREATE": "12/08/2021 10:23:37 am",
-            "DATE_MODIFY": "12/08/2021 10:24:48 am"
+            "DATE_MODIFY": "12/08/2021 10:24:48 am",
+            "DATE_CREATE_ISO": "2021-12-08T10:23:37+03:00",
+            "DATE_MODIFY_ISO": "2021-12-08T10:24:48+03:00"
         },
         {
             "ID": "3",
@@ -406,7 +412,9 @@ HTTP-статус: **200**
             "CREATED_BY_ID": "1",
             "MODIFIED_BY_ID": "29",
             "DATE_CREATE": "11/12/2021 08:39:53 pm",
-            "DATE_MODIFY": "12/03/2021 08:10:21 am"
+            "DATE_MODIFY": "12/03/2021 08:10:21 am",
+            "DATE_CREATE_ISO": "2021-11-12T20:39:53+03:00",
+            "DATE_MODIFY_ISO": "2021-12-03T08:10:21+03:00"
         }
     ],
     "time": {
@@ -462,6 +470,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Дата и время создания в строковом формате ||
 || **DATE_MODIFY**
 [`string`](../../data-types.md) | Дата и время изменения в строковом формате ||
+|| **DATE_CREATE_ISO**
+[`string`](../../data-types.md) | Дата и время создания в формате ISO 8601 с часовым поясом, например `2021-11-12T20:39:53+03:00` ||
+|| **DATE_MODIFY_ISO**
+[`string`](../../data-types.md) | Дата и время изменения в формате ISO 8601 с часовым поясом, например `2021-12-28T15:04:04+03:00` ||
 |#
 
 ## Обработка ошибок

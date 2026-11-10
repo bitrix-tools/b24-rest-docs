@@ -9,7 +9,27 @@
 
 {% endnote %}
 
-Поля шаблона представления используются в методе [landing.template.getlist](./landing-template-get-list.md). Метод поддерживает только простые поля шаблона. Поля с точкой в `select` и `filter`, например `CREATED_BY.NAME`, не поддерживаются.
+Поля шаблона представления описывают структуру, по которой Битрикс24 собирает страницу сайта: расположение основного контента и дополнительных областей. Метод [landing.template.getlist](./landing-template-get-list.md) возвращает эти поля для шаблонов текущего Битрикс24.
+
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может получить поля: пользователь с правом доступа к разделу «Сайты и магазины»
+
+## Как получить поля шаблона
+
+Передайте названия нужных полей в `params.select` метода [landing.template.getlist](./landing-template-get-list.md). Например, чтобы узнать внешний код шаблона и число его дополнительных областей, а также получить разметку с их макросами:
+
+```json
+{
+    "params": {
+        "select": ["ID", "XML_ID", "AREA_COUNT", "CONTENT"]
+    }
+}
+```
+
+Если `select` не передан, метод возвращает все доступные поля. Для выборки, фильтрации, сортировки и группировки доступны поля из таблицы ниже. Поля с точкой в `select` и `filter`, например `CREATED_BY.NAME`, не поддерживаются.
+
+## Поля шаблона представления
 
 #|
 || **Поле**
@@ -44,12 +64,21 @@
 [`datetime`](../../data-types.md) | Дата и время последнего изменения шаблона. В ответе REST возвращается строкой. Формат зависит от региональных настроек портала, например `04/20/2020 12:48:10 pm` ||
 |#
 
-Через [landing.template.getlist](./landing-template-get-list.md) можно выбирать, фильтровать, сортировать и группировать только поля из таблицы выше.
+## Как связаны CONTENT и AREA_COUNT
+
+В `CONTENT` макрос `#CONTENT#` обозначает основную область страницы. Макросы `#AREA_1#`, `#AREA_2#` и далее обозначают дополнительные области, к которым можно привязать отдельные страницы. Их количество указано в `AREA_COUNT`.
+
+Например, фрагмент разметки шаблона с одной дополнительной областью может выглядеть так:
+
+```html
+<main>#CONTENT#</main>
+<aside>#AREA_1#</aside>
+```
+
+В этом примере `AREA_COUNT = 1`: `#CONTENT#` в число дополнительных областей не входит. Чтобы узнать номер области конкретного шаблона, получите его `CONTENT` методом [landing.template.getlist](./landing-template-get-list.md). Привязки страниц к областям сайта и отдельной страницы задают методы [landing.template.setSiteRef](./landing-template-set-site-ref.md) и [landing.template.setLandingRef](./landing-template-set-landing-ref.md).
 
 ## Продолжите изучение
 
-- [{#T}](./landing-template-get-landing-ref.md)
-- [{#T}](./landing-template-get-site-ref.md)
-- [{#T}](./landing-template-get-list.md)
-- [{#T}](./landing-template-set-landing-ref.md)
-- [{#T}](./landing-template-set-site-ref.md)
+- получить список шаблонов — [{#T}](./landing-template-get-list.md)
+- получить привязки областей страницы или сайта — [{#T}](./landing-template-get-landing-ref.md), [{#T}](./landing-template-get-site-ref.md)
+- установить привязки областей страницы или сайта — [{#T}](./landing-template-set-landing-ref.md), [{#T}](./landing-template-set-site-ref.md)

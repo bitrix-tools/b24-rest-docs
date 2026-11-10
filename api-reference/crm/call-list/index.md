@@ -9,7 +9,9 @@
 
 {% endnote %}
 
-Список обзвона — это дело CRM, из которого можно позвонить нескольким клиентам подряд. Сотрудник работает с одним делом, в котором собраны выбранные контакты или компании. Результаты обзвона автоматически сохранятся в карточках клиентов:
+Список обзвона — набор контактов или компаний, которым сотрудник звонит по очереди. Например, приглашает на вебинар всех клиентов из одного города.
+
+В CRM обзвон виден как дело — запланированное действие, как звонок, встреча или письмо. Из этого дела сотрудник и звонит. Результаты обзвона автоматически сохраняются в карточках клиентов:
 
 - в прикрепленном деле звонка и комментарии к нему
 - в заполненной CRM-форме и полях карточки
@@ -23,31 +25,39 @@
 
 1. Получите идентификаторы участников обзвона — контактов или компаний — методом [crm.item.list](../universal/crm-item-list.md)
 
-2. Создайте обзвон методом [crm.calllist.add](./crm-calllist-add.md): передайте тип объекта в параметре `ENTITY_TYPE` и массив идентификаторов в параметре `ENTITIES`. При необходимости прикрепите CRM-форму параметром `WEBFORM_ID`
+2. Создайте обзвон методом [crm.calllist.add](./crm-calllist-add.md): передайте тип объекта в параметре `ENTITY_TYPE` и массив идентификаторов в параметре `ENTITIES`. Чтобы сотрудник заполнял данные клиента во время звонка, прикрепите CRM-форму параметром `WEBFORM_ID`
 
 3. Проверьте состав обзвона методом [crm.calllist.items.get](./crm-calllist-items-get.md), а параметры самого обзвона — методом [crm.calllist.get](./crm-calllist-get.md)
 
-4. Дальше сотрудник обзванивает участников в интерфейсе Битрикс24. Статусы участников по ходу обзвона возвращает тот же метод [crm.calllist.items.get](./crm-calllist-items-get.md), список возможных статусов — метод [crm.calllist.statuslist](./crm-calllist-statuslist.md)
+4. Дальше сотрудник обзванивает участников в интерфейсе Битрикс24. Следить за ходом обзвона можно тем же методом [crm.calllist.items.get](./crm-calllist-items-get.md): он вернет статус звонка по каждому участнику. Участник в ответе выглядит так:
 
-5. Чтобы добавить или убрать участников уже созданного обзвона, используйте метод [crm.calllist.update](./crm-calllist-update.md)
+    ```json
+    {
+        "ID": 9,
+        "STATUS": "IN_WORK",
+        "ENTITY_TYPE": 3
+    }
+    ```
+
+    `ID` — идентификатор контакта или компании. `ENTITY_TYPE` — тип участника: `3` — контакт, `4` — компания. `STATUS` — код статуса звонка. Все коды вернет метод [crm.calllist.statuslist](./crm-calllist-statuslist.md)
+
+5. Измените состав участников методом [crm.calllist.update](./crm-calllist-update.md). Метод заменяет список целиком: передайте всех, кто должен остаться, вместе с новыми. Если к обзвону прикреплена CRM-форма, передайте и `WEBFORM_ID` — без него метод открепит форму
 
 ## Связь с другими объектами
 
-**Контакт**. Для обзвона нескольких контактов укажите массив из `ID` контактов в методе [создания](./crm-calllist-add.md) или [изменения](./crm-calllist-update.md) обзвона. Получить `ID` контактов можно методом [crm.item.list](../universal/crm-item-list.md) с параметром `entityTypeId = 3`.
+**Контакт и компания.** Участников обзвона задает массив `ID` контактов или компаний в методе [создания](./crm-calllist-add.md) или [изменения](./crm-calllist-update.md) обзвона. Получить `ID` можно методом [crm.item.list](../universal/crm-item-list.md): для контактов — с параметром `entityTypeId = 3`, для компаний — `entityTypeId = 4`.
 
-**Компания**. Для обзвона нескольких компаний укажите массив из `ID` компаний в методе [создания](./crm-calllist-add.md) или [изменения](./crm-calllist-update.md) обзвона. Получить `ID` компаний можно методом [crm.item.list](../universal/crm-item-list.md) с параметром `entityTypeId = 4`.
+**CRM-форма.** К обзвону можно прикрепить CRM-форму: во время звонка сотрудник может заполнить в ней данные клиента. После звонка форма появится в карточке клиента, и данные из нее сохранятся в полях карточки. Чтобы прикрепить форму, укажите ее `ID` в методе [создания](./crm-calllist-add.md) или [изменения](./crm-calllist-update.md) обзвона. `ID` формы вернет метод [crm.form.list](../form/crm-form-list.md), его также видно в списке форм Битрикс24 `https://your-domain.ru/crm/webform/`.
 
-**CRM-форма**. Во время звонка сотрудник может заполнять информацию о клиенте в прикрепленной к обзвону CRM-форме. После завершения звонка форма будет доступна в карточке клиента, информация из формы будет сохранена в полях карточки. Чтобы прикрепить форму к обзвону, укажите ее `ID` в методе [создания](./crm-calllist-add.md) или [изменения](./crm-calllist-update.md) обзвона. `ID` формы можно найти в списке форм Битрикс24 `https://your-domain.ru/crm/webform/`.
+**Справочник.** Статусы звонка, например `IN_WORK`, хранятся в [справочнике](../status/index.md) с `ENTITY_ID = CALL_LIST` — с ним работают методы [crm.status.*](../status/index.md). Все статусы вернет метод [crm.calllist.statuslist](./crm-calllist-statuslist.md), изменить статус можно методом [crm.status.update](../status/crm-status-update.md) по `ID`.
 
-**Справочник**. Статус звонка в карточке обзвона — это элемент [справочника](../status/index.md). Список статусов, доступных участникам обзвона, возвращает метод [crm.calllist.statuslist](./crm-calllist-statuslist.md). Чтобы изменить сами статусы, используйте методы справочников [crm.status.*](../status/index.md) с параметром `ENTITY_ID = CALL_LIST`.
+**Пользователь.** Поле `CREATED_BY_ID` в ответе методов [crm.calllist.get](./crm-calllist-get.md) и [crm.calllist.list](./crm-calllist-list.md) содержит числовой идентификатор пользователя, который создал обзвон. Данные этого пользователя вернет метод [user.get](../../user/user-get.md).
 
-**Пользователь**. Обзвон привязан к создателю по числовому идентификатору в поле `CREATED_BY_ID`. Поле возвращают методы [crm.calllist.get](./crm-calllist-get.md) и [crm.calllist.list](./crm-calllist-list.md). Получить данные пользователя по идентификатору можно методом [user.get](../../user/user-get.md).
+## Как убрать обзвон из таймлайна
 
-## Как удалить список обзвона
+Метода удаления у списка обзвона нет. Убрать обзвон из таймлайна можно, если удалить его дело методом [crm.activity.delete](../timeline/activities/activity-base/crm-activity-delete.md). Сам обзвон при этом останется: методы [crm.calllist.get](./crm-calllist-get.md), [crm.calllist.list](./crm-calllist-list.md) и [crm.calllist.items.get](./crm-calllist-items-get.md) продолжат его возвращать. Ответственный за дело после удаления дела потеряет доступ к обзвону, если он не создатель обзвона и не администратор.
 
-Среди методов списка обзвона нет метода удаления. Удалить список обзвона можно через удаление дела методом [crm.activity.delete](../timeline/activities/activity-base/crm-activity-delete.md).
-
-1. Используйте метод [crm.activity.list](../timeline/activities/activity-base/crm-activity-list.md) с фильтром по названию дела `SUBJECT`. В значении поля укажите `Обзвон #ID`. На место `ID` подставьте идентификатор обзвона, полученный методами [crm.calllist.add](./crm-calllist-add.md) или [crm.calllist.list](./crm-calllist-list.md)
+1. Найдите дело обзвона методом [crm.activity.list](../timeline/activities/activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CALL_LIST` и `ASSOCIATED_ENTITY_ID` = идентификатор обзвона. Идентификатор обзвона возвращают методы [crm.calllist.add](./crm-calllist-add.md) и [crm.calllist.list](./crm-calllist-list.md)
 
 2. Передайте `ID` дела из результата в метод удаления [crm.activity.delete](../timeline/activities/activity-base/crm-activity-delete.md)
 
@@ -78,7 +88,8 @@
         method: 'crm.activity.list',
         params: {
           filter: {
-            SUBJECT: 'Call list #13',
+            PROVIDER_ID: 'CALL_LIST',
+            ASSOCIATED_ENTITY_ID: 13,
           },
           select: ['ID'],
           start: 0,
@@ -92,7 +103,7 @@
       } else {
         const activities = listResponse.getData()!.result
         if (activities.length === 0) {
-          console.info('No activities named "Call list #13" found.')
+          console.info('No activity found for call list 13.')
         } else {
           const activityId = activities[0].ID
 
@@ -139,7 +150,8 @@
             method: 'crm.activity.list',
             params: {
               filter: {
-                SUBJECT: 'Call list #13',
+                PROVIDER_ID: 'CALL_LIST',
+                ASSOCIATED_ENTITY_ID: 13,
               },
               select: ['ID'],
               start: 0,
@@ -155,7 +167,7 @@
 
           const activities = listResponse.getData().result
           if (activities.length === 0) {
-            console.info('No activities named "Call list #13" found.')
+            console.info('No activity found for call list 13.')
             return
           }
 
@@ -195,7 +207,8 @@
     try:
         bitrix_response = client.crm.activity.list(
             filter={
-                "SUBJECT": "Обзвон #13",
+                "PROVIDER_ID": "CALL_LIST",
+                "ASSOCIATED_ENTITY_ID": 13,
             },
             select=[
                 "ID",
@@ -204,7 +217,7 @@
         result = bitrix_response.result
 
         if not result:
-            print("Дело с названием 'Обзвон #13' не найдено.")
+            print("Дело обзвона 13 не найдено.")
         else:
             activity_id = int(result[0]["ID"])
             delete_response = client.crm.activity.delete(
@@ -236,32 +249,28 @@
                 'crm.activity.list',
                 [
                     'filter' => [
-                        'SUBJECT' => 'Обзвон #13',
+                        'PROVIDER_ID' => 'CALL_LIST',
+                        'ASSOCIATED_ENTITY_ID' => 13,
                     ],
                     'select' => ['ID']
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            return;
-        }
-    
-        $deals = $result->data();
-    
+
+        $deals = $result;
+
         // Если дел нет, выходим
         if (count($deals) === 0) {
-            echo "Дел с названием 'Обзвон #13' не найдено.";
+            echo "Дело обзвона 13 не найдено.";
             return;
         }
-    
+
         // Берем ID первого дела
         $dealId = $deals[0]['ID'];
-    
+
         // Вызываем метод удаления
         $deleteResponse = $b24Service
             ->core
@@ -271,20 +280,14 @@
                     'id' => $dealId,
                 ]
             );
-    
+
         $deleteResult = $deleteResponse
             ->getResponseData()
             ->getResult();
-    
-        if ($deleteResult->error()) {
-            error_log("Ошибка при удалении дела ID " . $dealId . ": " . $deleteResult->error());
-        } else {
-            echo "Дело ID " . $dealId . " успешно удалено.";
-        }
-    
+
+        echo "Дело ID " . $dealId . " успешно удалено.";
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -295,7 +298,8 @@
         "crm.activity.list",
         {
             filter: {
-                "SUBJECT": "Обзвон #13",
+                "PROVIDER_ID": "CALL_LIST",
+                "ASSOCIATED_ENTITY_ID": 13,
             },
             select: ["ID"]
         },
@@ -309,7 +313,7 @@
 
             // Если дел нет, выходим
             if (deals.length === 0) {
-                console.log("Дел с названием 'Обзвон #13' не найдено.");
+                console.log("Дело обзвона 13 не найдено.");
                 return;
             }
 
@@ -340,12 +344,13 @@
     <?php
     require_once('crest.php');
 
-    // 1. Получаем список дел по названию
+    // 1. Находим дело обзвона по идентификатору обзвона
     $result = CRest::call(
-        'crm.deal.list',
+        'crm.activity.list',
         [
             'filter' => [
-                'TITLE' => 'Обзвон #13'
+                'PROVIDER_ID' => 'CALL_LIST',
+                'ASSOCIATED_ENTITY_ID' => 13
             ],
             'select' => ['ID']
         ]
@@ -360,7 +365,7 @@
 
     // Если дел нет, выходим
     if (empty($deals)) {
-        echo "Дел с названием 'Обзвон #13' не найдено.\n";
+        echo "Дело обзвона 13 не найдено.\n";
         exit;
     }
 
@@ -369,7 +374,7 @@
 
     // 2. Удаляем дело по ID
     $result = CRest::call(
-        'crm.deal.delete',
+        'crm.activity.delete',
         [
             'id' => $dealId
         ]
@@ -388,8 +393,10 @@
 
 Права зависят от операции:
 
-- создавать и изменять обзвон, а также получать его участников может пользователь с правом на чтение указанных контактов или компаний: недоступные ему объекты в обзвон не попадут, а метод [crm.calllist.items.get](./crm-calllist-items-get.md) вернет только доступные
-- получать параметры обзвона и список обзвонов может любой пользователь
+- создавать обзвон может любой пользователь: контакты или компании, которые он не может читать, в обзвон не попадут
+- изменять обзвон и получать его параметры может администратор, создатель обзвона или ответственный за дело обзвона. Нужно еще право на чтение контактов или компаний — по типу участников обзвона
+- получать участников может администратор, создатель обзвона или ответственный за дело обзвона. Метод [crm.calllist.items.get](./crm-calllist-items-get.md) вернет только тех, кого пользователь может читать
+- список обзвонов может получить любой пользователь: администратор получит все обзвоны, остальные — только созданные ими
 
 ## Обзор методов {#all-methods}
 
@@ -400,9 +407,9 @@
 #|
 || **Метод** | **Описание** ||
 || [crm.calllist.add](./crm-calllist-add.md) | Создает новый список обзвона ||
-|| [crm.calllist.update](./crm-calllist-update.md) | Обновляет состав списка обзвона ||
-|| [crm.calllist.get](./crm-calllist-get.md) | Возвращает информацию о списке обзвона ||
-|| [crm.calllist.list](./crm-calllist-list.md) | Возвращает список всех обзвонов ||
+|| [crm.calllist.update](./crm-calllist-update.md) | Меняет участников и CRM-форму обзвона ||
+|| [crm.calllist.get](./crm-calllist-get.md) | Возвращает параметры обзвона без участников ||
+|| [crm.calllist.list](./crm-calllist-list.md) | Возвращает список обзвонов ||
 || [crm.calllist.items.get](./crm-calllist-items-get.md) | Возвращает участников списка обзвона ||
-|| [crm.calllist.statuslist](./crm-calllist-statuslist.md) | Возвращает список статусов участников обзвона ||
+|| [crm.calllist.statuslist](./crm-calllist-statuslist.md) | Возвращает возможные статусы звонка в обзвоне ||
 |#

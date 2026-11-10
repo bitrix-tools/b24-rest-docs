@@ -70,5 +70,8 @@
     "name",
     "shipmentPropsId",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "id": 38164
+  }
 }

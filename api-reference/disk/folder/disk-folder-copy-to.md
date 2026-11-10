@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «Чтение» для исходной папки и правом «Добавление» для целевой папки
 
-Метод `disk.folder.copyTo` копирует папку и все ее содержимое в указанную папку.
+Метод `disk.folder.copyTo` копирует папку и все ее содержимое в указанную папку. В ответе возвращается только объект новой корневой папки копии. Ее содержимое можно получить методом [disk.folder.getChildren](./disk-folder-get-children.md).
 
 ## Параметры метода
 
@@ -83,7 +83,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string | null
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -153,7 +153,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.copyto(
+        bitrix_response = client.disk.folder.copy_to(
             bitrix_id=8930,
             target_folder_id=8895,
         ).response
@@ -305,7 +305,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о созданной папке ||
+[`object`](../../data-types.md) | Объект с данными о созданной папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**
@@ -315,7 +315,7 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится папка ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Значение — `folder` ||
 || **REAL_OBJECT_ID**
 [`integer`](../../data-types.md) | Идентификатор объекта ||
 || **PARENT_ID**
@@ -338,7 +338,7 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

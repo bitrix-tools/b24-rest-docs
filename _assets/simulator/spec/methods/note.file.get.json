@@ -105,7 +105,21 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Тип вложения для Markdown. Возможные значения: - image — изображение - video — видео - file — обычный файл"
+      "description": "Тип вложения для Markdown. Возможные значения: - image — изображение - video — видео - file — обычный файл",
+      "values": [
+        {
+          "value": "image",
+          "title": "изображение"
+        },
+        {
+          "value": "video",
+          "title": "видео"
+        },
+        {
+          "value": "file",
+          "title": "обычный файл"
+        }
+      ]
     },
     {
       "name": "assetMarkdown",
@@ -132,5 +146,9 @@
     "mimeType",
     "name",
     "size"
-  ]
+  ],
+  "requestExample": {
+    "id": 5001,
+    "documentId": 77
+  }
 }

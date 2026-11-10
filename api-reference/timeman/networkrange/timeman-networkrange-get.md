@@ -11,7 +11,7 @@
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор, в облачном Битрикс24 также интегратор
 
 Метод `timeman.networkrange.get` получает диапазоны сетевых адресов офисной сети.
 
@@ -153,16 +153,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error()->ex;
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting network range: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -264,7 +258,9 @@ HTTP-статус: **200**
 || **result**
 [`array`](../../data-types.md) | Корневой элемент ответа.
 
-Содержит список объектов. Каждый объект содержит описание [диапазона сетевых адресов](#ip_range) ||
+Список [диапазонов сетевых адресов](#ip_range) офисной сети.
+
+Если диапазоны офисной сети не заданы, метод вернет пустой массив ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -287,7 +283,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to use this method"
+    "error_description": "You don't have access to user this method"
 }
 ```
 
@@ -297,12 +293,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to use this method | Метод доступен только администратору ||
+|| `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
+|| `ACCESS_ERROR` | You don't have access to user this method | Метод вызвал не администратор. В облачном Битрикс24 метод доступен также интегратору ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./timeman-networkrange-set.md)

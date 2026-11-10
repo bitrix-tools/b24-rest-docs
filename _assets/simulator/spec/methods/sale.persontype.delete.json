@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/sale/person-type/sale-person-type-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 5
+  }
 }

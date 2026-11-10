@@ -13,6 +13,12 @@
 > 
 > Кто может выполнять метод: любой пользователь с правом «удаление» элементов объекта CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.delete](../rest-v3/items/crm-entity-delete-rest-v3.md). Для документов CRM и документов КЭДО аналога в REST 3.0 пока нет, для них используйте этот метод.
+
+{% endnote %}
+
 Метод удаляет элемент объекта CRM по идентификатору элемента и идентификатору типа элемента
 
 ## Параметры метода
@@ -171,21 +177,14 @@
                     'id'           => 1,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            return;
-        }
-    
-        echo 'Success: ' . print_r($result->data(), true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting item: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

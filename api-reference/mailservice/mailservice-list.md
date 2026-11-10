@@ -13,11 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `mailservice.list` возвращает список активных почтовых сервисов.
+Метод `mailservice.list` возвращает список активных почтовых сервисов текущего сайта.
 
 ## Параметры метода
 
 Без параметров.
+
+Метод возвращает все активные сервисы одним массивом, отсортированным по полю `SORT`, а при равных значениях — по `NAME`. Постраничной навигации нет, параметр `start` не используется. Неактивные сервисы в список не попадают, получить их можно методом [mailservice.get](./mailservice-get.md) по `ID`
 
 ## Примеры кода
 
@@ -62,10 +64,10 @@
       SORT: string
       NAME: string
       SERVER: string
-      PORT: string
-      ENCRYPTION: string
-      LINK: string
-      ICON: string
+      PORT: string | null
+      ENCRYPTION: string | null
+      LINK: string | null
+      ICON: string | null
       SMTP_SERVER: string | null
       SMTP_PORT: string | null
       SMTP_LOGIN_AS_IMAP: string
@@ -75,16 +77,10 @@
     }
 
     try {
-      // mailservice.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // mailservice.list returns all active services of the current site at once, without pagination
       const response = await $b24.actions.v2.call.make<MailServiceItem[]>({
         method: 'mailservice.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -112,16 +108,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // mailservice.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // mailservice.list returns all active services of the current site at once, without pagination
           const response = await $b24.actions.v2.call.make({
             method: 'mailservice.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -271,7 +261,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object[]`](../data-types.md) | Массив объектов с информацией о почтовых сервисах. 
+[`object[]`](../data-types.md) | Массив объектов с информацией о почтовых сервисах.
 
 Структура объекта почтового сервиса подробно описана [ниже](#mail-services) ||
 || **time**
@@ -284,29 +274,29 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../data-types.md) | Идентификатор почтового сервиса ||
+[`string`](../data-types.md) | Идентификатор почтового сервиса, например `"31"` ||
 || **SITE_ID**
 [`string`](../data-types.md) | Идентификатор сайта в Битрикс24 ||
 || **ACTIVE**
 [`string`](../data-types.md) | Активность сервиса, значения `Y` или `N` ||
 || **SORT**
-[`integer`](../data-types.md) | Индекс сортировки ||
+[`string`](../data-types.md) | Индекс сортировки, например `"100"` ||
 || **NAME**
 [`string`](../data-types.md) | Название сервиса ||
 || **SERVER**
-[`string`](../data-types.md) | Адрес IMAP-сервера в нижнем регистре ||
+[`string`](../data-types.md) | Адрес IMAP-сервера в нижнем регистре. У встроенного сервиса `bitrix24` — пустая строка ||
 || **PORT**
-[`integer`](../data-types.md) | Порт IMAP-сервера ||
+[`string`](../data-types.md)\|[`null`](../data-types.md) | Порт IMAP-сервера, например `"993"`. `null`, если порт не задан ||
 || **ENCRYPTION**
-[`string`](../data-types.md) | Признак защищенного подключения, значения `Y` или `N` ||
+[`string`](../data-types.md)\|[`null`](../data-types.md) | Признак защищенного подключения, значения `Y` или `N`. `null`, если признак не задан ||
 || **LINK**
-[`string`](../data-types.md) | Адрес веб-интерфейса сервиса ||
+[`string`](../data-types.md)\|[`null`](../data-types.md) | Адрес веб-интерфейса сервиса. `null`, если адрес не задан ||
 || **ICON**
-[`string`](../data-types.md) | Путь к изображению логотипа сервиса ||
+[`string`](../data-types.md)\|[`null`](../data-types.md) | Адрес логотипа сервиса. Для загруженного логотипа — полный URL файла, для встроенного сервиса — путь от корня Битрикс24, например `/bitrix/images/mail/mailservice-icon/post-gmail-icon.svg`. `null`, если логотип не загружен и название сервиса не совпадает со встроенным ||
 || **SMTP_SERVER**
 [`string`](../data-types.md)\|[`null`](../data-types.md) | SMTP-сервер, если он настроен ||
 || **SMTP_PORT**
-[`integer`](../data-types.md)\|[`null`](../data-types.md) | SMTP-порт, если он настроен ||
+[`string`](../data-types.md)\|[`null`](../data-types.md) | SMTP-порт, если он настроен ||
 || **SMTP_LOGIN_AS_IMAP**
 [`string`](../data-types.md) | Использовать IMAP-логин для SMTP, значения `Y` или `N` ||
 || **SMTP_PASSWORD_AS_IMAP**
@@ -334,13 +324,14 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | ERROR_CORE | Не найдены почтовые сервисы | Нет активных почтовых сервисов ||
+|| `400` | `ERROR_CORE` | Не найдены почтовые сервисы | На текущем сайте нет ни одного активного почтового сервиса. Метод возвращает ошибку, а не пустой массив ||
 |#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./mailservice-add.md)
 - [{#T}](./mailservice-update.md)
 - [{#T}](./mailservice-get.md)

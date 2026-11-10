@@ -28,5 +28,11 @@
     "successor": "crm.category.add"
   },
   "page": "/api-reference/crm/outdated/category-old/crm-deal-category-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "NAME": "Новое направление",
+      "SORT": "20"
+    }
+  }
 }

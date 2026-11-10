@@ -1,0 +1,45 @@
+title: Элементы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать элемент
+    href: crm-entity-add-rest-v3.md
+  - name: Изменить элемент
+    href: crm-entity-update-rest-v3.md
+  - name: Получить элемент по идентификатору
+    href: crm-entity-get-rest-v3.md
+  - name: Получить список элементов
+    href: crm-entity-list-rest-v3.md
+  - name: Удалить элемент
+    href: crm-entity-delete-rest-v3.md
+  - name: Посчитать элементы
+    href: crm-entity-aggregate-rest-v3.md
+  - name: Добавить значение в множественное поле
+    href: crm-entity-add-field-value-rest-v3.md
+  - name: Удалить значение из множественного поля
+    href: crm-entity-delete-field-value-rest-v3.md
+  - name: Сделать привязанный контакт основным
+    href: crm-entity-set-primary-contact-rest-v3.md
+  - name: Получить реквизиты и контакты моей компании
+    href: crm-my-company-basic-get-rest-v3.md
+  - name: Получить список моих компаний с реквизитами и контактами
+    href: crm-my-company-basic-list-rest-v3.md
+  - name: Поля объектов
+    items:
+      - name: Поля сделки
+        href: fields-deal.md
+      - name: Поля лида
+        href: fields-lead.md
+      - name: Поля контакта
+        href: fields-contact.md
+      - name: Поля компании
+        href: fields-company.md
+      - name: Поля предложения
+        href: fields-quote.md
+      - name: Поля счета
+        href: fields-smart-invoice.md
+      - name: Поля смарт-процесса
+        href: fields-smart-process.md
+      - name: Поля моей компании
+        href: fields-my-company.md

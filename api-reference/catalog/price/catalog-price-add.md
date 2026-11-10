@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара»
+> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара» и правом изменять цены товара в инфоблоке каталога
 
 Метод `catalog.price.add` добавляет новую цену товара.
 
@@ -36,11 +36,23 @@
 || **productId***
 [`catalog_product.id`](../data-types.md#catalog_product) | Идентификатор товара, можно получить методами [catalog.product.list](../product/catalog-product-list.md), [catalog.product.offer.list](../product/offer/catalog-product-offer-list.md), [catalog.product.service.list](../product/service/catalog-product-service-list.md), [catalog.product.sku.list](../product/sku/catalog-product-sku-list.md) ||
 || **catalogGroupId***
-[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены, можно получить методом [catalog.priceType.list](../price-type/catalog-price-type-list.md) ||
+[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены, можно получить методом [catalog.priceType.list](../price-type/catalog-price-type-list.md).
+
+Без диапазонов количества у товара может быть только одна цена каждого типа. Чтобы изменить существующую цену, используйте метод [catalog.price.update](./catalog-price-update.md) ||
 || **price***
-[`double`](../../data-types.md) | Значение цены ||
+[`double`](../../data-types.md) | Значение цены. Отрицательное значение вызывает ошибку, строка, которая не является числом, сохраняется как `0` ||
 || **currency***
-[`string`](../../data-types.md) | Идентификатор валюты, можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
+[`string`](../../data-types.md) | Код валюты, например `RUB`. Коды валют можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
+|| **extraId**
+[`catalog_extra.id`](../data-types.md#catalog_extra) | Идентификатор наценки. Идентификатор можно получить методом [catalog.extra.list](../extra/catalog-extra-list.md).
+
+Наценка сохраняется в цене, но цену не пересчитывает: значение `price` передавайте сами. У цены базового типа наценка не сохраняется. Несуществующий идентификатор метод пропускает без ошибки ||
+|| **quantityFrom**
+[`integer`](../../data-types.md) | Нижняя граница диапазона количества товара, для которого действует цена.
+
+Диапазоны работают, только если в Битрикс24 включены диапазоны цен. Диапазоны у всех типов цен товара должны совпадать с диапазонами базовой цены ||
+|| **quantityTo**
+[`integer`](../../data-types.md) | Верхняя граница диапазона количества товара, для которого действует цена ||
 |#
 
 ## Примеры кода
@@ -84,9 +96,10 @@
       price: {
         catalogGroupId: number
         currency: string
-        extraId: string | null
+        extraId: number | null
         id: number
         price: number
+        priceScale: number
         productId: number
         quantityFrom: number | null
         quantityTo: number | null
@@ -209,20 +222,14 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding price: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -246,7 +253,7 @@
                 console.log(result.data());
         }
     );
-    ```	
+    ```
 
 - PHP CRest
 
@@ -321,6 +328,7 @@ HTTP-статус: **200**
             "extraId": null,
             "id": 3,
             "price": 100.5,
+            "priceScale": 100.5,
             "productId": 1,
             "quantityFrom": null,
             "quantityTo": null,
@@ -346,7 +354,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **price**
+|| **result.price**
 [`catalog_price`](../data-types.md#catalog_price) | Объект с информацией о созданной цене товара ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -358,8 +366,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "0",
+    "error_description": "Required fields: productId, catalogGroupId, price, currency"
 }
 ```
 
@@ -368,17 +376,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав ||
-|| `100` | Could not find value for parameter {fields} | Не указан или пустой параметр `fields` || 
-|| `0` | Required fields: | Не установлены обязательные поля ||
-|| `0` | Validate price error. Catalog price group is wrong | Неправильный тип цены ||
-|| `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group | Цена с таким типом уже существует у товара ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | Нет права изменять цены этого товара в инфоблоке каталога или товара с указанным `productId` нет ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: productId, catalogGroupId, price, currency | Не переданы обязательные поля. В тексте ошибки перечислены только непереданные поля ||
+|| `400` | `0` | Validate price error. Catalog price group is wrong | Типа цены с указанным `catalogGroupId` нет ||
+|| `400` | `0` | Validate price error. Catalog product is allowed has only single price without ranges in price group. | У товара уже есть цена этого типа ||
+|| `400` | `0` | Validate price error. Ranges of base price are not equal to another price group range | Переданы `quantityFrom` и `quantityTo`, а у базовой цены товара нет такого же диапазона количества ||
+|| `400` | `BX_ERROR` | Неверная цена | В `price` передано отрицательное число ||
+|| `400` | `BX_ERROR` | Неверная валюта | Валюты с кодом из `currency` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-price-update.md)
 - [{#T}](./catalog-price-get.md)

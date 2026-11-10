@@ -18,7 +18,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Искать только среди бизнес-пользователей. Допустимые значения: - Y — да - N — нет Значение по умолчанию — N"
+      "description": "Искать только среди бизнес-пользователей. Допустимые значения: - Y — да - N — нет Значение по умолчанию — N",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет Значение по умолчанию — N"
+        }
+      ]
     },
     {
       "name": "OFFSET",
@@ -140,5 +150,11 @@
     "phones",
     "status",
     "work_position"
-  ]
+  ],
+  "requestExample": {
+    "FIND": "Иван",
+    "BUSINESS": "N",
+    "OFFSET": 0,
+    "LIMIT": 10
+  }
 }

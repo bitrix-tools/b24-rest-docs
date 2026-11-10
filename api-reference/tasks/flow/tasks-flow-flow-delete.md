@@ -11,9 +11,11 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: создатель или администратор потока
+> Кто может выполнять метод: администратор Битрикс24, создатель или администратор потока
 
 Метод `tasks.flow.Flow.delete` удаляет поток по его идентификатору.
+
+Удаление необратимо: поток не попадает в корзину. Задачи потока останутся в группе потока с прежними исполнителями, но поле `flowId` у них станет пустым. Группу потока метод не удаляет.
 
 ## Параметры метода
 
@@ -22,12 +24,21 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **flowData*** 
-[`object`](../../data-types.md) | Объект с данными для удаления потока ||
-|| **flowData.id*** 
-[`integer`](../../data-types.md) | Идентификатор потока, который нужно удалить. 
+|| **flowData***
+[`object`](../../data-types.md) | Объект с идентификатором потока [(подробное описание)](#flowdata) ||
+|#
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+### Параметр flowData {#flowdata}
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id***
+[`integer`](../../data-types.md) | Идентификатор потока, который нужно удалить.
+
+Идентификатор вернет метод [tasks.flow.Flow.create](./tasks-flow-flow-create.md) при создании потока, а для задачи из потока — метод [tasks.task.get](../tasks-task-get.md) ||
 |#
 
 ## Примеры кода
@@ -41,12 +52,13 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
         "flowData": {
             "id": 517
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.flow.Flow.delete
     ```
 
 - cURL (OAuth)
@@ -54,13 +66,14 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
         "flowData": {
             "id": 517
-        }
+        },
+        "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.delete
+    https://**put_your_bitrix24_address**/rest/tasks.flow.Flow.delete
     ```
 
 - JS (TS)
@@ -183,20 +196,14 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting flow: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -277,6 +284,14 @@ HTTP-статус: **200**
 {
     "result": {
         "deleted": true
+    },
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
     }
 }
 ```
@@ -286,10 +301,19 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
-[`object`](../../data-types.md) | Объект с результатом операции ||
-|| **deleted** 
-[`boolean`](../../data-types.md) | Успешность удаления потока ||
+|| **result**
+[`object`](../../data-types.md) | Объект с результатом операции [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **deleted**
+[`boolean`](../../data-types.md) | `true`, если поток удален ||
 |#
 
 ## Обработка ошибок
@@ -299,7 +323,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "0",
-    "error_description": "Flow not found"
+    "error_description": "Доступ запрещен или поток не найден"
 }
 ```
 
@@ -308,16 +332,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на удаление потока ||
-|| `0` | `Flow not found` | Поток с указанным идентификатором не найден ||
-|| `0` | `Unknown error` | Неизвестная ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | 'id': field's value must be greater than 0 | Не передан `flowData.id` или передано значение меньше `1` ||
+|| `400` | `0` | Доступ запрещен или поток не найден | У пользователя нет прав на удаление потока или потока с таким `id` нет ||
+|| `400` | `0` | Неизвестная ошибка [Flow: 312] | Потока с таким `id` нет, например он уже удален. Эту ошибку получает администратор Битрикс24, другие пользователи — ошибку доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-flow-flow-create.md)
 - [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-get.md)

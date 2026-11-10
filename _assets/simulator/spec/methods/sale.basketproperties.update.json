@@ -11,7 +11,7 @@
       "type": "sale_basket_item_property.id",
       "base": "any",
       "required": true,
-      "description": "Идентификатор позиции заказа"
+      "description": "Идентификатор свойства элемента (позиции) корзины. Можно получить методом sale.basketproperties.list"
     },
     {
       "name": "fields",
@@ -34,21 +34,21 @@
           "name": "name",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Название свойства"
         },
         {
           "name": "value",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Значение свойства"
         },
         {
           "name": "code",
           "type": "string",
           "base": "string",
-          "required": false,
+          "required": true,
           "description": "Символьный код свойства"
         },
         {
@@ -127,5 +127,13 @@
     }
   ],
   "page": "/api-reference/sale/basket-properties/sale-basket-properties-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 17,
+    "fields": {
+      "name": "Артикул",
+      "value": "123-456-789",
+      "code": "ARTICUL"
+    }
+  }
 }

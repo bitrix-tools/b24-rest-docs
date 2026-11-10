@@ -18,7 +18,7 @@
       "type": "array",
       "base": "array",
       "required": true,
-      "description": "Массив объектов, содержащий объекты для привязки (подробное описание)",
+      "description": "Полный набор связей бронирования. Новое значение заменяет все существующие связи. Пустой массив удаляет все связи. Структура объектов описана ниже",
       "ref": "#/defs/externalDataFields"
     }
   ],
@@ -88,5 +88,15 @@
     }
   ],
   "page": "/api-reference/booking/booking/external-data/booking-v1-booking-externaldata-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "bookingId": 14,
+    "externalData": [
+      {
+        "moduleId": "crm",
+        "entityTypeId": "DEAL",
+        "value": "1"
+      }
+    ]
+  }
 }

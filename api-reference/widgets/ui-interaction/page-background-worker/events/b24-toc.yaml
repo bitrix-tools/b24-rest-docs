@@ -13,7 +13,7 @@ items:
     href: hold-button-click.md
   - name: При нажатии на кнопку закрытия карточки звонка
     href: close-button-click.md
-  - name: При выборе оператора, на которого текущий оператор хочет перевести звонок
+  - name: При выборе оператора для перевода звонка
     href: transfer-button-click.md
   - name: При нажатии на кнопку «вернуться к звонку»
     href: cancel-transfer-button-click.md
@@ -31,8 +31,6 @@ items:
     href: entity-changed.md
   - name: При нажатии на кнопку «позвонить» или «перезвонить»
     href: make-call-button-click.md
-  - name: При оценке качества связи
-    href: quality-meter-click.md
   - name: При нажатии на одну из цифровых кнопок телефона
     href: dialpad-button-click.md
   - name: При нажатии на кнопку «уведомить администратора»

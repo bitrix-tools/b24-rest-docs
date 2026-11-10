@@ -1,4 +1,4 @@
-# После сохранения свойства заказа OnPropertyValueEntitySaved
+# После сохранения значения свойства заказа OnPropertyValueEntitySaved
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnPropertyValueEntitySaved` происходит непосредственно после сохранения значения свойства заказа.
+Событие `OnPropertyValueEntitySaved` происходит сразу после создания или изменения значения свойства заказа вручную или методом [sale.propertyvalue.modify](../property-value/sale-property-value-modify.md). Если при сохранении заказа значение не изменилось, событие не отправляется.
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order_property_value.id`](../data-types.md) | Идентификатор значения свойства заказа. Для получения всех полей значения свойства заказа по идентификатору используется метод [sale.propertyvalue.get](../property-value/sale-property-value-get.md) ||
+[`sale_order_property_value.id`](../data-types.md#sale_order_property_value) | Идентификатор значения свойства заказа. Для получения всех полей значения свойства заказа по идентификатору используется метод [sale.propertyvalue.get](../property-value/sale-property-value-get.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,4 +103,7 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-property-value-deleted.md)
+- [{#T}](./on-sale-order-saved.md)
+- [{#T}](./on-order-entity-saved.md)

@@ -27,7 +27,7 @@
           "name": "note",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "Заметка к записи в лист ожидания. Значение по умолчанию — пустая строка"
         }
       ]
@@ -39,9 +39,7 @@
     "file": "api-reference/booking/waitlist/booking-v1-waitlist-add.md"
   },
   "resultExample": {
-    "result": {
-      "id": 107
-    },
+    "result": 7,
     "time": {
       "start": 1724068028.331234,
       "finish": 1724068028.726591,
@@ -69,5 +67,10 @@
     }
   ],
   "page": "/api-reference/booking/waitlist/booking-v1-waitlist-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "note": "Заметка"
+    }
+  }
 }

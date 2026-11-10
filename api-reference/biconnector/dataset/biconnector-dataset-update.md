@@ -11,9 +11,21 @@
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.dataset.update` обновляет существующий датасет.
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [biconnector.table.update](../table/biconnector-table-update.md).
+
+{% endnote %}
+
+Метод `biconnector.dataset.update` обновляет описание существующего датасета — единственное поле, которое метод меняет.
+
+{% note warning "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md) и изменяет только те датасеты, которые приложение создало само. При вызове вебхуком метод возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -26,7 +38,7 @@
 [`integer`](../../data-types.md) | Идентификатор датасета, можно получить методами [biconnector.dataset.list](./biconnector-dataset-list.md) и [biconnector.dataset.add](./biconnector-dataset-add.md) ||
 || **fields***
 [`object`](../../data-types.md) | Объект, содержащий обновляемые данные.
-Формат объекта: 
+Формат объекта:
 
 ```
 {
@@ -40,7 +52,7 @@
 - `field_n` — название поля
 - `value_n` — значение поля
 
-[Подробное описание ниже](#fields)||
+[Подробное описание ниже](#fields) ||
 |#
 
 ### Параметр fields {#fields}
@@ -52,28 +64,13 @@
 [`string`](../../data-types.md) | Описание датасета ||
 |#
 
-Для изменения полей датасета, используйте метод [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md).
+Чтобы изменить состав полей, используйте метод [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md).
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "id": 10,
-        "fields": {
-            "description": "Новое описание"
-        }
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/biconnector.dataset.update
-    ```
 
 - cURL (OAuth)
 
@@ -101,8 +98,16 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<boolean | BiconnectorError>({
         method: 'biconnector.dataset.update',
         params: {
           id: 10,
@@ -118,7 +123,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Dataset updated:', result)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if (typeof result === 'object' && result !== null && 'error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Dataset updated:', result)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -155,6 +166,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Dataset updated:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -179,7 +197,17 @@
             },
         ).response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -195,7 +223,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -209,17 +236,24 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Success: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating dataset: ' . $e->getMessage();
@@ -238,9 +272,20 @@
             }
         },
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         }
     );
     ```
@@ -260,9 +305,15 @@
         ]
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -277,6 +328,17 @@
     })
     if err != nil {
     	return fmt.Errorf("biconnector.dataset.update: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.dataset.update: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     var ok bool
@@ -312,7 +374,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Корневой элемент ответа, содержит `true` в случае успеха ||
+[`boolean`](../../data-types.md) | Корневой элемент ответа. При успешном обновлении содержит `true` — объекта с данными датасета в ответе нет. Чтобы увидеть новые значения полей, вызовите [biconnector.dataset.get](./biconnector-dataset-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -323,10 +385,20 @@ HTTP-статус: **200**
 
 ```json
 {
-    "error": "VALIDATION_FIELDS_NOT_PROVIDED",
-    "error_description": "Fields not provided."
+    "result": {
+        "error": {
+            "error": "VALIDATION_FIELDS_NOT_PROVIDED",
+            "error_description": "Fields not provided."
+        }
+    }
 }
 ```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
@@ -334,26 +406,33 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
-|| `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: #LIST\_OF\_PARAMS#. ||
-|| `VALIDATION_REQUIRED_FIELD_MISSING` | Field "#TITLE#" is required. | Обязательное поле #TITLE# не передано ||
+|| `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
 || `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
 || `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
-|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасет не найден ||
-|| `INVALID_METHOD` | Use the method "biconnector.dataset.fields.update" to update the dataset fields. | Для обновления полей используйте метод `biconnector.dataset.fields.update` ||
-|| `-` | `Error updating dataset.` | Ошибка обновления датасета ||
+|| `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
+|| `INVALID_METHOD` | Use the method "biconnector.dataset.fields.update" to update the dataset fields." | В параметре `fields` передан ключ `fields`. Для обновления полей используйте метод [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md). Лишняя кавычка в конце — часть текста, который возвращает модуль ||
+|| Пустое значение | Error updating table. | Обновление отклонил обработчик, подписанный на событие до сохранения. Собственного строкового кода у этой ошибки нет: в поле `error` приходит числовой ноль ||
 |#
+
+{% note info "" %}
+
+Синхронизация с BI-Конструктором идет после сохранения, и на ответ она не влияет: если синхронизация не удалась, метод все равно вернет `true`. Этим `update` отличается от [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md), где сбой синхронизации приходит в ответе кодом `DATASET_UPDATE_ERROR`
+
+{% endnote %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./biconnector-dataset-add.md)
-- [{#T}](./biconnector-dataset-fields.md)
-- [{#T}](./biconnector-dataset-fields-update.md)
 - [{#T}](./biconnector-dataset-get.md)
 - [{#T}](./biconnector-dataset-list.md)
 - [{#T}](./biconnector-dataset-delete.md)
+- [{#T}](./biconnector-dataset-fields-update.md)
+- [{#T}](./biconnector-dataset-fields.md)

@@ -13,7 +13,7 @@
 
 Сценарий — это последовательность запросов для одной задачи. В нем описан порядок вызова методов, приведен пример кода и указан результат.
 
-Таблицы ниже помогают подобрать сценарий по задаче, основным методам и результату. Сценарии создания объектов CRM собраны в статьях [Добавить данные](../how-to-add-crm-objects/index.md), выборки и списки — в статьях [Получить списки](../how-to-get-lists/index.md).
+Таблицы ниже помогают подобрать сценарий по задаче, основным методам и результату. Сценарии создания объектов CRM собраны в статьях [Добавить данные](../how-to-add-crm-objects/index.md), выборки и списки — в статьях [Получить списки](../how-to-get-lists/index.md), работа со значениями полей разных типов — в разделе [{#T}](../../field-types/index.md).
 
 ## Что нужно для работы
 
@@ -59,15 +59,6 @@
 || [Как изменить или удалить номера телефонов и email](./how-to-change-email-or-phone.md) | [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Обновленный или очищенный список телефонов и email в карточке контакта ||
 |#
 
-## Автоматически заполняйте зависимые поля
-
-Зависимое поле можно обновлять после сохранения карточки. Приложение получает событие изменения, читает актуальные значения полей, проверяет условие и записывает новое значение в другое поле.
-
-#|
-|| **Сценарий** | **Основные методы** | **Результат** ||
-|| [Как автоматически заполнить зависимое поле CRM после изменения основного поля](./how-to-autofill-dependent-field.md) | [event.bind](../../../api-reference/events/event-bind.md), [crm.item.get](../../../api-reference/crm/universal/crm-item-get.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Значение зависимого поля обновляется после сохранения сделки ||
-|#
-
 ## Переносите дела и меняйте сроки
 
 Дело — запись в таймлайне карточки: звонок, встреча, письмо или запланированное действие. С элементами CRM дела связаны привязками. У одного дела может быть несколько привязок, но последнюю удалить нельзя — метод вернет ошибку `LAST_BINDING_CANNOT_BE_DELETED`.
@@ -81,6 +72,7 @@
 #|
 || **Сценарий** | **Основные методы** | **Результат** ||
 || [Как перенести запланированное дело на другую дату](./how-to-change-date-in-activity.md) | [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.todo.update](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update.md) | Новый крайний срок и напоминания у запланированного дела ||
+|| [Как передать или завершить дела уволенного сотрудника](./how-to-transfer-fired-employee-activities.md) | [user.get](../../../api-reference/user/user-get.md), [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.update](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-update.md), [crm.activity.todo.updateResponsibleUser](../../../api-reference/crm/timeline/activities/todo/crm-activity-todo-update-responsible-user.md), [crm.activity.configurable.get](../../../api-reference/crm/timeline/activities/configurable/crm-activity-configurable-get.md), [crm.activity.configurable.update](../../../api-reference/crm/timeline/activities/configurable/crm-activity-configurable-update.md) | Ответственный изменен или дела завершены ||
 || [Как перенести дело между элементами одного типа](./how-to-move-activity.md) | [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.binding.move](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-move.md) | Дело в таймлайне другого элемента того же типа ||
 || [Как перенести дело из одного типа объекта в другой](./how-to-move-activity-between-objects.md) | [crm.activity.list](../../../api-reference/crm/timeline/activities/activity-base/crm-activity-list.md), [crm.activity.binding.add](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-add.md), [crm.activity.binding.delete](../../../api-reference/crm/timeline/activities/binding/crm-activity-binding-delete.md) | Дело в таймлайне объекта другого типа, например из лида в компанию ||
 |#
@@ -94,6 +86,7 @@
 #|
 || **Сценарий** | **Основные методы** | **Результат** ||
 || [Как сохранить дату оплаты в поле сделки](./how-to-set-paid-date-to-deal.md) | [crm.item.fields](../../../api-reference/crm/universal/crm-item-fields.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Дата оплаты в пользовательском поле сделки ||
+|| [Как сохранить сумму оплат в поле сделки](./how-to-set-paid-sum-to-deal.md) | [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md), [crm.item.payment.list](../../../api-reference/crm/universal/payment/crm-item-payment-list.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md) | Оплаченная сумма и валюта в денежном поле сделки ||
 |#
 
 ## Продолжите изучение

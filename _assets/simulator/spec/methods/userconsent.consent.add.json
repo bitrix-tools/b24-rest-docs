@@ -85,5 +85,13 @@
     }
   ],
   "page": "/api-reference/user-consent/user-consent-consent-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "AGREEMENT_ID": 19,
+    "USER_ID": 123,
+    "IP": "192.168.1.100",
+    "URL": "https://example.com/contact-form",
+    "ORIGIN_ID": "my_contact_form",
+    "ORIGINATOR_ID": "user@example.com"
+  }
 }

@@ -25,7 +25,7 @@
 || **CONFIG_ID***
 [`integer`](../../../data-types.md) | Идентификатор настройки SIP-линии.
 
-Получить идентификатор можно с помощью метода [voximplant.sip.get](../sip/voximplant-sip-get.md)  ||
+Получить идентификатор можно методом [voximplant.sip.get](../sip/voximplant-sip-get.md). `LINE_ID` из [voximplant.line.get](./voximplant-line-get.md) для этого параметра не подходит ||
 |#
 
 ## Примеры кода

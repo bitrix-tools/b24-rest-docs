@@ -154,12 +154,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Fields: ' . print_r($result['fields'], true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -253,15 +248,50 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../../data-types.md) | Объект с описанием полей бэклога [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **fields**
+[`object`](../../../data-types.md) | Объект с именами полей бэклога и их типами [(подробное описание)](#fields) ||
+|#
+
+#### Объект fields {#fields}
+
+Каждый ключ — имя поля бэклога. Его значение — объект с ключом `type`, который содержит тип поля.
+
+#|
+|| **Поле**
+`type` | **Описание** ||
 || **groupId**
-[`integer`](../../../data-types.md) | Идентификатор группы, для которой был создан бэклог ||
+`integer` | Идентификатор группы, для которой был создан бэклог ||
 || **createdBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который создал бэклог ||
+`integer` | Идентификатор пользователя, который создал бэклог ||
 || **modifiedBy**
-[`integer`](../../../data-types.md) | Идентификатор пользователя, который изменил бэклог ||
+`integer` | Идентификатор пользователя, который изменил бэклог ||
 |#
 
 ## Обработка ошибок
+
+У метода нет своих ошибок. Пример общей ошибки — токен приложения без scope `task`:
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the access token"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 

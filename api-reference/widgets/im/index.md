@@ -167,3 +167,4 @@ Array
 - [{#T}](../bx24-widget-methods.md)
 - [{#T}](../../chats/index.md)
 - [{#T}](../../../settings/interactivity/index.md)
+- [{#T}](../../../sdk/b24jssdk/iframe-messenger-textarea.md)

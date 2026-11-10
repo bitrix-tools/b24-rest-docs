@@ -152,5 +152,8 @@
     "title",
     "updatedAt",
     "updatedBy"
-  ]
+  ],
+  "requestExample": {
+    "id": 42
+  }
 }

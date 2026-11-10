@@ -11,10 +11,16 @@ items:
     href: note-collection-get.md
   - name: Получить список баз знаний
     href: note-collection-list.md
+  - name: Изменить позицию базы знаний
+    href: note-collection-move.md
   - name: Переместить базу знаний в корзину
     href: note-collection-delete.md
+  - name: Восстановить базу знаний из корзины
+    href: note-collection-restore.md
   - name: Архивировать базу знаний
     href: note-collection-archive.md
+  - name: Вернуть базу знаний из архива
+    href: note-collection-unarchive.md
   - name: Получить поле базы знаний
     href: note-collection-field-get.md
   - name: Получить список полей базы знаний

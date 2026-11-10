@@ -11,13 +11,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с доступом на изменение элемента CRM, в который добавляется дело
 
-Метод `crm.activity.configurable.add` добавляет конфигурируемое дело в таймлайн. 
+Метод `crm.activity.configurable.add` добавляет конфигурируемое дело в таймлайн элемента CRM.
 
-{% note warning %}
+Приложение задает внешний вид записи само: в параметре `layout` оно передает [структуру](./structure/layout.md) — иконку, заголовок, контентные блоки и кнопки. Готовые конфигурации собраны в [примерах](./structure/examples.md). Нажатия на кнопки, теги и пункты меню приходят приложению [событием](./structure/action.md#sobytie) `onCrmTimelineItemAction`.
 
-Вызов метода возможен только в контексте [приложения](https://helpdesk.bitrix24.ru/examples/app.zip).
+{% note info "" %}
+
+Вызов метода возможен только в контексте [приложения](../../../../../settings/app-installation/index.md). Вызов через входящий вебхук вернет ошибку `ERROR_WRONG_CONTEXT`.
 
 {% endnote %}
 
@@ -29,51 +31,58 @@
 || **Название**
 `тип` | **Описание** ||
 || **ownerTypeId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор [типа объекта CRM](../../../data-types.md#object_type), в котором создаем дело, например `2` для сделки ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор [типа объекта CRM](../../../data-types.md#object_type), в элементе которого создается дело, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, в котором создаем дело, например `1` ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор элемента CRM, в котором создается дело, например `1` ||
 || **fields***
 [`array`](../../../../data-types.md) | Ассоциативный массив значений [полей дела](#parametr-fields) в виде структуры:
+
 ```json
-fields:
 {
-    "typeId": 'значение',
-    "completed": 'значение',
-    "deadline": 'значение',
-    "pingOffsets": 'значение',
-    "isIncomingChannel": 'значение',
-    "responsibleId": 'значение',
-    "badgeCode": 'значение',
-    "originatorId": 'значение',
-    "originId": 'значение',
+    "typeId": "CONFIGURABLE",
+    "completed": false,
+    "deadline": "2025-02-01T12:00:00+03:00",
+    "pingOffsets": [15, 60],
+    "isIncomingChannel": "N",
+    "responsibleId": 1,
+    "badgeCode": "CUSTOM",
+    "originatorId": "my_service",
+    "originId": "42"
 }
 ```
+Параметр обязательный, но может быть пустым массивом
 ||
 || **layout***
-[`LayoutDto`](./structure/layout.md) | [Ассоциативный массив особой структуры](./structure/layout.md#primer), описывающий внешний вид дела в таймлайне ||
+[`LayoutDto`](./structure/layout.md) | Структура, которая задает внешний вид записи в таймлайне. Готовый [пример объекта](./structure/layout.md#primer) — на странице структуры ||
 |#
 
 ### Параметр fields {#parametr-fields}
 
-{% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
+Все поля внутри `fields` необязательные. Поле, которое не передали, получит значение по умолчанию:
+
+- `typeId` — `CONFIGURABLE`
+- `responsibleId` — пользователь, от имени которого работает приложение
+- `completed` и `isIncomingChannel` — `false`
+- `pingOffsets` — пустой массив
+- `originatorId`, `originId` и `badgeCode` останутся пустыми
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **typeId**
-[`string`](../../../../data-types.md) | Тип конфигурируемого дела. Если значение не указано, то оно устанавливается в значение по умолчанию `CONFIGURABLE`. Если указано, то значение должно соответствовать одному из типов, созданных методом [crm.activity.type.add](../types/crm-activity-type-add.md) с полем `IS_CONFIGURABLE_TYPE` равным `Y` в контексте того же приложения ||
+[`string`](../../../../data-types.md) | Тип конфигурируемого дела. Значение, отличное от `CONFIGURABLE`, должно соответствовать типу, который создало то же приложение методом [crm.activity.type.add](../types/crm-activity-type-add.md) с полем `IS_CONFIGURABLE_TYPE` равным `Y` ||
 || **completed**
-[`boolean`](../../../../data-types.md) | Флаг, говорящий закрыто ли дело. Для установки значения можно использовать `Y/N`, `1/0`, `true/false` ||
+[`boolean`](../../../../data-types.md) | Закрыто ли дело. Значение можно передать как `Y/N`, `1/0` или `true/false` ||
 || **deadline**
-[`datetime`](../../../../data-types.md) | Крайний срок исполнения дела ||
+[`datetime`](../../../../data-types.md) | Крайний срок исполнения дела в формате ISO 8601, например `2025-02-01T12:00:00+03:00`. Входящему делу крайний срок задать нельзя — метод вернет ошибку `INCOMING_ACTIVITY_CAN_NOT_BE_WITH_DEADLINE` ||
 || **pingOffsets**
-[`array`](../../../../data-types.md) | Массив смещений в минутах относительно крайнего срока, определяющий когда нужно сформировать записи-пинги по этому делу ||
+[`array`](../../../../data-types.md) | Смещения в минутах относительно крайнего срока. Задают, когда Битрикс24 сформирует по делу записи-пинги. Повторяющиеся значения Битрикс24 отбрасывает ||
 || **isIncomingChannel**
-[`boolean`](../../../../data-types.md) | Флаг, говорящий создано ли дело из входящего канала. Для установки значения можно использовать `Y/N`, `1/0`, `true/false` ||
+[`boolean`](../../../../data-types.md) | Создано ли дело из входящего канала. Значение можно передать как `Y/N`, `1/0` или `true/false` ||
 || **responsibleId**
-[`integer`](../../../../data-types.md) | Ответственный за дело ||
+[`integer`](../../../../data-types.md) | Идентификатор ответственного за дело ||
 || **badgeCode**
-[`string`](../../../../data-types.md) | Код [значка на канбане](./badges/crm-activity-badge-list.md), соответствующего делу ||
+[`string`](../../../../data-types.md) | Код [бейджа](./badges/index.md) — значка на карточке элемента в канбане. Бейдж должен быть заранее зарегистрирован методом [crm.activity.badge.add](./badges/crm-activity-badge-add.md), иначе метод вернет ошибку `WRONG_FIELD_VALUE` ||
 || **originatorId**
 [`string`](../../../../data-types.md) | Идентификатор источника данных ||
 || **originId**
@@ -92,7 +101,7 @@ fields:
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ownerTypeId":1,"ownerId":999,"fields":{"typeId":"CONFIGURABLE","completed":true,"deadline":"**put_current_date_time_here**","pingOffsets":[60,300],"isIncomingChannel":"N","responsibleId":1,"badgeCode":"CUSTOM"},"layout":{"icon":{"code":"call-completed"},"header":{"title":"Входящий звонок"},"body":{"logo":{"code":"call-incoming"},"blocks":{"responsible":{"type":"lineOfBlocks","properties":{"blocks":{"client":{"type":"link","properties":{"text":"Сергей Востриков","bold":true,"action":{"type":"redirect","uri":"/crm/lead/details/789/"}}},"phone":{"type":"text","properties":{"value":"+7 999 888 7777"}}}}}}},"footer":{"buttons":{"startCall":{"title":"О клиенте","action":{"type":"openRestApp","actionParams":{"clientId":456}},"type":"primary"}}}},"auth":"**put_access_token_here**"}' \
+    -d '{"ownerTypeId":1,"ownerId":999,"fields":{"typeId":"CONFIGURABLE","completed":true,"deadline":"2025-02-01T12:00:00+03:00","pingOffsets":[60,300],"isIncomingChannel":"N","responsibleId":1,"badgeCode":"CUSTOM"},"layout":{"icon":{"code":"call-completed"},"header":{"title":"Входящий звонок"},"body":{"logo":{"code":"call-incoming"},"blocks":{"responsible":{"type":"lineOfBlocks","properties":{"blocks":{"client":{"type":"link","properties":{"text":"Сергей Востриков","bold":true,"action":{"type":"redirect","uri":"/crm/lead/details/789/"}}},"phone":{"type":"text","properties":{"value":"+7 999 888 7777"}}}}}}},"footer":{"buttons":{"startCall":{"title":"О клиенте","action":{"type":"openRestApp","actionParams":{"clientId":456}},"type":"primary"}}}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.activity.configurable.add
     ```
 
@@ -122,7 +131,7 @@ fields:
           fields: {
             typeId: 'CONFIGURABLE',
             completed: true,
-            deadline: new Date().toISOString(),
+            deadline: '2025-02-01T12:00:00+03:00',
             pingOffsets: [60, 300],
             isIncomingChannel: 'N',
             responsibleId: 1,
@@ -133,7 +142,7 @@ fields:
               code: 'call-completed',
             },
             header: {
-              title: 'Incoming call',
+              title: 'Входящий звонок',
             },
             body: {
               logo: {
@@ -147,7 +156,7 @@ fields:
                       client: {
                         type: 'link',
                         properties: {
-                          text: 'Sergei Vostrikov',
+                          text: 'Сергей Востриков',
                           bold: true,
                           action: {
                             type: 'redirect',
@@ -169,7 +178,7 @@ fields:
             footer: {
               buttons: {
                 startCall: {
-                  title: 'About client',
+                  title: 'О клиенте',
                   action: {
                     type: 'openRestApp',
                     actionParams: {
@@ -217,7 +226,7 @@ fields:
               fields: {
                 typeId: 'CONFIGURABLE',
                 completed: true,
-                deadline: new Date().toISOString(),
+                deadline: '2025-02-01T12:00:00+03:00',
                 pingOffsets: [60, 300],
                 isIncomingChannel: 'N',
                 responsibleId: 1,
@@ -228,7 +237,7 @@ fields:
                   code: 'call-completed',
                 },
                 header: {
-                  title: 'Incoming call',
+                  title: 'Входящий звонок',
                 },
                 body: {
                   logo: {
@@ -242,7 +251,7 @@ fields:
                           client: {
                             type: 'link',
                             properties: {
-                              text: 'Sergei Vostrikov',
+                              text: 'Сергей Востриков',
                               bold: true,
                               action: {
                                 type: 'redirect',
@@ -264,7 +273,7 @@ fields:
                 footer: {
                   buttons: {
                     startCall: {
-                      title: 'About client',
+                      title: 'О клиенте',
                       action: {
                         type: 'openRestApp',
                         actionParams: {
@@ -301,92 +310,84 @@ fields:
 - Python
 
     ```python
-    from datetime import datetime, timedelta
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+
     try:
-        bitrix_response = client.crm.activity.configurable.add(owner_type_id=2, owner_id=101, fields={
-            "typeId": "CONFIGURABLE",
-            "completed": False,
-            "deadline": (datetime.now() + timedelta(hours=2)).isoformat(timespec='seconds'),
-            "pingOffsets": [
-                15,
-                60,
-            ],
-            "isIncomingChannel": "N",
-            "responsibleId": 1,
-            "badgeCode": "CUSTOM_STATUS",
-        }, layout={
-            "icon": {
-                "code": "call-completed",
+        bitrix_response = client.crm.activity.configurable.add(
+            owner_type_id=1,
+            owner_id=999,
+            fields={
+                "typeId": "CONFIGURABLE",
+                "completed": True,
+                "deadline": "2025-02-01T12:00:00+03:00",
+                "pingOffsets": [60, 300],
+                "isIncomingChannel": "N",
+                "responsibleId": 1,
+                "badgeCode": "CUSTOM",
             },
-            "header": {
-                "title": "Customer follow-up",
-            },
-            "body": {
-                "blocks": {
-                    "summary": {
-                        "type": "text",
-                        "properties": {
-                            "value": "Prepare proposal",
-                            "multiline": False,
-                        },
+            layout={
+                "icon": {
+                    "code": "call-completed",
+                },
+                "header": {
+                    "title": "Входящий звонок",
+                },
+                "body": {
+                    "logo": {
+                        "code": "call-incoming",
                     },
-                    "responsible": {
-                        "type": "lineOfBlocks",
-                        "properties": {
-                            "blocks": {
-                                "client": {
-                                    "type": "link",
-                                    "properties": {
-                                        "text": "Сергей Востриков",
-                                        "bold": True,
-                                        "action": {
-                                            "type": "redirect",
-                                            "uri": "/crm/lead/details/789/",
+                    "blocks": {
+                        "responsible": {
+                            "type": "lineOfBlocks",
+                            "properties": {
+                                "blocks": {
+                                    "client": {
+                                        "type": "link",
+                                        "properties": {
+                                            "text": "Сергей Востриков",
+                                            "bold": True,
+                                            "action": {
+                                                "type": "redirect",
+                                                "uri": "/crm/lead/details/789/",
+                                            },
+                                        },
+                                    },
+                                    "phone": {
+                                        "type": "text",
+                                        "properties": {
+                                            "value": "+7 999 888 7777",
                                         },
                                     },
                                 },
-                                "phone": {
-                                    "type": "text",
-                                    "properties": {
-                                        "value": "+7 999 888 7777",
-                                    },
+                            },
+                        },
+                    },
+                },
+                "footer": {
+                    "buttons": {
+                        "startCall": {
+                            "title": "О клиенте",
+                            "action": {
+                                "type": "openRestApp",
+                                "actionParams": {
+                                    "clientId": 456,
                                 },
                             },
+                            "type": "primary",
                         },
-                    },
-                },
-                "logo": {
-                    "code": "call-incoming",
-                },
-            },
-            "footer": {
-                "buttons": {
-                    "openDeal": {
-                        "title": "Open deal",
-                        "action": {
-                            "type": "redirect",
-                            "uri": "/crm/deal/details/101/",
-                        },
-                        "type": "primary",
-                    },
-                    "startCall": {
-                        "title": "О клиенте",
-                        "action": {
-                            "type": "openRestApp",
-                            "actionParams": {
-                                "clientId": 456,
-                            },
-                        },
-                        "type": "primary",
                     },
                 },
             },
-        }).response
+        ).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
-        print('Ошибка Bitrix API', f'error: {error.error}', f'error_description: {error.error_description}', sep='\n')
+        print(
+            "Ошибка Bitrix API",
+            f"error: {error.error}",
+            f"error_description: {error.error_description}",
+            sep="\n",
+        )
     except BitrixSDKException as error:
         print(f"Ошибка Bitrix SDK: {error.message}")
     except Exception as error:
@@ -394,7 +395,6 @@ fields:
     ```
 
 - PHP
-
 
     ```php
     try {
@@ -408,7 +408,7 @@ fields:
                     'fields' => [
                         'typeId' => 'CONFIGURABLE',
                         'completed' => true,
-                        'deadline' => new DateTime(),
+                        'deadline' => '2025-02-01T12:00:00+03:00',
                         'pingOffsets' => [60, 300],
                         'isIncomingChannel' => 'N',
                         'responsibleId' => 1,
@@ -496,7 +496,7 @@ fields:
             {
                 typeId: 'CONFIGURABLE',
                 completed: true,
-                deadline: new Date(),
+                deadline: '2025-02-01T12:00:00+03:00',
                 pingOffsets: [60, 300],
                 isIncomingChannel: 'N',
                 responsibleId: 1,
@@ -578,7 +578,7 @@ fields:
             'fields' => [
                 'typeId' => 'CONFIGURABLE',
                 'completed' => true,
-                'deadline' => date('c'), // Используем текущую дату и время в формате ISO 8601
+                'deadline' => '2025-02-01T12:00:00+03:00',
                 'pingOffsets' => [60, 300],
                 'isIncomingChannel' => 'N',
                 'responsibleId' => 1,
@@ -659,7 +659,7 @@ fields:
     	"fields": b24.Params{
     		"typeId":            "CONFIGURABLE",
     		"completed":         true,
-    		"deadline":          "**put_current_date_time_here**",
+    		"deadline":          "2025-02-01T12:00:00+03:00",
     		"pingOffsets":       []int{60, 300},
     		"isIncomingChannel": "N",
     		"responsibleId":     1,
@@ -737,9 +737,10 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-		"activity": {
-			"id": 999,
-		},
+        "activity": {
+            "id": 999
+        }
+    },
     "time": {
         "start": 1724068028.331234,
         "finish": 1724068028.726591,
@@ -748,7 +749,6 @@ HTTP-статус: **200**
         "date_start": "2025-01-21T13:47:08+02:00",
         "date_finish": "2025-01-21T13:47:08+02:00",
         "operating": 0
-        }
     }
 }
 ```
@@ -759,9 +759,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа, содержащий информацию о добавленном идентификаторе дела `id` в случае успеха. В случае неудачи вернет `null` ||
+[`object`](../../../../data-types.md) | Корневой элемент ответа с единственным ключом **activity** [(подробное описание)](#activity) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект activity {#activity}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../../data-types.md) | Идентификатор созданного дела. Его передают в параметр `id` методов [crm.activity.configurable.update](./crm-activity-configurable-update.md) и [crm.activity.configurable.get](./crm-activity-configurable-get.md) ||
 |#
 
 ## Обработка ошибок
@@ -770,8 +779,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "ERROR_WRONG_CONTEXT",
+    "error_description": "Вызов метода возможен только в контексте rest приложения"
 }
 ```
 
@@ -781,19 +790,18 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `100` | Не заполнены обязательные поля ||
-|| `ERROR_WRONG_CONTEXT` | Вызов метода возможен только в контексте приложения ||
-|| `ERROR_WRONG_APPLICATION` | Обновить дело может только приложение, которое его создало ||
-|| `WRONG_FIELD_VALUE` | Некорректное значение поля ||
+|| `ACCESS_DENIED` | Недостаточно прав на создание дела в элементе CRM ||
+|| `100` | Не передан обязательный параметр `ownerTypeId`, `ownerId`, `fields` или `layout` ||
+|| `ERROR_WRONG_CONTEXT` | Метод вызван не из приложения, например через входящий вебхук ||
+|| `WRONG_FIELD_VALUE` | Некорректное значение поля: неизвестный `badgeCode` или `typeId` в `fields`, неподходящий тип вложенного блока, неверный формат цвета в `sliderParams` ||
 || `INCOMING_ACTIVITY_CAN_NOT_BE_WITH_DEADLINE` | Входящее дело не может иметь крайний срок ||
-|| `ERROR_EMPTY_LAYOUT` | Поле layout должно быть заполнено ||
+|| `ERROR_EMPTY_LAYOUT` | Передан пустой `layout` ||
 || `FIELD_IS_REQUIRED` | В объекте структуры не передано обязательное поле ||
 || `FIELD_IS_REDUNDANT` | В объекте структуры передано поле, которого нет в его описании ||
 || `ENUM_FIELD` | Значение поля не входит в список допустимых, например неизвестный тип тега ||
 || `TOO_MANY_ITEMS` | Превышено количество элементов массива, например больше двух тегов или кнопок ||
 || `KEY_CONTAIN_WRONG_SYMBOLS` | Ключ в ассоциативном массиве структуры содержит недопустимые символы. Допустимы только латинские буквы, цифры, дефис и подчеркивание ||
-|| `WRONG_LANG` | В мультиязычном значении передан код языка, не установленного на портале ||
+|| `WRONG_LANG` | В мультиязычном значении передан код языка, не установленного в Битрикс24 ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -802,3 +810,9 @@ HTTP-статус: **400**
 
 - [{#T}](./crm-activity-configurable-update.md)
 - [{#T}](./crm-activity-configurable-get.md)
+- [{#T}](./structure/layout.md)
+- [{#T}](./structure/examples.md)
+- [{#T}](./badges/index.md)
+- [{#T}](../activity-base/crm-activity-list.md)
+- [{#T}](../activity-base/crm-activity-delete.md)
+- [{#T}](./index.md)

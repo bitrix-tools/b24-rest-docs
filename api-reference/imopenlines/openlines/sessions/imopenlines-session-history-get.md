@@ -258,14 +258,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        print_r($result);
     } catch (Throwable $exception) {
-        error_log($exception->getMessage());
-        echo 'Error getting session history: ' . $exception->getMessage();
+        echo $exception->getMessage();
     }
     ```
 

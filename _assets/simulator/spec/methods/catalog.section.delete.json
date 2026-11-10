@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/catalog/section/catalog-section-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 31
+  }
 }

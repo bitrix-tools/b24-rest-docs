@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для справочников используйте метод REST 3.0 `crm.dictionary.<справочник>.field.list` из группы [Справочники](../rest-v3/dictionaries/index.md), для стадий — `crm.<тип>.category.stage.field.list` из группы [Воронки и стадии](../rest-v3/categories/index.md). Стадий лидов, предложений и счетов и справочника статусов списков обзвона в REST 3.0 нет, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.status.fields` возвращает описание полей справочников CRM.
 
 ## Параметры метода
@@ -160,17 +166,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching CRM status fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

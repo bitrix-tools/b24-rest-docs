@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/catalog/price/catalog-price-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

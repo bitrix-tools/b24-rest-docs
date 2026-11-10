@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами на чтение элементов CRM
+> Кто может выполнять метод: администратор, создатель обзвона или ответственный за дело обзвона. Также нужно право на чтение контактов или компаний — по типу участников обзвона
 
-Метод `crm.calllist.update` позволяет добавить или удалить участников в существующем списке обзвона, и обновить связанную CRM-форму.
+Метод `crm.calllist.update` заменяет участников списка обзвона и прикрепленную CRM-форму.
 
 ## Параметры метода
 
@@ -23,33 +23,26 @@
 || **Название**
 `тип` | **Описание** ||
 || **LIST_ID***
-[`integer`](../../data-types.md) | Идентификатор обзвона ||
+[`integer`](../../data-types.md) | Идентификатор обзвона. Получить его можно методами [crm.calllist.add](./crm-calllist-add.md) и [crm.calllist.list](./crm-calllist-list.md) ||
 || **ENTITY_TYPE***
-[`string`](../../data-types.md) | Тип объекта: 
-- `CONTACT` — контакт,
+[`string`](../../data-types.md) | Тип объекта:
+- `CONTACT` — контакт
 - `COMPANY` — компания ||
 || **ENTITIES***
-[`array`](../../data-types.md) | Массив `ID` контактов или компаний, получить можно методом [crm.item.list](../universal/crm-item-list.md) ||
+[`integer[]`](../../data-types.md) | Массив числовых идентификаторов контактов или компаний, которые должны остаться в обзвоне. Получить их можно методом [crm.item.list](../universal/crm-item-list.md) ||
 || **WEBFORM_ID**
-[`integer`](../../data-types.md) | `ID` CRM-формы, которая будет выводиться в форме обзвона. 
-`ID` можно найти в списке форм Битрикс24 https://your-domain.ru/crm/webform/ ||
+[`integer`](../../data-types.md) | `ID` CRM-формы для обзвона: во время звонка сотрудник заполняет в ней данные клиента.
+Идентификатор вернет метод [crm.form.list](../form/crm-form-list.md) ||
 |#
 
 ### Особенности работы метода
 
-Метод перезаписывает массив `ENTITIES`. Чтобы добавить элемент, включите в запрос и текущие, и новые `ID`:
+Метод заменяет участников обзвона массивом `ENTITIES` из запроса. Передайте всех, кто должен остаться в обзвоне:
 
-1. Текущие ID: [1,2,3].
-2. Новые ID: [4].
-3. Передать: [1,2,3,4].
+- чтобы добавить участника `4` в обзвон с участниками `[1,2,3]`, передайте `[1,2,3,4]`
+- чтобы удалить участника `2` из того же обзвона, передайте `[1,3]`
 
-Чтобы удалить элемент, передайте только те `ID`, которые должны остаться в списке:
-
-4. Текущие ID: [1,2,3].
-5. Удалить: [2].
-6. Передать: [1,3].
-
-Метод перезаписывает поле `WEBFORM_ID`. Если при вызове метода не передавать поле `WEBFORM_ID`, поле будет очищено.
+`WEBFORM_ID` метод тоже перезаписывает: если параметр не передать, форма открепится.
 
 ## Примеры кода
 
@@ -63,7 +56,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"LIST_ID":123,"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5}' \
-         https://**your_bitrix24**/rest/**user_id**/**webhook**/crm.calllist.update
+         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.calllist.update
     ```
 
 - cURL (OAuth)
@@ -72,7 +65,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -d '{"LIST_ID":123,"ENTITY_TYPE":"CONTACT","ENTITIES":[1,2,3],"WEBFORM_ID":5,"auth":"**put_access_token_here**"}' \
-         https://**your_bitrix24**/rest/crm.calllist.update
+         https://**put_your_bitrix24_address**/rest/crm.calllist.update
     ```
 
 - JS (TS)
@@ -197,20 +190,14 @@
                     'WEBFORM_ID'  => 5,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating call list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -328,7 +315,7 @@ HTTP-статус: **400**
 || `400` | `ERROR_ARGUMENT` | `LIST_ID is not found`, `ENTITY_TYPE is not found`, `ENTITIES is not found` | Не передан обязательный параметр ||
 || `400` | `ENTITY_TYPE_ERROR` | `EntityType is incorrect` | В параметре `ENTITY_TYPE` передано значение, отличное от `CONTACT` и `COMPANY` ||
 || `400` | `ENTITIES_ERROR` | `Entities is not array` | В параметре `ENTITIES` передан не массив ||
-|| `400` | `ENTITIES_ERROR` | `Incorrect entities id` | В параметре `ENTITIES` есть идентификаторы, которых нет в CRM ||
+|| `400` | `ENTITIES_ERROR` | `Incorrect entities id` | В параметре `ENTITIES` пустой массив, повторы или идентификаторы, которых нет в CRM ||
 || `400` | `LIST_ID_ERROR` | `Incorrect list id or access denied` | Обзвона с таким идентификатором нет или к нему нет доступа ||
 || `400` | `ENTITY_TYPE_ERROR` | `Discrepancy between the type of call participants and incoming type` | Тип объектов в `ENTITY_TYPE` не совпадает с типом участников обзвона ||
 || `400` | `WEBFORM_ERROR` | `Incorrect webform id` | В параметре `WEBFORM_ID` указана несуществующая CRM-форма ||
@@ -343,4 +330,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-calllist-get.md)
 - [{#T}](./crm-calllist-items-get.md)
 - [{#T}](./crm-calllist-list.md)
-- [{#T}](./crm-calllist-statuslist.md) 
+- [{#T}](./crm-calllist-statuslist.md)
+- [{#T}](./index.md)

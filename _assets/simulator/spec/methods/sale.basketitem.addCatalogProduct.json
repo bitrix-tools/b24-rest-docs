@@ -3,7 +3,7 @@
   "method": "sale.basketitem.addCatalogProduct",
   "scope": "sale",
   "kind": "write",
-  "title": "Добавить позицию с товаром или услугой из модуля catalog в корзину существующего заказа sale.basketitem.addCatalogProduct",
+  "title": "Добавить позицию с товаром из каталога в корзину заказа sale.basketitem.addCatalogProduct",
   "permissions": "администратор",
   "params": [
     {
@@ -11,7 +11,7 @@
       "type": "object",
       "base": "object",
       "required": true,
-      "description": "Значения полей для создания элемента (позиции) корзины в заказе",
+      "description": "Значения полей для создания позиции корзины в заказе (подробное описание)",
       "ref": "#/defs/fieldsFields"
     }
   ],
@@ -28,77 +28,49 @@
           "type": "sale_order.id",
           "base": "any",
           "required": true,
-          "description": "Идентификатор заказа. Может быть указан только при создании позиции корзины. Должен быть получен ранее методами sale.order.add или sale.order.list"
+          "description": "Идентификатор заказа. Изменить его после создания позиции нельзя. Получите идентификатор методом sale.order.add или sale.order.list"
         },
         {
-          "name": "sort",
-          "type": "integer",
-          "base": "integer",
-          "required": false,
-          "description": "Положение в списке позиций заказа"
-        },
-        {
-          "name": "productid",
+          "name": "productId",
           "type": "catalog_product.id",
           "base": "any",
           "required": true,
-          "description": "Идентификатор товара/вариации"
-        },
-        {
-          "name": "price",
-          "type": "double",
-          "base": "number",
-          "required": false,
-          "description": "Цена с учетом наценок и скидок (смотрите поле customPrice ниже). Если не указать, будет рассчитана на основе данных каталога. Поле будет заполнено автоматически, если customPrice !== ‘Y’"
-        },
-        {
-          "name": "basePrice",
-          "type": "double",
-          "base": "number",
-          "required": false,
-          "description": "Исходная цена без учета наценок и скидок (смотрите поле customPrice ниже). Если не указать, будет рассчитана на основе данных каталога. Поле будет заполнено автоматически, если customPrice !== ‘Y’"
-        },
-        {
-          "name": "discountPrice",
-          "type": "double",
-          "base": "number",
-          "required": false,
-          "description": "Величина итоговой скидки или наценки (смотрите поле customPrice ниже). Если не указать, будет рассчитана на основе данных каталога. Поле будет заполнено автоматически, если customPrice !== ‘Y’"
-        },
-        {
-          "name": "currency",
-          "type": "crm_currency.CURRENCY",
-          "base": "any",
-          "required": true,
-          "description": "Валюта цены. Должна совпадать с валютой заказа"
-        },
-        {
-          "name": "customPrice",
-          "type": "string",
-          "base": "string",
-          "required": false,
-          "description": "Указана ли цена вручную: - Y — цена задана вручную - N — цена получена из каталога товаров По умолчанию значение N. Если указывается значение Y, то данные цены из каталога будут игнорироваться. Необходимо явно задать параметры price, basePrice и discountPrice так, чтобы выполнялось условие basePrice = price + discountPrice"
+          "description": "Идентификатор товара, услуги или вариации из каталога. Изменить его после создания позиции нельзя. Получите идентификатор методом catalog.product.list"
         },
         {
           "name": "quantity",
           "type": "double",
           "base": "number",
           "required": true,
-          "description": "Количество товара"
+          "description": "Количество товара. Передавайте значение больше 0: при 0 метод создаст позицию без цены и названия. Можно передать дробное число, например 1.5"
+        },
+        {
+          "name": "currency",
+          "type": "crm_currency.CURRENCY",
+          "base": "any",
+          "required": true,
+          "description": "Валюта цены, например RUB. Должна совпадать с валютой заказа, иначе метод вернет ошибку 200140400011. Изменить ее после создания позиции нельзя"
+        },
+        {
+          "name": "price",
+          "type": "double",
+          "base": "number",
+          "required": false,
+          "description": "Цена за единицу с учетом скидок и наценок. Если параметр не передан, цену рассчитает Битрикс24 по данным каталога. Если параметр передан, у позиции будет customPrice = Y. Если у товара в каталоге нет цены, передайте price, иначе метод вернет ошибку 200140400007"
+        },
+        {
+          "name": "sort",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Положение в списке позиций заказа. По умолчанию 100"
         },
         {
           "name": "xmlId",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Внешний код позиции корзины"
-        },
-        {
-          "name": "name",
-          "type": "string",
-          "base": "string",
-          "required": true,
-          "description": "Название товара"
+          "description": "Внешний код позиции корзины. Если не передан, Битрикс24 создаст код сам, например bx_662675fba6516"
         }
       ]
     }
@@ -111,6 +83,7 @@
   "resultExample": {
     "result": {
       "basketItem": {
+        "barcodeMulti": "N",
         "basePrice": 1234,
         "canBuy": "Y",
         "catalogXmlId": "FUTURE-ERP-CATALOG",
@@ -163,7 +136,7 @@
       "type": "sale_basket_item",
       "base": "any",
       "required": false,
-      "description": "Объект с данными созданного элемента (позиции) корзины"
+      "description": "Созданная позиция корзины. Ключевые поля: - id — идентификатор позиции, его передают в методы sale.basketitem.updateCatalogProduct, sale.basketitem.get и sale.basketitem.delete - name, measureCode, measureName, catalogXmlId, productXmlId — данные из карточки товара в каталоге - price, basePrice, discountPrice — цена за единицу, цена без скидок и размер скидки - customPrice — Y, если цена задана вр…"
     },
     {
       "name": "total",
@@ -181,5 +154,13 @@
     }
   ],
   "page": "/api-reference/sale/basket-item/sale-basket-item-add-catalog-product.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "orderId": 5147,
+      "quantity": 1,
+      "productId": 4347,
+      "currency": "RUB"
+    }
+  }
 }

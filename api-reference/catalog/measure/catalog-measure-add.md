@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада» и правом «Создание и изменение единиц измерения»
 
-Метод добавляет новую единицу измерения.
+Метод `catalog.measure.add` добавляет новую единицу измерения.
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания новой единицы измерения ||
+[`object`](../../data-types.md) | Значения полей для создания новой единицы измерения [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -40,15 +40,14 @@
 - `Y` — да
 - `N` — нет
 
-Если значение поля не указано, то автоматически устанавливается значение `N`.
+По умолчанию: `N`.
 
-Только одна единица измерения из всего справочника может принимать значение `Y`
-||
+Только одна единица измерения из всего справочника может принимать значение `Y`. Если единица по умолчанию уже есть, метод вернет ошибку `200600000010`. Чтобы сделать новую единицу основной, сначала передайте `N` текущей единице методом [catalog.measure.update](./catalog-measure-update.md) ||
 || **measureTitle***
 [`string`](../../data-types.md) | Название единицы измерения
 ||
 || **symbol**
-[`string`](../../data-types.md) | Условное обозначение 
+[`string`](../../data-types.md) | Условное обозначение
 ||
 || **symbolIntl**
 [`string`](../../data-types.md) | Международное условное обозначение
@@ -100,7 +99,7 @@
         code: number
         id: number
         isDefault: string
-        measureTitle: string
+        measureTitle: string | null
         symbol: string
         symbolIntl: string
         symbolLetterIntl: string
@@ -113,8 +112,8 @@
         params: {
           fields: {
             code: 715,
-            measureTitle: 'Pair',
-            symbol: 'pr',
+            measureTitle: 'Пара',
+            symbol: 'пар',
             symbolLetterIntl: 'NPR',
             symbolIntl: 'pr; 2',
             isDefault: 'N',
@@ -152,8 +151,8 @@
             params: {
               fields: {
                 code: 715,
-                measureTitle: 'Pair',
-                symbol: 'pr',
+                measureTitle: 'Пара',
+                symbol: 'пар',
                 symbolLetterIntl: 'NPR',
                 symbolIntl: 'pr; 2',
                 isDefault: 'N',
@@ -213,7 +212,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -231,13 +229,12 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding measure: ' . $e->getMessage();
@@ -248,7 +245,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.measure.add', 
+        'catalog.measure.add',
         {
             fields: {
                 code: 715,
@@ -367,11 +364,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **measure**
-[`catalog_measure`](../data-types.md#catalog_measure) | Объект с информацией о созданной единице измерения ||
+[`object`](../../data-types.md) | Результат запроса [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **measure**
+[`catalog_measure`](../data-types.md#catalog_measure) | Созданная единица измерения ||
 |#
 
 ## Обработка ошибок
@@ -380,7 +384,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
+    "error": "200040300020",
     "error_description": "Access Denied"
 }
 ```
@@ -390,19 +394,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Нет доступа к редактированию
-||
-|| `200600000000` | Единица измерения с заданным параметром `code` уже существует
-||
-|| `200600000010` | Единица измерения, у которой параметр `isDefault` равен `Y`, уже существует
-||
-|| `100` | Не передан обязательный параметр `fields`
-||
-|| `0` | Не установлены обязательные поля
-||
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | `Access Denied` | Нет доступа к редактированию ||
+|| `400` | `200600000000` | `Duplicate entry for key [code]` | Единица измерения с таким `code` уже существует ||
+|| `400` | `200600000010` | `default value can be set once [isDefault]` | Единица измерения по умолчанию уже существует ||
+|| `400` | `100` | `Could not find value for parameter {fields}` | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | `Required fields: code, measureTitle` | Не заполнены обязательные поля. Текст ошибки перечисляет отсутствующие поля ||
+|| `400` | `0` | `A measure with code '{code}' already exists.` | Код единицы измерения занят; ошибка базы данных при сохранении ||
+|| `400` | `0` | `Internal error adding measure. Try adding again.` | Внутренняя ошибка при добавлении единицы измерения ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

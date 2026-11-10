@@ -34,6 +34,16 @@
       "base": "object",
       "required": false,
       "description": "Объект для сортировки выбранных записей товаров в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogdocumentelement. Возможные значения для order: - asc — в порядке возрастания, - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -96,11 +106,18 @@
       "description": "Корневой элемент ответа"
     },
     {
-      "name": "documentElement",
+      "name": "documentElements",
       "type": "catalog_document_element[]",
       "base": "array",
       "required": false,
-      "description": "Объект с информацией о товарах документа, структура ответа зависит от параметра select"
+      "description": "Массив объектов с информацией о товарах документа, структура ответа зависит от параметра select"
+    },
+    {
+      "name": "next",
+      "type": "integer",
+      "base": "integer",
+      "required": false,
+      "description": "Значение для получения следующей страницы"
     },
     {
       "name": "total",
@@ -127,5 +144,21 @@
     "purchasingPrice",
     "storeFrom",
     "storeTo"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "docId",
+      "elementId",
+      "amount",
+      "storeFrom",
+      "storeTo"
+    ],
+    "filter": {
+      "docId": 64
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

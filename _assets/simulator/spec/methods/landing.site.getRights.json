@@ -54,5 +54,8 @@
     }
   ],
   "page": "/api-reference/landing/rights/extended-model/landing-site-get-rights.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 645
+  }
 }

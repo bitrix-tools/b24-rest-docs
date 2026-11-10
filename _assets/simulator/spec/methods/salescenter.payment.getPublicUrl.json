@@ -65,5 +65,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/salescenter-payment-get-public-url.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1063
+  }
 }

@@ -24,10 +24,19 @@
 3. Сохраните экспортированный массив на стороне приложения Битрикс24
 4. Передайте экспортированный массив в [landing.demos.register](./landing-demos-register.md)
 5. Проверьте результат методом [landing.demos.getList](./landing-demos-get-list.md)
+6. Удалите шаблон методом [landing.demos.unregister](./landing-demos-unregister.md), если он больше не нужен
 
 ## Ключевые параметры
 
-**XML_ID.** Внешний код зарегистрированного шаблона. Используется при удалении шаблона через [landing.demos.unregister](./landing-demos-unregister.md). Получить его можно методом [landing.demos.getList](./landing-demos-get-list.md). Удаление по коду может затронуть связанные записи шаблона, если они зарегистрированы в приложении с одним и тем же кодом.
+**XML_ID.** Внешний код зарегистрированного шаблона. Используется при удалении шаблона через [landing.demos.unregister](./landing-demos-unregister.md). Метод [landing.demos.getList](./landing-demos-get-list.md) возвращает массив шаблонов в `result`, а код каждого шаблона — в поле `XML_ID`. Удаление по коду может затронуть связанные записи шаблона, если они зарегистрированы в приложении с одним и тем же кодом.
+
+```json
+{
+  "result": [
+    { "ID": "9", "XML_ID": "ftmlt/biznes", "TITLE": "Бизнес", "TYPE": "page" }
+  ]
+}
+```
 
 **type.** Тип шаблона. Его указывают при регистрации, а также при вызове методов [landing.demos.getSiteList](./landing-demos-get-site-list.md) и [landing.demos.getPageList](./landing-demos-get-page-list.md). Например: `page`, `store`, `knowledge`.
 

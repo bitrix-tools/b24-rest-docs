@@ -21,9 +21,37 @@
     "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-delete.md"
   },
   "resultExample": {
-    "error": 0,
-    "error_description": "Epic not found"
+    "result": [],
+    "time": {
+      "start": 1790263165,
+      "finish": 1790263165.067531,
+      "duration": 0.06753110885620117,
+      "processing": 0,
+      "date_start": "2026-09-24T18:19:25+03:00",
+      "date_finish": "2026-09-24T18:19:25+03:00",
+      "operating_reset_at": 1790263765,
+      "operating": 0
+    }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "array",
+      "base": "array",
+      "required": false,
+      "description": "Пустой массив — эпик удален"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

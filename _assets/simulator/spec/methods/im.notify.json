@@ -18,7 +18,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Тип уведомления. Допустимые значения: - USER — персональное уведомление - SYSTEM — системное уведомление Значение по умолчанию — USER"
+      "description": "Тип уведомления. Допустимые значения: - USER — персональное уведомление - SYSTEM — системное уведомление Значение по умолчанию — USER",
+      "values": [
+        {
+          "value": "USER",
+          "title": "персональное уведомление"
+        },
+        {
+          "value": "SYSTEM",
+          "title": "системное уведомление Значение по умолчанию — USER"
+        }
+      ]
     },
     {
       "name": "MESSAGE",
@@ -103,5 +113,13 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 5,
+    "TYPE": "USER",
+    "MESSAGE": "Напоминание",
+    "MESSAGE_OUT": "Напоминание (email)",
+    "TAG": "TASK_42",
+    "SUB_TAG": "TASK|42"
+  }
 }

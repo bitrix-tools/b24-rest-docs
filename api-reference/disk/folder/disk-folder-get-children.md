@@ -154,7 +154,7 @@
       UPDATED_BY: string
       DELETED_BY: string
       DOWNLOAD_URL?: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -244,7 +244,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.getchildren(
+        bitrix_response = client.disk.folder.get_children(
             bitrix_id=8907,
             filter={
                 ">=CREATE_TIME": "2026-01-12",
@@ -475,9 +475,11 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится файл/папка ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Возможные значения:
+- `folder` — папка
+- `file` — файл ||
 || **REAL_OBJECT_ID**
-[`integer`](../../data-types.md) | Идентификатор объекта ||
+[`integer`](../../data-types.md) | Идентификатор объекта. Поле возвращается только для папки, когда `TYPE = folder` ||
 || **PARENT_ID**
 [`integer`](../../data-types.md) | Идентификатор родительской папки ||
 || **DELETED_TYPE**
@@ -486,11 +488,11 @@ HTTP-статус: **200**
 - `3` — в корзине
 - `4` — удален вместе с родительской папкой ||
 || **GLOBAL_CONTENT_VERSION**
-[`integer`](../../data-types.md) | Инкрементальный счетчик версии файла ||
+[`integer`](../../data-types.md) | Инкрементальный счетчик версии файла. Поле возвращается только для файла, когда `TYPE = file` ||
 || **FILE_ID**
-[`integer`](../../data-types.md) | Внутреннее значение идентификатора файла ||
+[`integer`](../../data-types.md) | Внутреннее значение идентификатора файла. Поле возвращается только для файла, когда `TYPE = file` ||
 || **SIZE**
-[`integer`](../../data-types.md) | Размер файла в байтах ||
+[`integer`](../../data-types.md) | Размер файла в байтах. Поле возвращается только для файла, когда `TYPE = file` ||
 || **CREATE_TIME**
 [`datetime`](../../data-types.md) | Дата и время создания файла/папки ||
 || **UPDATE_TIME**
@@ -504,9 +506,9 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего файл/папку ||
 || **DOWNLOAD_URL**
-[`string`](../../data-types.md) | Ссылка для скачивания файла ||
+[`string`](../../data-types.md) | Ссылка для скачивания файла. Поле возвращается только для файла, когда `TYPE = file` ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия файла/папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия файла или папки в интерфейсе. Для объектов из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество файлов и папок ||
 || **time**

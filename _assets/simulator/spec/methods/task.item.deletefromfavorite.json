@@ -38,5 +38,11 @@
     "successor": "tasks.task.favorite.remove"
   },
   "page": "/api-reference/tasks/deprecated/task-item/task-item-delete-from-favorite.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASK_ID": 10,
+    "PARAMS": {
+      "AFFECT_CHILDREN": "Y"
+    }
+  }
 }

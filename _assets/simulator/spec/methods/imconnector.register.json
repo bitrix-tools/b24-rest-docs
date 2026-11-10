@@ -190,10 +190,10 @@
   "returns": [
     {
       "name": "result",
-      "type": "boolean",
-      "base": "boolean",
+      "type": "object",
+      "base": "object",
       "required": false,
-      "description": "true, если коннектор успешно зарегистрирован"
+      "description": "Результат регистрации коннектора (подробное описание)"
     },
     {
       "name": "time",

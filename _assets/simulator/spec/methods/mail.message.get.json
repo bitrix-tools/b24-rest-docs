@@ -99,5 +99,23 @@
     "subject",
     "to",
     "url"
-  ]
+  ],
+  "requestExample": {
+    "id": 15,
+    "select": [
+      "id",
+      "mailboxId",
+      "mailboxEmail",
+      "subject",
+      "from",
+      "to",
+      "cc",
+      "date",
+      "isSeen",
+      "hasAttachments",
+      "url",
+      "bindings",
+      "body"
+    ]
+  }
 }

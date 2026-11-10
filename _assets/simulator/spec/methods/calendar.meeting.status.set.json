@@ -18,7 +18,21 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Статус участия в событии. Возможные значения: - Y — согласен - N — отказался - Q — приглашен, но еще не ответил"
+      "description": "Статус участия в событии. Возможные значения: - Y — согласен - N — отказался - Q — приглашен, но еще не ответил",
+      "values": [
+        {
+          "value": "Y",
+          "title": "согласен"
+        },
+        {
+          "value": "N",
+          "title": "отказался"
+        },
+        {
+          "value": "Q",
+          "title": "приглашен, но еще не ответил"
+        }
+      ]
     }
   ],
   "defs": {},
@@ -48,5 +62,9 @@
     }
   ],
   "page": "/api-reference/calendar/calendar-event/calendar-meeting-status-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "eventId": 651,
+    "status": "Y"
+  }
 }

@@ -7,5 +7,5 @@ items:
     include:
       path: block-collections/b24-toc.yaml
       mode: link
-  - name: Примеры составных вложений
+  - name: Конструктор вложений ATTACH
     href: constructor.md

@@ -96,5 +96,13 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-copy-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 6428,
+    "params": {
+      "AFTER_ID": 6429,
+      "RETURN_CONTENT": "Y"
+    }
+  }
 }

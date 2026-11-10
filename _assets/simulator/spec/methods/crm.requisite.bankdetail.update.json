@@ -56,7 +56,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак активности. Используются значения Y или N. Сейчас поле фактически ни на что не влияет"
+          "description": "Признак активности. Используются значения Y или N. Сейчас поле фактически ни на что не влияет",
+          "flag": true
         },
         {
           "name": "SORT",
@@ -249,5 +250,14 @@
     }
   ],
   "page": "/api-reference/crm/requisites/bank-detail/crm-requisite-bank-detail-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 357,
+    "fields": {
+      "NAME": "ПАО Супербанк (не использовать)",
+      "COMMENTS": "Устаревший",
+      "SORT": 10000,
+      "ACTIVE": "N"
+    }
+  }
 }

@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `userfieldtype.delete` удаляет зарегистрированный приложением тип пользовательских полей. Возвращает _true_ или ошибку с описанием причины.
+Метод `userfieldtype.delete` удаляет тип пользовательских полей, который зарегистрировало это приложение, и работает только в контексте [приложения](../../../settings/app-installation/index.md). Чтобы сменить адрес обработчика, название, описание или высоту поля, удалять тип не нужно — используйте метод [userfieldtype.update](./userfieldtype-update.md).
+
+{% note warning "" %}
+
+Поля этого типа после удаления остаются в Битрикс24, а их значения — в базе. Пока тип не зарегистрирован, карточка CRM не показывает такие поля, а методы CRM не работают с их значениями: например, [crm.deal.get](../../crm/deals/crm-deal-get.md) не возвращает значение, а [crm.deal.update](../../crm/deals/crm-deal-update.md) отвечает `true`, но новое значение не сохраняет. Создать новое поле этого типа тоже не получится: Битрикс24 вернет ошибку `Указан неверный пользовательский тип`. Если приложение снова зарегистрирует тип с тем же `USER_TYPE_ID` методом [userfieldtype.add](./userfieldtype-add.md), поля и значения вернутся.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -21,11 +27,9 @@
 
 #|
 || **Название**
-`тип` | **Описание** | **Ограничения** ||
+`тип` | **Описание** ||
 || **USER_TYPE_ID***
-[`string`](../../data-types.md) | Строковый код типа | 
-- a-z0-9
-- должен быть уникальным ||
+[`string`](../../data-types.md) | Код типа, который приложение передало в [userfieldtype.add](./userfieldtype-add.md). Регистр не важен. Получить коды можно методом [userfieldtype.list](./userfieldtype-list.md) ||
 |#
 
 ## Примеры кода
@@ -33,18 +37,6 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{
-        "USER_TYPE_ID": "test"
-    }' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldtype.delete
-    ```
 
 - cURL (OAuth)
 
@@ -153,7 +145,7 @@
     ```
 - PHP
 
-    ```php        
+    ```php
     try {
         $userTypeId = 'example_user_type_id'; // Replace with the actual user type ID
         $result = $serviceBuilder
@@ -174,7 +166,7 @@
 
     ```js
     BX24.callMethod(
-        'userfieldtype.delete', 
+        'userfieldtype.delete',
         {
             USER_TYPE_ID: 'test'
         },
@@ -266,20 +258,24 @@ HTTP-статус: **400**
 }
 ```
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %} 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_ARGUMENT` | Argument 'USER_TYPE_ID' is null or empty | Не задан `USER_TYPE_ID` ||
-|| `ERROR_NOT_FOUND` | User Field Type not found | Не найдено пользовательское поле с указанным `USER_TYPE_ID` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения, например через вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал не администратор ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'USER_TYPE_ID' is null or empty | Не передан `USER_TYPE_ID` ||
+|| `400` | `ERROR_NOT_FOUND` | User Field Type not found | У приложения нет типа с таким `USER_TYPE_ID` ||
+|| `400` | `ERROR_CORE` | Unable to delete User Field Type: <текст ошибки> | Битрикс24 не смог удалить регистрацию типа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./userfieldtype-add.md)
 - [{#T}](./userfieldtype-update.md)
 - [{#T}](./userfieldtype-list.md)

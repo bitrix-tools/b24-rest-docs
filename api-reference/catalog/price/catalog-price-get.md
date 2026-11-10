@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Изменение цены продажи товара»
 
 Метод `catalog.price.get` возвращает информацию о цене товара по идентификатору.
 
@@ -177,15 +177,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting price: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -270,6 +264,7 @@ HTTP-статус: **200**
             "extraId": null,
             "id": 1,
             "price": 100,
+            "priceScale": 100,
             "productId": 1,
             "quantityFrom": null,
             "quantityTo": null,
@@ -295,7 +290,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **price**
+|| **result.price**
 [`catalog_price`](../data-types.md#catalog_price) | Объект с информацией о цене товара с заданным идентификатором ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -307,8 +302,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "",
+    "error_description": "price does not exist."
 }
 ```
 
@@ -317,11 +312,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав для чтения ||
-|| `-` | Price is not exists | Цены товара с таким идентификатором не существует ||
-|| `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Изменение цены продажи товара» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | price does not exist. | Цены с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

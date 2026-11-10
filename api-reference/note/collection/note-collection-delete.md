@@ -270,7 +270,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Объект с результатом удаления базы знаний ||
-|| **result**
+|| **result.result**
 [`boolean`](../../data-types.md) | Значение `true`, если база знаний успешно удалена ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -345,4 +345,5 @@ HTTP-статус: **409**
 - [{#T}](./note-collection-add.md)
 - [{#T}](./note-collection-update.md)
 - [{#T}](./note-collection-archive.md)
+- [{#T}](./note-collection-restore.md)
 - [{#T}](./index.md)

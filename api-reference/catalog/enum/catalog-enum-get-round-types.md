@@ -150,20 +150,14 @@
                 'catalog.enum.getRoundTypes',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting round types: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -268,13 +262,22 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **enum**
-[`catalog_enum[]`](../data-types.md#catalog_enum) | Массив элементов перечисления типов округления ||
+|| **result.enum**
+[`catalog_enum[]`](../data-types.md#catalog_enum) | Массив типов округления. У каждого элемента `id` — код типа, `name` — название на языке Битрикс24.
+
+Значения `id`:
+- `1` — математическое округление
+- `2` — округление в пользу магазина, в большую сторону
+- `4` — округление в пользу клиента, в меньшую сторону
+
+Код передавайте в поле `roundType` метода [catalog.roundingRule.add](../rounding-rule/catalog-rounding-rule-add.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

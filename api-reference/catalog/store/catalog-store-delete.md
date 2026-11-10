@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Редактирование складов», которому доступен склад по праву «Просмотр и выбор склада», или автор склада
 
-Метод удаляет склад.
+Метод `catalog.store.delete` удаляет склад.
+
+Склад, который указан в позициях документов складского учета, удалить нельзя — даже если документ не проведен. Сначала удалите такие позиции или документы методами [catalog.document.*](../document/index.md). Вместе со складом метод удаляет записи остатков товаров на этом складе и изображение склада.
 
 ## Параметры метода
 
@@ -40,7 +42,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1}' \
+    -d '{"id":37}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.store.delete
     ```
 
@@ -50,7 +52,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1,"auth":"**put_access_token_here**"}' \
+    -d '{"id":37,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.store.delete
     ```
 
@@ -68,7 +70,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'catalog.store.delete',
         params: {
-          id: 1,
+          id: 37,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +102,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.store.delete',
             params: {
-              id: 1,
+              id: 37,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -130,7 +132,7 @@
 
     try:
         bitrix_response = client.catalog.store.delete(
-            bitrix_id=1,
+            bitrix_id=37,
         ).response
         result = bitrix_response.result
         print(result)
@@ -149,7 +151,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -157,21 +158,17 @@
             ->call(
                 'catalog.store.delete',
                 [
-                    'id' => 1,
+                    'id' => 37,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting store: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -181,14 +178,14 @@
     BX24.callMethod(
         'catalog.store.delete',
         {
-            id: 1,
+            id: 37,
         },
-        function(result) {
-            if (result.error()) {
+        function(result)
+        {
+            if (result.error())
                 console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+            else
+                console.log(result.data());
         }
     );
     ```
@@ -201,7 +198,7 @@
     $result = CRest::call(
         'catalog.store.delete',
         [
-            'id' => 1
+            'id' => 37,
         ]
     );
 
@@ -215,15 +212,18 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.store.delete", b24.Params{
-    	"id": 1,
+    	"id": 37,
     })
     if err != nil {
     	return fmt.Errorf("catalog.store.delete: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    // Метод возвращает true, если склад удален.
+    var deleted bool
+    if err := json.Unmarshal(res.Result, &deleted); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(deleted)
     ```
 
 {% endlist %}
@@ -236,12 +236,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1729516191.298727,
-        "finish": 1729516191.799495,
-        "duration": 0.5007679462432861,
-        "processing": 0.16301894187927246,
-        "date_start": "2024-10-21T16:09:51+03:00",
-        "date_finish": "2024-10-21T16:09:51+03:00",
+        "start": 1793874045,
+        "finish": 1793874045.267999,
+        "duration": 0.26799893379211426,
+        "processing": 0,
+        "date_start": "2026-11-05T13:20:45+03:00",
+        "date_finish": "2026-11-05T13:20:45+03:00",
+        "operating_reset_at": 1793874600,
+        "operating": 0
     }
 }
 ```
@@ -252,7 +254,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления склада ||
+[`boolean`](../../data-types.md) | Результат удаления. Возвращает `true`, если склад удален ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -262,9 +264,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":200040300020,
-    "error_description":"Access Denied"
+{
+    "error": "0",
+    "error_description": "На данный склад оформлены документы"
 }
 ```
 
@@ -273,12 +275,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для удаления склада ||
-|| `201100000000` | Склад с указанным идентификатором не найден ||
-|| `100` | Не указан или пустой параметр `id` ||
-|| `0` | На данный склад оформлены документы || 
-|| `0` | Другие ошибки (например, фатальные ошибки) || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Редактирование складов» или склад ему недоступен ||
+|| `400` | `201100000000` | store does not exist. | Склад с указанным `id` не найден ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
+|| `400` | `0` | На данный склад оформлены документы | Склад указан в позициях документов складского учета, в том числе непроведенных ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -290,4 +292,3 @@ HTTP-статус: **400**
 - [{#T}](./catalog-store-get.md)
 - [{#T}](./catalog-store-list.md)
 - [{#T}](./catalog-store-get-fields.md)
-

@@ -102,5 +102,12 @@
     }
   ],
   "page": "/api-reference/mail/mailbox/mail-mailbox-senders.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "pagination": {
+      "page": 1,
+      "limit": 20,
+      "offset": 0
+    }
+  }
 }

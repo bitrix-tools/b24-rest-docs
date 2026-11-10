@@ -61,5 +61,34 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/imopenlines-config-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CONFIG_ID": 15,
+    "PARAMS": {
+      "LINE_NAME": "Линия поддержки интернет-магазина (VIP)",
+      "QUEUE": [
+        {
+          "ENTITY_TYPE": "user",
+          "ENTITY_ID": "1"
+        },
+        {
+          "ENTITY_TYPE": "user",
+          "ENTITY_ID": "15"
+        },
+        {
+          "ENTITY_TYPE": "user",
+          "ENTITY_ID": "23"
+        }
+      ],
+      "QUEUE_TYPE": "strictly",
+      "QUEUE_TIME": 45,
+      "NO_ANSWER_TIME": 120,
+      "WELCOME_MESSAGE": "Y",
+      "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
+      "WORKTIME_ENABLE": "Y",
+      "WORKTIME_FROM": "09:00",
+      "WORKTIME_TO": "21:00",
+      "WORKTIME_TIMEZONE": "Europe/Kaliningrad"
+    }
+  }
 }

@@ -87,5 +87,13 @@
     }
   ],
   "page": "/api-reference/crm/leads/management-communication/crm-lead-contact-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "CONTACT_ID": 1010,
+      "SORT": 10,
+      "IS_PRIMARY": "Y"
+    }
+  }
 }

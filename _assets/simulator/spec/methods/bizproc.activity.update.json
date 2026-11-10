@@ -34,7 +34,7 @@
           "name": "HANDLER",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "URL, на который действие будет отправлять данные через сервер очередей bitrix24. В ссылке должен быть тот же домен, на котором установлено приложение"
         },
         {
@@ -49,13 +49,23 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Должно ли действие ожидать ответа от приложения. Возможные значения: - Y — да - N — нет"
+          "description": "Должно ли действие ожидать ответа от приложения. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "NAME",
           "type": "string",
           "base": "string",
-          "required": true,
+          "required": false,
           "description": "Название действия. Может быть строкой или ассоциативным массивом локализированных строк вида:"
         },
         {
@@ -98,14 +108,24 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Дает возможность открывать дополнительные настройки действия в слайдере приложения. Возможные значения: - Y — да - N — нет"
+          "description": "Дает возможность открывать дополнительные настройки действия в слайдере приложения. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "PLACEMENT_HANDLER",
           "type": "string",
           "base": "string",
-          "required": true,
-          "description": "URL обработчика встройки на стороне приложения. Обязательное, если USE_PLACEMENT = 'Y'"
+          "required": false,
+          "description": "URL обработчика встройки на стороне приложения"
         }
       ]
     }

@@ -9,14 +9,16 @@
 
 {% endnote %}
 
+> Scope: [`базовый`](../scopes/permissions.md)
+>
 > Кто может выполнять метод: любой пользователь
 
-Метод `event.unbind` выполняет отмену зарегистрированного обработчика события.
+Метод `event.unbind` удаляет обработчики события, зарегистрированные приложением методом [event.bind](./event-bind.md). В BX24.js для метода есть обертка [BX24.callUnbind](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-unbind.md).
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Может работать как при авторизации под пользователем с правами администрирования Битрикс24, так и под обычным пользователем. Метод для пользователя без прав администратора доступен с ограничениями:
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Пользователю без прав администратора метод доступен с ограничениями:
 
-1. Офлайн-события недоступны
-2. Можно удалить только обработчики online-событий, зарегистрированные для текущего пользователя
+- офлайн-события недоступны: вызов с `event_type=offline` вернет ошибку `ACCESS_DENIED`
+- удалить можно только свои обработчики онлайн-событий
 
 ## Параметры метода
 
@@ -26,23 +28,25 @@
 || **Название**
 `тип` | **Описание** ||
 || **event***
-[`string`](../data-types.md) | Имя события ||
+[`string`](../data-types.md) | Код события, например `ONCRMLEADADD`. Регистр не важен ||
 || **handler***
-[`string`](../data-types.md) | Ссылка на обработчик события ||
+[`string`](../data-types.md) | URL обработчика, указанный при регистрации. Обязателен для онлайн-событий. При `event_type=offline` значение игнорируется ||
 || **auth_type**
-[`integer`](../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события.
+[`integer`](../data-types.md) | Идентификатор пользователя, под которым авторизуется обработчик события. Без параметра администратор удаляет обработчики всех пользователей, а пользователь без прав администратора — только свои. Пользователю без прав администратора параметр передавать не нужно: если он передан, допустим только собственный ID целым числом, а строка `"15"` или `0` вернут ошибку `ACCESS_DENIED`. При `event_type=offline` параметр не учитывается
 
 {% note info %}
 
-Если требуется удалить обработчики события, установленные с пустым `auth_type` (с авторизацией от имени пользователя, вызвавшего событие), но оставить остальные обработчики, указывайте `auth_type=0` или пустое значение параметра.
+Чтобы удалить только обработчики, которые авторизуются от имени пользователя, вызвавшего событие, администратор передает `auth_type=0`. Обработчики с другим `auth_type` останутся.
 
-{% endnote %} 
+{% endnote %}
 ||
 || **event_type**
-[`string`](../data-types.md) | Значения: ```online|offline```. По умолчанию `event_type=online`, и поведение метода не меняется. Если вызывается `event_type=offline`, то метод работает с [офлайн-событиями](./offline-events.md) ||
+[`string`](../data-types.md) | Тип подписки: `online` или `offline`, регистр не важен. По умолчанию `online`. При `offline` метод работает с [офлайн-событиями](./offline-events.md) ||
+|| **auth_connector**
+[`string`](../data-types.md) | Ключ источника. Учитывается только при `event_type=offline`: удаляются офлайн-обработчики с тем же `auth_connector`, что передан в [event.bind](./event-bind.md). Без параметра удаляются обработчики без ключа источника ||
 |#
 
-Если какие-либо параметры не указаны, то будут удалены все обработчики события, удовлетворяющие остальным требованиям.
+Метод удаляет все обработчики приложения, которые совпали по переданным параметрам.
 
 ## Примеры кода
 
@@ -150,7 +154,7 @@
     try:
         bitrix_response = client.event.unbind(
             event="ONCRMLEADADD",
-            handler="https://www.my-domain.com/handler/",
+            handler="https://www.my-domain.ru/handler/",
             auth_type=15,
         ).response
         result = bitrix_response.result
@@ -193,9 +197,9 @@
     $result = CRest::call(
         'event.unbind',
         [
-            'EVENT' => 'ONCRMLEADADD',
-            'HANDLER' => 'https://www.my-domain.ru/handler/',
-            'AUTH_TYPE' => 15
+            'event' => 'ONCRMLEADADD',
+            'handler' => 'https://www.my-domain.ru/handler/',
+            'auth_type' => 15
         ]
     );
 
@@ -210,7 +214,7 @@
 
 HTTP-статус: **200**
 
-Метод возвращает количество удаленных при вызове обработчиков событий.
+Метод возвращает количество удаленных обработчиков.
 
 ```json
 {
@@ -235,9 +239,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
+[`object`](../data-types.md) | Результат удаления [(подробное описание)](#result) ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **count**
+[`integer`](../data-types.md) | Количество удаленных обработчиков. Если подходящих обработчиков нет — `0` ||
 |#
 
 ## Обработка ошибок
@@ -257,18 +270,20 @@ HTTP-статус: **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `ACCESS_DENIED` | Access denied! Offline events unbinding requires administrator access rights | Метод запустил не администратор при удалении обработчика офлайн-события ||
-|| `403` | `ACCESS_DENIED` | Access denied! Event unbinding with AUTH_TYPE requires administrator access rights | Метод запустил не администратор и указал `auth_type` другого пользователя ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'EVENT' is null or empty | Не передан параметр `event` ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'HANDLER' is null or empty | Не передан параметр `handler` для онлайн-события ||
+|| `400` | `ERROR_ARGUMENT` | ```Value must be one of {online|offline}``` | Передано недопустимое значение `event_type` ||
+|| `403` | `ACCESS_DENIED` | Access denied! Offline events unbinding requires administrator access rights | Метод вызвал не администратор с `event_type=offline` ||
+|| `403` | `ACCESS_DENIED` | Access denied! Event unbinding with AUTH_TYPE requires administrator access rights | Метод вызвал не администратор и передал `auth_type`, не равный своему ID целым числом ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `WRONG_LICENSE` | This feature is not enabled for the current license: auth_connector | Передан `auth_connector`, а тариф не поддерживает ключи источников ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Смотрите также
-
-- [{#T}](../../sdk/bx24-js-sdk/how-to-call-rest-methods/bx24-call-unbind.md)
-
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./events.md)
 - [{#T}](./event-bind.md)
 - [{#T}](./event-get.md)

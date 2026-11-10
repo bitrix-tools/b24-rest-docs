@@ -111,5 +111,14 @@
     }
   ],
   "page": "/api-reference/sale/person-type/sale-person-type-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Физическое лицо",
+      "sort": "100",
+      "active": "Y",
+      "code": "MY_CRM_COMPANY",
+      "xmlId": "myXmlId"
+    }
+  }
 }

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 `crm.activity.field.list` из группы [Дела](../../../rest-v3/activities/index.md). Часть полей дела метод REST 3.0 не возвращает: настройки `settings`, данные провайдера `providerParams`, `location`, `status`, `priority` и другие. Если они нужны, используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.activity.fields` возвращает описание полей системного дела.
 
 ## Параметры метода
@@ -161,17 +167,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching CRM activity fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

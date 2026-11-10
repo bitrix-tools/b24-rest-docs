@@ -46,7 +46,21 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Формат упоминаний пользователей в текстовых AI-полях. Возможные значения: - bb — BBCode-формат - html — HTML-формат - none — текст без разметки упоминаний По умолчанию: bb"
+      "description": "Формат упоминаний пользователей в текстовых AI-полях. Возможные значения: - bb — BBCode-формат - html — HTML-формат - none — текст без разметки упоминаний По умолчанию: bb",
+      "values": [
+        {
+          "value": "bb",
+          "title": "BBCode-формат"
+        },
+        {
+          "value": "html",
+          "title": "HTML-формат"
+        },
+        {
+          "value": "none",
+          "title": "текст без разметки упоминаний По умолчанию: bb"
+        }
+      ]
     }
   ],
   "defs": {
@@ -85,7 +99,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Направление сортировки по дате начала звонка. Возможные значения: - asc — по возрастанию - desc — по убыванию По умолчанию: desc"
+          "description": "Направление сортировки по дате начала звонка. Возможные значения: - asc — по возрастанию - desc — по убыванию По умолчанию: desc",
+          "values": [
+            {
+              "value": "asc",
+              "title": "по возрастанию"
+            },
+            {
+              "value": "desc",
+              "title": "по убыванию По умолчанию: desc"
+            }
+          ]
         }
       ]
     },
@@ -209,5 +233,27 @@
     "overview",
     "participants",
     "startDate"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "startDate": {
+        "from": "2026-01-01T00:00:00Z",
+        "to": "2026-01-31T23:59:59Z"
+      }
+    },
+    "select": [
+      "callId",
+      "startDate",
+      "participants",
+      "overview.topic",
+      "overview.actionItems"
+    ],
+    "order": {
+      "startDate": "desc"
+    },
+    "pagination": {
+      "limit": 20
+    },
+    "mentionFormat": "html"
+  }
 }

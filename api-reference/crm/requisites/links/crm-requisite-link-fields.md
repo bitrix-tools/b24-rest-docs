@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте методы REST 3.0 `crm.<тип>.clientrequisite.field.list` и `crm.<тип>.mycompanyrequisite.field.list` из группы [Реквизиты](../../rest-v3/requisites/index.md). Реквизит моей компании методы REST 3.0 выбирают только в сделке и счете, для предложений и смарт-процессов используйте этот метод.
+
+{% endnote %}
+
 Метод возвращает формальное описание полей связи реквизитов.
 
 Без параметров.
@@ -158,16 +164,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error calling crm.requisite.link.fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

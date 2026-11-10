@@ -190,5 +190,12 @@
     }
   ],
   "page": "/api-reference/timeman/base/timeman-close.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "USER_ID": 503,
+    "TIME": "2025-03-27T17:00:01+00:00",
+    "REPORT": "Забыла закрыть рабочий день",
+    "LAT": 53.548841,
+    "LON": 9.987274
+  }
 }

@@ -97,5 +97,8 @@
     "ENTITY_ID",
     "ENTITY_TYPE",
     "FILES"
-  ]
+  ],
+  "requestExample": {
+    "id": 999
+  }
 }

@@ -154,7 +154,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.landing.landing.mark_deleted_block(
+        bitrix_response = client.landing.landing.markdeletedblock(
             lid=351,
             block=6428,
         ).response

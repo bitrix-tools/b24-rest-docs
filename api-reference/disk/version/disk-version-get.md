@@ -282,7 +282,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о версии ||
+[`object`](../../data-types.md) | Объект с данными о версии [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор версии ||
 || **OBJECT_ID**
@@ -299,8 +308,6 @@ HTTP-статус: **200**
 [`integer`](../../data-types.md) | Идентификатор пользователя, который создал версию ||
 || **DOWNLOAD_URL**
 [`string`](../../data-types.md) | Ссылка на скачивание версии ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -310,7 +317,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_ARGUMENT",
-    "error_description":"Invalid value of parameter `id`"
+    "error_description":"Invalid value of parameter { Parameter #0 [ <required> $id ] }."
 }
 ```
 
@@ -319,16 +326,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | Invalid value of parameter `id` | Параметр `id` не передан или имеет недопустимый тип ||
-|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Версия с указанным `id` не найдена ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав на чтение файла ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid value of parameter { Parameter #0 [ <required> $id ] }. | Параметр `id` не передан ||
+|| `400` | `ERROR_NOT_FOUND` | Could not find entity with id 'X'. | Версия с указанным `id` не найдена или значение `id` нельзя сопоставить с существующей версией ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Недостаточно прав на чтение файла ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](../../../tutorials/tasks/how-to-create-comment-with-file.md)
-- [{#T}](../../../tutorials/tasks/how-to-create-task-with-file.md)
-- [{#T}](../../../tutorials/tasks/how-to-upload-file-to-task.md)
+- [{#T}](../file/disk-file-get-versions.md)
+- [{#T}](../file/disk-file-get.md)
+- [{#T}](../index.md)

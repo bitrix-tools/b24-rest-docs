@@ -46,7 +46,7 @@
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Возвращает true, если пункт чек-листа успешно отмечен как невыполненный. Возвращает false, если указанный ITEMID не существует или параметры переданы в неверном порядке"
+      "description": "Возвращает true, если пункт чек-листа отмечен как невыполненный. Повторный вызов для уже невыполненного пункта тоже возвращает true. Возвращает false, если пункта с идентификатором ITEMID не существует. Тот же результат вернется, если нарушить порядок параметров: метод примет значение ITEMID за идентификатор задачи"
     },
     {
       "name": "time",
@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/tasks/checklist-item/task-checklist-item-renew.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "TASKID": 13,
+    "ITEMID": 475
+  }
 }

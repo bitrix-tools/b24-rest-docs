@@ -95,5 +95,12 @@
     }
   ],
   "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "shipmentId": 2471,
+      "paymentId": 1025,
+      "xmlId": "myXmlId"
+    }
+  }
 }

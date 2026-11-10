@@ -11,9 +11,11 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
-Метод `sale.shipmentitem.list` позволяет получить список элементов табличной части отгрузки. 
+Метод `sale.shipmentitem.list` возвращает элементы табличных частей отгрузок: какие позиции корзины и в каком количестве входят в отгрузку.
+
+В выборку попадают и элементы системной отгрузки, в которой числится нераспределенный товар заказа. Ее `orderDeliveryId` нет в ответе метода [sale.shipment.list](../shipment/sale-shipment-list.md). Подробнее — в [обзоре раздела](./index.md#quantity).
 
 ## Параметры метода
 
@@ -23,13 +25,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта [sale_order_shipment_item](../data-types.md#sale_order_shipment_item)).
+[`array`](../../data-types.md) | Список полей, которые нужно вернуть. Доступные поля — в объекте [sale_order_shipment_item](../data-types.md#sale_order_shipment_item).
 
-Если не передан или передан пустой массив, то будут выбраны все доступные поля элементов табличной части отгрузки. ||
+Если не передан или передан пустой массив, возвращаются все поля ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных элементов табличной части отгрузки в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
 Возможные значения для `field` соответствуют полям объекта [sale_order_shipment_item](../data-types.md#sale_order_shipment_item).
+
+Чтобы получить состав одной отгрузки, фильтруйте по `orderDeliveryId`.
+
+Неизвестные поля в `select`, `filter` и `order` метод игнорирует без ошибки. Если ошибиться в имени поля в `filter`, метод вернет все записи.
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -38,25 +44,25 @@
 - `<` — меньше
 - `@` — IN (в качестве значения передается массив)
 - `!@` — NOT IN (в качестве значения передается массив)
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Подстрока ищется в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - "мол%" — ищем значения, начинающиеся с «мол»
     - "%мол" — ищем значения, заканчивающиеся на «мол»
     - "%мол%" — ищем значения, где «мол» может быть в любой позиции
 
-- `%=` — LIKE (см. описание выше)
+- `%=` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении, как для `=%`
 
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Возвращаются значения, в которых подстроки нет ни в одной позиции
 
 - `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - "мол%" — ищем значения, не начинающиеся с «мол»
     - "%мол" — ищем значения, не заканчивающиеся на «мол»
     - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
 
-- `!%=` — NOT LIKE (см. описание выше)
+- `!%=` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении, как для `!=%`
 
 - `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно
+- `!=` — не равно
 - `!` — не равно
  ||
 || **order**
@@ -66,17 +72,19 @@
 
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
-- `desc` — в порядке убывания ||
+- `desc` — в порядке убывания
+
+По умолчанию элементы сортируются по возрастанию `id` ||
 || **start**
-[`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
+[`integer`](../../data-types.md) | Смещение для постраничной навигации. Размер страницы — 50 записей. По умолчанию `0` — первая страница.
 
-Размер страницы результатов всегда статичный: 50 записей.
-
-Чтобы выбрать вторую страницу результатов, необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+Для второй страницы передайте `50`, для третьей — `100` и так далее.
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Значение для следующей страницы приходит в поле `next` ответа ||
 |#
 
 ## Примеры кода
@@ -87,21 +95,21 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","orderDeliveryId","basketId","quantity","xmlId","dateInsert","reservedQuantity"],"filter":{"<id":10,"@orderDeliveryId":[2431,2430],"basketId":2716},"order":{"id":"desc"}}' \
+    -d '{"select":["id","orderDeliveryId","basketId","quantity","xmlId","dateInsert","reservedQuantity"],"filter":{"<id":10,"@orderDeliveryId":[2431,2430],"basketId":2716},"order":{"id":"desc"},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.shipmentitem.list
     ```
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","orderDeliveryId","basketId","quantity","xmlId","dateInsert","reservedQuantity"],"filter":{"<id":10,"@orderDeliveryId":[2431,2430],"basketId":2716},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","orderDeliveryId","basketId","quantity","xmlId","dateInsert","reservedQuantity"],"filter":{"<id":10,"@orderDeliveryId":[2431,2430],"basketId":2716},"order":{"id":"desc"},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.shipmentitem.list
     ```
 
@@ -258,7 +266,7 @@
             order={
                 "id": "desc",
             },
-            start='1712819741.592596',
+            start=0,
         ).response
         result = bitrix_response.result
         print(result)
@@ -302,6 +310,7 @@
                     'order' => [
                         'id' => 'desc',
                     ],
+                    'start' => 0,
                 ]
             );
     
@@ -338,7 +347,8 @@
             },
             "order": {
                 "id": "desc",
-            }
+            },
+            "start": 0
         },
         function(result) {
             if (result.error()) {
@@ -374,7 +384,8 @@
             ],
             'order' => [
                 "id" => "desc",
-            ]
+            ],
+            'start' => 0
         ]
     );
 
@@ -397,6 +408,7 @@
     	"order": b24.Params{
     		"id": "desc",
     	},
+    	"start": 0,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("sale.shipmentitem.list: %w", err)
@@ -413,8 +425,8 @@
     	DateInsert       string `json:"dateInsert"`
     	ID               b24.ID `json:"id"`
     	OrderDeliveryID  b24.ID `json:"orderDeliveryId"`
-    	Quantity         int    `json:"quantity"`
-    	ReservedQuantity int    `json:"reservedQuantity"`
+    	Quantity         float64 `json:"quantity"`
+    	ReservedQuantity float64 `json:"reservedQuantity"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -472,13 +484,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **shipmentItems**
-[`sale_order_shipment_item[]`](../data-types.md) | Массив объектов с информацией о выбранных элементах табличной части отгрузки ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|| **next**
+[`integer`](../../data-types.md) | Значение `start` для следующей страницы. Возвращается, если найдено больше записей, чем уместилось на текущей странице ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **shipmentItems**
+[`sale_order_shipment_item[]`](../data-types.md#sale_order_shipment_item) | Массив элементов табличной части отгрузки. Набор полей в каждом элементе задает параметр `select`. Если ничего не найдено, массив пустой ||
 |#
 
 ## Обработка ошибок
@@ -487,8 +508,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error":"200040300010",
+    "error_description":"Access Denied"
 }
 ```
 
@@ -498,14 +519,23 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения элемента табличной части отгрузки ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения элементов табличной части отгрузки ||
+|| `100` | `Invalid order "<VALUE>"`
+
+В `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `100` | `Order must be a string`
+
+Направление сортировки в `order` передано не строкой ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-shipment-item-add.md)
 - [{#T}](./sale-shipment-item-update.md)
 - [{#T}](./sale-shipment-item-get.md)

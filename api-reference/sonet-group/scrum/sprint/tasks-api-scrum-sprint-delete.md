@@ -15,7 +15,7 @@
 
 Метод `tasks.api.scrum.sprint.delete` удаляет спринт.
 
-При удалении спринта с задачами задачи будут перемещены в бэклог.
+Метод удаляет спринт в любом статусе, в том числе завершенный. Задачи спринта не удаляются, а переходят в бэклог Скрама.
 
 ## Параметры метода
 
@@ -25,7 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор спринта ||
+[`integer`](../../../data-types.md) | Идентификатор спринта.
+
+Идентификатор можно получить методом [tasks.api.scrum.sprint.list](./tasks-api-scrum-sprint-list.md) ||
 |#
 
 ## Примеры кода
@@ -68,7 +70,7 @@
     declare const $b24: B24Frame
 
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<[]>({
         method: 'tasks.api.scrum.sprint.delete',
         params: {
           id: 1,
@@ -149,8 +151,12 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
     ```php
+    $sprintId = 1;
+
     try {
         $response = $b24Service
             ->core
@@ -233,11 +239,30 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result" : []
+    "result": [],
+    "time": {
+        "start": 1790580587,
+        "finish": 1790580587.569156,
+        "duration": 0.5691559314727783,
+        "processing": 0,
+        "date_start": "2026-09-28T10:29:47+03:00",
+        "date_finish": "2026-09-28T10:29:47+03:00",
+        "operating_reset_at": 1790581187,
+        "operating": 0
+    }
 }
 ```
 
-При успешном удалении метод возвращает пустой массив.
+### Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Пустой массив при успешном удалении ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 
@@ -255,13 +280,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `0` | `Access denied` | Нет доступа к Скраму ||
-|| `0` | `Sprint not found` | Такого спринта не существует ||
-|| `0` | `It is forbidden remove a sprint with items` | Нельзя удалить спринт, в котором есть задачи ||
-|| `0` | `Sprint items have not been moved to backlog` | Не удалось переместить задачи из спринта в бэклог ||
-|| `100` | `Could not find value for parameter {id}` | Неверно указано имя параметра или не задан параметр ||
-|| `100` | `Invalid value {stringValue} to match with parameter {id}. Should be value of type int` | Неверный тип параметра ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | `Access denied` | Нет доступа к Скраму ||
+|| `400` | `0` | `Sprint not found` | Спринт с указанным `id` не найден ||
+|| `400` | `0` | `It is forbidden remove a sprint with items` | В спринте есть задачи, а у Скрама нет бэклога, куда их можно перенести ||
+|| `400` | `0` | `Sprint items have not been moved to backlog` | Не удалось переместить задачи из спринта в бэклог ||
+|| `400` | `0` | `Sprint not deleted` | Не удалось удалить спринт ||
+|| `400` | `100` | `Could not find value for parameter {id}` | Не передан параметр `id` ||
+|| `400` | `100` | `Invalid value {stringValue} to match with parameter {id}. Should be value of type int` | Параметр `id` не является числом ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -270,8 +296,8 @@ HTTP-статус: **400**
 
 - [{#T}](./tasks-api-scrum-sprint-add.md)
 - [{#T}](./tasks-api-scrum-sprint-update.md)
-- [{#T}](./tasks-api-scrum-sprint-start.md)
-- [{#T}](./tasks-api-scrum-sprint-complete.md)
 - [{#T}](./tasks-api-scrum-sprint-get.md)
 - [{#T}](./tasks-api-scrum-sprint-list.md)
+- [{#T}](./tasks-api-scrum-sprint-start.md)
+- [{#T}](./tasks-api-scrum-sprint-complete.md)
 - [{#T}](./tasks-api-scrum-sprint-get-fields.md)

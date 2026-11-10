@@ -143,5 +143,13 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-move-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 26723,
+    "params": {
+      "AFTER_ID": 6429,
+      "RETURN_CONTENT": "Y"
+    }
+  }
 }

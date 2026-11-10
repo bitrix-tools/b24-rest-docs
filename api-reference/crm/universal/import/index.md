@@ -17,7 +17,7 @@
 
 ## Какие объекты можно импортировать
 
-Перед импортом укажите, данные каких объектов нужно перенести в CRM. Для этого в запросе передайте `entityTypeId` — числовой код объекта CRM, куда Битрикс24 сохранит эту информацию.
+Перед импортом выберите тип объекта CRM и передайте его числовой идентификатор в `entityTypeId`.
 
 Если переносите сделки, передайте `2`; если контакты — `3`; если новые счета — `31`. Полный список системных значений смотрите в [справочнике типов объектов CRM](../../data-types.md#object_type).
 
@@ -33,10 +33,9 @@
 
 ## Как начать работу
 
-1. Выберите объект CRM, данные которого нужно перенести, и передайте его код в `entityTypeId`.
-2. Получите список полей выбранного объекта CRM методом [crm.item.fields](../crm-item-fields.md) или методом для определенного объекта CRM: [crm.lead.fields](../../leads/crm-lead-fields.md), [crm.deal.fields](../../deals/crm-deal-fields.md), [crm.contact.fields](../../contacts/crm-contact-fields.md), [crm.company.fields](../../companies/crm-company-fields.md), [crm.quote.fields](../../quote/crm-quote-fields.md)
-3. Передайте данные одного элемента методом [crm.item.import](./crm-item-import.md) или до 20 элементов методом [crm.item.batchImport](./crm-item-batch-import.md)
-4. Если импортируете пользовательские поля, выберите формат их имен через `useOriginalUfNames`: оригинальные имена вида `UF_CRM_2_1639669411830` или имена в camelCase вида `ufCrm2_1639669411830`
+1. Получите список полей выбранного объекта методом [crm.item.fields](../crm-item-fields.md). Для системных объектов также доступны отдельные методы полей: [crm.lead.fields](../../leads/crm-lead-fields.md), [crm.deal.fields](../../deals/crm-deal-fields.md), [crm.contact.fields](../../contacts/crm-contact-fields.md), [crm.company.fields](../../companies/crm-company-fields.md), [crm.quote.fields](../../quote/crm-quote-fields.md)
+2. Передайте данные одного элемента методом [crm.item.import](./crm-item-import.md) или до 20 элементов методом [crm.item.batchImport](./crm-item-batch-import.md)
+3. Если импортируете пользовательские поля, выберите формат их имен через `useOriginalUfNames`: оригинальные имена вида `UF_CRM_2_1639669411830` или имена в camelCase вида `ufCrm2_1639669411830`
 
 ## Что важно учитывать
 
@@ -70,9 +69,9 @@
 
 ## Связь с другими объектами
 
-**Элементы CRM.** Импорт создает элементы определенного типа CRM. Связь задается через `entityTypeId` в методах [crm.item.import](./crm-item-import.md) и [crm.item.batchImport](./crm-item-batch-import.md). Идентификатор созданного элемента возвращается в ответе метода.
+**Элементы CRM.** Метод [crm.item.import](./crm-item-import.md) возвращает идентификатор созданного элемента в `result.item.id`. Метод [crm.item.batchImport](./crm-item-batch-import.md) возвращает массив `result.items`. Каждый элемент массива содержит объект `item` с идентификатором или поля `error` и `error_description` с данными об ошибке.
 
-**Поля CRM.** Набор полей зависит от типа CRM-объекта. Перед импортом получите описание полей универсальным методом [crm.item.fields](../crm-item-fields.md) или методом полей нужного объекта CRM.
+**Поля CRM.** Набор полей зависит от типа объекта. В одиночном запросе значения передают в объекте `fields`, в групповом — в элементах массива `data`.
 
 **Смарт-процессы.** Для импорта элементов смарт-процесса передайте в `entityTypeId` его идентификатор. Получить идентификатор можно методом [crm.type.list](../user-defined-object-types/crm-type-list.md).
 
@@ -80,7 +79,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом импорта элемента объекта CRM
+> Кто может выполнять метод: пользователь с правом на импорт элементов CRM
 
 #|
 || **Метод** | **Описание** ||

@@ -5,7 +5,15 @@ items:
     href: index.md
   - name: Получить значения полей наценки
     href: catalog-extra-get.md
+  - name: Получить значения полей наценки по идентификатору v 3.0
+    href: catalog-extra-get-rest-v3.md
   - name: Получить список наценок
     href: catalog-extra-list.md
+  - name: Получить список наценок v 3.0
+    href: catalog-extra-list-rest-v3.md
   - name: Получить поля наценки
     href: catalog-extra-get-fields.md
+  - name: Получить список полей наценки v 3.0
+    href: catalog-extra-field-list.md
+  - name: Получить поле наценки
+    href: catalog-extra-field-get.md

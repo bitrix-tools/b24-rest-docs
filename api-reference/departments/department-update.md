@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: пользователь с правами на изменение структуры
 
-Метод `department.update` изменяет данные подразделения в структуре компании. 
+Метод `department.update` изменяет подразделение в структуре компании. Поля, которые не переданы, остаются прежними.
+
+Метод относится к прежней версии API. В REST 3.0 название меняет [humanresources.node.edit](./node/humanresources-node-edit.md), переносит подразделение [humanresources.node.move](./node/humanresources-node-move.md), а руководителя назначают [методы участников](./node-member/index.md). Соответствие методов — в [обзоре раздела](./index.md#v2-v3).
 
 ## Параметры метода
 
@@ -23,15 +25,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../data-types.md) | Иидентификатор подразделения ||
+[`integer`](../data-types.md) | Идентификатор подразделения.
+
+Идентификатор можно получить методом [department.get](./department-get.md) ||
 || **NAME**
 [`string`](../data-types.md) | Название подразделения ||
 || **SORT**
 [`integer`](../data-types.md) | Поле сортировки подразделения ||
 || **PARENT**
-[`integer`](../data-types.md) | Идентификатор родительского подразделения ||
+[`integer`](../data-types.md) | Идентификатор родительского подразделения.
+
+Передавайте число. Если передана строка, которая не является числом, в том числе пустая, метод вернет ошибку `PARENT must be numeric.` ||
 || **UF_HEAD**
-[`integer`](../data-types.md) | Идентификатор пользователя, который будет руководителем подразделения ||
+[`integer`](../data-types.md) | Идентификатор пользователя, который будет руководителем подразделения. Чтобы снять руководителя, передайте `0`.
+
+Идентификатор пользователя можно получить методом [user.get](../user/user-get.md) ||
 |#
 
 ## Примеры кода
@@ -42,61 +50,104 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
         "ID": 18,
-        "NAME": "Отдел тайн",
-        "SORT": 500,
-        "UF_HEAD": 1,
-        "PARENT": 1
+        "NAME": "Отдел продаж в регионах",
+        "SORT": 500
     }' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/department.update
     ```
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
         "ID": 18,
-        "NAME": "Отдел тайн",
+        "NAME": "Отдел продаж в регионах",
         "SORT": 500,
-        "UF_HEAD": 1,
-        "PARENT": 1,
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/department.update
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		'department.update',
-    		{
-    			"ID": 18,
-    			"NAME": "Отдел тайн",
-    			"SORT": 500,
-    			"UF_HEAD": 1,
-    			"PARENT": 1
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.log(result);
+    declare const $b24: B24Frame
+
+    try {
+      const response = await $b24.actions.v2.call.make<boolean>({
+        method: 'department.update',
+        params: {
+          ID: 18,
+          NAME: 'Отдел продаж в регионах',
+          SORT: 500,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Updated:', result)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
-    catch( error )
-    {
-    	console.error(error.ex);
-    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function updateDepartment() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'department.update',
+            params: {
+              ID: 18,
+              NAME: 'Отдел продаж в регионах',
+              SORT: 500,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Updated:', result)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', updateDepartment)
+    </script>
     ```
 
 - Python
@@ -106,11 +157,9 @@
 
     try:
         bitrix_response = client.department.update(
-            bitrix_id=42,
-            name="Regional Sales Department",
-            sort=600,
-            parent=1,
-            uf_head=1,
+            bitrix_id=18,
+            name="Отдел продаж в регионах",
+            sort=500,
         ).response
         result = bitrix_response.result
         print(result)
@@ -129,7 +178,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -137,27 +185,19 @@
             ->call(
                 'department.update',
                 [
-                    'ID'     => 18,
-                    'NAME'   => 'Отдел тайн',
-                    'SORT'   => 500,
-                    'UF_HEAD' => 1,
-                    'PARENT' => 1
+                    'ID'   => 18,
+                    'NAME' => 'Отдел продаж в регионах',
+                    'SORT' => 500,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error()->ex);
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating department: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -167,18 +207,16 @@
     BX24.callMethod(
         'department.update',
         {
-            "ID": 18,
-            "NAME": "Отдел тайн",
-            "SORT": 500,
-            "UF_HEAD": 1,
-            "PARENT": 1
+            ID: 18,
+            NAME: 'Отдел продаж в регионах',
+            SORT: 500,
         },
-        function(result)
-        {
-            if(result.error())
-                console.error(result.error().ex);
-            else
-                console.log(result.data());
+        function(result) {
+            if (result.error()) {
+                console.error(result.error());
+            } else {
+                console.info(result.data());
+            }
         }
     );
     ```
@@ -191,11 +229,9 @@
     $result = CRest::call(
         'department.update',
         [
-            'ID' => '18',
-            'NAME' => 'Отдел тайн',
+            'ID'   => 18,
+            'NAME' => 'Отдел продаж в регионах',
             'SORT' => 500,
-            'UF_HEAD' => 1,
-            'PARENT' => 1,
         ]
     );
 
@@ -209,11 +245,9 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "department.update", b24.Params{
-    	"ID":      18,
-    	"NAME":    "Отдел тайн",
-    	"SORT":    500,
-    	"UF_HEAD": 1,
-    	"PARENT":  1,
+    	"ID":   18,
+    	"NAME": "Отдел продаж в регионах",
+    	"SORT": 500,
     })
     if err != nil {
     	return fmt.Errorf("department.update: %w", err)
@@ -253,9 +287,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Результат изменения отдела в структуре компании ||
+[`boolean`](../data-types.md) | `true`, если подразделение изменено. При неудаче метод возвращает ошибку ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -264,7 +298,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_CORE",
+    "error": "510",
     "error_description": "Department not found"
 }
 ```
@@ -274,15 +308,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_CORE` | Department not found | Обновляемый отдел не найден ||
-|| `ERROR_CORE` | Access denied | Недостаточно прав для измения отдела ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `510` | Department not found | Не передан `ID` или подразделения с таким идентификатором нет ||
+|| `400` | `ERROR_ARGUMENT` | PARENT must be numeric. | В `PARENT` передана строка, которая не является числом, в том числе пустая ||
+|| `400` | Пустое значение | `Неверный раздел-родитель!<br>` | Подразделения с идентификатором из `PARENT` нет ||
+|| `400` | `ERROR_CORE` | В структуре компании должен быть только один раздел верхнего уровня. | В `PARENT` передан `0`. Подразделение верхнего уровня в структуре компании может быть только одно ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет права изменять структуру компании ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./department-add.md)
 - [{#T}](./department-get.md)
 - [{#T}](./department-delete.md)

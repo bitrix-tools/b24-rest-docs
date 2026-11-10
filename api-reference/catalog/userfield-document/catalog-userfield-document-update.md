@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Создание и редактирование» на нужный тип документа
+> Кто может выполнять метод: пользователь с правами «Просмотр» и «Создание и редактирование» для документов этого типа, а также «Просмотр каталога товаров» и «Просмотр раздела Складской учет»
 
 Метод `catalog.userfield.document.update` обновляет значения пользовательских полей документа складского учета.
 
@@ -36,14 +36,18 @@
 || **Название**
 `тип` | **Описание** ||
 || **documentType***
-[`string`](../../data-types.md) | Тип документа складского учета.
+[`string`](../../data-types.md) | Тип документа складского учета. Должен совпадать с типом документа `documentId`, иначе метод вернет ошибку.
 
 Допустимые значения: [типы документов складского учета](../enum/catalog-enum-get-store-document-types.md) ||
 || **fieldN**
 [`any`](../../data-types.md) | Значение пользовательского поля, где `N` — идентификатор пользовательского поля, например `field287`.
 
-Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig-list.md) ||
+Идентификаторы и настройки пользовательских полей можно получить методом [userfieldconfig.list](../../crm/universal/userfieldconfig/userfieldconfig-list.md). Ключи `fieldN` для документов нужного типа также возвращает метод [catalog.userfield.document.list](./catalog-userfield-document-list.md).
+
+Чтобы очистить значение, передайте пустую строку или `null`. Для поля с одним значением передавайте строку или число: массив в таком поле вызывает ошибку `Internal server error.` ||
 |#
+
+Метод меняет только переданные пользовательские поля. Ключи в другом формате, например коды `UF_*`, и поля, которых нет у документов этого типа, метод пропускает без ошибки. Значения можно изменить и у проведенного документа.
 
 
 ## Примеры кода
@@ -58,7 +62,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"documentId":81,"fields":{"documentType":"A","field7097":"Тестовое поле"}}' \
+    -d '{"documentId":351,"fields":{"documentType":"A","field7097":"Поставка по договору № 15"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.userfield.document.update
     ```
 
@@ -68,7 +72,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"documentId":81,"fields":{"documentType":"A","field7097":"Тестовое поле"},"auth":"**put_access_token_here**"}' \
+    -d '{"documentId":351,"fields":{"documentType":"A","field7097":"Поставка по договору № 15"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.userfield.document.update
     ```
 
@@ -95,10 +99,10 @@
       const response = await $b24.actions.v2.call.make<UpdateUserfieldDocumentResult>({
         method: 'catalog.userfield.document.update',
         params: {
-          documentId: 81,
+          documentId: 351,
           fields: {
             documentType: 'A',
-            field7097: 'Test field value',
+            field7097: 'Поставка по договору № 15',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -131,10 +135,10 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.userfield.document.update',
             params: {
-              documentId: 81,
+              documentId: 351,
               fields: {
                 documentType: 'A',
-                field7097: 'Test field value',
+                field7097: 'Поставка по договору № 15',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -165,9 +169,10 @@
 
     try:
         bitrix_response = client.catalog.userfield.document.update(
-            document_id=81,
+            document_id=351,
             fields={
-                "field7097": "Новое значение",
+                "documentType": "A",
+                "field7097": "Поставка по договору № 15",
             },
         ).response
         result = bitrix_response.result
@@ -194,10 +199,10 @@
             ->call(
                 'catalog.userfield.document.update',
                 [
-                    'documentId' => 81,
+                    'documentId' => 351,
                     'fields' => [
                         'documentType' => 'A',
-                        'field7097' => 'Тестовое поле',
+                        'field7097' => 'Поставка по договору № 15',
                     ],
                 ]
             );
@@ -219,10 +224,10 @@
     BX24.callMethod(
         'catalog.userfield.document.update',
         {
-            documentId: 81,
+            documentId: 351,
             fields: {
                 documentType: 'A',
-                field7097: 'Тестовое поле'
+                field7097: 'Поставка по договору № 15'
             }
         },
         function(result) {
@@ -243,10 +248,10 @@
     $result = CRest::call(
         'catalog.userfield.document.update',
         [
-            'documentId' => 81,
+            'documentId' => 351,
             'fields' => [
                 'documentType' => 'A',
-                'field7097' => 'Тестовое поле',
+                'field7097' => 'Поставка по договору № 15',
             ],
         ]
     );
@@ -261,10 +266,10 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.userfield.document.update", b24.Params{
-    	"documentId": 81,
+    	"documentId": 351,
     	"fields": b24.Params{
     		"documentType": "A",
-    		"field7097":    "Тестовое поле",
+    		"field7097":    "Поставка по договору № 15",
     	},
     })
     if err != nil {
@@ -278,9 +283,9 @@
     }
 
     var item struct {
-    	DocumentID   b24.ID `json:"documentId"`
-    	DocumentType string `json:"documentType"`
-    	Field7097    string `json:"field7097"`
+    	DocumentID   b24.ID  `json:"documentId"`
+    	DocumentType string  `json:"documentType"`
+    	Field7097    *string `json:"field7097"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -292,25 +297,25 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
         "document": {
-            "documentId": 81,
+            "documentId": 351,
             "documentType": "A",
-            "field7097": "Тестовое поле"
+            "field7097": "Поставка по договору № 15"
         }
     },
     "time": {
-        "start": 1774341924,
-        "finish": 1774341924.459929,
-        "duration": 0.4599289894104004,
+        "start": 1793875710,
+        "finish": 1793875710.096168,
+        "duration": 0.09616804122924805,
         "processing": 0,
-        "date_start": "2026-03-24T11:45:24+03:00",
-        "date_finish": "2026-03-24T11:45:24+03:00",
-        "operating_reset_at": 1774342524,
+        "date_start": "2026-11-05T13:48:30+03:00",
+        "date_finish": "2026-11-05T13:48:30+03:00",
+        "operating_reset_at": 1793876280,
         "operating": 0
     }
 }
@@ -323,7 +328,7 @@ HTTP-код: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **document**
+|| **result.document**
 [`catalog_userfield_document`](../data-types.md#catalog_userfield_document) | Объект с обновленными значениями пользовательских полей документа ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -331,9 +336,7 @@ HTTP-код: **200**
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
@@ -342,12 +345,19 @@ HTTP-код: **400**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | The specified document does not exist | Документ с указанным `documentId` не найден ||
-|| `0` | Access Denied | Недостаточно прав для изменения документа выбранного типа ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | У пользователя нет права «Создание и редактирование» или «Просмотр» для документов этого типа, либо права «Просмотр каталога товаров» или «Просмотр раздела Складской учет» ||
+|| `400` | `0` | The specified document does not exist | Документ с указанным `documentId` не найден. Ту же ошибку метод возвращает, если в `documentId` передано не число ||
+|| `400` | `100` | Could not find value for parameter {documentId} | Не передан параметр `documentId` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: documentType | В `fields` нет поля `documentType`, в том числе если `fields` пустой ||
+|| `400` | `0` | The DOC_TYPE field does not match the document | Значение `documentType` не совпадает с типом документа ||
+|| `400` | `0` | Internal server error. | В пользовательское поле с одним значением передан массив ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}

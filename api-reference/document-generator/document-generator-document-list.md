@@ -559,18 +559,10 @@ HTTP-статус: **200**
                 "downloadUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getfile.json?auth=63bfbb690000071b00000844000001f7f0f107a3f045d88e8327666879f4b04885d7af&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlJlNJVEVfSUQ9czEmaWQ9NTEmXz1WMXA5WU1YMkRSbUJraDA1cmhjVVRIZXFkRE5EWmpLcA%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRmaWxlfGRvY3VtZW50Z2VuZXJhdG9yfFlXTjBhVzl1UFdSdlkzVnRaVzUwWjJWdVpYSmhkRzl5TG1Gd2FTNWtiMk4xYldWdWRDNW5aWFJtYVd4bEpsTkpWRVZmU1VROWN6RW1hV1E5TlRFbVh6MVdNWEE1V1UxWU1rUlNiVUpyYURBMWNtaGpWVlJJWlhGa1JFNUVXbXBMY0E9PXw2M2JmYmI2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwN2EzZjA0NWQ4OGU4MzI3NjY2ODc5ZjRiMDQ4ODVkN2FmIg%3D%3D.b2USzpTXZIDIUEgZjOXB4hDphKJjQY5spzTOdimZvss%3D",
                 "pdfUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getpdf.json?auth=63bfbb690000071b00000844000001f7f0f107a3f045d88e8327666879f4b04885d7af&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRwZGYmU0lURV9JRD1zMSZpZD01MSZfPUgyc0IwUlpMa1BueVpvV29rajVHUnFHUWU1T0cwQ2Z1%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRwZGZ8ZG9jdW1lbnRnZW5lcmF0b3J8WVdOMGFXOXVQV1J2WTNWdFpXNTBaMlZ1WlhKaGRHOXlMbUZ3YVM1a2IyTjFiV1Z1ZEM1blpYUndaR1ltVTBsVVJWOUpSRDF6TVNacFpEMDFNU1pmUFVneWMwSXdVbHBNYTFCdWVWcHZWMjlyYWpWSFVuRkhVV1UxVDBjd1EyWjF8NjNiZmJiNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDdhM2YwNDVkODhlODMyNzY2Njg3OWY0YjA0ODg1ZDdhZiI%3D.m0Ng5a%2BitODVrxQonwPkRt9L8dr2Jx9fbxnY%2BoZzAe4%3D",
                 "imageUrlMachine": "https://mysite.ru/rest/documentgenerator.api.document.getimage.json?auth=63bfbb690000071b00000844000001f7f0f107a3f045d88e8327666879f4b04885d7af&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRpbWFnZSZTSVRFX0lEPXMxJmlkPTUxJl89RGJHM3pFUTlPTmhYNVlrWUc3NEx6MTVUYUdzdlVkUGk%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS5kb2N1bWVudC5nZXRpbWFnZXxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzVrYjJOMWJXVnVkQzVuWlhScGJXRm5aU1pUU1ZSRlgwbEVQWE14Sm1sa1BUVXhKbDg5UkdKSE0zcEZVVGxQVG1oWU5WbHJXVWMzTkV4Nk1UVlVZVWR6ZGxWa1VHaz18NjNiZmJiNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDdhM2YwNDVkODhlODMyNzY2Njg3OWY0YjA0ODg1ZDdhZiI%3D.40ZdIhNinEEmMsb%2FQm%2BCseG%2BKe0ZmR6vpQhs6N6KjfQ%3D"
-            },
-            {
-                "id": "37",
-                ... // описание документа с id=37
-            },
-            {
-                "id": "33",
-                ... // описание документа с id=33
             }
         ]
     },
-    "total": 3,
+    "total": 1,
     "time": {
         "start": 1773908326,
         "finish": 1773908326.204212,

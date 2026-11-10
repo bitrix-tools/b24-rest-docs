@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правами администратора CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для справочников используйте метод REST 3.0 [crm.dictionary.<справочник>.delete](../rest-v3/dictionaries/crm-dictionary-delete-rest-v3.md), для стадий сделок и смарт-процессов — [crm.<тип>.category.stage.delete](../rest-v3/categories/crm-entity-category-stage-delete-rest-v3.md). Стадий лидов, предложений и счетов и справочника статусов списков обзвона в REST 3.0 нет, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.status.delete` удаляет элемент справочника по идентификатору.
 
 ## Параметры метода
@@ -169,16 +175,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting status: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -373,17 +373,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting CRM status: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

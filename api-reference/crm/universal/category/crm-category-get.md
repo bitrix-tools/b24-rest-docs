@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом доступа к воронке «Чтение»
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.category.get](../../rest-v3/categories/crm-entity-category-get-rest-v3.md). Воронки счетов, документов CRM и документов КЭДО в REST 3.0 пока недоступны, для них используйте этот метод.
+
+{% endnote %}
+
 Метод получает информацию о воронке (направлении) с идентификатором `id`.
 
 ## Параметры метода
@@ -183,16 +189,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Info: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting category: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

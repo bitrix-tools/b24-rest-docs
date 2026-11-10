@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Изменение цены продажи товара» или «Управление наценками»
 
-Метод возвращает поля наценки.
+Метод `catalog.extra.getFields` возвращает описание полей наценки: тип, обязательность и доступность для изменения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -144,7 +146,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -153,20 +154,14 @@
                 'catalog.extra.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting extra fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -174,7 +169,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.extra.getFields', 
+        'catalog.extra.getFields',
         {},
         function(result)
         {
@@ -250,12 +245,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1712325642.686926,
-        "finish": 1712325642.949075,
-        "duration": 0.2621490955352783,
-        "processing": 0.004400968551635742,
-        "date_start": "2024-10-24T16:00:42+02:00",
-        "date_finish": "2024-10-24T16:00:42+02:00",
+        "start": 1793688339,
+        "finish": 1793688339.652799,
+        "duration": 0.6527988910675049,
+        "processing": 0,
+        "date_start": "2026-11-03T09:45:39+03:00",
+        "date_finish": "2026-11-03T09:45:39+03:00",
+        "operating_reset_at": 1793688900,
         "operating": 0
     }
 }
@@ -268,7 +264,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **extra**
+|| **result.extra**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_extra](../data-types.md#catalog_extra), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -280,7 +276,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -290,14 +286,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров», «Изменение цены продажи товара» или «Управление наценками» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-extra-get.md)
 - [{#T}](./catalog-extra-list.md)

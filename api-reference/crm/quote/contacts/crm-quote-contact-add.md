@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.addfieldvalue](../../rest-v3/items/crm-entity-add-field-value-rest-v3.md) с полем `contactsId`. Основной контакт назначает метод [crm.quote.setprimarycontact](../../rest-v3/items/crm-entity-set-primary-contact-rest-v3.md). Позицию контакта `SORT` метод REST 3.0 не принимает, для нее используйте этот метод.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «изменения» коммерческих предложений

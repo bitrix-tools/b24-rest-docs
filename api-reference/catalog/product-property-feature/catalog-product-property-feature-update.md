@@ -27,8 +27,16 @@
 
 Идентификатор параметра можно получить методом [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Набор полей обновляемого параметра свойства [(подробное описание)](#fields) ||
+[`object`](../../data-types.md) | Объект с полями параметра свойства [(подробное описание)](#fields).
+
+Все четыре поля обязательны при каждом вызове ||
 |#
+
+{% note warning "" %}
+
+Метод изменяет параметр, который совпадает с переданными `propertyId`, `moduleId` и `featureId`, а не запись с указанным `id`. Если у свойства нет параметра с такими `moduleId` и `featureId`, метод создаст новый. В ответе в любом случае вернется запись с указанным `id`. Чтобы изменить только признак `isEnabled`, передавайте текущие `propertyId`, `moduleId` и `featureId` параметра из [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md)
+
+{% endnote %}
 
 ### Параметр fields {#fields}
 
@@ -346,7 +354,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyFeature**
+|| **result.productPropertyFeature**
 [`catalog_product_property_features`](../data-types.md#catalog_product_property_features) | Объект обновленного параметра свойства ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -358,7 +366,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertyFeature does not exist."
 }
 ```
@@ -368,10 +376,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для изменения свойства инфоблока ||
-|| `0` | productPropertyFeature does not exist. | Параметр свойства с переданным `id` не найден или свойство `propertyId` не относится к торговому каталогу ||
-|| `0` | Required fields: moduleId, featureId, isEnabled | Не переданы обязательные поля `moduleId`, `featureId`, `isEnabled` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или права на изменение инфоблока свойства ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: propertyId, moduleId, featureId, isEnabled | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля ||
+|| `400` | Пустое значение | productPropertyFeature does not exist. | Параметр с переданным `id` не найден, свойство из `propertyId` не найдено или они не относятся к торговому каталогу ||
+|| `400` | `0` | The specified property does not belong to a product catalog | Свойство не относится к торговому каталогу ||
+|| `400` | `0` | Ошибочный набор параметров свойства | В `isEnabled` передано значение, отличное от `Y` и `N` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -92,5 +92,8 @@
     "SORT",
     "en",
     "ru"
-  ]
+  ],
+  "requestExample": {
+    "id": "RUB"
+  }
 }

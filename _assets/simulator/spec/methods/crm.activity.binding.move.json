@@ -78,5 +78,12 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/binding/crm-activity-binding-move.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "activityId": 999,
+    "sourceEntityTypeId": 2,
+    "sourceEntityId": 1,
+    "targetEntityTypeId": 2,
+    "targetEntityId": 100
+  }
 }

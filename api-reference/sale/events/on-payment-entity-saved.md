@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `OnPaymentEntitySaved` происходит непосредственно после сохранения оплаты.
+Событие `OnPaymentEntitySaved` происходит сразу после создания или изменения оплаты вручную или методами [sale.payment.add](../payment/sale-payment-add.md), [sale.payment.update](../payment/sale-payment-update.md). Если при сохранении заказа оплата не изменилась, событие не отправляется.
 
 {% note info "" %}
 
@@ -92,7 +92,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_order_payment.id`](../data-types.md) | Идентификатор оплаты. Для получения всех полей оплаты по идентификатору используется метод [sale.payment.get](../payment/sale-payment-get.md) ||
+[`sale_order_payment.id`](../data-types.md#sale_order_payment) | Идентификатор оплаты. Для получения всех полей оплаты по идентификатору используется метод [sale.payment.get](../payment/sale-payment-get.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -103,4 +103,7 @@
 
 - [{#T}](../../events/index.md)
 - [{#T}](../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-payment-deleted.md)
+- [{#T}](./on-sale-order-saved.md)
+- [{#T}](./on-order-entity-saved.md)

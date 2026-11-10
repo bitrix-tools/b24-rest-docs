@@ -40,13 +40,17 @@
 || **value***
 [`string`](../../data-types.md) | Значение элемента списка ||
 || **xmlId***
-[`string`](../../data-types.md) | Внешний идентификатор значения списка. Должен быть уникальным в рамках свойства ||
+[`string`](../../data-types.md) | Внешний идентификатор значения списка. Должен быть уникальным в рамках свойства, иначе метод вернет ошибку `BX_INVALID_VALUE` ||
 || **def**
 [`char`](../../data-types.md) | Признак значения по умолчанию. Допустимые значения:
 - `Y` — по умолчанию
-- `N` — не по умолчанию ||
+- `N` — не по умолчанию
+
+По умолчанию — `N`. Другое значение вызывает ошибку `BX_INVALID_VALUE` ||
 || **sort**
-[`integer`](../../data-types.md) | Индекс сортировки ||
+[`integer`](../../data-types.md) | Индекс сортировки.
+
+По умолчанию — `500`. Значение, которое не является числом, метод сохраняет как `null` без ошибки ||
 |#
 
 {% note info "" %}
@@ -348,7 +352,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyEnum**
+|| **result.productPropertyEnum**
 [`catalog_product_property_enum`](../data-types.md#catalog_product_property_enum) | Объект добавленного значения списочного свойства ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -370,14 +374,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для изменения свойства инфоблока ||
-|| `0` | productPropertyEnum does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
-|| `0` | Only list properties are supported | Передано свойство, тип которого не `Список` ||
-|| `0` | Required fields: xmlId | Не передано обязательное поле `xmlId` ||
-|| `0` | A value with xmlId '...' already exists. | Значение с таким `xmlId` уже существует в рамках свойства ||
-|| `BX_INVALID_VALUE` | Запись со значением "Внешний код", равным "...", уже есть в базе данных | Локализованная ошибка дубликата `xmlId` ||
-|| `0` | Internal error adding enumeration value. Try adding again. | Внутренняя ошибка при добавлении значения списка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или права на изменение инфоблока свойства ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: propertyId, value, xmlId | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля ||
+|| `400` | Пустое значение | productPropertyEnum does not exist. | Свойство с переданным `propertyId` не найдено или не относится к торговому каталогу ||
+|| `400` | `0` | The specified property does not belong to a product catalog | Свойство не относится к торговому каталогу ||
+|| `400` | `0` | Only list properties are supported | Передано свойство, тип которого не `Список` ||
+|| `400` | `BX_INVALID_VALUE` | Запись со значением "Внешний код", равным "...", уже есть в базе данных | У свойства уже есть значение с таким `xmlId` ||
+|| `400` | `BX_INVALID_VALUE` | Неправильное значение для "По умолчанию" | В `def` передано значение, отличное от `Y` и `N` ||
+|| `400` | `BX_EMPTY_REQUIRED` | Не заполнено обязательное поле "Значение" | В `value` передана пустая строка ||
+|| `400` | `0` | Internal error adding enumeration value. Try adding again. | Внутренняя ошибка при добавлении значения списка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -387,6 +394,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-property-enum-update.md)
 - [{#T}](./catalog-product-property-enum-get.md)
 - [{#T}](./catalog-product-property-enum-list.md)
-- [{#T}](../../../tutorials/catalog/index.md)
 - [{#T}](./catalog-product-property-enum-delete.md)
 - [{#T}](./catalog-product-property-enum-get-fields.md)
+- [{#T}](../../../tutorials/catalog/index.md)

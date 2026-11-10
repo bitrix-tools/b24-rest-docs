@@ -199,7 +199,9 @@
 - `Y` — да
 - `N` — нет ||
 || **Default**
-[`any`](../../data-types.md) | Значение параметра по умолчанию ||
+[`any`](../../data-types.md) | Значение параметра по умолчанию.
+
+Для параметра из `RETURN_PROPERTIES` значение остается, если [bizproc.event.send](../bizproc-robot/bizproc-event-send.md#empty-value) не передал ключ этого параметра или передал `null` ||
 |#
 
 #### Примеры объектов

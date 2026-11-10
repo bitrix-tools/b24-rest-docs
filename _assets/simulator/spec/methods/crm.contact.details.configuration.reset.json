@@ -11,7 +11,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P"
+      "description": "Область применения настроек. Возможные значения: - P — личные настройки - C — общие настройки По умолчанию — P",
+      "values": [
+        {
+          "value": "P",
+          "title": "личные настройки"
+        },
+        {
+          "value": "C",
+          "title": "общие настройки По умолчанию — P"
+        }
+      ]
     },
     {
       "name": "userId",
@@ -59,5 +69,8 @@
     }
   ],
   "page": "/api-reference/crm/contacts/custom-form/crm-contact-details-configuration-reset.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "scope": "C"
+  }
 }

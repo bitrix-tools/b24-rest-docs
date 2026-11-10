@@ -500,10 +500,39 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Описание методов `task.elapseditem.*` ||
+[`object`](../../data-types.md) | Описание методов `task.elapseditem.*` [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **Manifest version**
+[`string`](../../data-types.md) | Версия структуры манифеста ||
+|| **Manifest change date**
+[`string`](../../data-types.md) | Дата изменения манифеста ||
+|| **Warning**
+[`string`](../../data-types.md) | Предупреждение о нестабильности формата ||
+|| **REST: shortname alias to class**
+[`string`](../../data-types.md) | Короткое имя объекта в названиях методов ||
+|| **REST: writable elapseditem data fields**
+[`array`](../../data-types.md) | Поля, которые общий обработчик разрешает передавать на запись ||
+|| **REST: readable elapseditem data fields**
+[`array`](../../data-types.md) | Поля, доступные для чтения ||
+|| **REST: sortable elapseditem data fields**
+[`array`](../../data-types.md) | Поля, доступные для сортировки ||
+|| **REST: filterable elapseditem data fields**
+[`array`](../../data-types.md) | Поля, доступные для фильтрации ||
+|| **REST: date fields**
+[`array`](../../data-types.md) | Поля типа дата и время ||
+|| **REST: available methods**
+[`object`](../../data-types.md) | Методы `task.elapseditem.*`, их параметры, допустимые поля и особенности результата ||
+|#
+
+Манифест описывает общие разрешения REST-обработчика. Для `task.elapseditem.update` обработчик и реализация метода вместе разрешают только поля `SECONDS`, `COMMENT_TEXT` и `CREATED_DATE`. Для формирования запросов используйте таблицу параметров на странице метода.
 
 ## Обработка ошибок
 

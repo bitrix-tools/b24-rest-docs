@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает информацию о переводе названия типа цены по его идентификатору.
+Метод `catalog.priceTypeLang.get` возвращает информацию о переводе названия типа цены по его идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены ||
+[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены.
+
+Получить идентификатор можно методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) ||
 |#
 
 ## Примеры кода
@@ -38,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":2}' \
+    -d '{"id":267}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.priceTypeLang.get
     ```
 
@@ -48,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":2,"auth":"**put_access_token_here**"}' \
+    -d '{"id":267,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.priceTypeLang.get
     ```
 
@@ -76,7 +78,7 @@
       const response = await $b24.actions.v2.call.make<PriceTypeLangGetResult>({
         method: 'catalog.priceTypeLang.get',
         params: {
-          id: 2,
+          id: 267,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -108,7 +110,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.priceTypeLang.get',
             params: {
-              id: 2,
+              id: 267,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -138,7 +140,7 @@
 
     try:
         bitrix_response = client.catalog.price_type_lang.get(
-            bitrix_id=2,
+            bitrix_id=267,
         ).response
         result = bitrix_response.result
         print(result)
@@ -165,23 +167,17 @@
             ->call(
                 'catalog.priceTypeLang.get',
                 [
-                    'id' => 2
+                    'id' => 267
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting price type language: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -191,7 +187,7 @@
     BX24.callMethod(
         'catalog.priceTypeLang.get',
         {
-            id: 2
+            id: 267
         },
         function(result)
         {
@@ -211,7 +207,7 @@
     $result = CRest::call(
         'catalog.priceTypeLang.get',
         [
-            'id' => 2
+            'id' => 267
         ]
     );
 
@@ -260,18 +256,19 @@ HTTP-статус: **200**
     "result": {
         "priceTypeLang": {
             "catalogGroupId": 1,
-            "id": 2,
+            "id": 267,
             "lang": "ru",
             "name": "Розничная цена"
         }
     },
     "time": {
-        "start": 1733837855.07932,
-        "finish": 1733837855.33599,
-        "duration": 0.256666898727417,
-        "processing": 0.00620198249816895,
-        "date_start": "2024-12-10T15:37:35+02:00",
-        "date_finish": "2024-12-10T15:37:35+02:00",
+        "start": 1793700559,
+        "finish": 1793700559.778474,
+        "duration": 0.7784740924835205,
+        "processing": 0,
+        "date_start": "2026-11-03T13:09:19+03:00",
+        "date_finish": "2026-11-03T13:09:19+03:00",
+        "operating_reset_at": 1793701140,
         "operating": 0
     }
 }
@@ -284,10 +281,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeLang**
+|| **result.priceTypeLang**
 [`catalog_price_type_lang`](../../data-types.md#catalog_price_type_lang) | Объект с информацией о переводе названия типа цены с заданным идентификатором ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -296,8 +293,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "201200000000",
+    "error_description": "priceTypeLang does not exist."
 }
 ```
 
@@ -306,15 +303,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-|| 
-|| `201200000000` | Перевода названия типа цены с таким идентификатором не существует
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `201200000000` | priceTypeLang does not exist. | Перевода с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

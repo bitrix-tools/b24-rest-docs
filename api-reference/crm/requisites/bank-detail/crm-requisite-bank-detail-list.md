@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение контактов и компаний
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.bankrequisite.list](../../rest-v3/requisites/crm-entity-requisite-bank-requisite-list-rest-v3.md).
+
+{% endnote %}
+
 Метод возвращает список банковских реквизитов по фильтру.
 
 ## Параметры метода
@@ -405,9 +411,6 @@
     
         echo 'Success: ' . print_r($result, true);
     
-        if ($result->more()) {
-            $result->next();
-        }
     
     } catch (Throwable $e) {
         error_log($e->getMessage());

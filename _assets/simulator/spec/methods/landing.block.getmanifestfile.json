@@ -154,5 +154,8 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-get-manifest-file.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "01.big_with_text"
+  }
 }

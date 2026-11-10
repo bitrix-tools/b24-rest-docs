@@ -18,7 +18,7 @@
       "type": "integer",
       "base": "integer",
       "required": "unknown",
-      "description": "Идентификатор владельца календаря. Для календаря компании параметр ownerId имеет значение 0"
+      "description": "Идентификатор владельца календаря. Передавайте ownerId вместе с type. Значение параметра не влияет на список возвращаемых событий. Для календаря компании передайте значение 0"
     },
     {
       "name": "days",
@@ -57,5 +57,13 @@
   },
   "returns": [],
   "page": "/api-reference/calendar/calendar-event/calendar-event-get-nearest.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "type": "user",
+    "ownerId": 2,
+    "days": 10,
+    "forCurrentUser": true,
+    "maxEventsCount": 100,
+    "detailUrl": "/company/personal/user/#user_id#/calendar/"
+  }
 }

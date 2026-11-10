@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь с правом «чтения» контактов
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.contact.field.custom.list](../../rest-v3/fields/crm-entity-field-custom-list-rest-v3.md).
+
+{% endnote %}
+
 Метод `crm.contact.userfield.list` возвращает список пользовательских полей контактов по фильтру.
 
 Выводится и информация об этих полях, но без названия, которое присвоил полю пользователь, только внутренний идентификатор. Если нужно пользовательское название поля, воспользуйтесь методом [crm.contact.list](../crm-contact-list.md), который выводит как стандартные поля, так и пользовательские.
@@ -407,16 +413,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching user fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

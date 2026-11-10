@@ -61,5 +61,13 @@
     }
   ],
   "page": "/api-reference/chats/notifications/im-notify-read-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "IDS": [
+      101,
+      102,
+      103
+    ],
+    "ACTION": "Y"
+  }
 }

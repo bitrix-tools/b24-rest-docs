@@ -35,5 +35,11 @@
     "successor": "catalog.measure.update"
   },
   "page": "/api-reference/crm/outdated/measure/crm-measure-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "**put_id_here**",
+    "fields": {
+      "MEASURE_TITLE": "**put_new_title_here**"
+    }
+  }
 }

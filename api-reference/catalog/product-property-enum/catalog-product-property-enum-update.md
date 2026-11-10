@@ -27,7 +27,9 @@
 
 Идентификатор можно получить методом [catalog.productPropertyEnum.list](./catalog-product-property-enum-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Набор полей обновляемого значения списка [(подробное описание)](#fields) ||
+[`object`](../../data-types.md) | Объект с полями значения списка [(подробное описание)](#fields).
+
+Поля `propertyId`, `value` и `xmlId` обязательны при каждом вызове: чтобы не менять поле, передайте его текущее значение из [catalog.productPropertyEnum.get](./catalog-product-property-enum-get.md). Необязательные `def` и `sort` сохраняют текущие значения, если их не передать ||
 |#
 
 ### Параметр fields {#fields}
@@ -40,7 +42,9 @@
 || **propertyId***
 [`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства товара или вариации.
 
-Идентификаторы свойств можно получить методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md) ||
+Идентификаторы свойств можно получить методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md).
+
+Перенести значение в другое свойство нельзя: если передать `propertyId` другого свойства, метод пропустит его без ошибки и значение останется у прежнего свойства ||
 || **value***
 [`string`](../../data-types.md) | Значение элемента списка ||
 || **xmlId***
@@ -48,7 +52,9 @@
 || **def**
 [`char`](../../data-types.md) | Признак значения по умолчанию. Допустимые значения:
 - `Y` — по умолчанию
-- `N` — не по умолчанию ||
+- `N` — не по умолчанию
+
+Другое значение вызывает ошибку `BX_INVALID_VALUE` ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
 |#
@@ -353,7 +359,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertyEnum**
+|| **result.productPropertyEnum**
 [`catalog_product_property_enum`](../data-types.md#catalog_product_property_enum) | Объект обновленного значения списочного свойства ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -365,7 +371,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
+    "error": "",
     "error_description": "productPropertyEnum does not exist."
 }
 ```
@@ -375,13 +381,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для изменения свойства инфоблока ||
-|| `0` | productPropertyEnum does not exist. | Значение списочного свойства с переданным `id` не найдено или не относится к торговому каталогу ||
-|| `0` | The specified property does not belong to a product catalog | Свойство с переданным `propertyId` не относится к торговому каталогу ||
-|| `0` | Required fields: xmlId | Не передано обязательное поле `xmlId` ||
-|| `0` | Internal error updating enumeration value. Try updating again. | Внутренняя ошибка при обновлении значения списка ||
-|| `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или права на изменение инфоблока свойства ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: propertyId, value, xmlId | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля ||
+|| `400` | Пустое значение | productPropertyEnum does not exist. | Значение с переданным `id` не найдено, свойство из `propertyId` не найдено или они не относятся к торговому каталогу ||
+|| `400` | `0` | The specified property does not belong to a product catalog | Свойство не относится к торговому каталогу ||
+|| `400` | `BX_INVALID_VALUE` | Запись со значением "Внешний код", равным "...", уже есть в базе данных | У свойства уже есть значение с таким `xmlId` ||
+|| `400` | `BX_INVALID_VALUE` | Неправильное значение для "По умолчанию" | В `def` передано значение, отличное от `Y` и `N` ||
+|| `400` | `BX_EMPTY_REQUIRED` | Не заполнено обязательное поле "Значение" | В `value` передана пустая строка ||
+|| `400` | `0` | Internal error updating enumeration value. Try updating again. | Внутренняя ошибка при обновлении значения списка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

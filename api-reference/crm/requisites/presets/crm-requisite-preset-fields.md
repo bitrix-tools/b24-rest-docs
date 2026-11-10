@@ -13,15 +13,21 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод возвращает формально описание полей шаблона реквизитов.
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 `crm.<тип>.requisite.preset.field.list` из группы [Реквизиты](../../rest-v3/requisites/index.md). Метод REST 3.0 не возвращает поля шаблона `countryId`, `active` и `xmlId` и не фильтрует шаблоны, для этого используйте этот метод.
+
+{% endnote %}
+
+Метод `crm.requisite.preset.fields` возвращает формальное описание полей шаблона реквизитов.
+
+## Параметры метода
 
 Без параметров.
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-Поиск шаблонов по привязке к стране:
 
 {% list tabs %}
 
@@ -162,16 +168,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching requisite preset fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -349,7 +349,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля, а `value` — объект с [атрибутами поля](#attributes) ||
+[`object`](../../../data-types.md) | Объект в формате `{"NAME": {"type": "string", "title": "Название"}}`. Ключ — идентификатор поля, значение — объект с [атрибутами поля](#attributes) ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -425,10 +425,21 @@ HTTP-статус: **200**
 - false — нет
 ||
 || **title**
-[`string`](../../../data-types.md) | Идентификатор поля ||
+[`string`](../../../data-types.md) | Название поля ||
 |#
 
 ## Обработка ошибок
+
+Пример ошибки авторизации, HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
@@ -436,7 +447,7 @@ HTTP-статус: **200**
 
 - [{#T}](./crm-requisite-preset-add.md)
 - [{#T}](./crm-requisite-preset-update.md)
-- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-get.md)
 - [{#T}](./crm-requisite-preset-list.md)
 - [{#T}](./crm-requisite-preset-delete.md)
+- [{#T}](./crm-requisite-preset-countries.md)

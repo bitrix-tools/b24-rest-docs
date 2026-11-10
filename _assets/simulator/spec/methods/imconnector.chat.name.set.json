@@ -1,7 +1,7 @@
 {
   "$v": 1,
   "method": "imconnector.chat.name.set",
-  "scope": "imconnector",
+  "scope": "imopenlines",
   "kind": "write",
   "title": "Установить новое имя чата imconnector.chat.name.set",
   "permissions": "любой пользователь",
@@ -18,14 +18,14 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор открытой линии Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
+      "description": "Идентификатор открытой линии. Идентификатор можно получить методами imopenlines.config.get и imopenlines.config.list.get"
     },
     {
       "name": "CHAT_ID",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Идентификатор чата во внешней системе"
+      "description": "Идентификатор чата во внешней системе — то же значение, что передают в chat.id метода imconnector.send.messages"
     },
     {
       "name": "NAME",
@@ -39,7 +39,7 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Идентификатор пользователя. Параметр является обязательным только для коннекторов без групповых чатов с внешней стороны. У такого коннектора в методе imconnector.register параметр CHAT_GROUP должен быть равен N"
+      "description": "Идентификатор собеседника во внешней системе — то же значение, что передают в user.id метода imconnector.send.messages. Идентификатор пользователя Битрикс24 здесь не подходит. Параметр обязателен для коннекторов, у которых при регистрации методом imconnector.register параметр CHAT_GROUP равен false. Если CHAT_GROUP равен true, переданное значение игнорируется"
     }
   ],
   "defs": {},
@@ -49,47 +49,35 @@
     "file": "api-reference/imopenlines/imconnector/imconnector-chat-name-set.md"
   },
   "resultExample": {
-    "answer": {
-      "result": {
-        "SUCCESS": true,
-        "DATA": {
-          "RESULT": {}
-        }
-      },
-      "time": {
-        "start": 1732110908.525962,
-        "finish": 1732110908.879113,
-        "duration": 0.3531508445739746,
-        "processing": 0.07694888114929199,
-        "date_start": "2024-11-20T15:55:08+02:00",
-        "date_finish": "2024-11-20T15:55:08+02:00"
+    "result": {
+      "SUCCESS": true,
+      "DATA": {
+        "RESULT": {}
       }
     },
-    "query": {
-      "method": "imconnector.chat.name.set",
-      "data": {
-        "CONNECTOR": "newcustomconnector",
-        "LINE": "105",
-        "CHAT_ID": "1",
-        "NAME": "name"
-      }
-    },
-    "status": 200
+    "time": {
+      "start": 1732110908.525962,
+      "finish": 1732110908.879113,
+      "duration": 0.3531508445739746,
+      "processing": 0.07694888114929199,
+      "date_start": "2024-11-20T15:55:08+02:00",
+      "date_finish": "2024-11-20T15:55:08+02:00"
+    }
   },
   "returns": [
     {
-      "name": "SUCCESS",
-      "type": "boolean",
-      "base": "boolean",
-      "required": false,
-      "description": "Возвращает true при успешной установке нового имени чата"
-    },
-    {
-      "name": "DATA",
+      "name": "result",
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Содержит объект RESULT c параметрами нового имени чата"
+      "description": "Результат установки имени чата (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
     }
   ],
   "page": "/api-reference/imopenlines/imconnector/imconnector-chat-name-set.html",

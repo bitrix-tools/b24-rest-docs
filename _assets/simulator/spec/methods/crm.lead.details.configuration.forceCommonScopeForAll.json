@@ -70,5 +70,10 @@
     }
   ],
   "page": "/api-reference/crm/leads/custom-form/crm-lead-details-configuration-force-common-scope-for-all.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "extras": {
+      "leadCustomerType": 2
+    }
+  }
 }

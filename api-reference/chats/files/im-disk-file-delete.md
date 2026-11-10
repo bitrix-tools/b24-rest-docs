@@ -141,7 +141,7 @@
     try:
         bitrix_response = client.im.disk.file.delete(
             chat_id=1489,
-            disk_id=5163,
+            file_id=5163,
         ).response
         result = bitrix_response.result
         print(result)

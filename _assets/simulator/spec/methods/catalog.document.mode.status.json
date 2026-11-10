@@ -60,5 +60,6 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-mode-status.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -87,7 +87,7 @@
       UPDATED_BY: string
       DELETED_BY: string
       DOWNLOAD_URL: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -291,7 +291,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "0",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9ODk2NCZfPXU2V3NhdUVHeXBsY2thekFuTjB3ekNWMFd6d3dwVEZa%7CImRvd25sb2FkfGRpc2t8YVdROU9EazJOQ1pmUFhVMlYzTmhkVVZIZVhCc1kydGhla0Z1VGpCM2VrTldNRnQ2ZDNkd1ZFWmF8MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.6Rmg3D5ED7iWrkUSMB7E1%2FTrnlxTtQ3bf8H6drXRVM4%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Новое имя файла.png"
     },
     "time": {
@@ -352,7 +352,7 @@ HTTP-статус: **200**
 || **DOWNLOAD_URL**
 [`string`](../../data-types.md) | Ссылка для скачивания файла ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия файла в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия файла в интерфейсе. Для файлов из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -377,7 +377,7 @@ HTTP-статус: **400**
 || `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр `id` или `newName` ||
 || `ERROR_NOT_FOUND` | Could not find entity with id `X` | Файл с указанным `id` не найден ||
 || `DISK_OBJ_22000` | Файл с таким именем уже есть | Файл с таким именем уже есть ||
-||  `0` | Empty name | Передано пустое имя файла ||
+|| `0` | Empty name. (0). | Передано пустое имя файла ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для переименования файла ||
 |#
 

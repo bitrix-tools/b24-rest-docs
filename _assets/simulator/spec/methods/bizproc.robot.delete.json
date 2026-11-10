@@ -11,7 +11,7 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Символьный идентификатор робота приложения"
+      "description": "Код робота, который это приложение передало в CODE при регистрации. Получить коды можно методом bizproc.robot.list"
     }
   ],
   "defs": {},

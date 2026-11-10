@@ -143,5 +143,18 @@
     }
   ],
   "page": "/api-reference/catalog/section/catalog-section-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "name": "Детские игрушки",
+      "iblockId": 14,
+      "iblockSectionId": 13,
+      "sort": "100",
+      "active": "Y",
+      "code": "toys",
+      "xmlId": "myXmlId",
+      "description": "Товары для детей - игрушки",
+      "descriptionType": "text"
+    }
+  }
 }

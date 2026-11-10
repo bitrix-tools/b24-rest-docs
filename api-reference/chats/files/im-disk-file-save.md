@@ -148,7 +148,7 @@
 
     try:
         bitrix_response = client.im.disk.file.save(
-            disk_id=5155,
+            file_id=5155,
         ).response
         result = bitrix_response.result
         print(result)
@@ -338,6 +338,7 @@ HTTP-статус: **400**
 - Диск отключен
 - не удалось сохранить файл в папку *Сохраненные файлы*, например, при отсутствии места
 - не удалось создать папку *Сохраненные файлы* ||
+|| `403` | `VIDEO_NOTE_DOWNLOAD_RESTRICTED` | Cannot download video notes. | Файл — видеосообщение, а скачивание видеосообщений отключено в настройках Битрикс24 или недоступно гостям и внешним пользователям ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Создать или обновить задачу Скрама tasks.api.scrum.task.update",
-  "permissions": "любой пользователь, имеющий доступ к Скраму",
+  "permissions": "пользователь с правами на изменение задачи и Скрама",
   "params": [
     {
       "name": "id",
@@ -35,7 +35,7 @@
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Идентификатор бэклога или спринта. Если значение не указано, Битрикс24 автоматически добавит задачу в бэклог Скрама, если он существует"
+          "description": "Идентификатор бэклога или спринта. Параметр обязателен при добавлении задачи в Скрам. Для существующей задачи Скрама параметр можно не передавать, если не нужно перемещать ее между бэклогом и спринтами"
         },
         {
           "name": "storyPoints",
@@ -57,6 +57,27 @@
           "base": "integer",
           "required": false,
           "description": "Сортировка"
+        },
+        {
+          "name": "sortFloat",
+          "type": "float",
+          "base": "number",
+          "required": false,
+          "description": "Значение сортировки с дробной частью"
+        },
+        {
+          "name": "createdBy",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, который создал запись задачи в Скраме"
+        },
+        {
+          "name": "modifiedBy",
+          "type": "integer",
+          "base": "integer",
+          "required": false,
+          "description": "Идентификатор пользователя, который изменил запись задачи в Скраме"
         }
       ]
     }
@@ -67,33 +88,41 @@
     "file": "api-reference/sonet-group/scrum/task/tasks-api-scrum-task-update.md"
   },
   "resultExample": {
-    "status": "success",
-    "data": true,
-    "errors": []
+    "result": true,
+    "time": {
+      "start": 1721402687.900315,
+      "finish": 1721402694.313811,
+      "duration": 6.413496017456055,
+      "processing": 6.387248992919922,
+      "date_start": "2024-07-19T15:24:47+00:00",
+      "date_finish": "2024-07-19T15:24:54+00:00",
+      "operating": 6.387217998504639
+    }
   },
   "returns": [
     {
-      "name": "status",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Статус ответа. Возможные значения: - success - error"
-    },
-    {
-      "name": "data",
+      "name": "result",
       "type": "boolean",
       "base": "boolean",
       "required": false,
-      "description": "Возвращает: - true — в случае успеха - null — в случае ошибки"
+      "description": "Возвращает true, если задача Скрама создана или обновлена"
     },
     {
-      "name": "errors",
-      "type": "array",
-      "base": "array",
+      "name": "time",
+      "type": "time",
+      "base": "object",
       "required": false,
-      "description": "Массив ошибок"
+      "description": "Информация о времени выполнения запроса"
     }
   ],
   "page": "/api-reference/sonet-group/scrum/task/tasks-api-scrum-task-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1,
+    "fields": {
+      "epicId": 1,
+      "storyPoints": "8",
+      "entityId": 2
+    }
+  }
 }

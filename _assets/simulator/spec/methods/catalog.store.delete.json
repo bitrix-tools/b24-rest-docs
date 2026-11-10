@@ -37,5 +37,8 @@
     }
   ],
   "page": "/api-reference/catalog/store/catalog-store-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

@@ -11,7 +11,21 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп"
+      "description": "Идентификатор типа инфоблока. Возможные значения: - lists — тип инфоблока списка - bitrix_processes — тип инфоблока процессов - lists_socnet — тип инфоблока списков групп",
+      "values": [
+        {
+          "value": "lists",
+          "title": "тип инфоблока списка"
+        },
+        {
+          "value": "bitrix_processes",
+          "title": "тип инфоблока процессов"
+        },
+        {
+          "value": "lists_socnet",
+          "title": "тип инфоблока списков групп"
+        }
+      ]
     },
     {
       "name": "IBLOCK_CODE",
@@ -99,7 +113,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Включение поддержки бизнес-процессов. Возможные значения: - Y — да - N — нет"
+          "description": "Включение поддержки бизнес-процессов. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         }
       ]
     }
@@ -139,5 +163,30 @@
     }
   ],
   "page": "/api-reference/lists/lists/lists-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "IBLOCK_TYPE_ID": "lists",
+    "IBLOCK_CODE": "my_custom_list",
+    "FIELDS": {
+      "NAME": "Мой новый список",
+      "DESCRIPTION": "Список для отслеживания задач в проекте",
+      "SORT": 500,
+      "BIZPROC": "Y"
+    },
+    "MESSAGES": {
+      "ELEMENTS_NAME": "Задачи",
+      "ELEMENT_NAME": "Задача",
+      "ELEMENT_ADD": "Добавить задачу",
+      "ELEMENT_EDIT": "Изменить задачу",
+      "ELEMENT_DELETE": "Удалить задачу",
+      "SECTIONS_NAME": "Разделы",
+      "SECTION_NAME": "Раздел",
+      "SECTION_ADD": "Добавить раздел",
+      "SECTION_EDIT": "Изменить раздел",
+      "SECTION_DELETE": "Удалить раздел"
+    },
+    "RIGHTS": {
+      "U1271": "X"
+    }
+  }
 }

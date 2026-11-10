@@ -79,5 +79,13 @@
     "name",
     "title",
     "type"
-  ]
+  ],
+  "requestExample": {
+    "name": "title",
+    "select": [
+      "name",
+      "type",
+      "title"
+    ]
+  }
 }

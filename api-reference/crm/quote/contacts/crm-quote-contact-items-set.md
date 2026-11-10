@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.update](../../rest-v3/items/crm-entity-update-rest-v3.md) с массивом `contactsId`: основным станет первый контакт массива. Явные `SORT` и `IS_PRIMARY` метод не принимает, для них используйте этот метод.
+
+{% endnote %}
+
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом «изменения» коммерческих предложений

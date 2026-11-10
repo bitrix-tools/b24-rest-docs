@@ -11,9 +11,15 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Удаление товара», правом на просмотр каталога — «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» — и правом на удаление элемента инфоблока каталога
 
-Метод удаляет головной товар. 
+Метод `catalog.product.sku.delete` удаляет головной товар вместе со всеми его вариациями.
+
+{% note warning "" %}
+
+Метод не проверяет тип товара: с идентификатором простого товара или вариации он удалит этот товар. Перед вызовом проверьте, что идентификатор принадлежит головному товару, методом [catalog.product.sku.get](./catalog-product-sku-get.md).
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -25,7 +31,7 @@
 || **id***
 [`catalog_product_sku.id`](../../data-types.md#catalog_product_sku) | Идентификатор головного товара.
 
-Для получения идентификаторов головных товаров необходимо использовать [catalog.product.sku.list](./catalog-product-sku-list.md) ||
+Получить идентификаторы головных товаров можно методом [catalog.product.sku.list](./catalog-product-sku-list.md) ||
 |#
 
 ## Примеры кода
@@ -40,7 +46,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1288}' \
+    -d '{"id":7679}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.delete
     ```
 
@@ -50,7 +56,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1288,"auth":"**put_access_token_here**"}' \
+    -d '{"id":7679,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.sku.delete
     ```
 
@@ -68,7 +74,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'catalog.product.sku.delete',
         params: {
-          id: 1288,
+          id: 7679,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +106,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.sku.delete',
             params: {
-              id: 1288,
+              id: 7679,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -130,7 +136,7 @@
 
     try:
         bitrix_response = client.catalog.product.sku.delete(
-            bitrix_id=1288,
+            bitrix_id=7679,
         ).response
         result = bitrix_response.result
         print(result)
@@ -149,7 +155,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -157,21 +162,17 @@
             ->call(
                 'catalog.product.sku.delete',
                 [
-                    'id' => 1288,
+                    'id' => 7679,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting product SKU: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -181,7 +182,7 @@
     BX24.callMethod(
         'catalog.product.sku.delete',
         {
-            id: 1288,
+            id: 7679,
         },
         function(result) {
             if (result.error()) {
@@ -201,7 +202,7 @@
     $result = CRest::call(
         'catalog.product.sku.delete',
         [
-            'id' => 1288
+            'id' => 7679
         ]
     );
 
@@ -215,7 +216,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.sku.delete", b24.Params{
-    	"id": 1288,
+    	"id": 7679,
     })
     if err != nil {
     	return fmt.Errorf("catalog.product.sku.delete: %w", err)
@@ -238,12 +239,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1718630898.795719,
-        "finish": 1718630899.598307,
-        "duration": 0.8025879859924316,
-        "processing": 0.35277414321899414,
-        "date_start": "2024-06-17T16:28:18+03:00",
-        "date_finish": "2024-06-17T16:28:19+03:00"
+        "start": 1793893645,
+        "finish": 1793893646.139728,
+        "duration": 1.13972806930542,
+        "processing": 1,
+        "date_start": "2026-11-05T18:47:25+03:00",
+        "date_finish": "2026-11-05T18:47:26+03:00",
+        "operating_reset_at": 1793893740,
+        "operating": 2.513129949569702
     }
 }
 ```
@@ -254,9 +257,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат удаления головного товара ||
+[`boolean`](../../../data-types.md) | Результат удаления. `true` — головной товар и его вариации удалены ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -264,9 +267,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":200040300040,
-    "error_description":"Access Denied"
+{
+    "error": "",
+    "error_description": "sku does not exist."
 }
 ```
 
@@ -275,17 +278,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300040` | Недостаточно прав для удаления головного товара
-|| 
-|| `200040300040` | Недостаточно прав для удаления информационного блока
-|| 
-|| `200040300010` | Недостаточно прав для просмотра торгового каталога
-|| 
-|| `200040300000` | Информационный блок не найден
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр каталога ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права «Удаление товара» или права на удаление элемента инфоблока каталога ||
+|| `400` | Пустое значение | sku does not exist. | Товар с указанным `id` не найден ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

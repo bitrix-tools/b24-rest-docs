@@ -22,7 +22,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Возвращать данные руководителя подразделения. Возможные значения: - Y — да - N — нет По умолчанию: N"
+      "description": "Возвращать данные руководителя подразделения. Возможные значения: - Y — да - N — нет По умолчанию: N",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет По умолчанию: N"
+        }
+      ]
     }
   ],
   "defs": {},
@@ -48,5 +58,12 @@
     }
   ],
   "page": "/api-reference/chats/departments/im-department-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": [
+      3,
+      7
+    ],
+    "USER_DATA": "Y"
+  }
 }

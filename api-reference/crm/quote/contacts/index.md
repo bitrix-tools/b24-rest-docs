@@ -9,6 +9,12 @@
 
 {% endnote %}
 
+{% note warning "DEPRECATED" %}
+
+Развитие методов `crm.quote.contact.*` остановлено. Для новой разработки получайте контакты предложения методом [crm.item.get](../../universal/crm-item-get.md) и меняйте их набор методом [crm.item.update](../../universal/crm-item-update.md): укажите `entityTypeId = 7` и используйте поле `contactIds`. Описание поля `contactIds` можно получить методом [crm.item.fields](../../universal/crm-item-fields.md). Универсальные методы не позволяют отдельно задать `SORT` и `IS_PRIMARY` привязок.
+
+{% endnote %}
+
 Группа методов crm.quote.contact.* связывает контакты с коммерческим предложением и разрывает эту связь. Контактов у предложения может быть несколько, один из них считается первичным. Методы с items в названии работают со всем набором сразу, остальные — с одной привязкой.
 
 > Быстрый переход: [все методы](#all-methods)
@@ -41,15 +47,13 @@
 
 ## Как получить и изменить набор контактов
 
-Множественное поле `CONTACT_IDS` доступно в методах [crm.quote.add](../crm-quote-add.md) и [crm.quote.update](../crm-quote-update.md), но не возвращается методами [crm.quote.get](../crm-quote-get.md) и [crm.quote.list](../crm-quote-list.md) — прочитать контакты существующего предложения можно только методом [crm.quote.contact.items.get](./crm-quote-contact-items-get.md).
+Множественное поле `CONTACT_IDS` доступно в методах [crm.quote.add](../crm-quote-add.md) и [crm.quote.update](../crm-quote-update.md), но не возвращается методами [crm.quote.get](../crm-quote-get.md) и [crm.quote.list](../crm-quote-list.md). Среди методов `crm.quote.*` прочитать контакты существующего предложения можно методом [crm.quote.contact.items.get](./crm-quote-contact-items-get.md).
 
 Методы по-разному меняют набор контактов, и от этого зависит выбор:
 
 - [crm.quote.contact.add](./crm-quote-contact-add.md) добавляет один контакт к уже связанным. Если контакт уже связан с предложением, метод вернет `false` и ничего не изменит
 - [crm.quote.contact.items.set](./crm-quote-contact-items-set.md) заменяет весь набор целиком: контакты, которых нет в переданном списке, будут отвязаны от предложения
 - [crm.quote.contact.delete](./crm-quote-contact-delete.md) убирает из предложения один контакт, [crm.quote.contact.items.delete](./crm-quote-contact-items-delete.md) — сразу все
-
-Связь можно менять и универсальным методом [crm.item.update](../../universal/crm-item-update.md) с `entityTypeId = 7` — в нем поле называется `contactIds`. Он подходит только для замены всего набора: `SORT` пересчитывается по позиции контакта в массиве, а первичным становится первый контакт списка. Чтобы задать порядок и первичный контакт явно или изменить одну привязку, используйте методы этой группы.
 
 ## Что дает связь между предложением и контактами
 

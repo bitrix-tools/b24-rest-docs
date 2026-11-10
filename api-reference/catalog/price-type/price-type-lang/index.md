@@ -22,7 +22,7 @@
 
 ## Что учитывать перед вызовом методов
 
-- Методы `catalog.priceTypeLang.*` доступны только администратору
+- Для чтения переводов нужно право «Просмотр каталога товаров» или «Управление типами цен». Для создания, изменения и удаления — право «Управление типами цен»
 - Для одного типа цены можно создать только один перевод на конкретный язык. Пара `catalogGroupId + lang` должна быть уникальной. Перед созданием или обновлением проверьте существующий перевод через [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) с фильтром по `catalogGroupId` и `lang`
 
 ## Как начать работу
@@ -32,6 +32,16 @@
 3. Добавьте перевод методом [catalog.priceTypeLang.add](./catalog-price-type-lang-add.md)
 4. Для изменения перевода используйте [catalog.priceTypeLang.update](./catalog-price-type-lang-update.md), для удаления — [catalog.priceTypeLang.delete](./catalog-price-type-lang-delete.md)
 5. Для чтения одного перевода по `id` используйте [catalog.priceTypeLang.get](./catalog-price-type-lang-get.md), для получения списка переводов по фильтру — [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md)
+
+## Переводы в REST 3.0
+
+В [REST 3.0](../../../rest-v3.md) для переводов есть методы добавления, изменения, удаления, получения доступных языков и методы получения схемы полей `catalog.pricetype.lang.field.list` и `catalog.pricetype.lang.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- методов получения перевода и списка переводов в новой версии нет. Идентификатор перевода возвращает метод [catalog.pricetype.lang.add](./catalog-price-type-lang-add-rest-v3.md) или метод прежней версии [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md)
+- второй перевод на тот же язык и смена `lang` на язык, для которого перевод уже есть, возвращают ошибку сервера с HTTP-статусом `500`. Перед добавлением проверьте переводы типа цены методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md)
+- имена методов пишутся в нижнем регистре: `catalog.pricetype.lang.getlanguages`
 
 ## Связь переводов с другими объектами
 
@@ -43,15 +53,23 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы:
+> - пользователь с правом «Просмотр каталога товаров» или «Управление типами цен» — для получения переводов, списка языков и описания полей
+> - пользователь с правом «Управление типами цен» — для добавления, изменения и удаления переводов
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.priceTypeLang.add](./catalog-price-type-lang-add.md) | Добавляет перевод названия типа цены ||
+|| [catalog.pricetype.lang.add](./catalog-price-type-lang-add-rest-v3.md) | Добавляет перевод названия типа цены v 3.0 ||
 || [catalog.priceTypeLang.update](./catalog-price-type-lang-update.md) | Обновляет перевод названия типа цены ||
+|| [catalog.pricetype.lang.update](./catalog-price-type-lang-update-rest-v3.md) | Обновляет перевод названия типа цены v 3.0 ||
 || [catalog.priceTypeLang.get](./catalog-price-type-lang-get.md) | Возвращает значения полей перевода названия типа цены ||
 || [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) | Возвращает список переводов названий типов цен по фильтру ||
 || [catalog.priceTypeLang.delete](./catalog-price-type-lang-delete.md) | Удаляет перевод названия типа цены ||
+|| [catalog.pricetype.lang.delete](./catalog-price-type-lang-delete-rest-v3.md) | Удаляет перевод названия типа цены v 3.0 ||
 || [catalog.priceTypeLang.getLanguages](./catalog-price-type-lang-get-languages.md) | Возвращает доступные для перевода языки ||
+|| [catalog.pricetype.lang.getlanguages](./catalog-price-type-lang-get-languages-rest-v3.md) | Возвращает доступные для перевода языки v 3.0 ||
 || [catalog.priceTypeLang.getFields](./catalog-price-type-lang-get-fields.md) | Возвращает поля перевода названия типа цены ||
+|| [catalog.pricetype.lang.field.list](./catalog-price-type-lang-field-list.md) | Возвращает список полей перевода названия типа цены v 3.0 ||
+|| [catalog.pricetype.lang.field.get](./catalog-price-type-lang-field-get.md) | Возвращает описание поля перевода названия типа цены ||
 |#

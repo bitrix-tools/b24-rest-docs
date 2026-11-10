@@ -1,0 +1,96 @@
+{
+  "$v": 1,
+  "method": "crm.timeline.bindings.fields",
+  "scope": "crm",
+  "kind": "read",
+  "title": "Получить поля связи записи таймлайна с элементом CRM crm.timeline.bindings.fields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Ключ — имя поля связи из списка полей, значение — объект с описанием поля",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/crm/timeline/bindings/crm-timeline-bindings-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "OWNER_ID": {
+        "type": "integer",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID записи таймлайна"
+      },
+      "ENTITY_ID": {
+        "type": "integer",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "ID элемента"
+      },
+      "ENTITY_TYPE": {
+        "type": "string",
+        "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": true,
+        "isMultiple": false,
+        "isDynamic": false,
+        "title": "Тип элемента"
+      }
+    },
+    "time": {
+      "start": 1715091541.642592,
+      "finish": 1715091541.730599,
+      "duration": 0.08800697326660156,
+      "date_start": "2024-05-03T17:19:01+03:00",
+      "date_finish": "2024-05-03T17:19:01+03:00",
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа. Ключ — имя поля связи из списка полей, значение — объект с описанием поля"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/crm/timeline/bindings/crm-timeline-bindings-fields.html",
+  "executable": false,
+  "requestExample": {}
+}

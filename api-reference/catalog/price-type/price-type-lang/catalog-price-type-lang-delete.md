@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление типами цен»
 
-Метод удаляет перевод названия типа цены по его идентификатору. 
+Метод `catalog.priceTypeLang.delete` удаляет перевод названия типа цены по его идентификатору.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены ||
+[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены.
+
+Получить идентификатор можно методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) ||
 |#
 
 ## Примеры кода
@@ -158,20 +160,14 @@
                     'id' => 3,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting price type language: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -179,10 +175,10 @@
 
     ```js
     BX24.callMethod(
-    'catalog.priceTypeLang.delete', 
-    { 
+    'catalog.priceTypeLang.delete',
+    {
     id: 3
-    }, 
+    },
     function(result)
     {
     if(result.error())
@@ -238,12 +234,13 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1733842077.14235,
-        "finish": 1733842077.43516,
-        "duration": 0.292811155319214,
-        "processing": 0.00620388984680176,
-        "date_start": "2024-12-10T16:47:57+02:00",
-        "date_finish": "2024-12-10T16:47:57+02:00",
+        "start": 1793699472,
+        "finish": 1793699472.12151,
+        "duration": 0.12151002883911133,
+        "processing": 0,
+        "date_start": "2026-11-03T12:51:12+03:00",
+        "date_finish": "2026-11-03T12:51:12+03:00",
+        "operating_reset_at": 1793700060,
         "operating": 0
     }
 }
@@ -257,7 +254,7 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../../data-types.md) | Результат удаления перевода названия типа цены ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -266,8 +263,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied",
+    "error": "201200000000",
+    "error_description": "priceTypeLang does not exist."
 }
 ```
 
@@ -276,15 +273,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-|| 
-|| `201200000000` | Перевода названия типа цены с таким идентификатором не существует
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `201200000000` | priceTypeLang does not exist. | Перевода с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

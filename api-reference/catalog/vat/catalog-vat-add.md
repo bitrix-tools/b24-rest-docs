@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление ставками НДС»
 
-Метод добавляет новую ставку НДС.
+Метод `catalog.vat.add` создает ставку НДС.
 
 ## Параметры метода
 
@@ -34,7 +34,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Название ставки НДС ||
+[`string`](../../data-types.md) | Название ставки НДС, например `НДС 5%` ||
 || **active**
 [`string`](../../data-types.md) | Индикатор активности ставки НДС. Возможные значения:
 - `Y` — активен
@@ -43,9 +43,11 @@
 По умолчанию `Y`
 ||
 || **rate***
-[`double`](../../data-types.md) | Величина ставки НДС ||
+[`double`](../../data-types.md) | Величина ставки в процентах, например `5`, `10.5` или `22`. Значение `null` не принимается, ставку без НДС этим методом создать нельзя.
+
+Отрицательное значение метод отклоняет. Верхнюю границу метод не проверяет: ставка `150` сохранится. Строку, которая не является числом, метод сохраняет как `0` без ошибки ||
 || **sort**
-[`integer`](../../data-types.md) | Сортировка.
+[`integer`](../../data-types.md) | Порядок сортировки ставки в списках. Чем меньше значение, тем выше ставка в списке.
 
 По умолчанию `100`
 ||
@@ -63,7 +65,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"name":"Налог 13%","rate":13,"sort":10,"active":"Y"}}' \
+    -d '{"fields":{"name":"НДС 5%","rate":5,"sort":500,"active":"Y"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.vat.add
     ```
 
@@ -73,7 +75,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"name":"Налог 13%","rate":13,"sort":10,"active":"Y"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"name":"НДС 5%","rate":5,"sort":500,"active":"Y"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.vat.add
     ```
 
@@ -104,9 +106,9 @@
         method: 'catalog.vat.add',
         params: {
           fields: {
-            name: 'Tax 13%',
-            rate: 13,
-            sort: 10,
+            name: 'НДС 5%',
+            rate: 5,
+            sort: 500,
             active: 'Y',
           },
         },
@@ -141,9 +143,9 @@
             method: 'catalog.vat.add',
             params: {
               fields: {
-                name: 'Tax 13%',
-                rate: 13,
-                sort: 10,
+                name: 'НДС 5%',
+                rate: 5,
+                sort: 500,
                 active: 'Y',
               },
             },
@@ -176,9 +178,9 @@
     try:
         bitrix_response = client.catalog.vat.add(
             fields={
-                "name": "Налог 13%",
-                "rate": 13,
-                "sort": 10,
+                "name": "НДС 5%",
+                "rate": 5,
+                "sort": 500,
                 "active": "Y",
             },
         ).response
@@ -199,7 +201,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -208,28 +209,21 @@
                 'catalog.vat.add',
                 [
                     'fields' => [
-                        'name'   => 'Налог 13%',
-                        'rate'   => 13,
-                        'sort'   => 10,
+                        'name'   => 'НДС 5%',
+                        'rate'   => 5,
+                        'sort'   => 500,
                         'active' => "Y",
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result['vat']);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding VAT: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -240,9 +234,9 @@
     'catalog.vat.add',
             {
                 fields: {
-                        name: 'Налог 13%',
-                        rate: 13,
-                        sort: 10,
+                        name: 'НДС 5%',
+                        rate: 5,
+                        sort: 500,
                         active: "Y",
                 }
             },
@@ -264,9 +258,9 @@
         'catalog.vat.add',
         [
             'fields' => [
-                'name' => 'Налог 13%',
-                'rate' => 13,
-                'sort' => 10,
+                'name' => 'НДС 5%',
+                'rate' => 5,
+                'sort' => 500,
                 'active' => "Y"
             ]
         ]
@@ -283,9 +277,9 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.vat.add", b24.Params{
     	"fields": b24.Params{
-    		"name":   "Налог 13%",
-    		"rate":   13,
-    		"sort":   10,
+    		"name":   "НДС 5%",
+    		"rate":   5,
+    		"sort":   500,
     		"active": "Y",
     	},
     })
@@ -300,12 +294,12 @@
     }
 
     var item struct {
-    	Active     string `json:"active"`
-    	ID         b24.ID `json:"id"`
-    	Name       string `json:"name"`
-    	Rate       int    `json:"rate"`
-    	Sort       int    `json:"sort"`
-    	TimestampX string `json:"timestampX"`
+    	Active     string  `json:"active"`
+    	ID         b24.ID  `json:"id"`
+    	Name       string  `json:"name"`
+    	Rate       float64 `json:"rate"`
+    	Sort       int     `json:"sort"`
+    	TimestampX string  `json:"timestampX"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -324,20 +318,21 @@ HTTP-статус: **200**
     "result": {
         "vat": {
             "active": "Y",
-            "id": 5,
-            "name": "Налог 13%",
-            "rate": 13,
-            "sort": 10,
-            "timestampX": "2024-09-16T11:20:38+02:00"
+            "id": 37,
+            "name": "НДС 5%",
+            "rate": 5,
+            "sort": 500,
+            "timestampX": "2026-10-27T19:17:29+03:00"
         }
     },
     "time": {
-        "start": 1716552521.40908,
-        "finish": 1716552521.69852,
-        "duration": 0.289434909820557,
-        "processing": 0.011207103729248,
-        "date_start": "2024-09-16T11:20:38+02:00",
-        "date_finish": "2024-09-16T11:20:38+02:00",
+        "start": 1793117849,
+        "finish": 1793117849.807201,
+        "duration": 0.8072009086608887,
+        "processing": 0,
+        "date_start": "2026-10-27T19:17:29+03:00",
+        "date_finish": "2026-10-27T19:17:29+03:00",
+        "operating_reset_at": 1793118420,
         "operating": 0
     }
 }
@@ -350,9 +345,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **vat**
-[`catalog_vat`](../data-types.md#catalog_vat) | Объект с информацией о созданной ставке НДС
-||
+|| **result.vat**
+[`catalog_vat`](../data-types.md#catalog_vat) | Созданная ставка НДС со всеми полями: `active`, `id`, `name`, `rate`, `sort`, `timestampX`. Значение `id` используйте в поле `vatId` торгового каталога или товара ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -363,8 +357,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "0",
+    "error_description": "Required fields: rate"
 }
 ```
 
@@ -373,23 +367,25 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-||
-|| `100` | Не передан обязательный параметр `fields`
-||
-|| `0` | Не установлены обязательные поля
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление ставками НДС» ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: name, rate | В `fields` нет обязательных полей. В тексте перечислены только непереданные поля, например `Required fields: rate` ||
+|| `400` | `0` | Required fields: rate | В `rate` передано `null` ||
+|| `400` | `ERROR_CORE` | Не указано название ставки НДС`<br>` | В `name` передана пустая строка ||
+|| `400` | `ERROR_CORE` | Неверная величина ставки НДС`<br>` | В `rate` передано отрицательное число ||
+|| `400` | `0` | Error adding VAT | Не удалось сохранить ставку НДС ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-vat-update.md)
 - [{#T}](./catalog-vat-get.md)
 - [{#T}](./catalog-vat-list.md)
 - [{#T}](./catalog-vat-delete.md)
 - [{#T}](./catalog-vat-get-fields.md)
+- [{#T}](../catalog/catalog-catalog-update.md)
+- [{#T}](../product/catalog-product-update.md)

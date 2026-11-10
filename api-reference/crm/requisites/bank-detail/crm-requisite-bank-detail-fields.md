@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.bankrequisite.field.list](../../rest-v3/requisites/index.md).
+
+{% endnote %}
+
 Метод возвращает формальное описание полей банковских реквизитов.
 
 Без параметров.
@@ -158,16 +164,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching bank detail fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

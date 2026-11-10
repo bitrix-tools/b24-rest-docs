@@ -7,57 +7,26 @@
   "permissions": "любой пользователь",
   "params": [
     {
-      "name": "name",
-      "type": "string",
-      "base": "string",
+      "name": "result",
+      "type": "object",
+      "base": "object",
       "required": "unknown",
-      "description": "Название эпика"
-    },
-    {
-      "name": "description",
-      "type": "string",
-      "base": "string",
-      "required": "unknown",
-      "description": "Описание эпика"
-    },
-    {
-      "name": "groupId",
-      "type": "integer",
-      "base": "integer",
-      "required": "unknown",
-      "description": "Идентификатор группы (скрама), к которой относится эпик"
-    },
-    {
-      "name": "color",
-      "type": "string",
-      "base": "string",
-      "required": "unknown",
-      "description": "Цвет эпика"
-    },
-    {
-      "name": "files",
-      "type": "array",
-      "base": "array",
-      "required": "unknown",
-      "description": "Массив файлов, привязанных к эпику",
+      "description": "Объект с ключом fields (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
     },
     {
-      "name": "createdBy",
-      "type": "integer",
-      "base": "integer",
+      "name": "time",
+      "type": "time",
+      "base": "object",
       "required": "unknown",
-      "description": "Кем создана"
-    },
-    {
-      "name": "modifiedBy",
-      "type": "integer",
-      "base": "integer",
-      "required": "unknown",
-      "description": "Кем изменена"
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     }
   ],
   "defs": {},
@@ -67,30 +36,59 @@
     "file": "api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get-fields.md"
   },
   "resultExample": {
-    "fields": {
-      "name": {
-        "type": "string"
-      },
-      "description": {
-        "type": "string"
-      },
-      "groupId": {
-        "type": "integer"
-      },
-      "color": {
-        "type": "string"
-      },
-      "files": {
-        "type": "array"
-      },
-      "createdBy": {
-        "type": "integer"
-      },
-      "modifiedBy": {
-        "type": "integer"
+    "result": {
+      "fields": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "groupId": {
+          "type": "integer"
+        },
+        "color": {
+          "type": "string"
+        },
+        "files": {
+          "type": "array"
+        },
+        "createdBy": {
+          "type": "integer"
+        },
+        "modifiedBy": {
+          "type": "integer"
+        }
       }
+    },
+    "time": {
+      "start": 1790262925,
+      "finish": 1790262925.771081,
+      "duration": 0.7710809707641602,
+      "processing": 0,
+      "date_start": "2026-09-24T18:15:25+03:00",
+      "date_finish": "2026-09-24T18:15:25+03:00",
+      "operating_reset_at": 1790263525,
+      "operating": 0
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с ключом fields (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/epic/tasks-api-scrum-epic-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

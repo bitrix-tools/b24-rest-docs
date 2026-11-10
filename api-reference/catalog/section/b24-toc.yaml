@@ -5,13 +5,27 @@ items:
     href: index.md
   - name: Добавить раздел торгового каталога
     href: catalog-section-add.md
+  - name: Добавить раздел торгового каталога v 3.0
+    href: catalog-section-add-rest-v3.md
   - name: Изменить раздел торгового каталога
     href: catalog-section-update.md
+  - name: Изменить раздел торгового каталога v 3.0
+    href: catalog-section-update-rest-v3.md
   - name: Получить значения полей раздела торгового каталога
     href: catalog-section-get.md
+  - name: Получить значения полей раздела торгового каталога v 3.0
+    href: catalog-section-get-rest-v3.md
   - name: Получить список разделов торгового каталога
     href: catalog-section-list.md
+  - name: Получить список разделов торгового каталога v 3.0
+    href: catalog-section-list-rest-v3.md
   - name: Удалить раздел торгового каталога
     href: catalog-section-delete.md
+  - name: Удалить раздел торгового каталога v 3.0
+    href: catalog-section-delete-rest-v3.md
   - name: Получить поля раздела торгового каталога
     href: catalog-section-get-fields.md
+  - name: Получить список полей раздела торгового каталога v 3.0
+    href: catalog-section-field-list.md
+  - name: Получить поле раздела торгового каталога
+    href: catalog-section-field-get.md

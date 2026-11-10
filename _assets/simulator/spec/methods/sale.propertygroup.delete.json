@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/property-group/sale-property-group-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 15
+  }
 }

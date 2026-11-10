@@ -95,7 +95,7 @@
       UPDATED_BY: string
       DELETED_BY: string
       DOWNLOAD_URL: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -165,7 +165,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.file.moveto(
+        bitrix_response = client.disk.file.move_to(
             bitrix_id=8964,
             target_folder_id=9023,
         ).response
@@ -299,7 +299,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": "0",
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=343794690000071b006e2cf2000004f500000746484b1f82771b3434ff80eb15edc8f8&token=disk%7CaWQ9ODk2NCZfPW1vbGtSSzFIQ25HclVzaDRldXdkTFhoT215M2t5UmhF%7CImRvd25sb2FkfGRpc2t8YVdROU9EazJOQ1pmUFcxdmJHdFNTekZJUTI1SGNsVnphRFJsZFhka1RGaG9UMjE1TTJ0NVVtaEZ8MzQzNzk0NjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc0NjQ4NGIxZjgyNzcxYjM0MzRmZjgwZWIxNWVkYzhmOCI%3D.0NfJeP8vn%2BqE9%2B5v9Crsh3W%2Bcf6HKgdfKQVTm9z0dto%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/Картинка.png"
     },
     "time": {
@@ -362,7 +362,7 @@ HTTP-статус: **200**
 || **DOWNLOAD_URL**
 [`string`](../../data-types.md) | Ссылка для скачивания файла ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия файла в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия файла в интерфейсе. Для файлов из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

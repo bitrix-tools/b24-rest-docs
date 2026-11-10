@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных наценок в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogextra. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -102,5 +112,17 @@
     }
   ],
   "page": "/api-reference/catalog/extra/catalog-extra-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "select": [
+      "id",
+      "percentage"
+    ],
+    "filter": {
+      ">percentage": 5
+    },
+    "order": {
+      "id": "ASC"
+    }
+  }
 }

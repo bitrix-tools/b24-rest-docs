@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Создать документ складского учета catalog.document.add",
-  "permissions": "пользователь с правом «Cоздание и редактирование» на нужный тип документа",
+  "permissions": "пользователь с правом «Создание и редактирование» на нужный тип документа",
   "params": [
     {
       "name": "fields",
@@ -28,7 +28,30 @@
           "type": "char",
           "base": "char",
           "required": true,
-          "description": "Тип документа. Возможные значения: - A — поступление, - S — оприходование, - M — перемещение между складами, - R — возврат, - D — списание. Актуальные типы документов можно получить методом catalog.enum.getStoreDocumentTypes"
+          "description": "Тип документа. Возможные значения: - A — поступление, - S — оприходование, - M — перемещение между складами, - R — возврат, - D — списание. Актуальные типы документов можно получить методом catalog.enum.getStoreDocumentTypes",
+          "values": [
+            {
+              "value": "A",
+              "title": "поступление"
+            },
+            {
+              "value": "S",
+              "title": "оприходование"
+            },
+            {
+              "value": "M",
+              "title": "перемещение между складами"
+            },
+            {
+              "value": "R",
+              "title": "возврат"
+            },
+            {
+              "value": "D",
+              "title": "списание"
+            }
+          ],
+          "flag": false
         },
         {
           "name": "currency",
@@ -49,7 +72,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Код сайта, к которому относится документ. По умолчанию — s1. Параметр актуален для коробочных Битрикс, для облачных Битрикс значение стандратное — s1"
+          "description": "Код сайта, к которому относится документ. По умолчанию — s1. Параметр актуален для коробочных Битрикс, для облачных Битрикс значение стандартное — s1",
+          "flag": false
         },
         {
           "name": "dateDocument",
@@ -70,7 +94,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Комментарий к документу"
+          "description": "Комментарий к документу",
+          "flag": false
         },
         {
           "name": "total",
@@ -158,5 +183,15 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "docType": "A",
+      "currency": "RUB",
+      "responsibleId": 29,
+      "docNumber": "IN-00042",
+      "title": "Поступление от Поставщик-1",
+      "commentary": "Плановое пополнение склада"
+    }
+  }
 }

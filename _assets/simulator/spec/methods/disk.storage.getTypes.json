@@ -69,5 +69,6 @@
     }
   ],
   "page": "/api-reference/disk/storage/disk-storage-get-types.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

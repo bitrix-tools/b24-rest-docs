@@ -4,14 +4,14 @@
   "scope": "crm",
   "kind": "write",
   "title": "Удалить товарную позицию из оплаты crm.item.payment.product.delete",
-  "permissions": "требуется право на изменение заказа, из которого удаляется товарная позиция",
+  "permissions": "пользователь с правом «Изменение» для объекта CRM, к которому относится оплата",
   "params": [
     {
       "name": "id",
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор товарной позиции в оплате. Можно получить с помощью crm.item.payment.product.list"
+      "description": "Идентификатор товарной позиции в оплате. Можно получить с помощью метода crm.item.payment.product.list"
     }
   ],
   "defs": {},
@@ -37,5 +37,8 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/products-in-payment/crm-item-payment-product-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1194
+  }
 }

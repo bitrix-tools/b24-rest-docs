@@ -101,6 +101,7 @@
       item: {
         callId: number
         callType?: number
+        chatId?: number | null
         initiatorId?: number
         startDate?: string
         endDate?: string
@@ -179,6 +180,34 @@
 
       document.addEventListener('DOMContentLoaded', getFollowUp)
     </script>
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    try:
+        bitrix_response = client.call.followup.get(
+            call_id=12345,
+            mention_format="html",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API v3",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
+            sep="\n",
+        )
+        if error.has_validation:
+            print(f"validation: {error.validation}")
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - PHP
@@ -275,6 +304,7 @@ HTTP-статус: **200**
         "item": {
             "callId": 12345,
             "callType": 1,
+            "chatId": 2048,
             "initiatorId": 7,
             "startDate": "2026-01-15T10:00:00+00:00",
             "endDate": "2026-01-15T10:42:00+00:00",

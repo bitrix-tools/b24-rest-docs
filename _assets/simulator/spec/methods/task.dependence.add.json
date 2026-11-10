@@ -51,5 +51,10 @@
     }
   ],
   "page": "/api-reference/tasks/task-dependence-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskIdFrom": 100,
+    "taskIdTo": 101,
+    "linkType": 0
+  }
 }

@@ -15,17 +15,31 @@
     },
     {
       "name": "USER_ID",
-      "type": "integer/array",
-      "base": "any",
+      "type": "integer | integer[]",
+      "base": "array",
       "required": true,
-      "description": "Идентификатор участника. Идентификатор можно получить с помощью метода sonetgroup.user.get"
+      "description": "Идентификатор участника. Идентификатор можно получить с помощью метода sonetgroup.user.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     },
     {
       "name": "ROLE",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Код новой роли участника. Возможные значения: - E — модератор - K — участник"
+      "description": "Код новой роли участника. Возможные значения: - E — модератор - K — участник",
+      "values": [
+        {
+          "value": "E",
+          "title": "модератор"
+        },
+        {
+          "value": "K",
+          "title": "участник"
+        }
+      ]
     }
   ],
   "defs": {},
@@ -67,5 +81,13 @@
     }
   ],
   "page": "/api-reference/sonet-group/members/sonet-group-user-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "GROUP_ID": 69,
+    "USER_ID": [
+      1271,
+      1272
+    ],
+    "ROLE": "E"
+  }
 }

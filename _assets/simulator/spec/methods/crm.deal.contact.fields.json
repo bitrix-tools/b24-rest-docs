@@ -93,5 +93,6 @@
     }
   ],
   "page": "/api-reference/crm/deals/contacts/crm-deal-contact-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

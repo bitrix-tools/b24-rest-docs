@@ -13,7 +13,9 @@
 
 По таблицам можно подобрать сценарий по объекту CRM, результату интеграции и основным REST-методам.
 
-## Выберите тип объекта
+> Быстрый переход: [все сценарии](#choose-tutorial)
+
+## Выберите тип объекта {#choose-tutorial}
 
 Начните с выбора базового объекта. Выбор зависит от того, на каком этапе взаимодействия находится клиент и откуда пришли данные.
 
@@ -22,6 +24,17 @@
 **Контакт и компания**. Используйте эти объекты, когда клиент уже идентифицирован. Контакт описывает человека, компания — организацию. Их часто создают в паре.
 
 **Сделка**. Необходима для запуска коммерческого процесса. Сделку обычно создают вместе с компанией и реквизитами, если цель обращения — продажа.
+
+## Как выбрать сценарий
+
+1. Определите основной объект CRM: лид, контакт, компанию, сделку или смарт-процесс
+2. Решите, какие данные нужно добавить вместе с карточкой: реквизиты, адрес, файл, товарные позиции, дело или документ
+3. Откройте подходящий сценарий в таблице и выполняйте методы в указанном порядке
+4. Используйте идентификатор, который возвращает один метод, в следующем вызове сценария
+
+Для доступа к методам передайте входящий вебхук с нужными правами или используйте OAuth 2.0. Конкретные права указаны на страницах методов и зависят от выбранного объекта и связанных данных.
+
+Результатом сценария обычно становятся идентификаторы созданных объектов и связанных элементов. Проверяйте ответ каждого вызова перед переходом к следующему шагу.
 
 ### Сценарии по основным объектам
 
@@ -52,6 +65,7 @@
 || [Добавить контакт с реквизитами через веб-форму](./how-to-add-contact-with-requisite.md) | [crm.contact.add](../../../api-reference/crm/contacts/crm-contact-add.md), [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md), [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) | ID контакта, реквизита и адреса ||
 || [Добавить компанию с реквизитами через веб-форму](./how-to-add-company-with-requisite.md) | [crm.company.add](../../../api-reference/crm/companies/crm-company-add.md), [crm.requisite.add](../../../api-reference/crm/requisites/universal/crm-requisite-add.md), [crm.address.add](../../../api-reference/crm/requisites/addresses/crm-address-add.md) | ID компании, реквизита и адреса ||
 || [Как создать поставщика в CRM](./how-to-add-contractor.md) | [crm.category.list](../../../api-reference/crm/universal/category/crm-category-list.md), [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [catalog.documentcontractor.add](../../../api-reference/catalog/documentcontractor/catalog-documentcontractor-add.md) | ID поставщика для складских документов ||
+|| [Создать объект CRM с товарами, скидками и налогами](./how-to-product-binding.md) | [catalog.product.list](../../../api-reference/catalog/product/catalog-product-list.md), [catalog.price.list](../../../api-reference/catalog/price/catalog-price-list.md), [crm.item.add](../../../api-reference/crm/universal/crm-item-add.md), [crm.item.productrow.set](../../../api-reference/crm/universal/product-rows/crm-item-productrow-set.md) | ID объекта CRM с товарными позициями ||
 |#
 
 ## Добавляйте активности и документы
@@ -82,15 +96,12 @@
 
 **Воронки и стадии**. Настройте процесс прохождения этапов. Создайте воронку и добавьте в нее необходимые статусы.
 
-**Пользовательские поля**. Расширяйте карточку смарт-процесса своими полями. Настраивайте тип поля, формат чисел, варианты списков и параметры отображения.
+**Пользовательские поля**. Расширяйте карточку смарт-процесса своими полями. Как создать поле, выбрать его тип и записать значение — в разделе [{#T}](../../field-types/index.md).
 
 ### Сценарии по смарт-процессам
 
 #|
 || **Сценарий** | **Основные методы** | **Результат** ||
 || [Как добавить комментарий в таймлайн смарт-процесса](./how-to-add-comment-to-spa.md) | [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md), [crm.item.list](../../../api-reference/crm/universal/crm-item-list.md), [crm.timeline.comment.add](../../../api-reference/crm/timeline/comments/crm-timeline-comment-add.md) | ID записи таймлайна ||
-|| [Как создать пользовательское поле в смарт-процессе](./how-to-add-user-field-to-spa.md) | [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md), [userfieldconfig.add](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-add.md) | ID пользовательского поля ||
-|| [Как настроить округление для пользовательского поля типа «Число»](./how-to-add-precision-to-user-field.md) | [crm.userfield.settings.fields](../../../api-reference/crm/universal/user-defined-fields/crm-userfield-settings-fields.md), [crm.deal.userfield.list](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-list.md), [userfieldconfig.update](../../../api-reference/crm/universal/userfieldconfig/userfieldconfig-update.md) | Обновленные настройки числового поля ||
 || [Как создать новую воронку со стадиями в смарт-процессе](./how-to-add-category-to-spa.md) | [crm.type.list](../../../api-reference/crm/universal/user-defined-object-types/crm-type-list.md), [crm.category.add](../../../api-reference/crm/universal/category/crm-category-add.md), [crm.status.add](../../../api-reference/crm/status/crm-status-add.md) | ID воронки и созданных стадий ||
-|| [Как работать с полем Привязка к элементам CRM](./how-to-use-crm-binding-field.md) | [crm.deal.userfield.add](../../../api-reference/crm/deals/user-defined-fields/crm-deal-userfield-add.md), [crm.item.update](../../../api-reference/crm/universal/crm-item-update.md), [crm.enum.ownertype](../../../api-reference/crm/auxiliary/enum/crm-enum-owner-type.md) | Заполненные поля привязки и полученные по ним элементы CRM ||
 |#

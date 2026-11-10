@@ -61,5 +61,6 @@
     "successor": "tasks.task.list"
   },
   "page": "/api-reference/tasks/deprecated/task-items-get-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

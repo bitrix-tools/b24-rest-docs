@@ -25,7 +25,9 @@
 || **POST_ID**
 [`integer`](../data-types.md) | Фильтрация по идентификатору сообщения.
 
-Получить идентификатор можно с помощью метода [log.blogpost.get](./log-blogpost-get.md) ||
+Идентификатор указан в поле `ID` элемента результата метода.
+
+Если параметр передан, фильтрация по `LOG_RIGHTS` игнорируется ||
 || **LOG_RIGHTS**
 [`array`](../data-types.md) | Фильтрация по получателям, у которых есть право на просмотр сообщения.
 
@@ -35,17 +37,19 @@
 - `U<X>` — пользователи с идентификатором `X`. Идентификатор можно получить методом [user.get](../user/user-get.md)
 - `UA` — все авторизованные пользователи
 - `DR<X>` — подразделения компании с идентификатором `X`. Идентификатор можно получить методом [department.get](../departments/department-get.md)
+
+Параметр применяется, только если не передан `POST_ID`. Если не переданы оба параметра, метод возвращает все сообщения, доступные текущему пользователю
 ||
 || **LOG_DATE_FROM**
-[`string`](../data-types.md) | Нижняя граница периода публикации сообщения в формате ISO 8601. Если указаны `LOG_DATE_FROM` и `LOG_DATE_TO`, значение `LOG_DATE_FROM` не должно быть позже `LOG_DATE_TO` ||
+[`string`](../data-types.md) | Нижняя граница периода публикации сообщения в формате ISO 8601. Задается в пользовательском времени. Если указаны `LOG_DATE_FROM` и `LOG_DATE_TO`, значение `LOG_DATE_FROM` не должно быть позже `LOG_DATE_TO`. Пустая строка не ограничивает выборку ||
 || **LOG_DATE_TO**
-[`string`](../data-types.md) | Верхняя граница периода публикации сообщения в формате ISO 8601. Если значение не указано, верхняя граница периода не применяется ||
+[`string`](../data-types.md) | Верхняя граница периода публикации сообщения в формате ISO 8601. Задается в пользовательском времени. Если значение не указано или передана пустая строка, верхняя граница периода не применяется ||
 || **FIRST_ID**
-[`integer`](../data-types.md) | Идентификатор записи Ленты новостей для курсорной навигации вперед. Метод вернет сообщения с идентификаторами больше указанного значения. Если переданы `FIRST_ID` и `LAST_ID`, применяется `FIRST_ID` ||
+[`integer`](../data-types.md) | Идентификатор записи Ленты новостей для курсорной навигации вперед. Метод вернет сообщения с идентификаторами больше указанного значения. Если переданы `FIRST_ID` и `LAST_ID`, применяется `FIRST_ID`. Значение `0` или пустая строка начинает выборку с края списка ||
 || **LAST_ID**
-[`integer`](../data-types.md) | Идентификатор записи Ленты новостей для курсорной навигации назад. Метод вернет сообщения с идентификаторами меньше указанного значения ||
+[`integer`](../data-types.md) | Идентификатор записи Ленты новостей для курсорной навигации назад. Метод вернет сообщения с идентификаторами меньше указанного значения. Значение `0` или пустая строка начинает выборку с края списка ||
 || **LIMIT**
-[`integer`](../data-types.md) | Размер страницы в курсорном режиме. Неположительное или нечисловое значение заменяется значением по умолчанию. Максимальное значение — `200` ||
+[`integer`](../data-types.md) | Размер страницы в курсорном режиме. По умолчанию — `50`. Неположительное или нечисловое значение заменяется значением по умолчанию. Максимальное значение — `200` ||
 || **start**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -60,7 +64,9 @@
 
 {% note info "" %}
 
-Если параметры `POST_ID` и `LOG_RIGHTS` не указаны, возвращаются все сообщения, доступные текущему пользователю. Параметры являются взаимоисключающими: при указании `POST_ID` фильтрация по `LOG_RIGHTS` игнорируется
+Передайте `FIRST_ID` или `LAST_ID`, чтобы включить курсорный режим. В этом режиме параметр `start` игнорируется, а `LIMIT` задает размер страницы. Метод сортирует записи по ID и не подсчитывает их общее количество, поэтому обход большой ленты не замедляется к ее концу из-за смещения. Без курсоров метод использует постраничную навигацию через `start` по 50 записей и сортирует записи по дате обновления.
+
+`LOG_DATE_FROM` и `LOG_DATE_TO` ограничивают выборку в обоих режимах.
 
 {% endnote %}
 
@@ -305,7 +311,7 @@
 
 HTTP-статус: **200**
 
-Пример ответа:
+Пример ответа без курсора:
 
 ```json
 {
@@ -358,9 +364,9 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "file",
-            "CLASS_NAME": "Bitrix\Main\UserField\Types\FileType",
-            "EDIT_CALLBACK": ["Bitrix\Main\UserField\Types\FileType", "renderEdit"],
-            "VIEW_CALLBACK": ["Bitrix\Main\UserField\Types\FileType", "renderView"],
+            "CLASS_NAME": "Bitrix\\Main\\UserField\\Types\\FileType",
+            "EDIT_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\FileType", "renderEdit"],
+            "VIEW_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\FileType", "renderView"],
             "USE_FIELD_COMPONENT": true,
             "DESCRIPTION": "Файл",
             "BASE_TYPE": "file"
@@ -392,7 +398,7 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "url_preview",
-            "CLASS_NAME": "Bitrix\Main\UrlPreview\UrlPreviewUserType",
+            "CLASS_NAME": "Bitrix\\Main\\UrlPreview\\UrlPreviewUserType",
             "DESCRIPTION": "Содержимое ссылки",
             "BASE_TYPE": "int"
             },
@@ -428,9 +434,9 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "integer",
-            "CLASS_NAME": "Bitrix\Main\UserField\Types\IntegerType",
-            "EDIT_CALLBACK": ["Bitrix\Main\UserField\Types\IntegerType", "renderEdit"],
-            "VIEW_CALLBACK": ["Bitrix\Main\UserField\Types\IntegerType", "renderView"],
+            "CLASS_NAME": "Bitrix\\Main\\UserField\\Types\\IntegerType",
+            "EDIT_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\IntegerType", "renderEdit"],
+            "VIEW_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\IntegerType", "renderView"],
             "USE_FIELD_COMPONENT": true,
             "DESCRIPTION": "Целое число",
             "BASE_TYPE": "int"
@@ -466,7 +472,7 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "disk_file",
-            "CLASS_NAME": "Bitrix\Disk\Uf\FileUserType",
+            "CLASS_NAME": "Bitrix\\Disk\\Uf\\FileUserType",
             "DESCRIPTION": "Файл (Диск)",
             "BASE_TYPE": "int",
             "TAG": ["DISK FILE ID", "DOCUMENT ID"]
@@ -505,9 +511,9 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "integer",
-            "CLASS_NAME": "Bitrix\Main\UserField\Types\IntegerType",
-            "EDIT_CALLBACK": ["Bitrix\Main\UserField\Types\IntegerType", "renderEdit"],
-            "VIEW_CALLBACK": ["Bitrix\Main\UserField\Types\IntegerType", "renderView"],
+            "CLASS_NAME": "Bitrix\\Main\\UserField\\Types\\IntegerType",
+            "EDIT_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\IntegerType", "renderEdit"],
+            "VIEW_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\IntegerType", "renderView"],
             "USE_FIELD_COMPONENT": true,
             "DESCRIPTION": "Целое число",
             "BASE_TYPE": "int"
@@ -546,9 +552,9 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "datetime",
-            "CLASS_NAME": "Bitrix\Main\UserField\Types\DateTimeType",
-            "EDIT_CALLBACK": ["Bitrix\Main\UserField\Types\DateTimeType", "renderEdit"],
-            "VIEW_CALLBACK": ["Bitrix\Main\UserField\Types\DateTimeType", "renderView"],
+            "CLASS_NAME": "Bitrix\\Main\\UserField\\Types\\DateTimeType",
+            "EDIT_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\DateTimeType", "renderEdit"],
+            "VIEW_CALLBACK": ["Bitrix\\Main\\UserField\\Types\\DateTimeType", "renderView"],
             "USE_FIELD_COMPONENT": true,
             "DESCRIPTION": "Дата со временем",
             "BASE_TYPE": "datetime"
@@ -588,7 +594,7 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "vote",
-            "CLASS_NAME": "Bitrix\Vote\Uf\VoteUserType",
+            "CLASS_NAME": "Bitrix\\Vote\\Uf\\VoteUserType",
             "DESCRIPTION": "Опрос",
             "BASE_TYPE": "int"
             },
@@ -619,13 +625,13 @@ HTTP-статус: **200**
             "HELP_MESSAGE": null,
             "USER_TYPE": {
             "USER_TYPE_ID": "mail_message",
-            "CLASS_NAME": "Bitrix\Mail\MessageUserType",
+            "CLASS_NAME": "Bitrix\\Mail\\MessageUserType",
             "DESCRIPTION": "Письмо (email)",
             "BASE_TYPE": "int",
-            "VIEW_CALLBACK": ["Bitrix\Mail\MessageUserType", "getPublicView"],
-            "EDIT_CALLBACK": ["Bitrix\Mail\MessageUserType", "getPublicEdit"],
-            "onBeforeSave": ["Bitrix\Mail\MessageUserType", "onBeforeSave"],
-            "onDelete": ["Bitrix\Mail\MessageUserType", "onDelete"]
+            "VIEW_CALLBACK": ["Bitrix\\Mail\\MessageUserType", "getPublicView"],
+            "EDIT_CALLBACK": ["Bitrix\\Mail\\MessageUserType", "getPublicEdit"],
+            "onBeforeSave": ["Bitrix\\Mail\\MessageUserType", "onBeforeSave"],
+            "onDelete": ["Bitrix\\Mail\\MessageUserType", "onDelete"]
             },
             "VALUE": null,
             "ENTITY_VALUE_ID": 217,
@@ -650,15 +656,33 @@ HTTP-статус: **200**
 }
 ```
 
+При передаче `FIRST_ID` или `LAST_ID` форма ответа меняется. Поле `result` содержит объект с сообщениями под последовательными числовыми ключами и полем `next`. В `next` приходит ID последней прочитанной записи ленты, а не значение поля `ID` самого сообщения. Передавайте это значение в тот же параметр курсора для следующего запроса. Поле `total` в курсорном режиме отсутствует.
+
+Сокращенный пример ответа с курсором — остальные поля сообщения и служебное поле `time` опущены:
+
+```json
+{
+    "result": {
+        "0": {
+            "ID": "217",
+            "TITLE": "Новый регламент"
+        },
+        "next": 305
+    }
+}
+```
+
+Если записи ленты были прочитаны, `next` возвращается даже при неполной странице или пустом списке сообщений. Обход завершен, когда `next` отсутствует. Тогда `result` — пустой массив.
+
 ### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Параметры сообщения или список сообщений Ленты новостей.
+[`object[]`](../data-types.md), [`object`](../data-types.md) | Список сообщений Ленты новостей. Без курсора возвращается массив. При передаче `FIRST_ID` или `LAST_ID` возвращается объект с сообщениями под числовыми ключами и полем `next`. Поля каждого сообщения перечислены в следующих строках таблицы.
 
-Пустой массив означает, что нет записей, удовлетворяющих фильтру ||
+Пустой массив без курсора означает, что нет записей, удовлетворяющих фильтру. В курсорном режиме пустой массив без `next` означает конец обхода ||
 || **ID**
 [`integer`](../data-types.md) | Идентификатор сообщения ||
 || **BLOG_ID**
@@ -714,9 +738,9 @@ HTTP-статус: **200**
 || **FILES**
 [`array`](../data-types.md) | Массив ID файлов из `UF_BLOG_POST_FILE` ||
 || **next**
-[`integer`](../data-types.md) | Значение для постраничной навигации (если есть) ||
+[`integer`](../data-types.md) | Без курсора — значение на верхнем уровне ответа для постраничной навигации, если есть следующая страница. В курсорном режиме — поле внутри `result` с ID последней прочитанной записи ленты. Отсутствие поля означает конец обхода ||
 || **total**
-[`integer`](../data-types.md) | Общее количество найденных элементов ||
+[`integer`](../data-types.md) | Общее количество найденных элементов. Возвращается только без курсора ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -800,6 +824,28 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "ERROR_ARGUMENT",
+    "error_description": "Wrong date format in LOG_DATE_FROM"
+}
+```
+
+{% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ERROR_ARGUMENT` | `Wrong date format in LOG_DATE_FROM` | В `LOG_DATE_FROM` передана дата в неверном формате ||
+|| `ERROR_ARGUMENT` | `Wrong date format in LOG_DATE_TO` | В `LOG_DATE_TO` передана дата в неверном формате ||
+|| `ERROR_ARGUMENT` | `LOG_DATE_FROM is later than LOG_DATE_TO` | Нижняя граница периода `LOG_DATE_FROM` позже верхней границы `LOG_DATE_TO` ||
+|| `ERROR_ARGUMENT` | `Wrong FIRST_ID value` | В `FIRST_ID` передано отрицательное или нечисловое значение ||
+|| `ERROR_ARGUMENT` | `Wrong LAST_ID value` | В `LAST_ID` передано отрицательное или нечисловое значение ||
+|#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}
 

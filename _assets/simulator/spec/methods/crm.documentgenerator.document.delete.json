@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/crm/document-generator/documents/crm-document-generator-document-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 61
+  }
 }

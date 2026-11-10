@@ -12,12 +12,14 @@
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - любой пользователь для стадий «Моего плана»
-> - любой пользователь с доступом к группе для стадий канбана
+> - любой пользователь для стадий своего «Моего плана»
+> - владелец или модератор группы для стадий канбана группы
 
 Метод `task.stages.delete` удаляет стадию канбана или «Моего плана».
 
-Принимает на вход `id` стадии. Стадия проверяется на достаточный уровень прав, а также на то, что в ней нет задач.
+Удалить можно только пустую стадию без системного типа. Задачи из стадии сначала перенесите методом [task.stages.movetask](./task-stages-move-task.md).
+
+Системный тип стадии возвращает метод [task.stages.get](./task-stages-get.md) в поле `SYSTEM_TYPE`. У первой стадии он всегда `NEW`. Чтобы удалить первую стадию, сначала переставьте ее методом [task.stages.update](./task-stages-update.md) с параметром `AFTER_ID` в `fields`. Тип `NEW` перейдет к стадии, которая станет первой.
 
 ## Параметры метода
 
@@ -29,7 +31,7 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор стадии, которую необходимо удалить ||
 || **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет, при условии, что запрашивающий является администратором портала ||
+[`boolean`](../../data-types.md) | Если передать `true`, метод не проверяет права. Параметр действует только для администратора Битрикс24, у других пользователей права проверяются как обычно. По умолчанию — `false` ||
 |#
 
 ## Примеры кода
@@ -43,10 +45,11 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
     "id": 5
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.delete
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.stages.delete
     ```
 
 - cURL (OAuth)
@@ -54,11 +57,12 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
-    "id": 5
+    "id": 5,
+    "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/task.stages.delete
+    https://**put_your_bitrix24_address**/rest/task.stages.delete
     ```
 
 - JS (TS)
@@ -167,15 +171,15 @@
                     'id' => $stageId,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting task stage: ' . $e->getMessage();
@@ -243,11 +247,19 @@
 
 ## Обработка ответа
 
-HTTP-Статус: **200**
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
+    }
 }
 ```
 
@@ -256,9 +268,11 @@ HTTP-Статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
+|| **result**
 [`boolean`](../../data-types.md) | Возвращает `true` в случае успешного удаления стадии
 ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -267,8 +281,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "CANT_DELETE_FIRST",
-    "error_description": "Нельзя удалить первую стадию. Передвиньте стадию, чтобы удалить"
+    "error": "NO_EMPTY",
+    "error_description": "Стадия не пуста от задач"
 }
 ```
 
@@ -277,16 +291,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Вы не можете управлять стадиями||
-|| `CANT_DELETE_FIRST` | Нельзя удалить первую стадию. Передвиньте стадию, чтобы удалить ||
-|| `IS_SYSTEM` | Стадия, установленная по умолчанию, не может быть удалена ||
-|| `NOT_FOUND` | Стадия не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `NOT_FOUND` | Стадия не найдена | Стадии с идентификатором `id` нет ||
+|| `400` | `IS_SYSTEM` | Стадия, установленная по-умолчанию, не может быть удалена | Стадия системная, например первая стадия канбана или «Моего плана» ||
+|| `400` | `ACCESS_DENIED` | Вы не можете управлять стадиями | Пользователь не владелец и не модератор группы, к которой относится стадия, или стадия из чужого «Моего плана» ||
+|| `400` | `NO_EMPTY` | Стадия не пуста от задач | В стадии есть задачи ||
+|| `400` | `DISPATCHER_ERROR` | Argument "id" is required, but no value passed for task.stages.delete | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-stages-add.md)

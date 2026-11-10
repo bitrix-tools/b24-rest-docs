@@ -21,8 +21,8 @@
 
 **Элемент CRM.** Связь задают параметры `ownerTypeId` и `ownerId`.
 
-- `ownerTypeId` хранит тип объекта CRM, например `2` для сделки. Значения типов смотрите в справочнике [Тип объекта CRM](../../../data-types.md#object_type).
-- `ownerId` хранит идентификатор элемента CRM. Его возвращают методы [crm.item.list](../../../universal/crm-item-list.md) и [crm.item.add](../../../universal/crm-item-add.md).
+- `ownerTypeId` хранит тип объекта CRM, например `2` для сделки. Значения типов смотрите в справочнике [Тип объекта CRM](../../../data-types.md#object_type)
+- `ownerId` хранит идентификатор элемента CRM. Его возвращают методы [crm.item.list](../../../universal/crm-item-list.md) и [crm.item.add](../../../universal/crm-item-add.md)
 
 **Другое дело таймлайна.** Универсальное дело можно связать с уже существующим делом через параметр `parentActivityId` метода [crm.activity.todo.add](./crm-activity-todo-add.md).
 
@@ -30,11 +30,11 @@
 
 ## Как работать с универсальными делами
 
-1. Определите элемент CRM, в таймлайне которого будет храниться дело, и передайте его тип и идентификатор в `ownerTypeId` и `ownerId`.
-2. Создайте дело методом [crm.activity.todo.add](./crm-activity-todo-add.md). Крайний срок `deadline` обязателен.
-3. Получите дело методом [crm.activity.get](../activity-base/crm-activity-get.md) или список дел элемента методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`.
-4. Измените дело целиком методом [crm.activity.todo.update](./crm-activity-todo-update.md) или отдельное свойство одним из методов `updateColor`, `updateDeadline`, `updateDescription`, `updateResponsibleUser`.
-5. Удалите дело методом [crm.activity.delete](../activity-base/crm-activity-delete.md).
+1. Определите элемент CRM, в таймлайне которого будет храниться дело, и передайте его тип и идентификатор в `ownerTypeId` и `ownerId`
+2. Создайте дело методом [crm.activity.todo.add](./crm-activity-todo-add.md). Крайний срок `deadline` обязателен
+3. Получите дело методом [crm.activity.get](../activity-base/crm-activity-get.md) или список дел элемента методом [crm.activity.list](../activity-base/crm-activity-list.md) с фильтром `PROVIDER_ID` = `CRM_TODO`
+4. Измените дело целиком методом [crm.activity.todo.update](./crm-activity-todo-update.md) или отдельное свойство одним из методов `updateColor`, `updateDeadline`, `updateDescription`, `updateResponsibleUser`
+5. Удалите дело методом [crm.activity.delete](../activity-base/crm-activity-delete.md)
 
 ## Какой метод изменения выбрать
 
@@ -46,6 +46,30 @@
 || Изменить только цвет дела в таймлайне | [crm.activity.todo.updateColor](./crm-activity-todo-update-color.md) ||
 || Изменить только ответственного | [crm.activity.todo.updateResponsibleUser](./crm-activity-todo-update-responsible-user.md) ||
 |#
+
+## Ограничения и особенности
+
+- Изменить можно только открытое дело. Для закрытого дела методы изменения возвращают ошибку
+- Метод `crm.activity.todo.update` перезаписывает дело: если не передать `title`, `description` или `pingOffsets`, название и описание станут пустыми, а напоминания удалятся
+- Если при создании дела передать `parentActivityId`, предыдущее дело закроется
+- Крайний срок передается в формате ISO 8601, например `2026-11-03T15:00:00+03:00`
+- Цвет `colorId` передается строкой: `default` или значение от `1` до `7`
+
+## Как прочитать свойства дела
+
+Методы `crm.activity.todo.*` возвращают только идентификатор дела. Свойства дела читайте методом [crm.activity.get](../activity-base/crm-activity-get.md). Параметры методов `crm.activity.todo.*` хранятся в полях дела:
+
+#|
+|| **Параметр** | **Поле в ответе crm.activity.get** ||
+|| `title` | `SUBJECT` ||
+|| `description` | `DESCRIPTION` ||
+|| `deadline` | `DEADLINE` ||
+|| `responsibleId` | `RESPONSIBLE_ID` ||
+|| `parentActivityId` | `ASSOCIATED_ENTITY_ID` ||
+|| `colorId` | `SETTINGS.COLOR`, если цвет задан ||
+|#
+
+У универсального дела `PROVIDER_ID` = `CRM_TODO`. Напоминания `pingOffsets` метод `crm.activity.get` не возвращает.
 
 ## Обзор методов {#all-methods}
 

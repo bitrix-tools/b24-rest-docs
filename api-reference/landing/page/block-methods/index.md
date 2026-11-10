@@ -22,7 +22,7 @@
 ## Как работать с блоками
 
 1. Получите идентификатор страницы методом [landing.landing.getList](../methods/landing-landing-get-list.md) или используйте `lid`, который вернули методы [landing.landing.add](../methods/landing-landing-add.md), [landing.landing.addByTemplate](../methods/landing-landing-add-by-template.md) и [landing.landing.copy](../methods/landing-landing-copy.md)
-2. Если нужно работать с уже существующим блоком, получите список блоков методом [landing.block.getList](../../block/methods/landing-block-get-list.md) с параметром `params.edit_mode = 1`
+2. Если нужно работать с уже существующим блоком, получите список блоков методом [landing.block.getList](../../block/methods/landing-block-get-list.md) с параметром `params.edit_mode = 1`. Значение `result[].id` из ответа передавайте в параметре `block` методов, которые работают с существующим блоком
 3. Выберите нужное действие в зависимости от сценария
 
    - [landing.landing.addblock](./landing-landing-add-block.md) — добавить новый блок из репозитория. Доступные коды блоков возвращает [landing.block.getrepository](../../block/methods/landing-block-get-repository.md)

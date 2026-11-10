@@ -94,5 +94,21 @@
     }
   ],
   "page": "/api-reference/crm/timeline/comments/crm-timeline-comment-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 999,
+    "fields": {
+      "COMMENT": "Comment was changed",
+      "FILES": [
+        [
+          "1.gif",
+          "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+        ],
+        [
+          "2.gif",
+          "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+        ]
+      ]
+    }
+  }
 }

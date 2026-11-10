@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение контактов, компаний и лидов
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.address.list](../../rest-v3/addresses/crm-address-list-rest-v3.md).
+
+{% endnote %}
+
 Метод возвращает список адресов по фильтру. 
 
 Адреса перемещены в реквизиты. В карточке CRM они имеют отображение в виде отдельного поля. 
@@ -375,9 +381,6 @@
     
         echo 'Success: ' . print_r($result, true);
     
-        if ($result->more()) {
-            $result->next();
-        }
     
     } catch (Throwable $e) {
         error_log($e->getMessage());

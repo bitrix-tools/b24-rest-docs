@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: Администратор
 
-Метод `crm.item.details.configuration.forceCommonScopeForAll` принудительно устанавливает общую карточку элементов для всех пользователей, удаляя их личную настройку карточки элемента.
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.detailpagelayout.setcommonforall](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-set-common-for-all-rest-v3.md).
+
+{% endnote %}
+
+Метод `crm.item.details.configuration.forceCommonScopeForAll` удаляет личные конфигурации карточки у всех пользователей, после чего все видят общую конфигурацию. Параметры `userId` и `scope` метод не принимает: если их передать, они игнорируются.
 
 {% include [Памятка о extras](./_includes/extras_notice.md) %}
 
@@ -196,21 +202,14 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            return;
-        }
-    
-        echo 'Success: ' . print_r($result->data(), true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -306,7 +305,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа. Возвращает `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Возвращает `true`, если личные конфигурации удалены. Метод возвращает `true` и тогда, когда личных конфигураций не было ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -318,7 +317,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Parameter 'entityTypeId' is not defined"
+    "error_description": "Parameter 'entityTypeID' is not defined"
 }
 ```
 
@@ -327,10 +326,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | Parameter 'entityTypeId' is not defined | Не передан обязательный параметр `entityTypeId` ||
-|| Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Метод не поддерживает данный тип сущности ||
-|| Пустое значение | Access denied. | У пользователя нет административных прав ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Parameter 'entityTypeID' is not defined | Не передан обязательный параметр `entityTypeId` или передан несуществующий тип объекта CRM ||
+|| `400` | Пустое значение | The entity type '`entityTypeName`' is not supported in current context. | Тип объекта CRM не поддерживает настройку карточки, например `ACTIVITY` ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет прав на настройку общего вида карточки ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

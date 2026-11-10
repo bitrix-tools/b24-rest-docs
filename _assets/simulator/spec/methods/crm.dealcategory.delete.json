@@ -24,5 +24,8 @@
     "successor": "crm.category.delete"
   },
   "page": "/api-reference/crm/outdated/category-old/crm-deal-category-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "1"
+  }
 }

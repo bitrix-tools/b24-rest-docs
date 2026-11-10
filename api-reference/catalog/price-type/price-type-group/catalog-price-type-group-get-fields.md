@@ -154,20 +154,14 @@
                 'catalog.priceTypeGroup.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting price type group fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -275,7 +269,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeGroup**
+|| **result.priceTypeGroup**
 [`object`](../../data-types.md#catalog_price_type_group) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price_type_group](../../data-types.md#catalog_price_type_group), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -287,7 +281,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -297,8 +291,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав на просмотр каталога ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Недостаточно прав на просмотр каталога ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

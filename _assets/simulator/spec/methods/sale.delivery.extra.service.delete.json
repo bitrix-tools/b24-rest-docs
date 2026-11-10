@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 134
+  }
 }

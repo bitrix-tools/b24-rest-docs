@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.order.get` получает предназначен для получения значений всех полей заказа и связанных объектов.
+Метод `sale.order.get` возвращает все поля заказа вместе со связанными объектами, например позициями корзины, оплатами, отгрузками, значениями свойств и клиентами CRM. Чтобы получить только поля самого заказа или несколько заказов сразу, используйте [sale.order.list](./sale-order-list.md).
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа. Его возвращают методы [sale.order.add](./sale-order-add.md) и [sale.order.list](./sale-order-list.md). Не путайте с номером заказа `accountNumber` ||
 |#
 
 ## Примеры кода
@@ -38,8 +38,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":6,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.order.get
+    -d '{"id":236}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.order.get
     ```
 
 - cURL (OAuth)
@@ -48,8 +48,8 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":6}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.order.get
+    -d '{"id":236,"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/sale.order.get
     ```
 
 - JS (TS)
@@ -87,7 +87,7 @@
       const response = await $b24.actions.v2.call.make<OrderGetResult>({
         method: 'sale.order.get',
         params: {
-          id: 6,
+          id: 236,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -119,7 +119,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'sale.order.get',
             params: {
-              id: 6,
+              id: 236,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -149,7 +149,7 @@
 
     try:
         bitrix_response = client.sale.order.get(
-            bitrix_id=6,
+            bitrix_id=236,
         ).response
         result = bitrix_response.result
         print(result)
@@ -168,7 +168,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -176,7 +175,7 @@
             ->call(
                 'sale.order.get',
                 [
-                    'id' => 6
+                    'id' => 236
                 ]
             );
     
@@ -184,12 +183,8 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Order data: ' . print_r($result->data(), true);
-        }
+        // SDK throws an exception on API errors, so here the call has succeeded
+        echo 'Order data: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -202,7 +197,7 @@
     ```js
     BX24.callMethod(
         "sale.order.get", {
-            "id": 6
+            "id": 236
         },
         function(result) {
             if (result.error()) {
@@ -222,7 +217,7 @@
     $result = CRest::call(
         'sale.order.get',
         [
-            'id' => 6
+            'id' => 236
         ]
     );
 
@@ -236,7 +231,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "sale.order.get", b24.Params{
-    	"id": 6,
+    	"id": 236,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("sale.order.get: %w", err)
@@ -587,11 +582,39 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **order**
-[`sale_order`](../data-types.md) | Информация о заказе ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **order**
+[`sale_order`](../data-types.md#sale_order) | Поля заказа и связанные объекты [(подробное описание)](#order-related) ||
+|#
+
+#### Связанные объекты в order {#order-related}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **basketItems**
+[`sale_basket_item[]`](../data-types.md#sale_basket_item) | Позиции корзины заказа. Каждая позиция содержит свойства `properties` и резервы `reservations` ||
+|| **payments**
+[`sale_order_payment[]`](../data-types.md#sale_order_payment) | Оплаты заказа ||
+|| **shipments**
+[`sale_order_shipment[]`](../data-types.md#sale_order_shipment) | Отгрузки заказа. Состав отгрузки — в массиве `shipmentItems`, где `basketId` — это `id` позиции из `basketItems` ||
+|| **propertyValues**
+[`sale_order_property_value[]`](../data-types.md#sale_order_property_value) | Значения свойств заказа, например имя и телефон покупателя. Набор свойств зависит от типа плательщика `personTypeId` ||
+|| **clients**
+[`sale_order_crm_client[]`](../data-types.md#sale_order_crm_client) | Контакты и компании CRM, привязанные к заказу ||
+|| **requisiteLink**
+[`object`](../../data-types.md) | Реквизиты, выбранные для заказа: `requisiteId` и `bankDetailId` — клиента, `mcRequisiteId` и `mcBankDetailId` — вашей компании ||
+|| **tradeBindings**
+[`sale_order_trade_binding[]`](../data-types.md#sale_order_trade_binding) | Привязки заказа к источникам — торговым платформам ||
 |#
 
 ## Обработка ошибок
@@ -600,8 +623,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200540400001,
-    "error_description":"order is not exists"
+    "error": "200540400001",
+    "error_description": "order is not exists"
 }
 ```
 
@@ -610,17 +633,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201240400001` | Заказ не найден ||
-|| `200040300010` | Недостаточно прав для чтения заказа ||
-|| `100` | Не указан параметр `id` ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200540400001` | `order is not exists` | Заказа с таким `id` нет. Эту же ошибку метод вернет, если в `id` передать не число, например `"abc"` ||
+|| `400` | `100` | `Bitrix\Sale\Order constructor must be is public` | Не передан параметр `id` ||
+|| `400` | `200040300010` | `Access Denied` | Недостаточно прав для чтения заказа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-order-add.md)
 - [{#T}](./sale-order-update.md)
 - [{#T}](./sale-order-list.md)

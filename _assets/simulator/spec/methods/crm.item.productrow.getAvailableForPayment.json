@@ -11,14 +11,14 @@
       "type": "integer",
       "base": "integer",
       "required": true,
-      "description": "Идентификатор объекта CRM"
+      "description": "Идентификатор объекта CRM. Получить его можно методом crm.item.list или из ответа метода crm.item.add"
     },
     {
       "name": "ownerType",
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Идентификатор типа объекта CRM. Передавайте Краткий символьный код типа"
+      "description": "Краткий символьный код типа объекта CRM: L — лид, D — сделка, Q — предложение, SI — новый счет, T и шестнадцатеричный идентификатор типа — смарт-процесс. Например, для типа с entityTypeId: 128 код — T80"
     }
   ],
   "defs": {},
@@ -33,14 +33,7 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Корневой элемент ответа"
-    },
-    {
-      "name": "productRows",
-      "type": "crm_item_product_row[]",
-      "base": "array",
-      "required": false,
-      "description": "Массив объектов, содержащий информацию о всех товарных позициях объекта CRM, по которым клиенту еще не была выставлена оплата"
+      "description": "Корневой элемент ответа (подробное описание)"
     },
     {
       "name": "time",
@@ -51,5 +44,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/product-rows/crm-item-productrow-get-available-for-payment.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ownerType": "D",
+    "ownerId": 13144
+  }
 }

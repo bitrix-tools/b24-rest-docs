@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Управление типами цен»
 
-Метод возвращает информацию о правиле округления цен по его идентификатору.
+Метод `catalog.roundingRule.get` возвращает правило округления цен по идентификатору.
 
 ## Параметры метода
 
@@ -162,7 +162,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -173,20 +172,14 @@
                     'id' => 1
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting rounding rule: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -296,7 +289,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **roundingRule**
+|| **result.roundingRule**
 [`catalog_rounding_rule`](../data-types.md#catalog_rounding_rule) | Объект с информацией о правиле округления цен с заданным идентификатором ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -308,8 +301,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "200900000000",
+    "error_description": "roundingRule does not exist."
 }
 ```
 
@@ -318,15 +311,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения
-||
-|| `200900000000` | Правила округления цен с таким идентификатором не существует 
-||
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Управление типами цен» ||
+|| `400` | `200900000000` | roundingRule does not exist. | Правила округления с указанным `id` не существует ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога» и правом на чтение товара
 
-Метод возвращает список изображений товара, головного товара, вариации или услуги.
+Метод `catalog.productImage.list` возвращает все изображения товара, головного товара, вариации или услуги одним ответом, без постраничной навигации.
 
 ## Параметры метода
 
@@ -34,8 +34,19 @@
 - для вариаций товара — [catalog.product.offer.list](../product/offer/catalog-product-offer-list.md)
 - для услуг — [catalog.product.service.list](../product/service/catalog-product-service-list.md)
 ||
-|| **select** 
-[`array`](../../data-types.md)| Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_image](../data-types.md#catalog_product_image)) ||
+|| **select**
+[`array`](../../data-types.md) | Массив полей, которые нужно вернуть:
+- `id` — идентификатор изображения
+- `name` — название файла
+- `productId` — идентификатор товара
+- `type` — тип изображения
+- `createTime` — дата создания
+- `downloadUrl` — ссылка для скачивания
+- `detailUrl` — ссылка на изображение
+
+Названия полей передавайте в camelCase, как в списке. Неизвестные поля и названия в другом регистре, например `ID`, метод пропускает без ошибки.
+
+Если `select` не передан, возвращаются все поля ||
 |#
 
 ## Примеры кода
@@ -80,19 +91,15 @@
         id: number
         name: string
         productId: number
-        type: string
-        createTime: ISODate | null
+        type: 'DETAIL_PICTURE' | 'PREVIEW_PICTURE' | 'MORE_PHOTO'
+        createTime: ISODate
         downloadUrl: string
         detailUrl: string
       }[]
     }
 
     try {
-      // catalog.productImage.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // catalog.productImage.list returns all images of the product in one response, without pagination
       const response = await $b24.actions.v2.call.make<ProductImageListResult>({
         method: 'catalog.productImage.list',
         params: {
@@ -106,7 +113,6 @@
             'downloadUrl',
             'detailUrl',
           ],
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -135,11 +141,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // catalog.productImage.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // catalog.productImage.list returns all images of the product in one response, without pagination
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.productImage.list',
             params: {
@@ -153,7 +155,6 @@
                 'downloadUrl',
                 'detailUrl',
               ],
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -232,15 +233,15 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error listing product images: ' . $e->getMessage();
@@ -329,24 +330,26 @@ HTTP-статус: **200**
     "result": {
         "productImages": [
             {
-                "createTime": "2024-10-17T10:48:05+03:00",
-                "detailUrl": "\/upload\/iblock\/6f1\/bkm7jmwso31wisk423gtp28iagy2e8v0\/test.jpeg",
-                "downloadUrl": "http:\/\/dev.bx\/rest\/download.json?sessid=ae1ada0e5c85babd18ce4af4c702d1d9\u0026token=catalog%7CaWQ9NzY1MSZfPTEzSk9hR2tKNHBRY1I2cFBPNjhvaTFHNTNiYjVsVmdx%7CImRvd25sb2FkfGNhdGFsb2d8YVdROU56WTFNU1pmUFRFelNrOWhSMnRLTkhCUlkxSTJjRkJQTmpodmFURkhOVE5pWWpWc1ZtZHh8YWUxYWRhMGU1Yzg1YmFiZDE4Y2U0YWY0YzcwMmQxZDki.iC0Yzi9feK8V1Zr0WSlp5GZpcmD0osnJGHN%2FZL%2FkQI4%3D",
-                "id": 1,
-                "name": "test.jpeg",
-                "productId": 1,
+                "createTime": "2023-08-21T12:12:19+03:00",
+                "detailUrl": "https:\/\/cdn-ru.bitrix24.ru\/b1234567\/iblock\/c3e\/c3e6943a5f28fb70dc0051fc74352d4f\/FTTH.jpg",
+                "downloadUrl": "https:\/\/your-domain.bitrix24.ru\/rest\/1\/xxxxxxxxxxxxxxxx\/download\/?token=catalog%7CaWQ9MjI0MjEmXz1nYXc0RVlHaWo2cHJZTGNCS2VBa21lQTZkdVJwZ0tpNw%3D%3D%7C...",
+                "id": 22421,
+                "name": "FTTH.jpg",
+                "productId": 533,
                 "type": "MORE_PHOTO"
             }
         ]
     },
     "total": 1,
     "time": {
-        "start": 1729163241.324569,
-        "finish": 1729163241.860237,
-        "duration": 0.535667896270752,
-        "processing": 0.19502019882202148,
-        "date_start": "2024-10-17T14:07:21+03:00",
-        "date_finish": "2024-10-17T14:07:21+03:00",
+        "start": 1793615807,
+        "finish": 1793615807.756784,
+        "duration": 0.7567839622497559,
+        "processing": 0,
+        "date_start": "2026-11-02T13:36:47+03:00",
+        "date_finish": "2026-11-02T13:36:47+03:00",
+        "operating_reset_at": 1793616360,
+        "operating": 0
     }
 }
 ```
@@ -358,10 +361,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **productImages**
-[`catalog_product_image[]`](../data-types.md#catalog_product_image) | Массив объектов с информацией о выбранных изображениях товара ||
+|| **result.productImages**
+[`catalog_product_image[]`](../data-types.md#catalog_product_image) | Массив изображений товара. Если изображений нет, возвращается пустой массив ||
 || **total**
-[`integer`](../../data-types.md#time) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Количество изображений товара ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -372,8 +375,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access denied"
+    "error": "0",
+    "error_description": "Product was not found"
 }
 ```
 
@@ -382,22 +385,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для просмотра торгового каталога
-||
-|| `200040300010` | Недостаточно прав для просмотра товара
-|| 
-|| `100` | Не указан или пустой параметр `productId`
-|| 
-|| `0` | Товар с указанным идентификатором не найден
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» либо права на чтение товара ||
+|| `400` | `100` | Could not find value for parameter {productId} | Не передан обязательный параметр `productId` ||
+|| `400` | `0` | Empty productID | В `productId` передан `0` или отрицательное число ||
+|| `400` | `0` | Product was not found | Товар с указанным `productId` не найден ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-product-image-add.md)
 - [{#T}](./catalog-product-image-get.md)

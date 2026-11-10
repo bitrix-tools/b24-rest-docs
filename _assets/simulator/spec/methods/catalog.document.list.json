@@ -34,6 +34,16 @@
       "base": "object",
       "required": false,
       "description": "Объект для сортировки выбранных документов в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogdocument. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания По умолчанию документы упорядочены по возрастанию id",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания По умолчанию документы упорядочены по возрастанию id"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -103,5 +113,24 @@
     "siteId",
     "title",
     "total"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "docType",
+      "docNumber",
+      "title",
+      "status",
+      "dateDocument",
+      "total"
+    ],
+    "filter": {
+      ">=dateCreate": "2025-10-01T00:00:00+03:00",
+      "<=dateCreate": "2025-10-15T23:59:59+03:00"
+    },
+    "order": {
+      "id": "ASC"
+    },
+    "start": 50
+  }
 }

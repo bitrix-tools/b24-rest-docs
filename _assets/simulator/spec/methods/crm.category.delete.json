@@ -56,5 +56,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/category/crm-category-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 2,
+    "id": 5
+  }
 }

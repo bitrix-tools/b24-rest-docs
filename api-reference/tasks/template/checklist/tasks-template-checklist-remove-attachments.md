@@ -31,7 +31,11 @@
 
 Идентификатор пункта чек-листа шаблона можно получить при [создании нового пункта](./tasks-template-checklist-add.md) или методом [получения списка пунктов](./tasks-template-checklist-list.md) ||
 || **attachmentsIds***
-[`array`](../../../data-types.md) | Массив идентификаторов прикреплений для удаления ||
+[`array`](../../../data-types.md) | Массив идентификаторов прикреплений для удаления, например `[621, 623]`.
+
+Идентификатор прикрепления — это ключ объекта `attachments` в ответе методов [tasks.template.checklist.get](./tasks-template-checklist-get.md) и [tasks.template.checklist.list](./tasks-template-checklist-list.md). В ответе `{"621": "n10921"}` передайте `621`, а не `n10921`.
+
+Идентификаторы, которых нет у пункта, метод пропускает без ошибки. Файлы открепляются от пункта, но остаются на Диске ||
 |#
 
 ## Примеры кода
@@ -108,7 +112,8 @@
           image: string
           isCollaber: boolean
         }>
-        attachments: unknown[]
+        // Key is the attachment id, value is the Disk file id with the "n" prefix; [] when there are no files
+        attachments: Record<string, string> | []
         nodeId: number | null
         templateId: number
       }
@@ -395,17 +400,20 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Bitrix\Tasks\CheckList\Internals\CheckList All parameters in the constructor must have real class type | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Could not find value for parameter {checkListItemId} | Не передан обязательный параметр `checkListItemId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано значение другого типа, а не число ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {checkListItemId}. Should be value of type int. | В `checkListItemId` передано значение другого типа, а не число ||
+|| `400` | `0` | Доступ к шаблону задачи запрещен | Нет права на чтение шаблона, `templateId` меньше или равен `0`, пункта `checkListItemId` нет в шаблоне или он удален ||
 || `400` | `100` | Could not find value for parameter {attachmentsIds} | Не передан обязательный параметр `attachmentsIds` ||
-|| `400` | `100` | Invalid value {} to match with parameter {attachmentsIds}. Should be value of type array. | Указан пустой или с неверным типом `attachmentsIds` ||
-|| `400` | `0` | Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, ] | Указан несуществующий, пустой или с неверным типом `checkListItemId` ||
-|| `400` | `0` | Изменение элемента: действие недоступно | У пользователя нет прав доступа на изменение шаблона задачи ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {attachmentsIds}. Should be value of type array. | В `attachmentsIds` передано значение другого типа, а не массив ||
+|| `400` | `0` | Изменение элемента: действие недоступно | Нет права на изменение шаблона задачи ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжить изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)
 - [{#T}](./tasks-template-checklist-get.md)

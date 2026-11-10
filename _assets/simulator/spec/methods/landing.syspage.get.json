@@ -114,5 +114,9 @@
     "LANDING_ID",
     "TITLE",
     "TYPE"
-  ]
+  ],
+  "requestExample": {
+    "id": 1390,
+    "active": true
+  }
 }

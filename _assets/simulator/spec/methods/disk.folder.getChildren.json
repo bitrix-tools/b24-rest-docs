@@ -180,7 +180,21 @@
       "type": "enum",
       "base": "any",
       "required": false,
-      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой"
+      "description": "Статус удаления объекта. Возможные значения: - 0 — не удален - 3 — в корзине - 4 — удален вместе с родительской папкой",
+      "values": [
+        {
+          "value": "0",
+          "title": "не удален"
+        },
+        {
+          "value": "3",
+          "title": "в корзине"
+        },
+        {
+          "value": "4",
+          "title": "удален вместе с родительской папкой"
+        }
+      ]
     },
     {
       "name": "GLOBAL_CONTENT_VERSION",
@@ -275,5 +289,14 @@
     }
   ],
   "page": "/api-reference/disk/folder/disk-folder-get-children.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 8907,
+    "filter": {
+      ">=CREATE_TIME": "2026-01-12"
+    },
+    "order": {
+      "NAME": "DESC"
+    }
+  }
 }

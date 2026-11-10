@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `booking.v1.booking.client.set` устанавливает клиентов для указанного бронирования.
+Метод `booking.v1.booking.client.set` заменяет список клиентов бронирования переданным списком.
 
 ## Параметры метода
 
@@ -24,25 +24,48 @@
 `тип` | **Описание** ||
 || **bookingId***
 [`integer`](../../../data-types.md) | Идентификатор бронирования.
-Можно получить методами [booking.v1.booking.add](../booking-v1-booking-add.md) и [booking.v1.booking.list](../booking-v1-booking-list.md)  ||
+
+Можно получить методами [booking.v1.booking.add](../booking-v1-booking-add.md) и [booking.v1.booking.list](../booking-v1-booking-list.md) ||
 || **clients***
-[`array`](../../../data-types.md) | Массив объектов, содержащий информацию о клиентах [(подробное описание)](#clients) ||
+[`array`](../../../data-types.md) | Массив клиентов бронирования [(подробное описание)](#clients). В массиве может быть несколько контактов и компаний.
+
+Метод заменяет весь текущий список: клиенты, которых нет в массиве, отвязываются от бронирования. Чтобы добавить клиента к уже привязанным, получите текущий список методом [booking.v1.booking.client.list](./booking-v1-booking-client-list.md) и передайте его вместе с новым клиентом.
+
+Пустой массив `[]` снимает всех клиентов, как метод [booking.v1.booking.client.unset](./booking-v1-booking-client-unset.md). Исключение — бронирование, связанное со сделкой, у которого клиентов уже нет: тогда метод подставляет контакты и компанию из сделки ||
 |#
 
 ### Параметр clients {#clients}
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+Ключи объекта передавайте в нижнем регистре: `id`, `type`, `module`, `code`. Ключи в верхнем регистре метод не распознает и возвращает ошибку `Required fields`.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор клиента, можно получить методом [crm.item.list](../../../crm/universal/crm-item-list.md) для контактов и компаний ||
+[`integer`](../../../data-types.md) | Идентификатор существующего контакта или компании CRM.
+
+Получить идентификатор можно методом [crm.item.list](../../../crm/universal/crm-item-list.md): для контактов с `entityTypeId = 3`, для компаний с `entityTypeId = 4` ||
 || **type***
-[`object`](../../../data-types.md) | Тип клиента в формате `{"module": "crm", "code": "CONTACT"}`.
-Возможные значения `code`:
+[`object`](../../../data-types.md) | Тип клиента [(подробное описание)](#type) ||
+|#
+
+### Параметр type {#type}
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **module***
+[`string`](../../../data-types.md) | Модуль клиента. Возможное значение — `crm` ||
+|| **code***
+[`string`](../../../data-types.md) | Код типа клиента. Возможные значения:
 - `CONTACT` — [контакт CRM](../../../crm/contacts/index.md)
 - `COMPANY` — [компания CRM](../../../crm/companies/index.md)
-  
-Cтруктуру объекта возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
+
+Список доступных типов возвращает метод [booking.v1.clienttype.list](../../booking-v1-clienttype-list.md) ||
 |#
 
 ## Примеры кода
@@ -57,8 +80,8 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}],"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/booking.v1.booking.client.set
+    -d '{"bookingId":14,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}]}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.client.set
     ```
 
 - cURL (OAuth)
@@ -67,8 +90,8 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"bookingId":14,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/booking.v1.booking.client.set
+    -d '{"bookingId":14,"clients":[{"id":1,"type":{"module":"crm","code":"CONTACT"}},{"id":2,"type":{"module":"crm","code":"CONTACT"}}],"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/booking.v1.booking.client.set
     ```
 
 - JS (TS)
@@ -246,17 +269,10 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error setting booking client: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -309,14 +325,14 @@ Cтруктуру объекта возвращает метод [booking.v1.cli
                         'module' => 'crm',
                         'code' => 'CONTACT'
                     ]
-                },
+                ],
                 [
                     'id' => 2,
                     'type' => [
                         'module' => 'crm',
                         'code' => 'CONTACT'
                     ]
-                }
+                ]
             ]
         ]
     );
@@ -398,7 +414,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1021,
+    "error": "1021",
     "error_description": "Booking not found"
 }
 ```
@@ -409,14 +425,20 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `0` | `Required fields:` | Не передан обязательный параметр внутри `clients` ||
-|| `1021` | `Booking not found` | Бронирование с указанным `id` не найдено ||
-|| `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
+|| `100` | `Could not find value for parameter {bookingId}` | Не передан обязательный параметр `bookingId` ||
+|| `100` | `Could not find value for parameter {clients}` | Не передан обязательный параметр `clients` ||
+|| `100` | `Invalid value {abc} to match with parameter {bookingId}. Should be value of type int.` | В `bookingId` передано значение другого типа, а не число ||
+|| `100` | `Invalid value {abc} to match with parameter {clients}. Should be value of type array.` | В `clients` передан не массив ||
+|| `0` | `Required fields: id, type` | В элементе `clients` не передан `id`, `type`, `type.module` или `type.code`, либо ключи переданы в верхнем регистре. В тексте ошибки перечислены недостающие поля ||
+|| `1021` | `Booking not found` | Бронирование с указанным `bookingId` не найдено ||
+|| `1025` | `Client type not found` | В `type` передана неизвестная пара `module` и `code`, например `"code": "LEAD"` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-booking-client-unset.md)
 - [{#T}](./booking-v1-booking-client-list.md)
+- [{#T}](../../booking-v1-clienttype-list.md)

@@ -42,7 +42,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Активность товара. Возможные значения: - Y — да - N — нет По умолчанию устанавливается значение Y"
+          "description": "Активность товара. Возможные значения: - Y — да - N — нет По умолчанию устанавливается значение Y",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет По умолчанию устанавливается значение Y"
+            }
+          ]
         },
         {
           "name": "code",
@@ -161,14 +171,34 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text"
+          "description": "Тип описания для анонса. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML По умолчанию устанавливается text"
+            }
+          ]
         },
         {
           "name": "detailTextType",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text"
+          "description": "Тип детального описания. Возможные значения: - text — текст - html — HTML По умолчанию устанавливается text",
+          "values": [
+            {
+              "value": "text",
+              "title": "текст"
+            },
+            {
+              "value": "html",
+              "title": "HTML По умолчанию устанавливается text"
+            }
+          ]
         },
         {
           "name": "sort",
@@ -291,7 +321,7 @@
         },
         {
           "name": "propertyN",
-          "type": "object / array",
+          "type": "object | array",
           "base": "any",
           "required": false,
           "description": "Значение свойства товара, где N — идентификатор свойства. Свойств может быть несколько. Значение указывается в формате: - {valueId: valueId, value: value} — для обычного свойства - [{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}] — для множественного свойства Здесь valueId — идентификатор значения свойства, а value — значение свойства.…"

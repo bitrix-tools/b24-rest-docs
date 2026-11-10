@@ -193,24 +193,18 @@
         {
             id: 17
         },
-    )
-        .then(
-            function(result)
+        function(result)
+        {
+            if (result.error())
             {
-                if (result.error())
-                {
-                    console.error(result.error());
-                }
-                else
-                {
-                    console.log(result.data());
-                }
-            },
-            function(error)
-            {
-                console.info(error);
+                console.error(result.error());
             }
-        );
+            else
+            {
+                console.log(result.data());
+            }
+        }
+    );
     ```
 
 - PHP CRest
@@ -311,8 +305,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200240400003",
+    "error_description": "basket property is not exists"
 }
 ```
 
@@ -322,9 +316,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200240400003` | Не найдена позиция корзины ||
-|| `200040300010` | Недостаточно прав для чтения ||
-|| `100` | Не указан параметр `id` ||
+|| `200240400003` | `basket property is not exists` — свойства с таким `id` нет или в `id` передано не число ||
+|| `100` | `Bitrix\Sale\BasketPropertyItem constructor must be is public` — не передан параметр `id` ||
+|| `200040300010` | `Access Denied` — недостаточно прав для чтения ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 

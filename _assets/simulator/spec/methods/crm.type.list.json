@@ -228,5 +228,13 @@
     "title",
     "updatedBy",
     "updatedTime"
-  ]
+  ],
+  "requestExample": {
+    "filter": {
+      "isAutomationEnabled": "Y",
+      "isBizProcEnabled": "Y",
+      "isCategoriesEnabled": "Y",
+      "isClientEnabled": "Y"
+    }
+  }
 }

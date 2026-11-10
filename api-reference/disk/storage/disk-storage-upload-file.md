@@ -28,13 +28,15 @@
 Идентификатор можно получить с помощью метода [disk.storage.getList](../storage/disk-storage-get-list.md)
 ||
 || **data***
-[`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя файла ||
+[`object`](../../data-types.md) | Параметры нового файла [(подробное описание)](#data) ||
 || **fileContent***
 [`array`](../../data-types.md) | Массив из имени файла и строки с [Base64](../../files/how-to-upload-files.md) ||
 || **rights**
-[`array`](../../data-types.md) | Массив прав доступа на загружаемый файл в формате `{"TASK_ID": 42, "ACCESS_CODE": "U35"}`, где
-- `TASK_ID` — идентификатор уровня доступа
-- `ACCESS_CODE` — код доступа, состоящий из буквенного кода пользователя или отдела и идентификатора
+[`array`](../../data-types.md) | Массив прав доступа на загружаемый файл. Каждый элемент содержит:
+
+- `ACCESS_CODE` — непустая строка длиной до 50 символов с кодом получателя права, например `U35`
+- `TASK_ID` — целочисленный идентификатор существующего уровня доступа
+- `NEGATIVE` — необязательный логический признак запрещающего права. Значения `true`, `yes` и `on`, переданные строкой, соответствуют запрещающему праву
 
 Категории пользователей:
 - `U` — пользователь
@@ -42,7 +44,9 @@
 - `D` — все сотрудники отдела
 - `DR` — все сотрудники отдела с подотделами
 
-Список доступных идентификаторов `TASK_ID` для установки прав можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md) ||
+Список доступных идентификаторов `TASK_ID` для установки прав можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md).
+
+Дополнительные поля, включая `DOMAIN` и `OBJECT_ID`, не учитываются ||
 || **generateUniqueName**
 [`boolean`](../../data-types.md) | Генерация уникального имени файла, если файл с таким именем уже существует. Например, file (1).docx.
 
@@ -51,6 +55,15 @@
 - `false` — не генерировать
 
 По умолчанию — `false` ||
+|#
+
+### Параметр data {#data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../../data-types.md) | Имя файла. Максимальная длина — 255 символов. Имя не должно содержать символы, запрещенные в именах файлов ||
 |#
 
 ## Примеры кода
@@ -108,7 +121,7 @@
       UPDATED_BY: string
       DELETED_BY: string | null
       DOWNLOAD_URL: string
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -204,7 +217,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.uploadfile(
+        bitrix_response = client.disk.storage.upload_file(
             bitrix_id=1357,
             data={
                 "NAME": "picture.png",
@@ -400,7 +413,7 @@ HTTP-статус: **200**
         "CREATED_BY": "1269",
         "UPDATED_BY": "1269",
         "DELETED_BY": null,
-        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?auth=b8d880690000071b006e2cf2000004f50000078dbaf74c54ad1b4e4205aba7ab57a395&token=disk%7CaWQ9OTAzNSZfPWU5eXpWQXpsVmJrdFE0OTJ3azBKQzNFVFVMek5UMTRU%7CImRvd25sb2FkfGRpc2t8YVdROU9UQXpOU1pmUFdVNWVYcFdRWHBzVm1KcmRGRTBPVEozYXpCS1F6TkZWRlZNZWs1VU1UUlV8YjhkODgwNjkwMDAwMDcxYjAwNmUyY2YyMDAwMDA0ZjUwMDAwMDc4ZGJhZjc0YzU0YWQxYjRlNDIwNWFiYTdhYjU3YTM5NSI%3D.DJafMz5LAuRzlGbCxNLoGiCleoFwz1qGyj4iPf7n110%3D",
+        "DOWNLOAD_URL": "https://test.bitrix24.ru/rest/download.json?...",
         "DETAIL_URL": "https://test.bitrix24.ru/company/personal/user/1269/disk/file/picture.png"
     },
     "time": {
@@ -422,7 +435,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с полями файла ||
+[`object`](../../data-types.md) | Объект с полями файла ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор файла ||
 || **NAME**
@@ -432,7 +445,7 @@ HTTP-статус: **200**
 || **STORAGE_ID**
 [`integer`](../../data-types.md) | Идентификатор хранилища, в котором находится файл ||
 || **TYPE**
-[`enum`](../../data-types.md) | Тип объекта ||
+[`enum`](../../data-types.md) | Тип объекта. Значение — `file` ||
 || **PARENT_ID**
 [`integer`](../../data-types.md) | Идентификатор родительской папки ||
 || **DELETED_TYPE**
@@ -461,14 +474,14 @@ HTTP-статус: **200**
 || **DOWNLOAD_URL**
 [`string`](../../data-types.md) | Ссылка для скачивания файла ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия файла в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия файла в интерфейсе. Для файлов из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400** или **403**
 
 ```json
 {
@@ -482,13 +495,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр ||
-|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
-|| `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не указан обязательный параметр `NAME` в массиве `data` ||
-|| `ERROR_COULD_NOT_SAVE_FILE` | Could not save file | Не удалось сохранить файл. Проверьте свободное место на Диске и корректность кодировки данных ||
-|| — | Invalid rights format | Неверный формат параметра `rights` ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав для добавления файла ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #0} | Не указан обязательный параметр ||
+|| `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Хранилище с указанным `id` не найдено ||
+|| `400` | `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не указан обязательный параметр `NAME` в объекте `data` ||
+|| `400` | `ERROR_COULD_NOT_SAVE_FILE` | Could not save file | Не удалось сохранить файл. Проверьте свободное место на Диске и корректность кодировки данных ||
+|| `400` | `QUOTA_BAD` | `Исчерпан выделенный дисковый ресурс.<br>` | Исчерпана квота дискового пространства Битрикс24. Текст ошибки приходит на языке Битрикс24 и заканчивается тегом `<br>` ||
+|| `400` | Пустое значение | Invalid format: Right `N` should be array | Элемент `rights` с индексом `N` передан не в виде массива ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE and TASK_ID | В элементе `rights` с индексом `N` отсутствует `ACCESS_CODE` или `TASK_ID` ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE as not empty string | `ACCESS_CODE` передан не строкой или содержит пустую строку ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE not longer than 50 characters | Длина `ACCESS_CODE` превышает 50 символов ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain TASK_ID as integer | `TASK_ID` не является целым числом ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain known TASK_ID | Уровень доступа с указанным `TASK_ID` не найден ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain NEGATIVE as 0 or 1 | `NEGATIVE` нельзя преобразовать в логическое значение ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Недостаточно прав для добавления файла или изменения прав доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

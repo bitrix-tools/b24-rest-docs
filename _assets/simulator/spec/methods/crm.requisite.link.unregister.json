@@ -56,5 +56,9 @@
     }
   ],
   "page": "/api-reference/crm/requisites/links/crm-requisite-link-unregister.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "entityTypeId": 31,
+    "entityId": 315
+  }
 }

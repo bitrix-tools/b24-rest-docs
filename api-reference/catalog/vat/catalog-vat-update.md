@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление ставками НДС»
 
-Метод изменяет ставку НДС.
+Метод `catalog.vat.update` изменяет ставку НДС.
 
 ## Параметры метода
 
@@ -23,7 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_vat.id`](../data-types.md#catalog_vat) | Идентификатор ставки НДС ||
+[`catalog_vat.id`](../data-types.md#catalog_vat) | Идентификатор ставки НДС.
+
+Чтобы получить идентификаторы ставок, используйте метод [catalog.vat.list](./catalog-vat-list.md)
+||
 || **fields***
 [`object`](../../data-types.md) | Значения полей для обновления ставки НДС ([подробное описание](#fields)) ||
 |#
@@ -36,16 +39,20 @@
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Название ставки НДС ||
+[`string`](../../data-types.md) | Название ставки НДС. Передавайте при каждом вызове: без `name` метод вернет ошибку `Required fields: name`. Чтобы не менять название, передайте текущее значение из [catalog.vat.get](./catalog-vat-get.md) ||
 || **active**
 [`string`](../../data-types.md) | Индикатор активности ставки НДС. Возможные значения:
 - `Y` — активен
 - `N` — неактивен
+
+Если не передать, значение не изменится. Другие значения метод пропускает без ошибки, активность не меняется
 ||
 || **rate***
-[`double`](../../data-types.md) | Величина ставки НДС ||
+[`double`](../../data-types.md) | Величина ставки в процентах, например `7` или `22`. Передавайте при каждом вызове: без `rate` или с `null` метод вернет ошибку `Required fields: rate`.
+
+Отрицательное значение метод отклоняет. Верхнюю границу метод не проверяет. Строку, которая не является числом, метод сохраняет как `0` без ошибки ||
 || **sort**
-[`integer`](../../data-types.md) | Сортировка
+[`integer`](../../data-types.md) | Порядок сортировки ставки в списках. Если не передать, значение не изменится
 ||
 |#
 
@@ -61,7 +68,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":6,"fields":{"name":"Налог 23%","rate":23,"sort":20,"active":"Y"}}' \
+    -d '{"id":37,"fields":{"name":"НДС 7%","rate":7,"sort":510,"active":"Y"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.vat.update
     ```
 
@@ -71,7 +78,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":6,"fields":{"name":"Налог 23%","rate":23,"sort":20,"active":"Y"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":37,"fields":{"name":"НДС 7%","rate":7,"sort":510,"active":"Y"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.vat.update
     ```
 
@@ -101,11 +108,11 @@
       const response = await $b24.actions.v2.call.make<CatalogVatUpdateResult>({
         method: 'catalog.vat.update',
         params: {
-          id: 6,
+          id: 37,
           fields: {
-            name: 'Tax 23%',
-            rate: 23,
-            sort: 20,
+            name: 'НДС 7%',
+            rate: 7,
+            sort: 510,
             active: 'Y',
           },
         },
@@ -139,11 +146,11 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.vat.update',
             params: {
-              id: 6,
+              id: 37,
               fields: {
-                name: 'Tax 23%',
-                rate: 23,
-                sort: 20,
+                name: 'НДС 7%',
+                rate: 7,
+                sort: 510,
                 active: 'Y',
               },
             },
@@ -175,11 +182,11 @@
 
     try:
         bitrix_response = client.catalog.vat.update(
-            bitrix_id=6,
+            bitrix_id=37,
             fields={
-                "name": "Налог 23%",
-                "rate": 23,
-                "sort": 20,
+                "name": "НДС 7%",
+                "rate": 7,
+                "sort": 510,
                 "active": "Y",
             },
         ).response
@@ -200,7 +207,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -208,29 +214,23 @@
             ->call(
                 'catalog.vat.update',
                 [
-                    'id' => 6,
+                    'id' => 37,
                     'fields' => [
-                        'name'   => "Налог 23%",
-                        'rate'   => 23,
-                        'sort'   => 20,
+                        'name'   => "НДС 7%",
+                        'rate'   => 7,
+                        'sort'   => 510,
                         'active' => "Y"
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result['vat']);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating VAT: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -238,13 +238,13 @@
 
     ```js
     BX24.callMethod(
-        'catalog.vat.update', 
+        'catalog.vat.update',
         {
-            id: 6,
+            id: 37,
             fields: {
-                name: "Налог 23%",
-                rate: 23,
-                sort: 20,
+                name: "НДС 7%",
+                rate: 7,
+                sort: 510,
                 active: "Y"
             }
         },
@@ -266,11 +266,11 @@
     $result = CRest::call(
         'catalog.vat.update',
         [
-            'id' => 6,
+            'id' => 37,
             'fields' => [
-                'name' => 'Налог 23%',
-                'rate' => 23,
-                'sort' => 20,
+                'name' => 'НДС 7%',
+                'rate' => 7,
+                'sort' => 510,
                 'active' => "Y"
             ]
         ]
@@ -286,11 +286,11 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.vat.update", b24.Params{
-    	"id": 6,
+    	"id": 37,
     	"fields": b24.Params{
-    		"name":   "Налог 23%",
-    		"rate":   23,
-    		"sort":   20,
+    		"name":   "НДС 7%",
+    		"rate":   7,
+    		"sort":   510,
     		"active": "Y",
     	},
     })
@@ -305,12 +305,12 @@
     }
 
     var item struct {
-    	Active     string `json:"active"`
-    	ID         b24.ID `json:"id"`
-    	Name       string `json:"name"`
-    	Rate       int    `json:"rate"`
-    	Sort       int    `json:"sort"`
-    	TimestampX string `json:"timestampX"`
+    	Active     string  `json:"active"`
+    	ID         b24.ID  `json:"id"`
+    	Name       string  `json:"name"`
+    	Rate       float64 `json:"rate"`
+    	Sort       int     `json:"sort"`
+    	TimestampX string  `json:"timestampX"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -329,20 +329,21 @@ HTTP-статус: **200**
     "result": {
         "vat": {
             "active": "Y",
-            "id": 6,
-            "name": "Налог 23%",
-            "rate": 23,
-            "sort": 20,
-            "timestampX": "2024-09-16T11:53:04+02:00"
+            "id": 37,
+            "name": "НДС 7%",
+            "rate": 7,
+            "sort": 510,
+            "timestampX": "2026-10-27T19:23:50+03:00"
         }
     },
     "time": {
-        "start": 1712327086.69665,
-        "finish": 1712327086.95303,
-        "duration": 0.256376028060913,
-        "processing": 0.0112268924713135,
-        "date_start": "2024-04-05T16:24:46+02:00",
-        "date_finish": "2024-04-05T16:24:46+02:00",
+        "start": 1793118230,
+        "finish": 1793118230.267268,
+        "duration": 0.26726794242858887,
+        "processing": 0,
+        "date_start": "2026-10-27T19:23:50+03:00",
+        "date_finish": "2026-10-27T19:23:50+03:00",
+        "operating_reset_at": 1793118780,
         "operating": 0
     }
 }
@@ -355,9 +356,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **vat**
-[`catalog_vat`](../data-types.md#catalog_vat) | Объект с информацией об обновленной ставке НДС
-||
+|| **result.vat**
+[`catalog_vat`](../data-types.md#catalog_vat) | Ставка НДС после изменения со всеми полями: `active`, `id`, `name`, `rate`, `sort`, `timestampX` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -368,8 +368,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description":"Required fields: code"
+    "error": "0",
+    "error_description": "Required fields: name"
 }
 ```
 
@@ -378,25 +378,23 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-||
-|| `200800000000` | Ставки НДС с таким идентификатором не существует
-||
-|| `100` | Не указан параметр `id`
-||
-|| `100` | Не указан или пустой параметр `fields`
-||
-|| `0` | Не переданы обязательные поля структуры `fields`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление ставками НДС» ||
+|| `400` | `200800000000` | vat does not exist. | Ставки НДС с таким `id` нет ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: name | В `fields` нет поля `name` ||
+|| `400` | `0` | Required fields: rate | В `fields` нет поля `rate` или передано `null` ||
+|| `400` | `ERROR_CORE` | Не указано название ставки НДС`<br>` | В `name` передана пустая строка ||
+|| `400` | `ERROR_CORE` | Неверная величина ставки НДС`<br>` | В `rate` передано отрицательное число ||
+|| `400` | `0` | Error updating VAT | Не удалось сохранить изменения ставки НДС ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./catalog-vat-add.md)
 - [{#T}](./catalog-vat-get.md)
 - [{#T}](./catalog-vat-list.md)

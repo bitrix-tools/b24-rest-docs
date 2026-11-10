@@ -25,7 +25,7 @@
 || **waitListId***
 [`integer`](../../data-types.md) | Идентификатор записи в лист ожидания. 
 Можно получить методами [booking.v1.waitlist.add](../waitlist/booking-v1-waitlist-add.md) и [booking.v1.waitlist.list](../waitlist/booking-v1-waitlist-list.md) ||
-|| **fields**
+|| **fields***
 [`object`](../../data-types.md) | Объект, содержащий значения полей для создания бронирования [(подробное описание)](#fields) ||
 |#
 
@@ -37,12 +37,6 @@
 || **resourceIds***
 [`array`](../../data-types.md#standart-types) | Массив идентификаторов ресурсов для брони. 
 ID ресурсов можно получить методом [booking.v1.resource.list](../resource/booking-v1-resource-list.md) ||
-|| **name**
-[`string`](../../data-types.md) | Название бронирования. 
-Значение по умолчанию — пустая строка ||
-|| **description**
-[`string`](../../data-types.md) | Описание бронирования. 
-Значение по умолчанию — пустая строка ||
 || **datePeriod***
 [`object`](../../data-types.md#standart-types) | Объект, содержащий время брони [(подробное описание)](#datePeriod) ||
 |#
@@ -53,9 +47,20 @@ ID ресурсов можно получить методом [booking.v1.resou
 || **Название**
 `тип` | **Описание** ||
 || **from***
-[`object`](../../data-types.md#standart-types) | Время начала брони в формате `{"timestamp": "1723446900", "timezone": "Europe/Moscow"}`||
+[`object`](../../data-types.md#standart-types) | Время начала брони. Структура описана [ниже](#date) ||
 || **to***
-[`object`](../../data-types.md#standart-types) | Время окончания брони в формате `{"timestamp": "1723447800", "timezone": "Europe/Moscow"}` ||
+[`object`](../../data-types.md#standart-types) | Время окончания брони. Структура описана [ниже](#date) ||
+|#
+
+#### Поля from и to {#date}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **timestamp***
+[`integer`](../../data-types.md) | Дата и время в формате Unix timestamp. Например, `1723446900` ||
+|| **timezone***
+[`string`](../../data-types.md) | Часовой пояс в формате идентификатора IANA. Например, `Europe/Moscow` ||
 |#
 
 ## Примеры кода
@@ -244,17 +249,10 @@ ID ресурсов можно получить методом [booking.v1.resou
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error creating booking from waitlist: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -392,6 +390,15 @@ HTTP-статус: **400**
 }
 ```
 
+Пример ответа, если запись пересекается по времени с другой записью ресурса, у которого выключен овербукинг:
+
+```json
+{
+    "error": "1026",
+    "error_description": "Для ресурса «Кабинет 1» овербукинг выключен. Выберите другое время"
+}
+```
+
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
@@ -402,7 +409,11 @@ HTTP-статус: **400**
 || `0` | `Required fields:` | Не передан обязательный параметр внутри `fields` ||
 || `100` | `Could not find value for parameter` | Не передан обязательный параметр ||
 || `422` | `Invalid date period` | Некорректный период времени ||
+|| `1026` | `Для ресурса «Кабинет 1» овербукинг выключен. Выберите другое время` | Запись пересекается по времени с другой записью ресурса, у которого выключен овербукинг. Текст приходит на языке пользователя и содержит имя ресурса ||
+|| `1026` | `Booking intersects with existing bookings: 15, 16` | Запись пересекается с существующими записями: на это время у ресурса уже две записи или овербукинг недоступен на тарифе. В тексте — ID пересекающихся записей ||
 |#
+
+Если у записи несколько ресурсов, ошибка `1026` придет, когда хотя бы у одного из них выключен овербукинг и это время у него занято.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

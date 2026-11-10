@@ -9,13 +9,17 @@
 
 {% endnote %}
 
+> Scope: [`базовый`](../scopes/permissions.md)
+>
 > Кто может выполнять метод: любой пользователь
 
-Метод `event.get` позволяет получить список зарегистрированных обработчиков событий.
+Метод `event.get` возвращает список обработчиков событий, которые приложение зарегистрировало методом [event.bind](./event-bind.md).
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
+Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md). Через вебхук метод вернет ошибку `WRONG_AUTH_TYPE`.
 
-Пользователь без прав администратора получает только обработчики, зарегистрированные для текущего пользователя.
+Администратор получает все обработчики приложения, включая зарегистрированные другими пользователями. Пользователю без прав администратора метод вернет только обработчики, у которых в `auth_type` указан его идентификатор.
+
+## Параметры метода
 
 Без параметров.
 
@@ -31,7 +35,9 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
+    -d '{
+        "auth": "**put_access_token_here**"
+    }' \
     https://**put_your_bitrix24_address**/rest/event.get
     ```
 
@@ -48,8 +54,9 @@
     // Shape of each event handler returned in result[]
     type EventHandlerItem = {
       event: string,
-      handler: string,
-      auth_type: string,
+      handler?: string,
+      auth_type?: string,
+      connector_id?: string,
       offline: number,
     }
 
@@ -138,7 +145,7 @@
 
 - PHP
 
-    ```php        
+    ```php
     try {
         $eventService = $serviceBuilder->getMainScope()->event();
         $result = $eventService->get();
@@ -195,10 +202,11 @@
     }
 
     var items []struct {
-    	Event    string `json:"event"`
-    	Handler  string `json:"handler"`
-    	AuthType string `json:"auth_type"`
-    	Offline  int    `json:"offline"`
+    	Event       string `json:"event"`
+    	Handler     string `json:"handler"`
+    	AuthType    string `json:"auth_type"`
+    	ConnectorID string `json:"connector_id"`
+    	Offline     int    `json:"offline"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -209,7 +217,6 @@
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -229,6 +236,11 @@ HTTP-статус: **200**
             "handler": "https:\/\/www.my-domain.ru\/handler\/",
             "auth_type": "15",
             "offline": 0
+        },
+        {
+            "event": "ONCRMDEALUPDATE",
+            "connector_id": "",
+            "offline": 1
         }
     ],
     "time": {
@@ -249,17 +261,55 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
+[`array`](../data-types.md) | Обработчики событий приложения в порядке регистрации [(подробное описание)](#handler). Метод возвращает все обработчики одним ответом, без постраничной навигации. Если обработчиков нет, метод вернет пустой массив ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент списка обработчиков {#handler}
+
+Состав полей зависит от типа подписки.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **event**
+[`string`](../data-types.md) | Код события в верхнем регистре, например `ONCRMLEADADD` ||
+|| **handler**
+[`string`](../data-types.md) | URL обработчика. Только у онлайн-подписок ||
+|| **auth_type**
+[`string`](../data-types.md) | Идентификатор пользователя, от имени которого обработчик получает авторизацию. `0` — пользователь, действие которого вызвало событие. Только у онлайн-подписок ||
+|| **connector_id**
+[`string`](../data-types.md) | Ключ источника `auth_connector`, указанный при подписке. Пустая строка, если источник не указан. Только у [офлайн-подписок](./offline-events.md) ||
+|| **offline**
+[`integer`](../data-types.md) | Тип подписки: `0` — онлайн-подписка, `1` — офлайн-подписка ||
+|#
+
 ## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "WRONG_AUTH_TYPE",
+    "error_description": "Current authorization type is denied for this method"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не в контексте приложения, например через вебхук ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./events.md)
 - [{#T}](./event-bind.md)
 - [{#T}](./event-unbind.md)

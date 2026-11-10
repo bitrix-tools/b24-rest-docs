@@ -301,7 +301,10 @@
                     expected: describeType(field),
                     got: Array.isArray(value[key]) ? 'array' : typeof value[key],
                 });
+                return;
             }
+
+            checkAllowedValue(param.name + '.' + key, field, value[key], warnings);
         });
 
         def.fields.forEach(function (field) {
@@ -312,6 +315,30 @@
                     hint: 'Обязательное поле, тип ' + describeType(field),
                 });
             }
+        });
+    }
+
+    // Документация перечислила допустимые значения — сверяем с ними. Это
+    // предупреждение, а не ошибка: перечень вытащен из текста описания и
+    // бывает неполным, а ложная ошибка в виджете хуже пропущенной.
+    function checkAllowedValue(path, field, value, warnings) {
+        if (!field.values || !field.values.length) {
+            return;
+        }
+        if (typeof value !== 'string' && typeof value !== 'number') {
+            return;
+        }
+        var given = String(value);
+        var allowed = field.values.map(function (item) { return item.value; });
+        if (allowed.indexOf(given) !== -1) {
+            return;
+        }
+        warnings.push({
+            class: 'value_not_in_list',
+            param: path,
+            message: 'Значение «' + given.slice(0, 40) + '» не указано в документации. '
+                + 'Перечислены: ' + allowed.slice(0, 8).join(', ')
+                + (allowed.length > 8 ? ' и другие' : '') + '.',
         });
     }
 
@@ -536,6 +563,33 @@
         };
     }
 
+        // Подсказка по доступным идентификаторам. Считать их как «1…длина»
+    // нельзя: у задач в датасете id идут со 100, у пользователей с
+    // пропусками. Сообщение звало пробовать единицу, единицы не было, и
+    // tasks.task.get отвечал отказом на каждый вызов подряд.
+    function availableIds(items, idField) {
+        var ids = [];
+        for (var i = 0; i < items.length; i++) {
+            ids.push(String(items[i][idField]));
+        }
+        if (!ids.length) {
+            return 'В датасете нет объектов этого типа.';
+        }
+
+        if (ids.every(function (x) { return /^\d+$/.test(x); })) {
+            var nums = ids.map(Number).sort(function (a, b) { return a - b; });
+            if (nums[nums.length - 1] - nums[0] + 1 === nums.length) {
+                return 'Доступные идентификаторы: ' + nums[0] + '…' + nums[nums.length - 1] + '.';
+            }
+            ids = nums.map(String);
+        }
+
+        var shown = ids.slice(0, 8).join(', ');
+        return ids.length > 8
+            ? 'Доступные идентификаторы: ' + shown + ' и ещё ' + (ids.length - 8) + '.'
+            : 'Доступные идентификаторы: ' + shown + '.';
+    }
+
     function getExecutor(entity, idParam, idField, wrapKey) {
         return function (params, dataset) {
             var wanted = params[idParam];
@@ -565,7 +619,7 @@
                 return {
                     __error: {
                         error: 'NOT_FOUND',
-                        error_description: 'Объект не найден в тестовом датасете. Доступные идентификаторы: 1…' + items.length + '.',
+                        error_description: 'Объект не найден в тестовом датасете. ' + availableIds(items, idField),
                     },
                 };
             }

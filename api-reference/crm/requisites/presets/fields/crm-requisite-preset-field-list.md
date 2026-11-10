@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение контактов и компаний
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.requisite.preset.get](../../../rest-v3/requisites/crm-entity-requisite-preset-get-rest-v3.md): поля шаблона приходят в его ответе. Идентификаторы полей шаблона метод не возвращает, для них используйте этот метод.
+
+{% endnote %}
+
 Метод возвращает список всех настраиваемых полей для определенного шаблона реквизитов.
 
 ## Параметры метода
@@ -247,16 +253,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error fetching preset field list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

@@ -61,5 +61,6 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/lines/voximplant-line-outgoing-get.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

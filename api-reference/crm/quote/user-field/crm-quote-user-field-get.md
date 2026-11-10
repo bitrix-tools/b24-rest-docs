@@ -1,4 +1,4 @@
-# Получить пользовательское поле предложений по id crm.quote.userfield.get
+# Получить пользовательское поле предложений по ID crm.quote.userfield.get
 
 {% note tip "" %}
 
@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения предложений
 
-Метод `crm.quote.userfield.get` возвращает пользовательское поле предложений по идентификатору.
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.quote.field.custom.get](../../rest-v3/fields/crm-entity-field-custom-get-rest-v3.md).
+
+{% endnote %}
+
+Метод `crm.quote.userfield.get` возвращает описание пользовательского поля предложений по идентификатору: имя, тип, настройки и подписи на всех языках.
 
 ## Параметры метода
 
@@ -23,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к предложению.
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля предложений.
 
 Идентификатор можно получить с помощью методов [crm.quote.userfield.add](./crm-quote-user-field-add.md) или [crm.quote.userfield.list](./crm-quote-user-field-list.md) ||
 |#
@@ -186,20 +192,14 @@
                     'id' => 399,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting company user field: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -271,7 +271,7 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "ID": "6997",
+        "ID": "399",
         "ENTITY_ID": "CRM_QUOTE",
         "FIELD_NAME": "UF_CRM_HELLO_WORLD",
         "USER_TYPE_ID": "string",
@@ -426,9 +426,68 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержит информацию о полях пользовательского поля. Итоговый перечень полей зависит от типа поля, подробное описание полей можно найти в методе [crm.quote.userfield.add](./crm-quote-user-field-add.md)||
+[`object`](../../../data-types.md) | Описание пользовательского поля [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+Числовые значения `ID` и `SORT` приходят строками.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../../data-types.md) | Идентификатор пользовательского поля ||
+|| **ENTITY_ID**
+[`string`](../../../data-types.md) | Объект, к которому привязано поле. Для предложений всегда `CRM_QUOTE` ||
+|| **FIELD_NAME**
+[`string`](../../../data-types.md) | Полное имя поля с префиксом `UF_CRM_`. Значение поля записывают и читают универсальные методы [crm.item.update](../../universal/crm-item-update.md) и [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 7`. В них имя поля пишется в camelCase: `UF_CRM_MANAGER_NOTE` превращается в `ufCrmManagerNote`. Методы [crm.quote.update](../crm-quote-update.md) и [crm.quote.get](../crm-quote-get.md) работают с полным именем, но их развитие остановлено. Метод `crm.quote.userfield.get` значения полей в предложениях не возвращает ||
+|| **USER_TYPE_ID**
+[`string`](../../../data-types.md) | Тип поля. Список значений — в описании параметра `USER_TYPE_ID` метода [crm.quote.userfield.add](./crm-quote-user-field-add.md#parameter-fields) ||
+|| **USER_TYPE_OWNER**
+[`string`](../../../data-types.md) | Идентификатор приложения, которое зарегистрировало [пользовательский тип поля](../../universal/user-defined-fields/userfield-type.md). Возвращается только для полей пользовательского типа ||
+|| **XML_ID**
+[`string`](../../../data-types.md) | Внешний код. Если не задан — `null` ||
+|| **SORT**
+[`string`](../../../data-types.md) | Индекс сортировки ||
+|| **MULTIPLE**
+[`char`](../../../data-types.md) | Множественное ли поле: `Y` или `N` ||
+|| **MANDATORY**
+[`char`](../../../data-types.md) | Обязательное ли поле: `Y` или `N` ||
+|| **SHOW_FILTER**
+[`char`](../../../data-types.md) | Режим поля в фильтре списка:
+- `N` — поля нет в фильтре
+- `I` — поиск по точному совпадению
+- `E` — поиск по маске
+- `S` — поиск по подстроке ||
+|| **SHOW_IN_LIST**
+[`char`](../../../data-types.md) | Показывать ли поле в списке: `Y` или `N` ||
+|| **EDIT_IN_LIST**
+[`char`](../../../data-types.md) | Разрешено ли редактирование пользователем: `Y` или `N` ||
+|| **IS_SEARCHABLE**
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске: `Y` или `N` ||
+|| **SETTINGS**
+[`object`](../../../data-types.md) | Настройки типа поля. Кроме настроек, которые принимает [crm.quote.userfield.add](./crm-quote-user-field-add.md#settings), может содержать служебные ключи, например `SIZE`, `MIN_LENGTH`, `MAX_LENGTH` у типа `string`. Перечень настроек типа возвращает метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md) ||
+|| **EDIT_FORM_LABEL**
+[`lang_map`](../../data-types.md#lang-ids) | Подпись в форме редактирования на каждом языке ||
+|| **LIST_COLUMN_LABEL**
+[`lang_map`](../../data-types.md#lang-ids) | Заголовок в списке на каждом языке ||
+|| **LIST_FILTER_LABEL**
+[`lang_map`](../../data-types.md#lang-ids) | Подпись фильтра на каждом языке ||
+|| **ERROR_MESSAGE**
+[`lang_map`](../../data-types.md#lang-ids) | Сообщение об ошибке на каждом языке ||
+|| **HELP_MESSAGE**
+[`lang_map`](../../data-types.md#lang-ids) | Помощь на каждом языке ||
+|| **LIST**
+[`object[]`](../../../data-types.md) | Элементы списка. Возвращаются только для полей типа `enumeration`, отсортированы по `SORT`. Каждый элемент содержит:
+- `ID` — идентификатор элемента, его передают в значении поля при записи в предложение
+- `SORT` — индекс сортировки
+- `VALUE` — значение элемента
+- `DEF` — значение по умолчанию: `Y` или `N`
+
+Внешний код элемента `XML_ID` метод не возвращает, его возвращает метод [crm.quote.userfield.list](./crm-quote-user-field-list.md) ||
 |#
 
 ## Обработка ошибок
@@ -447,13 +506,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `403` | Access denied | Возникает в случаях, когда:
-- у пользователя нет прав на чтение предложений
-- пользователь пытается получить пользовательское поле, не привязанное к предложениям ||
-|| `400` | ID is not defined or invalid | Переданный `id` меньше или равен нулю, либо же не передан вовсе ||
-|| `ERROR_NOT_FOUND` | The entity with ID 'id' is not found | Пользовательское поле с переданным `id` не найдено ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | `id` не передан или меньше единицы ||
+|| `400` | Пустое значение | `Access denied.` | Возникает в случаях, когда:
+- у пользователя нет права на чтение предложений
+- поле с переданным `id` принадлежит другому объекту, например лидам ||
+|| `400` | `ERROR_NOT_FOUND` | `The entity with ID 'id' is not found.` | Пользовательского поля с переданным `id` нет ||
 |#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
@@ -462,12 +522,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-quote-user-field-update.md)
 - [{#T}](./crm-quote-user-field-list.md)
 - [{#T}](./crm-quote-user-field-delete.md)
-
-
-
-
-
-
-
-
-
+- [{#T}](../../universal/crm-item-get.md)
+- [{#T}](./index.md)

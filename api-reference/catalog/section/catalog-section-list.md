@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога» и правом на чтение разделов инфоблока
 
-Метод `catalog.section.list` возвращает список разделов торгового каталога. 
+Метод `catalog.section.list` возвращает список разделов торгового каталога.
 
 ## Параметры метода
 
@@ -26,34 +26,23 @@
 [`array`](../../data-types.md) | Массив содержит список полей, которые необходимо выбрать (смотрите поля объекта [catalog_section](../data-types.md#catalog_section)).
 
 Если не передан или передан пустой массив, то будут выбраны все доступные поля раздела каталога ||
-|| **filter**
-[`object`](../../data-types.md) | Объект для фильтрации выбранных разделов каталога в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+|| **filter***
+[`object`](../../data-types.md) | Объект для фильтрации разделов каталога в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_section](../data-types.md#catalog_section).
+Обязательный ключ — `iblockId`, идентификатор инфоблока торгового каталога. Получить его можно методом [catalog.catalog.list](../catalog/catalog-catalog-list.md).
 
-**Поле `iblockId` является обязательным**.
+Фильтровать можно по полям `id`, `iblockId`, `iblockSectionId`, `name`, `code`, `xmlId` и `active`. Условия по другим полям, например `sort` или `description`, метод пропускает без ошибки.
 
-Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-- `>=` — больше либо равно
+К ключу можно добавить префикс, который задает условие:
+- `=` — равно. Используется по умолчанию. Если передать массив значений, метод вернет разделы, у которых значение входит в массив
+- `!` или `!=` — не равно. С массивом значений — не входит в массив
 - `>` — больше
-- `<=` — меньше либо равно
+- `>=` — больше или равно
 - `<` — меньше
-- `@` — IN (в качестве значения передается массив)
-- `!@` — NOT IN (в качестве значения передается массив)
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, начинающиеся с «мол»
-    - "%мол" — ищем значения, заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где «мол» может быть в любой позиции
+- `<=` — меньше или равно
+- `%` — содержит подстроку. Символ `%` в значении передавать не нужно
 
-- `%=` — LIKE (см. описание выше)
-
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
-
-- `!%=` — NOT LIKE (см. описание выше)
-
-- `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно ||
+Префиксы `@`, `!@`, `=%`, `%=`, `!%`, `!=%` и `!%=` метод не поддерживает: условие с ними не применяется ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных разделов каталога в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
@@ -82,15 +71,15 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
         "select": ["id", "name", "sort"],
         "filter": {
-            "iblockId": 14,
-            "<=sort": 100
+            "iblockId": 25,
+            "iblockSectionId": 31
         },
         "order": {
             "sort": "DESC"
@@ -101,15 +90,15 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
         "select": ["id", "name", "sort"],
         "filter": {
-            "iblockId": 14,
-            "<=sort": 100
+            "iblockId": 25,
+            "iblockSectionId": 31
         },
         "order": {
             "sort": "DESC"
@@ -149,8 +138,8 @@
         params: {
           select: ['id', 'name', 'sort'],
           filter: {
-            iblockId: 14,
-            '<=sort': 100,
+            iblockId: 25,
+            'iblockSectionId': 31,
           },
           order: {
             sort: 'DESC',
@@ -194,8 +183,8 @@
             params: {
               select: ['id', 'name', 'sort'],
               filter: {
-                iblockId: 14,
-                '<=sort': 100,
+                iblockId: 25,
+                'iblockSectionId': 31,
               },
               order: {
                 sort: 'DESC',
@@ -236,7 +225,7 @@
                 "sort",
             ],
             filter={
-                "iblockId": 14,
+                "iblockId": 25,
             },
             order={
                 "sort": "DESC",
@@ -260,7 +249,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -270,27 +258,20 @@
                 [
                     'select' => ["id", "name", "sort"],
                     'filter' => [
-                        'iblockId' => 14,
-                        '<=sort'  => 100
+                        'iblockId' => 25,
+                        'iblockSectionId'  => 31
                     ],
                     'order'  => ['sort' => 'DESC']
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error calling catalog section list: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -298,15 +279,15 @@
 
     ```js
     BX24.callMethod(
-        'catalog.section.list', 
+        'catalog.section.list',
         {
             select: ["id", "name", "sort"],
             filter: {
-                'iblockId': 14,
-                '<=sort': 100
+                'iblockId': 25,
+                'iblockSectionId': 31
             },
             order: {'sort': 'DESC'}
-        }, 
+        },
         function(result)
         {
         if(result.error())
@@ -327,8 +308,8 @@
         [
             'select' => ["id", "name", "sort"],
             'filter' => [
-                'iblockId' => 14,
-                '<=sort' => 100
+                'iblockId' => 25,
+                'iblockSectionId' => 31
             ],
             'order' => [
                 'sort' => 'DESC'
@@ -348,8 +329,8 @@
     res, err := client.Core().Call(ctx, "catalog.section.list", b24.Params{
     	"select": []string{"id", "name", "sort"},
     	"filter": b24.Params{
-    		"iblockId": 14,
-    		"<=sort":   100,
+    		"iblockId": 25,
+    		"iblockSectionId":   31,
     	},
     	"order": b24.Params{
     		"sort": "DESC",
@@ -372,35 +353,52 @@ HTTP-статус: **200**
 
 ```json
 {
-    "sections": [
-        {
-            "id": 13,
-            "name": "Товары",
-            "sort": 500
-        },
-        {
-            "id": 14,
-            "name": "Услуги",
-            "sort": 500
-        },
-        {
-            "id": 22,
-            "name": "Обувь",
-            "sort": 50
-        }
-    ],
-    "total": 3,
+    "result": {
+        "sections": [
+            {
+                "id": 19,
+                "name": "Экскурсии",
+                "sort": 500
+            },
+            {
+                "id": 21,
+                "name": "Ложки коллекционные",
+                "sort": 500
+            },
+            {
+                "id": 43,
+                "name": "Спортивная Одежда",
+                "sort": 500
+            },
+            {
+                "id": 41,
+                "name": "Футболки",
+                "sort": 400
+            },
+            {
+                "id": 39,
+                "name": "Платья",
+                "sort": 100
+            },
+            {
+                "id": 33,
+                "name": "Обувь",
+                "sort": 50
+            }
+        ]
+    },
+    "total": 6,
     "time": {
-        "start": 1712326352.63409,
-        "finish": 1712326352.8319,
-        "duration": 0.197818040847778,
-        "processing": 0.00833678245544434,
-        "date_start": "2024-04-05T16:12:32+02:00",
-        "date_finish": "2024-04-05T16:12:32+02:00",
-        "operating": 0
+        "start": 1793615638,
+        "finish": 1793615638.10939,
+        "duration": 0.1093900203704834,
+        "processing": 0,
+        "date_start": "2026-11-02T13:33:58+03:00",
+        "date_finish": "2026-11-02T13:33:58+03:00",
+        "operating_reset_at": 1793616180,
+        "operating": 0.6537201404571533
     }
 }
-
 ```
 
 ### Возвращаемые данные
@@ -410,12 +408,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **section**
+|| **result.sections**
 [`catalog_section[]`](../data-types.md#catalog_section) | Массив объектов с информацией о выбранных разделах каталога ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -424,8 +422,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300030,
-    "error_description":"Access Denied"
+    "error": "0",
+    "error_description": "Required filter fields: iblockId"
 }
 ```
 
@@ -434,10 +432,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300030` | Недостаточно прав для чтения раздела каталога ||
-|| `0` | Не переданы обязательные поля структуры `filter` ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» ||
+|| `400` | `200040300030` | Access Denied | Нет права на чтение инфоблока из `filter.iblockId` ||
+|| `400` | `200700300050` | Iblock is not exists | Инфоблок из `filter.iblockId` не найден ||
+|| `400` | `0` | Required filter fields: iblockId | В `filter` не передан обязательный ключ `iblockId` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -11,9 +11,15 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: требуется право на чтение объекта crm, из которого выбираются доставки
+> Кто может выполнять метод: пользователь с правом на чтение объекта CRM, из которого выбираются доставки
 
-Метод получает список доставок конкретного объекта crm.
+Метод `crm.item.delivery.list` возвращает список доставок конкретного объекта CRM. Доставка — это отгрузка заказа, привязанного к объекту CRM.
+
+Метод не поддерживает постраничную навигацию: все доставки объекта приходят одним ответом, параметр `start` не работает, полей `next` и `total` в ответе нет.
+
+Каждый элемент списка содержит тот же краткий набор полей, что возвращает метод [crm.item.delivery.get](./crm-item-delivery-get.md). Набор фиксированный — параметра `select` у метода нет.
+
+Список будет пустым, если у объекта нет привязанных заказов или его тип не поддерживает доставки. Какие объекты CRM поддерживают доставки, описано в [обзоре методов раздела](./index.md).
 
 ## Параметры метода
 
@@ -23,16 +29,40 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../../data-types.md) | Идентификатор объекта crm ||
+[`integer`](../../../data-types.md) | Идентификатор объекта CRM, доставки которого нужно получить. Например, идентификатор сделки ||
 || **entityTypeId***
-[`integer`](../../../data-types.md) | Идентификатор [`типа объекта crm`](../../data-types.md#object_type)  ||
+[`integer`](../../../data-types.md) | Идентификатор [типа объекта CRM](../../data-types.md#object_type). Доставки есть только у сделок и счетов: для них `entityTypeId` равен `2` и `31` соответственно ||
 || **filter**
-[`object`](../../../data-types.md) | Дополнительный фильтр для случаев, когда нужно получить не все доставки объекта crm, а по какому-то более специфичному фильтру. 
-Формат параметра `filter` соответствует описанному в методе [`sale.shipment.list`](../../../sale/shipment/sale-shipment-list.md) ||
+[`object`](../../../data-types.md) | Фильтр, который сужает выборку доставок объекта CRM [(подробное описание)](#filter) ||
 || **order**
-[`object`](../../../data-types.md) | Формат параметра `order` соответствует описанному в методе [`sale.shipment.list`](../../../sale/shipment/sale-shipment-list.md) ||
+[`object`](../../../data-types.md) | Порядок сортировки в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
+Допустимые значения `order_N`:
+- `asc` — по возрастанию
+- `desc` — по убыванию
+
+Сортировать можно по полям объекта [sale_order_shipment](../../../sale/data-types.md#sale_order_shipment). По умолчанию список сортируется по `id` в порядке возрастания ||
 |#
+
+### Параметр filter {#filter}
+
+Ключи фильтра — поля объекта [sale_order_shipment](../../../sale/data-types.md#sale_order_shipment), записанные в camelCase. Чаще всего доставки отбирают по полям, которые метод возвращает в ответе, — они перечислены в [описании элемента массива result](#result). Фильтровать можно и по другим полям отгрузки, например по `orderId`.
+
+Ключу можно задать префикс, который уточняет поведение фильтра:
+
+- `=` — равно, работает и с массивами
+- `@` — значение входит в переданный массив
+- `!=` — не равно
+- `>` — больше
+- `>=` — больше либо равно
+- `<` — меньше
+- `<=` — меньше либо равно
+- `%` — LIKE, поиск подстроки. Символ `%` в значении передавать не нужно
+- `!%` — NOT LIKE, поиск подстроки. Символ `%` в значении передавать не нужно
+- `=%` и `%=` — LIKE, символ `%` нужно передавать в значении, например `"мол%"`
+- `!=%` и `!%=` — NOT LIKE, символ `%` нужно передавать в значении
+
+Метод всегда добавляет к фильтру собственные условия и игнорирует переданные значения этих ключей. По `=orderId` он берет отгрузки только тех заказов, которые привязаны к объекту CRM. По `=system` и `!deliveryId` он отбрасывает служебные отгрузки и отгрузки без службы доставки. Остальные условия метод применяет вместе со своими, и они могут только сузить выборку.
 
 ## Примеры кода
 
@@ -83,11 +113,8 @@
     }
 
     try {
-      // crm.item.delivery.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.item.delivery.list has no pagination: it returns every delivery of the CRM item
+      // in one response, so the list helpers (callList/fetchList) are not needed here.
       const response = await $b24.actions.v2.call.make<DeliveryItem[]>({
         method: 'crm.item.delivery.list',
         params: {
@@ -96,7 +123,6 @@
           filter: {
             '@id': [4077, 4078],
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -125,11 +151,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.item.delivery.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.item.delivery.list has no pagination: it returns every delivery of the CRM item
+          // in one response, so the list helpers (callList/fetchList) are not needed here.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.item.delivery.list',
             params: {
@@ -138,7 +161,6 @@
               filter: {
                 '@id': [4077, 4078],
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -163,8 +185,6 @@
 
 - Python
 
-    Пример
-
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
@@ -179,69 +199,6 @@
                 ],
             },
         ).response
-        result = bitrix_response.result
-        print(result)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.item.delivery.list(
-            entity_id=13127,
-            entity_type_id=2,
-            filter={
-                "@id": [
-                    4077,
-                    4078,
-                ],
-            },
-        ).as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.item.delivery.list(
-            entity_id=13127,
-            entity_type_id=2,
-            filter={
-                "@id": [
-                    4077,
-                    4078,
-                ],
-            },
-        ).as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:
             print(item)
@@ -260,7 +217,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -275,13 +231,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching delivery list: ' . $e->getMessage();
@@ -349,27 +305,25 @@
     	ID            b24.ID  `json:"id"`
     	AccountNumber string  `json:"accountNumber"`
     	Deducted      string  `json:"deducted"`
+    	DateDeducted  *string `json:"dateDeducted"`
     	DeliveryID    b24.ID  `json:"deliveryId"`
     	PriceDelivery float64 `json:"priceDelivery"`
     	Currency      string  `json:"currency"`
+    	DeliveryName  string  `json:"deliveryName"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
+    // Метод отдает все доставки объекта сразу, поэтому res.Total и res.Next
+    // не заполняются и обходить страницы через client.Core().Pages не нужно.
     for _, it := range items {
-    	fmt.Println(it.ID, it.AccountNumber)
-    }
-
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
+    	fmt.Println(it.ID, it.AccountNumber, it.DeliveryName)
     }
     ```
 
 {% endlist %}
 
-## Ответ в случае успеха
+## Обработка ответа
 
 HTTP-статус: **200**
 
@@ -414,9 +368,36 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`sale_order_shipment_crm_simple`](./crm-item-delivery-get.md#sale_order_shipment_crm_simple) | Массив объектов, содержащий краткую информацию о выбранных доставках ||
+[`array`](../../../data-types.md) | Массив объектов с краткой информацией о выбранных доставках [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`sale_order_shipment.id`](../../../sale/data-types.md#sale_order_shipment) | Идентификатор доставки. С ним работает метод [crm.item.delivery.get](./crm-item-delivery-get.md) ||
+|| **accountNumber**
+[`string`](../../../data-types.md) | Системный номер доставки. Например, `3657/2` ||
+|| **deducted**
+[`string`](../../../data-types.md) | Признак того, отгружена ли доставка.
+
+Возможные значения:
+- `Y` — отгружена
+- `N` — не отгружена ||
+|| **dateDeducted**
+[`datetime`](../../../data-types.md) | Дата и время последнего изменения признака `deducted`. Поле возвращает `null`, если признак ни разу не меняли ||
+|| **deliveryId**
+[`sale_delivery_service.id`](../../../sale/data-types.md#sale_delivery_service) | Идентификатор службы доставки. Получить список служб доставки можно методом [sale.delivery.getlist](../../../sale/delivery/delivery/sale-delivery-get-list.md) ||
+|| **priceDelivery**
+[`double`](../../../data-types.md) | Стоимость доставки ||
+|| **currency**
+[`string`](../../../data-types.md) | Символьный код валюты доставки. Например, `RUB` ||
+|| **deliveryName**
+[`string`](../../../data-types.md) | Название службы доставки. Например, `Uber Taxi (Cargo)` ||
 |#
 
 ## Обработка ошибок
@@ -425,8 +406,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"Недостаточно прав"
+   "error":"100",
+   "error_description":"Could not find value for parameter {entityId}"
 }
 ```
 
@@ -435,10 +416,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0` | Доступ запрещен ||
-|| `100` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {entityId} | Не передан обязательный параметр `entityId` ||
+|| `400` | `100` | Could not find value for parameter {entityTypeId} | Не передан обязательный параметр `entityTypeId` ||
+|| `400` | `100` | Invalid value {value} to match with parameter {entityId}. Should be value of type int | Значение `entityId` или `entityTypeId` не приводится к целому числу. В тексте ошибки указано имя конкретного параметра ||
+|| `400` | `100` | Invalid value {value} to match with parameter {filter}. Should be value of type array | Значение `filter` или `order` передано не объектом. В тексте ошибки указано имя конкретного параметра ||
+|| `400` | `ACCESS_DENIED` | Access denied | У пользователя нет права на чтение объекта CRM, доставки которого запрашиваются. Эту же ошибку метод возвращает, если пара `entityId` и `entityTypeId` не указывает на объект CRM — например, когда `entityId` равен `0` ||
 |#
 
 {% include notitle [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -446,3 +429,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-item-delivery-get.md)
+- [{#T}](./index.md)
+- [{#T}](../payment/delivery-in-payment/index.md)
+- [{#T}](../../../sale/shipment/sale-shipment-list.md)

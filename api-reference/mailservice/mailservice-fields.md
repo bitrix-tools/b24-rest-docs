@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `mailservice.fields` возвращает локализованные названия полей почтового сервиса.
+Метод `mailservice.fields` возвращает названия полей почтового сервиса на языке Битрикс24. Названия подходят для подписей в интерфейсе. Полей SMTP и `UPLOAD_OUTGOING` в ответе нет.
 
 ## Параметры метода
 
@@ -187,18 +187,12 @@
     	return fmt.Errorf("mailservice.fields: %w", err)
     }
 
-    var item struct {
-    	ID     string `json:"ID"`
-    	SiteID string `json:"SITE_ID"`
-    	Active string `json:"ACTIVE"`
-    	Name   string `json:"NAME"`
-    	Server string `json:"SERVER"`
-    	Port   string `json:"PORT"`
-    }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
+    // Ключ — код поля, значение — его название
+    var labels map[string]string
+    if err := json.Unmarshal(res.Result, &labels); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ID, item.SiteID)
+    fmt.Println(labels["NAME"], labels["SERVER"])
     ```
 
 {% endlist %}
@@ -274,12 +268,31 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+Метод не возвращает собственных ошибок. Возможны только системные ошибки, например при вызове без scope `mailservice`.
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the webhook token"
+}
+```
+
 {% include notitle [Обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `mailservice` ||
+|#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./mailservice-add.md)
 - [{#T}](./mailservice-update.md)
 - [{#T}](./mailservice-get.md)

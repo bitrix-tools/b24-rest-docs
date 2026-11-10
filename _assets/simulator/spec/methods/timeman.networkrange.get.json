@@ -82,5 +82,6 @@
   "entityFields": [
     "ip_range",
     "name"
-  ]
+  ],
+  "requestExample": {}
 }

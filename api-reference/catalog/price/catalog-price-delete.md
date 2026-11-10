@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара»
+> Кто может выполнять метод: пользователь с правом «Изменение цены продажи товара» и правом изменять цены товара в инфоблоке каталога
 
 Метод `catalog.price.delete` удаляет цену товара.
 
@@ -162,15 +162,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting price: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -178,10 +172,10 @@
 
     ```js
     BX24.callMethod(
-        'catalog.price.delete', 
-        { 
+        'catalog.price.delete',
+        {
             id: 1
-        }, 
+        },
         function(result)
         {
             if(result.error())
@@ -265,8 +259,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "",
+    "error_description": "price does not exist."
 }
 ```
 
@@ -275,11 +269,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300020` | Access Denied | Недостаточно прав для удаления ||
-|| `-` | Price is not exists | Цены товара с таким идентификатором не существует ||
-|| `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | Нет права изменять цены этого товара в инфоблоке каталога ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | price does not exist. | Цены с указанным `id` нет ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

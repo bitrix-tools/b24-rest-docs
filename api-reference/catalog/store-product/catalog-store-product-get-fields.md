@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.storeproduct.getFields` возвращает поля остатков товара по складам.
+Метод `catalog.storeproduct.getFields` возвращает описание полей записи остатка: тип, обязательность и доступность для изменения.
+
+Все поля отмечены как только для чтения: методов изменения остатков в группе нет. Остатки меняются через документы складского учета — методы [catalog.document.*](../document/index.md).
 
 ## Параметры метода
 
@@ -159,15 +161,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting store product fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -175,7 +171,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.storeproduct.getFields', 
+        'catalog.storeproduct.getFields',
         {},
         function(result)
         {
@@ -263,12 +259,13 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1758088849.185919,
-        "finish": 1758088849.224685,
-        "duration": 0.038765907287597656,
-        "processing": 0.0013179779052734375,
-        "date_start": "2025-09-17T09:00:49+03:00",
-        "date_finish": "2025-09-17T09:00:49+03:00",
+        "start": 1793874872,
+        "finish": 1793874872.626021,
+        "duration": 0.6260209083557129,
+        "processing": 0,
+        "date_start": "2026-11-05T13:34:32+03:00",
+        "date_finish": "2026-11-05T13:34:32+03:00",
+        "operating_reset_at": 1793875440,
         "operating": 0
     }
 }
@@ -281,7 +278,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **storeProduct**
+|| **result.storeProduct**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_storeproduct](../data-types.md#catalog_storeproduct), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -293,7 +290,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -303,9 +300,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав для чтения ||
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

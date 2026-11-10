@@ -21,6 +21,12 @@
 
 {% endnote %}
 
+Метод не проверяет, связан ли нумератор с шаблонами документов. После удаления:
+
+- идентификатор нумератора остается в настройках связанных шаблонов
+- при создании новых документов по таким шаблонам система использует нумератор по умолчанию, если он доступен
+- номера уже созданных документов не изменяются
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -272,7 +278,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Bitrix\Main\Numerator\Numerator constructor must be is public | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 || `400` | `100` | Could not construct parameter {numerator} | Передан несуществующий или некорректный идентификатор нумератора ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав на изменение шаблонов генератора документов ||
 || `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нельзя удалить нумератор, который не был создан методом [documentgenerator.numerator.add](./document-generator-numerator-add.md) ||
@@ -282,7 +288,10 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./document-generator-numerator-add.md)
 - [{#T}](./document-generator-numerator-update.md)
 - [{#T}](./document-generator-numerator-get.md)
 - [{#T}](./document-generator-numerator-list.md)
+- [{#T}](../templates/document-generator-template-add.md)
+- [{#T}](../templates/document-generator-template-update.md)

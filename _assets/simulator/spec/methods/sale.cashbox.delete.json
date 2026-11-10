@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/sale/cashbox/sale-cashbox-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 1
+  }
 }

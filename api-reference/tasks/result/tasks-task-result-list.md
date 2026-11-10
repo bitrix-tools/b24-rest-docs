@@ -15,6 +15,8 @@
 
 Метод `tasks.task.result.list` получает список результатов, закрепленных в задаче.
 
+В REST 3.0 есть одноименный метод [tasks.task.result.list](./tasks-task-result-list-rest-v3.md) с фильтром, выбором полей и постраничной навигацией.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -25,8 +27,15 @@
 || **taskId***
 [`integer`](../../data-types.md) | Идентификатор задачи, из которой нужно получить результаты.
 
-Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
+Его можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
+|| **params**
+[`object`](../../data-types.md) | Дополнительные данные в ответе. Чтобы получить их, передайте нужный ключ со значением `Y`, например `{"WITH_USER_INFO": "Y"}`:
+- `WITH_USER_INFO` — объект `userInfo` с именем и аватаром автора результата
+- `WITH_FILE_INFO` — объект `fileInfo` с данными прикрепленных файлов
+- `WITH_PARSED_TEXT` — поле `parsedText` с текстом для мобильного приложения. Вместе с ним метод возвращает и `fileInfo` ||
 |#
+
+Метод возвращает все результаты задачи одним ответом, постраничной навигации у него нет.
 
 ## Примеры кода
 
@@ -79,16 +88,11 @@
     }
 
     try {
-      // tasks.task.result.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // tasks.task.result.list returns all results of the task in one response, without pagination
       const response = await $b24.actions.v2.call.make<TaskResultItem[]>({
         method: 'tasks.task.result.list',
         params: {
           taskId: 8017,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -117,16 +121,11 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // tasks.task.result.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // tasks.task.result.list returns all results of the task in one response, without pagination
           const response = await $b24.actions.v2.call.make({
             method: 'tasks.task.result.list',
             params: {
               taskId: 8017,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -182,31 +181,6 @@
         bitrix_response = client.tasks.task.result.list(
             task_id=8017,
         ).as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.tasks.task.result.list(
-            task_id=8017,
-        ).as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:
             print(item)
@@ -367,17 +341,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив объектов, где каждый объект описывает результат задачи ||
+[`array`](../../data-types.md) | Массив [результатов задачи](#result-item) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент result {#result-item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор результата ||
 || **taskId**
 [`integer`](../../data-types.md) | Идентификатор задачи ||
 || **commentId**
-[`integer`](../../data-types.md) | Идентификатор комментария, закрепленного как результат ||
+[`integer`](../../data-types.md) | Идентификатор комментария, зафиксированного как результат.
+
+Равен `0`, если результат создан методами REST 3.0, например [tasks.task.result.add](./tasks-task-result-add.md) или [tasks.task.result.addfromchatmessage](./tasks-task-result-addfromchatmessage.md) ||
 || **createdBy**
-[`integer`](../../data-types.md) | Идентификатор пользователя, закрепившего результат ||
+[`integer`](../../data-types.md) | Идентификатор автора результата ||
 || **createdAt**
-[`string`](../../data-types.md) | Дата и время закрепления результата в формате ISO 8601 ||
+[`string`](../../data-types.md) | Дата и время создания результата в формате ISO 8601. У результата из комментария — дата создания комментария ||
 || **updatedAt**
 [`string`](../../data-types.md) | Дата и время последнего изменения результата в формате ISO 8601 ||
 || **status**
@@ -385,10 +370,7 @@ HTTP-статус: **200**
 - `0` — результат открыт
 - `1` — результат закрыт
 
-Результат становится закрытым после завершения задачи и сохраняет этот статус после возобновления задачи. Открытыми будут только новые результаты в незавершенной задаче.
-
-Комментарий с открытым результатом нельзя повторно добавить в результат. Если результат закрыт — добавление возможно
- ||
+Битрикс24 закрывает результаты, когда задачу завершают, и они остаются закрытыми после возобновления. Результат, который добавили методом [tasks.task.result.add](./tasks-task-result-add.md) в уже завершенную задачу, остается открытым ||
 || **text**
 [`string`](../../data-types.md) | Текст результата ||
 || **formattedText**
@@ -396,10 +378,45 @@ HTTP-статус: **200**
 || **files**
 [`array`](../../data-types.md) | Список идентификаторов файлов, прикрепленных к результату.
 
-Соддержит пустой массив, если файлов в комментарии нет ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+Содержит пустой массив, если файлов в результате нет ||
+|| **userInfo**
+[`object`](../../data-types.md) | Данные автора результата: ключ — идентификатор пользователя, значение — [объект пользователя](#userinfo).
+
+Метод вернет поле, если передать в `params` ключ `WITH_USER_INFO: Y` ||
+|| **fileInfo**
+[`object`](../../data-types.md) \| [`array`](../../data-types.md) | Данные прикрепленных файлов: ключ — идентификатор файла, значение — объект с данными файла. Если файлов нет, придет пустой массив.
+
+Метод вернет поле, если передать в `params` ключ `WITH_FILE_INFO: Y` или `WITH_PARSED_TEXT: Y` ||
+|| **parsedText**
+[`string`](../../data-types.md) | Текст результата, подготовленный для мобильного приложения.
+
+Метод вернет поле, если передать в `params` ключ `WITH_PARSED_TEXT: Y` ||
 |#
+
+#### Объект пользователя в userInfo {#userinfo}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../data-types.md) | Идентификатор пользователя, например `"1"` ||
+|| **name**
+[`string`](../../data-types.md) | Имя ||
+|| **secondName**
+[`string`](../../data-types.md) | Отчество. `null`, если не заполнено ||
+|| **lastName**
+[`string`](../../data-types.md) | Фамилия ||
+|| **formattedName**
+[`string`](../../data-types.md) | Имя и фамилия в формате, принятом в Битрикс24 ||
+|| **avatar**
+[`string`](../../data-types.md) | Путь к аватару. Если фото нет, приходит путь к стандартной картинке ||
+|#
+
+{% note warning "" %}
+
+Для несуществующей задачи администратор получит пустой массив `result` без ошибки. Другой пользователь в этом случае получит ошибку `Access denied.`.
+
+{% endnote %}
 
 ## Обработка ошибок
 
@@ -407,8 +424,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"100",
-    "error_description":"Invalid value {значение} to match with parameter {commentId}. Should be value of type int."
+    "error":"0",
+    "error_description":"Access denied."
 }
 ```
 
@@ -418,8 +435,10 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `0` | Access denied. | У пользователя нет доступа к задаче или задачи с таким `ID` не существует ||
-|| `100` | Invalid value {значение} to match with parameter {commentId}. Should be value of type int. | В параметре `taskId` передано значение неверного типа. Должно быть значение типа `integer` ||
+|| `0` | Access denied. | У пользователя нет доступа к задаче ||
+|| `0` | Task not found. | В параметре `taskId` передан `0` ||
+|| `100` | Could not find value for parameter {taskId} | Не передан обязательный параметр `taskId` ||
+|| `100` | Invalid value {значение} to match with parameter {taskId}. Should be value of type int. | В параметре `taskId` передано значение неверного типа. Должно быть значение типа `integer` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

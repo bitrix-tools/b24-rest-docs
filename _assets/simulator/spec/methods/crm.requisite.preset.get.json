@@ -74,5 +74,8 @@
     "NAME",
     "SORT",
     "XML_ID"
-  ]
+  ],
+  "requestExample": {
+    "id": 347
+  }
 }

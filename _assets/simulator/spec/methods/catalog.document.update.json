@@ -4,7 +4,7 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Изменить документ складского учета catalog.document.update",
-  "permissions": "пользователь с правом «Cоздание и редактирование» на нужный тип документа",
+  "permissions": "пользователь с правом «Создание и редактирование» на нужный тип документа",
   "params": [
     {
       "name": "id",
@@ -63,7 +63,8 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Комментарий к документу"
+          "description": "Комментарий к документу",
+          "flag": false
         },
         {
           "name": "title",
@@ -151,5 +152,13 @@
     }
   ],
   "page": "/api-reference/catalog/document/catalog-document-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 142,
+    "fields": {
+      "title": "Поступление от Поставщик-1 (корректировка)",
+      "commentary": "Обновили ответсвенного",
+      "responsibleId": 21
+    }
+  }
 }

@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление типами цен»
 
-Метод изменяет перевод названия типа цены по его идентификатору. 
+Метод `catalog.priceTypeLang.update` изменяет перевод названия типа цены по его идентификатору.
 
 ## Параметры метода
 
@@ -22,13 +22,15 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **Id***
-[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены ||
+|| **id***
+[`catalog_price_type_lang.id`](../../data-types.md#catalog_price_type_lang) | Идентификатор перевода названия типа цены.
+
+Получить идентификатор можно методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей для обновления перевода названия типа цены ||
+[`object`](../../../data-types.md) | Объект с полями перевода, которые нужно изменить [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 #|
 || **Название**
@@ -47,7 +49,7 @@
 ||
 |#
 
-В параметре `fields` необходимо указать хотя бы одно поле.
+Передавайте только изменяемые поля: непереданные поля сохраняют текущие значения. Пустой объект `fields` метод принимает без ошибки и ничего не меняет.
 
 ## Примеры кода
 
@@ -203,20 +205,14 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating price type language: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -224,7 +220,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.priceTypeLang.update', 
+        'catalog.priceTypeLang.update',
         {
             id: 6,
             fields: {
@@ -266,10 +262,10 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.priceTypeLang.update", b24.Params{
-    	"Id": 6,
-    	"fields": b24.Params{
-    		"name": "Base Price",
-    	},
+        "id": 6,
+        "fields": b24.Params{
+            "name": "Base Price",
+        },
     })
     if err != nil {
     	return fmt.Errorf("catalog.priceTypeLang.update: %w", err)
@@ -305,17 +301,18 @@ HTTP-статус: **200**
         "priceTypeLang": {
             "catalogGroupId": 1,
             "id": 6,
-            "lang": "kz",
+            "lang": "en",
             "name": "Base Price"
         }
     },
     "time": {
-        "start": 1733843735.3651,
-        "finish": 1733843735.75101,
-        "duration": 0.385910987854004,
-        "processing": 0.0111708641052246,
-        "date_start": "2024-12-10T17:15:35+02:00",
-        "date_finish": "2024-12-10T17:15:35+02:00",
+        "start": 1793699211,
+        "finish": 1793699211.103497,
+        "duration": 0.10349702835083008,
+        "processing": 0,
+        "date_start": "2026-11-03T12:46:51+03:00",
+        "date_finish": "2026-11-03T12:46:51+03:00",
+        "operating_reset_at": 1793699760,
         "operating": 0
     }
 }
@@ -328,10 +325,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **priceTypeLang**
+|| **result.priceTypeLang**
 [`catalog_price_type_lang`](../../data-types.md#catalog_price_type_lang) | Объект с информацией об обновленном переводе названия типа цены ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -340,8 +337,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description":"Required fields: name"
+    "error": "201200000000",
+    "error_description": "priceTypeLang does not exist."
 }
 ```
 
@@ -350,25 +347,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-|| 
-|| `201200000000` | Перевода названия типа цены с таким идентификатором не существует
-|| 
-|| `201200000010` | Языка с заданным идентификатором не существует
-|| 
-|| `201000000000` | Типа цены с заданным идентификатором не существует
-|| 
-|| `400` | Перевод для заданной пары: тип цены и идентификатор языка уже существуют
-|| 
-|| `100` | Не указан параметр `id`
-||
-|| `100` | Не указан или пустой параметр `fields`
-||
-|| `0` | Не переданы обязательные поля структуры `fields`
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | У пользователя нет права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `201200000000` | priceTypeLang does not exist. | Перевода с указанным `id` нет ||
+|| `400` | `201000000000` | The specified price type does not exist | Типа цены из `catalogGroupId` нет ||
+|| `400` | `201200000010` | The specified language does not exist | Языка из `lang` нет ||
+|| `400` | `400` | Internal server error. | Перевод на этот язык для типа цены уже есть ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

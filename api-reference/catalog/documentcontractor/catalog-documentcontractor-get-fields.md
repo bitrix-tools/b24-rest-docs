@@ -1,4 +1,4 @@
-# Получить описание полей привязки поставщика к документу складского учета catalog.documentcontractor.getFields  
+# Получить описание полей привязки поставщика к документу складского учета catalog.documentcontractor.getFields
 
 {% note tip "" %}
 
@@ -11,20 +11,17 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами:
-> — «Просмотр» на тип документа «Приход»,
-> — «Просмотр раздела Складской учет»
-> — «Просмотр каталога товаров»   
+> Кто может выполнять метод: пользователь с правом «Просмотр» на документы типа «Приход», правами «Просмотр раздела Складской учет» и «Просмотр каталога товаров»
 
 Метод `catalog.documentcontractor.getFields` возвращает описание полей для привязки поставщика, контакта или компании к документу складского учета.
 
-## Параметры метода  
+## Параметры метода
 
 Без параметров.
 
 ## Примеры кода
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %} 
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -149,7 +146,7 @@
 
 - PHP
 
-    ```php  
+    ```php
     try {
         $response = $b24Service
             ->core
@@ -162,14 +159,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting contractor binding fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -187,7 +179,7 @@
                 console.log(result.data());
         }
     );
-    ```	
+    ```
 
 - PHP CRest
 
@@ -226,7 +218,7 @@
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
@@ -278,39 +270,38 @@ HTTP-код: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **documentContractor**
-[`object`](../data-types.md#catalog_documentcontractor) | Объект с описанием полей привязки поставщика к документу складского учета.
-Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [`catalog_documentContractor`](../data-types.md#catalog_documentcontractor), а `value` — объект типа [`rest_field_description`](../data-types.md) ||  
+|| **result.documentContractor**
+[`object`](../../data-types.md) | Объект с описанием полей привязки поставщика к документу складского учета.
+Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [catalog_documentcontractor](../data-types.md#catalog_documentcontractor), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-## Обработка ошибок 
+## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}  
+HTTP-статус: **400**
 
-HTTP-код: **400**
-
-```json  
+```json
 {
     "error": "0",
     "error_description": "Access denied"
 }
 ```
 
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access denied | Недостаточно прав для просмотра документа или привязок ||  
-|| `0` | Contractors should be provided by CRM | Модуль CRM не активен как поставщик контрагентов ||  
-|#  
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access denied | Недостаточно прав для просмотра документа или привязок ||
+|| `400` | `0` | Contractors should be provided by CRM | Поставщики в Битрикс24 ведутся не в CRM ||
+|#
 
-{% include [Системные ошибки](../../../_includes/system-errors.md) %}  
+{% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение  
+## Продолжите изучение
 
-- [{#T}](./catalog-documentcontractor-list.md)  
-- [{#T}](./catalog-documentcontractor-add.md)  
+- [{#T}](./catalog-documentcontractor-add.md)
+- [{#T}](./catalog-documentcontractor-list.md)
 - [{#T}](./catalog-documentcontractor-delete.md)
-

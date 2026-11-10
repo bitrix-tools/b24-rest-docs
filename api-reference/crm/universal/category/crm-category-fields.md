@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.<тип>.category.field.list](../../rest-v3/categories/index.md). Воронки счетов, документов CRM и документов КЭДО в REST 3.0 пока недоступны, для них используйте этот метод.
+
+{% endnote %}
+
 Метод получает информацию о полях воронок (направлений) объекта CRM.
 
 ## Параметры метода
@@ -178,16 +184,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error calling crm.category.fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

@@ -32,5 +32,8 @@
     }
   },
   "page": "/api-reference/sonet-group/scrum/backlog/tasks-api-scrum-backlog-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1
+  }
 }

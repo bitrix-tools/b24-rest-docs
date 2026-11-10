@@ -165,5 +165,14 @@
     "UTM_SOURCE",
     "UTM_TERM",
     "WEB"
-  ]
+  ],
+  "datasetHint": {
+    "entity": "leads",
+    "count": 25,
+    "idFrom": 1,
+    "idTo": 25,
+    "runnableExample": {
+      "id": 1
+    }
+  }
 }

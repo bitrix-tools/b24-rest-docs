@@ -116,7 +116,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.gettypes().response
+        bitrix_response = client.disk.storage.get_types().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -245,6 +245,10 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+У метода нет собственных кодов ошибок.
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

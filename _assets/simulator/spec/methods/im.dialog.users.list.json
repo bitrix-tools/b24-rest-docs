@@ -229,5 +229,11 @@
     "type",
     "website",
     "work_position"
-  ]
+  ],
+  "requestExample": {
+    "DIALOG_ID": "chat2935",
+    "SKIP_EXTERNAL": "Y",
+    "LIMIT": 20,
+    "OFFSET": 0
+  }
 }

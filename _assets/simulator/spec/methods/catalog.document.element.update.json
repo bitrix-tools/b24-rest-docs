@@ -112,5 +112,13 @@
     }
   ],
   "page": "/api-reference/catalog/document/document-element/catalog-document-element-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 148,
+    "fields": {
+      "amount": 12,
+      "purchasingPrice": 1180,
+      "storeTo": 2
+    }
+  }
 }

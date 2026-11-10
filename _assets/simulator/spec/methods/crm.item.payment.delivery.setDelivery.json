@@ -44,5 +44,9 @@
     }
   ],
   "page": "/api-reference/crm/universal/payment/delivery-in-payment/crm-item-payment-delivery-set-delivery.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1201,
+    "deliveryId": 4073
+  }
 }

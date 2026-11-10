@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `task.planner.getlist` получает список идентификаторов задач из «Плана на день» текущего пользователя. Чтобы получить подробную информацию о задачах используйте метод [tasks.task.get](../tasks-task-get.md).
+Метод `task.planner.getList` возвращает идентификаторы задач из «Плана на день» пользователя, от имени которого выполняется запрос. Чтобы получить данные задачи, используйте метод [tasks.task.get](../tasks-task-get.md).
 
 ## Параметры метода
 
-Без параметров.
+Без параметров. План другого пользователя получить нельзя: метод всегда возвращает план того, кто выполняет запрос.
 
 ## Примеры кода
 
@@ -59,16 +59,9 @@
     type PlannerGetListResult = number[]
 
     try {
-      // task.planner.getlist returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<PlannerGetListResult>({
         method: 'task.planner.getlist',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -96,16 +89,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // task.planner.getlist returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'task.planner.getlist',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -253,8 +239,30 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+У метода нет параметров, поэтому собственных ошибок у него нет. Метод возвращает только системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `task` ||
+|#
+
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../tasks-task-get.md)

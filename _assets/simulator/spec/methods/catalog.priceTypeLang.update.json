@@ -4,10 +4,10 @@
   "scope": "catalog",
   "kind": "write",
   "title": "Изменить перевод названия типа цены catalog.priceTypeLang.update",
-  "permissions": "администратор",
+  "permissions": "пользователь с правом «Управление типами цен»",
   "params": [
     {
-      "name": "Id",
+      "name": "id",
       "type": "catalog_price_type_lang.id",
       "base": "any",
       "required": true,
@@ -102,5 +102,11 @@
     }
   ],
   "page": "/api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 6,
+    "fields": {
+      "name": "Base Price"
+    }
+  }
 }

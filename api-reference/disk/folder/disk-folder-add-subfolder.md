@@ -28,12 +28,31 @@
 Идентификатор можно получить с помощью метода [disk.storage.getChildren](../storage/disk-storage-get-children.md), если папка находится в корне хранилища, и с помощью метода [disk.folder.getChildren](./disk-folder-get-children.md), если папка находится в другой папке
 ||
 || **data***
-[`array`](../../data-types.md) | Массив с полем `NAME`, где `NAME` — имя дочерней папки ||
+[`object`](../../data-types.md) | Параметры дочерней папки [(подробное описание)](#data) ||
+|| **rights**
+[`array`](../../data-types.md) | Массив прав доступа на папку. Каждый элемент содержит:
+
+- `ACCESS_CODE` — непустая строка длиной до 50 символов с кодом получателя права, например `U35`
+- `TASK_ID` — целочисленный идентификатор существующего уровня доступа
+- `NEGATIVE` — необязательный логический признак запрещающего права. Значения `true`, `yes` и `on`, переданные строкой, соответствуют запрещающему праву
+
+Список доступных идентификаторов `TASK_ID` можно получить методом [disk.rights.getTasks](../rights/disk-rights-get-tasks.md).
+
+Дополнительные поля, включая `DOMAIN` и `OBJECT_ID`, не учитываются ||
+|#
+
+### Параметр data {#data}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME***
+[`string`](../../data-types.md) | Имя дочерней папки. Максимальная длина — 255 символов. Имя не должно содержать символы, запрещенные в именах файлов ||
 |#
 
 {% note info "" %}
 
-Для управления доступом к созданной папке используйте метод [disk.folder.shareToUser](./disk-folder-share-to-user.md)
+Права можно задать при создании папки в параметре `rights`. Чтобы предоставить доступ после создания папки, используйте метод [disk.folder.shareToUser](./disk-folder-share-to-user.md)
 
 {% endnote %} 
 
@@ -49,7 +68,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":8907,"data":{"NAME":"Папка в папке"}}' \
+    -d '{"id":8907,"data":{"NAME":"Папка в папке"},"rights":[{"TASK_ID":71,"ACCESS_CODE":"U1271"}]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/disk.folder.addSubFolder
     ```
 
@@ -59,7 +78,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":8907,"data":{"NAME":"Папка в папке"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":8907,"data":{"NAME":"Папка в папке"},"rights":[{"TASK_ID":71,"ACCESS_CODE":"U1271"}],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/disk.folder.addSubFolder
     ```
 
@@ -89,7 +108,7 @@
       CREATED_BY: string
       UPDATED_BY: string
       DELETED_BY: string | null
-      DETAIL_URL: string
+      DETAIL_URL: string | null
     }
 
     try {
@@ -100,6 +119,12 @@
           data: {
             NAME: 'Subfolder name',
           },
+          rights: [
+            {
+              TASK_ID: 71,
+              ACCESS_CODE: 'U1271',
+            },
+          ],
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -135,6 +160,12 @@
               data: {
                 NAME: 'Subfolder name',
               },
+              rights: [
+                {
+                  TASK_ID: 71,
+                  ACCESS_CODE: 'U1271',
+                },
+              ],
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -163,11 +194,17 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.folder.addsubfolder(
+        bitrix_response = client.disk.folder.add_sub_folder(
             bitrix_id=8907,
             data={
                 "NAME": "Папка в папке",
             },
+            rights=[
+                {
+                    "TASK_ID": 71,
+                    "ACCESS_CODE": "U1271",
+                },
+            ],
         ).response
         result = bitrix_response.result
         print(result)
@@ -196,6 +233,12 @@
                     'id' => 8907,
                     'data' => [
                         'NAME' => 'Папка в папке'
+                    ],
+                    'rights' => [
+                        [
+                            'TASK_ID' => 71,
+                            'ACCESS_CODE' => 'U1271'
+                        ]
                     ]
                 ]
             );
@@ -223,6 +266,12 @@
             data: {
                 NAME: 'Папка в папке'
             },
+            rights: [
+                {
+                    TASK_ID: 71,
+                    ACCESS_CODE: 'U1271'
+                }
+            ],
         },
         function (result) {
             if (result.error())
@@ -244,6 +293,12 @@
             'id' => 8907,
             'data' => [
                 'NAME' => 'Папка в папке'
+            ],
+            'rights' => [
+                [
+                    'TASK_ID' => 71,
+                    'ACCESS_CODE' => 'U1271'
+                ]
             ]
         ]
     );
@@ -258,10 +313,16 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "disk.folder.addSubFolder", b24.Params{
-    	"id": 8907,
-    	"data": b24.Params{
-    		"NAME": "Папка в папке",
-    	},
+	    "id": 8907,
+	    "data": b24.Params{
+		    "NAME": "Папка в папке",
+	    },
+	    "rights": []b24.Params{
+		    {
+			    "TASK_ID":     71,
+			    "ACCESS_CODE": "U1271",
+		    },
+	    },
     })
     if err != nil {
     	return fmt.Errorf("disk.folder.addSubFolder: %w", err)
@@ -325,7 +386,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с данными о созданной папке ||
+[`object`](../../data-types.md) | Объект с данными о созданной папке ||
 || **ID**
 [`integer`](../../data-types.md) | Идентификатор папки ||
 || **NAME**
@@ -358,14 +419,14 @@ HTTP-статус: **200**
 || **DELETED_BY**
 [`integer`](../../data-types.md) | Идентификатор пользователя, удалившего папку ||
 || **DETAIL_URL**
-[`string`](../../data-types.md) | Ссылка для открытия папки в интерфейсе ||
+[`string`](../../data-types.md) \| `null` | Ссылка для открытия папки в интерфейсе. Для папок из хранилищ приложений и других модулей, например чатов или CRM, приходит `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400** или **403**
 
 ```json
 {
@@ -379,11 +440,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не передано обязательное поле `NAME` в массиве `data` ||
-|| `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
-|| `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` не найдена ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав для создания папки ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | Invalid value of parameter {Parameter #1} | Не указан обязательный параметр `data` ||
+|| `400` | `DISK_BASE_SERVICE_22001` | Error: required parameter NAME (DISK_BASE_SERVICE_22001) | Не передано обязательное поле `NAME` в объекте `data` или передано пустое значение ||
+|| `400` | `DISK_MO_28000` | Название содержит недопустимые символы | В `NAME` переданы символы, запрещенные в именах файлов ||
+|| `400` | `DISK_MO_28000` | Для значения поля «Название» превышена максимальная длина: 255 | Длина `NAME` превышает 255 символов ||
+|| `400` | `DISK_OBJ_22000` | Папка с таким именем уже есть | Папка с таким именем уже есть ||
+|| `400` | `ERROR_NOT_FOUND` | Could not find entity with id `X` | Папка с указанным `id` не найдена ||
+|| `400` | Пустое значение | Invalid format: Right `N` should be array | Элемент `rights` с индексом `N` передан не в виде массива ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE and TASK_ID | В элементе `rights` с индексом `N` отсутствует `ACCESS_CODE` или `TASK_ID` ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE as not empty string | `ACCESS_CODE` передан не строкой или содержит пустую строку ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain ACCESS_CODE not longer than 50 characters | Длина `ACCESS_CODE` превышает 50 символов ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain TASK_ID as integer | `TASK_ID` не является целым числом ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain known TASK_ID | Уровень доступа с указанным `TASK_ID` не найден ||
+|| `400` | Пустое значение | Invalid format: Right `N` should contain NEGATIVE as 0 or 1 | `NEGATIVE` нельзя преобразовать в логическое значение ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Недостаточно прав для создания папки или изменения прав доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

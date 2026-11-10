@@ -41,5 +41,8 @@
     }
   ],
   "page": "/api-reference/calendar/resource/calendar-resource-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "resourceId": 521
+  }
 }

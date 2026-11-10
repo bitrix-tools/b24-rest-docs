@@ -13,9 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `timeman.timecontrol.report.add` отправляет отчет об отсутствии и добавляет его в календарь.
+Метод `timeman.timecontrol.report.add` отправляет отчет об отсутствии. Если передать `CALENDAR: Y`, метод также добавит событие в календарь сотрудника.
 
-По умолчанию пользователь может отправить отчет только для себя. Администратор портала может отправить отчет любому — для этого в параметре `USER_ID` нужно указать идентификатор пользователя.
+По умолчанию пользователь может отправить отчет только для себя. Администратор может отправить отчет за другого сотрудника: передайте его идентификатор в `USER_ID`. В облачном Битрикс24 это может и интегратор.
 
 ## Параметры метода
 
@@ -29,15 +29,15 @@
 
 Получить идентификаторы записей можно методом [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md#reports) ||
 || **USER_ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя. Может указать только администратор.
+[`integer`](../../data-types.md) | Идентификатор пользователя. Метод учитывает параметр, только если его вызвал администратор, в облачном Битрикс24 также интегратор. У остальных пользователей метод отправит отчет за них самих.
 
 Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md) ||
 || **TEXT***
 [`string`](../../data-types.md) | Текст отчета ||
 || **TYPE**
-[`string`](../../data-types.md) | Тип отчета:
-- `WORK` — рабочий
-- `PRIVATE` — личный
+[`string`](../../data-types.md) | Тип отсутствия:
+- `WORK` — по рабочим вопросам
+- `PRIVATE` — по личным делам
 
 Значение по умолчанию — `PRIVATE` ||
 || **CALENDAR**
@@ -45,7 +45,7 @@
 - `Y` — да
 - `N` — нет
 
-Значение по умолчанию — `Y` ||
+Значение по умолчанию — `N` ||
 |#
 
 ## Примеры кода
@@ -89,7 +89,7 @@
         method: 'timeman.timecontrol.report.add',
         params: {
           REPORT_ID: 123,
-          TEXT: 'Worked on project',
+          TEXT: 'Работал над проектом',
           TYPE: 'WORK',
           CALENDAR: 'Y',
         },
@@ -124,7 +124,7 @@
             method: 'timeman.timecontrol.report.add',
             params: {
               REPORT_ID: 123,
-              TEXT: 'Worked on project',
+              TEXT: 'Работал над проектом',
               TYPE: 'WORK',
               CALENDAR: 'Y',
             },
@@ -157,7 +157,7 @@
     try:
         bitrix_response = client.timeman.timecontrol.report.add(
             report_id=123,
-            text="Worked on project",
+            text="Работал над проектом",
             type="WORK",
             calendar="Y",
         ).response
@@ -297,10 +297,21 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат выполнения. Возвращает `true`, если отчет добавлен успешно ||
+[`boolean`](../../data-types.md) | Результат выполнения. Возвращает `true`, если метод выполнен без ошибок ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+{% note warning "" %}
+
+Если `USER_ID` не передан, метод вернет `true`, но не сохранит отчет, когда:
+
+- записи с переданным `REPORT_ID` нет
+- запись принадлежит другому сотруднику
+
+Чтобы убедиться, что отчет добавлен, проверьте поле `report_text` записи методом [timeman.timecontrol.reports.get](./timeman-timecontrol-reports-get.md). Для этого нужен доступ к отчетам — подробнее в разделе [Права доступа](../index.md#access).
+
+{% endnote %}
 
 ## Обработка ошибок
 
@@ -319,15 +330,16 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access for this report | У вас нет доступа к этому отчету ||
+|| `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
+|| `ACCESS_ERROR` | You don't have access for this report | Администратор передал `USER_ID`, а записи с `REPORT_ID` нет или она принадлежит другому сотруднику ||
 || `TEXT_EMPTY` | Text can't be empty | Текст отчета не может быть пустым ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./timeman-timecontrol-reports-get.md)
 - [{#T}](./timeman-timecontrol-reports-users-get.md)
-- [{#T}](./timeman-timecontrol-reports-users-get.md)
+- [{#T}](./timeman-timecontrol-settings-get.md)

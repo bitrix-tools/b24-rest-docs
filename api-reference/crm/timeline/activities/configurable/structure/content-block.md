@@ -9,26 +9,54 @@
 
 {% endnote %}
 
-Контентные блоки `ContentBlockDto` — основа контентной области записи таймлайна. Сочетая эти блоки можно гибко собирать различные интерфейсы.
+Контентные блоки `ContentBlockDto` — основа контентной области записи таймлайна. Из этих блоков приложение собирает содержимое записи: текст, ссылки, пары название-значение и крайний срок.
 
-Данная структура используется при создании [конфигурируемых дел](../../layout-blocks/index.md) и при обогащении записей таймлайна [контентными блоками](../../../layout-blocks/index.md).
+Блоки передают ассоциативным массивом в поле `blocks`: ключ — идентификатор блока, который приложение задает само, значение — объект блока. Массив `blocks` есть у двух объектов:
 
-## Общая структура блока:
+- [`BodyDto`](./body.md) — контентная область [конфигурируемого дела](../index.md), структуру передают в параметре `layout` методов [crm.activity.configurable.add](../crm-activity-configurable-add.md) и [crm.activity.configurable.update](../crm-activity-configurable-update.md)
+- [`RestAppLayoutDto`](./rest-app-layout-dto.md) — набор дополнительных блоков, которыми приложение обогащает чужую запись таймлайна методами [crm.activity.layout.blocks.set](../../layout-blocks/crm-activity-layout-blocks-set.md) и [crm.timeline.layout.blocks.set](../../../layout-blocks/crm-timeline-layout-blocks-set.md)
+
+Типы блоков и их свойства одинаковы в обоих случаях. Блоки выводятся в том порядке, в котором они перечислены в `blocks`.
+
+## Общая структура блока
+
+У каждого блока два поля: `type` — тип блока, `properties` — его свойства. У каждого типа свой набор свойств, он описан ниже.
 
 ```json
 {
-    "type": "Тип блока",
+    "type": "text",
     "properties": {
-        ... какие-то свойства, различные для каждого конкрентого блока
+        "value": "Клиент подтвердил встречу"
     }
 }
 ```
 
-## Типы контентных блоков:
+## Как выбрать тип блока
 
-### Текст
+#|
+|| **Тип** | **Что выводит** | **Когда использовать** ||
+|| [`text`](#tekst) | Строку текста с форматированием | Короткое значение, подпись, комментарий ||
+|| [`largeText`](#dlinnyj-mnogostrochnyj-tekst) | Длинный текст, свернутый до превью | Письмо, расшифровка разговора, описание ||
+|| [`link`](#ssylka) | Ссылку с действием по нажатию | Переход к объекту CRM, внешнему сервису или в приложение ||
+|| [`withTitle`](#blok-s-zagolovkom) | Пару название-значение | Запись с набором полей ||
+|| [`lineOfBlocks`](#neskolko-kontent-blokov-v-odnu-stroku) | Несколько блоков в одну строку | Имя и телефон рядом, текст вперемешку со ссылками ||
+|| [`deadline`](#vybor-krajnego-sroka) | Текущий крайний срок дела с возможностью изменить его | Дело со сроком, который пользователь должен видеть и править ||
+|#
 
-Самый простой блок `type = text`, который выводит некоторый форматированный текст.
+## Ограничения и ошибки
+
+В блоки `withTitle` и `lineOfBlocks` вкладывают только блоки `text`, `link` и `deadline`.
+
+Остальные ограничения зависят от того, куда попадают блоки, и права на вызов тоже:
+
+- в составе [конфигурируемого дела](./layout.md) — раздел [Ограничения структуры](./layout.md#limits)
+- в составе [набора дополнительных блоков](./rest-app-layout-dto.md) — раздел [Ограничения](./rest-app-layout-dto.md#limits)
+
+## Типы контентных блоков
+
+### Текст {#tekst}
+
+Блок `type = text` выводит форматированную строку текста целиком, без сворачивания. Это базовый блок, с которого начинают сборку записи.
 
 #### Параметры
 
@@ -37,52 +65,46 @@
 #|
 || **Поле** | **Описание** ||
 || **value^*^**
-[`textWithTranslation`](./field-types.md) | Текст, который будет показан ||
+[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст, который увидит пользователь ||
 || **multiline**
-[`boolean`](../../../../../data-types.md) | Обработка переносов строк. Если true, то символы `\n` будут заменены на `<br>`. По-умолчанию `false` ||
+[`boolean`](../../../../../data-types.md) | Обработка переносов строк. При `true` символы `\n` заменяются на `<br>`. По умолчанию `false` ||
 || **title**
-[`textWithTranslation`](./field-types.md#textwithtranslation) | Аттрибут title ||
+[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст всплывающей подсказки при наведении на блок ||
 || **bold**
-[`boolean`](../../../../../data-types.md) | Жирный текст. По-умолчанию `false` ||
+[`boolean`](../../../../../data-types.md) | Жирный текст. По умолчанию `false` ||
 || **size**
-[`string`](../../../../../data-types.md) | Размер текста. Может принимать значения `xs`, `sm`, `md` (по-умолчанию `md`) ||
+[`string`](../../../../../data-types.md) | Размер текста. Может принимать значения `xs`, `sm`, `md`. По умолчанию `md` ||
 || **color**
-[`string`](../../../../../data-types.md) | Цвет текста. Может принимать значения `base_50`, `base_60`, `base_70`, `base_90` ||
+[`string`](../../../../../data-types.md) | Цвет текста. Может принимать значения `base_50`, `base_60`, `base_70`, `base_90`. Другое значение метод отклонит с ошибкой `ENUM_FIELD` ||
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
 
 #### Пример
 
+Текст в две строки, выделенный жирным, с подсказкой при наведении:
+
 ```json
 {
-    "icon": {
-        "code": "info"
-    },
-    "header": {
-        "title": "Информационное сообщение"
-    },
-    "body": {
-        "logo": {
-            "code": "notification"
-        },
-        "blocks": {
-            "text": {
-                "type": "text",
-                "properties": {
-                    "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                }
-            }
-        }
+    "type": "text",
+    "properties": {
+        "value": "Клиент подтвердил встречу.\nВстреча в офисе на Тверской.",
+        "multiline": true,
+        "bold": true,
+        "size": "md",
+        "color": "base_90",
+        "title": "Комментарий менеджера"
     }
 }
 ```
 
-![Текст](./_images/ContentBlockDto_9.png)
+Так блок `text` выглядит в записи таймлайна:
 
-### Длинный многострочный текст
+![Блок text в записи таймлайна](./_images/ContentBlockDto_9.png)
 
-Блок `type = largeText` позволяет отображать длинные многострочные тексты, которые будут автоматически свернуты до превью.
+### Длинный многострочный текст {#dlinnyj-mnogostrochnyj-tekst}
+
+Блок `type = largeText` выводит длинный многострочный текст и сворачивает его до превью.
 
 #### Параметры
 
@@ -91,42 +113,27 @@
 #|
 || **Поле** | **Описание** ||
 || **value^*^**
-[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст, который будет показан ||
+[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст, который увидит пользователь ||
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
 
 #### Пример
 
-Длинный текст, убранный под "Показать полностью".
-
 ```json
 {
-    "icon": {
-        "code": "info"
-    },
-    "header": {
-        "title": "Информационное сообщение"
-    },
-    "body": {
-        "logo": {
-            "code": "notification"
-        },
-        "blocks": {
-            "text": {
-                "type": "largeText",
-                "properties": {
-                    "value": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-                }
-            }
-        }
+    "type": "largeText",
+    "properties": {
+        "value": "Здравствуйте! Меня зовут Сергей, я звоню по заявке с сайта. Уточнил наличие на складе: обе позиции есть, отгрузка возможна в четверг. Клиент просит счет на юридическое лицо и доставку до подъезда. Договорились созвониться после согласования бюджета."
     }
 }
 ```
 
-![Длинный текст](./_images/ContentBlockDto_10.png)
+Развернуть текст пользователь сможет кнопкой «Показать полностью»:
 
-### Ссылка
+![Блок largeText, свернутый до превью](./_images/ContentBlockDto_10.png)
+
+### Ссылка {#ssylka}
 
 Блок `type = link` выводит ссылку.
 
@@ -137,11 +144,11 @@
 #|
 || **Поле** | **Описание** ||
 || **text^*^**
-[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст, который будет показан. HTML теги не поддерживаются ||
+[`textWithTranslation`](./field-types.md#textwithtranslation) | Текст ссылки. HTML-теги не поддерживаются ||
 || **action^*^**
 [`ActionDto`](./action.md) | Действие по нажатию на ссылку ||
 || **bold**
-[`boolean`](../../../../../data-types.md) | Жирный текст. По-умолчанию `false` ||
+[`boolean`](../../../../../data-types.md) | Жирный текст. По умолчанию `false` ||
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
@@ -162,11 +169,11 @@
 }
 ```
 
-![Ссылка](./_images/ContentBlockDto_15.png)
+![Блок типа link](./_images/ContentBlockDto_15.png)
 
-### Блок с заголовком
+### Блок с заголовком {#blok-s-zagolovkom}
 
-Блок `type = withTitle` выводит пару название-значение. В качестве значения может быть использован другой контент-блок.
+Блок `type = withTitle` выводит пару название-значение. Значением может быть другой контентный блок.
 
 #### Параметры
 
@@ -177,9 +184,9 @@
 || **title^*^**
 [`textWithTranslation`](./field-types.md#textwithtranslation) | Текст заголовка ||
 || **block^*^**
-[`ContentBlockDto`](content-block.md) | Контент-блок, являющийся значением. Поддерживаются блоки с типами `text`, `link`, `deadline` ||
+`ContentBlockDto` | Контентный блок, который выводится как значение. Поддерживаются блоки с типами `text`, `link`, `deadline` ||
 || **inline**
-[`boolean`](../../../../../data-types.md) | Показ названия и значения в одну строку. По-умолчанию `false` ||
+[`boolean`](../../../../../data-types.md) | Показ названия и значения в одну строку. По умолчанию `false` ||
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
@@ -201,7 +208,7 @@
 }
 ```
 
-![Ссылка](./_images/ContentBlockDto_16.png)
+![Блок withTitle со значением-текстом](./_images/ContentBlockDto_16.png)
 
 ```json
 {
@@ -223,11 +230,11 @@
 }
 ```
 
-![Ссылка](./_images/ContentBlockDto_17.png)
+![Блок withTitle со значением-ссылкой в одну строку](./_images/ContentBlockDto_17.png)
 
-### Несколько контент-блоков в одну строку
+### Несколько контентных блоков в одну строку {#neskolko-kontent-blokov-v-odnu-stroku}
 
-Блок `type = lineOfBlocks` выводит в одну строку несколько контент-блоков типа текст или ссылка. Это позволяет выводить текст с разным форматированием, смешанный с ссылками, в одной строке.
+Блок `type = lineOfBlocks` выводит в одну строку несколько контентных блоков. Так в одной строке совмещают текст с разным форматированием и ссылки.
 
 #### Параметры
 
@@ -236,7 +243,7 @@
 #|
 || **Поле** | **Описание** ||
 || **blocks^*^**
-[`ContentBlockDto[]`](content-block.md) | Ассоциативный массив контент-блоков. Поддерживаются блоки с типами `text`, `link`, `deadline` ||
+[`object`](../../../../../data-types.md) | Вложенные блоки: ключ — идентификатор блока, значение — объект `ContentBlockDto`. Не более 20 блоков, поддерживаются типы `text`, `link`, `deadline` ||
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
@@ -276,11 +283,11 @@
 }
 ```
 
-![Ссылка](./_images/ContentBlockDto_18.png)
+![Несколько блоков в одну строку](./_images/ContentBlockDto_18.png)
 
-### Выбор крайнего срока
+### Выбор крайнего срока {#vybor-krajnego-sroka}
 
-Блок `type = deadline` отображает текущее значение дедлайна с возможностью его быстро изменить. Блок не будет показан, если его добавить во входящее дело или в дело без дедлайна.
+Блок `type = deadline` показывает крайний срок дела и позволяет изменить его прямо в записи. Блок не отображается во входящем деле и в деле без крайнего срока.
 
 #### Параметры
 
@@ -289,7 +296,7 @@
 #|
 || **Поле** | **Описание** ||
 || **readonly**
-[`boolean`](../../../../../data-types.md) | Разрешение изменять крайний срок. По умолчанию `false`. Если у пользователя нет доступа на изменение объекта, к которому относится дело, или если дело выполнено, то `readonly = true` вне зависимости от переданных настроек ||
+[`boolean`](../../../../../data-types.md) | Запрет на изменение крайнего срока. По умолчанию `false` — срок можно менять прямо в записи. Битрикс24 включает запрет сам, если дело выполнено или у пользователя нет доступа на изменение объекта, к которому относится дело ||
 || **scope**
 [`string`](../../../../../data-types.md) | [Область видимости](./field-types.md#scope), например `web` ||
 |#
@@ -305,7 +312,7 @@
 }
 ```
 
-![Ссылка](./_images/ContentBlockDto_19.png)
+![Блок с крайним сроком](./_images/ContentBlockDto_19.png)
 
 ## Продолжите изучение
 

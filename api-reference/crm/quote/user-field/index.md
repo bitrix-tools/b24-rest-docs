@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Пользовательские поля добавляют в карточку коммерческого предложения данные, для которых нет системных полей: строку, число, ссылку, адрес, привязку к другому объекту CRM. Методы для работы с самими предложениями собраны в разделе [Коммерческие предложения](../index.md).
+Пользовательские поля добавляют в карточку коммерческого предложения данные, для которых нет системных полей, например заметку менеджера. Поле может хранить строку, число, ссылку, адрес или привязку к другому объекту CRM. Сами предложения создают и меняют методы, описанные в [обзоре коммерческих предложений](../index.md).
 
 > Быстрый переход: [все методы и события](#all-methods)
 >
@@ -17,24 +17,28 @@
 
 ## Как начать работу
 
-1. Выберите тип поля — он определяет формат хранимых данных и набор доступных настроек. Полный список типов возвращает метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md)
-2. Узнайте, какие настройки поддерживает выбранный тип, методом [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md), а список общих характеристик поля — методом [crm.userfield.fields](../../universal/user-defined-fields/crm-userfield-fields.md)
-3. Создайте поле методом [crm.quote.userfield.add](./crm-quote-user-field-add.md). В ответе придет идентификатор поля, а полное имя вернет метод [crm.quote.userfield.get](./crm-quote-user-field-get.md)
-4. Записывайте и читайте значение поля по его полному имени в методах [crm.quote.add](../crm-quote-add.md), [crm.quote.update](../crm-quote-update.md) и [crm.quote.get](../crm-quote-get.md)
+1. Выберите тип поля: от него зависит, какие данные хранит поле и какие у него настройки. Все типы вернет метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md)
+2. Узнайте настройки выбранного типа методом [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md). Общие параметры поля вернет метод [crm.userfield.fields](../../universal/user-defined-fields/crm-userfield-fields.md)
+3. Создайте поле методом [crm.quote.userfield.add](./crm-quote-user-field-add.md). В ответе придет идентификатор поля. Полное имя, тип, настройки и подписи поля вернет метод [crm.quote.userfield.get](./crm-quote-user-field-get.md#result)
+4. Записывайте и читайте значение поля методами [crm.item.add](../../universal/crm-item-add.md), [crm.item.update](../../universal/crm-item-update.md) и [crm.item.get](../../universal/crm-item-get.md) с `entityTypeId = 7`. Например, `"fields": {"ufCrmManagerNote": "Перезвонить в пятницу"}` — как меняется имя поля в этих методах, описано в разделе «Имя пользовательского поля». Для поля типа `enumeration` передайте `ID` элемента из массива `LIST` в ответе [crm.quote.userfield.get](./crm-quote-user-field-get.md#result)
+
+Методы `crm.quote.userfield.*` работают только с полями предложений. Пользовательскими полями любого объекта CRM управляют методы [userfieldconfig.*](../../universal/userfieldconfig/index.md). В REST 3.0 поля предложений настраивают методы `crm.quote.field.custom.*` — их описывает [обзор полей REST 3.0](../../rest-v3/fields/index.md).
 
 ## Имя пользовательского поля
 
-Код поля передается в обязательном параметре `FIELD_NAME` метода [crm.quote.userfield.add](./crm-quote-user-field-add.md), а полное имя система собирает сама: к коду добавляется префикс `UF_CRM_`. Для `FIELD_NAME = MANAGER_NOTE` полное имя поля будет `UF_CRM_MANAGER_NOTE`. Полям, созданным в интерфейсе Битрикс24, код подставляется автоматически, и их имена выглядят как `UF_CRM_QUOTE_1768404002`.
+Код поля задают в обязательном параметре `FIELD_NAME` метода [crm.quote.userfield.add](./crm-quote-user-field-add.md). Битрикс24 сам собирает полное имя: добавляет к коду префикс `UF_CRM_`. Из `MANAGER_NOTE` получится `UF_CRM_MANAGER_NOTE`. Полям, созданным в интерфейсе Битрикс24, код подставляется автоматически, и их имена выглядят как `UF_CRM_QUOTE_1768404002`.
 
-Именно полное имя используется дальше:
+Полное имя нужно в трех местах:
 
-- в параметре `fields` методов [crm.quote.add](../crm-quote-add.md) и [crm.quote.update](../crm-quote-update.md) — чтобы записать значение
-- в параметре `select` метода [crm.quote.list](../crm-quote-list.md) — чтобы вернуть значение в выборке. Маска `UF_*` выбирает сразу все пользовательские поля
-- в поле `FIELD_NAME` [событий](./events/index.md) пользовательских полей — чтобы понять, какое поле изменилось
+- в параметре `fields` методов [crm.quote.add](../crm-quote-add.md) и [crm.quote.update](../crm-quote-update.md) — чтобы записать значение. Развитие этих методов остановлено
+- в параметре `select` метода [crm.quote.list](../crm-quote-list.md) — чтобы вернуть значение в выборке. Развитие этого метода тоже остановлено. Маска `UF_*` выбирает сразу все пользовательские поля
+- в поле `FIELD_NAME` [событий](./events/index.md) пользовательских полей — чтобы понять, о каком поле пришло событие
+
+В универсальных методах `crm.item.*` с `entityTypeId = 7` то же поле называется в camelCase: `UF_CRM_MANAGER_NOTE` превращается в `ufCrmManagerNote`. Исходное имя эти методы вернут, если передать параметр `useOriginalUfNames = Y`.
 
 ## Типы пользовательских полей
 
-Тип задается в поле `USER_TYPE_ID` при создании поля и не меняется после создания.
+Тип задают в параметре `USER_TYPE_ID` при создании поля. Потом изменить его нельзя.
 
 #|
 || **Тип** | **Что хранит** ||
@@ -48,7 +52,7 @@
 || `url` | Ссылку ||
 || `address` | Адрес на карте ||
 || `file` | Файл ||
-|| `enumeration` | Значение из списка, который задается в поле `LIST` ||
+|| `enumeration` | Значение из списка, который задается в параметре `LIST` ||
 || `employee` | Привязку к пользователю Битрикс24 ||
 || `crm` | Привязку к элементу CRM: лиду, сделке, контакту или компании ||
 || `crm_status` | Привязку к элементу справочника CRM ||
@@ -56,13 +60,11 @@
 || `iblock_section` | Привязку к разделу информационного блока ||
 |#
 
-Актуальный список типов возвращает метод [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md), а набор настроек для конкретного типа — метод [crm.userfield.settings.fields](../../universal/user-defined-fields/crm-userfield-settings-fields.md).
+## Ошибки при работе с пользовательскими полями {#errors}
 
-## Ошибки при работе с пользовательскими полями
+При создании или удалении пользовательского поля запрос может прерваться с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md). Это внутренняя ошибка: ее причину видно только в логах сервера за время запроса. Как получить детали ошибки:
 
-При создании или удалении пользовательских полей запрос может прерваться с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md). Это внутренняя ошибка сервера, ее причину видно только в логах сервера на момент выполнения запроса:
-
-- в облачном Битрикс24 напишите обращение в [техническую поддержку](../../../../bitrix-support.md), чтобы получить детали ошибки
+- в облачном Битрикс24 напишите обращение в [техническую поддержку](../../../../bitrix-support.md)
 - в коробочном Битрикс24 запросите лог ошибок сервера у администратора сервера или хостинга, а затем напишите в [техническую поддержку](../../../../bitrix-support.md) и приложите лог для анализа
 
 ### Частые причины серверных ошибок
@@ -71,17 +73,17 @@
 
     Проверить количество пользовательских полей предложений можно методом [crm.quote.userfield.list](./crm-quote-user-field-list.md)
 
-2. На серверах есть ограничение времени выполнения одного запроса — `max_execution_time`, стандартное значение 60 секунд. Если запрос выполняется дольше, он прерывается с ошибкой [INTERNAL_SERVER_ERROR](../../../../error-codes.md)
+2. Сервер прерывает запрос, который выполняется дольше `max_execution_time`, и возвращает ошибку [INTERNAL_SERVER_ERROR](../../../../error-codes.md). Стандартное значение `max_execution_time` — 60 секунд
 
-    Время [создания](./crm-quote-user-field-add.md) или [удаления](./crm-quote-user-field-delete.md) пользовательского поля зависит от количества предложений: при создании поле добавляется во все карточки предложений, при удалении — удаляется из всех карточек. Чем меньше предложений в Битрикс24, тем быстрее создаются и удаляются поля
+    [Создание](./crm-quote-user-field-add.md) и [удаление](./crm-quote-user-field-delete.md) поля длятся тем дольше, чем больше в Битрикс24 предложений: поле добавляется во все карточки предложений или убирается из них
 
-    Чтобы узнать количество коммерческих предложений, используйте метод [crm.quote.list](../crm-quote-list.md)
+    Узнать количество предложений можно методом [crm.quote.list](../crm-quote-list.md)
 
 ## Обзор методов и событий {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: в зависимости от метода — создавать, изменять и удалять поля может только администратор CRM, читать их может пользователь с правом чтения коммерческих предложений
+> Кто может выполнять метод: в зависимости от метода. Создавать, изменять и удалять поле может пользователь с правом «Разрешить изменять настройки» в CRM. Получать поле и список полей может пользователь с правом чтения коммерческих предложений
 
 {% list tabs %}
 
@@ -103,7 +105,7 @@
     || [onCrmQuoteUserFieldAdd](./events/on-crm-quote-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.quote.userfield.add](./crm-quote-user-field-add.md) ||
     || [onCrmQuoteUserFieldUpdate](./events/on-crm-quote-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.quote.userfield.update](./crm-quote-user-field-update.md) ||
     || [onCrmQuoteUserFieldDelete](./events/on-crm-quote-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.quote.userfield.delete](./crm-quote-user-field-delete.md) ||
-    || [onCrmQuoteUserFieldSetEnumValues](./events/on-crm-quote-user-field-set-enum-values.md) | При изменении набора значений пользовательского поля списочного типа вручную или методом [crm.quote.userfield.update](./crm-quote-user-field-update.md) ||
+    || [onCrmQuoteUserFieldSetEnumValues](./events/on-crm-quote-user-field-set-enum-values.md) | При изменении элементов списка в поле типа `enumeration` вручную или методом [crm.quote.userfield.update](./crm-quote-user-field-update.md) ||
     |#
 
 {% endlist %}

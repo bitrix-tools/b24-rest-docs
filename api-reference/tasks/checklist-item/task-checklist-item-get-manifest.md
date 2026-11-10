@@ -15,7 +15,7 @@
 
 Метод `task.checklistitem.getmanifest` получает информацию о методах работы с пунктами чек-листа задач `task.checklistitem.*`.
 
-Рекомендуем использовать результат только в качестве справочника, так как структуру ответа метода разработчик может изменить в любой момент.
+Структура ответа может измениться без уведомления, поэтому используйте результат только как справочник.
 
 ## Параметры метода
 
@@ -136,6 +136,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -476,9 +477,52 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с описанием методов `task.checklistitem.*` ||
+[`object`](../../data-types.md) | Объект с [описанием методов](#result) `task.checklistitem.*` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **Manifest version**
+[`string`](../../data-types.md) | Версия структуры манифеста ||
+|| **Warning**
+[`string`](../../data-types.md) | Предупреждение о том, что формат манифеста может измениться без уведомления ||
+|| **REST: shortname alias to class**
+[`string`](../../data-types.md) | Короткое имя объекта в названиях методов — `checklistitem` ||
+|| **REST: writable checklistitem data fields**
+[`array`](../../data-types.md) | Поля, которые можно передать в `FIELDS` методов [task.checklistitem.add](./task-checklist-item-add.md) и [task.checklistitem.update](./task-checklist-item-update.md) ||
+|| **REST: readable checklistitem data fields**
+[`array`](../../data-types.md) | Поля пункта, которые возвращают [task.checklistitem.get](./task-checklist-item-get.md) и [task.checklistitem.getlist](./task-checklist-item-get-list.md) ||
+|| **REST: sortable checklistitem data fields**
+[`array`](../../data-types.md) | Поля, по которым можно сортировать результат `task.checklistitem.getlist` ||
+|| **REST: date fields**
+[`array`](../../data-types.md) | Поля типа дата и время ||
+|| **REST: available methods**
+[`object`](../../data-types.md) | Описания методов. Ключ — короткое имя метода, например `add` или `getlist`, значение — [объект описания метода](#method) ||
+|#
+
+#### Объект описания метода {#method}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **staticMethod**
+[`boolean`](../../data-types.md) | `false` — метод работает с конкретным пунктом, `true` — метод не привязан к пункту. У метода `get` поля нет, он тоже работает с конкретным пунктом ||
+|| **mandatoryParamsCount**
+[`integer`](../../data-types.md) | Количество обязательных параметров. Обязательны первые параметры из списка `params`. У метода `getmanifest` поля нет ||
+|| **params**
+[`array`](../../data-types.md) | Параметры метода в том порядке, в котором их передают в запросе. Каждый элемент содержит:
+- `description` — имя параметра в коде
+- `type` — тип значения: `integer` или `array`
+- `allowedKeys` — допустимые ключи, если параметр передается объектом ||
+|| **allowedKeysInReturnValue**
+[`array`](../../data-types.md) | Поля, которые метод возвращает в ответе. Есть у `get` и `getlist` ||
+|| **collectionInReturnValue**
+[`boolean`](../../data-types.md) | `true`, если метод возвращает массив пунктов. Есть у `getlist` ||
 |#
 
 ## Обработка ошибок

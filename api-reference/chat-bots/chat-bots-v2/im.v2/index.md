@@ -42,10 +42,14 @@
 
 Сначала приложение подписывается на запись событий, а затем само периодически забирает накопленную очередь.
 
-1. Подпишитесь на запись событий через [im.v2.Event.subscribe](./events/event-subscribe.md).
-2. Периодически получайте новые события через [im.v2.Event.get](./events/event-get.md).
-3. Передавайте `offset`, чтобы подтверждать уже обработанные события.
-4. Для остановки записи используйте [im.v2.Event.unsubscribe](./events/event-unsubscribe.md).
+1. Подпишитесь на запись событий через [im.v2.Event.subscribe](./events/event-subscribe.md)
+2. Периодически получайте новые события через [im.v2.Event.get](./events/event-get.md)
+3. Обработайте все события из `result.events` и сохраните `result.nextOffset`
+4. В следующем вызове `im.v2.Event.get` передайте сохраненное значение как `offset`: этот вызов подтвердит обработанные события. Если обработка завершилась с ошибкой, повторите опрос с прежним `offset`
+5. Если `result.hasMore` равно `true`, следующий запрос выполните сразу. Если событий больше нет, повторите запрос позже
+6. Для остановки записи используйте [im.v2.Event.unsubscribe](./events/event-unsubscribe.md)
+
+Например, после `im.v2.Event.subscribe` вызовите `im.v2.Event.get` с `{"limit": 100}`. Если ответ содержит `"nextOffset": 2002`, обработайте полученные события и вызовите `im.v2.Event.get` с `{"offset": 2002, "limit": 100}`. Формат ответа и параметры опроса описаны на странице [im.v2.Event.get](./events/event-get.md).
 
 {% note info "Что такое режим polling" %}
 
@@ -55,7 +59,7 @@ Polling — режим получения событий, при котором 
 
 {% endnote %}
 
-Типы событий, которые приходят в поле `events[].type`: `ONIMV2MESSAGEADD`, `ONIMV2MESSAGEUPDATE`, `ONIMV2MESSAGEDELETE`, `ONIMV2REACTIONCHANGE`, `ONIMV2JOINCHAT`. Описание данных каждого — [Форматы событий](./events/events.md).
+Типы событий, которые приходят в поле `result.events[].type`: `ONIMV2MESSAGEADD`, `ONIMV2MESSAGEUPDATE`, `ONIMV2MESSAGEDELETE`, `ONIMV2REACTIONCHANGE`, `ONIMV2JOINCHAT`. Описание данных каждого — [Форматы событий](./events/events.md).
 
 ## Работа с файлами {#files}
 

@@ -64,5 +64,10 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/binding/crm-activity-binding-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "activityId": 999,
+    "entityTypeId": 2,
+    "entityId": 1
+  }
 }

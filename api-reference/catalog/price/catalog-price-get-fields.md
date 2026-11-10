@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Изменение цены продажи товара»
 
-Метод `catalog.price.getFields` возвращает поля цены товара.
+Метод `catalog.price.getFields` возвращает описание полей цены товара: тип, обязательность и доступность для изменения.
 
 ## Параметры метода
 
@@ -159,15 +159,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting price fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -175,7 +169,7 @@
 
     ```js
     BX24.callMethod(
-        'catalog.price.getFields', 
+        'catalog.price.getFields',
         {},
         function(result)
         {
@@ -311,7 +305,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **price**
+|| **result.price**
 [`object`](../data-types.md#catalog_price) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_price](../data-types.md#catalog_price), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -323,7 +317,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
 ```
@@ -333,14 +327,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав для чтения ||
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права «Просмотр каталога товаров» или «Изменение цены продажи товара» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-price-add.md)
 - [{#T}](./catalog-price-update.md)

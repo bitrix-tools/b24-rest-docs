@@ -13,7 +13,9 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::answerButtonClick` возникает при принятии входящего звонка.
+Событие `BackgroundCallCard::answerButtonClick` возникает, когда оператор нажимает кнопку «Ответить» в карточке входящего звонка.
+
+Кнопка есть только в состояниях `incoming` и `transferIncoming`. Карточка звонка приложения открывается без нее — эти состояния приложение включает командой [CallCardSetUiState](../call-card-set-ui-state.md). Битрикс24 по нажатию состояние карточки не меняет: после ответа приложение само переключает ее в `connected` той же командой.
 
 {% note info "" %}
 
@@ -102,5 +104,8 @@
 ## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](../../bx24-placement-bind-event.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)
+- [{#T}](./skip-button-click.md)
+- [{#T}](../call-card-set-ui-state.md)

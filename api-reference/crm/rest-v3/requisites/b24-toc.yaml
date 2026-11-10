@@ -1,0 +1,59 @@
+title: Реквизиты
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить реквизит
+    href: crm-entity-requisite-add-rest-v3.md
+  - name: Изменить реквизит
+    href: crm-entity-requisite-update-rest-v3.md
+  - name: Получить реквизит
+    href: crm-entity-requisite-get-rest-v3.md
+  - name: Получить список реквизитов контакта или компании
+    href: crm-entity-requisite-list-rest-v3.md
+  - name: Удалить реквизит
+    href: crm-entity-requisite-delete-rest-v3.md
+  - name: Получить список реквизитов Битрикс24
+    href: crm-requisite-list-rest-v3.md
+  - name: Шаблоны реквизитов
+    items:
+      - name: Получить шаблон реквизита
+        href: crm-entity-requisite-preset-get-rest-v3.md
+      - name: Получить список шаблонов реквизитов
+        href: crm-entity-requisite-preset-list-rest-v3.md
+  - name: Банковские реквизиты
+    items:
+      - name: Добавить банковский реквизит
+        href: crm-entity-requisite-bank-requisite-add-rest-v3.md
+      - name: Изменить банковский реквизит
+        href: crm-entity-requisite-bank-requisite-update-rest-v3.md
+      - name: Получить банковский реквизит
+        href: crm-entity-requisite-bank-requisite-get-rest-v3.md
+      - name: Получить банковские реквизиты реквизита
+        href: crm-entity-requisite-bank-requisite-list-rest-v3.md
+      - name: Получить банковские реквизиты контакта или компании
+        href: crm-entity-bank-requisite-list-rest-v3.md
+      - name: Удалить банковский реквизит
+        href: crm-entity-requisite-bank-requisite-delete-rest-v3.md
+  - name: Адреса реквизита
+    items:
+      - name: Добавить адрес реквизита
+        href: crm-entity-requisite-address-add-rest-v3.md
+      - name: Изменить адрес реквизита
+        href: crm-entity-requisite-address-update-rest-v3.md
+      - name: Получить адрес реквизита
+        href: crm-entity-requisite-address-get-rest-v3.md
+      - name: Получить адреса реквизита
+        href: crm-entity-requisite-address-list-rest-v3.md
+      - name: Удалить адрес реквизита
+        href: crm-entity-requisite-address-delete-rest-v3.md
+  - name: Реквизиты в элементах CRM
+    items:
+      - name: Получить реквизит клиента в элементе
+        href: crm-entity-client-requisite-get-rest-v3.md
+      - name: Выбрать реквизит клиента в элементе
+        href: crm-entity-client-requisite-set-rest-v3.md
+      - name: Получить реквизит моей компании в элементе
+        href: crm-entity-my-company-requisite-get-rest-v3.md
+      - name: Выбрать реквизит моей компании в элементе
+        href: crm-entity-my-company-requisite-set-rest-v3.md

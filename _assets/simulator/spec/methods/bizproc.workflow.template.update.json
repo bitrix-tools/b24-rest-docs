@@ -82,8 +82,8 @@
   "returns": [
     {
       "name": "result",
-      "type": "object",
-      "base": "object",
+      "type": "integer",
+      "base": "integer",
       "required": false,
       "description": "Идентификатор обновленного шаблона бизнес-процесса"
     },

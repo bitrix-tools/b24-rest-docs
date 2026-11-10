@@ -24,5 +24,8 @@
     "successor": null
   },
   "page": "/api-reference/crm/outdated/category-old/crm-deal-category-stage-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "1"
+  }
 }

@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/sonet-group/members/sonet-group-user-request.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "GROUP_ID": 69,
+    "MESSAGE": "Прошу добавить меня в проект"
+  }
 }

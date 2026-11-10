@@ -352,7 +352,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`string`](../data-types.md) | Идентификатор документа ||
+[`string`](../data-types.md) | Идентификатор документа. В ответе [documentgenerator.document.add](./document-generator-document-add.md) приходит числом ||
 || **title**
 [`string`](../data-types.md) | Название документа ||
 || **number**
@@ -362,15 +362,9 @@ HTTP-статус: **200**
 || **provider**
 [`string`](../data-types.md) | Класс провайдера данных ||
 || **value**
-[`string`](../data-types.md) | Внешний идентификатор объекта ||
+[`string`](../data-types.md) | Внешний идентификатор объекта, для которого создан документ ||
 || **values**
 [`object`](../data-types.md) | Значения полей документа [(подробное описание)](#document-values) ||
-|| **fileId**
-[`integer`](../data-types.md) | Идентификатор DOCX-файла документа ||
-|| **imageId**
-[`integer`](../data-types.md) | Идентификатор файла изображения документа ||
-|| **pdfId**
-[`integer`](../data-types.md) | Идентификатор PDF-файла документа ||
 || **stampsEnabled**
 [`boolean`](../data-types.md) | Признак включенных печатей и подписей ||
 || **downloadUrl**
@@ -378,41 +372,51 @@ HTTP-статус: **200**
 || **downloadUrlMachine**
 [`string`](../data-types.md) | Ссылка на скачивание DOCX для приложения ||
 || **pdfUrl**
-[`string`](../data-types.md) | Ссылка на скачивание PDF, если PDF уже сформирован ||
+[`string`](../data-types.md) | Ссылка на скачивание PDF.
+
+Поле приходит, только когда PDF уже сформирован. Конвертация выполняется асинхронно, поэтому сразу после создания или изменения документа поля обычно нет ||
 || **pdfUrlMachine**
-[`string`](../data-types.md) | Ссылка на скачивание PDF для приложения ||
+[`string`](../data-types.md) | Ссылка на скачивание PDF для приложения. Приходит вместе с `pdfUrl` ||
 || **printUrl**
-[`string`](../data-types.md) | Ссылка на просмотр или печать PDF, если PDF уже сформирован ||
+[`string`](../data-types.md) | Ссылка на просмотр или печать PDF. Приходит вместе с `pdfUrl` ||
 || **printUrlMachine**
-[`string`](../data-types.md) | Ссылка на просмотр или печать PDF для приложения ||
+[`string`](../data-types.md) | Ссылка на просмотр или печать PDF для приложения. Приходит вместе с `pdfUrl` ||
 || **imageUrl**
-[`string`](../data-types.md) | Ссылка на скачивание изображения, если изображение уже сформировано ||
+[`string`](../data-types.md) | Ссылка на скачивание изображения документа.
+
+Поле приходит, только когда изображение уже сформировано ||
 || **imageUrlMachine**
-[`string`](../data-types.md) | Ссылка на скачивание изображения для приложения ||
+[`string`](../data-types.md) | Ссылка на скачивание изображения для приложения. Приходит вместе с `imageUrl` ||
 || **publicUrl**
-[`string`](../data-types.md) | Публичная ссылка на документ, если она включена ||
+[`string`](../data-types.md) | Публичная ссылка на документ. Если ссылка не включена — `null`.
+
+Включить ссылку можно методом [documentgenerator.document.enablepublicurl](./document-generator-document-enable-public-url.md) ||
+|| **publicUrlView**
+[`object`](../data-types.md) | Данные о просмотре публичной ссылки [(подробное описание)](#public-url-view).
+
+Поле приходит, только если публичная ссылка включена ||
 || **isTransformationError**
-[`boolean`](../data-types.md) | Признак ошибки конвертации документа ||
+[`boolean`](../data-types.md) | Признак ошибки конвертации документа в PDF и изображение ||
 || **transformationErrorCode**
-[`string`](../data-types.md) | Код ошибки конвертации, если она произошла ||
+[`string`](../data-types.md) | Код ошибки конвертации. Поле приходит, только если `isTransformationError` = `true` ||
 || **transformationErrorMessage**
-[`string`](../data-types.md) | Текст ошибки конвертации, если она произошла ||
+[`string`](../data-types.md) | Текст ошибки конвертации. Поле приходит, только если `isTransformationError` = `true` ||
 || **transformationCancelReason**
-[`string`](../data-types.md) | Причина отмены конвертации, если она была отменена ||
+[`string`](../data-types.md) | Причина отмены конвертации. Поле приходит, только если конвертация была отменена ||
 || **pullTag**
 [`string`](../data-types.md) | Тег для подписки на обновление статуса конвертации ||
 || **emailDiskFile**
-[`integer`](../data-types.md) | Идентификатор файла на Диске для отправки по почте ||
+[`integer`](../data-types.md) | Идентификатор файла на Диске для отправки по почте: PDF-файла, если он сформирован, иначе DOCX-файла. Если файл не хранится на Диске — `0` ||
 || **createTime**
 [`datetime`](../data-types.md) | Время создания документа ||
-|| **updateTime**
-[`datetime`](../data-types.md) | Время последнего обновления документа ||
 || **createdBy**
-[`string`](../data-types.md) | Идентификатор автора документа ||
+[`string`](../data-types.md) | Идентификатор автора документа. В ответе [documentgenerator.document.add](./document-generator-document-add.md) приходит числом.
+
+В ответе [documentgenerator.document.update](./document-generator-document-update.md) приходит `null`, а `createTime` содержит время изменения. Актуальные значения возвращает [documentgenerator.document.get](./document-generator-document-get.md) ||
+|| **updateTime**
+[`datetime`](../data-types.md) | Время последнего изменения документа ||
 || **updatedBy**
-[`integer`](../data-types.md) | Идентификатор пользователя, который обновил документ ||
-|| **publicUrlView**
-[`object`](../data-types.md) | Данные о просмотре публичной ссылки [(подробное описание)](#public-url-view) ||
+[`string`](../data-types.md) | Идентификатор пользователя, который последним изменил документ. Если документ не изменяли — `null`. В ответе [documentgenerator.document.update](./document-generator-document-update.md) приходит числом ||
 |#
 
 #### Объект values {#document-values}
@@ -434,7 +438,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **time**
-[`datetime`](../data-types.md) | Время последнего просмотра публичной ссылки ||
+[`datetime`](../data-types.md) | Время последнего просмотра публичной ссылки. Если ссылку еще не открывали — `null` ||
 |#
 
 ## Обработка ошибок
@@ -454,9 +458,10 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Bitrix\DocumentGenerator\Document constructor must be is public | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 || `400` | `0` | Документ не найден | Документ с указанным `id` не найден ||
-|| `400` | `0` | You do not have permissions to view documents | Недостаточно прав на изменение документа ||
+|| `400` | `0` | You do not have permissions to view documents | Нет права на просмотр документов ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу с указанным `id` ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

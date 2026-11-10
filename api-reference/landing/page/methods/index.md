@@ -29,6 +29,14 @@
 4. Для поиска страницы и проверки ее параметров используйте [landing.landing.getList](./landing-landing-get-list.md), [landing.landing.getadditionalfields](./landing-landing-get-additional-fields.md), [landing.landing.getpreview](./landing-landing-get-preview.md) и [landing.landing.getpublicurl](./landing-landing-get-public-url.md)
 5. После настройки опубликуйте страницу методом [landing.landing.publication](./landing-landing-publication.md). Если нужно скрыть страницу, используйте [landing.landing.unpublic](./landing-landing-unpublic.md)
 
+## Когда передавать scope
+
+Параметр `scope` в методах работы со страницей не связан с REST-скоупом [`landing`](../../../scopes/permissions.md). Это внутренний скоуп лендингов, который переключает методы на соответствующий тип сайтов.
+
+Для страниц сайтов типов `PAGE`, `STORE` и `SMN` параметр не нужен. Для страниц сайтов типов `KNOWLEDGE`, `GROUP` и `MAINPAGE` передавайте соответствующее значение `scope` при вызове методов, например [landing.landing.getList](./landing-landing-get-list.md), [landing.landing.publication](./landing-landing-publication.md) и [landing.landing.unpublic](./landing-landing-unpublic.md).
+
+Подробнее о значениях параметра и правилах его использования читайте в статье [Работа с типами сайтов и скоупами](../../types.md).
+
 ## Связь с другими объектами
 
 Страница в Битрикс24 связана с другими объектами. Сайт задает общий контекст, папка показывает место страницы в структуре, шаблон представления определяет оформление, блоки формируют содержимое, а специальные страницы задают ее роль на сайте.

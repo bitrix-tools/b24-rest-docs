@@ -56,7 +56,18 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Признак значения по умолчанию. Допустимые значения: - Y — по умолчанию - N — не по умолчанию"
+          "description": "Признак значения по умолчанию. Допустимые значения: - Y — по умолчанию - N — не по умолчанию",
+          "values": [
+            {
+              "value": "Y",
+              "title": "по умолчанию"
+            },
+            {
+              "value": "N",
+              "title": "не по умолчанию"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "sort",
@@ -119,5 +130,15 @@
     }
   ],
   "page": "/api-reference/catalog/product-property-enum/catalog-product-property-enum-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1739,
+    "fields": {
+      "propertyId": 431,
+      "value": "Средний",
+      "xmlId": "M",
+      "def": "N",
+      "sort": 110
+    }
+  }
 }

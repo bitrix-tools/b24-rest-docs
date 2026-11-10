@@ -13,14 +13,17 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения элементов CRM
 
-Метод `crm.activity.binding.list` получает список всех связей дела.
+{% note warning "DEPRECATED" %}
 
-Метод вернет массив объектов с привязками дела:
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.binding.list](../../../rest-v3/activities/crm-activity-binding-list-rest-v3.md).
 
-- `entityTypeId` — целочисленный идентификатор [типа объекта CRM](../../../data-types.md#object_type)
-- `entityId` — целочисленный идентификатор элемента CRM
+{% endnote %}
 
-Результат будет содержать только элементы, к которым у текущего пользователя есть доступ на чтение.
+Метод `crm.activity.binding.list` возвращает связи дела с элементами CRM.
+
+Все связи приходят одним ответом, без постраничной выборки. По умолчанию у одного дела может быть не больше 100 связей.
+
+В ответ попадут только элементы, которые пользователь может читать. Если у пользователя нет доступа ни к одному из них, метод вернет пустой массив без ошибки.
 
 ## Параметры метода
 
@@ -30,7 +33,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **activityId***
-[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999` ||
+[`integer`](../../../../data-types.md) | Целочисленный идентификатор дела в таймлайне, например `999`.
+
+Получить идентификатор можно методом [crm.activity.list](../activity-base/crm-activity-list.md) ||
 |#
 
 ## Примеры кода
@@ -76,16 +81,11 @@
     }
 
     try {
-      // crm.activity.binding.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // crm.activity.binding.list returns all bindings of the activity in one response (no paging)
       const response = await $b24.actions.v2.call.make<BindingItem[]>({
         method: 'crm.activity.binding.list',
         params: {
           activityId: 999,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -114,16 +114,11 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.activity.binding.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // crm.activity.binding.list returns all bindings of the activity in one response (no paging)
           const response = await $b24.actions.v2.call.make({
             method: 'crm.activity.binding.list',
             params: {
               activityId: 999,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -183,13 +178,13 @@
                     'activityId' => 999, // ID дела
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Результат: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Ошибка: ' . $e->getMessage();
@@ -206,9 +201,9 @@
         },
         function(result) {
             if (result.error()) {
-                console.error('Ошибка:', result.error()); 
+                console.error('Ошибка:', result.error());
             } else {
-                console.log('Результат:', result.data()); 
+                console.log('Результат:', result.data());
             }
         }
     );
@@ -253,11 +248,6 @@
     	fmt.Println(it.EntityTypeID, it.EntityID)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
     ```
 
 {% endlist %}
@@ -289,7 +279,7 @@ HTTP-статус: **200**
         "processing": 0.032338857650756836,
         "date_start": "2024-04-03T10:26:32+02:00",
         "date_finish": "2024-04-03T10:26:33+02:00",
-        "operating_reset_at": 1705765533,
+        "operating_reset_at": 1712133392,
         "operating": 3.3076241016387939
     }
 }
@@ -301,7 +291,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../../data-types.md) | Массив объектов с привязками дела [(подробное описание)](#result) ||
+[`array`](../../../../data-types.md) | Массив объектов со связями дела [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -333,16 +323,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнении операции ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {activityId} | Не передан обязательный параметр `activityId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {activityId}. Should be value of type int. | Значение `activityId` не целое число ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Дело с идентификатором `activityId` не найдено ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-activity-binding-add.md)
-- [{#T}](./crm-activity-binding-delete.md)
 - [{#T}](./crm-activity-binding-move.md)
-
+- [{#T}](./crm-activity-binding-delete.md)
+- [{#T}](./index.md)

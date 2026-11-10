@@ -1,0 +1,73 @@
+{
+  "$v": 1,
+  "method": "sign.b2e.hcmlink.document.get",
+  "scope": "sign.b2e",
+  "kind": "read",
+  "title": "Получить подписанный документ HCM Link sign.b2e.hcmlink.document.get",
+  "permissions": "администратор",
+  "params": [
+    {
+      "name": "id",
+      "type": "integer",
+      "base": "integer",
+      "required": true,
+      "description": "Идентификатор участника подписания. Получить идентификатор можно из поля data.id события OnSignHcmLinkB2eDocumentSigned"
+    }
+  ],
+  "defs": {},
+  "requiredConvention": true,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sign/sign-b2e-hcmlink-document-get.md"
+  },
+  "resultExample": {
+    "result": {
+      "company": "acme-hr",
+      "employee": "EMP-001",
+      "document": {
+        "date": "2026-08-07T10:15:30+03:00",
+        "name": "Трудовой договор",
+        "fileUrl": "https://test.bitrix24.ru/rest/download.json?auth=***&token=sign.b2e...",
+        "fileName": "Трудовой договор.pdf",
+        "uid": "TD-2026-001",
+        "documentUid": "R-LK-50JI-3AAK-WS1A"
+      }
+    },
+    "time": {
+      "start": 1786086930.123,
+      "finish": 1786086930.456,
+      "duration": 0.333,
+      "processing": 0.111,
+      "date_start": "2026-08-07T10:15:30+03:00",
+      "date_finish": "2026-08-07T10:15:30+03:00",
+      "operating_reset_at": 1786087530,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": false,
+      "description": "Информация о подписанном документе (подробное описание)"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sign/sign-b2e-hcmlink-document-get.html",
+  "executable": false,
+  "entityFields": [
+    "date",
+    "documentUid",
+    "fileName",
+    "fileUrl",
+    "name",
+    "uid"
+  ]
+}

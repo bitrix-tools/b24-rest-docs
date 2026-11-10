@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных элементов табличной части отгрузки в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта saleorderproperty. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -219,5 +229,44 @@
     "userProps",
     "util",
     "xmlId"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "id",
+      "active",
+      "code",
+      "defaultValue",
+      "description",
+      "inputFieldLocation",
+      "isAddress",
+      "isAddressFrom",
+      "isAddressTo",
+      "isEmail",
+      "isFiltered",
+      "isLocation",
+      "isLocation4tax",
+      "isPayer",
+      "isPhone",
+      "isProfileName",
+      "isZip",
+      "multiple",
+      "name",
+      "personTypeId",
+      "propsGroupId",
+      "required",
+      "settings",
+      "sort",
+      "type",
+      "userProps",
+      "util",
+      "xmlId"
+    ],
+    "filter": {
+      "@type": "STRING",
+      "%code": "EMAIL"
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

@@ -7,7 +7,7 @@ items:
     href: landing-block-clone-card.md
   - name: Удалить карточку блока
     href: landing-block-remove-card.md
-  - name: Изменить контент блока
+  - name: Обновить ноды блока
     href: landing-block-update-nodes.md
   - name: Изменить атрибуты ноды блока
     href: landing-block-update-attrs.md
@@ -29,6 +29,8 @@ items:
     href: landing-block-update-content.md
   - name: Загрузить и привязать картинку к блоку
     href: landing-block-upload-file.md
+  - name: Опубликовать блок
+    href: landing-block-publication.md
   - name: Получить список блоков страницы
     href: landing-block-get-list.md
   - name: Получить блок по идентификатору

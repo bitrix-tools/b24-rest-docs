@@ -43,5 +43,8 @@
     "groupId",
     "id",
     "modifiedBy"
-  ]
+  ],
+  "requestExample": {
+    "id": 125
+  }
 }

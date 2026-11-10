@@ -4,7 +4,7 @@
   "scope": "landing",
   "kind": "write",
   "title": "Проверить контент на опасные подстроки landing.repo.checkContent",
-  "permissions": "пользователь с правом Просмотр в разделе Сайты",
+  "permissions": "пользователь с правом «Просмотр» в разделе «Сайты и Магазины»",
   "params": [
     {
       "name": "content",
@@ -60,5 +60,9 @@
     }
   ],
   "page": "/api-reference/landing/user-blocks/landing-repo-check-content.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "content": "<div style=\"color:red\" onclick=\"alert(1)\"><iframe src=\"//evil.com\"></iframe></div>",
+    "splitter": "#AAA#"
+  }
 }

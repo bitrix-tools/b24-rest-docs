@@ -11,15 +11,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом на чтение лидов, сделок или других объектов CRM, в том числе в цифровых рабочих местах
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.activity.todo.*](../../../timeline/activities/todo/index.md).
+Развитие метода остановлено. Значения перечисления собраны в описании [типов данных CRM](../../../data-types.md#activity-enums), а работу с делами описывает раздел [Дела CRM](../../../timeline/activities/index.md).
 
 {% endnote %}
 
-Метод `crm.enum.activitypriority` возвращает список приоритетов для поля `PRIORITY` [дел](../../../timeline/activities/index.md).
+Метод `crm.enum.activitypriority` возвращает приоритеты [дел](../../../timeline/activities/index.md): низкий, средний, высокий. Номер приоритета стоит в поле `PRIORITY` дела — например, `3` означает высокий приоритет.
 
 ## Параметры метода
 
@@ -164,13 +164,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
+        foreach ($result as $priority) {
+            echo $priority['ID'] . ' — ' . $priority['NAME'] . PHP_EOL;
         }
-
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling crm.enum.activitypriority: ' . $e->getMessage();
@@ -292,21 +288,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../data-types.md) | Идентификатор приоритета ||
+[`integer`](../../../../data-types.md) | Идентификатор приоритета, например `3` — высокий. `0` с пустым названием — приоритет не задан ||
 || **NAME**
 [`string`](../../../../data-types.md) | Название приоритета ||
 || **SYMBOL_CODE**
-[`string`](../../../../data-types.md) | Символьный код ||
+[`string`](../../../../data-types.md) \| [`null`](../../../../data-types.md) | Символьный код. У приоритетов дел всегда `null` ||
 || **SYMBOL_CODE_SHORT**
-[`string`](../../../../data-types.md) | Краткий символьный код ||
+[`string`](../../../../data-types.md) \| [`null`](../../../../data-types.md) | Краткий символьный код. У приоритетов дел всегда `null` ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
 {% include notitle [обработка ошибок](../../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет права на чтение объектов CRM, в том числе в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](../index.md)
+- [{#T}](../../../timeline/activities/index.md)

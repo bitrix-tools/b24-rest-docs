@@ -90,6 +90,8 @@
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **region**
 [`string`](../../data-types.md) | Регион шаблона ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow` ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
 || **createTime**
@@ -182,6 +184,7 @@
       name: string
       code: string
       region: string
+      timezone: string | null
       sort: string
       createTime: ISODate | null
       updateTime: ISODate | null
@@ -457,6 +460,7 @@ HTTP-статус: **200**
                 "name": "SUPPLY_CONTRACT_NEW Template",
                 "code": "REST_TEMPLATE",
                 "region": "ru",
+                "timezone": null,
                 "sort": "700",
                 "createTime": "2026-03-23T16:51:25+03:00",
                 "updateTime": "2026-03-23T17:26:39+03:00",
@@ -478,18 +482,10 @@ HTTP-статус: **200**
                     "U503"
                 ],
                 "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=3f5cc2690000071b00000844000001f7f0f107506cefda4aa5b9d0dc80371e7f0f7e26&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3Jl89RFB3MHZYN1A3RXdiMm5EenY2VFYyc1Vkb0hPejA3SlM%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKbDg5UkZCM01IWllOMUEzUlhkaU1tNUVlblkyVkZZeWMxVmtiMGhQZWpBM1NsTT18M2Y1Y2MyNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDc1MDZjZWZkYTRhYTViOWQwZGM4MDM3MWU3ZjBmN2UyNiI%3D.XuC83kQJE21vRoqv1%2FgdT8OiYq4JdpiSLxumy%2F1UcB0%3D"
-            },
-            "53": {
-                "id": "53", // описание следующего шаблона
-                ...
-            },
-            "51": {
-                "id": "51", // описание следующего шаблона
-                ...
             }
         }
     },
-    "total": 3,
+    "total": 1,
     "time": {
         "start": 1774341679,
         "finish": 1774341679.641056,
@@ -543,6 +539,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **region**
 [`string`](../../data-types.md) | Регион шаблона ||
+|| **timezone**
+[`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow`.
+
+Значение `null` — у шаблона нет своего часового пояса: даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 || **sort**
 [`string`](../../data-types.md) | Индекс сортировки ||
 || **createTime**

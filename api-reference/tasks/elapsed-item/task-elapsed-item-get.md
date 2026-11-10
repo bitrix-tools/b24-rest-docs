@@ -11,7 +11,7 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с доступом на чтение задачи
 
 Метод `task.elapseditem.get` возвращает запись о затраченном времени по ее идентификатору.
 
@@ -32,7 +32,7 @@
 Его можно получить при [создании новой записи](./task-elapsed-item-add.md) или методом [получения списка записей о затраченном времени](./task-elapsed-item-get-list.md) ||
 |#
 
-{% note warning %}
+{% note warning "" %}
 
 Соблюдать указанный в таблице порядок следования параметров в запросе — обязательно. Иначе запрос выполнится с ошибками.
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID": 691,"ITEMID": 1,}' \
+    -d '{"TASKID":691,"ITEMID":1}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.elapseditem.get
     ```
 
@@ -86,7 +86,7 @@
       CREATED_DATE: ISODate | null
       DATE_START: ISODate | null
       DATE_STOP: ISODate | null
-    }[]
+    }
 
     try {
       const response = await $b24.actions.v2.call.make<ElapsedItemResult>({
@@ -103,7 +103,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result[0].ID, result[0].SECONDS, result[0].CREATED_DATE)
+        console.info(result.ID, result.SECONDS, result.CREATED_DATE)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -138,7 +138,7 @@
           }
 
           const result = response.getData().result
-          console.info(result[0].ID, result[0].SECONDS, result[0].CREATED_DATE)
+          console.info(result.ID, result.SECONDS, result.CREATED_DATE)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -192,11 +192,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -253,7 +249,7 @@
     	return fmt.Errorf("task.elapseditem.get: %w", err)
     }
 
-    var items []struct {
+    var item struct {
     	ID          b24.ID `json:"ID"`
     	TaskID      b24.ID `json:"TASK_ID"`
     	UserID      b24.ID `json:"USER_ID"`
@@ -261,12 +257,10 @@
     	Seconds     string `json:"SECONDS"`
     	Minutes     string `json:"MINUTES"`
     }
-    if err := json.Unmarshal(res.Result, &items); err != nil {
+    if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    for _, it := range items {
-    	fmt.Println(it.ID, it.TaskID)
-    }
+    fmt.Println(item.ID, item.TaskID)
     ```
 
 {% endlist %}
@@ -277,20 +271,18 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result":[
-        {
-            "ID": "1",
-            "TASK_ID": "691",
-            "USER_ID": "1",
-            "COMMENT_TEXT": "1",
-            "SECONDS": "3600",
-            "MINUTES": "60",
-            "SOURCE": "2",
-            "CREATED_DATE": "2024-05-16T10:33:00+02:00",
-            "DATE_START": "2024-05-16T10:33:15+02:00",
-            "DATE_STOP": "2024-05-16T10:33:15+02:00"
-        }
-    ],
+    "result": {
+        "ID": "1",
+        "TASK_ID": "691",
+        "USER_ID": "1",
+        "COMMENT_TEXT": "1",
+        "SECONDS": "3600",
+        "MINUTES": "60",
+        "SOURCE": "2",
+        "CREATED_DATE": "2024-05-16T10:33:00+02:00",
+        "DATE_START": "2024-05-16T10:33:15+02:00",
+        "DATE_STOP": "2024-05-16T10:33:15+02:00"
+    },
     "time":{
         "start":1712137817.343984,
         "finish":1712137817.605804,
@@ -308,9 +300,39 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Информация о записи о затраченном времени ||
+[`object`](../../data-types.md) | Информация о записи о затраченном времени [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор записи о затраченном времени ||
+|| **TASK_ID**
+[`string`](../../data-types.md) | Идентификатор задачи ||
+|| **USER_ID**
+[`string`](../../data-types.md) | Идентификатор автора записи ||
+|| **COMMENT_TEXT**
+[`string`](../../data-types.md) | Комментарий ||
+|| **SECONDS**
+[`string`](../../data-types.md) | Затраченное время в секундах ||
+|| **MINUTES**
+[`string`](../../data-types.md) | Затраченное время в минутах ||
+|| **SOURCE**
+[`string`](../../data-types.md) | Источник записи:
+- `1` — источник не определен
+- `2` — запись добавлена вручную
+- `3` — запись добавлена автоматически ||
+|| **CREATED_DATE**
+[`datetime`](../../data-types.md) | Дата создания записи ||
+|| **DATE_START**
+[`datetime`](../../data-types.md) | Дата и время начала учета ||
+|| **DATE_STOP**
+[`datetime`](../../data-types.md) | Дата и время завершения учета ||
 |#
 
 ## Обработка ошибок
@@ -320,7 +342,7 @@ HTTP-статус: **400**
 ```json
 {
     "error":"ERROR_CORE",
-    "error_description":"Задача не найдена"
+    "error_description":"TASKS_ERROR_EXCEPTION_#512; Check listitem not found or not accessible; 512/TE/ITEM_NOT_FOUND_OR_NOT_ACCESSIBLE"
 }
 ```
 
@@ -329,11 +351,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `0x000001` | Задача не найдена ||
-|| `0x100002` | Доступ запрещен ||
-|| `0x000004` | Действие не разрешено ||
-|| `0x000040` | Неизвестная ошибка ||
+|| **Код** | **Внутренний код** | **Описание** ||
+|| `ERROR_CORE` | `0x000100` | Не передан обязательный параметр или указан неверный тип ||
+|| `ERROR_CORE` | `0x000200` | Задача или запись не найдена либо недоступна ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на удаление контакта, компании или лида — владельца адреса
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте методы REST 3.0: адреса контактов, компаний и лидов — в группе [Адреса](../../rest-v3/addresses/index.md), адреса реквизитов — в группе [Реквизиты](../../rest-v3/requisites/index.md).
+
+{% endnote %}
+
 Метод удаляет адрес.
 
 ## Параметры метода
@@ -205,16 +211,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting address: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

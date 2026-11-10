@@ -85,5 +85,11 @@
     }
   ],
   "page": "/api-reference/landing/block/methods/landing-block-add-card.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 6428,
+    "selector": ".landing-block-node-menu-list-item@0",
+    "content": "<li class=\"landing-block-node-menu-list-item nav-item\"><a href=\"#services\" class=\"landing-block-node-menu-list-item-link nav-link\">Услуги</a></li>"
+  }
 }

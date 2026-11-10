@@ -19,10 +19,20 @@
 
 ## Как начать работу
 
-1. Создайте ставку НДС методом [catalog.vat.add](./catalog-vat-add.md)
-2. Получите идентификатор ставки методом [catalog.vat.get](./catalog-vat-get.md) или [catalog.vat.list](./catalog-vat-list.md)
-3. Укажите ставку НДС в настройках торгового каталога или товара
-4. При необходимости измените ставку методом [catalog.vat.update](./catalog-vat-update.md)
+1. Проверьте, есть ли нужная ставка, методом [catalog.vat.list](./catalog-vat-list.md). Ставка без НДС может уже существовать на портале: у нее `rate` равен `null`, а создать такую ставку методом `catalog.vat.add` нельзя. Если ее нет, создайте ставку методом [catalog.vat.add](./catalog-vat-add.md) — метод вернет ее `id`
+2. Назначьте ставку: передайте `id` ставки в поле `vatId`
+   - каталогу — методом [catalog.catalog.update](../catalog/catalog-catalog-update.md) в REST 3.0
+   - товару — методом [catalog.product.update](../product/catalog-product-update.md). Поле `vatIncluded` задает, включен ли НДС в цену товара
+3. При необходимости измените ставку методом [catalog.vat.update](./catalog-vat-update.md). В прежней версии API метод требует `name` и `rate` при каждом вызове
+
+## Ставки НДС в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для ставок НДС есть методы добавления, изменения, получения, удаления и методы получения схемы полей `catalog.vat.field.list` и `catalog.vat.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+
+Особенности методов новой версии:
+
+- поле `active` принимает и возвращает `true` или `false`, значения `Y` и `N` не поддерживаются
+- при создании ставки методом [catalog.vat.add](./catalog-vat-add-rest-v3.md) обязательны `name` и `rate`. Ставку без НДС со значением `rate` равным `null` создать нельзя
 
 ## Связь с другими объектами
 
@@ -39,14 +49,23 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы:
+> - пользователь с правом «Просмотр каталога товаров» или «Управление ставками НДС» — для получения ставок и описания полей
+> - пользователь с правом «Управление ставками НДС» — для добавления, изменения и удаления ставок
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.vat.add](./catalog-vat-add.md) | Добавляет ставку НДС ||
+|| [catalog.vat.add](./catalog-vat-add-rest-v3.md) | Добавляет ставку НДС v 3.0 ||
 || [catalog.vat.update](./catalog-vat-update.md) | Изменяет ставку НДС ||
+|| [catalog.vat.update](./catalog-vat-update-rest-v3.md) | Изменяет ставку НДС v 3.0 ||
 || [catalog.vat.get](./catalog-vat-get.md) | Возвращает значения полей ставки НДС по идентификатору ||
+|| [catalog.vat.get](./catalog-vat-get-rest-v3.md) | Возвращает значения полей ставки НДС по идентификатору v 3.0 ||
 || [catalog.vat.list](./catalog-vat-list.md) | Возвращает список ставок НДС по фильтру ||
+|| [catalog.vat.list](./catalog-vat-list-rest-v3.md) | Возвращает список ставок НДС по фильтру v 3.0 ||
 || [catalog.vat.delete](./catalog-vat-delete.md) | Удаляет ставку НДС ||
+|| [catalog.vat.delete](./catalog-vat-delete-rest-v3.md) | Удаляет ставку НДС v 3.0 ||
 || [catalog.vat.getFields](./catalog-vat-get-fields.md) | Возвращает поля ставки НДС ||
+|| [catalog.vat.field.list](./catalog-vat-field-list.md) | Возвращает список полей ставки НДС v 3.0 ||
+|| [catalog.vat.field.get](./catalog-vat-field-get.md) | Возвращает описание поля ставки НДС ||
 |#

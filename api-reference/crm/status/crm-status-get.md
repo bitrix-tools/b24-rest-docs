@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на чтение хотя бы одного объекта CRM
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Для справочников используйте метод REST 3.0 [crm.dictionary.<справочник>.get](../rest-v3/dictionaries/crm-dictionary-get-rest-v3.md), для стадий сделок и смарт-процессов — [crm.<тип>.category.stage.get](../rest-v3/categories/crm-entity-category-stage-get-rest-v3.md). Стадий лидов, предложений и счетов и справочника статусов списков обзвона в REST 3.0 нет, для них используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.status.get` возвращает параметры элемента справочника по идентификатору.
 
 ## Параметры метода
@@ -176,16 +182,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting CRM status: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

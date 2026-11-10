@@ -1,0 +1,35 @@
+title: CRM-формы
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Типы данных и структура объектов в REST API CRM-форм
+    href: data-types.md
+  - name: Получить список CRM-форм
+    href: crm-form-list.md
+  - name: Получить CRM-форму
+    href: crm-form-get.md
+  - name: Проверить конфигурацию CRM-формы
+    href: crm-form-validate.md
+  - name: Создать CRM-форму
+    href: crm-form-add.md
+  - name: Изменить CRM-форму
+    href: crm-form-update.md
+  - name: Включить CRM-форму
+    href: crm-form-activate.md
+  - name: Выключить CRM-форму
+    href: crm-form-deactivate.md
+  - name: Удалить CRM-форму
+    href: crm-form-delete.md
+  - name: Получить список полей CRM-формы
+    href: crm-form-field-list.md
+  - name: Получить поле CRM-формы
+    href: crm-form-field-get.md
+  - name: Справочники для настройки формы
+    include:
+      path: setup/b24-toc.yaml
+      mode: link
+  - name: Размещение и каналы
+    include:
+      path: placement/b24-toc.yaml
+      mode: link

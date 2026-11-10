@@ -11,9 +11,9 @@
 
 > Scope: [`timeman`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: администратор, в облачном Битрикс24 также интегратор
 
-Метод `timeman.timecontrol.settings.get` получает настройки модуля контроля времени.
+Метод `timeman.timecontrol.settings.get` получает настройки контроля времени. Изменить настройки можно методом [timeman.timecontrol.settings.set](./timeman-timecontrol-settings-set.md).
 
 ## Параметры метода
 
@@ -62,11 +62,11 @@
       register_idle: boolean
       register_desktop: boolean
       report_request_type: string
-      report_request_users: number[]
+      report_request_users: Array<number | string>
       report_simple_type: string
-      report_simple_users: number[]
+      report_simple_users: Array<number | string>
       report_full_type: string
-      report_full_users: number[]
+      report_full_users: Array<number | string>
     }
 
     try {
@@ -161,17 +161,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting time control settings: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -271,7 +264,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **active**
-[`boolean`](../../data-types.md) | Активность модуля контроля времени ||
+[`boolean`](../../data-types.md) | Включен ли контроль времени ||
 || **minimum_idle_for_report**
 [`integer`](../../data-types.md) | Минимальное время отсутствия в минутах, после которого требуется отчет ||
 || **register_offline**
@@ -286,27 +279,29 @@ HTTP-статус: **200**
 - `user` — для конкретных пользователей
 - `none` — ни для кого ||
 || **report_request_users**
-[`array`](../../data-types.md) | Массив идентификаторов пользователей, для которых требуется запрос отчетов.
+[`array`](../../data-types.md) | Массив идентификаторов пользователей, для которых требуется запрос отчетов. Идентификаторы могут прийти числами или строками, например `["1"]`.
 
 Заполнен, если `report_request_type` имеет значение `user` ||
 || **report_simple_type**
 [`string`](../../data-types.md) | Тип простого отчета. Возможные значения:
 - `all` — для всех
 - `user` — для конкретных пользователей
-- `none` — ни для кого ||
+
+Значение `none` метод не возвращает: если простой отчет никому не открыт, придет `user` и пустой `report_simple_users` ||
 || **report_simple_users**
 [`array`](../../data-types.md) | Массив идентификаторов пользователей с доступом к простому отчету.
 
-Заполнен, если `report_simple_users` имеет значение `user` ||
+Заполнен, если `report_simple_type` имеет значение `user` ||
 || **report_full_type**
 [`string`](../../data-types.md) | Тип полного отчета. Возможные значения:
 - `all` — для всех
 - `user` — для конкретных пользователей
-- `none` — ни для кого ||
+
+Значение `none` метод не возвращает: если полный отчет никому не открыт, придет `user` и пустой `report_full_users` ||
 || **report_full_users**
 [`array`](../../data-types.md) | Массив идентификаторов пользователей с доступом к полному отчету.
 
-Заполнен, если `report_full_type` имеет значение `user` ||
+Заполнен, если `report_full_type` имеет значение `user`. Пока полный отчет не настраивали, приходит `[0]`: отчет никому не открыт ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -318,7 +313,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_ERROR",
-    "error_description": "You don't have access to use this method"
+    "error_description": "You don't have access to user this method"
 }
 ```
 
@@ -328,12 +323,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_ERROR` | You don't have access to use this method | У вас нет доступа к этому методу ||
+|| `TIMEMAN_TOOL_DISABLED` | Учет рабочего времени отключен. | Инструмент Учет рабочего времени отключен ||
+|| `ACCESS_ERROR` | You don't have access to user this method | Метод вызвал не администратор. В облачном Битрикс24 метод доступен также интегратору ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./timeman-timecontrol-report-add.md)

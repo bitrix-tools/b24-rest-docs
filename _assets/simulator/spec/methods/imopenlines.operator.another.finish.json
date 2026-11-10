@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/operators/imopenlines-operator-another-finish.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2043
+  }
 }

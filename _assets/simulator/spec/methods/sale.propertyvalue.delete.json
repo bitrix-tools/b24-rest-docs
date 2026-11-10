@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/property-value/sale-property-value-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 5
+  }
 }

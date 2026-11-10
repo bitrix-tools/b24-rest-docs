@@ -64,5 +64,9 @@
     }
   ],
   "page": "/api-reference/chats/chat-update/im-chat-set-owner.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CHAT_ID": 2935,
+    "USER_ID": 1271
+  }
 }

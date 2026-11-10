@@ -1,0 +1,15 @@
+title: Справочники
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить значение справочника
+    href: crm-dictionary-add-rest-v3.md
+  - name: Изменить значение справочника
+    href: crm-dictionary-update-rest-v3.md
+  - name: Получить значение справочника
+    href: crm-dictionary-get-rest-v3.md
+  - name: Получить список значений справочника
+    href: crm-dictionary-list-rest-v3.md
+  - name: Удалить значение справочника
+    href: crm-dictionary-delete-rest-v3.md

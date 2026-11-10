@@ -11,9 +11,17 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: `пользователь с правом на изменение элемента CRM, с которым связана запись`
 
-Метод удаляет связь записи таймлайна с элементом CRM.
+Метод `crm.timeline.bindings.unbind` удаляет связь записи таймлайна с элементом CRM. После этого запись перестает показываться в таймлайне указанного элемента, но сама она не удаляется.
+
+{% note info "" %}
+
+Метод удаляет только одну связь — ту, которая точно совпала по `OWNER_ID`, `ENTITY_TYPE` и `ENTITY_ID`. Если такой связи нет, метод возвращает ошибку `Not found.`, поэтому перед удалением проверяйте связи методом [crm.timeline.bindings.list](./crm-timeline-bindings-list.md).
+
+Удалить можно и ту связь, которая появилась автоматически, — тогда запись пропадет из таймлайна этого элемента.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -27,15 +35,15 @@
 
 ```js
 fields: {
-    "OWNER_ID": "значение",
-    "ENTITY_ID": "значение",
-    "ENTITY_TYPE": "значение",
+    "OWNER_ID": 1110,
+    "ENTITY_ID": 10,
+    "ENTITY_TYPE": "deal",
 },
 ```
  ||
 |#
 
-### Параметр fields
+### Параметр fields {#parametr-fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -43,17 +51,27 @@ fields: {
 || **Название**
 `тип` | **Описание** ||
 || **OWNER_ID***
-[`integer`](../../../data-types.md) | Идентификатор записи таймлайна ||
+[`integer`](../../../data-types.md) | Идентификатор записи таймлайна. Возьмите его из ответа метода [crm.timeline.comment.add](../comments/crm-timeline-comment-add.md) или [crm.timeline.logmessage.add](../logmessage/crm-timeline-logmessage-add.md) либо получите из списка методом [crm.timeline.comment.list](../comments/crm-timeline-comment-list.md) или [crm.timeline.logmessage.list](../logmessage/crm-timeline-logmessage-list.md) ||
 || **ENTITY_ID***
-[`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязана запись таймлайна ||
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM, с которым связана запись таймлайна ||
 || **ENTITY_TYPE***
-[`string`](../../../data-types.md) | Тип элемента CRM, к которому привязана запись таймлайна. Возможные значения:
+[`string`](../../../data-types.md) | Символьный код типа объекта CRM `entityTypeName`, с которым связана запись таймлайна. Регистр значения не важен. Возможные значения:
 - `lead` — лид
 - `deal` — сделка
 - `contact` — контакт
 - `company` — компания
+- `quote` — предложение
+- `smart_invoice` — счет
 - `order` — заказ
-||
+- `activity` — дело
+- `invoice` — счет в старом формате
+- `order_payment` — оплата заказа
+- `order_shipment` — отгрузка заказа
+- `dynamic_<entityTypeId>` — элемент смарт-процесса, например `dynamic_128`
+
+Как устроены символьные коды типов, описано в разделе [Тип объекта CRM](../../data-types.md#object_type). Подходят не все коды из этой таблицы: код реквизитов `requisite` метод не принимает.
+
+Если код типа не поддерживается или смарт-процесса с таким `entityTypeId` в Битрикс24 нет, метод возвращает ошибку `ENTITY_TYPE is not defined or invalid.` ||
 |#
 
 ## Примеры кода
@@ -122,7 +140,7 @@ fields: {
 
     ```html
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
-    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@2/dist/umd/index.min.js"></script>
     <script>
       async function unbindTimelineBinding() {
         try {
@@ -189,7 +207,6 @@ fields: {
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -204,17 +221,12 @@ fields: {
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        echo 'Success: ' . print_r($result, true);
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error unbinding timeline: ' . $e->getMessage();
@@ -234,10 +246,11 @@ fields: {
             },
         },
         result => {
-            if (result.error())
+            if (result.error()) {
                 console.error(result.error());
-            else
+            } else {
                 console.dir(result.data());
+            }
         }
     );
     ```
@@ -313,7 +326,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true`, если связь удалена. Возвращает `false`, если связь не удалена ||
+[`boolean`](../../../data-types.md) | Возвращает `true`, если связь удалена.
+
+Возвращает `false`, если у пользователя нет права на изменение элемента CRM из `ENTITY_ID` или связь не удалось удалить. HTTP-статус ответа при этом остается `200`, объект `error` не возвращается ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -334,18 +349,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустое значение | OWNER_ID is not defined or invalid | Не передан обязательный параметр `OWNER_ID` или переданный `OWNER_ID` некорректный ||
-|| Пустое значение | ENTITY_ID is not defined or invalid. | Не передан обязательный параметр `ENTITY_ID` или переданный `ENTITY_ID` некорректный ||
-|| Пустое значение | ENTITY_TYPE is not defined or invalid. | Не передан обязательный параметр `ENTITY_TYPE` или переданный `ENTITY_TYPE` некорректный ||
-|| Пустое значение | Not found. | Запись о связи записи таймлайна с элементом CRM не найдена ||
-|| Пустое значение | Access denied. | Отсутствуют права на редактирование объекта CRM ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | OWNER_ID is not defined or invalid. | Не передан обязательный параметр `OWNER_ID`, передано нечисловое значение или число меньше единицы ||
+|| `400` | Пустое значение | ENTITY_ID is not defined or invalid. | Не передан обязательный параметр `ENTITY_ID`, передано нечисловое значение или число меньше единицы ||
+|| `400` | Пустое значение | ENTITY_TYPE is not defined or invalid. | Не передан обязательный параметр `ENTITY_TYPE`, передан код типа, который метод не поддерживает, или смарт-процесса с таким `entityTypeId` нет ||
+|| `400` | Пустое значение | Not found. | Связи с такими `OWNER_ID`, `ENTITY_TYPE` и `ENTITY_ID` нет ||
+|| `400` | `ERROR_ARGUMENT` | Wrong params. | Параметр `fields` передан не объектом ||
 |#
+
+При отказе по правам метод возвращает `false`, а не ошибку.
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./crm-timeline-bindings-bind.md)
 - [{#T}](./crm-timeline-bindings-list.md)
 - [{#T}](./crm-timeline-bindings-fields.md)
+- [{#T}](./index.md)

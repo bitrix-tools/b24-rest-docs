@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.order.add` предназначен для добавления заказа.
+Метод `sale.order.add` создает заказ без позиций корзины, оплат и отгрузок и возвращает его поля. Позиции корзины, оплаты и отгрузки добавляют после создания методами [sale.basketitem.*](../basket-item/index.md), [sale.payment.*](../payment/index.md) и [sale.shipment.*](../shipment/index.md).
 
 ## Параметры метода
 
@@ -23,34 +23,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания заказа ||
+[`object`](../../data-types.md) | Значения полей для создания заказа [(подробное описание)](#params-fields) ||
 |#
 
-### Параметр fields
-
-{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
+### Параметр fields {#params-fields}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **lid***
-[`string`](../../data-types.md) | Идентификатор сайта, на котором будет использоваться данный тип плательщика. Имеет постоянное значение 's1' ||
+[`string`](../../data-types.md) | Идентификатор сайта, к которому относится заказ. В облачном Битрикс24 передавайте `s1`. После создания заказа поле изменить нельзя ||
 || **personTypeId***
-[`sale_person_type.id`](../data-types.md) | Идентификатор типа плательщика ||
+[`sale_person_type.id`](../data-types.md#sale_person_type) | Идентификатор типа плательщика, например физического или юридического лица. Получите его методом [sale.persontype.list](../person-type/sale-person-type-list.md). Метод не проверяет, что такой тип плательщика существует. После создания заказа поле изменить нельзя ||
 || **currency***
-[`string`](../../data-types.md) | Валюта. Список валют можно получить через метод [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
+[`string`](../../data-types.md) | Код валюты, например `RUB`. Получите список валют методом [crm.currency.list](../../crm/currency/crm-currency-list.md). После создания заказа поле изменить нельзя ||
 || **price**
-[`double`](../../data-types.md) | Цена ||
+[`double`](../../data-types.md) | Сумма заказа с учетом доставки ||
 || **discountValue**
 [`double`](../../data-types.md) | Значение скидки ||
 || **statusId**
-[`sale_status.id`](../data-types.md) | Идентификатор статуса заказа ||
+[`sale_status.id`](../data-types.md#sale_status) | Идентификатор статуса заказа. Получите список статусов методом [sale.status.list](../status/sale-status-list.md). Если не передать поле, заказ получит начальный статус `N` ||
 || **empStatusId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, изменившего статус заказа ||
 || **dateInsert**
 [`datetime`](../../data-types.md) | Дата создания заказа ||
 || **marked**
-[`string`](../../data-types.md) | Флаг маркировки. Признак того, является ли отгрузка отмеченной как проблемная. Значение `Y` ставится автоматически, если при сохранении произошла ошибка.
+[`string`](../../data-types.md) | Признак того, что заказ отмечен как проблемный. Битрикс24 ставит `Y` автоматически, если при сохранении заказа возникло предупреждение. Причину он записывает в поле `reasonMarked`.
 
 - `Y` — да
 - `N` — нет
@@ -59,7 +57,7 @@
 || **empMarkedId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, поставившего маркировку ||
 || **reasonMarked**
-[`string`](../../data-types.md) | Причина, по которой заказ был промаркирован ||
+[`string`](../../data-types.md) | Причина, по которой заказ отмечен как проблемный ||
 || **userDescription**
 [`string`](../../data-types.md) | Комментарий покупателя к заказу ||
 || **additionalInfo**
@@ -68,29 +66,31 @@
 Дополнительная информация ||
 || **comments**
 [`string`](../../data-types.md) | Комментарий менеджера к заказу ||
+|| **companyId**
+[`integer`](../../data-types.md) | Идентификатор компании из модуля «Интернет-магазин» ||
 || **responsibleId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, ответственного за заказ ||
 || **recurringId**
-[`integer`](../../data-types.md) | Идентификатор продления подписки ||
+[`string`](../../data-types.md) | Идентификатор продления подписки ||
 || **lockedBy**
-[`user.id`](../../data-types.md) | Актуально только для коробочной версии.
+[`string`](../../data-types.md) | Актуально только для коробочной версии.
 
 Идентификатор пользователя, заблокировавшего заказ. Заказ блокируется в административной панели, когда пользователь открывает детальную карточку заказа ||
 || **recountFlag**
 [`string`](../../data-types.md) | Устаревший.
 
-Флаг пересчёта.
+Флаг пересчета.
 
 - `Y` — да
 - `N` — нет
 
-По умолчанию устанавливается Y ||
+По умолчанию устанавливается `Y` ||
 || **affiliateId**
 [`integer`](../../data-types.md) | Актуально только для коробочной версии.
 
 Идентификатор аффилиата ||
 || **updated1c**
-[`string`](../../data-types.md) | Обновлён ли через 1С.
+[`string`](../../data-types.md) | Обновлен ли заказ через 1С.
 
 - `Y` — да
 - `N` — нет
@@ -105,7 +105,7 @@
 || **id1c**
 [`string`](../../data-types.md) | Идентификатор в 1С ||
 || **version1c**
-[`string`](../../data-types.md) | Версия в 1с ||
+[`string`](../../data-types.md) | Версия в 1С ||
 || **externalOrder**
 [`string`](../../data-types.md) | Заказ из внешней системы или нет.
 
@@ -125,7 +125,7 @@
 || **reasonCanceled**
 [`string`](../../data-types.md) | Причина отмены ||
 || **userId**
-[`user.id`](../../data-types.md) | Идентификатор клиента ||
+[`user.id`](../../data-types.md) | Идентификатор покупателя. После создания заказа поле изменить нельзя ||
 |#
 
 ## Примеры кода
@@ -136,21 +136,21 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"lid":"s1","personTypeId":1,"currency":"RUB","price":100,"discountValue":10,"statusId":"N","empStatusId":1,"dateInsert":"2024-03-01T14:00:00","marked":"Y","empMarkedId":1,"reasonMarked":"","userDescription":"","additionalInfo":"","comments":"","companyId":1,"responsibleId":1,"recurringId":1,"lockedBy":1,"recountFlag":"N","affiliateId":1,"updated1c":"N","orderTopic":"","xmlId":"","id1c":"","version1c":"","externalOrder":"N","canceled":"Y","empCanceledId":1,"reasonCanceled":"","userId":1}}' \
+    -d '{"fields":{"lid":"s1","personTypeId":1,"currency":"RUB","statusId":"N","userId":1,"responsibleId":1,"userDescription":"Позвоните перед доставкой","comments":"Заказ из интеграции с сайтом"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.order.add
     ```
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"lid":"s1","personTypeId":1,"currency":"RUB","price":100,"discountValue":10,"statusId":"N","empStatusId":1,"dateInsert":"2024-03-01T14:00:00","marked":"Y","empMarkedId":1,"reasonMarked":"","userDescription":"","additionalInfo":"","comments":"","companyId":1,"responsibleId":1,"recurringId":1,"lockedBy":1,"recountFlag":"N","affiliateId":1,"updated1c":"N","orderTopic":"","xmlId":"","id1c":"","version1c":"","externalOrder":"N","canceled":"Y","empCanceledId":1,"reasonCanceled":"","userId":1},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"lid":"s1","personTypeId":1,"currency":"RUB","statusId":"N","userId":1,"responsibleId":1,"userDescription":"Позвоните перед доставкой","comments":"Заказ из интеграции с сайтом"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.order.add
     ```
 
@@ -168,46 +168,28 @@
     type OrderResult = {
       order: {
         accountNumber: string
-        additionalInfo: string
-        affiliateId: number
         canceled: string
-        clients: unknown[]
+        clients: Record<string, unknown>[]
         comments: string
-        companyId: number
         currency: string
-        dateCanceled: ISODate | null
         dateInsert: ISODate | null
-        dateMarked: ISODate | null
         dateStatus: ISODate | null
         dateUpdate: ISODate | null
         deducted: string
-        discountValue: number
-        empCanceledId: number
-        empMarkedId: number
         empStatusId: number
-        externalOrder: string
         id: number
-        id1c: string
         lid: string
-        lockedBy: string
-        marked: string
-        orderTopic: string
         payed: string
         personTypeId: number
         personTypeXmlId: string
-        price: number
-        reasonCanceled: string
-        reasonMarked: string
-        recountFlag: string
-        recurringId: string
-        requisiteLink: unknown[]
+        propertyValues: Record<string, unknown>[]
+        requisiteLink: Record<string, number>
         responsibleId: number
         statusId: string
         statusXmlId: string
         updated1c: string
         userDescription: string
         userId: number
-        version1c: string
         xmlId: string
       }
     }
@@ -220,33 +202,11 @@
             lid: 's1',
             personTypeId: 1,
             currency: 'RUB',
-            price: 100,
-            discountValue: 10,
             statusId: 'N',
-            empStatusId: 1,
-            dateInsert: '2024-03-01T14:00:00',
-            marked: 'Y',
-            empMarkedId: 1,
-            reasonMarked: '',
-            userDescription: '',
-            additionalInfo: '',
-            comments: '',
-            companyId: 1,
-            responsibleId: 1,
-            recurringId: 1,
-            lockedBy: 1,
-            recountFlag: 'N',
-            affiliateId: 1,
-            updated1c: 'N',
-            orderTopic: '',
-            xmlId: '',
-            id1c: '',
-            version1c: '',
-            externalOrder: 'N',
-            canceled: 'Y',
-            empCanceledId: 1,
-            reasonCanceled: '',
             userId: 1,
+            responsibleId: 1,
+            userDescription: 'Позвоните перед доставкой',
+            comments: 'Заказ из интеграции с сайтом',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -283,33 +243,11 @@
                 lid: 's1',
                 personTypeId: 1,
                 currency: 'RUB',
-                price: 100,
-                discountValue: 10,
                 statusId: 'N',
-                empStatusId: 1,
-                dateInsert: '2024-03-01T14:00:00',
-                marked: 'Y',
-                empMarkedId: 1,
-                reasonMarked: '',
-                userDescription: '',
-                additionalInfo: '',
-                comments: '',
-                companyId: 1,
-                responsibleId: 1,
-                recurringId: 1,
-                lockedBy: 1,
-                recountFlag: 'N',
-                affiliateId: 1,
-                updated1c: 'N',
-                orderTopic: '',
-                xmlId: '',
-                id1c: '',
-                version1c: '',
-                externalOrder: 'N',
-                canceled: 'Y',
-                empCanceledId: 1,
-                reasonCanceled: '',
                 userId: 1,
+                responsibleId: 1,
+                userDescription: 'Позвоните перед доставкой',
+                comments: 'Заказ из интеграции с сайтом',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -342,33 +280,11 @@
         "lid": "s1",
         "personTypeId": 1,
         "currency": "RUB",
-        "price": 100,
-        "discountValue": 10,
         "statusId": "N",
-        "empStatusId": 1,
-        "dateInsert": "2024-03-01T14:00:00",
-        "marked": "Y",
-        "empMarkedId": 1,
-        "reasonMarked": "",
-        "userDescription": "",
-        "additionalInfo": "",
-        "comments": "",
-        "companyId": 1,
-        "responsibleId": 1,
-        "recurringId": 1,
-        "lockedBy": 1,
-        "recountFlag": "N",
-        "affiliateId": 1,
-        "updated1c": "N",
-        "orderTopic": "",
-        "xmlId": "",
-        "id1c": "",
-        "version1c": "",
-        "externalOrder": "N",
-        "canceled": "Y",
-        "empCanceledId": 1,
-        "reasonCanceled": "",
         "userId": 1,
+        "responsibleId": 1,
+        "userDescription": "Позвоните перед доставкой",
+        "comments": "Заказ из интеграции с сайтом",
     }
 
     try:
@@ -389,8 +305,8 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
-- PHP
 
+- PHP
 
     ```php
     try {
@@ -400,36 +316,14 @@
                 'sale.order.add',
                 [
                     'fields' => [
-                        'lid'            => 's1',
-                        'personTypeId'   => 1,
-                        'currency'       => 'RUB',
-                        'price'          => 100,
-                        'discountValue'  => 10,
-                        'statusId'       => 'N',
-                        'empStatusId'    => 1,
-                        'dateInsert'     => '2024-03-01T14:00:00',
-                        'marked'         => 'Y',
-                        'empMarkedId'    => 1,
-                        'reasonMarked'   => '',
-                        'userDescription' => '',
-                        'additionalInfo' => '',
-                        'comments'       => '',
-                        'companyId'      => 1,
-                        'responsibleId'  => 1,
-                        'recurringId'    => 1,
-                        'lockedBy'       => 1,
-                        'recountFlag'    => 'N',
-                        'affiliateId'    => 1,
-                        'updated1c'      => 'N',
-                        'orderTopic'     => '',
-                        'xmlId'          => '',
-                        'id1c'           => '',
-                        'version1c'      => '',
-                        'externalOrder'  => 'N',
-                        'canceled'       => 'Y',
-                        'empCanceledId'  => 1,
-                        'reasonCanceled' => '',
-                        'userId'         => 1,
+                        'lid'             => 's1',
+                        'personTypeId'    => 1,
+                        'currency'        => 'RUB',
+                        'statusId'        => 'N',
+                        'userId'          => 1,
+                        'responsibleId'   => 1,
+                        'userDescription' => 'Позвоните перед доставкой',
+                        'comments'        => 'Заказ из интеграции с сайтом',
                     ],
                 ]
             );
@@ -456,33 +350,11 @@
                 lid: 's1',
                 personTypeId: 1,
                 currency: 'RUB',
-                price: 100,
-                discountValue: 10,
                 statusId: 'N',
-                empStatusId: 1,
-                dateInsert: '2024-03-01T14:00:00',
-                marked: 'Y',
-                empMarkedId: 1,
-                reasonMarked: '',
-                userDescription: '',
-                additionalInfo: '',
-                comments: '',
-                companyId: 1,
-                responsibleId: 1,
-                recurringId: 1,
-                lockedBy: 1,
-                recountFlag: 'N',
-                affiliateId: 1,
-                updated1c: 'N',
-                orderTopic: '',
-                xmlId: '',
-                id1c: '',
-                version1c: '',
-                externalOrder: 'N',
-                canceled: 'Y',
-                empCanceledId: 1,
-                reasonCanceled: '',
                 userId: 1,
+                responsibleId: 1,
+                userDescription: 'Позвоните перед доставкой',
+                comments: 'Заказ из интеграции с сайтом',
             }
         },
         function(result)
@@ -507,33 +379,11 @@
                 'lid' => 's1',
                 'personTypeId' => 1,
                 'currency' => 'RUB',
-                'price' => 100,
-                'discountValue' => 10,
                 'statusId' => 'N',
-                'empStatusId' => 1,
-                'dateInsert' => '2024-03-01T14:00:00',
-                'marked' => 'Y',
-                'empMarkedId' => 1,
-                'reasonMarked' => '',
-                'userDescription' => '',
-                'additionalInfo' => '',
-                'comments' => '',
-                'companyId' => 1,
-                'responsibleId' => 1,
-                'recurringId' => 1,
-                'lockedBy' => 1,
-                'recountFlag' => 'N',
-                'affiliateId' => 1,
-                'updated1c' => 'N',
-                'orderTopic' => '',
-                'xmlId' => '',
-                'id1c' => '',
-                'version1c' => '',
-                'externalOrder' => 'N',
-                'canceled' => 'Y',
-                'empCanceledId' => 1,
-                'reasonCanceled' => '',
                 'userId' => 1,
+                'responsibleId' => 1,
+                'userDescription' => 'Позвоните перед доставкой',
+                'comments' => 'Заказ из интеграции с сайтом',
             ]
         ]
     );
@@ -552,33 +402,11 @@
     		"lid":             "s1",
     		"personTypeId":    1,
     		"currency":        "RUB",
-    		"price":           100,
-    		"discountValue":   10,
     		"statusId":        "N",
-    		"empStatusId":     1,
-    		"dateInsert":      "2024-03-01T14:00:00",
-    		"marked":          "Y",
-    		"empMarkedId":     1,
-    		"reasonMarked":    "",
-    		"userDescription": "",
-    		"additionalInfo":  "",
-    		"comments":        "",
-    		"companyId":       1,
-    		"responsibleId":   1,
-    		"recurringId":     1,
-    		"lockedBy":        1,
-    		"recountFlag":     "N",
-    		"affiliateId":     1,
-    		"updated1c":       "N",
-    		"orderTopic":      "",
-    		"xmlId":           "",
-    		"id1c":            "",
-    		"version1c":       "",
-    		"externalOrder":   "N",
-    		"canceled":        "Y",
-    		"empCanceledId":   1,
-    		"reasonCanceled":  "",
     		"userId":          1,
+    		"responsibleId":   1,
+    		"userDescription": "Позвоните перед доставкой",
+    		"comments":        "Заказ из интеграции с сайтом",
     	},
     })
     if err != nil {
@@ -592,17 +420,15 @@
     }
 
     var item struct {
-    	AccountNumber  string `json:"accountNumber"`
-    	AdditionalInfo string `json:"additionalInfo"`
-    	AffiliateID    b24.ID `json:"affiliateId"`
-    	Canceled       string `json:"canceled"`
-    	Comments       string `json:"comments"`
-    	CompanyID      b24.ID `json:"companyId"`
+    	ID            b24.ID `json:"id"`
+    	AccountNumber string `json:"accountNumber"`
+    	StatusID      string `json:"statusId"`
+    	Comments      string `json:"comments"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.AccountNumber, item.AdditionalInfo)
+    fmt.Println(item.ID, item.AccountNumber, item.StatusID, item.Comments)
     ```
 
 {% endlist %}
@@ -615,57 +441,68 @@ HTTP-статус: **200**
 {
     "result": {
         "order": {
-            "accountNumber": "455",
-            "additionalInfo": "",
-            "affiliateId": 1,
-            "canceled": "Y",
-            "clients": [],
-            "comments": "",
-            "companyId": 1,
+            "accountNumber": "971",
+            "canceled": "N",
+            "clients": [
+                {
+                    "entityId": 2819,
+                    "entityTypeId": 3,
+                    "id": 1717,
+                    "isPrimary": "Y",
+                    "orderId": 971
+                }
+            ],
+            "comments": "Заказ из интеграции с сайтом",
             "currency": "RUB",
-            "dateCanceled": "2024-04-12T13:50:21+03:00",
-            "dateInsert": "2024-03-01T13:00:00+03:00",
-            "dateMarked": "2024-04-12T13:50:21+03:00",
-            "dateStatus": "2024-04-12T13:50:21+03:00",
-            "dateUpdate": "2024-04-12T13:50:21+03:00",
+            "dateInsert": "2026-09-28T08:02:16+03:00",
+            "dateStatus": "2026-09-28T08:02:15+03:00",
+            "dateUpdate": "2026-09-28T08:02:16+03:00",
             "deducted": "N",
-            "discountValue": 10,
-            "empCanceledId": 1,
-            "empMarkedId": 1,
             "empStatusId": 1,
-            "externalOrder": "N",
-            "id": 299,
-            "id1c": "",
+            "id": 971,
             "lid": "s1",
-            "lockedBy": "1",
-            "marked": "Y",
-            "orderTopic": "",
             "payed": "N",
             "personTypeId": 1,
             "personTypeXmlId": "",
-            "price": 100,
-            "reasonCanceled": "",
-            "reasonMarked": "",
-            "recountFlag": "N",
-            "recurringId": "1",
-            "requisiteLink": [],
+            "propertyValues": [
+                {
+                    "code": "EMAIL",
+                    "id": 11287,
+                    "name": "E-Mail",
+                    "orderPropsId": 41,
+                    "orderPropsXmlId": "bx_60b605ba1d082"
+                },
+                {
+                    "code": "FIO",
+                    "id": 11289,
+                    "name": "Ф.И.О.",
+                    "orderPropsId": 39,
+                    "orderPropsXmlId": "bx_609bec7cc794c"
+                }
+            ],
+            "requisiteLink": {
+                "mcBankDetailId": 0,
+                "mcRequisiteId": 0,
+                "requisiteId": 467
+            },
             "responsibleId": 1,
             "statusId": "N",
             "statusXmlId": "",
             "updated1c": "N",
-            "userDescription": "",
+            "userDescription": "Позвоните перед доставкой",
             "userId": 1,
-            "version1c": "",
-            "xmlId": ""
+            "xmlId": "bx_6aba02e7a86af"
         }
     },
     "time": {
-        "start": 1712922620.724857,
-        "finish": 1712922623.393783,
-        "duration": 2.6689260005950928,
-        "processing": 2.210068941116333,
-        "date_start": "2024-04-12T14:50:20+03:00",
-        "date_finish": "2024-04-12T14:50:23+03:00"
+        "start": 1790575335,
+        "finish": 1790575336.454058,
+        "duration": 1.4540579319000244,
+        "processing": 1,
+        "date_start": "2026-09-28T09:02:15+03:00",
+        "date_finish": "2026-09-28T09:02:16+03:00",
+        "operating_reset_at": 1790575935,
+        "operating": 0.7697091102600098
     }
 }
 ```
@@ -676,11 +513,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **order**
-[`sale_order`](../data-types.md) | Объект с информацией о добавленном заказе ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **order**
+[`sale_order`](../data-types.md#sale_order) | Созданный заказ. Идентификатор заказа для других методов — в поле `id`. В ответ попадают только заполненные поля заказа, а также `clients`, `requisiteLink` и `propertyValues` ||
 |#
 
 ## Обработка ошибок
@@ -689,8 +533,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300020,
-    "error_description":"Access Denied"
+    "error": "0",
+    "error_description": "Required fields: personTypeId, currency, lid"
 }
 ```
 
@@ -699,17 +543,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для добавления заказа ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | `Required fields: personTypeId, currency, lid` | Не переданы обязательные поля, их имена перечислены в тексте ошибки ||
+|| `400` | `100` | `Could not find value for parameter {fields}` | Не передан параметр `fields` ||
+|| `400` | `200040300020` | `Access Denied` | Недостаточно прав для добавления заказа ||
+|| `400` | `0` | Текст ошибки сохранения | Заказ не сохранен по другой причине, она указана в `error_description` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-order-update.md)
 - [{#T}](./sale-order-get.md)
 - [{#T}](./sale-order-list.md)

@@ -212,7 +212,7 @@
     ```
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -247,7 +247,7 @@
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -272,7 +272,7 @@
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -474,6 +474,8 @@ HTTP-статус: **200**
 
 ### Возвращаемые данные
 
+В `items` приходят только те поля описания, которые перечислены в `select`. Поля от `name` до `elementType` описывают одно поле записи журнала.
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -481,6 +483,30 @@ HTTP-статус: **200**
 [`object`](../data-types.md) | Объект с данными ответа ||
 || **items**
 [`array`](../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select`  ||
+|| **items[]**
+[`object`](../data-types.md) | Описание одного поля записи журнала: имя, тип, заголовок и признаки использования ||
+|| **items[].name**
+[`string`](../data-types.md) | Имя поля. Используется в `select`, `filter` и `order` методов [main.eventlog.list](./main-eventlog-list.md) и [main.eventlog.get](./main-eventlog-get.md) ||
+|| **items[].type**
+[`string`](../data-types.md) | Тип данных поля, например `int`, `string` или `object` ||
+|| **items[].title**
+[`string`](../data-types.md) | Заголовок поля для интерфейса ||
+|| **items[].description**
+[`string`](../data-types.md) или `null` | Описание поля. `null` — описания нет ||
+|| **items[].validationRules**
+[`array`](../data-types.md) | Правила валидации значения поля. Пустой массив — правил нет ||
+|| **items[].requiredGroups**
+[`array`](../data-types.md) или `null` | Группы обязательности поля. `null` — ограничений по группам нет ||
+|| **items[].filterable**
+[`boolean`](../data-types.md) | `true` — поле можно использовать в `filter` ||
+|| **items[].sortable**
+[`boolean`](../data-types.md) | `true` — поле можно использовать в `order` и в `cursor.field` ||
+|| **items[].editable**
+[`boolean`](../data-types.md) | `true` — значение поля можно изменить ||
+|| **items[].multiple**
+[`boolean`](../data-types.md) | `true` — поле хранит несколько значений ||
+|| **items[].elementType**
+[`string`](../data-types.md) или `null` | Тип элемента для составных полей. `null` — поле простое ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -508,7 +534,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Нет прав администратора или не хватает scope main ||
+|| `-` | Доступ запрещен | Нет права на просмотр журнала событий или не хватает scope `main` ||
 |#
 
 #### Ошибки в параметре select
@@ -534,4 +560,3 @@ HTTP-статус: **400**
 - [{#T}](./main-eventlog-field-get.md)
 - [{#T}](./main-eventlog-list.md)
 - [{#T}](./index.md)
-

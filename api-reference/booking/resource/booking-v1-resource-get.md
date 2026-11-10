@@ -23,7 +23,8 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор ресурса. 
+[`integer`](../../data-types.md) | Идентификатор ресурса.
+
 Можно получить в методах [booking.v1.resource.add](./booking-v1-resource-add.md) и [booking.v1.resource.list](./booking-v1-resource-list.md) ||
 |#
 
@@ -56,33 +57,39 @@
 - JS (TS)
 
     ```ts
-    // This snippet is an ES module: top-level await requires type="module" or a bundler.
-    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    // Сниппет — ES-модуль: для top-level await нужен type="module" или сборщик
+    // $b24 — уже инициализированный экземпляр SDK, смотрите руководство по началу работы с SDK
     import { Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
-    // Shape of the payload returned in result (match the "response handling" section of the page)
+    // Структура данных в result — совпадает с разделом «Обработка ответа» этой страницы
     type ResourceResult = {
       resource: {
-        confirmationCounterDelay: number,
-        confirmationNotificationDelay: number,
+        cancellationNotificationDelay: number | null,
+        confirmationCounterDelay: number | null,
+        confirmationNotificationDelay: number | null,
         confirmationNotificationRepetitions: number | null,
-        confirmationNotificationRepetitionsInterval: number,
-        delayedCounterDelay: number,
-        delayedNotificationDelay: number,
+        confirmationNotificationRepetitionsInterval: number | null,
+        dealCategoryId: number | null,
+        delayedCounterDelay: number | null,
+        delayedNotificationDelay: number | null,
         description: string | null,
         id: number,
         infoNotificationDelay: number | null,
+        isCancellationNotificationOn: string,
         isConfirmationNotificationOn: string,
+        isDealCreationEnabled: string,
         isDelayedNotificationOn: string,
         isFeedbackNotificationOn: string,
         isInfoNotificationOn: string,
         isMain: string,
+        isOverbookingAllowed: string,
         isReminderNotificationOn: string,
-        name: string,
-        reminderNotificationDelay: number,
+        name: string | null,
+        reminderNotificationDelay: number | null,
+        senderCode: string,
         templateTypeConfirmation: string,
         templateTypeDelayed: string,
         templateTypeFeedback: string,
@@ -101,7 +108,7 @@
         requestId: Text.getUuidRfc4122()
       })
 
-      // The payload is available only on a successful response
+      // Данные доступны только при успешном ответе
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
       } else {
@@ -109,7 +116,7 @@
         console.info(result.resource.id, result.resource.name, result.resource.typeId)
       }
     } catch (error) {
-      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
       console.error(error)
     }
     ```
@@ -117,12 +124,12 @@
 - JS (UMD)
 
     ```html
-    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <!-- Подключаем SDK в UMD-сборке, он доступен как глобальный объект B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
       async function getResource() {
         try {
-          // Initialize the SDK inside a Bitrix24 frame
+          // Инициализируем SDK внутри фрейма Битрикс24
           const $b24 = await B24Js.initializeB24Frame()
 
           const response = await $b24.actions.v2.call.make({
@@ -133,7 +140,7 @@
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
-          // The payload is available only on a successful response
+          // Данные доступны только при успешном ответе
           if (!response.isSuccess) {
             console.error(response.getErrorMessages().join('; '))
             return
@@ -142,7 +149,7 @@
           const result = response.getData().result
           console.info(result.resource.id, result.resource.name, result.resource.typeId)
         } catch (error) {
-          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          // Возникает при ошибках транспорта или SDK: AjaxError, SdkError и других
           console.error(error)
         }
       }
@@ -158,7 +165,7 @@
 
     try:
         bitrix_response = client.booking.v1.resource.get(
-            bitrix_id=123,
+            bitrix_id=15,
         ).response
         result = bitrix_response.result
         print(result)
@@ -175,9 +182,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-
 - PHP
-
 
     ```php
     try {
@@ -189,20 +194,14 @@
                     'id' => 15,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting resource: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -281,29 +280,37 @@ HTTP-статус: **200**
 {
     "result": {
         "resource": {
+            "cancellationNotificationDelay": 600,
             "confirmationCounterDelay": 10800,
             "confirmationNotificationDelay": 86400,
             "confirmationNotificationRepetitions": null,
             "confirmationNotificationRepetitionsInterval": 10800,
+            "dealCategoryId": null,
             "delayedCounterDelay": 300,
             "delayedNotificationDelay": 300,
             "description": null,
             "id": 15,
             "infoNotificationDelay": null,
+            "isCancellationNotificationOn": "Y",
             "isConfirmationNotificationOn": "Y",
+            "isDealCreationEnabled": "Y",
             "isDelayedNotificationOn": "N",
             "isFeedbackNotificationOn": "N",
             "isInfoNotificationOn": "Y",
             "isMain": "Y",
+            "isOverbookingAllowed": "Y",
             "isReminderNotificationOn": "Y",
             "name": "Название",
             "reminderNotificationDelay": -1,
+            "senderCode": "bitrix24",
             "templateTypeConfirmation": "animate",
             "templateTypeDelayed": "animate",
             "templateTypeFeedback": "animate",
             "templateTypeInfo": "inanimate",
             "templateTypeReminder": "base",
-            "typeId": 1
+            "typeId": 1,
+            "unavailableFrom": null,
+            "unavailableUntil": null
         }
     },
     "time": {
@@ -325,36 +332,56 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) |  Корневой элемент ответа. Содержит информацию о полях ресурса. Структура описана [ниже](#resource) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственное поле `resource` — объект с информацией о ресурсе, структура описана [ниже](#resource) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Ресурс {#resource}
 
+Числовые и строковые поля возвращаются как `null`, если значение не задано. Например, при задержке уведомления `0` в ответе придет `null`. Флаги `is*`, поля `templateType*` и `senderCode` приходят заполненными всегда.
+
 #|
+|| **Название**
+`тип` | **Описание** ||
+|| **cancellationNotificationDelay**
+[`integer`](../../data-types.md) | Время в секундах после отмены записи, через которое клиенту приходит сообщение об отмене ||
 || **confirmationCounterDelay**
-[`integer`](../../data-types.md) | Время до записи в секундах, после которого загорается счетчик не подтвержденной записи ||
-|| **confirmationDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, после которого включается счетчик неподтвержденной записи ||
+|| **confirmationNotificationDelay**
 [`integer`](../../data-types.md) | Время до записи в секундах, когда клиенту приходит первое сообщение для подтверждения записи ||
-|| **confirmationRepetitions**
-[`integer`](../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, не учитывая первого ||
-|| **confirmationRepetitionsInterval**
+|| **confirmationNotificationRepetitions**
+[`integer`](../../data-types.md) | Количество сообщений, которые приходят клиенту для подтверждения записи, без учета первого ||
+|| **confirmationNotificationRepetitionsInterval**
 [`integer`](../../data-types.md) | Интервал между сообщениями о подтверждении записи, в секундах ||
+|| **dealCategoryId**
+[`integer`](../../data-types.md) | Идентификатор воронки сделок для бронирований ресурса.
+
+`null` — воронка не выбрана или выбрана воронка по умолчанию: ее идентификатор `0` REST отдает как `null`, как и у других числовых полей. В обоих случаях сделки создаются в воронке по умолчанию.
+
+Если воронку удалили в CRM после сохранения ресурса, метод отдает ее идентификатор как есть. Сделки по бронированиям такого ресурса не создаются, пока в ресурсе не выберут другую воронку ||
 || **delayedCounterDelay**
-[`integer`](../../data-types.md) | Время в секундах, через сколько включить счетчик в календаре ||
-|| **delayedDelay**
-[`integer`](../../data-types.md) | Время в секундах, через сколько отправить клиенту сообщение об опоздании ||
+[`integer`](../../data-types.md) | Время в секундах, через которое в календаре включается счетчик ||
+|| **delayedNotificationDelay**
+[`integer`](../../data-types.md) | Время в секундах, через которое клиенту отправляется сообщение об опоздании ||
 || **description**
 [`string`](../../data-types.md) | Описание ресурса ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор ресурса ||
-|| **infoDelay**
-[`integer`](../../data-types.md) | Задержка в секундах, после которой клиенту приходит сообщение о записи ||
-|| **isConfirmationNotificationOn**
-[`string`](../../data-types.md) | Автоматическое подтверждение записи. Возможные значения:
+|| **infoNotificationDelay**
+[`integer`](../../data-types.md) | Время в секундах, через которое клиенту приходит сообщение о записи ||
+|| **isCancellationNotificationOn**
+[`string`](../../data-types.md) | Сообщение клиенту после отмены записи. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
+|| **isConfirmationNotificationOn**
+[`string`](../../data-types.md) | Сообщение клиенту с запросом подтвердить запись. Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
+|| **isDealCreationEnabled**
+[`string`](../../data-types.md) | Создавать ли сделку автоматически по бронированиям ресурса. Возможные значения:
+- `Y` — создавать
+- `N` — не создавать ||
 || **isDelayedNotificationOn**
 [`string`](../../data-types.md) | Напоминание, когда клиент опаздывает. Возможные значения:
 - `Y` — включено
@@ -371,19 +398,31 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Как показывать ресурс. Возможные значения:
 - `Y` — в колонках расписания
 - `N` — при пересечении ресурсов ||
+|| **isOverbookingAllowed**
+[`string`](../../data-types.md) | Разрешен ли овербукинг: можно ли записать еще одного клиента на время, которое у ресурса уже занято. Возможные значения:
+- `Y` — разрешен. На одно время у ресурса может быть не больше двух записей. Работает, только если овербукинг доступен на тарифе
+- `N` — запрещен. Нельзя создать запись или изменить ее так, чтобы она пересекалась по времени с другой записью ресурса
+
+По умолчанию `Y` ||
 || **isReminderNotificationOn**
 [`string`](../../data-types.md) | Напоминание о записи. Возможные значения:
 - `Y` — включено
 - `N` — выключено ||
 || **name**
 [`string`](../../data-types.md) | Название ресурса ||
-|| **reminderDelay**
-[`integer`](../../data-types.md) | Время до записи в секундах, за которое клиенту приходит напоминание о записи.
-Значение `-1` — утром в день записи ||
+|| **reminderNotificationDelay**
+[`integer`](../../data-types.md) | Время до записи в секундах, за которое клиенту приходит напоминание.
+
+Значение `-1` — напоминание приходит утром в день записи ||
+|| **senderCode**
+[`string`](../../data-types.md) | Код сервиса, который отправляет клиенту сообщения. Возможные значения:
+- `bitrix24` — уведомления Битрикс24
+- `ai_call` — звонок AI-агента ||
 || **templateTypeConfirmation**
 [`string`](../../data-types.md) | Тип шаблона сообщения о подтверждении записи. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
+- `animate` — шаблон для записи к специалистам
+- `inanimate_long` — шаблон для многодневного бронирования ||
 || **templateTypeDelayed**
 [`string`](../../data-types.md) | Тип шаблона сообщения об опоздании. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
@@ -395,13 +434,22 @@ HTTP-статус: **200**
 || **templateTypeInfo**
 [`string`](../../data-types.md) | Тип шаблона сообщения о записи. Возможные значения:
 - `inanimate` — шаблон для бронирования оборудования и помещений
-- `animate` — шаблон для записи к специалистам ||
+- `animate` — шаблон для записи к специалистам
+- `inanimate_long` — шаблон для многодневного бронирования ||
 || **templateTypeReminder**
-[`string`](../../data-types.md) | Тип шаблона сообщения для напоминания. Возможные значения: `base` ||
+[`string`](../../data-types.md) | Тип шаблона сообщения для напоминания. Единственное значение — `base` ||
 || **typeId**
 [`integer`](../../data-types.md) | Идентификатор типа ресурса.
 
 Получить информацию о типе можно с помощью метода [booking.v1.resourceType.get](./resource-type/booking-v1-resourcetype-get.md) ||
+|| **unavailableFrom**
+[`integer`](../../data-types.md) | Начало приостановки ресурса, Unix-время в секундах. Только для чтения.
+
+`null` — ресурс не приостановлен или приостановлен с текущего момента. Во втором случае заполнено поле `unavailableUntil` ||
+|| **unavailableUntil**
+[`integer`](../../data-types.md) | Окончание приостановки ресурса, Unix-время в секундах. Только для чтения.
+
+`null` — ресурс не приостановлен ||
 |#
 
 ## Обработка ошибок
@@ -410,7 +458,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 1021,
+    "error": "1009",
     "error_description": "Resource not found"
 }
 ```
@@ -423,14 +471,17 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `1009` | `Resource not found` | Ресурс с таким `id` не найден ||
 || `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр ||
+|| `0` | `Booking tool is disabled. Please contact your administrator.` | В настройках Битрикс24 отключен инструмент «Бронирование» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./resource-type/index.md)
+- [{#T}](./index.md)
 - [{#T}](./booking-v1-resource-add.md)
 - [{#T}](./booking-v1-resource-update.md)
-- [{#T}](./booking-v1-resource-delete.md)
 - [{#T}](./booking-v1-resource-list.md)
+- [{#T}](./booking-v1-resource-delete.md)
+- [{#T}](./resource-type/index.md)
+- [{#T}](./slots/index.md)

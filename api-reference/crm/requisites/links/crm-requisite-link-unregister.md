@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на изменение объекта CRM, для которого удаляется связь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте методы REST 3.0 [crm.<тип>.clientrequisite.set](../../rest-v3/requisites/crm-entity-client-requisite-set-rest-v3.md) и [crm.<тип>.mycompanyrequisite.set](../../rest-v3/requisites/crm-entity-my-company-requisite-set-rest-v3.md) с `requisiteId: 0`. Реквизит моей компании методы REST 3.0 выбирают только в сделке и счете, для предложений и смарт-процессов используйте этот метод.
+
+{% endnote %}
+
 Метод удаляет связь реквизитов с объектом.
 
 ## Параметры метода
@@ -180,16 +186,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error unregistering requisite link: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

@@ -12,12 +12,12 @@
 > Scope: [`task`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - любой пользователь для стадий «Моего плана»
-> - любой пользователь с доступом к группе для стадий канбана
+> - любой пользователь для стадий своего «Моего плана»
+> - владелец или модератор группы для стадий канбана группы
 
-Метод `task.stages.update` обновляет стадии канбана или «Моего плана».
+Метод `task.stages.update` изменяет название, цвет или положение стадии канбана или «Моего плана».
 
-Метод также применяется для перемещения стадии с одной позиции на другую. Для этого достаточно передать нужный `AFTER_ID`.
+Чтобы переместить стадию, передайте в `AFTER_ID` идентификатор стадии, после которой она должна стоять.
 
 ## Параметры метода
 
@@ -29,24 +29,27 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор стадии ||
 || **fields***
-[`array`](../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для обновления стадии канбана или «Моего плана» ||
+[`object`](../../data-types.md) | Значения полей для обновления стадии канбана или «Моего плана» [(подробное описание)](#fields) ||
 || **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала ||
+[`boolean`](../../data-types.md) | Если передать `true`, метод не проверяет права в группе. Параметр действует только для администратора Битрикс24, у других пользователей права проверяются как обычно. По умолчанию — `false` ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **TITLE** [`string`](../../data-types.md) | Заголовок стадии ||
-|| **COLOR** [`string`](../../data-types.md) | Цвет стадии в формате RGB ||
-|| **AFTER_ID** [`integer`](../../data-types.md) | Идентификатор стадии, после которой надо добавить новую стадию.
+|| **TITLE**
+[`string`](../../data-types.md) | Название стадии. Если не передать, название останется прежним ||
+|| **COLOR**
+[`string`](../../data-types.md) | Цвет стадии — шестнадцатеричный код RGB из 6 символов без `#`, например `FF5733` ||
+|| **AFTER_ID**
+[`integer`](../../data-types.md) | Идентификатор стадии, после которой нужно поставить эту стадию.
 
-Если не указано или равно `0`, то добавится в начало ||
+Если передать `0`, стадия встанет первой. Если не передать, стадия останется на месте ||
 |#
 
-При обновлении стадии группы при недостаточном уровне прав выводится ошибка доступа.
+Другие поля метод молча пропускает. Например, `SORT` не изменит порядок стадий: положение стадии задает только `AFTER_ID`.
 
 ## Примеры кода
 
@@ -59,15 +62,15 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
     "id": 5,
     "fields": {
         "TITLE": "Новая стадия",
-        "SORT": 200,
         "COLOR": "FF5733"
     }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.update
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.stages.update
     ```
 
 - cURL (OAuth)
@@ -75,16 +78,16 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
     "id": 5,
     "fields": {
         "TITLE": "Новая стадия",
-        "SORT": 200,
         "COLOR": "FF5733"
-    }
+    },
+    "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/task.stages.update
+    https://**put_your_bitrix24_address**/rest/task.stages.update
     ```
 
 - JS (TS)
@@ -103,8 +106,7 @@
         params: {
           id: 5,
           fields: {
-            TITLE: 'New Stage',
-            SORT: 200,
+            TITLE: 'Новая стадия',
             COLOR: 'FF5733',
           },
         },
@@ -140,8 +142,7 @@
             params: {
               id: 5,
               fields: {
-                TITLE: 'New Stage',
-                SORT: 200,
+                TITLE: 'Новая стадия',
                 COLOR: 'FF5733',
               },
             },
@@ -173,7 +174,6 @@
 
     fields = {
         "TITLE": "Новая стадия",
-        "SORT": 200,
         "COLOR": "FF5733",
     }
 
@@ -204,10 +204,9 @@
         $stageId = 5;
         $fields = [
             'TITLE' => "Новая стадия",
-            'SORT' => 200,
             'COLOR' => "FF5733"
         ];
-    
+
         $response = $b24Service
             ->core
             ->call(
@@ -217,13 +216,13 @@
                     'fields' => $fields
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating task stage: ' . $e->getMessage();
@@ -236,7 +235,6 @@
     const stageId = 5;
     const fields = {
         TITLE: "Новая стадия",
-        SORT: 200,
         COLOR: "FF5733"
     };
     BX24.callMethod(
@@ -260,7 +258,6 @@
     $stageId = 5;
     $fields = [
         "TITLE" => "Новая стадия",
-        "SORT" => 200,
         "COLOR" => "FF5733"
     ];
 
@@ -289,7 +286,6 @@
     	"id": 5,
     	"fields": b24.Params{
     		"TITLE": "Новая стадия",
-    		"SORT":  200,
     		"COLOR": "FF5733",
     	},
     })
@@ -308,11 +304,19 @@
 
 ## Обработка ответа
 
-HTTP-Статус: 200
+HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
+    }
 }
 ```
 
@@ -321,9 +325,11 @@ HTTP-Статус: 200
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
+|| **result**
 [`boolean`](../../data-types.md) | Возвращает `true` в случае успешного обновления стадии
 ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -333,7 +339,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Вы не можете изменять стадии в этой группе"
+    "error_description": "Вы не можете управлять стадиями"
 }
 ```
 
@@ -342,18 +348,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `ACCESS_DENIED` | Вы не можете изменять стадии в этой группе ||
-|| `NOT_FOUND` | Стадия не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `NOT_FOUND` | Стадия не найдена | Стадии с идентификатором `id` нет ||
+|| `400` | `ACCESS_DENIED` | Вы не можете управлять стадиями | Пользователь не владелец и не модератор группы, к которой относится стадия, или стадия из чужого «Моего плана» ||
+|| `400` | `EMPTY_TITLE` | Не указан заголовок стадии | В `TITLE` передана пустая строка ||
+|| `400` | `DISPATCHER_ERROR` | Argument "id" is required, but no value passed for task.stages.update | Не передан обязательный параметр `id`. Если не передан `fields`, в тексте ошибки будет его имя ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-stages-add.md)
 - [{#T}](./task-stages-get.md)
+- [{#T}](./task-stages-delete.md)
 - [{#T}](./task-stages-can-move-task.md)
 - [{#T}](./task-stages-move-task.md)
-- [{#T}](./task-stages-delete.md)

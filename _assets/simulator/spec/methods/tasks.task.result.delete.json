@@ -52,5 +52,8 @@
     }
   ],
   "page": "/api-reference/tasks/result/tasks-task-result-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 17
+  }
 }

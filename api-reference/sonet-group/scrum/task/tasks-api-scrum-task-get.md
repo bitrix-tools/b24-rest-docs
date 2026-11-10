@@ -1,4 +1,4 @@
-# Получить поля задачи Скрама по id tasks.api.scrum.task.get
+# Получить поля задачи Скрама по идентификатору tasks.api.scrum.task.get
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь, имеющий доступ к Скраму
 
-Метод получает значения полей задачи Скрама по её идентификатору `id`.
+Метод `tasks.api.scrum.task.get` получает значения полей задачи Скрама по ее идентификатору `id`.
 
 ## Параметры метода
 
@@ -68,8 +68,10 @@
       storyPoints: string
       epicId: number
       sort: number
+      sortFloat: number
       createdBy: number
       modifiedBy: number
+      groupId: number
     }
 
     try {
@@ -170,12 +172,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Success: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -230,12 +227,14 @@
     }
 
     var item struct {
-    	EntityID    b24.ID `json:"entityId"`
-    	StoryPoints string `json:"storyPoints"`
-    	EpicID      b24.ID `json:"epicId"`
-    	Sort        int    `json:"sort"`
-    	CreatedBy   int    `json:"createdBy"`
-    	ModifiedBy  int    `json:"modifiedBy"`
+        EntityID    b24.ID  `json:"entityId"`
+        StoryPoints string  `json:"storyPoints"`
+        EpicID      b24.ID  `json:"epicId"`
+        Sort        int     `json:"sort"`
+        SortFloat   float64 `json:"sortFloat"`
+        CreatedBy   int     `json:"createdBy"`
+        ModifiedBy  int     `json:"modifiedBy"`
+        GroupID     b24.ID  `json:"groupId"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -256,8 +255,10 @@ HTTP-статус: **200**
         "storyPoints": "2",
         "epicId": 4,
         "sort": 1,
+        "sortFloat": 1.0,
         "createdBy": 1,
-        "modifiedBy": 1
+        "modifiedBy": 1,
+        "groupId": 7
     },
     "time": {
         "start": 1721402687.900315,
@@ -277,7 +278,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Объект с данными задачи ||
+[`object`](../../../data-types.md) | Объект с данными задачи Скрама [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **entityId** 
 [`integer`](../../../data-types.md) | Идентификатор бэклога или спринта ||
 || **storyPoints**
@@ -288,12 +298,14 @@ HTTP-статус: **200**
 [`integer`](../../../data-types.md) | Идентификатор эпика ||
 || **sort**
 [`integer`](../../../data-types.md) | Сортировка ||
+|| **sortFloat**
+[`float`](../../../data-types.md) | Значение сортировки с дробной частью ||
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего задачу ||
 || **modifiedBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, который последним изменял задачу ||
-|| **time**
-[`array`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|| **groupId**
+[`integer`](../../../data-types.md) | Идентификатор Скрама ||
 |#
 
 ## Обработка ошибок
@@ -307,18 +319,22 @@ HTTP-статус: **200**
 }
 ```
 
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
 ### Возможные коды ошибок
 
 #|
 || **Код** | **Описание**  | **Значение** ||
-|| `0` | Task not found | Такой задачи не существует или у пользователя нет доступа к этой задаче ||
+|| `0` | Task id not found | Передан идентификатор задачи, равный `0` ||
+|| `0` | Task not found | Задача не найдена среди задач Скрама ||
+|| `0` | Access denied | У пользователя нет доступа к задаче или Скраму ||
 || `100` | Could not find value for parameter {id} | Неверно указано имя параметра или не задан параметр ||
 || `100` | Invalid value {stringValue} to match with parameter {id}. Should be value of type int. | Неверный тип параметра ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-api-scrum-task-update.md)

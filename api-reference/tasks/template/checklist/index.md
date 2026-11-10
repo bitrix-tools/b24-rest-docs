@@ -15,7 +15,7 @@
 
 Для чек-листов существующих задач используйте группу методов [task.checklistitem.*](../../checklist-item/index.md).
 
-> Быстрый переход: [все методы и события](#all-methods) 
+> Быстрый переход: [все методы](#all-methods)
 > 
 > Пользовательская документация:
 > - [Как работать с шаблонами задач](https://helpdesk.bitrix24.ru/open/27889912/)
@@ -23,16 +23,12 @@
 
 ## Как начать работу
 
-1. Создайте шаблон задачи методом [tasks.template.add](../tasks-template-add.md). Идентификатор нового шаблона можно получить в ответе метода. Он используется во всех методах `tasks.template.checklist.*` в параметре `templateId`
-2. Создайте структуру чек-листа методом [tasks.template.checklist.add](./tasks-template-checklist-add.md). Если нужно создать вложенный пункт, передайте идентификатор родительского пункта в поле `PARENT_ID`
-3. Получите информацию о пункте чек-листа методом [tasks.template.checklist.get](./tasks-template-checklist-get.md), если нужно проверить его параметры. Используйте, когда нужно получить один пункт по известному `checkListItemId`
-4. Получите список пунктов методом [tasks.template.checklist.list](./tasks-template-checklist-list.md), если нужно проверить структуру чек-листа и получить идентификаторы пунктов
-5. Измените содержимое пункта методом [tasks.template.checklist.update](./tasks-template-checklist-update.md), если нужно скорректировать название, описание или другие параметры
-6. Измените порядок пунктов методами [tasks.template.checklist.moveAfter](./tasks-template-checklist-move-after.md) и [tasks.template.checklist.moveBefore](./tasks-template-checklist-move-before.md), если нужно переставить пункт относительно другого пункта
-7. Измените статус пункта методами [tasks.template.checklist.complete](./tasks-template-checklist-complete.md) и [tasks.template.checklist.renew](./tasks-template-checklist-renew.md), если нужно отметить пункт как выполненный или вернуть его в работу
-8. Добавьте вложения методами [tasks.template.checklist.addAttachmentByContent](./tasks-template-checklist-add-attachment-by-content.md) и [tasks.template.checklist.addAttachmentsFromDisk](./tasks-template-checklist-add-attachments-from-disk.md), если пункт должен содержать файлы
-9. Если вложения больше не нужны, удалите их методом [tasks.template.checklist.removeAttachments](./tasks-template-checklist-remove-attachments.md)
-10. Если пункт больше не нужен, удалите его методом [tasks.template.checklist.delete](./tasks-template-checklist-delete.md)
+1. Создайте шаблон задачи методом [tasks.template.add](../tasks-template-add.md). Идентификатор шаблона из ответа передавайте во все методы `tasks.template.checklist.*` в параметре `templateId`
+2. Создайте чек-лист методом [tasks.template.checklist.add](./tasks-template-checklist-add.md): сначала корневой пункт с `PARENT_ID` = `0` — это название чек-листа, затем пункты с `PARENT_ID` корневого пункта
+3. Получите структуру чек-листа и идентификаторы пунктов методом [tasks.template.checklist.list](./tasks-template-checklist-list.md)
+4. Измените пункт методом [tasks.template.checklist.update](./tasks-template-checklist-update.md) или удалите его вместе с подпунктами методом [tasks.template.checklist.delete](./tasks-template-checklist-delete.md)
+
+Порядок, статус и вложения пунктов меняют отдельные методы — они перечислены в [обзоре методов](#all-methods).
 
 ## Связь с другими объектами
 
@@ -50,11 +46,11 @@
 - [disk.storage.getchildren](../../../disk/storage/disk-storage-get-children.md)
 - [disk.folder.getchildren](../../../disk/folder/disk-folder-get-children.md)
 
-{% note tip "Пользовательская документация" %}
+## Особенности работы методов
 
-- [Как работать с шаблонами задач](https://helpdesk.bitrix24.ru/open/27889912/)
-
-{% endnote %}
+- **Формат ответа `list`.** Метод [tasks.template.checklist.list](./tasks-template-checklist-list.md) возвращает значения строками, а флаги — как `Y` и `N`. Остальные методы возвращают числа и `true` или `false`. Постраничной выборки у `list` нет, все пункты приходят одним ответом
+- **Идентификаторы вложений.** В объекте `attachments` ключ — идентификатор прикрепления, его передают в `attachmentsIds` метода [tasks.template.checklist.removeAttachments](./tasks-template-checklist-remove-attachments.md). Значение вида `n10921` — идентификатор файла на Диске
+- **Удаление пункта.** Метод [tasks.template.checklist.delete](./tasks-template-checklist-delete.md) удаляет пункт вместе со всеми подпунктами, файлы при этом остаются на Диске
 
 ## Обзор методов {#all-methods}
 

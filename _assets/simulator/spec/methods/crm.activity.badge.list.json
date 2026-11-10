@@ -8,14 +8,21 @@
   "params": [
     {
       "name": "result",
-      "type": "array",
-      "base": "array",
+      "type": "object",
+      "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа, содержащий массив, каждый элемент которого несет информацию о бейдже",
+      "description": "Корневой элемент ответа с единственным ключом badges (подробное описание)",
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
       }
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество бейджей в ответе"
     },
     {
       "name": "time",
@@ -46,6 +53,7 @@
         }
       ]
     },
+    "total": 1,
     "time": {
       "start": 1724068028.331234,
       "finish": 1724068028.726591,
@@ -59,10 +67,17 @@
   "returns": [
     {
       "name": "result",
-      "type": "array",
-      "base": "array",
+      "type": "object",
+      "base": "object",
       "required": "unknown",
-      "description": "Корневой элемент ответа, содержащий массив, каждый элемент которого несет информацию о бейдже"
+      "description": "Корневой элемент ответа с единственным ключом badges (подробное описание)"
+    },
+    {
+      "name": "total",
+      "type": "integer",
+      "base": "integer",
+      "required": "unknown",
+      "description": "Количество бейджей в ответе"
     },
     {
       "name": "time",
@@ -79,5 +94,6 @@
     "title",
     "type",
     "value"
-  ]
+  ],
+  "requestExample": {}
 }

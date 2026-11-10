@@ -120,5 +120,6 @@
     }
   ],
   "page": "/api-reference/crm/timeline/activities/activity-base/crm-activity-communication-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

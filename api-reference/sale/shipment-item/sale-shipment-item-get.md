@@ -1,4 +1,4 @@
-# Получить доступ к полям элемента sale.shipmentitem.get
+# Получить элемент табличной части отгрузки sale.shipmentitem.get
 
 {% note tip "" %}
 
@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
-Метод `sale.shipmentitem.get` предназначен для получения значений всех полей элемента табличной части отгрузки. 
+Метод `sale.shipmentitem.get` возвращает элемент табличной части отгрузки по идентификатору: позицию корзины, отгрузку и количество товара. Для элемента системной отгрузки, в которой числится нераспределенный товар заказа, метод возвращает пустой массив без ошибки — состав системной отгрузки получайте методом [sale.shipmentitem.list](./sale-shipment-item-list.md).
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_shipment_item.id`](../data-types.md) | Идентификатор элемента табличной части отгрузки ||
+[`sale_order_shipment_item.id`](../data-types.md#sale_order_shipment_item) | Идентификатор элемента табличной части отгрузки.
+
+Можно получить методом [sale.shipmentitem.list](./sale-shipment-item-list.md) ||
 |#
 
 ## Примеры кода
@@ -34,8 +36,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":7}' \
@@ -44,8 +46,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```http
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"id":7,"auth":"**put_access_token_here**"}' \
@@ -176,12 +178,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
+        echo 'Data: ' . print_r($result, true);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -245,8 +242,8 @@
     	DateInsert       string `json:"dateInsert"`
     	ID               b24.ID `json:"id"`
     	OrderDeliveryID  b24.ID `json:"orderDeliveryId"`
-    	Quantity         int    `json:"quantity"`
-    	ReservedQuantity int    `json:"reservedQuantity"`
+    	Quantity         float64 `json:"quantity"`
+    	ReservedQuantity float64 `json:"reservedQuantity"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -290,11 +287,27 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **shipmentItem**
-[`sale_order_shipment_item`](../data-types.md) | Информация об элементе табличной части отгрузки ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **shipmentItem**
+[`sale_order_shipment_item`](../data-types.md#sale_order_shipment_item) | Элемент табличной части отгрузки. Поля:
+- `id` — идентификатор элемента табличной части отгрузки, `integer`
+- `orderDeliveryId` — идентификатор отгрузки, `integer`
+- `basketId` — идентификатор позиции корзины, `integer`
+- `quantity` — количество товара в отгрузке, `double`
+- `reservedQuantity` — зарезервированное количество, `double`
+- `xmlId` — внешний идентификатор, `string`
+- `dateInsert` — дата добавления элемента, `datetime`
+
+Для элемента системной отгрузки возвращается пустой массив ||
 |#
 
 ## Обработка ошибок
@@ -303,7 +316,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":201240400001,
+    "error":"201240400001",
     "error_description":"shipment item is not exists"
 }
 ```
@@ -314,16 +327,23 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `201240400001` | Элемент табличной части отгрузки не найден ||
-|| `200040300010` | Недостаточно прав для чтения элемента табличной части отгрузки ||
-|| `100` | Не указан параметр `id` ||
+|| `201240400001` | `shipment item is not exists`
+
+Элемент табличной части отгрузки с указанным `id` не найден ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения элемента табличной части отгрузки ||
+|| `100` | `Bitrix\Sale\ShipmentItem constructor must be is public`
+
+Не указан параметр `id` ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-shipment-item-add.md)
 - [{#T}](./sale-shipment-item-update.md)
 - [{#T}](./sale-shipment-item-list.md)

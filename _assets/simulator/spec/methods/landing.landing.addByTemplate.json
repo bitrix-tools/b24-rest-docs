@@ -152,5 +152,14 @@
     }
   ],
   "page": "/api-reference/landing/page/methods/landing-landing-add-by-template.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "siteId": 157,
+    "code": "krayt.monotovar@KraytPetShop",
+    "fields": {
+      "TITLE": "Весенняя акция",
+      "DESCRIPTION": "SEO-описание страницы акции",
+      "FOLDER_ID": 95
+    }
+  }
 }

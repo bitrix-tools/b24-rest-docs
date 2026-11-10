@@ -64,21 +64,54 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Является ли сделка шаблоном регулярной сделки. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли сделка шаблоном регулярной сделки. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "IS_RETURN_CUSTOMER",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Является ли сделка повторной. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли сделка повторной. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "IS_REPEATED_APPROACH",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Является ли сделка повторным обращением. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли сделка повторным обращением. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "PROBABILITY",
@@ -106,7 +139,18 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Включен ли режим ручного подсчета суммы. Возможные значения: - Y — да - N — нет"
+          "description": "Включен ли режим ручного подсчета суммы. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "TAX_VALUE",
@@ -155,14 +199,36 @@
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Доступна ли сделка для всех. Возможные значения: - Y — да - N — нет"
+          "description": "Доступна ли сделка для всех. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "CLOSED",
           "type": "char",
           "base": "char",
           "required": false,
-          "description": "Является ли сделка закрытой. Возможные значения: - Y — да - N — нет"
+          "description": "Является ли сделка закрытой. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ],
+          "flag": true
         },
         {
           "name": "COMMENTS",
@@ -232,7 +298,17 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры"
+          "description": "Тип трафика. Возможные значения: - CPC — объявления - CPM — баннеры",
+          "values": [
+            {
+              "value": "CPC",
+              "title": "объявления"
+            },
+            {
+              "value": "CPM",
+              "title": "баннеры"
+            }
+          ]
         },
         {
           "name": "UTM_CAMPAIGN",
@@ -283,14 +359,34 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Зарегистрировать ли событие изменения сделки в живой ленте. Возможные значения: - Y — да - N — нет"
+          "description": "Зарегистрировать ли событие изменения сделки в живой ленте. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         },
         {
           "name": "REGISTER_HISTORY_EVENT",
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Создать ли запись в истории. Возможные значения: - Y — да - N — нет"
+          "description": "Создать ли запись в истории. Возможные значения: - Y — да - N — нет",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет"
+            }
+          ]
         }
       ]
     }

@@ -13,5 +13,7 @@ items:
     href: list-methods-pecularities.md
   - name: Как выполнить пакет запросов
     href: batch.md
+  - name: Как выполнить пакет запросов в REST 3.0
+    href: batch-v3.md
   - name: Особенности вызовов REST при изменении адреса Битрикс24
     href: change-domen.md

@@ -11,9 +11,9 @@
 
 > Scope: [`user`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом приглашения сотрудников или редактирования всех пользователей; пользователь с правом редактирования собственного профиля — только для своего профиля
 
-Метод `user.update` обновляет данные пользователя. Возможно только от имени пользователя с правами приглашения пользователей.
+Метод `user.update` обновляет данные пользователя.
 
 ## Параметры метода
 
@@ -23,11 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../data-types.md) | Идентификатор пользователя ||
+[`integer`](../data-types.md) | Положительный идентификатор пользователя, данные которого нужно обновить ||
 || **ACTIVE**
-[`boolean`](../data-types.md) | Признак активности пользователя. Возможные значения: 
-- `Y` — сотрудник активен,
-- `N` — сотрудник уволен ||
+[`boolean`](../data-types.md) | Признак активности пользователя:
+- `true` или `Y` — работает
+- `false` или `N` — уволен
+
+Методы чтения [user.get](./user-get.md) и [user.current](./user-current.md) возвращают это поле как `true` или `false` ||
 || **EMAIL**
 [`string`](../data-types.md) | E-mail пользователя ||
 || **NAME**
@@ -37,15 +39,15 @@
 || **SECOND_NAME**
 [`string`](../data-types.md) | Отчество ||
 || **PERSONAL_GENDER**
-[`string`](../data-types.md) | Пол ||
+[`string`](../data-types.md) | Пол: `M` — мужской, `F` — женский. Другие значения преобразуются в пустую строку ||
 || **PERSONAL_PROFESSION**
 [`string`](../data-types.md) | Профессия ||
 || **PERSONAL_WWW**
 [`string`](../data-types.md) | Домашняя страничка ||
 || **PERSONAL_BIRTHDAY**
-[`string`](../data-types.md) | Дата рождения ||
+[`date`](../data-types.md) | Дата рождения в формате ISO 8601, например `1990-05-14` ||
 || **PERSONAL_PHOTO**
-[`array`](../data-types.md) | Фотография, передавайте массив из имени файла и строки с [Bаse64](../files/how-to-upload-files.md) ||
+[`array`](../data-types.md) | Фотография, передавайте массив из имени файла и строки с [Base64](../files/how-to-upload-files.md) ||
 || **PERSONAL_ICQ**
 [`string`](../data-types.md) | ICQ ||
 || **PERSONAL_PHONE**
@@ -81,33 +83,33 @@
 || **WORK_WWW**
 [`string`](../data-types.md) | Сайт компании ||
 || **WORK_FAX**
-[`string`](../data-types.md) | WORK_FAX ||
+[`string`](../data-types.md) | Рабочий факс ||
 || **WORK_PAGER**
-[`string`](../data-types.md) | WORK_PAGER ||
+[`string`](../data-types.md) | Рабочий пейджер ||
 || **WORK_STREET**
-[`string`](../data-types.md) | WORK_STREET ||
+[`string`](../data-types.md) | Улица и дом по адресу компании ||
 || **WORK_MAILBOX**
-[`string`](../data-types.md) | WORK_MAILBOX ||
+[`string`](../data-types.md) | Почтовый ящик компании ||
 || **WORK_CITY**
 [`string`](../data-types.md) | Город работы ||
 || **WORK_STATE**
-[`string`](../data-types.md) | WORK_STATE ||
+[`string`](../data-types.md) | Область или край по адресу компании ||
 || **WORK_ZIP**
-[`string`](../data-types.md) | WORK_ZIP ||
+[`string`](../data-types.md) | Почтовый индекс компании ||
 || **WORK_COUNTRY**
-[`string`](../data-types.md) | WORK_COUNTRY ||
+[`string`](../data-types.md) | Страна по адресу компании ||
 || **WORK_PROFILE**
-[`string`](../data-types.md) | WORK_PROFILE ||
+[`string`](../data-types.md) | Направления деятельности компании ||
 || **WORK_LOGO**
-[`array`](../data-types.md) | WORK_LOGO ||
+[`array`](../data-types.md) | Логотип компании. Массив данных файла ||
 || **WORK_NOTES**
-[`string`](../data-types.md) | WORK_NOTES ||
+[`string`](../data-types.md) | Дополнительные заметки о компании ||
 || **UF_SKYPE_LINK**
 [`string`](../data-types.md) | Ссылка на чат в Skype ||
 || **UF_ZOOM**
 [`string`](../data-types.md) | Zoom ||
 || **UF_DEPARTMENT**
-[`string`](../data-types.md) | Подразделения ||
+[`integer[]`](../data-types.md) | Идентификаторы подразделений пользователя, например `[1, 2]`. Один идентификатор можно передать без массива. Получить идентификаторы можно методом [department.get](../departments/department-get.md) ||
 || **UF_INTERESTS**
 [`string`](../data-types.md) | Интересы ||
 || **UF_SKILLS**
@@ -291,16 +293,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error updating user: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -390,7 +386,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | Успешность выполнения ||
+[`boolean`](../data-types.md) | `true`, если метод выполнился без ошибки. Обновленный профиль в ответ не входит ||
 || **time**
 [`time`](../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -411,10 +407,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Cообщение об ошибке** | **Описание** ||
-|| `ERROR_CORE` | access_denied | Передан неверный `ID` пользователя ||
-|| `ERROR_CORE` | access_denied | У пользователя нет прав на вызов метода ||
-|| `ERROR_CORE` |  | Передан неверный `ID` пользователя||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `insufficient_scope` | The request requires higher privileges than provided by the access token | Для вызова требуется скоуп `user`; скоупы `user_brief` и `user_basic` не подходят ||
+|| `400` | `ERROR_CORE` | access_denied | `ID` не передан или не является положительным числом ||
+|| `400` | `ERROR_CORE` | access_denied | Недостаточно прав для изменения данных указанного пользователя ||
+|| `400` | `ERROR_ARGUMENT` | invalid_type_field | В строковое поле передан массив или объект. Имя поля приходит в поле ответа `argument`.
+
+Строковыми считаются `NAME`, `LAST_NAME`, `SECOND_NAME`, `EMAIL`, `TITLE`, `XML_ID`, `TIME_ZONE`, поля `WORK_*` и `PERSONAL_*`, кроме `PERSONAL_PHOTO` и `WORK_LOGO`. Пользовательские поля `UF_*` принимают массивы ||
+|| `400` | `ERROR_CORE` | Текст ошибки зависит от причины | Не удалось сохранить изменения профиля. Метод возвращает сообщение о причине ошибки ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

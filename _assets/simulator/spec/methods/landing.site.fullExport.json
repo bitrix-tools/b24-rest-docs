@@ -219,5 +219,15 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-full-export.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 326,
+    "params": {
+      "edit_mode": "Y",
+      "code": "myfirstsite2026",
+      "name": "Сайт автомастерской",
+      "description": "Сайт для автосервиса",
+      "preview_url": "https://example.com/previews/myfirstsite2026"
+    }
+  }
 }

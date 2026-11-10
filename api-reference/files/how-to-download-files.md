@@ -34,6 +34,7 @@ REST API не возвращает содержимое файлового по�
 || Пользовательское поле CRM типа `file` | [crm.item.get](../crm/universal/crm-item-get.md), [crm.item.list](../crm/universal/crm-item-list.md) | `urlMachine` ||
 || Комментарий таймлайна CRM | [crm.timeline.comment.get](../crm/timeline/comments/crm-timeline-comment-get.md), [crm.timeline.comment.list](../crm/timeline/comments/crm-timeline-comment-list.md) | `id` файла в `FILES`, затем `DOWNLOAD_URL` из [disk.file.get](../disk/file/disk-file-get.md) ||
 || Пост или комментарий в ленте | [log.blogpost.get](../log/log-blogpost-get.md), [log.blogcomment.user.get](../log/blogcomment/log-blogcomment-user-get.md) | `FILES`, затем `DOWNLOAD_URL` из [disk.file.get](../disk/file/disk-file-get.md) ||
+|| Комментарии к посту в ленте | [log.blogcomment.get](../log/blogcomment/log-blogcomment-get.md) | Ссылка `urlDownload` в объекте `FILES`, отдельный вызов [disk.file.get](../disk/file/disk-file-get.md) не нужен ||
 || Файл на Диске | [disk.file.get](../disk/file/disk-file-get.md) | `DOWNLOAD_URL` ||
 || Привязанный файл Диска, например в задаче или списке | [disk.attachedObject.get](../disk/attached-object/disk-attached-object-get.md) | `OBJECT_ID`, затем `DOWNLOAD_URL` из [disk.file.get](../disk/file/disk-file-get.md) ||
 || Файлы задачи | [tasks.task.get](../tasks/tasks-task-get.md), [tasks.task.get REST v3](../tasks/tasks-task-get-rest-v3.md) | `UF_TASK_WEBDAV_FILES` для отдельных файлов, `archiveLink` для архива ||
@@ -41,6 +42,7 @@ REST API не возвращает содержимое файлового по�
 || Элемент хранилища данных | [entity.item.get](../entity/items/entity-item-get.md) | Значение файлового поля, имя поля зависит от настройки хранилища ||
 || Фото пользователя | [user.get](../user/user-get.md) | URL в поле `PERSONAL_PHOTO` ||
 || Товар каталога | [catalog.product.get](../catalog/product/catalog-product-get.md), [catalog.product.list](../catalog/product/catalog-product-list.md) | `urlMachine` из поля товара или метод [catalog.product.download](../catalog/product/catalog-product-download.md) ||
+|| Товар каталога в REST 3.0 | [catalog.product.get REST v3](../catalog/product/catalog-product-get-rest-v3.md), [catalog.product.list REST v3](../catalog/product/catalog-product-list-rest-v3.md) | Идентификатор файла из поля товара, затем `src` из [catalog.product.download REST v3](../catalog/product/catalog-product-download-rest-v3.md) ||
 || Запись звонка телефонии | [voximplant.statistic.get](../telephony/voximplant/voximplant-statistic-get.md) | `CALL_RECORD_URL` ||
 || Шаблон генератора документов | [documentgenerator.template.get](../document-generator/templates/document-generator-template-get.md), [documentgenerator.template.list](../document-generator/templates/document-generator-template-list.md), [crm.documentgenerator.template.get](../crm/document-generator/templates/crm-document-generator-template-get.md), [crm.documentgenerator.template.list](../crm/document-generator/templates/crm-document-generator-template-list.md) | `downloadMachine` ||
 || Документ генератора документов | [documentgenerator.document.add](../document-generator/document-generator-document-add.md), [documentgenerator.document.list](../document-generator/document-generator-document-list.md), [crm.documentgenerator.document.add](../crm/document-generator/documents/crm-document-generator-document-add.md), [crm.documentgenerator.document.list](../crm/document-generator/documents/crm-document-generator-document-list.md) | `downloadUrlMachine` ||
@@ -277,6 +279,35 @@ https://your-domain.bitrix24.com/bitrix/tools/disk/uf.php?attachedId=10&action=d
 ```
 
 Для скачивания используйте `urlMachine` или вызовите [catalog.product.download](../catalog/product/catalog-product-download.md). Метод `catalog.product.download` сразу возвращает тело файла.
+
+В REST 3.0 метод [catalog.product.get](../catalog/product/catalog-product-get-rest-v3.md) возвращает в полях `previewPicture` и `detailPicture` только идентификатор файла строкой, ссылки в ответе нет. Чтобы получить файл, вызовите [catalog.product.download](../catalog/product/catalog-product-download-rest-v3.md) и передайте в `fields`:
+
+- `productId` — идентификатор товара
+- `fieldName` — имя поля в верхнем регистре: `PREVIEW_PICTURE`, `DETAIL_PICTURE` или `PROPERTY_{id}`
+- `fileId` — идентификатор файла
+
+```bash
+curl -X POST \
+-H "Content-Type: application/json" \
+-H "Accept: application/json" \
+-d '{"fields":{"productId":7527,"fieldName":"PREVIEW_PICTURE","fileId":39429}}' \
+https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.download
+```
+
+Метод вернет объект `file`, ссылка на файл — в поле `src`.
+
+```json
+{
+    "result": {
+        "file": {
+            "id": 39429,
+            "fileName": "tshirt-preview.png",
+            "contentType": "image/png",
+            "src": "https://cdn-ru.bitrix24.ru/b1234567/iblock/cf3/cf383e376005a22cf23e42dab0e1506a/tshirt-preview.png"
+        }
+    }
+}
+```
 
 ## Скачать шаблон или документ генератора документов {#document-generator}
 

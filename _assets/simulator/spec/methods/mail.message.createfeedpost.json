@@ -82,5 +82,9 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-createfeedpost.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "messageId": 15,
+    "title": "Обсуждение договора"
+  }
 }

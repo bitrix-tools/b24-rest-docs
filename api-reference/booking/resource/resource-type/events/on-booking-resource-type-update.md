@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONBOOKINGRESOURCETYPEUPDATE` сработает при обновлении типа ресурса методом [booking.v1.resourceType.update](../booking-v1-resourcetype-update.md).
+Событие `ONBOOKINGRESOURCETYPEUPDATE` сработает при обновлении типа ресурса вручную или методом [booking.v1.resourceType.update](../booking-v1-resourcetype-update.md). В обработчик приходит только идентификатор — остальные поля типа получайте методом [booking.v1.resourceType.get](../booking-v1-resourcetype-get.md).
 
 {% note info "" %}
 
@@ -37,10 +37,10 @@
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
         "scope": "booking",
-        "domain": "booking.ops.bx",
+        "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "L",
-        "client_endpoint": "http://booking.ops.bx/rest/",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
         "member_id": "60133c09d1f5d0fd6d7884a11fad4585",
         "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "tyb8wpqf7lwi471nsiv9yr1eybkafqcq"
@@ -77,6 +77,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
 - [{#T}](./on-booking-resource-type-add.md)

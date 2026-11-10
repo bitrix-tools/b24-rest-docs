@@ -5,7 +5,15 @@ items:
     href: index.md
   - name: Получить значения полей коэффициента единицы измерения
     href: catalog-ratio-get.md
+  - name: Получить значения полей коэффициента единицы измерения v 3.0
+    href: catalog-ratio-get-rest-v3.md
   - name: Получить список коэффициентов единиц измерения
     href: catalog-ratio-list.md
+  - name: Получить список коэффициентов единиц измерения v 3.0
+    href: catalog-ratio-list-rest-v3.md
   - name: Получить поля коэффициента единицы измерения
     href: catalog-ratio-get-fields.md
+  - name: Получить список полей коэффициента единицы измерения v 3.0
+    href: catalog-ratio-field-list.md
+  - name: Получить поле коэффициента единицы измерения
+    href: catalog-ratio-field-get.md

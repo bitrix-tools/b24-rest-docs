@@ -88,5 +88,11 @@
     }
   ],
   "page": "/api-reference/sale/payment-item-shipment/sale-payment-item-shipment-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1181,
+    "fields": {
+      "xmlId": "myNewXmlId"
+    }
+  }
 }

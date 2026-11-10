@@ -11,9 +11,17 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правами «чтение» и «изменение» сделок
+> Кто может выполнять метод: пользователь с правом «чтения» и «изменения» сделки
+
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.update](../../rest-v3/items/crm-entity-update-rest-v3.md). Чтобы удалить все привязки, передайте пустой массив `contactsId: []`.
+
+{% endnote %}
 
 Метод `crm.deal.contact.items.delete` удаляет все связи контактов с указанной сделкой.
+
+Метод отвязывает все контакты сразу и не удаляет сами контакты. Чтобы убрать один контакт, используйте [crm.deal.contact.delete](./crm-deal-contact-delete.md). После вызова поле сделки `CONTACT_ID` очищается. Восстановить набор можно повторной привязкой через [crm.deal.contact.items.set](./crm-deal-contact-items-set.md) — прежние значения `SORT` и `IS_PRIMARY` при этом не сохраняются. Как устроена связь, описано в [обзоре раздела](./index.md).
 
 ## Параметры метода
 
@@ -131,7 +139,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.crm.deal.contact.items.delete(bitrix_id=123).response
+        bitrix_response = client.crm.deal.contact.items.delete(bitrix_id=1875).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -163,16 +171,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting deal contact items: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -256,14 +258,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха ||
+[`boolean`](../../../data-types.md) | Корневой элемент ответа. Содержит `true` в случае успеха.
+
+Метод возвращает `true` и в том случае, когда у сделки не было привязанных контактов ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -277,19 +281,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше 1 или не передан вовсе ||
-|| Пустое значение | `Access denied` | У пользователя нет прав на чтение сделок ||
-|| `ACCESS_DENIED` | `Access denied!` | Нет прав на чтение или изменение сделки ||
-|| Пустое значение | `Not found` | Сделка с переданным `id` не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| 400 | Пустое значение | `The parameter ownerEntityID is invalid or not defined.` | Передан `id` меньше 1 или не передан вовсе ||
+|| 400 | Пустое значение | `Access denied` | Сделка с переданным `id` не найдена, и у пользователя нет права «чтения» сделок ||
+|| 403 | `ACCESS_DENIED` | `Access denied!` | Нет права «чтения» или «изменения» сделки ||
+|| 400 | Пустое значение | `Not found` | Сделка с переданным `id` не найдена ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-deal-contact-add.md)
 - [{#T}](./crm-deal-contact-delete.md)
-- [{#T}](./crm-deal-contact-fields.md)
 - [{#T}](./crm-deal-contact-items-get.md)
 - [{#T}](./crm-deal-contact-items-set.md)
+- [{#T}](./crm-deal-contact-fields.md)

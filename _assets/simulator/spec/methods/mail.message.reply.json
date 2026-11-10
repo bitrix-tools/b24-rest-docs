@@ -123,5 +123,14 @@
     }
   ],
   "page": "/api-reference/mail/message/mail-message-reply.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "replyToMessageId": 15,
+    "from": "user@example.com",
+    "to": [
+      "client@example.com"
+    ],
+    "subject": "Re: Договор",
+    "body": "Спасибо, получили."
+  }
 }

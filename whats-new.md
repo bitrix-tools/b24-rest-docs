@@ -2,6 +2,55 @@
 
 ## 2026
 
+### 5 ноября, 2026
+
+- Добавили методы CRM в REST 3.0: элементы, поля, воронки и стадии, товарные позиции, реквизиты, адреса, дела, виды карточки и справочники. Аналоги старых методов собраны на странице [Переход на новые методы CRM](./api-reference/crm/migration.md), все группы — в [обзоре CRM](./api-reference/crm/index.md)
+
+### 3 ноября, 2026
+
+- Добавили метод [task.checklistitem.deleteall](./api-reference/tasks/checklist-item/task-checklist-item-delete-all.md): удаляет все чек-листы задачи одним вызовом
+
+### 23 октября, 2026
+
+- Добавили методы [sign.b2e.provider.*](./api-reference/sign/index.md#providers) в раздел КЭДО: администратор может подключить к Битрикс24 собственный провайдер подписи методом [sign.b2e.provider.add](./api-reference/sign/sign-b2e-provider-add.md), изменить его данные методом [sign.b2e.provider.update](./api-reference/sign/sign-b2e-provider-update.md), получить список провайдеров методом [sign.b2e.provider.tail](./api-reference/sign/sign-b2e-provider-tail.md) и отключить провайдера методом [sign.b2e.provider.delete](./api-reference/sign/sign-b2e-provider-delete.md). Методы работают только из приложения с OAuth-авторизацией
+
+### 22 октября, 2026
+
+- Добавили методы [crm.form.*](./api-reference/crm/form/index.md) в REST 3.0 для работы с CRM-формами: поиск и получение конфигурации формы, создание с проверкой конфигурации до сохранения, частичное изменение, включение и выключение с учетом лимита активных форм, удаление, справочники конструктора и полей объектов CRM, код для размещения на сайте и настройка кнопки и автопоказа, просмотр виджетов сайта и открытых линий формы
+- Добавили методы Торгового каталога в REST 3.0: [catalog.catalog.*](./api-reference/catalog/catalog/index.md) с новыми методами [catalog.catalog.add](./api-reference/catalog/catalog/catalog-catalog-add.md), [catalog.catalog.update](./api-reference/catalog/catalog/catalog-catalog-update.md) и [catalog.catalog.delete](./api-reference/catalog/catalog/catalog-catalog-delete.md), [catalog.section.*](./api-reference/catalog/section/index.md), [catalog.measure.*](./api-reference/catalog/measure/index.md) и [catalog.vat.*](./api-reference/catalog/vat/index.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили методы цен Торгового каталога в REST 3.0: [catalog.price.*](./api-reference/catalog/price/index.md), [catalog.pricetype.*](./api-reference/catalog/price-type/index.md) с привязками к группам покупателей [catalog.pricetype.group.*](./api-reference/catalog/price-type/price-type-group/index.md) и переводами названий [catalog.pricetype.lang.*](./api-reference/catalog/price-type/price-type-lang/index.md), [catalog.roundingrule.*](./api-reference/catalog/rounding-rule/index.md), [catalog.extra.*](./api-reference/catalog/extra/index.md) и [catalog.ratio.*](./api-reference/catalog/ratio/index.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили методы товаров Торгового каталога в REST 3.0: [catalog.product.*](./api-reference/catalog/product/index.md), [catalog.product.sku.*](./api-reference/catalog/product/sku/index.md), [catalog.product.offer.*](./api-reference/catalog/product/offer/index.md), [catalog.product.service.*](./api-reference/catalog/product/service/index.md), [catalog.product.image.*](./api-reference/catalog/product-image/index.md), справочники [catalog.product.type.list](./api-reference/catalog/product/catalog-product-type-list.md) и [catalog.product.property.type.list](./api-reference/catalog/product-property/catalog-product-property-type-list.md), методы [catalog.product.fields.getbyfilter](./api-reference/catalog/product/catalog-product-fields-get-by-filter.md) и [catalog.product.property.add](./api-reference/catalog/product-property/catalog-product-property-add-rest-v3.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили методы складского учета Торгового каталога в REST 3.0: [catalog.document.*](./api-reference/catalog/document/index.md) с проведением и отменой проведения, режимом складского учета и справочником типов документов, [catalog.document.element.*](./api-reference/catalog/document/document-element/index.md), [catalog.document.contractor.*](./api-reference/catalog/documentcontractor/index.md), [catalog.document.userfield.*](./api-reference/catalog/userfield-document/index.md), справочник поставщиков [catalog.contractor.*](./api-reference/catalog/contractor/index.md) и [catalog.contract.agent.delete](./api-reference/catalog/agent-contract/catalog-contract-agent-delete.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили раздел [Форум](./api-reference/forum/index.md) в REST 3.0: удаление сообщений форума и комментариев методом [forum.message.delete](./api-reference/forum/message/forum-message-delete.md), пользовательские поля сообщений [forum.message.field.custom.*](./api-reference/forum/userfield/index.md) и значения полей типа «Список» `forum.message.field.custom.enum.*`
+- Добавили раздел [Инфоблоки](./api-reference/iblock/index.md) в REST 3.0: получение элементов инфоблока со свойствами методами [iblock.element.get](./api-reference/iblock/iblock-element-get.md) и [iblock.element.list](./api-reference/iblock/iblock-element-list.md) и схема полей элемента. Методы работают только с инфоблоками, у которых в административной панели включен доступ через REST
+
+### 21 октября, 2026
+
+- Добавили методы Базы знаний 2.0 в REST 3.0: [note.document.list](./api-reference/note/document/note-document-list.md) для получения всех доступных документов, [note.document.move](./api-reference/note/document/note-document-move.md) и [note.collection.move](./api-reference/note/collection/note-collection-move.md) для перемещения документов и баз знаний, [note.document.unarchive](./api-reference/note/document/note-document-unarchive.md) и [note.collection.unarchive](./api-reference/note/collection/note-collection-unarchive.md) для возврата из архива, [note.document.restore](./api-reference/note/document/note-document-restore.md) и [note.collection.restore](./api-reference/note/collection/note-collection-restore.md) для восстановления из корзины, [note.file.list](./api-reference/note/file/note-file-list.md) для получения списка файлов документа
+- Добавили метод [log.blogcomment.get](./api-reference/log/blogcomment/log-blogcomment-get.md): получает опубликованные комментарии к сообщению Ленты новостей с прикрепленными файлами и поддерживает постраничную выдачу
+
+### 17 сентября, 2026
+
+- Добавили методы [biconnector.table.*](./api-reference/biconnector/table/index.md) для работы с таблицами BI-Конструктора: создание, обновление описания, получение по идентификатору, список с фильтром, удаление, обновление состава колонок и описание полей
+
+### 16 сентября, 2026
+
+- Добавили страницу [Как выполнить пакет запросов batch 3.0](./settings/how-to-call-rest-api/batch-v3.md): описали последовательное выполнение методов REST 3.0 и передачу результатов между подзапросами через `$ref` и `$refArray`
+
+### 10 сентября, 2026
+
+- Добавили туториал [Как работать с полем Привязка к справочникам CRM](./tutorials/field-types/how-to-use-crm-status-field.md)
+- Добавили туториал [Как работать с полем Привязка к элементам инфоблоков](./tutorials/field-types/how-to-use-iblock-binding-field.md)
+- Добавили туториал [Как работать с полем Привязка к разделам инфоблоков](./tutorials/field-types/how-to-use-iblock-section-binding-field.md)
+- Добавили туториал [Как работать с полем типа Список](./tutorials/field-types/how-to-use-enumeration-field.md)
+- Добавили туториал [Как сохранить сумму оплат в поле сделки](./tutorials/crm/how-to-edit-crm-objects/how-to-set-paid-sum-to-deal.md)
+- Собрали туториалы по работе с полями в отдельный раздел [Типы полей](./tutorials/field-types/index.md)
+
+### 08 сентября, 2026
+
+- Добавили туториал [Как передать незавершенные задачи уволенного сотрудника](./tutorials/tasks/how-to-delegate-fired-employee-tasks.md)
+- Добавили туториал [Как передать или завершить дела уволенного сотрудника](./tutorials/crm/how-to-edit-crm-objects/how-to-transfer-fired-employee-activities.md)
+
 ### 04 сентября, 2026
 
 - Обновили документацию: [Доступные скоупы Битрикс24](./api-reference/scopes/permissions.md), [Вложения в сообщениях](./api-reference/chats/messages/attachments.md), [Интеграция UI Kit с REST API и бизнес-логикой](./api-reference/widgets/ui-kit/app-logic.md), [Работа в контексте текущего пользователя](./sdk/crest-php-sdk/using-in-users-context.md), [Установка умных сценариев](./settings/app-installation/smart-scripts-installation.md), [Callback установки](./settings/app-installation/mass-market-apps/installation-callback.md)
@@ -15,12 +64,12 @@
 - Добавили туториал [Как перенести файл из поля CRM в задачу](./tutorials/tasks/how-to-transfer-file-from-crm-to-task.md)
 - Добавили туториал [Как отправить письмо из подключенного ящика](./tutorials/mail/how-to-send-email-from-mailbox.md)
 - Добавили туториал [Как создать дело CRM из входящего письма](./tutorials/mail/how-to-create-crm-activity-from-email.md)
-- Добавили туториал [Как работать с полем Привязка к элементам CRM](./tutorials/crm/how-to-add-crm-objects/how-to-use-crm-binding-field.md)
+- Добавили туториал [Как работать с полем Привязка к элементам CRM](./tutorials/field-types/how-to-use-crm-binding-field.md)
 
 ### 31 августа, 2026
 
 - Добавили методы [imopenlines.v2.*](./api-reference/imopenlines/statistics/index.md) для статистики открытых линий: агрегаты, список сессий, метрики сессий, оценки, переводы и нагрузка операторов
-- Добавили туториал [Как автоматически заполнить зависимое поле CRM после изменения основного поля](./tutorials/crm/how-to-edit-crm-objects/how-to-autofill-dependent-field.md)
+- Добавили туториал [Как автоматически заполнить зависимое поле CRM после изменения основного поля](./tutorials/field-types/how-to-autofill-dependent-field.md)
 
 ### 28 августа, 2026
 
@@ -346,7 +395,7 @@
 ### 09 апреля, 2026
 
 - Обновили страницу [Отвязать виджет от блока](./api-reference/landing/embedding/landing-repo-unbind.md)
-- Обновили главную страницу раздела [Push&Pull](./settings/interactivity/push-and-pull/index.md). Добавили вводную информацию, а также обзор методов и связей
+- Обновили главную страницу раздела [Push&Pull](./settings/interactivity/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Пользовательские блоки](./api-reference/landing/user-blocks/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили главную страницу раздела [Пользовательские шаблоны](./api-reference/landing/demos/index.md). Добавили вводную информацию, а также обзор методов и связей
 - Обновили страницу [Как подготовить пользовательский шаблон](./api-reference/landing/demos/introduction.md)
@@ -419,7 +468,7 @@
 - Обновили документацию по методам [landing.site.*](./api-reference/landing/embedding/knowledge-base/index.md) в разделе Места встройки Баз знаний
 - Обновили документацию по методам [landing.repo.*](./api-reference/landing/user-blocks/index.md) в разделе Пользовательские блоки
 - Обновили документацию по методам [placement.*](./api-reference/widgets/placements.md) в разделе Места для встройки виджетов
-- Обновили документацию по методам [pull.application.*](./settings/interactivity/push-and-pull/index.md) в разделе Push&Pull
+- Обновили документацию по методам [pull.application.*](./settings/interactivity/index.md) в разделе Push&Pull
 - Обновили документацию по виджетам [LANDING_BLOCK_*](./api-reference/landing/embedding/block.md) и [LANDING_SETTINGS](./api-reference/landing/embedding/settings.md)
 - Обновили документацию по виджету [CONTACT_CENTER](./api-reference/widgets/contact-center.md)
 - Обновили страницу [Методы BX24 SDK для виджетов](./api-reference/widgets/bx24-widget-methods.md)
@@ -1148,7 +1197,7 @@
 
 ### 26 февраля, 2025
 
-- Добавлен новый туториал [Как настроить округление для пользовательского поля типа «Число»](./tutorials/crm/how-to-add-crm-objects/how-to-add-precision-to-user-field.md)
+- Добавлен новый туториал [Как настроить округление для пользовательского поля типа «Число»](./tutorials/field-types/how-to-add-precision-to-user-field.md)
 - Обновлена главная страница раздела [Учет рабочего времени](./api-reference/timeman/index.md). Добавили вводную информацию, а также обзор методов и связей
 
 ### 25 февраля, 2025
@@ -1209,7 +1258,7 @@
 
 ### 29 января, 2025
 
-- Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- Добавлен новый туториал [Как создать пользовательское поле в смарт-процессе](./tutorials/field-types/how-to-add-user-field-to-spa.md)
 - Обновлена информация по методам пользовательских типов дел в CRM [crm.activity.type.*](./api-reference/crm/timeline/activities/types/index.md)
 - Обновлена информация по событиям дел в CRM [onCrmActivity*](./api-reference/crm/timeline/activities/events/index.md)
 

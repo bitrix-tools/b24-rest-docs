@@ -121,5 +121,8 @@
     "SUBJECT",
     "TYPE_ID",
     "WEBDAV_ELEMENTS"
-  ]
+  ],
+  "requestExample": {
+    "id": 999
+  }
 }

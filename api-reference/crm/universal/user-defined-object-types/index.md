@@ -53,7 +53,7 @@
 {% note tip "Пользовательская документация" %}
 
 - [Как прикрепить задачу к смарт-процессу](../../../../tutorials/tasks/how-to-connect-task-to-spa.md)
-- [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-user-field-to-spa.md)
+- [Как создать пользовательское поле в смарт-процессе](../../../../tutorials/field-types/how-to-add-user-field-to-spa.md)
 - [Как добавить комментарий в таймлайн смарт-процесса](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md)
 - [Как создать новую воронку со стадиями в смарт-процессе](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
 
@@ -263,9 +263,9 @@
 || [crm.item.productrow.add](../product-rows/crm-item-productrow-add.md) | Добавляет товарную позицию ||
 || [crm.item.productrow.update](../product-rows/crm-item-productrow-update.md) | Обновляет товарную позицию ||
 || [crm.item.productrow.get](../product-rows/crm-item-productrow-get.md) | Получает информацию о товарной позиции по id ||
-|| [crm.item.productrow.set](../product-rows/crm-item-productrow-set.md) | Привязывает товарную позицию к объекту CRM ||
+|| [crm.item.productrow.set](../product-rows/crm-item-productrow-set.md) | Сохраняет набор товарных позиций объекта CRM ||
 || [crm.item.productrow.list](../product-rows/crm-item-productrow-list.md) | Получает список товарных позиций ||
-|| [crm.item.productrow.getAvailableForPayment](../product-rows/crm-item-productrow-get-available-for-payment.md) | Получает список неоплаченных товаров ||
+|| [crm.item.productrow.getAvailableForPayment](../product-rows/crm-item-productrow-get-available-for-payment.md) | Получает товарные позиции без выставленной оплаты ||
 || [crm.item.productrow.delete](../product-rows/crm-item-productrow-delete.md) | Удаляет товарную позицию ||
 || [crm.item.productrow.fields](../product-rows/crm-item-productrow-fields.md) | Получает список полей товарных позиций ||
 |#

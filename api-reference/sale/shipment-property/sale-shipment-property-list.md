@@ -21,18 +21,43 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив содержащий список полей, которые необходимо выбрать (смотрите поля объекта [sale_shipment_property](../data-types.md)).
- 
-Если не передан или передан пустой массив, то будут выбраны все доступные поля свойств
+[`array`](../../data-types.md) | Массив полей, которые нужно вернуть.
+
+Доступные поля:
+- `id` — идентификатор свойства
+- `personTypeId` — идентификатор типа плательщика
+- `propsGroupId` — идентификатор группы свойств
+- `name` — название
+- `type` — тип свойства
+- `code` — символьный код
+- `active` — активность
+- `util` — служебное свойство
+- `userProps` — входит в профиль покупателя
+- `isFiltered` — доступно в фильтре списка отгрузок
+- `sort` — порядок сортировки
+- `description` — описание
+- `required` — обязательность
+- `multiple` — множественность
+- `xmlId` — внешний идентификатор
+- `defaultValue` — значение по умолчанию
+- `settings` — настройки типа свойства
+- `isProfileName`, `isPayer`, `isEmail`, `isPhone`, `isZip`, `isAddress` — назначение значения свойства типа `STRING`
+- `isLocation`, `isLocation4tax`, `inputFieldLocation` — назначение значения свойства типа `LOCATION`
+- `isAddressFrom`, `isAddressTo` — назначение значения свойства типа `ADDRESS`
+
+Если не передан или передан пустой массив, вернутся все поля свойств.
+
+Неизвестные поля метод игнорирует. Если в `select` только неизвестные поля, вернутся все поля свойств
  ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных свойств отгрузки в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
  
-Возможные значения для `field` соответствуют полям объекта [sale_shipment_property](../data-types.md).
+Возможные значения для `field` соответствуют полям объекта [sale_shipment_property](../data-types.md#sale_shipment_property).
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 
 - `=` — равно (работает и с массивами)
+- `@` — значение входит в список, значение передается массивом, например `{"@type": ["STRING", "NUMBER"]}`
 - `%` — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
 - `>` — больше
 - `<` — меньше
@@ -50,16 +75,20 @@
     - `"%мол"` — ищем значения не заканчивающиеся на «мол»
     - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (смотрите описание выше)
+
+Условия по неизвестным полям метод игнорирует и не возвращает ошибку
 ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных свойств отгрузки в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
  
-Возможные значения для `field` соответствуют полям объекта [sale_shipment_property](../data-types.md).
+Возможные значения для `field` соответствуют полям объекта [sale_shipment_property](../data-types.md#sale_shipment_property).
  
 Возможные значения для `order`:
 
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
+
+Если не передан, свойства сортируются по `id` по возрастанию
 ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
@@ -70,7 +99,9 @@
  
 Формула расчета значения параметра `start`:
  
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Если не передан, по умолчанию `0` — первая страница
  ||
 |#
 
@@ -86,7 +117,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isLocation4tax","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"@type":"STRING","%code":"EMAIL"},"order":{"id":"desc"}}' \
+    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isLocation4tax","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"=type":"STRING","%code":"EMAIL"},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.shipmentproperty.list
     ```
 
@@ -96,7 +127,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isLocation4tax","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"@type":"STRING","%code":"EMAIL"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isLocation4tax","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"=type":"STRING","%code":"EMAIL"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.shipmentproperty.list
     ```
 
@@ -183,7 +214,7 @@
             'xmlId',
           ],
           filter: {
-            '@type': 'STRING',
+            '=type': 'STRING',
             '%code': 'EMAIL',
           },
           order: {
@@ -257,7 +288,7 @@
                 'xmlId',
               ],
               filter: {
-                '@type': 'STRING',
+                '=type': 'STRING',
                 '%code': 'EMAIL',
               },
               order: {
@@ -324,7 +355,7 @@
                 "xmlId",
             ],
             filter={
-                "@type": "STRING",
+                "=type": "STRING",
                 "%code": "EMAIL",
             },
             order={
@@ -388,7 +419,7 @@
                         'xmlId',
                     ],
                     'filter' => [
-                        '@type' => 'STRING',
+                        '=type' => 'STRING',
                         '%code' => 'EMAIL',
                     ],
                     'order' => [
@@ -445,7 +476,7 @@
                 "xmlId",
             ],
             "filter": {
-                "@type": "STRING",
+                "=type": "STRING",
                 "%code": "EMAIL",
             },
             "order": {
@@ -501,7 +532,7 @@
                 "xmlId",
             ],
             'filter' => [
-                "@type" => "STRING",
+                "=type" => "STRING",
                 "%code" => "EMAIL",
             ],
             'order' => [
@@ -522,7 +553,7 @@
     res, err := client.Core().Call(ctx, "sale.shipmentproperty.list", b24.Params{
     	"select": []string{"id", "active", "code", "defaultValue", "description", "inputFieldLocation", "isAddress", "isAddressFrom", "isAddressTo", "isEmail", "isFiltered", "isLocation", "isLocation4tax", "isPayer", "isPhone", "isProfileName", "isZip", "multiple", "name", "personTypeId", "propsGroupId", "required", "settings", "sort", "type", "userProps", "util", "xmlId"},
     	"filter": b24.Params{
-    		"@type": "STRING",
+    		"=type": "STRING",
     		"%code": "EMAIL",
     	},
     	"order": b24.Params{
@@ -680,7 +711,15 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **properties**
-[`sale_shipment_property[]`](../data-types.md) | Массив объектов с информацией о выбранных свойствах ||
+[`sale_shipment_property[]`](../data-types.md#sale_shipment_property) | Массив свойств отгрузки. Ключевые поля свойства:
+- `id` — идентификатор свойства
+- `personTypeId`, `propsGroupId` — идентификаторы типа плательщика и группы свойств
+- `name`, `code` — название и символьный код свойства
+- `type` — тип свойства: `STRING`, `Y/N`, `NUMBER`, `ENUM`, `FILE`, `DATE`, `LOCATION` или `ADDRESS`
+- `active`, `required`, `multiple` — активность, обязательность и множественность: `Y` или `N`
+- `settings` — настройки, которые зависят от типа свойства
+
+Если передан `select`, в объектах есть только выбранные поля. Описание всех полей — в типе [sale_order_property](../data-types.md#sale_order_property) ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных записей ||
 || **time**
@@ -705,6 +744,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `200040300010` | Недостаточно прав для чтения свойств отгрузки ||
+|| `100` | В `order` передано недопустимое направление сортировки. Допустимые значения: `asc`, `desc` ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 

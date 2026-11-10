@@ -9,8 +9,6 @@
 
 {% endnote %}
 
-В некоторых случаях возникает необходимость отправить несколько запросов подряд. Например, при создании необходимых сущностей в процессе инсталляции приложения. Для оптимизации процесса можно использовать пакетное выполнение запросов.
-
 ```js
 void BX24.callBatch(
     Object|Array calls,
@@ -19,7 +17,11 @@ void BX24.callBatch(
 );
 ```
 
-Функция `BX24.callBatch` отправляет пакет запросов к REST-сервису. В случае вызова до [BX24.init](../system-functions/bx24-init.md) выполнение запроса будет отложено.
+Функция `BX24.callBatch` отправляет несколько вызовов методов Битрикс24 одним запросом от имени пользователя, который открыл приложение. Пакет удобен, когда нужно выполнить серию вызовов подряд: например, при установке приложения создать нужные объекты или получить пользователя и сразу его отдел.
+
+Функция ничего не возвращает: результаты всех команд приходят в функцию `callback`. Если вызвать `BX24.callBatch` до [BX24.init](../system-functions/bx24-init.md), библиотека отложит запрос до завершения инициализации.
+
+Функция работает только внутри фрейма [приложения](../../../settings/app-installation/index.md) и только при подключенной библиотеке BX24.js — как ее подключить, описывает [обзор библиотеки](../index.md).
 
 ## Параметры
 
@@ -29,22 +31,38 @@ void BX24.callBatch(
 || **Название**
 `тип` | **Описание** ||
 || **calls***
-[`object`](../../../api-reference/data-types.md)\|[`array`](../../../api-reference/data-types.md) | Обычный или ассоциативный массив (объект) с запросами. Каждый запрос представляет собой либо массив `[имя_метода, параметры_метода]`, либо объект `{method: имя_метода, params: параметры_метода}`. 
+[`object`](../../../api-reference/data-types.md)\|[`array`](../../../api-reference/data-types.md) | Команды пакета — массив или объект команд [(подробное описание)](#command). Ключи объекта становятся ключами результатов в `callback`.
 
-В параметрах методов можно использовать макросы, позволяющие получить доступ к результатам предыдущих запросов текущего пакета. Макрос можно составить примерно так: `$result[идентификатор_запроса][поле_ответа]`, где идентификатором запроса служит его ключ в массиве пакета запросов ||
+В пакете может быть не больше 50 команд: остальные Битрикс24 не выполнит. Пустой пакет библиотека не отправляет, и `callback` не вызывается ||
 || **callback**
-[`function`](../../../api-reference/data-types.md) | Функция-обработчик результата пакетного запроса. На вход получит массив или ассоциативный массив (объект) объектов [ajaxResult](./bx24-call-method.md#ajax-result) с ключами, соответствующими ключам из пакета запросов ||
+[`function`](../../../api-reference/data-types.md) | Функция, которая получит результаты команд. Как они устроены, описано в разделе [Обработка ответа](#response) ||
 || **bHaltOnError**
-[`boolean`](../../../api-reference/data-types.md) | Флаг «прерывать исполнение пакета в при возникновении ошибки». По умолчанию — `false` (не прерывать) ||
+[`boolean`](../../../api-reference/data-types.md) | Останавливать ли пакет на первой ошибке. Команды после ошибки не выполнятся, и их ключей не будет в результате. По умолчанию — `false`: Битрикс24 выполнит все команды ||
 |#
 
-## Пример
+### Команда пакета {#command}
+
+Команду можно записать массивом `[method, params]` или объектом `{method, params}`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **method***
+[`string`](../../../api-reference/data-types.md) | Название метода Битрикс24, например [user.current](../../../api-reference/user/user-current.md). Команду без названия метода библиотека пропустит ||
+|| **params**
+[`object`](../../../api-reference/data-types.md) | Параметры метода в том же формате, что у [BX24.callMethod](./bx24-call-method.md). Если у метода нет обязательных параметров, `params` можно не передавать.
+
+Можно сослаться на результат предыдущей команды макросом `$result[ключ_команды][поле_ответа]`, например `$result[get_user][UF_DEPARTMENT]` ||
+|#
+
+## Примеры кода
+
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+Получить текущего пользователя методом [user.current](../../../api-reference/user/user-current.md) и в том же пакете — его отделы методом [department.get](../../../api-reference/departments/department-get.md). Вторая команда берет идентификаторы отделов из ответа первой через макрос. Поле `UF_DEPARTMENT` — массив, а [department.get](../../../api-reference/departments/department-get.md) принимает в параметре `ID` и список идентификаторов, поэтому вернет отделы пользователя. Оба метода может вызвать любой пользователь. Приложению нужны scope `department` и один из scope для данных пользователя: `user`, `user_brief` или `user_basic`:
 
 ```js
 BX24.init(() => {
-    const prepareMessage = (name, lastName, departmentNumber) => {
-        return `The current user ${name} ${lastName} is assigned to the departmen${departmentNumber > 1 ? 'ts ' : 't '}`;
-    };
     BX24.callBatch({
         get_user: ['user.current', {}],
         get_department: {
@@ -54,39 +72,148 @@ BX24.init(() => {
             },
         },
     }, (result) => {
-        if (result.get_user.error() || result.get_department.error())
+        for (const key of ['get_user', 'get_department'])
         {
-            if (result.get_user.error())
+            // с bHaltOnError = true команд после ошибки в результате нет
+            if (!result[key])
             {
-                console.error(result.get_user.error());
+                console.error(key + ': команда не выполнялась');
+                return;
             }
 
-            if (result.get_department.error())
+            if (result[key].error())
             {
-                console.error(result.get_department.error());
+                console.error(key + ': ' + result[key].error().toString());
+                return;
             }
         }
-        else
-        {
-            const departmentNumber = result.get_department.data().length;
-            let message = prepareMessage(result.get_user.data().NAME, result.get_user.data().LAST_NAME, departmentNumber);
 
-            for (let i = 0; i < departmentNumber; i++)
-            {
-                message += i === 0 ? '' : ', ';
-                message += result.get_department.data()[i].NAME;
-            }
-
-            alert(message);
-        }
+        const user = result.get_user.data();
+        const departments = result.get_department.data().map((department) => department.NAME);
+        console.log(user.NAME + ' ' + user.LAST_NAME + ': ' + departments.join(', ')); // Иван Петров: Отдел продаж
     }, true);
 });
 ```
 
-{% include [Сноска о примерах](../../../_includes/examples.md) %}
+## Обработка ответа {#response}
+
+Битрикс24 возвращает на пакет один ответ, в котором данные, ошибки и служебные поля команд сгруппированы по ключам. Исходный ответ на пакет из примера выше, данные пользователя сокращены:
+
+```json
+{
+    "result": {
+        "result": {
+            "get_user": {
+                "ID": "10",
+                "ACTIVE": true,
+                "NAME": "Иван",
+                "LAST_NAME": "Петров",
+                "UF_DEPARTMENT": [1]
+            },
+            "get_department": [
+                {
+                    "ID": "1",
+                    "NAME": "Отдел продаж",
+                    "SORT": 500
+                }
+            ]
+        },
+        "result_error": [],
+        "result_total": {
+            "get_department": 1
+        },
+        "result_next": [],
+        "result_time": {
+            "get_user": {
+                "start": 1790289763,
+                "finish": 1790289763.9619,
+                "duration": 0.9619,
+                "processing": 0,
+                "date_start": "2026-09-24T22:42:43+00:00",
+                "date_finish": "2026-09-24T22:42:43+00:00"
+            },
+            "get_department": {
+                "start": 1790289763,
+                "finish": 1790289763.9637,
+                "duration": 0.9637,
+                "processing": 0,
+                "date_start": "2026-09-24T22:42:43+00:00",
+                "date_finish": "2026-09-24T22:42:43+00:00"
+            }
+        }
+    },
+    "time": {
+        "start": 1790289763,
+        "finish": 1790289763.9651,
+        "duration": 0.9651,
+        "processing": 0,
+        "date_start": "2026-09-24T22:42:43+00:00",
+        "date_finish": "2026-09-24T22:42:43+00:00"
+    }
+}
+```
+
+Библиотека раскладывает этот ответ по командам. Если `calls` — объект, `callback` получит результаты с теми же ключами, если массив — массив результатов в том же порядке. Каждый результат — объект [ajaxResult](./bx24-call-method.md#ajax-result). Его методы читают поля исходного ответа по ключу команды:
+
+#|
+|| **Метод** | **Поле исходного ответа** | **Что возвращает** ||
+|| `data()` | `result.result[ключ]` | Данные команды. У команды с ошибкой — пустой объект `{}` ||
+|| `error()` | `result.result_error[ключ]` | Объект ошибки или `undefined`, если ошибки нет ||
+|| `total()` | `result.result_total[ключ]` | Общее число записей списка или `NaN`, если метод его не вернул ||
+|| `more()` | `result.result_next[ключ]` | `true`, если у списка есть следующая страница, иначе `false` ||
+|| `next(cb)` | `result.result_next[ключ]` | Запрашивает следующую страницу. Возвращает `false`, если страниц больше нет, и `undefined`, если запрос отправлен ||
+|#
+
+Например, `result.get_department.data()` вернет массив из поля `result.result.get_department`. Все поля исходного ответа описаны на странице метода [batch](../../../settings/how-to-call-rest-api/batch.md#result).
+
+Результат команды отличается от результата [BX24.callMethod](./bx24-call-method.md#ajax-result):
+
+- `error_description()` всегда возвращает `undefined`. Текст ошибки лежит в `result[ключ].error().ex.error_description`
+- в свойстве `answer` нет времени выполнения запроса
+- `next()` запрашивает следующую страницу отдельным вызовом метода, вне пакета. Передайте в `next()` отдельный обработчик: без него страница придет в `callback` пакета одним результатом, а не объектом с ключами
+- если в параметрах команды есть макрос `$result`, `next()` отправит его как есть: Битрикс24 подставляет макросы только внутри пакета. Для такой команды запросите следующую страницу новым пакетом из одной команды — с готовыми значениями параметров и параметром `start`. Через [BX24.callMethod](./bx24-call-method.md) так не получится: ненулевой `start` библиотека удаляет из `params`
+
+## Обработка ошибок {#errors}
+
+Ошибка приходит по каждой команде отдельно. Если `bHaltOnError` не включен, остальные команды пакета выполнятся. Метод `result[ключ].error()` возвращает такой же объект ошибки, как у [BX24.callMethod](./bx24-call-method.md#errors). HTTP-статус в нем — статус всего пакета, поэтому у ошибки команды он обычно `200`:
+
+```json
+{
+    "status": 200,
+    "ex": {
+        "error": "ERROR_METHOD_NOT_FOUND",
+        "error_description": "Method not found!"
+    }
+}
+```
+
+В исходном ответе пакета эта ошибка находится в поле `result.result_error` под ключом команды — пример есть на странице метода [batch](../../../settings/how-to-call-rest-api/batch.md).
+
+Если включен `bHaltOnError`, ключей команд после ошибки в результате нет. Проверьте, что ключ есть, прежде чем вызывать `error()`: иначе обработчик остановится с ошибкой JavaScript.
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+Коды ошибок команды зависят от вызванного метода и описаны на его странице. Ошибки самого пакета:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `200` | `ERROR_BATCH_LENGTH_EXCEEDED` | Max batch length exceeded | В пакете больше 50 команд. Если `bHaltOnError` не включен, эту ошибку получит каждая команда сверх лимита, иначе — только первая из них ||
+|| `200` | `ERROR_BATCH_METHOD_NOT_ALLOWED` | Method is not allowed for batch usage | Метод нельзя вызывать внутри пакета, например вложенный [batch](../../../settings/how-to-call-rest-api/batch.md) ||
+|#
+
+В `callback` не попадают:
+
+- ошибка `expired_token`. Библиотека сама обновляет авторизацию и повторяет пакет, а `callback` получает результат повтора
+- другая ошибка, которую Битрикс24 вернул на весь пакет, а не на отдельную команду. Библиотека остановится с ошибкой JavaScript при разборе ответа
+- ответ со статусом `5xx`, сетевой сбой и ответ, который не удалось разобрать как JSON. Библиотека выбрасывает исключение `Query error!` из асинхронного обработчика запроса, поэтому `try/catch` вокруг вызова его не перехватит
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](./bx24-call-method.md)
 - [{#T}](./bx24-call-bind.md)
 - [{#T}](./bx24-call-unbind.md)
-- [{#T}](./bx24-call-method.md)

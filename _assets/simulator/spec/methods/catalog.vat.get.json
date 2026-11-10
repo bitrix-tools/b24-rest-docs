@@ -50,5 +50,8 @@
     "name",
     "rate",
     "sort"
-  ]
+  ],
+  "requestExample": {
+    "id": 7
+  }
 }

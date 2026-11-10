@@ -31,9 +31,9 @@
 
 По умолчанию выводится 20 записей на странице ||
 || **offset**
-[`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией. Аналогичен стандартному параметру [start](../../settings/performance/huge-data.md).
+[`integer`](../data-types.md) | Сколько записей пропустить от начала списка. Аналогичен стандартному параметру [start](../../settings/performance/huge-data.md). Чтобы получить следующую страницу, увеличьте `offset` на значение `limit`.
 
-Размер страницы результатов зависит от параметра **limit**
+По умолчанию 0
 ||
 |#
 
@@ -76,11 +76,8 @@
     }
 
     try {
-      // sign.b2e.mysafe.tail returns a single page (max 1000 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // Returns up to `limit` documents (1-1000, default 20) starting from `offset`.
+      // To get the next page, repeat the call with offset increased by limit.
       const response = await $b24.actions.v2.call.make<SafeDocument[]>({
         method: 'sign.b2e.mysafe.tail',
         params: {
@@ -114,11 +111,8 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // sign.b2e.mysafe.tail returns a single page (max 1000 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // Returns up to `limit` documents (1-1000, default 20) starting from `offset`.
+          // To get the next page, repeat the call with offset increased by limit.
           const response = await $b24.actions.v2.call.make({
             method: 'sign.b2e.mysafe.tail',
             params: {
@@ -333,7 +327,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../data-types.md) | Идентификатор подписанного документа ||
+[`integer`](../data-types.md) | Идентификатор участника подписания, к которому относится подписанный файл. По нему сформирована ссылка `file_url` ||
 || **title**
 [`string`](../data-types.md) | Название документа ||
 || **create_date**
@@ -361,7 +355,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **401**
+HTTP-статус: **403**
 
 ```json
 {
@@ -373,6 +367,13 @@ HTTP-статус: **401**
 {% include notitle [обработка ошибок](../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! Access denied | КЭДО недоступен на Битрикс24 или у пользователя нет доступа к разделу «Сейф компании» ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 

@@ -1,0 +1,11 @@
+title: Поставщики Складского учета
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить поставщика
+    href: catalog-contractor-add.md
+  - name: Получить список полей поставщика
+    href: catalog-contractor-field-list.md
+  - name: Получить поле поставщика
+    href: catalog-contractor-field-get.md

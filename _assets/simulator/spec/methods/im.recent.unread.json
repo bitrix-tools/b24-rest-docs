@@ -57,5 +57,9 @@
     }
   ],
   "page": "/api-reference/chats/special-operations/im-recent-unread.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "DIALOG_ID": "chat2941",
+    "ACTION": "Y"
+  }
 }

@@ -123,7 +123,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.disk.storage.getforapp().response
+        bitrix_response = client.disk.storage.get_for_app().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -253,9 +253,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив с описанием полей хранилища ||
+[`object`](../../data-types.md) | Объект с данными хранилища приложения ||
 || **ID**
-[`integer`](../../data-types.md) | Идентификатор хранилища ||
+[`string`](../../data-types.md) | Идентификатор хранилища ||
 || **NAME**
 [`string`](../../data-types.md) | Имя хранилища ||
 || **CODE**
@@ -263,11 +263,11 @@ HTTP-статус: **200**
 || **MODULE_ID**
 [`string`](../../data-types.md) | Идентификатор модуля, которому принадлежит хранилище ||
 || **ENTITY_TYPE**
-[`string`](../../data-types.md) | Тип объекта, с которым связано хранилище ||
+[`string`](../../data-types.md) | Тип объекта, с которым связано хранилище. Значение — `restapp` ||
 || **ENTITY_ID**
 [`string`](../../data-types.md) | Идентификатор объекта, с которым связано хранилище ||
 || **ROOT_OBJECT_ID**
-[`integer`](../../data-types.md) | Идентификатор корневой папки хранилища ||
+[`string`](../../data-types.md) | Идентификатор корневой папки хранилища ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

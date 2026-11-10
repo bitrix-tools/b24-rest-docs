@@ -406,9 +406,38 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Массив объектов с [описанием полей](#field). Структура ответа зависит от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект описания поля {#field}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name**
+[`string`](../../data-types.md) | Имя поля, например `startTime` ||
+|| **type**
+[`string`](../../data-types.md) | Тип данных: `int`, `bool` или `object`. У `startTime` и `endTime` — `object`, а в ответе [timeman.record.list](./timeman-record-list.md) эти поля приходят строкой ISO 8601 ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок поля. Совпадает с `name` ||
+|| **description**
+[`string`](../../data-types.md) | Описание поля. У полей записи всегда `null` ||
+|| **validationRules**
+[`array`](../../data-types.md) | Правила валидации значения. У полей записи всегда пустой массив ||
+|| **requiredGroups**
+[`array`](../../data-types.md) | Группы обязательности. У полей записи всегда `null` ||
+|| **filterable**
+[`boolean`](../../data-types.md) | Можно ли фильтровать по полю в методе [timeman.record.list](./timeman-record-list.md) ||
+|| **sortable**
+[`boolean`](../../data-types.md) | Можно ли сортировать по полю ||
+|| **editable**
+[`boolean`](../../data-types.md) | Можно ли изменить значение поля. У полей записи всегда `false` ||
+|| **multiple**
+[`boolean`](../../data-types.md) | Может ли поле содержать несколько значений ||
+|| **elementType**
+[`string`](../../data-types.md) | Тип элемента для составных полей. `null` для остальных ||
 |#
 
 ## Обработка ошибок
@@ -419,7 +448,7 @@ HTTP-статус: **400**
 {
     "error": {
         "code": "BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION",
-        "message": "Неизвестное поле `unknownField` для объекта `DtoFieldDto`"
+        "message": "Неизвестное поле `unknownField` для сущности `DtoFieldDto`"
     }
 }
 ```
@@ -430,11 +459,13 @@ HTTP-статус: **400**
 
 #### Ошибки доступа
 
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INSUFFICIENTSCOPEEXCEPTION`
+
+HTTP-статус: **403**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права чтения рабочего времени и scope `timeman` ||
+|| `-` | Недостаточно прав доступа: отсутствует необходимый scope. | Добавьте вебхуку или приложению scope `timeman` ||
 |#
 
 #### Ошибки в параметре select
@@ -443,7 +474,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для объекта `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `multiple`, `elementType` ||
+|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `multiple`, `elementType` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`

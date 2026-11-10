@@ -25,7 +25,17 @@
       "type": "string",
       "base": "string",
       "required": false,
-      "description": "Индикатор активности услуги. Возможные значения: - Y — да - N — нет"
+      "description": "Индикатор активности услуги. Возможные значения: - Y — да - N — нет",
+      "values": [
+        {
+          "value": "Y",
+          "title": "да"
+        },
+        {
+          "value": "N",
+          "title": "нет"
+        }
+      ]
     },
     {
       "name": "CODE",
@@ -129,5 +139,14 @@
     }
   ],
   "page": "/api-reference/sale/delivery/extra-service/sale-delivery-extra-service-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ID": 128,
+    "ACTIVE": "N",
+    "CODE": "door_delivery",
+    "NAME": "Door Delivery New Name",
+    "DESCRIPTION": "Door Delivery New Description",
+    "SORT": 200,
+    "PRICE": 399.99
+  }
 }

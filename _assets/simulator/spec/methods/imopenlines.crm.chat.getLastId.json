@@ -3,7 +3,7 @@
   "method": "imopenlines.crm.chat.getLastId",
   "scope": "imopenlines",
   "kind": "write",
-  "title": "Получить Id последнего чата imopenlines.crm.chat.getLastId",
+  "title": "Получить идентификатор последнего чата imopenlines.crm.chat.getLastId",
   "permissions": "любой пользователь с доступом к объекту CRM",
   "params": [
     {
@@ -11,7 +11,25 @@
       "type": "string",
       "base": "string",
       "required": true,
-      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт"
+      "description": "Тип объекта CRM. Возможные значения: - lead — лид - deal — сделка - company — компания - contact — контакт",
+      "values": [
+        {
+          "value": "lead",
+          "title": "лид"
+        },
+        {
+          "value": "deal",
+          "title": "сделка"
+        },
+        {
+          "value": "company",
+          "title": "компания"
+        },
+        {
+          "value": "contact",
+          "title": "контакт"
+        }
+      ]
     },
     {
       "name": "CRM_ENTITY",
@@ -57,5 +75,9 @@
     }
   ],
   "page": "/api-reference/imopenlines/openlines/chats/imopenlines-crm-chat-get-last-id.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "CRM_ENTITY_TYPE": "lead",
+    "CRM_ENTITY": 1205
+  }
 }

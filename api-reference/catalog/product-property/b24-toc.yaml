@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Добавить свойство
     href: catalog-product-property-add.md
+  - name: Добавить свойство товара или вариации v 3.0
+    href: catalog-product-property-add-rest-v3.md
   - name: Изменить свойство
     href: catalog-product-property-update.md
   - name: Получить значения полей свойства
@@ -15,3 +17,13 @@ items:
     href: catalog-product-property-delete.md
   - name: Получить поля свойства
     href: catalog-product-property-get-fields.md
+  - name: Получить список полей свойства товара v 3.0
+    href: catalog-product-property-field-list.md
+  - name: Получить поле свойства товара
+    href: catalog-product-property-field-get.md
+  - name: Получить список типов свойств товаров
+    href: catalog-product-property-type-list.md
+  - name: Получить список полей типа свойства товара
+    href: catalog-product-property-type-field-list.md
+  - name: Получить поле типа свойства товара
+    href: catalog-product-property-type-field-get.md

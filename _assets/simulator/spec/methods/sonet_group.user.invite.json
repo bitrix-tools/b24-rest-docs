@@ -15,10 +15,14 @@
     },
     {
       "name": "USER_ID",
-      "type": "integer/array",
-      "base": "any",
+      "type": "integer | integer[]",
+      "base": "array",
       "required": true,
-      "description": "Идентификатор пользователя. Идентификатор можно получить с помощью метода user.get"
+      "description": "Идентификатор пользователя. Идентификатор можно получить с помощью метода user.get",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
     },
     {
       "name": "MESSAGE",

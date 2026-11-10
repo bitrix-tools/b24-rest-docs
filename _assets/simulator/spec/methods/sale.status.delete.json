@@ -48,5 +48,8 @@
     }
   ],
   "page": "/api-reference/sale/status/sale-status-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": "MS"
+  }
 }

@@ -63,6 +63,12 @@
 6. Для оплаты заказа получите `PAYMENT_ID` методом [sale.payment.list](../sale/payment/sale-payment-list.md), затем запустите оплату через [sale.paysystem.pay.payment](./sale-pay-system-pay-payment.md).
 7. Для счета CRM используйте отдельный сценарий: получите `orderId` через [crm.orderentity.list](../crm/universal/order-entity/crm-order-entity-list.md), затем найдите `PAYMENT_ID` в [sale.payment.list](../sale/payment/sale-payment-list.md) с фильтром `{"=orderId": <orderId>}` и передайте этот идентификатор в [crm.item.payment.pay](../crm/universal/payment/crm-item-payment-pay.md).
 
+## Что возвращают методы
+
+- [sale.paysystem.list](./sale-pay-system-list.md) возвращает массив платежных систем с идентификаторами, названиями, типами плательщика и типами привязки. Полный состав объекта [`sale_paysystem`](../sale/data-types.md#sale_paysystem) приведен в справочнике типов
+- [sale.paysystem.settings.get](./sale-pay-system-settings-get.md) возвращает объект настроек: его ключи — коды из `CODES` обработчика, значения — настройки платежной системы
+- [sale.paysystem.pay.payment](./sale-pay-system-pay-payment.md) возвращает логическое значение `result` — результат оплаты заказа. Пример ответа приведен на странице метода
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`pay_system`](../scopes/permissions.md)
@@ -92,3 +98,5 @@
 || [sale.paysystem.settings.payment.get](./sale-pay-system-settings-payment-get.md) | Возвращает настройки платежной системы для конкретной оплаты ||
 || [sale.paysystem.pay.payment](./sale-pay-system-pay-payment.md) | Запускает оплату заказа через выбранную платежную систему ||
 |#
+
+Методы для старых счетов CRM вынесены в [группу устаревших методов](./outdated/index.md).

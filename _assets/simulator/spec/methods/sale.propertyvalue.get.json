@@ -70,5 +70,8 @@
     "name",
     "orderPropsId",
     "value"
-  ]
+  ],
+  "requestExample": {
+    "id": 13176
+  }
 }

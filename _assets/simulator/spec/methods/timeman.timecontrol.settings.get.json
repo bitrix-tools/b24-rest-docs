@@ -57,7 +57,21 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип запроса отчетов. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+      "description": "Тип запроса отчетов. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого",
+      "values": [
+        {
+          "value": "all",
+          "title": "для всех"
+        },
+        {
+          "value": "user",
+          "title": "для конкретных пользователей"
+        },
+        {
+          "value": "none",
+          "title": "ни для кого"
+        }
+      ]
     },
     {
       "name": "report_request_users",
@@ -75,7 +89,21 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип простого отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+      "description": "Тип простого отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого",
+      "values": [
+        {
+          "value": "all",
+          "title": "для всех"
+        },
+        {
+          "value": "user",
+          "title": "для конкретных пользователей"
+        },
+        {
+          "value": "none",
+          "title": "ни для кого"
+        }
+      ]
     },
     {
       "name": "report_simple_users",
@@ -93,7 +121,21 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип полного отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+      "description": "Тип полного отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого",
+      "values": [
+        {
+          "value": "all",
+          "title": "для всех"
+        },
+        {
+          "value": "user",
+          "title": "для конкретных пользователей"
+        },
+        {
+          "value": "none",
+          "title": "ни для кого"
+        }
+      ]
     },
     {
       "name": "report_full_users",
@@ -197,7 +239,21 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип запроса отчетов. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+      "description": "Тип запроса отчетов. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого",
+      "values": [
+        {
+          "value": "all",
+          "title": "для всех"
+        },
+        {
+          "value": "user",
+          "title": "для конкретных пользователей"
+        },
+        {
+          "value": "none",
+          "title": "ни для кого"
+        }
+      ]
     },
     {
       "name": "report_request_users",
@@ -211,7 +267,21 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип простого отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+      "description": "Тип простого отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого",
+      "values": [
+        {
+          "value": "all",
+          "title": "для всех"
+        },
+        {
+          "value": "user",
+          "title": "для конкретных пользователей"
+        },
+        {
+          "value": "none",
+          "title": "ни для кого"
+        }
+      ]
     },
     {
       "name": "report_simple_users",
@@ -225,7 +295,21 @@
       "type": "string",
       "base": "string",
       "required": "unknown",
-      "description": "Тип полного отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого"
+      "description": "Тип полного отчета. Возможные значения: - all — для всех - user — для конкретных пользователей - none — ни для кого",
+      "values": [
+        {
+          "value": "all",
+          "title": "для всех"
+        },
+        {
+          "value": "user",
+          "title": "для конкретных пользователей"
+        },
+        {
+          "value": "none",
+          "title": "ни для кого"
+        }
+      ]
     },
     {
       "name": "report_full_users",

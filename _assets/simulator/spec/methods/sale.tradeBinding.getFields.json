@@ -1,0 +1,133 @@
+{
+  "$v": 1,
+  "method": "sale.tradeBinding.getFields",
+  "scope": "sale",
+  "kind": "read",
+  "title": "Получить доступные поля заказов из источников sale.tradeBinding.getFields",
+  "permissions": "любой пользователь",
+  "params": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "tradeBinding",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей привязки заказа к источнику. Ключ — название поля объекта sale_order_trade_binding, значение — объект типа rest_field_description",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса",
+      "dynamic": {
+        "allowed": true,
+        "note": "Состав полей не описан подтаблицей на этой странице"
+      }
+    }
+  ],
+  "defs": {},
+  "requiredConvention": false,
+  "confidence": "parsed",
+  "source": {
+    "file": "api-reference/sale/trade-binding/sale-trade-binding-get-fields.md"
+  },
+  "resultExample": {
+    "result": {
+      "tradeBinding": {
+        "externalOrderId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "id": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "integer"
+        },
+        "orderId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "integer"
+        },
+        "params": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        },
+        "tradingPlatformId": {
+          "isImmutable": true,
+          "isReadOnly": false,
+          "isRequired": true,
+          "type": "string"
+        },
+        "tradingPlatformXmlId": {
+          "isImmutable": false,
+          "isReadOnly": true,
+          "isRequired": false,
+          "type": "string"
+        },
+        "xmlId": {
+          "isImmutable": false,
+          "isReadOnly": false,
+          "isRequired": false,
+          "type": "string"
+        }
+      }
+    },
+    "time": {
+      "start": 1790241787,
+      "finish": 1790241787.99009,
+      "duration": 0.9900898933410645,
+      "processing": 0,
+      "date_start": "2026-09-24T12:23:07+03:00",
+      "date_finish": "2026-09-24T12:23:07+03:00",
+      "operating_reset_at": 1790242387,
+      "operating": 0
+    }
+  },
+  "returns": [
+    {
+      "name": "result",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Корневой элемент ответа"
+    },
+    {
+      "name": "tradeBinding",
+      "type": "object",
+      "base": "object",
+      "required": "unknown",
+      "description": "Объект с описанием полей привязки заказа к источнику. Ключ — название поля объекта sale_order_trade_binding, значение — объект типа rest_field_description"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": "unknown",
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
+  "page": "/api-reference/sale/trade-binding/sale-trade-binding-get-fields.html",
+  "executable": false,
+  "requestExample": {}
+}

@@ -1,0 +1,7 @@
+title: Сообщения форума
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Удалить сообщение форума
+    href: forum-message-delete.md

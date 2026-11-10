@@ -27,7 +27,7 @@
 || Счет | `31` ||
 |#
 
-Для остальных объектов, например для лида или смарт-процесса, метод [crm.item.payment.add](./crm-item-payment-add.md) вернет ошибку «Для данной сущности функционал создания оплат недоступен», а [crm.item.payment.list](./crm-item-payment-list.md) — пустой список.
+Для остальных объектов, например для лида или смарт-процесса, метод [crm.item.payment.add](./crm-item-payment-add.md) вернет ошибку с кодом `0` и текстом `Для данной сущности функционал создания оплат недоступен`, а [crm.item.payment.list](./crm-item-payment-list.md) — пустой массив.
 
 **Платежные системы.** В данных оплаты возвращаются `paySystemId` и `paySystemName`. Получить доступные платежные системы можно методом [sale.paysystem.list](../../../pay-system/sale-pay-system-list.md).
 
@@ -48,10 +48,13 @@
 
 ## Ограничения и особенности
 
-- Для методов `crm.item.payment.*` обязательна корректная пара `entityTypeId` и `entityId` объекта CRM.
-- Методы [crm.item.payment.product.*](./products-in-payment/index.md) и [crm.item.payment.delivery.*](./delivery-in-payment/index.md) работают только с существующей оплатой по `paymentId`.
-- В списочных методах применяйте `filter` и `order` в формате, совместимом с [sale.payment.list](../../../sale/payment/sale-payment-list.md).
-- Метод [salescenter.payment.getPublicUrl](./salescenter-payment-get-public-url.md) работает в scope `salescenter` и используется только для генерации публичной ссылки.
+- Пару `entityTypeId` и `entityId` принимают только методы [crm.item.payment.add](./crm-item-payment-add.md) и [crm.item.payment.list](./crm-item-payment-list.md). Остальные методы работают с оплатой по ее `id`, а методы позиций — по `paymentId` или `id` позиции
+- Новая оплата создается с суммой `0`. Сумма пересчитывается автоматически, когда в оплату добавляют или из нее удаляют товары и доставку
+- В оплаченной оплате нельзя менять товары и доставку: методы [crm.item.payment.product.*](./products-in-payment/index.md) и [crm.item.payment.delivery.*](./delivery-in-payment/index.md) вернут ошибку `ACCESS_DENIED`. Удалить оплаченную оплату тоже нельзя. Сначала снимите отметку об оплате методом [crm.item.payment.unpay](./crm-item-payment-unpay.md)
+- Метод [crm.item.payment.unpay](./crm-item-payment-unpay.md) не очищает поля `datePaid` и `empPaidId`: в них остаются данные последнего проведения
+- Списочные методы возвращают все записи одним ответом и не поддерживают параметр `start`. Параметры `filter` и `order` принимают поля из ответа метода. Исключение — [crm.item.payment.delivery.list](./delivery-in-payment/crm-item-payment-delivery-list.md): документ доставки в фильтре задают полем `entityId`, а не `deliveryId`
+- Многие ошибки методы возвращают с кодом `0`. Причину определяйте по тексту в `error_description`
+- Метод [salescenter.payment.getPublicUrl](./salescenter-payment-get-public-url.md) требует scope `salescenter`
 
 ## Обзор методов {#all-methods}
 

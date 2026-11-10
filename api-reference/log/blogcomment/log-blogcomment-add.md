@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `log.blogcomment.add` добавляет комментарий к сообщению Ленты новостей.
+Метод `log.blogcomment.add` добавляет комментарий к сообщению Ленты новостей и возвращает его идентификатор. Если у пользователя есть право комментировать сообщение только с премодерацией, комментарий сохранится, но появится в Ленте после проверки модератором.
 
 ## Параметры метода
 
@@ -27,11 +27,11 @@
 
 Идентификатор сообщения можно получить с помощью метода [log.blogpost.get](../log-blogpost-get.md) ||
 || **TEXT***
-[`string`](../../data-types.md) | Текст комментария. Учитывается при проверке на дублирование и сохраняется в поле `POST_TEXT` ||
+[`string`](../../data-types.md) | Текст комментария. Сохраняется в поле `POST_TEXT`. Если к сообщению уже опубликован такой же комментарий без файлов, метод ответит ошибкой `Duplicate comment` ||
 || **FILES**
-[`array`](../../data-types.md) | Массив файлов, который описан по правилам [работы с файлами](../../files/how-to-upload-files.md). Файлы будут загружены на Диск пользователя и привязаны к комментарию ||
+[`array`](../../data-types.md) | Массив файлов вида `[["имя файла", "содержимое в Base64"]]` по правилам [работы с файлами](../../files/how-to-upload-files.md). Метод загрузит файлы на Диск пользователя и прикрепит к комментарию ||
 || **USER_ID**
-[`integer`](../../data-types.md) | Идентификатор пользователя, от имени которого публикуется комментарий. Доступно только администраторам. По умолчанию используется текущий пользователь, инициировавший вызов метода.
+[`integer`](../../data-types.md) | Идентификатор пользователя, от имени которого публикуется комментарий. По умолчанию — пользователь, который вызвал метод. Параметр учитывается, только если метод вызывает администратор.
 
 Идентификатор пользователя можно получить с помощью метода [user.get](../../user/user-get.md) или [user.search](../../user/user-search.md) ||
 |#
@@ -77,7 +77,7 @@
         method: 'log.blogcomment.add',
         params: {
           POST_ID: 403,
-          TEXT: 'Comment on the post',
+          TEXT: 'Комментарий к посту',
           USER_ID: 27,
           FILES: [
             [
@@ -117,7 +117,7 @@
             method: 'log.blogcomment.add',
             params: {
               POST_ID: 403,
-              TEXT: 'Comment on the post',
+              TEXT: 'Комментарий к посту',
               USER_ID: 27,
               FILES: [
                 [
@@ -180,6 +180,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -205,14 +206,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Created comment ID: ' . $result->data();
-        }
+        print_r($result);
     } catch (Throwable $exception) {
-        error_log($exception->getMessage());
-        echo 'Error adding blog comment: ' . $exception->getMessage();
+        echo $exception->getMessage();
     }
     ```
 
@@ -229,7 +225,7 @@
                 'SXQncyBhIHRlc3QgZmlsZSBmb3IgQml0cml4IFJlc3QgQVBJLg==',
             ],
         ]
-    }, 
+    },
     function(result) {
             if (result.error()) {
                 console.error(result.error());
@@ -260,7 +256,7 @@
         ]
     );
 
-    if (!empty($result['error'])) {
+    if (array_key_exists('error', $result)) {
         echo 'Error: ' . $result['error_description'];
     } else {
         echo 'Created comment ID: ' . $result['result'];
@@ -304,8 +300,8 @@ HTTP-статус: **200**
         "finish": 1728904800.398112,
         "duration": 0.2746560573577881,
         "processing": 0.10234594345092773,
-        "date_start": "2025-10-14T12:40:00+03:00",
-        "date_finish": "2025-10-14T12:40:00+03:00",
+        "date_start": "2024-10-14T14:20:00+03:00",
+        "date_finish": "2024-10-14T14:20:00+03:00",
         "operating": 0
     }
 }
@@ -335,21 +331,23 @@ HTTP-статус: **400**
 
 {% include notitle [Обработка ошибок](../../../_includes/error-info.md) %}
 
-### Возможные ошибки
+### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `-` | `No blog module installed` | Модуль `blog` не установлен ||
-|| `-` | `No post found` | Сообщение Ленты новостей с переданным `POST_ID` не найдено или недоступно ||
-|| `-` | `No blog found` | Не удалось получить блог, к которому относится сообщение ||
-|| `-` | `Duplicate comment` | Аналогичный комментарий уже был опубликован, проверяется только для записей без вложений ||
-|| `-` | `No permissions` | У пользователя нет прав на добавление комментария к сообщению ||
-|| `-` | `Blog comment hasn't been added` | Внутренняя ошибка при сохранении комментария ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | No blog module installed | Модуль `blog` не установлен ||
+|| `400` | Пустое значение | No post found | Сообщения Ленты новостей с переданным `POST_ID` нет ||
+|| `400` | Пустое значение | No blog found | Не удалось получить блог, к которому относится сообщение ||
+|| `400` | Пустое значение | Duplicate comment | Такой же комментарий уже опубликован. Проверяется только для комментариев без файлов ||
+|| `400` | Пустое значение | No permissions | У пользователя нет прав на добавление комментария к сообщению ||
+|| `400` | Пустое значение | Blog comment hasn't been added | Комментарий не сохранен, например из-за ошибки во входных данных ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./log-blogcomment-delete.md)
+- [{#T}](./index.md)
+- [{#T}](./log-blogcomment-get.md)
 - [{#T}](./log-blogcomment-user-get.md)
+- [{#T}](./log-blogcomment-delete.md)

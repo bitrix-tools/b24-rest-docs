@@ -65,16 +65,9 @@
     }
 
     try {
-      // disk.rights.getTasks returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<AccessTask[]>({
         method: 'disk.rights.getTasks',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -102,16 +95,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // disk.rights.getTasks returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'disk.rights.getTasks',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -242,19 +228,19 @@ HTTP-статус: **200**
 {
     "result": [
         {
-        "ID": "79",
-        "NAME": "disk_access_full",
-        "TITLE": "Полный доступ"
+            "ID": "79",
+            "NAME": "disk_access_full",
+            "TITLE": "Полный доступ"
         },
         {
-        "ID": "75",
-        "NAME": "disk_access_edit",
-        "TITLE": "Редактирование"
+            "ID": "75",
+            "NAME": "disk_access_edit",
+            "TITLE": "Редактирование"
         },
         {
-        "ID": "71",
-        "NAME": "disk_access_read",
-        "TITLE": "Чтение"
+            "ID": "71",
+            "NAME": "disk_access_read",
+            "TITLE": "Чтение"
         }
     ],
     "time": {
@@ -288,6 +274,10 @@ HTTP-статус: **200**
 |#
 
 ## Обработка ошибок
+
+У метода нет собственных кодов ошибок.
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

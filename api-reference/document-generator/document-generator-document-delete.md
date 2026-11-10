@@ -11,7 +11,7 @@
 
 > Scope: [`documentgenerator`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на изменение документов
+> Кто может выполнять метод: пользователь с правом на просмотр документов и на изменение этого документа
 
 Метод `documentgenerator.document.delete` удаляет документ по идентификатору.
 
@@ -268,9 +268,11 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Bitrix\DocumentGenerator\Document constructor must be is public | Не передан обязательный параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 || `400` | `0` | Документ не найден | Документ с указанным `id` не найден ||
-|| `400` | `0` | You do not have permissions to view documents | Недостаточно прав на изменение документа ||
+|| `400` | `0` | You do not have permissions to view documents | Нет права на просмотр документов. Метод сначала проверяет это право, затем право на изменение документа ||
+|| `400` | `0` | You do not have permissions to modify this document | Есть право на просмотр документов, но нет права на изменение документа с указанным `id` ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу с указанным `id` ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

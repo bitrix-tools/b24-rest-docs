@@ -11,19 +11,41 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Права на выполнение метода:
-> - любой пользователь с доступом к редактированию задачи
-> - постановщик, исполнитель и соисполнители задачи
+> Кто может выполнять метод: пользователь с доступом к задаче на чтение, если он:
+> - администратор Битрикс24
+> - постановщик задачи или его руководитель
+> - автор пункта или его руководитель
+> - исполнитель или соисполнитель, если роль разрешает изменять чек-листы
+> - участник группы с правом изменять задачи группы
 
-Метод `task.checklistitem.moveafteritem` перемещает пункт чек-листа `itemId` в позицию после элемента `afterItemId`.
+Метод `task.checklistitem.moveafteritem` перемещает пункт чек-листа `ITEMID` в позицию после пункта `AFTERITEMID`.
 
-Оба элемента должны быть в одной задаче `taskId`. Элементы могут быть в разных подсписках, но после перемещения `itemId` получит тот же `PARENT_ID`, что и `afterItemId`.
+Оба пункта должны быть в одной задаче `TASKID`. Пункты могут быть в разных подсписках, но после перемещения `ITEMID` получит тот же `PARENT_ID`, что и `AFTERITEMID`.
+
+Например, чтобы переместить пункт `453` после пункта `447`, передайте `ITEMID = 453` и `AFTERITEMID = 447`:
+
+```plaintext
+ДО:                                            ПОСЛЕ:
+Чек-лист 1 (431)                               Чек-лист 1 (431)
+├── первый пункт (433)                         ├── первый пункт (433)
+│   ├── подпункт 1 (435)                       │   ├── подпункт 1 (435)
+│   ├── подпункт 2 (445)                       │   └── подпункт 2 (445)
+│   └── подпункт 3 (453) ← PARENT_ID=433       ├── второй пункт (447)
+├── второй пункт (447)                         ├── подпункт 3 (453) ← PARENT_ID=431
+└── третий пункт (449)                         └── третий пункт (449)
+```
 
 Проверить права на изменение пункта можно методом [task.checklistitem.isactionallowed](./task-checklist-item-is-action-allowed.md).
 
 ## Параметры метода
 
-{% include [Обязательные параметры](../../../_includes/required.md) %}
+{% note warning "" %}
+
+Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку или переместит не тот пункт.
+
+{% endnote %}
+
+{% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -37,16 +59,14 @@
 
 Идентификатор пункта чек-листа можно получить при [создании пункта](./task-checklist-item-add.md) или методом [получить список пунктов чек-листа](./task-checklist-item-get-list.md) ||
 || **AFTERITEMID***
-[`integer`](../../data-types.md) | Идентификатор пункта чек-листа, после которого нужно расположить перемещаемый элемент.
-
-Элемент должен относиться к той же задаче, что и `ITEMID`.
+[`integer`](../../data-types.md) | Идентификатор пункта чек-листа, после которого нужно расположить перемещаемый пункт.
 
 Идентификатор пункта чек-листа можно получить при [создании пункта](./task-checklist-item-add.md) или методом [получить список пунктов чек-листа](./task-checklist-item-get-list.md) ||
 |#
 
 ## Примеры кода
 
-{% include [Обязательные параметры в примерах](../../../_includes/examples.md) %}
+{% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 {% list tabs %}
 
@@ -56,7 +76,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":13,"ITEMID":475,"AFTERITEMID":447}' \
+    -d '{"TASKID":13,"ITEMID":453,"AFTERITEMID":447}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.checklistitem.moveafteritem
     ```
 
@@ -66,7 +86,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"TASKID":13,"ITEMID":475,"AFTERITEMID":447,"auth":"**put_access_token_here**"}' \
+    -d '{"TASKID":13,"ITEMID":453,"AFTERITEMID":447,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/task.checklistitem.moveafteritem
     ```
 
@@ -89,7 +109,7 @@
         method: 'task.checklistitem.moveafteritem',
         params: {
           TASKID: 13,
-          ITEMID: 475,
+          ITEMID: 453,
           AFTERITEMID: 447,
         },
         requestId: Text.getUuidRfc4122()
@@ -123,7 +143,7 @@
             method: 'task.checklistitem.moveafteritem',
             params: {
               TASKID: 13,
-              ITEMID: 475,
+              ITEMID: 453,
               AFTERITEMID: 447,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -155,7 +175,7 @@
     try:
         bitrix_response = client.task.checklistitem.moveafteritem(
             task_id=13,
-            item_id=475,
+            item_id=453,
             after_item_id=447,
         ).response
         result = bitrix_response.result
@@ -172,6 +192,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -182,7 +203,7 @@
                 'task.checklistitem.moveafteritem',
                 [
                     'TASKID' => 13,
-                    'ITEMID' => 475,
+                    'ITEMID' => 453,
                     'AFTERITEMID' => 447
                 ]
             );
@@ -207,7 +228,7 @@
         'task.checklistitem.moveafteritem',
         {
             TASKID: 13,
-            ITEMID: 475,
+            ITEMID: 453,
             AFTERITEMID: 447
         },
         function(result){
@@ -226,7 +247,7 @@
         'task.checklistitem.moveafteritem',
         [
             'TASKID' => 13,
-            'ITEMID' => 475,
+            'ITEMID' => 453,
             'AFTERITEMID' => 447
         ]
     );
@@ -242,15 +263,14 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "task.checklistitem.moveafteritem", b24.Params{
     	"TASKID":      13,
-    	"ITEMID":      475,
+    	"ITEMID":      453,
     	"AFTERITEMID": 447,
     })
     if err != nil {
     	return fmt.Errorf("task.checklistitem.moveafteritem: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // При успехе result равен null
     fmt.Printf("%s\n", res.Result)
     ```
 
@@ -304,10 +324,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::moveafteritem(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не указан обязательный параметр `TASKID`, `ITEMID` или `AFTERITEMID` ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::moveafteritem() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID`, `ITEMID` или `AFTERITEMID` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (afterItemId) expected by method ctaskchecklistitem::moveafteritem(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр. Номер и имя параметра в сообщении: `Param #0 (taskId)`, `Param #1 (itemId)` или `Param #2 (afterItemId)` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::moveafteritem() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, ]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Пункта с идентификатором `ITEMID` нет ||
+|| `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Родительский пункт не может быть своим подпунктом; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | `AFTERITEMID` — подпункт перемещаемого пункта `ITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Перемещение элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | У пользователя нет прав доступа к задаче или не хватает прав на выполнение действия ||
 |#
+
+Если пункта `AFTERITEMID` нет, сервер не возвращает ответ, и запрос завершается по таймауту без кода ошибки. Проверяйте пункт методом [task.checklistitem.get](./task-checklist-item-get.md) перед вызовом.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

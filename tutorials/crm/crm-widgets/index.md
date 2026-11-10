@@ -31,9 +31,15 @@
 ## Как выбрать сценарий {#choose-tutorial}
 
 #|
-|| **Если нужно** | **Откройте** ||
-|| Показать интерфейс приложения внутри пользовательского поля лида | [Встроить виджет в лид в виде пользовательского свойства](./widget-as-field-in-lead-page.md) ||
-|| Добавить вкладку в карточку CRM на примере сделки | [Встроить виджет во вкладку карточки CRM](./widget-as-detail-tab.md) ||
-|| Уточнить коды вкладок и данные, которые получает обработчик | [Вкладка в карточке CRM CRM_XXX_DETAIL_TAB](../../../api-reference/widgets/crm/detail-tab.md) ||
-|| Узнать, как работают пользовательские типы полей CRM | [Пользовательские типы полей в CRM](../../../api-reference/crm/universal/user-defined-fields/userfield-type.md) ||
+|| **Если нужно** | **Основной метод** | **Код точки встраивания** | **Откройте** ||
+|| Показать интерфейс приложения внутри пользовательского поля лида | [userfieldtype.add](../../../api-reference/widgets/user-field/userfieldtype-add.md), [crm.lead.userfield.add](../../../api-reference/crm/leads/userfield/crm-lead-userfield-add.md) | `USERFIELD_TYPE` | [Встроить виджет в лид в виде пользовательского свойства](./widget-as-field-in-lead-page.md) ||
+|| Добавить вкладку в карточку CRM на примере сделки | [placement.bind](../../../api-reference/widgets/placement-bind.md) | `CRM_DEAL_DETAIL_TAB` | [Встроить виджет во вкладку карточки CRM](./widget-as-detail-tab.md) ||
+|| Уточнить коды вкладок и данные, которые получает обработчик | [placement.bind](../../../api-reference/widgets/placement-bind.md) | `CRM_XXX_DETAIL_TAB` | [Вкладка в карточке CRM CRM_XXX_DETAIL_TAB](../../../api-reference/widgets/crm/detail-tab.md) ||
+|| Узнать, как работают пользовательские типы полей CRM | [userfieldtype.add](../../../api-reference/widgets/user-field/userfieldtype-add.md) | `USERFIELD_TYPE` | [Пользовательские типы полей в CRM](../../../api-reference/crm/universal/user-defined-fields/userfield-type.md) ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../../../api-reference/widgets/index.md)
+- [{#T}](../../../api-reference/widgets/crm/index.md)
+- [{#T}](../../../api-reference/widgets/user-field/index.md)

@@ -49,5 +49,8 @@
     }
   ],
   "page": "/api-reference/crm/quote/user-field/crm-quote-user-field-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 432
+  }
 }

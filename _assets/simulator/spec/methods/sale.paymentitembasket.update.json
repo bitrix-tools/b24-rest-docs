@@ -96,5 +96,12 @@
     }
   ],
   "page": "/api-reference/sale/payment-item-basket/sale-payment-item-basket-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1186,
+    "fields": {
+      "quantity": 1,
+      "xmlId": "myNewXmlId"
+    }
+  }
 }

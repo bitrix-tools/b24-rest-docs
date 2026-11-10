@@ -75,5 +75,8 @@
     "name",
     "settings",
     "template"
-  ]
+  ],
+  "requestExample": {
+    "id": 55
+  }
 }

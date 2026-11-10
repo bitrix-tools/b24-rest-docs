@@ -23,7 +23,7 @@
 
 {% note warning "" %}
 
-Тип задается при создании свойства, и изменить его нельзя.
+Тип можно изменить методом [catalog.productProperty.update](./catalog-product-property-update.md), но делайте это только у свойства без значений: сохраненные значения не преобразуются под новый тип.
 
 {% endnote %}
 
@@ -55,18 +55,44 @@
 4. Если свойство имеет тип Список, добавьте значения методами [catalog.productPropertyEnum.*](../product-property-enum/index.md)
 5. Используйте код свойства в методах товаров, услуг, головных товаров или вариаций
 
+## Ограничения и особенности
+
+- Свойства создаются только в торговом каталоге. Если передать инфоблок, который не является каталогом, метод `catalog.productProperty.add` вернет ошибку, а `catalog.productProperty.list` — пустой список
+- В `catalog.productProperty.update` поле `iblockId` обязательно, даже если меняется только название
+- Удаление свойства удаляет его значения у всех товаров и вариаций. Отменить удаление нельзя
+- Флаги свойства передаются строками `Y` или `N`
+
+## Свойства в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) для свойств есть метод добавления [catalog.product.property.add](./catalog-product-property-add-rest-v3.md), методы получения схемы полей `catalog.product.property.field.list` и `catalog.product.property.field.get` и справочник типов свойств [catalog.product.property.type.list](./catalog-product-property-type-list.md). Получить, изменить и удалить свойство можно методами прежней версии API.
+
+Особенности метода добавления:
+
+- метод создает строковое свойство, тип свойства передать нельзя
+- флаги `multiple` и `isRequired` тоже передаются строками `Y` или `N`, а не `true` или `false`
+- в ответе заполнены только `id` и `controlId`. Значения полей нового свойства можно получить методом [catalog.productProperty.get](./catalog-product-property-get.md)
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: зависит от метода
+> Кто может выполнять методы:
+> - пользователь с правом на просмотр каталога — для `catalog.productProperty.get`, `catalog.productProperty.list` и `catalog.productProperty.getFields`
+> - пользователь с правом на просмотр каталога и правом на изменение инфоблока каталога — для добавления, изменения и удаления свойств, в том числе `catalog.product.property.add`
+> - любой пользователь — для `catalog.product.property.field.*`, `catalog.product.property.type.list` и `catalog.product.property.type.field.*`
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.productProperty.add](./catalog-product-property-add.md) | Добавляет свойство товаров или вариаций ||
+|| [catalog.product.property.add](./catalog-product-property-add-rest-v3.md) | Добавляет свойство товаров или вариаций v 3.0 ||
 || [catalog.productProperty.update](./catalog-product-property-update.md) | Обновляет поля свойства товаров или вариаций ||
 || [catalog.productProperty.get](./catalog-product-property-get.md) | Возвращает значения полей свойства товаров или вариаций ||
 || [catalog.productProperty.list](./catalog-product-property-list.md) | Возвращает список свойств товаров или вариаций ||
 || [catalog.productProperty.delete](./catalog-product-property-delete.md) | Удаляет свойство товаров или вариаций ||
 || [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Возвращает поля свойства товаров или вариаций ||
+|| [catalog.product.property.field.list](./catalog-product-property-field-list.md) | Возвращает список полей свойства товара v 3.0 ||
+|| [catalog.product.property.field.get](./catalog-product-property-field-get.md) | Возвращает описание поля свойства товара ||
+|| [catalog.product.property.type.list](./catalog-product-property-type-list.md) | Возвращает список типов свойств товаров ||
+|| [catalog.product.property.type.field.list](./catalog-product-property-type-field-list.md) | Возвращает список полей типа свойства товара ||
+|| [catalog.product.property.type.field.get](./catalog-product-property-type-field-get.md) | Возвращает описание поля типа свойства товара ||
 |#

@@ -4,7 +4,7 @@
   "scope": "task",
   "kind": "write",
   "title": "Обновить стадию канбана Скрама tasks.api.scrum.kanban.updateStage",
-  "permissions": "любой пользователь",
+  "permissions": "пользователь с правом редактирования задач группы Скрама",
   "params": [
     {
       "name": "stageId",
@@ -56,14 +56,14 @@
           "type": "integer",
           "base": "integer",
           "required": false,
-          "description": "Порядок сортировки. Значение поля должно быть кратно 100"
+          "description": "Порядок сортировки. Стадии выводятся по возрастанию значения"
         },
         {
           "name": "color",
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Цвет стадии канбана"
+          "description": "Цвет стадии канбана в виде шестизначного HEX-кода без символа #, например 00C4FB"
         }
       ]
     }
@@ -84,6 +84,31 @@
       "date_finish": "2024-04-03T12:50:17+03:00"
     }
   },
+  "returns": [
+    {
+      "name": "result",
+      "type": "boolean",
+      "base": "boolean",
+      "required": false,
+      "description": "Возвращает true, если стадия успешно изменена"
+    },
+    {
+      "name": "time",
+      "type": "time",
+      "base": "object",
+      "required": false,
+      "description": "Информация о времени выполнения запроса"
+    }
+  ],
   "page": "/api-reference/sonet-group/scrum/kanban/tasks-api-scrum-kanban-update-stage.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "stageId": 65,
+    "fields": {
+      "name": "Обновленная стадия",
+      "type": "WORK",
+      "color": "00C4FB",
+      "sort": 100
+    }
+  }
 }

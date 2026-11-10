@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом на удаление и контактов, и компаний
 
-Метод удаляет шаблон реквизитов по идентификатору.
+Метод `crm.requisite.preset.delete` удаляет шаблон реквизитов по идентификатору.
 
 ## Параметры метода
 
@@ -29,8 +29,6 @@
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
-
-Поиск шаблонов по привязке к стране:
 
 {% list tabs %}
 
@@ -162,16 +160,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting preset: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -265,7 +257,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **40x**, **50x**
+HTTP-статус: **400**
 
 ```json
 {
@@ -279,10 +271,10 @@ HTTP-статус: **40x**, **50x**
 ### Возможные коды ошибок
 
 #|  
-|| **Код** | **Описание** ||
-|| `The Preset with ID '347' is not found` | Шаблон с указанным идентификатором не найден ||
-|| `Вы не можете удалить шаблон, так как по нему уже созданы реквизиты` | Нельзя удалить шаблон, по которому созданы рекизиты. Чтобы удалить шаблон, сначала удалите реквизиты ||
-|| `Access denied` | Недостаточно прав доступа для удаления шаблона ||
+|| **Статус** | **Код `error`** | **Текст `error_description`** | **Причина** ||
+|| `400` | Пустое значение | `The Preset with ID '347' is not found` | Шаблон с указанным идентификатором не найден ||
+|| — | — | `Вы не можете удалить шаблон, так как по нему уже созданы реквизиты` | Нельзя удалить шаблон, по которому созданы реквизиты. Чтобы удалить шаблон, сначала удалите реквизиты ||
+|| — | — | `Access denied` | Недостаточно прав доступа для удаления шаблона ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -291,7 +283,7 @@ HTTP-статус: **40x**, **50x**
 
 - [{#T}](./crm-requisite-preset-add.md)
 - [{#T}](./crm-requisite-preset-update.md)
-- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-get.md)
 - [{#T}](./crm-requisite-preset-list.md)
+- [{#T}](./crm-requisite-preset-countries.md)
 - [{#T}](./crm-requisite-preset-fields.md)

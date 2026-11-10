@@ -7,7 +7,7 @@ items:
     href: bx24-call-method.md
   - name: Отправить пакет запросов
     href: bx24-call-batch.md
-  - name: Вызвать интерфейс регистрации обработчика события
+  - name: Зарегистрировать обработчик события
     href: bx24-call-bind.md
   - name: Вызвать интерфейс удаления обработчика события
     href: bx24-call-unbind.md

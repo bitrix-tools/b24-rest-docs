@@ -60,5 +60,14 @@
     }
   ],
   "page": "/api-reference/crm/requisites/universal/crm-requisite-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 27,
+    "fields": {
+      "RQ_OKPO": "80715150",
+      "RQ_OKTMO": "45381000000",
+      "UF_CRM_1707997209": "78",
+      "UF_CRM_1708012333": "Категория 3"
+    }
+  }
 }

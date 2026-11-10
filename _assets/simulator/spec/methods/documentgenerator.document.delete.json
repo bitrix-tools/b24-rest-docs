@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/document-generator/document-generator-document-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 51
+  }
 }

@@ -52,5 +52,6 @@
     }
   ],
   "page": "/api-reference/crm/status/crm-status-entity-types.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

@@ -153,5 +153,11 @@
     }
   ],
   "page": "/api-reference/disk/file/disk-file-get-versions.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 9043,
+    "filter": {
+      "NAME": "%тест%"
+    }
+  }
 }

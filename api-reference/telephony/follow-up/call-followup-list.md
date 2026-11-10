@@ -67,6 +67,12 @@
 [`integer`](../../data-types.md) | Идентификатор участника звонка.
 
 Администратор может получить Follow-up по любому пользователю. Для обычного пользователя фильтр принудительно ограничивается его идентификатором ||
+|| **chatId**
+[`integer`](../../data-types.md) | Идентификатор чата звонка. Метод вернет Follow-up только звонков из этого чата.
+
+Передайте значение числом, строка `"123"` вернет ошибку валидации. Если передать `0` или отрицательное число, метод вернет пустой список.
+
+Фильтр работает вместе с `startDate` и `participantId` ||
 |#
 
 #### Параметр filter.startDate {#startdate}
@@ -257,6 +263,52 @@
 
       document.addEventListener('DOMContentLoaded', getFollowUpList)
     </script>
+    ```
+
+- Python
+
+    ```python
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    try:
+        bitrix_response = client.call.followup.list(
+            filter={
+                "startDate": {
+                    "from": "2026-01-01T00:00:00Z",
+                    "to": "2026-01-31T23:59:59Z",
+                },
+            },
+            select=[
+                "callId",
+                "startDate",
+                "participants",
+                "overview.topic",
+                "overview.actionItems",
+            ],
+            order={
+                "startDate": "desc",
+            },
+            pagination={
+                "limit": 20,
+            },
+            mention_format="html",
+        ).response
+        result = bitrix_response.result
+        print(result)
+    except BitrixAPIError as error:
+        print(
+            "Ошибка Bitrix API v3",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
+            sep="\n",
+        )
+        if error.has_validation:
+            print(f"validation: {error.validation}")
+    except BitrixSDKException as error:
+        print(f"Ошибка Bitrix SDK: {error.message}")
+    except Exception as error:
+        print(f"Непредвиденная ошибка: {error}")
     ```
 
 - PHP
@@ -512,6 +564,7 @@ HTTP-статус: **400**
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `filter.participantId` | Передан неверный тип идентификатора участника | Передайте `filter.participantId` как целое число ||
+|| `filter.chatId` | Передан неверный тип идентификатора чата | Передайте `filter.chatId` как целое число ||
 || `mentionFormat` | Передано значение не из списка допустимых форматов | Передайте `bb`, `html` или `none` ||
 |#
 

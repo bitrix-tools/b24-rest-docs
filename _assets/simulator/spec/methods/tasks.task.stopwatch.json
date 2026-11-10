@@ -398,5 +398,8 @@
     }
   ],
   "page": "/api-reference/tasks/user-actions/tasks-task-stop-watch.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 8017
+  }
 }

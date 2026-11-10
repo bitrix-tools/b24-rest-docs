@@ -10,11 +10,24 @@
 {% endnote %}
 
 > Scope: [`biconnector`](../../scopes/permissions.md)
-> 
-> Кто может выполнять метод: пользователь с доступом к разделу «Рабочее место аналитика»
+>
+> Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.dataset.fields` возвращает описание полей датасета.
-Таблицу с описанием стандартных полей можно найти в статье [Датасеты: обзор методов](./index.md#dataset).
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [biconnector.table.fields](../table/biconnector-table-fields.md).
+
+{% endnote %}
+
+Метод `biconnector.dataset.fields` возвращает описание полей объекта «датасет»: имя поля, тип, обязательность и признаки «только для чтения», «неизменяемое», «множественное». Параметров у метода нет — он не принимает идентификатор и не описывает поля конкретного датасета. Состав колонок конкретного датасета возвращает метод [biconnector.dataset.get](./biconnector-dataset-get.md).
+
+Назначение каждого поля описано в таблице [полей датасета](./index.md#dataset). Схема совпадает с ней не полностью: параметров разбора CSV — `csvDelimiter`, `csvEncoding` и `csvHasHeaders` — в схеме нет, хотя в ответах `get` и `list` они приходят. Именно по этой схеме проверяются `select`, `filter` и `order` метода [biconnector.dataset.list](./biconnector-dataset-list.md).
+
+{% note warning "" %}
+
+Метод возвращает статическую схему полей датасета — она одинакова в любом Битрикс24 и не зависит от созданных датасетов. В отличие от остальных методов семейства, метод доступен вебхуку, но оба права проверяет и без них возвращает ошибку `ACCESS_DENIED`
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -56,6 +69,14 @@
 
     declare const $b24: B24Frame
 
+    // Methods of this section put errors inside result and answer with HTTP 200
+    type BiconnectorError = {
+      error: {
+        error: string
+        error_description: string
+      }
+    }
+
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type DatasetFieldsResult = {
       fields: {
@@ -69,7 +90,7 @@
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<DatasetFieldsResult>({
+      const response = await $b24.actions.v2.call.make<DatasetFieldsResult | BiconnectorError>({
         method: 'biconnector.dataset.fields',
         params: {},
         requestId: Text.getUuidRfc4122()
@@ -80,7 +101,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Dataset fields count:', result.fields.length, result.fields)
+
+        // The SDK sees HTTP 200 as success, so check the error inside result yourself
+        if ('error' in result) {
+          console.error(result.error.error, result.error.error_description)
+        } else {
+          console.info('Dataset fields count:', result.fields.length, result.fields)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -112,6 +139,13 @@
           }
 
           const result = response.getData().result
+
+          // The SDK sees HTTP 200 as success, so check the error inside result yourself
+          if (result && result.error) {
+            console.error(result.error.error, result.error.error_description)
+            return
+          }
+
           console.info('Dataset fields count:', result.fields.length, result.fields)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -131,7 +165,17 @@
     try:
         bitrix_response = client.biconnector.dataset.fields().response
         result = bitrix_response.result
-        print(result)
+
+        # Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+        if isinstance(result, dict) and "error" in result:
+            print(
+                "Ошибка BIconnector",
+                f"error: {result['error']['error']}",
+                f"error_description: {result['error']['error_description']}",
+                sep="\n",
+            )
+        else:
+            print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -147,7 +191,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -156,17 +199,24 @@
                 'biconnector.dataset.fields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         if ($result->error()) {
             echo 'Error: ' . $result->error();
         } else {
-            echo 'Success: ' . print_r($result->data(), true);
+            $data = $result->data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (isset($data['error'])) {
+                echo 'BIconnector error: ' . $data['error']['error'] . ': ' . $data['error']['error_description'];
+            } else {
+                echo 'Success: ' . print_r($data, true);
+            }
         }
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error calling biconnector.dataset.fields: ' . $e->getMessage();
@@ -180,9 +230,20 @@
         'biconnector.dataset.fields',
         {},
         (result) => {
-            result.error()
-                ? console.error(result.error())
-                : console.info(result.data());
+            if (result.error()) {
+                console.error(result.error());
+                return;
+            }
+
+            const data = result.data();
+
+            // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+            if (data && data.error) {
+                console.error(data.error.error, data.error.error_description);
+                return;
+            }
+
+            console.info(data);
         },
     );
     ```
@@ -197,9 +258,15 @@
         []
     );
 
-    echo '<PRE>';
-    print_r($result);
-    echo '</PRE>';
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200
+    if (isset($result['result']['error'])) {
+        echo 'BIconnector error: ' . $result['result']['error']['error']
+            . ': ' . $result['result']['error']['error_description'];
+    } else {
+        echo '<PRE>';
+        print_r($result);
+        echo '</PRE>';
+    }
     ```
 
 - Go
@@ -209,6 +276,17 @@
     res, err := client.Core().Call(ctx, "biconnector.dataset.fields", nil, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("biconnector.dataset.fields: %w", err)
+    }
+
+    // Методы раздела кладут ошибку внутрь result и отвечают со статусом 200.
+    var apiErr struct {
+    	Error *struct {
+    		Error       string `json:"error"`
+    		Description string `json:"error_description"`
+    	} `json:"error"`
+    }
+    if err := json.Unmarshal(res.Result, &apiErr); err == nil && apiErr.Error != nil {
+    	return fmt.Errorf("biconnector.dataset.fields: %s: %s", apiErr.Error.Error, apiErr.Error.Description)
     }
 
     // Метод заворачивает ответ в объект с ключом "fields".
@@ -234,7 +312,6 @@
     ```
 
 {% endlist %}
-
 
 ## Обработка ответа
 
@@ -361,28 +438,76 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа. Содержит массив `fields` с описанием полей датасета. Структура элемента массива описана в статье [Коннектор: обзор методов](../connector/index.md#description) ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `fields` ||
+|| **result.fields**
+[`object[]`](../../data-types.md) | Массив дескрипторов полей датасета, один элемент — одно поле [(подробное описание)](#field) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива fields {#field}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **title**
+[`string`](../../data-types.md) | Название поля датасета. Назначение полей — в таблице [полей датасета](./index.md#dataset) ||
+|| **type**
+[`string`](../../data-types.md) | Тип поля. Метод возвращает значения `integer`, `string`, `array` и `datetime` ||
+|| **isRequired**
+[`boolean`](../../data-types.md) | Признак обязательности поля в схеме объекта. Передавать при создании нужно только те поля, у которых `isRequired` равно `true`, а `isReadOnly` — `false`: у полей только для чтения признак тоже равен `true`, но передать их нельзя ||
+|| **isReadOnly**
+[`boolean`](../../data-types.md) | Поле доступно только для чтения, передать его в `add` или `update` нельзя ||
+|| **isImmutable**
+[`boolean`](../../data-types.md) | Значение задается один раз при создании датасета и потом не меняется ||
+|| **isMultiple**
+[`boolean`](../../data-types.md) | Множественное поле. Если равно `true`, значение передается массивом ||
+|#
+
 ## Обработка ошибок
 
+HTTP-статус: **200**
+
+```json
+{
+    "result": {
+        "error": {
+            "error": "ACCESS_DENIED",
+            "error_description": "Access denied."
+        }
+    }
+}
+```
+
+{% note warning "" %}
+
+Метод возвращает ошибку [внутри поля `result`](../index.md#errors) и с HTTP-статусом 200. Проверяйте `result.error`: обертки SDK разбирают только верхний уровень ответа и такую ошибку считают успехом
+
+{% endnote %}
+
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./biconnector-dataset-add.md)
 - [{#T}](./biconnector-dataset-update.md)
-- [{#T}](./biconnector-dataset-fields-update.md)
 - [{#T}](./biconnector-dataset-get.md)
 - [{#T}](./biconnector-dataset-list.md)
 - [{#T}](./biconnector-dataset-delete.md)
+- [{#T}](./biconnector-dataset-fields-update.md)

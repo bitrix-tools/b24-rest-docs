@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр товаров каталога»
 
-Метод возвращает доступные поля изображения товара, головного товара, вариации или услуги.
+Метод `catalog.productImage.getFields` возвращает описание полей изображения товара: тип, обязательность и доступность для изменения.
+
+## Параметры метода
 
 Без параметров.
 
@@ -153,20 +155,14 @@
                 'catalog.productImage.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting product image fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -259,7 +255,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": true,
-                "type": "string"
+                "type": "integer"
             },
             "type": {
                 "isImmutable": false,
@@ -270,12 +266,14 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1729066108.743178,
-        "finish": 1729066109.268203,
-        "duration": 0.5250251293182373,
-        "processing": 0.02494502067565918,
-        "date_start": "2024-10-16T11:08:28+03:00",
-        "date_finish": "2024-10-16T11:08:29+03:00",
+        "start": 1793615808,
+        "finish": 1793615808.574096,
+        "duration": 0.5740959644317627,
+        "processing": 0,
+        "date_start": "2026-11-02T13:36:48+03:00",
+        "date_finish": "2026-11-02T13:36:48+03:00",
+        "operating_reset_at": 1793616360,
+        "operating": 0
     }
 }
 ```
@@ -287,7 +285,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **productImage**
+|| **result.productImage**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product_image](../data-types.md#catalog_product_image), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -299,8 +297,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -309,14 +307,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для просмотра торгового каталога ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Просмотр товаров каталога» ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-product-image-add.md)
 - [{#T}](./catalog-product-image-get.md)

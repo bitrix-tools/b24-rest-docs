@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `department.get` предназначен для получения списка подразделений.
+Метод `department.get` возвращает список активных подразделений структуры компании, например все подразделения внутри одного родительского. Имена фильтров `ID`, `NAME`, `SORT`, `PARENT` и `UF_HEAD` пишите в верхнем регистре: фильтр в другом регистре метод игнорирует.
+
+Метод относится к прежней версии API. Аналог в REST 3.0 — [humanresources.node.list](./node/humanresources-node-list.md), соответствие методов — в [обзоре раздела](./index.md#v2-v3).
 
 ## Параметры метода
 
@@ -23,27 +25,27 @@
 || **Название**
 `тип` | **Описание** ||
 || **sort**
-[`string`](../data-types.md) | Название поля, по которому нужна сортировка. Сортировка работает по полям: 
-- `ID` — идентификатор подразделения 
+[`string`](../data-types.md) | Название поля, по которому нужна сортировка. Сортировка работает по полям:
+- `ID` — идентификатор подразделения
 - `NAME` — название подразделения
 - `SORT` — порядок сортировки
-- `PARENT` —  идентификатор родительского отдела
-- `UF_HEAD` — идентификатор пользователя-руководителя отдела ||
+- `PARENT` — идентификатор родительского подразделения
+- `UF_HEAD` — идентификатор пользователя-руководителя подразделения ||
 || **order**
-[`string`](../data-types.md) | Направление сортировки:
+[`string`](../data-types.md) | Направление сортировки, по умолчанию — `ASC`:
 - `ASC` — по возрастанию
 - `DESC` — по убыванию ||
 || **ID**
 [`integer`](../data-types.md) | Фильтр по идентификатору подразделения ||
 || **NAME**
-[`string`](../data-types.md) | Фильтр по имени подразделения. Указывается полное название подразделения ||
+[`string`](../data-types.md) | Фильтр по полному названию подразделения ||
 || **SORT**
-[`integer`](../data-types.md) | Фильтр по полю сортировки ||
+[`integer`](../data-types.md) | Фильтр по полю сортировки. Метод принимает параметр, но не применяет: в ответ попадают подразделения с любым значением `SORT` ||
 || **PARENT**
-[`integer`](../data-types.md) | Фильтр по идентификатору родительского подразделения ||
+[`integer`](../data-types.md) | Фильтр по идентификатору родительского подразделения. Чтобы получить подразделение верхнего уровня, передайте `0` ||
 || **UF_HEAD**
 [`integer`](../data-types.md) | Фильтр по идентификатору руководителя подразделения ||
-|| **START**
+|| **start**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией.
 
 Размер страницы результатов всегда статичный: 50 записей.
@@ -65,8 +67,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
@@ -79,40 +81,98 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
         "sort": "NAME",
         "order": "DESC",
         "PARENT": 1,
-        "auth":"**put_access_token_here**"
+        "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/department.get
     ```
 
-- JS
+- JS (TS)
 
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-    ```js
-    try
-    {
-    	const response = await $b24.callMethod(
-    		"department.get", {
-    			"sort": "NAME",
-    			"order": "DESC",
-    			"PARENT": 1
-    		}
-    	);
-    	
-    	const result = response.getData().result;
-    	console.info(result);
+    declare const $b24: B24Frame
+
+    type Department = {
+      ID: string
+      NAME: string
+      SORT: number
+      PARENT?: string
+      UF_HEAD?: string
     }
-    catch( error )
-    {
-    	console.error(error);
+
+    try {
+      const response = await $b24.actions.v2.call.make<Department[]>({
+        method: 'department.get',
+        params: {
+          sort: 'NAME',
+          order: 'DESC',
+          PARENT: 1,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info(result.map((department) => department.NAME))
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
     }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getDepartments() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'department.get',
+            params: {
+              sort: 'NAME',
+              order: 'DESC',
+              PARENT: 1,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info(result.map((department) => department.NAME))
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getDepartments)
+    </script>
     ```
 
 - Python
@@ -125,10 +185,8 @@
     try:
         bitrix_response = client.department.get(
             sort="NAME",
-            order="ASC",
+            order="DESC",
             parent=1,
-            uf_head=1,
-            start=0,
         ).response
         result = bitrix_response.result
         print(result)
@@ -153,7 +211,7 @@
     try:
         bitrix_response = client.department.get(
             sort="NAME",
-            order="ASC",
+            order="DESC",
             parent=1,
         ).as_list().response
         result = bitrix_response.result
@@ -172,35 +230,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.department.get(
-            sort="ID",
-            order="DESC",
-            parent=1,
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
-
 
     ```php
     try {
@@ -214,18 +244,14 @@
                     'PARENT' => 1,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting departments: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -233,10 +259,11 @@
 
     ```js
     BX24.callMethod(
-        "department.get", {
-            "sort": "NAME",
-            "order": "DESC",
-            "PARENT": 1
+        'department.get',
+        {
+            sort: 'NAME',
+            order: 'DESC',
+            PARENT: 1,
         },
         function(result) {
             if (result.error()) {
@@ -256,8 +283,8 @@
     $result = CRest::call(
         'department.get',
         [
-            'sort' => 'NAME',
-            'order' => 'DESC',
+            'sort'   => 'NAME',
+            'order'  => 'DESC',
             'PARENT' => 1,
         ]
     );
@@ -304,20 +331,8 @@ HTTP-статус: **200**
 {
   "result": [
     {
-      "ID": "15",
-      "NAME": "R\u0026D",
-      "SORT": 500,
-      "PARENT": "1"
-    },
-    {
-      "ID": "2",
-      "NAME": "Бухгалтерия",
-      "SORT": 500,
-      "PARENT": "1"
-    },
-    {
-      "ID": "4",
-      "NAME": "Отдел маркетинга и рекламы",
+      "ID": "17",
+      "NAME": "Юр. отдел",
       "SORT": 500,
       "PARENT": "1"
     },
@@ -328,8 +343,20 @@ HTTP-статус: **200**
       "PARENT": "1"
     },
     {
-      "ID": "17",
-      "NAME": "Юр. отдел",
+      "ID": "4",
+      "NAME": "Отдел маркетинга и рекламы",
+      "SORT": 500,
+      "PARENT": "1"
+    },
+    {
+      "ID": "2",
+      "NAME": "Бухгалтерия",
+      "SORT": 500,
+      "PARENT": "1"
+    },
+    {
+      "ID": "15",
+      "NAME": "R\u0026D",
       "SORT": 500,
       "PARENT": "1"
     }
@@ -353,43 +380,53 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`department[]`](#st_department) | Корневой элемент ответа, который содержит отфильтрованный список подразделений ||
+[`department[]`](#st_department) | Список подразделений, которые подошли под фильтр ||
+|| **next**
+[`integer`](../data-types.md) | Значение `start` для следующей страницы. На последней странице поля нет ||
 || **total**
 [`integer`](../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ### Структура department {#st_department}
 
 ```json
-    {
-        "ID": "2",
-        "NAME": "Бухгалтерия",
-        "SORT": 500,
-        "PARENT": "1"
-    }
+{
+    "ID": "2",
+    "NAME": "Бухгалтерия",
+    "SORT": 500,
+    "PARENT": "1",
+    "UF_HEAD": "1"
+}
 ```
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../data-types.md) | Иидентификатор подразделения ||
+[`string`](../data-types.md) | Идентификатор подразделения. Число приходит строкой ||
 || **NAME**
 [`string`](../data-types.md) | Название подразделения ||
 || **SORT**
 [`integer`](../data-types.md) | Поле сортировки подразделения ||
 || **PARENT**
-[`integer`](../data-types.md) | Идентификатор родительского подразделения ||
+[`string`](../data-types.md) | Идентификатор родительского подразделения. Число приходит строкой. У подразделения верхнего уровня поля нет ||
+|| **UF_HEAD**
+[`string`](../data-types.md) | Идентификатор пользователя-руководителя подразделения. Число приходит строкой. Если руководитель не назначен, поля нет или оно равно `"0"` ||
 |#
 
 ## Обработка ошибок
 
+У метода нет собственных ошибок. Неизвестное поле в `sort` метод игнорирует. Если подразделений по фильтру нет, `result` — пустой массив.
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./department-add.md)
 - [{#T}](./department-update.md)
 - [{#T}](./department-delete.md)

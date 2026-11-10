@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на просмотр каталога
+> Кто может выполнять метод: пользователь с правом на просмотр каталога и правом на изменение инфоблока свойства
 
 Метод `catalog.productProperty.update` изменяет поля свойства товара или вариации.
 
@@ -23,11 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства. 
+[`catalog_product_property.id`](../data-types.md#catalog_product_property) | Идентификатор свойства.
 
 Идентификаторы свойств можно получить методом [catalog.productProperty.list](./catalog-product-property-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Набор полей для обновления свойства [(подробное описание)](#fields) ||
+[`object`](../../data-types.md) | Объект с полями свойства, которые нужно изменить [(подробное описание)](#fields).
+
+Передавайте `iblockId` и изменяемые поля. Непереданные поля сохраняют текущие значения ||
 |#
 
 ### Параметр fields {#fields}
@@ -38,17 +40,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **iblockId***
-[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога. 
+[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор торгового каталога.
 
 Идентификаторы можно получить методом [catalog.catalog.list](../catalog/catalog-catalog-list.md) ||
 || **name**
 [`string`](../../data-types.md) | Название свойства ||
 || **propertyType**
-[`string`](../../data-types.md) | Базовый тип свойства. Изменять нельзя ||
+[`string`](../../data-types.md) | Базовый тип свойства. Допустимые значения описаны в методе [catalog.productProperty.add](./catalog-product-property-add.md#fields).
+
+Если передать только `propertyType`, текущий `userType` проверяется на совместимость с новым типом. Меняйте тип только у свойства без значений: сохраненные значения метод не преобразует ||
 || **active**
 [`char`](../../data-types.md) | Признак активности. Допустимые значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+Любое другое значение, кроме `Y`, сохраняется как `N` ||
 || **sort**
 [`integer`](../../data-types.md) | Индекс сортировки ||
 || **code**
@@ -56,7 +62,9 @@
 || **defaultValue**
 [`text`](../../data-types.md) | Значение свойства по умолчанию ||
 || **userType**
-[`string`](../../data-types.md) | Пользовательский тип свойства. Изменять нельзя ||
+[`string`](../../data-types.md) | Пользовательский тип свойства. Значение должно подходить к `propertyType`, список значений описан в методе [catalog.productProperty.add](./catalog-product-property-add.md#fields).
+
+Меняйте тип только у свойства без значений: сохраненные значения метод не преобразует ||
 || **rowCount**
 [`integer`](../../data-types.md) | Число строк поля ввода ||
 || **colCount**
@@ -76,7 +84,7 @@
 || **multipleCnt**
 [`integer`](../../data-types.md) | Число полей для ввода множественных значений ||
 || **linkIblockId**
-[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор связанного инфоблока. 
+[`catalog_catalog.id`](../data-types.md#catalog_catalog) | Идентификатор связанного инфоблока.
 
 Доступные идентификаторы можно получить методом [catalog.catalog.list](../catalog/catalog-catalog-list.md) ||
 || **withDescription**
@@ -439,7 +447,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productProperty**
+|| **result.productProperty**
 [`catalog_product_property`](../data-types.md#catalog_product_property) | Объект с информацией об обновленном свойстве ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -462,15 +470,20 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `0` | Required fields: iblockId | В `fields` не передан обязательный параметр `iblockId` ||
-|| `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога ||
-|| `400` | Пустое значение | productProperty does not exist | Свойство с указанным `id` не найдено ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: iblockId | В `fields` не передан обязательный параметр `iblockId`. Ошибка приходит и при пустом `fields` ||
+|| `400` | `0` | Access Denied | Возможные причины:
+- недостаточно прав для просмотра каталога
+- нет права на изменение инфоблока свойства
+- при смене `iblockId` нет права на изменение нового инфоблока ||
+|| `400` | `0` | The specified iblock is not a product catalog | В `iblockId` передан инфоблок, который не является торговым каталогом ||
+|| `400` | Пустое значение | productProperty does not exist. | Свойство с указанным `id` не найдено ||
 || `400` | `0` | The specified property does not belong to a product catalog | Свойство не относится к торговому каталогу ||
 || `400` | `0` | Invalid property type specified | Передана недопустимая комбинация `propertyType` и `userType` ||
 || `400` | `0` | Invalid custom property type settings specified | Передан недопустимый формат `userTypeSettings` ||
 || `400` | `0` | Код свойства не может начинаться с цифры | Неверный формат параметра `code` ||
 || `400` | `0` | Неверный код информационного блока | Неверный формат параметра `iblockId` ||
-|| `400` | `100` | Invalid value {`...`} to match with parameter {id}. Should be value of type int | Неверный тип данных у значения параметра `id` ||
+|| `400` | `100` | Invalid value {`...`} to match with parameter {id}. Should be value of type int. | В `id` передан массив или объект ||
 || `400` | `0` | Wrong format of field `...` | Передан параметр с типом, который не соответствует формату поля ||
 || `400` | `0` | Error updating product property | Внутренняя ошибка при обновлении свойства ||
 |#

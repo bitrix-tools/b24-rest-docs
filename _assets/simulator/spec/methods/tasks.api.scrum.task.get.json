@@ -3,7 +3,7 @@
   "method": "tasks.api.scrum.task.get",
   "scope": "task",
   "kind": "read",
-  "title": "Получить поля задачи Скрама по id tasks.api.scrum.task.get",
+  "title": "Получить поля задачи Скрама по идентификатору tasks.api.scrum.task.get",
   "permissions": "любой пользователь, имеющий доступ к Скраму",
   "params": [
     {
@@ -26,8 +26,10 @@
       "storyPoints": "2",
       "epicId": 4,
       "sort": 1,
+      "sortFloat": 1,
       "createdBy": 1,
-      "modifiedBy": 1
+      "modifiedBy": 1,
+      "groupId": 7
     },
     "time": {
       "start": 1721402687.900315,
@@ -45,54 +47,12 @@
       "type": "object",
       "base": "object",
       "required": false,
-      "description": "Объект с данными задачи"
-    },
-    {
-      "name": "entityId",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор бэклога или спринта"
-    },
-    {
-      "name": "storyPoints",
-      "type": "string",
-      "base": "string",
-      "required": false,
-      "description": "Количество стори поинтов. Тип данных — строка, так как стори поинтом необязательно будет число"
-    },
-    {
-      "name": "epicId",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор эпика"
-    },
-    {
-      "name": "sort",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Сортировка"
-    },
-    {
-      "name": "createdBy",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, создавшего задачу"
-    },
-    {
-      "name": "modifiedBy",
-      "type": "integer",
-      "base": "integer",
-      "required": false,
-      "description": "Идентификатор пользователя, который последним изменял задачу"
+      "description": "Объект с данными задачи Скрама (подробное описание)"
     },
     {
       "name": "time",
-      "type": "array",
-      "base": "array",
+      "type": "time",
+      "base": "object",
       "required": false,
       "description": "Информация о времени выполнения запроса"
     }
@@ -103,8 +63,13 @@
     "createdBy",
     "entityId",
     "epicId",
+    "groupId",
     "modifiedBy",
     "sort",
+    "sortFloat",
     "storyPoints"
-  ]
+  ],
+  "requestExample": {
+    "id": 1
+  }
 }

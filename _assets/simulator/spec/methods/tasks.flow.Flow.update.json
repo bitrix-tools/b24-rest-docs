@@ -371,5 +371,28 @@
     }
   ],
   "page": "/api-reference/tasks/flow/tasks-flow-flow-update.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "flowData": {
+      "id": 517,
+      "name": "Updated Flow Name",
+      "description": "Updated description",
+      "plannedCompletionTime": 7200,
+      "distributionType": "manually",
+      "responsibleList": [
+        [
+          "user",
+          "3"
+        ]
+      ],
+      "taskCreators": [
+        [
+          "meta-user",
+          "all-users"
+        ]
+      ],
+      "matchWorkTime": 1,
+      "notifyAtHalfTime": 0
+    }
+  }
 }

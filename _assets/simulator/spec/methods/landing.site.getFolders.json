@@ -202,5 +202,13 @@
     }
   ],
   "page": "/api-reference/landing/site/landing-site-get-folders.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "siteId": 1817,
+    "filter": {
+      "PARENT_ID": 0,
+      "=DELETED": "N",
+      "ACTIVE": "Y"
+    }
+  }
 }

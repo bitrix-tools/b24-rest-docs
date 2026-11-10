@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с доступом к Интернет-магазину
 
-Метод `sale.businessValuePersonDomain.getFields` возвращает поля соответствия физическому или юридическому лицу.
+Метод `sale.businessValuePersonDomain.getFields` возвращает описание полей соответствия `personTypeId` и `domain`: тип поля, обязательно ли оно и можно ли его изменить.
 
 ## Параметры метода
 
@@ -27,8 +27,8 @@
 
 - cURL (Webhook)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{}' \
@@ -37,8 +37,8 @@
 
 - cURL (OAuth)
 
-    ```curl
-    -X POST \
+    ```bash
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{"auth":"**put_access_token_here**"}' \
@@ -128,7 +128,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.sale.businessvaluepersondomain.getfields().response
+        bitrix_response = client.sale.businessvaluepersondomain.get_fields().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -143,6 +143,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
 
@@ -154,20 +155,14 @@
                 'sale.businessValuePersonDomain.getFields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting business value person domain fields: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -264,9 +259,9 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **businessValuePersonDomain**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_business_value_person_domain`](../data-types.md) , а `value` — объект типа [`rest_field_description`](../data-types.md) ||
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [`sale_business_value_person_domain`](../data-types.md#sale_business_value_person_domain), а `value` — объект типа [`rest_field_description`](../data-types.md#rest_field_description) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -275,10 +270,9 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
+    "error": "200040300010",
     "error_description": "Access Denied"
 }
-
 ```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
@@ -286,15 +280,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения доступных полей элемента ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Недостаточно прав для чтения полей соответствия ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./sale-business-value-person-domain-add.md)
 - [{#T}](./sale-business-value-person-domain-list.md)
 - [{#T}](./sale-business-value-person-domain-delete-by-filter.md)

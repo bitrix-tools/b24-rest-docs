@@ -35,11 +35,21 @@
           "type": "string",
           "base": "string",
           "required": false,
-          "description": "Признак, является ли валюта базовой. Возможные значения: - Y — да - N — нет Значение по умолчанию — N. Не рекомендуется менять базовую валюту через REST. Иначе потребуется изменить курсы всех валют"
+          "description": "Признак, является ли валюта базовой. Возможные значения: - Y — да - N — нет Значение по умолчанию — N. Не рекомендуется менять базовую валюту через REST. Иначе потребуется изменить курсы всех валют",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет Значение по умолчанию — N"
+            }
+          ]
         },
         {
           "name": "AMOUNT_CNT",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": true,
           "description": "Номинал. В качестве номинала чаще всего используется 1 или число кратное 10"
@@ -53,7 +63,7 @@
         },
         {
           "name": "SORT",
-          "type": "int",
+          "type": "integer",
           "base": "integer",
           "required": false,
           "description": "Положение в списке валют. Значение по умолчанию — 100"
@@ -102,5 +112,32 @@
     }
   ],
   "page": "/api-reference/crm/currency/crm-currency-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "fields": {
+      "CURRENCY": "CNY",
+      "BASE": "N",
+      "AMOUNT": 12.2251,
+      "AMOUNT_CNT": 1,
+      "SORT": 9000,
+      "LANG": {
+        "ru": {
+          "DECIMALS": 2,
+          "DEC_POINT": ".",
+          "FORMAT_STRING": "# CNY",
+          "FULL_NAME": "юань",
+          "HIDE_ZERO": "Y",
+          "THOUSANDS_VARIANT": "S"
+        },
+        "en": {
+          "DECIMALS": 2,
+          "DEC_POINT": ",",
+          "FORMAT_STRING": "# CNY",
+          "FULL_NAME": "yuan",
+          "HIDE_ZERO": "Y",
+          "THOUSANDS_SEP": "."
+        }
+      }
+    }
+  }
 }

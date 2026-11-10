@@ -61,5 +61,23 @@
     }
   ],
   "page": "/api-reference/crm/deals/contacts/crm-deal-contact-items-set.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 1875,
+    "items": [
+      {
+        "CONTACT_ID": 55,
+        "IS_PRIMARY": "Y",
+        "SORT": 100
+      },
+      {
+        "CONTACT_ID": 54,
+        "SORT": 200
+      },
+      {
+        "CONTACT_ID": 56,
+        "SORT": 400
+      }
+    ]
+  }
 }

@@ -70,5 +70,6 @@
     }
   ],
   "page": "/api-reference/sale/trade-platform/sale-trade-platform-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

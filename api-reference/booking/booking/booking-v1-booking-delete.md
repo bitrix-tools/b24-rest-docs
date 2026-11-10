@@ -163,16 +163,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error deleting booking: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -278,6 +272,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр `id` ||
+|| `1020` | `booking not found` | Бронирование с указанным `id` не найдено ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

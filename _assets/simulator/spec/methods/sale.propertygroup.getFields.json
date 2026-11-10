@@ -108,5 +108,6 @@
     }
   ],
   "page": "/api-reference/sale/property-group/sale-property-group-get-fields.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {}
 }

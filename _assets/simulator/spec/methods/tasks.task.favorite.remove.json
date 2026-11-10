@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/tasks/user-actions/tasks-task-favorite-remove.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "taskId": 119
+  }
 }

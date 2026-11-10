@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.activity.get](../../../rest-v3/activities/crm-activity-get-rest-v3.md). Часть полей дела метод REST 3.0 не возвращает: настройки `settings`, данные провайдера `providerParams`, `location`, `status`, `priority` и другие. Если они нужны, используйте этот метод.
+
+{% endnote %}
+
 Метод `crm.activity.get` возвращает информацию о деле по идентификатору.
 
 ## Параметры метода
@@ -205,16 +211,10 @@
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Data: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting activity: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 

@@ -33,7 +33,7 @@
 - `propertyId` — идентификатор свойства товара или вариации
 - `smartFilter` — отображается ли свойство в умном фильтре
 
-По умолчанию возвращаются все доступные поля ||
+По умолчанию возвращаются все доступные поля. Неизвестные поля метод пропускает без ошибки, а если в `select` нет ни одного доступного поля, возвращает все поля ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных настроек в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
@@ -54,6 +54,8 @@
 - `!=` — не равно
 - `!` — не равно
 
+Неизвестные поля в фильтре метод пропускает без ошибки и возвращает настройки без учета такого условия.
+
 Если `propertyId` не передан, метод выбирает секционные настройки всех свойств торговых каталогов. Если передан `propertyId`, который не существует или не относится к торговому каталогу, метод вернет пустой список ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки выбранных настроек в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
@@ -64,7 +66,7 @@
 - `ASC` — в порядке возрастания
 - `DESC` — в порядке убывания
 
-Если параметр не передан, применяется сортировка `propertyId ASC` ||
+Если параметр не передан, записи сортируются по идентификатору торгового каталога, а не по `propertyId`. Неизвестные поля метод пропускает без ошибки ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -116,11 +118,11 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type ProductPropertySectionListResult = {
       productPropertySections: {
-        displayExpanded: string
-        displayType: string
-        filterHint: string
+        displayExpanded: 'Y' | null
+        displayType: string | null
+        filterHint: string | null
         propertyId: number
-        smartFilter: string
+        smartFilter: 'Y' | null
       }[]
     }
 
@@ -376,8 +378,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой объект ответа ||
-|| **productPropertySections**
-[`catalog_product_property_section[]`](../data-types.md#catalog_product_property_section) | Массив объектов секционных настроек свойства ||
+|| **result.productPropertySections**
+[`catalog_product_property_section[]`](../data-types.md#catalog_product_property_section) | Массив объектов секционных настроек свойства. Если свойство привязано к нескольким разделам, для него приходит несколько записей с одинаковыми полями: идентификатор раздела в ответ не входит ||
 || **next**
 [`integer`](../../data-types.md) | Смещение для следующей страницы. Поле возвращается, если есть еще записи ||
 || **total**
@@ -402,11 +404,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Access Denied | Недостаточно прав для просмотра каталога ||
-|| `100` | Invalid value {wrong_type} to match with parameter {filter}. Should be value of type array. | Неверный тип данных у значения параметра `filter` ||
-|| `100` | Invalid value {wrong_type} to match with parameter {select}. Should be value of type array. | Неверный тип данных у значения параметра `select` ||
-|| `100` | Invalid value {wrong_type} to match with parameter {order}. Should be value of type array. | Неверный тип данных у значения параметра `order` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Access Denied | Недостаточно прав для просмотра каталога ||
+|| `400` | `100` | Invalid value {wrong_type} to match with parameter {filter}. Should be value of type array. | Неверный тип данных у значения параметра `filter` ||
+|| `400` | `100` | Invalid value {wrong_type} to match with parameter {select}. Should be value of type array. | Неверный тип данных у значения параметра `select` ||
+|| `400` | `100` | Invalid value {wrong_type} to match with parameter {order}. Should be value of type array. | Неверный тип данных у значения параметра `order` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

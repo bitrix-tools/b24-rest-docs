@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Создание и редактирование» на нужный тип документа
+> Кто может выполнять метод: пользователь с правом «Просмотр и выбор склада» и правом «Создание и редактирование» на документы нужного типа
 
-Метод `catalog.document.add` создает новый документ складского учета. 
+Метод `catalog.document.add` создает документ складского учета в статусе черновика.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](#fields) | Поля документа ([подробное описание](#fields)) ||
+[`object`](../../data-types.md) | Значения полей для создания документа ([подробное описание](#fields)) ||
 |#
 
 ### Параметр fields {#fields}
@@ -34,44 +34,45 @@
 || **Название**
 `тип` | **Описание** ||
 || **docType***
-[`char`](../../data-types.md) | Тип документа. Возможные значения:
-- `A` — поступление,
-- `S` — оприходование,
-- `M` — перемещение между складами,
-- `R` — возврат,
-- `D` — списание.
+[`string`](../../data-types.md) | Тип документа. Возможные значения:
+- `A` — приход товара на склад
+- `S` — оприходование товара
+- `M` — перемещение товара между складами
+- `R` — возврат товара
+- `D` — списание товара
 
-Актуальные типы документов можно получить методом [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md) ||
+Значение чувствительно к регистру: `a` и другие значения метод отклоняет с ошибкой `DOC_TYPE isn't available`.
+
+Названия типов можно получить методом [catalog.enum.getStoreDocumentTypes](../enum/catalog-enum-get-store-document-types.md) ||
 || **currency***
-[`crm_currency.CURRENCY`](../../crm/data-types.md#crm_currency) | Валюта документа в формате ISO 4217, например `RUB`. Значение нельзя изменить после создания. 
+[`string`](../../data-types.md) | Код валюты документа, например `RUB`. Метод не проверяет, что валюта существует. После создания валюту изменить нельзя.
 
-Чтобы получить список валют с кодами используйте метод [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
+Список валют можно получить методом [crm.currency.list](../../crm/currency/crm-currency-list.md) ||
 || **responsibleId***
-[`user.id`](../../data-types.md) | Идентификатор ответственного ||
-|| **siteId**
-[`char`](../../data-types.md) | Код сайта, к которому относится документ. По умолчанию — `s1`. 
+[`user.id`](../../data-types.md) | Идентификатор ответственного. Метод не проверяет, что пользователь существует. Значение, которое не является числом, метод сохраняет как `null`.
 
-Параметр актуален для коробочных Битрикс, для облачных Битрикс значение стандартное — `s1` ||
-|| **dateDocument**
-[`datetime`](../../data-types.md) | Дата проведения документа в формате ISO 8601 ||
+Идентификаторы пользователей можно получить методом [user.get](../../user/user-get.md) ||
 || **title**
-[`string`](../../data-types.md) | Название документа ||
-|| **commentary**
-[`char`](../../data-types.md) | Комментарий к документу ||
-|| **total**
-[`double`](../../data-types.md) | Общая сумма по товарам документа. Значение рассчитывается автоматически после проведения, но может быть задано вручную ||
+[`string`](../../data-types.md) | Название документа. Если не передано, в ответе `title` равно `null` ||
 || **docNumber**
-[`string`](../../data-types.md) | Внутренний номер документа. Если не передать, генерируется автоматически ||
-|| **createdBy**
-[`user.id`](../../data-types.md) | Идентификатор пользователя, создавшего документ. Администратор может указать любое значение, по умолчанию заполняется текущим пользователем ||
+[`string`](../../data-types.md) | Номер документа. Если не передан, в ответе `docNumber` равно `null`: номер автоматически не создается ||
+|| **dateDocument**
+[`datetime`](../../data-types.md) | Дата документа, например `2026-11-05T10:00:00+03:00`. Можно передать дату без времени, например `2026-11-05`.
+
+Строку, которую нельзя разобрать как дату, метод пропускает без ошибки ||
+|| **commentary**
+[`string`](../../data-types.md) | Комментарий к документу ||
+|| **total**
+[`double`](../../data-types.md) | Сумма документа. Метод не пересчитывает ее по товарам, в том числе при проведении. Значение, которое не является числом, метод сохраняет как `null` ||
+|| **siteId**
+[`string`](../../data-types.md) | Код сайта. По умолчанию `s1`. Метод не проверяет, что сайт существует ||
+|| **statusBy**
+[`user.id`](../../data-types.md) | Идентификатор пользователя, который изменил статус документа. При проведении и отмене проведения в поле записывается идентификатор текущего пользователя ||
 |#
 
-{% note info "" %}
+Поля `id`, `status`, `createdBy`, `modifiedBy`, `dateCreate`, `dateModify` и `dateStatus` метод заполняет сам: `status` — `N`, `createdBy` и `modifiedBy` — идентификатор текущего пользователя, даты — время создания. Переданные значения этих полей и неизвестные поля метод пропускает без ошибки.
 
-Чтобы заполнить данные о поставщике, используйте метод [catalog.documentcontractor.add](../documentcontractor/catalog-documentcontractor-add.md).
-Чтобы заполнить данные по товарам, используйте метод [catalog.document.element.add](./document-element/catalog-document-element-add.md).
-
-{% endnote %}
+Товары в документ добавляйте методом [catalog.document.element.add](./document-element/catalog-document-element-add.md), поставщика — методом [catalog.documentcontractor.add](../documentcontractor/catalog-documentcontractor-add.md).
 
 ## Примеры кода
 
@@ -85,7 +86,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"docType":"A","currency":"RUB","responsibleId":29,"docNumber":"IN-00042","title":"Поступление от Поставщик-1","commentary":"Плановое пополнение склада"}}' \
+    -d '{"fields":{"docType":"S","currency":"RUB","responsibleId":1269,"docNumber":"OP-00042","title":"Оприходование излишков","commentary":"Излишки по итогам инвентаризации","dateDocument":"2026-11-05T10:00:00+03:00"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.add
     ```
 
@@ -95,7 +96,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"docType":"A","currency":"RUB","responsibleId":29,"docNumber":"IN-00042","title":"Поступление от Поставщик-1","commentary":"Плановое пополнение склада"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"docType":"S","currency":"RUB","responsibleId":1269,"docNumber":"OP-00042","title":"Оприходование излишков","commentary":"Излишки по итогам инвентаризации","dateDocument":"2026-11-05T10:00:00+03:00"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.document.add
     ```
 
@@ -112,23 +113,23 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type DocumentAddResult = {
       document: {
-        commentary: string | null,
-        createdBy: number,
-        currency: string,
-        dateCreate: ISODate | null,
-        dateDocument: ISODate | null,
-        dateModify: ISODate | null,
-        dateStatus: ISODate | null,
-        docNumber: string,
-        docType: string,
-        id: number,
-        modifiedBy: number,
-        responsibleId: number,
-        siteId: string,
-        status: string,
-        statusBy: number | null,
-        title: string | null,
-        total: number | null,
+        commentary: string | null
+        createdBy: number
+        currency: string
+        dateCreate: ISODate
+        dateDocument: ISODate | null
+        dateModify: ISODate
+        dateStatus: ISODate
+        docNumber: string | null
+        docType: string
+        id: number
+        modifiedBy: number
+        responsibleId: number | null
+        siteId: string
+        status: string
+        statusBy: number | null
+        title: string | null
+        total: number | null
       }
     }
 
@@ -137,12 +138,13 @@
         method: 'catalog.document.add',
         params: {
           fields: {
-            docType: 'A',
+            docType: 'S',
             currency: 'RUB',
-            responsibleId: 29,
-            docNumber: 'IN-00042',
-            title: 'Goods receipt from Supplier-1',
-            commentary: 'Planned warehouse replenishment',
+            responsibleId: 1269,
+            docNumber: 'OP-00042',
+            title: 'Оприходование излишков',
+            commentary: 'Излишки по итогам инвентаризации',
+            dateDocument: '2026-11-05T10:00:00+03:00',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -153,7 +155,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Created document with ID:', result.document.id, 'status:', result.document.status)
+        console.info('Created document:', result.document.id, result.document.status)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -176,12 +178,13 @@
             method: 'catalog.document.add',
             params: {
               fields: {
-                docType: 'A',
+                docType: 'S',
                 currency: 'RUB',
-                responsibleId: 29,
-                docNumber: 'IN-00042',
-                title: 'Goods receipt from Supplier-1',
-                commentary: 'Planned warehouse replenishment',
+                responsibleId: 1269,
+                docNumber: 'OP-00042',
+                title: 'Оприходование излишков',
+                commentary: 'Излишки по итогам инвентаризации',
+                dateDocument: '2026-11-05T10:00:00+03:00',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -194,7 +197,7 @@
           }
 
           const result = response.getData().result
-          console.info('Created document with ID:', result.document.id, 'status:', result.document.status)
+          console.info('Created document:', result.document.id, result.document.status)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -213,12 +216,13 @@
     try:
         bitrix_response = client.catalog.document.add(
             fields={
-                "docType": "A",
+                "docType": "S",
                 "currency": "RUB",
-                "responsibleId": 29,
-                "docNumber": "IN-00042",
-                "title": "Поступление от Поставщик-1",
-                "commentary": "Плановое пополнение склада",
+                "responsibleId": 1269,
+                "docNumber": "OP-00042",
+                "title": "Оприходование излишков",
+                "commentary": "Излишки по итогам инвентаризации",
+                "dateDocument": "2026-11-05T10:00:00+03:00",
             },
         ).response
         result = bitrix_response.result
@@ -240,32 +244,30 @@
 
     ```php
     try {
-    $response = $b24Service
-        ->core
-        ->call(
-            'catalog.document.add',
-            [
-                'fields' => [
-                    'docType' => 'A',
-                    'currency' => 'RUB',
-                    'responsibleId' => 29,
-                    'docNumber' => 'IN-00042',
-                    'title' => 'Поступление от Поставщик-1',
-                    'commentary' => 'Плановое пополнение склада'
+        $response = $b24Service
+            ->core
+            ->call(
+                'catalog.document.add',
+                [
+                    'fields' => [
+                        'docType'       => 'S',
+                        'currency'      => 'RUB',
+                        'responsibleId' => 1269,
+                        'docNumber'     => 'OP-00042',
+                        'title'         => 'Оприходование излишков',
+                        'commentary'    => 'Излишки по итогам инвентаризации',
+                        'dateDocument'  => '2026-11-05T10:00:00+03:00',
+                    ],
                 ]
-            ]
-        );
+            );
 
-    $result = $response
-        ->getResponseData()
-        ->getResult();
+        $result = $response
+            ->getResponseData()
+            ->getResult();
 
-    echo 'Success: ' . print_r($result, true);
-    processData($result);
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding product row: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -276,13 +278,14 @@
         'catalog.document.add',
         {
             fields: {
-                docType: 'A',
+                docType: 'S',
                 currency: 'RUB',
-                responsibleId: 29,
-                docNumber: 'IN-00042',
-                title: 'Поступление от Поставщик-1',
-                commentary: 'Плановое пополнение склада'
-            }
+                responsibleId: 1269,
+                docNumber: 'OP-00042',
+                title: 'Оприходование излишков',
+                commentary: 'Излишки по итогам инвентаризации',
+                dateDocument: '2026-11-05T10:00:00+03:00',
+            },
         },
         function(result)
         {
@@ -303,12 +306,13 @@
         'catalog.document.add',
         [
             'fields' => [
-                'docType' => 'A',
+                'docType' => 'S',
                 'currency' => 'RUB',
-                'responsibleId' => 29,
-                'docNumber' => 'IN-00042',
-                'title' => 'Поступление от Поставщик-1',
-                'commentary' => 'Плановое пополнение склада'
+                'responsibleId' => 1269,
+                'docNumber' => 'OP-00042',
+                'title' => 'Оприходование излишков',
+                'commentary' => 'Излишки по итогам инвентаризации',
+                'dateDocument' => '2026-11-05T10:00:00+03:00',
             ]
         ]
     );
@@ -324,12 +328,13 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.document.add", b24.Params{
     	"fields": b24.Params{
-    		"docType":       "A",
+    		"docType":       "S",
     		"currency":      "RUB",
-    		"responsibleId": 29,
-    		"docNumber":     "IN-00042",
-    		"title":         "Поступление от Поставщик-1",
-    		"commentary":    "Плановое пополнение склада",
+    		"responsibleId": 1269,
+    		"docNumber":     "OP-00042",
+    		"title":         "Оприходование излишков",
+    		"commentary":    "Излишки по итогам инвентаризации",
+    		"dateDocument":  "2026-11-05T10:00:00+03:00",
     	},
     })
     if err != nil {
@@ -342,67 +347,67 @@
     	return fmt.Errorf("в ответе нет ключа document")
     }
 
+    // Необязательные поля могут прийти как null, поэтому для них указатели.
     var item struct {
-    	Commentary string `json:"commentary"`
-    	CreatedBy  int    `json:"createdBy"`
-    	Currency   string `json:"currency"`
-    	DateCreate string `json:"dateCreate"`
-    	DateModify string `json:"dateModify"`
-    	DateStatus string `json:"dateStatus"`
+    	ID            b24.ID   `json:"id"`
+    	DocType       string   `json:"docType"`
+    	Status        string   `json:"status"`
+    	Currency      string   `json:"currency"`
+    	Title         *string  `json:"title"`
+    	DocNumber     *string  `json:"docNumber"`
+    	Commentary    *string  `json:"commentary"`
+    	ResponsibleID *int     `json:"responsibleId"`
+    	DateDocument  *string  `json:"dateDocument"`
+    	DateCreate    string   `json:"dateCreate"`
+    	Total         *float64 `json:"total"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Commentary, item.CreatedBy)
+    fmt.Println(item.ID, item.Status)
     ```
 
 {% endlist %}
 
 ## Обработка ответа
 
-HTTP-код: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
         "document": {
-            "commentary": "Плановое пополнение склада",
-            "createdBy": 29,
+            "commentary": "Излишки по итогам инвентаризации",
+            "createdBy": 1269,
             "currency": "RUB",
-            "dateCreate": "2025-10-30T11:19:38+03:00",
-            "dateDocument": null,
-            "dateModify": "2025-10-30T11:19:38+03:00",
-            "dateStatus": "2025-10-30T11:19:38+03:00",
-            "docNumber": "IN-00042",
-            "docType": "A",
-            "id": 11,
-            "modifiedBy": 29,
-            "responsibleId": 29,
+            "dateCreate": "2026-11-05T15:58:42+03:00",
+            "dateDocument": "2026-11-05T10:00:00+03:00",
+            "dateModify": "2026-11-05T15:58:42+03:00",
+            "dateStatus": "2026-11-05T15:58:42+03:00",
+            "docNumber": "OP-00042",
+            "docType": "S",
+            "id": 381,
+            "modifiedBy": 1269,
+            "responsibleId": 1269,
             "siteId": "s1",
             "status": "N",
             "statusBy": null,
-            "title": "Поступление от Поставщик-1",
+            "title": "Оприходование излишков",
             "total": null
         }
     },
     "time": {
-        "start": 1761805178,
-        "finish": 1761805178.991429,
-        "duration": 0.9914290904998779,
+        "start": 1793883522,
+        "finish": 1793883522.271001,
+        "duration": 0.27100110054016113,
         "processing": 0,
-        "date_start": "2025-10-30T09:19:38+03:00",
-        "date_finish": "2025-10-30T09:19:38+03:00",
-        "operating_reset_at": 1761805778,
-        "operating": 0.2595658302307129
+        "date_start": "2026-11-05T15:58:42+03:00",
+        "date_finish": "2026-11-05T15:58:42+03:00",
+        "operating_reset_at": 1793884080,
+        "operating": 0
     }
 }
 ```
-
-{% note info "" %}
-
-Документ создается в статусе `N` — черновик. Чтобы провести документ, используйте метод [catalog.document.conduct](./catalog-document-conduct.md) или [catalog.document.conductList](./catalog-document-conduct-list.md).
-
-{% endnote %}
 
 ### Возвращаемые данные
 
@@ -410,42 +415,49 @@ HTTP-код: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md#catalog_document) | Корневой элемент ответа ||
-|| **document**
-[`catalog_document`](../data-types.md#catalog_document) | Объект с данными созданного документа ||
+[`object`](../../data-types.md) | Корневой элемент ответа ||
+|| **result.document**
+[`catalog_document`](../data-types.md#catalog_document) | Объект с полями созданного документа. Метод возвращает все поля документа, включая пустые со значением `null`.
+
+Документ создается в статусе `N` — черновик. Провести документ можно методом [catalog.document.conduct](./catalog-document-conduct.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-HTTP-код: **400**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "0",
-    "error_description": "DOC_TYPE isn't available"
+    "error_description": "Required fields: docType, responsibleId, currency"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | Недостаточно прав для сохранения документа | У пользователя нет права на создание документа нужного типа ||
-|| `0` | DOC_TYPE isn't available | Передан недопустимый тип документа ||
-|| `0` | Складской учет недоступен на вашем тарифе | Складской учет недоступен на вашем тарифе ||
-|| `0` | -  | Иные внутренние ошибки при добавлении документа ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | Не удалось завершить действие, так как у вас недостаточно прав для просмотра и выбора складов | У пользователя нет права «Просмотр и выбор склада» ||
+|| `400` | `0` | Недостаточно прав для сохранения документа | У пользователя нет права «Создание и редактирование» на документы этого типа или нет прав на каталог ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {fields}. Should be value of type array. | В `fields` передан не объект ||
+|| `400` | `0` | Required fields: docType, responsibleId, currency | Не переданы обязательные поля. В тексте перечислены только отсутствующие поля ||
+|| `400` | `0` | DOC_TYPE isn't available | В `docType` передан тип, которого нет в списке, например `U` или `a` ||
+|| `400` | `0` | Wrong format of field `title`. | В поле передан массив или объект вместо значения. В тексте указано имя поля ||
+|| `400` | `0` | Складской учет недоступен на вашем тарифе | Складской учет недоступен на тарифе портала ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./catalog-document-update.md)
+- [{#T}](./catalog-document-list.md)
+- [{#T}](./catalog-document-conduct.md)
+- [{#T}](./catalog-document-get-fields.md)
 - [{#T}](./document-element/catalog-document-element-add.md)
 - [{#T}](../documentcontractor/catalog-documentcontractor-add.md)
-- [{#T}](./catalog-document-update.md)
-- [{#T}](./catalog-document-conduct.md)
-

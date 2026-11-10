@@ -23,17 +23,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **type***
-[`string`](../../data-types.md) | Тип свойства отгрузки
+[`string`](../../data-types.md) | Тип свойства отгрузки.
+
 Возможные значения:
-`STRING`
-`Y/N`
-`NUMBER`
-`ENUM`
-`FILE`
-`DATE`
-`LOCATION`
-`ADDRESS`
- ||
+- `STRING` — строка
+- `Y/N` — да или нет
+- `NUMBER` — число
+- `ENUM` — список
+- `FILE` — файл
+- `DATE` — дата
+- `LOCATION` — местоположение
+- `ADDRESS` — адрес ||
 |#
 
 ## Примеры кода
@@ -257,140 +257,142 @@ HTTP-статус: **200**
 
 ```json
 {
-   "result":{
-      "property":{
-         "active":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"char"
-         },
-         "code":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"string"
-         },
-         "defaultValue":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"string"
-         },
-         "description":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"string"
-         },
-         "id":{
-            "isImmutable":false,
-            "isReadOnly":true,
-            "isRequired":false,
-            "type":"integer"
-         },
-         "isFiltered":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"char"
-         },
-         "multiple":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"char"
-         },
-         "name":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":true,
-            "type":"string"
-         },
-         "personTypeId":{
-            "isImmutable":true,
-            "isReadOnly":false,
-            "isRequired":true,
-            "type":"integer"
-         },
-         "propsGroupId":{
-            "isImmutable":true,
-            "isReadOnly":false,
-            "isRequired":true,
-            "type":"integer"
-         },
-         "required":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"char"
-         },
-         "settings":{
-            "fields":{
-               "max":{
-                  "isImmutable":false,
-                  "isReadOnly":false,
-                  "isRequired":false,
-                  "type":"integer"
-               },
-               "min":{
-                  "isImmutable":false,
-                  "isReadOnly":false,
-                  "isRequired":false,
-                  "type":"integer"
-               },
-               "step":{
-                  "isImmutable":false,
-                  "isReadOnly":false,
-                  "isRequired":false,
-                  "type":"integer"
-               }
+    "result": {
+        "property": {
+            "active": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
             },
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"datatype"
-         },
-         "sort":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"integer"
-         },
-         "type":{
-            "isImmutable":true,
-            "isReadOnly":false,
-            "isRequired":true,
-            "type":"string"
-         },
-         "userProps":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"char"
-         },
-         "util":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"char"
-         },
-         "xmlId":{
-            "isImmutable":false,
-            "isReadOnly":false,
-            "isRequired":false,
-            "type":"string"
-         }
-      }
-   },
-   "time":{
-      "start":1712325081.703631,
-      "finish":1712325082.067712,
-      "duration":0.36408114433288574,
-      "processing":0.023890972137451172,
-      "date_start":"2024-04-05T16:51:21+03:00",
-      "date_finish":"2024-04-05T16:51:22+03:00"
-   }
+            "code": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "defaultValue": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "any"
+            },
+            "description": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "isFiltered": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "multiple": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "name": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "personTypeId": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "propsGroupId": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "integer"
+            },
+            "required": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "settings": {
+                "fields": {
+                    "max": {
+                        "isImmutable": false,
+                        "isReadOnly": false,
+                        "isRequired": false,
+                        "type": "integer"
+                    },
+                    "min": {
+                        "isImmutable": false,
+                        "isReadOnly": false,
+                        "isRequired": false,
+                        "type": "integer"
+                    },
+                    "step": {
+                        "isImmutable": false,
+                        "isReadOnly": false,
+                        "isRequired": false,
+                        "type": "integer"
+                    }
+                },
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "datatype"
+            },
+            "sort": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "type": {
+                "isImmutable": true,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "userProps": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "util": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "char"
+            },
+            "xmlId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            }
+        }
+    },
+    "time": {
+        "start": 1793012310,
+        "finish": 1793012310.892729,
+        "duration": 0.8927290439605713,
+        "processing": 0,
+        "date_start": "2026-10-26T13:58:30+03:00",
+        "date_finish": "2026-10-26T13:58:30+03:00",
+        "operating_reset_at": 1793012880,
+        "operating": 0
+    }
 }
 ```
 
@@ -402,9 +404,42 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **property**
-[`object`](../../data-types.md) | Описание полей и настроек свойства отгрузки для указанного типа ||
+[`object`](../../data-types.md) | Поля свойства отгрузки, доступные для указанного типа. Ключ — название поля, значение — объект с описанием поля. Структура описана [ниже](#field)
+
+Набор полей зависит от типа:
+- для всех типов — общие поля `id`, `personTypeId`, `propsGroupId`, `name`, `type`, `code`, `active`, `util`, `userProps`, `isFiltered`, `sort`, `description`, `required`, `multiple`, `defaultValue`, `settings`, `xmlId`
+- `STRING` — дополнительно `isProfileName`, `isPayer`, `isEmail`, `isPhone`, `isZip`, `isAddress`
+- `LOCATION` — дополнительно `isLocation`, `isLocation4tax`, `inputFieldLocation`
+- `ADDRESS` — дополнительно `isAddressFrom`, `isAddressTo`
+
+Значения полей описаны в типе [sale_order_property](../data-types.md#sale_order_property) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Описание поля {#field}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../data-types.md) | Тип значения поля: `integer`, `string`, `char` или `any`. У поля `defaultValue` — `any`, у поля `settings` — `datatype` ||
+|| **isRequired**
+[`boolean`](../../data-types.md) | Поле обязательно при создании свойства ||
+|| **isReadOnly**
+[`boolean`](../../data-types.md) | Поле только для чтения: его значение нельзя задать при создании и изменении ||
+|| **isImmutable**
+[`boolean`](../../data-types.md) | Поле задается только при создании, изменить его нельзя ||
+|| **fields**
+[`object`](../../data-types.md) | Есть только у поля `settings`. Настройки, доступные для типа свойства, в том же формате: ключ — название настройки, значение — описание поля.
+
+Набор настроек зависит от типа:
+- `STRING` — `minlength`, `maxlength`, `pattern`, `multiline`, `cols`, `rows`, `size`
+- `NUMBER` — `min`, `max`, `step`
+- `ENUM` — `multielement`, `size`
+- `FILE` — `maxsize`, `accept`
+- `DATE` — `time`
+- `Y/N`, `LOCATION`, `ADDRESS` — настроек нет, `fields` — пустой массив ||
 |#
 
 ## Обработка ошибок
@@ -413,8 +448,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"error"
+   "error":"200850000008",
+   "error_description":"type is out of range"
 }
 ```
 
@@ -424,7 +459,9 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
+|| `200850000008` | Передано недопустимое значение `type` ||
 || `200040300010` | Недостаточно прав для чтения доступных полей свойств отгрузки ||
+|| `100` | Не указан параметр `type` ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 

@@ -46,7 +46,21 @@
           "type": "string",
           "base": "string",
           "required": true,
-          "description": "Новый статус задания. Возможные значения: - IN_PROGRESS — выполняется - DONE — выполнено - CANCELED — отменено"
+          "description": "Новый статус задания. Возможные значения: - IN_PROGRESS — выполняется - DONE — выполнено - CANCELED — отменено",
+          "values": [
+            {
+              "value": "IN_PROGRESS",
+              "title": "выполняется"
+            },
+            {
+              "value": "DONE",
+              "title": "выполнено"
+            },
+            {
+              "value": "CANCELED",
+              "title": "отменено"
+            }
+          ]
         },
         {
           "name": "total",

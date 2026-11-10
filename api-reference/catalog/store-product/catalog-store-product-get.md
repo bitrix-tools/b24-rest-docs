@@ -11,9 +11,11 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров» или «Просмотр и выбор склада»
 
-Метод `catalog.storeproduct.get` возвращает информацию об остатках товара на складе по идентификатору записи.
+Метод `catalog.storeproduct.get` возвращает остаток и резерв товара на складе по идентификатору записи остатка.
+
+Метод возвращает запись, только если ее склад доступен пользователю по праву «Просмотр и выбор склада». Запись недоступного склада метод не отдает и возвращает ошибку «не найдено».
 
 ## Параметры метода
 
@@ -23,7 +25,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_storeproduct.id`](../data-types.md#catalog_storeproduct) | Идентификатор записи остатков, можно получить методом [catalog.storeproduct.list](./catalog-store-product-list.md) ||
+[`catalog_storeproduct.id`](../data-types.md#catalog_storeproduct) | Идентификатор записи остатка — не идентификатор товара.
+
+Получить идентификатор записи по товару и складу можно методом [catalog.storeproduct.list](./catalog-store-product-list.md) с фильтром `{"productId": ..., "storeId": ...}` ||
 |#
 
 ## Примеры кода
@@ -38,7 +42,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1}' \
+    -d '{"id":3}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.storeproduct.get
     ```
 
@@ -48,7 +52,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1,"auth":"**put_access_token_here**"}' \
+    -d '{"id":3,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.storeproduct.get
     ```
 
@@ -65,7 +69,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type StoreProductGetResult = {
       storeProduct: {
-        amount: number
+        amount: number | null
         id: number
         productId: number
         quantityReserved: number | null
@@ -77,7 +81,7 @@
       const response = await $b24.actions.v2.call.make<StoreProductGetResult>({
         method: 'catalog.storeproduct.get',
         params: {
-          id: 1,
+          id: 3,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -87,7 +91,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.storeProduct)
+        console.info('Amount:', result.storeProduct.amount, 'Reserved:', result.storeProduct.quantityReserved)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -109,7 +113,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.storeproduct.get',
             params: {
-              id: 1,
+              id: 3,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -121,7 +125,7 @@
           }
 
           const result = response.getData().result
-          console.info(result.storeProduct)
+          console.info('Amount:', result.storeProduct.amount, 'Reserved:', result.storeProduct.quantityReserved)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -139,7 +143,7 @@
 
     try:
         bitrix_response = client.catalog.storeproduct.get(
-            bitrix_id=1,
+            bitrix_id=3,
         ).response
         result = bitrix_response.result
         print(result)
@@ -165,7 +169,7 @@
             ->call(
                 'catalog.storeproduct.get',
                 [
-                    'id' => 1
+                    'id' => 3,
                 ]
             );
 
@@ -173,15 +177,9 @@
             ->getResponseData()
             ->getResult();
 
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting store product: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -191,11 +189,11 @@
     BX24.callMethod(
         'catalog.storeproduct.get',
         {
-            id: 1
+            id: 3,
         },
         function(result)
         {
-            if(result.error())
+            if (result.error())
                 console.error(result.error());
             else
                 console.log(result.data());
@@ -211,7 +209,7 @@
     $result = CRest::call(
         'catalog.storeproduct.get',
         [
-            'id' => 1
+            'id' => 3,
         ]
     );
 
@@ -225,7 +223,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.storeproduct.get", b24.Params{
-    	"id": 1,
+    	"id": 3,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.storeproduct.get: %w", err)
@@ -237,16 +235,18 @@
     	return fmt.Errorf("в ответе нет ключа storeProduct")
     }
 
+    // amount и quantityReserved могут прийти как null, поэтому для них указатели.
     var item struct {
-    	Amount    int    `json:"amount"`
-    	ID        b24.ID `json:"id"`
-    	ProductID b24.ID `json:"productId"`
-    	StoreID   b24.ID `json:"storeId"`
+    	ID               b24.ID   `json:"id"`
+    	ProductID        b24.ID   `json:"productId"`
+    	StoreID          b24.ID   `json:"storeId"`
+    	Amount           *float64 `json:"amount"`
+    	QuantityReserved *float64 `json:"quantityReserved"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Amount, item.ID)
+    fmt.Println(item.ID, item.StoreID)
     ```
 
 {% endlist %}
@@ -259,20 +259,21 @@ HTTP-статус: **200**
 {
     "result": {
         "storeProduct": {
-            "amount": 14,
-            "id": 13,
-            "productId": 6973,
-            "quantityReserved": null,
-            "storeId": 11
+            "amount": 15,
+            "id": 3,
+            "productId": 6595,
+            "quantityReserved": 30,
+            "storeId": 1
         }
     },
     "time": {
-        "start": 1758089295.545724,
-        "finish": 1758089295.586371,
-        "duration": 0.040647029876708984,
-        "processing": 0.0036160945892333984,
-        "date_start": "2025-09-17T09:08:15+03:00",
-        "date_finish": "2025-09-17T09:08:15+03:00",
+        "start": 1793874771,
+        "finish": 1793874771.975931,
+        "duration": 0.97593092918396,
+        "processing": 0,
+        "date_start": "2026-11-05T13:32:51+03:00",
+        "date_finish": "2026-11-05T13:32:51+03:00",
+        "operating_reset_at": 1793875320,
         "operating": 0
     }
 }
@@ -285,8 +286,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **storeProduct**
-[`catalog_storeproduct`](../data-types.md#catalog_storeproduct) | Объект с информацией об остатках товара по складам с заданным идентификатором ||
+|| **result.storeProduct**
+[`catalog_storeproduct`](../data-types.md#catalog_storeproduct) | Запись остатка: товар, склад, количество на складе и резерв. Если остаток или резерв не заполнены, `amount` и `quantityReserved` приходят со значением `null` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -297,8 +298,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300010,
-    "error_description": "Access Denied"
+    "error": "",
+    "error_description": "storeProduct does not exist."
 }
 ```
 
@@ -307,11 +308,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `200040300010` | Access Denied | Недостаточно прав для чтения ||
-|| `-` | Store product is not exists | Остатков товара по складам с таким идентификатором не существует ||
-|| `100` | Could not find value for parameter {id} | Не указан параметр `id` || 
-|| `0` | | Другие ошибки || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр и выбор склада» ||
+|| `400` | Пустое значение | storeProduct does not exist. | Записи остатка с таким `id` нет или ее склад недоступен пользователю. Ту же ошибку метод возвращает, если в `id` передана строка, которая не является числом ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

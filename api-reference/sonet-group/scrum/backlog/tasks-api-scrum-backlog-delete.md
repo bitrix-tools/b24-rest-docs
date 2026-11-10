@@ -166,12 +166,7 @@
             ->getResponseData()
             ->getResult();
     
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+        echo 'Result: ' . json_encode($result);
     
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -250,6 +245,17 @@ HTTP-статус: **200**
     }
 }
 ```
+
+## Возвращаемые данные
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Пустой массив `[]` при успешном удалении бэклога ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
 ## Обработка ошибок
 

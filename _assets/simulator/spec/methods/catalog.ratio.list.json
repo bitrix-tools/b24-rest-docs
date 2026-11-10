@@ -34,6 +34,16 @@
       "base": "object",
       "required": "unknown",
       "description": "Объект для сортировки выбранных полей коэффициентов единиц измерения в формате {\"field_1\": \"order_1\", ... \"field_N\": \"order_N\"}. Возможные значения для field соответствуют полям объекта catalogratio. Возможные значения для order: - asc — в порядке возрастания - desc — в порядке убывания",
+      "values": [
+        {
+          "value": "asc",
+          "title": "в порядке возрастания"
+        },
+        {
+          "value": "desc",
+          "title": "в порядке убывания"
+        }
+      ],
       "dynamic": {
         "allowed": true,
         "note": "Состав полей не описан подтаблицей на этой странице"
@@ -84,5 +94,24 @@
     }
   ],
   "page": "/api-reference/catalog/ratio/catalog-ratio-list.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "select": [
+      "id",
+      "productId",
+      "ratio",
+      "isDefault"
+    ],
+    "filter": {
+      "@productId": [
+        1,
+        2
+      ],
+      ">ratio": 0.5,
+      "isDefault": "Y"
+    },
+    "order": {
+      "id": "desc"
+    }
+  }
 }

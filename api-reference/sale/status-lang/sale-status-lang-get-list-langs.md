@@ -125,7 +125,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.sale.statuslang.getlistlangs().response
+        bitrix_response = client.sale.statuslang.get_list_langs().response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:

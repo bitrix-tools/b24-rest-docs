@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод обновляет существующее событие.
+Метод `calendar.event.update` обновляет существующее событие.
 
 ## Параметры метода
 
@@ -74,11 +74,11 @@
 || **color**
 [`string`](../../data-types.md) | Цвет фона события.
 
-Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Формат — HEX, например `#9cbe1c`. В JSON-теле запроса передавайте `#` без изменений. В строке URL кодируйте `#` как `%23`: `color=%239cbe1c` ||
 || **text_color**
 [`string`](../../data-types.md) | Цвет текста события.
 
-Символ `#` в цвете необходимо передавать в формате unicode — `%23` ||
+Формат — HEX, например `#283033`. В JSON-теле запроса передавайте `#` без изменений. В строке URL кодируйте `#` как `%23`: `text_color=%23283033` ||
 || **accessibility**
 [`string`](../../data-types.md) | Доступность на время события: 
 - `busy` — занят 
@@ -104,7 +104,7 @@
 
 Нужен только для `recurrence_mode` со значениями `this` или `next` ||
 || **rrule**
-[`object`](../../data-types.md) | Повторяемость события в виде объекта в терминах стандарта iCalendar. Структура описана [ниже](#rrule) ||
+[`object`](../../data-types.md) | Повторяемость события в виде объекта в терминах стандарта iCalendar [(подробное описание)](#rrule) ||
 || **is_meeting**
 [`string`](../../data-types.md) | Признак встречи с участниками события. Возможные значения:
 
@@ -113,23 +113,33 @@
 
 Для встречи с участниками передайте список участников `attendees` ||
 || **location**
-[`string`](../../data-types.md) | Место проведения ||
+[`string`](../../data-types.md) | Место проведения. Можно передать произвольную строку, например `Офис, 3 этаж`.
+
+Чтобы забронировать переговорную, передайте строку вида `calendar_<id переговорной>`, например `calendar_1`. Метод проверит, свободна ли переговорная в указанное время ||
+|| **doCheckOccupancy**
+[`string`](../../data-types.md) | Проверять ли занятость переговорной из `location`. Возможные значения:
+- `Y` — проверять. Если переговорная занята, метод вернет ошибку `CALENDAR_LOCATION_OCCUPANCY_CONFLICT`
+- `N` — не проверять
+
+По умолчанию — `Y` ||
 || **remind**
-[`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии. Структура описана [ниже](#remind) ||
+[`array`](../../data-types.md) | Массив объектов с описанием напоминаний о событии [(подробное описание)](#remind) ||
 || **attendees**
 [`array`](../../data-types.md) | Список идентификаторов участников события.
 
 Если передать `is_meeting = Y` и не передать `attendees`, список участников будет очищен. Если не передавать `is_meeting`, текущий список участников сохранится ||
 || **host**
-[`integer`](../../data-types.md) | Идентификатор организатора события.
+[`integer`](../../data-types.md) | Идентификатор организатора встречи.
 
-Передавайте параметр только если встречу обновляет не организатор. В этом случае укажите идентификатор текущего организатора. Если не передать параметр или передать идентификатор другого пользователя, метод вернет ошибку `Доступ запрещен`.
+Параметр учитывается только вместе с `is_meeting = Y`. Для события без встречи он игнорируется.
 
-Идентификатор текущего организатора можно узнать в ответе методов [calendar.event.getbyid](./calendar-event-get-by-id.md) и [calendar.event.get](./calendar-event-get.md) в поле `MEETING_HOST`.
+Если передать `is_meeting = Y` без `host`, организатором станет пользователь, от имени которого выполняется метод. Если не передавать ни `is_meeting`, ни `host`, текущий организатор сохранится.
 
-Параметр нельзя использовать для смены организатора существующего события. Чтобы сменить организатора, удалите событие методом [calendar.event.delete](./calendar-event-delete.md) и создайте новое методом [calendar.event.add](./calendar-event-add.md) от имени нужного организатора ||
+Параметр не дает прав на календарь, не меняет пользователя, от имени которого выполняется метод, и не добавляет организатора в список участников автоматически.
+
+Идентификатор текущего организатора можно узнать в ответе методов [calendar.event.getbyid](./calendar-event-get-by-id.md) и [calendar.event.get](./calendar-event-get.md) в поле `MEETING_HOST` ||
 || **meeting**
-[`object`](../../data-types.md) | Объект с параметрами встречи. Структура описана [ниже](#meeting) ||
+[`object`](../../data-types.md) | Объект с параметрами встречи [(подробное описание)](#meeting) ||
 || **crm_fields**
  [`array`](../../data-types.md) | Массив идентификаторов объектов CRM для привязки к событию. Чтобы привязать объекты, перечислите их идентификаторы с [префиксами](../../crm/data-types.md#object_type):
  - `CO_` — компания
@@ -241,7 +251,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
+    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.event.update
     ```
 
@@ -251,7 +261,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
+    -d '{"id":699,"type":"user","ownerId":2,"name":"Changed Event Name","description":"New description for event","from":"2024-06-17","to":"2024-06-17","skip_time":"Y","section":5,"color":"#9cbe1c","text_color":"#283033","accessibility":"free","importance":"normal","is_meeting":"Y","private_event":"Y","recurrence_mode":"next","current_date_from":"2024-12-04","remind":[{"type":"min","count":10}],"location":"London","attendees":[1,2,3],"host":2,"meeting":{"notify":true,"reinvite":false,"allow_invite":false,"hide_guests":false},"rrule":{"FREQ":"WEEKLY","BYDAY":["MO","WE"],"COUNT":10,"INTERVAL":1},"crm_fields":["C_5","L_11"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.event.update
     ```
 
@@ -305,6 +315,7 @@
           ],
           location: 'London',
           attendees: [1, 2, 3],
+          host: 2,
           meeting: {
             notify: true,
             reinvite: false,
@@ -374,6 +385,7 @@
               ],
               location: 'London',
               attendees: [1, 2, 3],
+              host: 2,
               meeting: {
                 notify: true,
                 reinvite: false,
@@ -483,7 +495,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -516,6 +527,7 @@
                     ],
                     'location'        => 'London',
                     'attendees'       => [1, 2, 3],
+                    'host'            => 2,
                     'meeting'         => [
                         'notify'      => true,
                         'reinvite'    => false,
@@ -577,6 +589,7 @@
             ],
             location: 'London',
             attendees: [1, 2, 3],
+            host: 2,
             meeting: {
                 notify: true,
                 reinvite: false,
@@ -627,6 +640,7 @@
             ],
             'location' => 'London',
             'attendees' => [1, 2, 3],
+            'host' => 2,
             'meeting' => [
                 'notify' => true,
                 'reinvite' => false,
@@ -678,6 +692,7 @@
     	},
     	"location":  "London",
     	"attendees": []int{1, 2, 3},
+		"host":      2,
     	"meeting": b24.Params{
     		"notify":       true,
     		"reinvite":     false,
@@ -762,6 +777,8 @@ HTTP-статус: **200**
     `тип` | **Описание** ||
     || **result**
     [`integer`](../../data-types.md) | Идентификатор обновленного события ||
+    || **time**
+    [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
     |#
 
 - Повторяемое событие
@@ -770,7 +787,16 @@ HTTP-статус: **200**
     || **Название**
     `тип` | **Описание** ||
     || **result**
-    [`object`](../../data-types.md) | Корневой элемент ответа ||
+    [`object`](../../data-types.md) | Данные новой серии повторяемого события [(подробное описание)](#result-recurrence) ||
+    || **time**
+    [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+    |#
+
+    #### Объект result {#result-recurrence}
+
+    #|
+    || **Название**
+    `тип` | **Описание** ||
     || **originalDate**
     [`datetime`](../../data-types.md) | Дата начала новой серии повторяемого события ||
     || **originalDavXmlId**
@@ -780,7 +806,7 @@ HTTP-статус: **200**
     || **recEventId**
     [`integer`](../../data-types.md) | Идентификатор новой серии повторяемого события ||
     || **id**
-    [`integer`](../../data-types.md) | Идентификатор предыдущей серии повторямого события ||
+    [`integer`](../../data-types.md) | Идентификатор предыдущей серии повторяемого события ||
     |#
 
 {% endlist %}
@@ -796,22 +822,49 @@ HTTP-статус: **400**
 }
 ```
 
+Ошибки занятости переговорной приходят с HTTP-статусом **200**:
+
+```json
+{
+    "error": "CALENDAR_LOCATION_OCCUPANCY_CONFLICT",
+    "error_description": "Переговорная занята в указанное время",
+    "additional": {
+        "occupancy": {
+            "dates": [],
+            "truncated": false
+        }
+    }
+}
+```
+
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустое значение | Не задан обязательный параметр "id" для метода "calendar.event.update" | Не передан обязательный параметр `id` ||
-|| Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.event.update" | Не передан обязательный параметр `ownerId` ||
-|| Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.update" | Не передан обязательный параметр `type` ||
-|| Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
-|| Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
-|| Пустое значение | Доступ запрещен | Запрещено изменение событий в указанном календаре ||
-|| Пустое значение | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
-|| Пустое значение | Указан несуществующий тип редактирования повторяемого события | Передано неверное значение поля `recurrence_mode` ||
-|| Пустое значение | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
-|| Пустое значение | При изменении события произошла ошибка | Другая ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Не задан обязательный параметр "id" для метода "calendar.event.update" | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.event.update" | Не передан обязательный параметр `ownerId` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "type" для метода "calendar.event.update" | Не передан обязательный параметр `type` ||
+|| `400` | Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
+|| `400` | Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
+|| `400` | Пустое значение | Доступ запрещен | Запрещено изменение событий в указанном календаре ||
+|| `400` | Пустое значение | Вы задали неверный ID секции календаря или у данного пользователя нет к ней доступа | Передан идентификатор недоступного или несуществующего календаря ||
+|| `400` | Пустое значение | Указан несуществующий тип редактирования повторяемого события | Передано неверное значение поля `recurrence_mode` ||
+|| `400` | Пустое значение | Список связей события с CRM должен быть массивом | Передан неверный формат данных в поле `crm_fields` ||
+|| `400` | Пустое значение | При изменении события произошла ошибка | Другая ошибка ||
+|| `400` | Пустое значение | Недопустимое значение параметра "doCheckOccupancy" | В `doCheckOccupancy` передано значение, отличное от `Y` или `N` ||
+|| `200` | `CALENDAR_LOCATION_OCCUPANCY_CONFLICT` | Переговорная занята в указанное время | Переговорная из `location` занята в указанное время или не существует. Ответ содержит объект `additional.occupancy` с полями `dates` — массив дат занятости в формате `ГГГГ-ММ-ДДTчч:мм:ссZ` и `truncated` — признак, что список дат неполный. Даты приходят только если у пользователя есть доступ к их просмотру, иначе массив пустой ||
+|| `200` | `CALENDAR_LOCATION_OCCUPANCY_INVALID_INTERVAL` | ROOM OCCUPANCY INTERVAL IS INVALID | Не удалось проверить занятость переговорной из `location` по датам события. Ошибка возникает, если событие с переговорной начинается 1 января 1970 года или раньше, в том числе при изменении других полей такого события. Чтобы сохранить изменения без проверки, передайте `doCheckOccupancy` со значением `N` ||
+|| `200` | `CALENDAR_LOCATION_OCCUPANCY_LOCKED` | Переговорная сейчас выбрана для другого события. Попробуйте позже или выберите новую | Переговорную в этот момент бронирует другое событие. Повторите запрос позже ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./calendar-event-add.md)
+- [{#T}](./calendar-event-get-by-id.md)
+- [{#T}](./calendar-event-get.md)
+- [{#T}](./calendar-event-delete.md)

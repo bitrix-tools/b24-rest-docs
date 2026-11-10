@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение товара в инфоблоке
 
-Метод получает информацию о товаре торгового каталога по его `ID`.
+Метод `catalog.product.get` возвращает поля и значения свойств товара торгового каталога по идентификатору.
 
 ## Параметры метода
 
@@ -22,11 +22,12 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id*** 
-[`catalog_product.id`](../data-types.md#catalog_product)| Идентификатор товара.
+|| **id***
+[`catalog_product.id`](../data-types.md#catalog_product) | Идентификатор товара.
 
-Для получения идентификаторов товаров необходимо использовать [catalog.product.list](./catalog-product-list.md)
- ||
+Метод возвращает элемент торгового каталога любого типа: простой товар, товар с вариациями, вариацию, услугу. Тип приходит в поле `type`.
+
+Получить идентификаторы товаров можно методом [catalog.product.list](./catalog-product-list.md) ||
 |#
 
 {% note warning "Работа с ценой товара" %}
@@ -199,9 +200,9 @@
 
 - PHP
 
-    ```php       
+    ```php
     try {
-        $productId = 123; // Replace with the actual product ID you want to retrieve
+        $productId = 1243;
         $productResult = $serviceBuilder->getCatalogScope()
             ->product()
             ->get($productId);
@@ -304,72 +305,85 @@ HTTP-статус: **200**
         "product": {
             "active": "Y",
             "available": "Y",
+            "barcodeMulti": "N",
             "bundle": "N",
             "canBuyZero": "Y",
-            "code": "Tovar",
+            "code": "skameyka_java_120_sm",
             "createdBy": 1,
-            "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-            "dateActiveTo": "2024-05-29T10:00:00+03:00",
-            "dateCreate": "2024-05-27T10:00:00+03:00",
+            "dateActiveFrom": null,
+            "dateActiveTo": null,
+            "dateCreate": "2026-10-12T13:12:22+03:00",
             "detailPicture": {
                 "id": "6455",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6455\u0026fields%5BproductId%5D=1243",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6455\u0026fields%5BproductId%5D=1243"
+                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6455&fields%5BproductId%5D=1243",
+                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=6455&fields%5BproductId%5D=1243"
             },
-            "detailText": null,
+            "detailText": "Скамейка садовая Java, тик, 120x61x92 см",
             "detailTextType": "text",
-            "height": 100,
-            "iblockId": 23,
-            "iblockSectionId": 47,
+            "height": 920,
+            "iblockId": 25,
+            "iblockSection": [
+                85
+            ],
+            "iblockSectionId": 85,
             "id": 1243,
-            "length": 100,
-            "measure": 5,
+            "length": 610,
+            "measure": 9,
             "modifiedBy": 1,
-            "name": "Товар",
-            "previewPicture": {
-                "id": "6454",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6454\u0026fields%5BproductId%5D=1243",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6454\u0026fields%5BproductId%5D=1243"
-            },
+            "name": "Скамейка Java, 120 см",
+            "previewPicture": null,
             "previewText": null,
             "previewTextType": "text",
-            "property258": {
-                "value": "test",
-                "valueId": "9743"
+            "property301": {
+                "value": "1001",
+                "valueId": "2967"
             },
-            "property259": [
+            "property305": [
                 {
-                    "value": "test1",
-                    "valueId": "9744"
-                },
-                {
-                    "value": "test2",
-                    "valueId": "9745"
+                    "value": "Тик",
+                    "valueId": "2969"
                 }
             ],
+            "property309": [
+                {
+                    "value": {
+                        "id": "8303",
+                        "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=property309&fields%5BfileId%5D=8303&fields%5BproductId%5D=1243",
+                        "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=property309&fields%5BfileId%5D=8303&fields%5BproductId%5D=1243"
+                    },
+                    "valueId": "2973"
+                }
+            ],
+            "property311": null,
             "purchasingCurrency": "RUB",
-            "purchasingPrice": "1000.000000",
+            "purchasingPrice": "4500.00000000",
             "quantity": 10,
             "quantityReserved": 1,
             "quantityTrace": "Y",
-            "sort": 100,
+            "recurSchemeLength": null,
+            "recurSchemeType": "D",
+            "sort": 500,
             "subscribe": "Y",
-            "timestampX": "2024-06-06T16:45:35+03:00",
+            "timestampX": "2026-11-05T16:08:15+03:00",
+            "trialPriceId": null,
             "type": 1,
             "vatId": 1,
             "vatIncluded": "Y",
-            "weight": 100,
-            "width": 100,
+            "weight": 12000,
+            "width": 1200,
+            "withoutOrder": "N",
             "xmlId": "1243"
         }
     },
     "time": {
-        "start": 1717745698.684563,
-        "finish": 1717745699.571344,
-        "duration": 0.8867809772491455,
-        "processing": 0.47261500358581543,
-        "date_start": "2024-06-07T10:34:58+03:00",
-        "date_finish": "2024-06-07T10:34:59+03:00"
+        "start": 1793891754,
+        "finish": 1793891754.838614,
+        "duration": 0.8386139869689941,
+        "processing": 0,
+        "date_start": "2026-11-05T18:15:54+03:00",
+        "date_finish": "2026-11-05T18:15:54+03:00",
+        "operating_reset_at": 1793892300,
+        "operating": 0
     }
 }
 ```
@@ -381,10 +395,14 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **product**
-[`catalog_product`](../data-types.md#catalog_product) | Объект с информацией о товаре ||
+|| **result.product**
+[`catalog_product`](../data-types.md#catalog_product) | Поля товара и значения всех его свойств. Пустые поля приходят со значением `null`.
+
+Свойства приходят в ключах `propertyN`, где `N` — идентификатор свойства. Значение одиночного свойства — объект `{"value": ..., "valueId": ...}`, множественного — массив таких объектов. Для свойства типа «Файл» в `value` приходит объект с идентификатором файла и ссылками на скачивание.
+
+Поля `purchasingPrice` и `purchasingCurrency` приходят, только если у пользователя есть право на просмотр закупочной цены ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -393,8 +411,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -403,18 +421,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300000` | Информационный блок с указанным идентификатором не существует ||
-|| `200040300040` | Недостаточно прав для чтения элемента информационного блока ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога ||
-|| `100` | Не указан параметр `id` ||
-|| `0` | Товар не существует ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300000` | `Iblock Not Found` | Инфоблок товара не найден ||
+|| `400` | `200040300040` | `Access Denied` | Нет права на чтение товара в инфоблоке ||
+|| `400` | `200040300010` | `Access Denied` | Нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» ||
+|| `400` | `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр `id` ||
+|| `400` | Пустое значение | `product does not exist.` | Товар с указанным `id` не найден или `id` не является положительным целым числом ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./catalog-product-add.md)
 - [{#T}](./catalog-product-update.md)

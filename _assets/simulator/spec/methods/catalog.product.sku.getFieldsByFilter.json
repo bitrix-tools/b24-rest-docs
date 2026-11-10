@@ -350,5 +350,10 @@
     }
   ],
   "page": "/api-reference/catalog/product/sku/catalog-product-sku-get-fields-by-filter.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "filter": {
+      "iblockId": 23
+    }
+  }
 }

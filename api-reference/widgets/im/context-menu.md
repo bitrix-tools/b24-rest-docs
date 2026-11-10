@@ -324,14 +324,10 @@ Array
             );
 
         $result = $response->getResponseData()->getResult();
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error binding placement: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -452,4 +448,4 @@ Array
 - [{#T}](../ui-interaction/index.md)
 - [{#T}](../bx24-widget-methods.md)
 - [{#T}](../../../settings/interactivity/index.md)
-
+- [{#T}](../../../sdk/b24jssdk/iframe-messenger-textarea.md)

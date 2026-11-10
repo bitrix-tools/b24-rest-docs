@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь, которому склад доступен по праву «Просмотр и выбор склада», или автор склада с правом «Редактирование складов»
 
-Метод возвращает значения полей склада по его идентификатору.
+Метод `catalog.store.get` возвращает значения всех полей склада по его идентификатору.
 
 ## Параметры метода
 
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1}' \
+    -d '{"id":37}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.store.get
     ```
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1,"auth":"**put_access_token_here**"}' \
+    -d '{"id":37,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.store.get
     ```
 
@@ -69,22 +69,22 @@
       store: {
         active: string
         address: string
-        code: string
-        dateCreate: ISODate | null
-        dateModify: ISODate | null
-        description: string
-        email: string
-        gpsN: number
-        gpsS: number
+        code: string | null
+        dateCreate: ISODate
+        dateModify: ISODate
+        description: string | null
+        email: string | null
+        gpsN: number | null
+        gpsS: number | null
         id: number
         imageId: { id: number; url: string } | null
         issuingCenter: string
-        modifiedBy: number
-        phone: string
-        schedule: string
-        sort: number
-        title: string
-        userId: number
+        modifiedBy: number | null
+        phone: string | null
+        schedule: string | null
+        sort: number | null
+        title: string | null
+        userId: number | null
         xmlId: string | null
       }
     }
@@ -93,7 +93,7 @@
       const response = await $b24.actions.v2.call.make<StoreGetResult>({
         method: 'catalog.store.get',
         params: {
-          id: 1,
+          id: 37,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -103,7 +103,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.store.id, result.store.title, result.store.active)
+        console.info('Store:', result.store.id, result.store.title, result.store.address)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -125,7 +125,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.store.get',
             params: {
-              id: 1,
+              id: 37,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -137,7 +137,7 @@
           }
 
           const result = response.getData().result
-          console.info(result.store.id, result.store.title, result.store.active)
+          console.info('Store:', result.store.id, result.store.title, result.store.address)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -155,7 +155,7 @@
 
     try:
         bitrix_response = client.catalog.store.get(
-            bitrix_id=1,
+            bitrix_id=37,
         ).response
         result = bitrix_response.result
         print(result)
@@ -174,7 +174,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -182,23 +181,17 @@
             ->call(
                 'catalog.store.get',
                 [
-                    'id' => 1
+                    'id' => 37,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting store information: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -206,15 +199,16 @@
 
     ```js
     BX24.callMethod(
-        'catalog.store.get', {
-            id: 1
+        'catalog.store.get',
+        {
+            id: 37,
         },
-        function(result) {
-            if (result.error()) {
+        function(result)
+        {
+            if (result.error())
                 console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+            else
+                console.log(result.data());
         }
     );
     ```
@@ -227,7 +221,7 @@
     $result = CRest::call(
         'catalog.store.get',
         [
-            'id' => 1
+            'id' => 37,
         ]
     );
 
@@ -241,15 +235,41 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.store.get", b24.Params{
-    	"id": 1,
+    	"id": 37,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.store.get: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
-    fmt.Printf("%s\n", res.Result)
+    // Метод заворачивает ответ в объект с ключом "store".
+    raw, ok := b24.Unwrap(res.Result, "store")
+    if !ok {
+    	return fmt.Errorf("в ответе нет ключа store")
+    }
+
+    // Необязательные поля могут прийти как null, поэтому для них указатели.
+    var item struct {
+    	ID            b24.ID   `json:"id"`
+    	Title         *string  `json:"title"`
+    	Address       string   `json:"address"`
+    	Active        string   `json:"active"`
+    	IssuingCenter string   `json:"issuingCenter"`
+    	GpsN          *float64 `json:"gpsN"`
+    	GpsS          *float64 `json:"gpsS"`
+    	Phone         *string  `json:"phone"`
+    	Schedule      *string  `json:"schedule"`
+    	Sort          *int     `json:"sort"`
+    	Code          *string  `json:"code"`
+    	XMLID         *string  `json:"xmlId"`
+    	ImageID       *struct {
+    		ID  int    `json:"id"`
+    		URL string `json:"url"`
+    	} `json:"imageId"`
+    }
+    if err := json.Unmarshal(raw, &item); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println(item.ID, item.Address)
     ```
 
 {% endlist %}
@@ -263,36 +283,35 @@ HTTP-статус: **200**
     "result": {
         "store": {
             "active": "Y",
-            "address": "пр. Московский д. 52",
-            "code": "store_1",
-            "dateCreate": "2024-10-18T16:30:45+03:00",
-            "dateModify": "2024-10-21T14:29:06+03:00",
-            "description": "Описание",
-            "email": "test@test.ru",
+            "address": "Калининград, Московский проспект, 52",
+            "code": "store_kgd",
+            "dateCreate": "2026-11-05T13:19:57+03:00",
+            "dateModify": "2026-11-05T13:20:13+03:00",
+            "description": "Основной склад розничных товаров",
+            "email": "store-kgd@example.com",
             "gpsN": 54.71411,
-            "gpsS": 21.56675,
-            "id": 1,
-            "imageId": {
-                "id": 1,
-                "url": "\/upload\/iblock\/6f1\/bkm7jmwso31wisk423gtp28iagy2e8v0\/test.jpeg"
-            },
+            "gpsS": 20.56675,
+            "id": 37,
+            "imageId": null,
             "issuingCenter": "N",
-            "modifiedBy": 1,
-            "phone": "8 (495) 212 85 06",
-            "schedule": "Пн.-Пт. с 9:00 до 20:00, Сб.-Вс. с 11:00 до 18:00",
-            "sort": 100,
-            "title": "Склад 1",
-            "userId": 1,
-            "xmlId": null
+            "modifiedBy": 1269,
+            "phone": "+7 (4012) 21-28-51",
+            "schedule": "Пн-Вс 10:00-22:00",
+            "sort": 200,
+            "title": "Склад на Московском",
+            "userId": 1269,
+            "xmlId": "store-kgd-01"
         }
     },
     "time": {
-        "start": 1729519143.740275,
-        "finish": 1729519144.2594,
-        "duration": 0.5191249847412109,
-        "processing": 0.0425570011138916,
-        "date_start": "2024-10-21T16:59:03+03:00",
-        "date_finish": "2024-10-21T16:59:04+03:00",
+        "start": 1793874019,
+        "finish": 1793874019.396691,
+        "duration": 0.39669108390808105,
+        "processing": 0,
+        "date_start": "2026-11-05T13:20:19+03:00",
+        "date_finish": "2026-11-05T13:20:19+03:00",
+        "operating_reset_at": 1793874600,
+        "operating": 0
     }
 }
 ```
@@ -304,8 +323,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **store**
-[`catalog_store`](../data-types.md#catalog_store) | Объект с информацией о складе ||
+|| **result.store**
+[`catalog_store`](../data-types.md#catalog_store) | Объект со всеми полями склада. Пустые поля приходят со значением `null`.
+
+Если у склада есть изображение, `imageId` содержит объект с идентификатором файла `id` и ссылкой на изображение `url`, например `{"id": 57, "url": "https://cdn-ru.bitrix24.ru/.../store.png"}` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -316,8 +337,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "201100000000",
+    "error_description": "store does not exist."
 }
 ```
 
@@ -326,11 +347,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для просмотра склада ||
-|| `201100000000` | Склад с указанным идентификатором не найден ||
-|| `100` | Не указан параметр `id` || 
-|| `0` | Другие ошибки (например, фатальные ошибки) || 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права «Просмотр каталога товаров» или «Просмотр и выбор склада», либо этот склад ему недоступен ||
+|| `400` | `201100000000` | store does not exist. | Склад с указанным `id` не найден. Ту же ошибку метод возвращает, если в `id` передана строка, которая не является числом ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

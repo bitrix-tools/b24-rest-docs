@@ -15,7 +15,7 @@
 > - любой пользователь с доступом к редактированию задачи
 > - постановщик задачи
 
-Метод `tasks.task.update` обновляет задачу.
+Метод `tasks.task.update` изменяет поля задачи и возвращает задачу целиком после изменения.
 
 ## Параметры метода
 
@@ -29,7 +29,7 @@
 
 Идентификатор задачи можно получить при [создании новой задачи](./tasks-task-add.md) или методом [получения списка задач](./tasks-task-list.md) ||
 || **fields***
-[`object`](../data-types.md) | Значения [полей задачи](./fields.md). В параметре нужно передать хотя бы одно поле, иначе метод вернет ошибку.
+[`object`](../data-types.md) | Значения [полей задачи](./fields.md), которые нужно изменить. Передавайте только изменяемые поля: непереданные поля сохраняют текущие значения. Неизвестные поля метод игнорирует. Если передать пустой объект `{}`, метод ничего не изменит и вернет задачу.
 
 В метод можно передать параметр `SE_PARAMETER` — список объектов с дополнительными параметрами задачи. Возможные значения кодов `CODE`:
 - `1` — сроки определяются сроками подзадач
@@ -359,10 +359,10 @@ HTTP-статус: **200**
 {
     "result": {
         "task": {
-            "id": "8157",
+            "id": "11",
+            "parentId": null,
             "title": "Пример задачи",
-            "description": "Описание задачи с [B]форматированием[/B]",
-            "description": "",
+            "description": "Описание задачи",
             "mark": null,
             "priority": "1",
             "multitask": "N",
@@ -371,23 +371,23 @@ HTTP-статус: **200**
             "stageId": "0",
             "sprintId": null,
             "backlogId": null,
-            "createdBy": "503",
-            "createdDate": "2025-10-06T17:40:12+03:00",
-            "responsibleId": "503",
-            "changedBy": "503",
-            "changedDate": "2025-10-07T16:32:02+03:00",
-            "statusChangedBy": "503",
-            "closedBy": "0",
+            "createdBy": "1",
+            "createdDate": "2026-10-29T15:35:23+03:00",
+            "responsibleId": "1",
+            "changedBy": "1",
+            "changedDate": "2026-10-29T15:35:24+03:00",
+            "statusChangedBy": null,
+            "closedBy": null,
             "closedDate": null,
-            "activityDate": "2025-10-07T16:29:55+03:00",
+            "activityDate": "2026-10-29T15:35:24+03:00",
             "dateStart": null,
-            "deadline": "2025-12-31T23:59:00+03:00",
-            "startDatePlan": "2024-11-02T11:06:00+03:00",
-            "endDatePlan": "2024-11-02T19:06:00+03:00",
-            "guid": "{1a90e51d-5423-4c1e-b1a2-664a519b4612}",
+            "deadline": "2026-12-31T23:59:00+03:00",
+            "startDatePlan": null,
+            "endDatePlan": null,
+            "guid": "{aa8a90e4-69a4-453a-b384-76f1a95569a1}",
             "xmlId": null,
-            "commentsCount": "4",
-            "serviceCommentsCount": "4",
+            "commentsCount": null,
+            "serviceCommentsCount": null,
             "allowChangeDeadline": "N",
             "allowTimeTracking": "N",
             "taskControl": "N",
@@ -396,55 +396,48 @@ HTTP-статус: **200**
             "timeEstimate": "0",
             "timeSpentInLogs": null,
             "matchWorkTime": "N",
-            "forumTopicId": "1439",
-            "forumId": "11",
+            "forumTopicId": null,
+            "forumId": null,
             "siteId": "s1",
-            "subordinate": "Y",
+            "subordinate": "N",
             "exchangeModified": null,
             "exchangeId": null,
-            "outlookVersion": "8",
-            "viewedDate": "2025-10-07T16:30:34+03:00",
+            "outlookVersion": "2",
+            "viewedDate": null,
             "sorting": null,
             "durationFact": null,
             "isMuted": "N",
             "isPinned": "N",
             "isPinnedInGroup": "N",
             "flowId": null,
+            "chatId": 5747,
             "descriptionInBbcode": "Y",
             "status": "2",
-            "statusChangedDate": "2025-10-07T16:22:24+03:00",
-            "durationPlan": "0",
+            "statusChangedDate": "2026-10-29T15:35:24+03:00",
+            "durationPlan": null,
             "durationType": "days",
             "favorite": "N",
             "groupId": "0",
-            "auditors": ["503", "547"],
+            "auditors": [],
             "accomplices": [],
             "checklist": [],
             "group": [],
             "creator": {
-                "id": "503",
-                "name": "Мария Иванова",
-                "link": "/company/personal/user/503/",
-                "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
-                "workPosition": "Администратор"
+                "id": "1",
+                "name": "Иван Иванов",
+                "link": "/company/personal/user/1/",
+                "icon": "https://test.bitrix24.ru/upload/resize_cache/main/avatar.png",
+                "workPosition": null
             },
             "responsible": {
-                "id": "503",
-                "name": "Мария Иванова",
-                "link": "/company/personal/user/503/",
-                "icon": "https://mysite.ru/b17053/resize_cache/45749/c0120a8d7c10d63c83e32398d1ec4d9e/main/c89/c89c6b7301880958ea704b5a8470635c/4R5A1256.png",
-                "workPosition": "Администратор"
+                "id": "1",
+                "name": "Иван Иванов",
+                "link": "/company/personal/user/1/",
+                "icon": "https://test.bitrix24.ru/upload/resize_cache/main/avatar.png",
+                "workPosition": null
             },
             "accomplicesData": [],
-            "auditorsData": {
-                "547": {
-                    "id": "547",
-                    "name": "Елена",
-                    "link": "/company/personal/user/547/",
-                    "icon": "/bitrix/images/tasks/default_avatar.png",
-                    "workPosition": "Юрист"
-                }
-            },
+            "auditorsData": [],
             "newCommentsCount": 0,
             "action": {
                 "accept": false,
@@ -481,7 +474,7 @@ HTTP-статус: **200**
                     "id": null,
                     "copiedId": null,
                     "entityId": null,
-                    "userId": 503,
+                    "userId": 1,
                     "createdBy": null,
                     "parentId": null,
                     "title": "",
@@ -501,14 +494,14 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1759843922,
-        "finish": 1759843922.725389,
-        "duration": 0.7253890037536621,
+        "start": 1793277324,
+        "finish": 1793277324.579209,
+        "duration": 0.5792090892791748,
         "processing": 0,
-        "date_start": "2025-10-07T16:32:02+03:00",
-        "date_finish": "2025-10-07T16:32:02+03:00",
-        "operating_reset_at": 1759844522,
-        "operating": 0.4929828643798828
+        "date_start": "2026-10-29T15:35:24+03:00",
+        "date_finish": "2026-10-29T15:35:24+03:00",
+        "operating_reset_at": 1793277900,
+        "operating": 0.20716381072998047
     }
 }
 ```
@@ -519,9 +512,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Объект с данными ответа ||
+[`object`](../data-types.md) | Корневой элемент ответа ||
 || **task**
-[`object`](../data-types.md) | Объект с [описанием задачи](./fields.md) после выполнения операции ||
+[`object`](../data-types.md) | Все поля задачи после изменения, включая непереданные. [Описание полей задачи](./fields.md) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -542,25 +535,26 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
-|| `100` | CTaskItem All parameters in the constructor must have real class type (internal error) | Не передан обязательный параметр `taskId` ||
-|| `0` | Действие над задачей не разрешено (internal error) | У пользователя нет прав обновление задачи или нет доступа к задаче ||
-|| `100` | Could not find value for parameter {fields} (internal error) | Не передан параметр `fields` или передан пустой ||
-|| `ERROR_CORE` | Пользователь указанный в поле \u0026quot;Исполнитель\u0026quot; не найден\u003Cbr\u003E | В поле `RESPONSIBLE_ID` указан идентификатор несуществующего пользователя ||
-|| `ERROR_CORE` | Некорректный статус\u003Cbr\u003E | Указано некорректное значение в поле `STATUS` ||
-|| `ERROR_CORE` | Задача указанная в поле \u0026quot;Надзадача\u0026quot; не найдена\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор несуществующей задачи ||
-|| `ERROR_CORE` | Невозможно привязать узел к самому себе\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор той же задачи, что и в параметре `taskId` ||
-|| `ERROR_CORE` | Создание зацикленных связей в задачах запрещено\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор подзадачи `taskId`. Подзадача не может стать базовой задачей ||
-|| `ERROR_CORE` | В планировании сроков указана дата окончания меньшая даты старта\u003Cbr\u003E | Дата и время в поле `END_DATE_PLAN` указано меньше, чем в `START_DATE_PLAN` ||
-|| `ERROR_CORE` | В планировании сроков указана слишком большая длительность задачи\u003Cbr\u003E | В значении поля `END_DATE_PLAN` указана слишком большая дата ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | wrong task id | В параметре `taskId` передано не число ||
+|| `400` | `100` | Could not find value for {taskId} | Не передан обязательный параметр `taskId` ||
+|| `400` | `0` | Действие над задачей не разрешено | Задача с переданным `taskId` не найдена, или у пользователя нет права изменять задачу ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `ERROR_CORE` | Пользователь указанный в поле \u0026quot;Исполнитель\u0026quot; не найден\u003Cbr\u003E | В поле `RESPONSIBLE_ID` указан идентификатор несуществующего пользователя ||
+|| `400` | `ERROR_CORE` | Некорректный статус\u003Cbr\u003E | В поле `STATUS` передано значение не из списка `1`, `2`, `3`, `4`, `5`, `6`. В текущей версии метод может не вернуть эту ошибку: недопустимое значение игнорируется, статус остается прежним ||
+|| `400` | `ERROR_CORE` | Задача указанная в поле \u0026quot;Надзадача\u0026quot; не найдена\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор несуществующей задачи ||
+|| `400` | `ERROR_CORE` | Невозможно привязать узел к самому себе\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор той же задачи, что и в параметре `taskId` ||
+|| `400` | `ERROR_CORE` | Создание зацикленных связей в задачах запрещено\u003Cbr\u003E | В поле `PARENT_ID` указан идентификатор подзадачи `taskId`. Подзадача не может стать базовой задачей ||
+|| `400` | `ERROR_CORE` | В планировании сроков указана дата окончания меньшая даты старта\u003Cbr\u003E | Дата и время в поле `END_DATE_PLAN` указано меньше, чем в `START_DATE_PLAN` ||
+|| `400` | `ERROR_CORE` | В планировании сроков указана слишком большая длительность задачи\u003Cbr\u003E | В значении поля `END_DATE_PLAN` указана слишком большая дата ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжить изучение
+## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./tasks-task-update-rest-v3.md)
 - [{#T}](./tasks-task-add.md)
 - [{#T}](./tasks-task-get.md)
 - [{#T}](./tasks-task-list.md)

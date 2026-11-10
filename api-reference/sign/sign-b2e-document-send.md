@@ -27,9 +27,9 @@
 || **fields*** 
 [`object`](../data-types.md) | Параметры отправки документа на подписание [(подробное описание)](#fields) ||
 || **language**
-[`string`](../data-types.md) | Язык локализации статусов в ответе.
+[`string`](../data-types.md) | Язык названий статусов в ответе. Код языка интерфейса Битрикс24, например `ru` или `en`.
 
-По умолчанию `en` ||
+Если язык не поддерживается, названия возвращаются на английском. По умолчанию `en` ||
 |#
 
 ### Параметр fields {#fields}
@@ -52,7 +52,13 @@
 || **externalSettings*** 
 [`object`](../data-types.md) | Внешние параметры документа [(подробное описание)](#external-settings) ||
 || **language**
-[`string`](../data-types.md) | Язык документа ||
+[`string`](../data-types.md) | Язык документа. Метод принимает параметр, но сейчас он не влияет на документ.
+
+Язык названий статусов в ответе задает параметр `language` верхнего уровня, а не этот ||
+|| **message**
+[`string`](../data-types.md) | Текст сообщения для сотрудника. Сотрудник увидит сообщение в чате вместе с приглашением подписать документ.
+
+Максимальная длина — 2000 символов ||
 |#
 
 ### Параметр company {#company}
@@ -166,7 +172,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"company":{"crmId":12},"members":[{"userId":25,"role":"signer"},{"userId":42,"role":"assignee"}],"responsible":{"userId":7},"companyProviderUid":"d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b","files":[{"fileName":"contract.pdf","fileType":"application/pdf","fileContent":"JVBERi0xLjQKJ..."}],"regionDocumentType":"12.999","externalSettings":{"externalId":"EXT-123","externalDateCreate":"2025-02-18T09:19:34+03:00"}},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"company":{"crmId":12},"members":[{"userId":25,"role":"signer"},{"userId":42,"role":"assignee"}],"responsible":{"userId":7},"companyProviderUid":"d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b","files":[{"fileName":"contract.pdf","fileType":"application/pdf","fileContent":"JVBERi0xLjQKJ..."}],"regionDocumentType":"12.999","externalSettings":{"externalId":"EXT-123","externalDateCreate":"2025-02-18T09:19:34+03:00"},"message":"Пожалуйста, подпишите документ"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sign.b2e.document.send
     ```
 
@@ -227,6 +233,7 @@
               externalId: 'EXT-123',
               externalDateCreate: '2025-02-18T09:19:34+03:00',
             },
+            message: 'Пожалуйста, подпишите документ',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -279,6 +286,7 @@
                   externalId: 'EXT-123',
                   externalDateCreate: '2025-02-18T09:19:34+03:00',
                 },
+                message: 'Пожалуйста, подпишите документ',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -337,6 +345,7 @@
             "externalId": "EXT-123",
             "externalDateCreate": "2025-02-18T09:19:34+03:00",
         },
+        "message": "Пожалуйста, подпишите документ",
     }
 
     try:
@@ -388,7 +397,8 @@
                         'externalSettings' => [
                             'externalId' => 'EXT-123',
                             'externalDateCreate' => '2025-02-18T09:19:34+03:00'
-                        ]
+                        ],
+                        'message' => 'Пожалуйста, подпишите документ'
                     ]
                 ]
             );
@@ -430,7 +440,8 @@
                 externalSettings: {
                     externalId: 'EXT-123',
                     externalDateCreate: '2025-02-18T09:19:34+03:00'
-                }
+                },
+                message: 'Пожалуйста, подпишите документ'
             }
         },
         result => {
@@ -470,7 +481,8 @@
                 'externalSettings' => [
                     'externalId' => 'EXT-123',
                     'externalDateCreate' => '2025-02-18T09:19:34+03:00'
-                ]
+                ],
+                'message' => 'Пожалуйста, подпишите документ'
             ]
         ]
     );
@@ -519,6 +531,7 @@
     			"externalId":         "EXT-123",
     			"externalDateCreate": "2025-02-18T09:19:34+03:00",
     		},
+		"message": "Пожалуйста, подпишите документ",
     	},
     })
     if err != nil {
@@ -660,7 +673,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
@@ -674,36 +687,36 @@ HTTP-статус: **200**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Когда возникает** ||
-|| `ACCESS_DENIED` | Access denied! | Недостаточно прав ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Вызов не из контекста приложения ||
-|| `BAD_REQUEST` | Empty request fields | Не передан объект `fields` ||
-|| `BAD_REQUEST` | companyProviderUid field is required | Не передан `companyProviderUid` ||
-|| `BAD_REQUEST` | The responsible field is required | Не передан `responsible` ||
-|| `BAD_REQUEST` | At least one signing party with role signer is required | В `members` нет участника с ролью `signer` ||
-|| `BAD_REQUEST` | At least one signing party with role assignee is required | В `members` нет участника с ролью `assignee` ||
-|| `BAD_REQUEST` | Invalid role ... | Передана роль вне допустимых значений ||
-|| `BAD_REQUEST` | Employee ID is required | Не передан `employeeId`/`employeeCode` и не передан `userId` ||
-|| `BAD_REQUEST` | Employee with code ... was not found | Сотрудник с указанным `employeeCode` не найден ||
-|| `BAD_REQUEST` | Employee with ID ... was not found | Сотрудник с указанным `employeeId` не найден ||
-|| `BAD_REQUEST` | Could not find employee for specified User ID | Пользователь по `userId` не найден ||
-|| `BAD_REQUEST` | Could not find user for specified employee | Для сотрудника не найден пользователь ||
-|| `BAD_REQUEST` | At least one file is required to sign the document | Не передан массив `files` ||
-|| `BAD_REQUEST` | Signing multiple files is currently not supported | В `files` передано более одного файла ||
-|| `BAD_REQUEST` | The specified file type is not supported | Указан `fileType`, отличный от `application/pdf` ||
-|| `BAD_REQUEST` | Invalid file name | Некорректное имя файла ||
-|| `BAD_REQUEST` | Invalid file name. File extension is not specified | Не указано расширение файла ||
-|| `BAD_REQUEST` | The specified file extension is not supported | Расширение файла не поддерживается ||
-|| `BAD_REQUEST` | Region document type is required. Use value '12.999' as a default value | Не передан `regionDocumentType` при наличии списка кодов ||
-|| `BAD_REQUEST` | Region document type is not valid. Use value '12.999' as a default value | Передан неподдерживаемый `regionDocumentType` ||
-|| `BAD_REQUEST` | Signing provider is not available | Провайдер недоступен для компании ||
-|| `BAD_REQUEST` | Signing provider has expired | Истек срок действия провайдера ||
-|| `BAD_REQUEST` | External date create field is required | Не передан `externalSettings.externalDateCreate` ||
-|| `BAD_REQUEST` | External ID field is required | Не передан `externalSettings.externalId` ||
-|| `BAD_REQUEST` | External date create invalid field value | Неверный формат даты в `externalSettings.externalDateCreate` ||
-|| `BAD_REQUEST` | External ID maximum length of 255 is exceeded | Превышена длина `externalSettings.externalId` ||
-|| `INTERNAL_ERROR` | Internal error | Ошибка при отправке документа или формировании ответа ||
-|| `-` | humanresources module is not installed | Модуль `humanresources` не установлен при использовании полей HCM Link ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
+|| `403` | `ACCESS_DENIED` | Access denied! | КЭДО недоступен на Битрикс24, у приложения нет scope `sign.b2e` или `crm`, либо у пользователя нет права создавать документы КЭДО. Также возникает, если переданы данные HCM Link, а scope `humanresources.hcmlink` не подключен ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
+|| `400` | `BAD_REQUEST` | [fields] Empty request fields. | Не передан объект `fields` ||
+|| `400` | `BAD_REQUEST` | [companyProviderUid] field is required | Не передан `companyProviderUid`, в том числе если `fields` пустой ||
+|| `400` | `BAD_REQUEST` | The responsible field is required | Не передан `responsible` ||
+|| `400` | `BAD_REQUEST` | At least one signing party with role signer is required | В `members` нет участника с ролью `signer` ||
+|| `400` | `BAD_REQUEST` | At least one signing party with role assignee is required | В `members` нет участника с ролью `assignee` ||
+|| `400` | `BAD_REQUEST` | Invalid role ... | Передана роль вне допустимых значений ||
+|| `400` | `BAD_REQUEST` | Employee ID is required | Не передан `employeeId`/`employeeCode` и не передан `userId` ||
+|| `400` | `BAD_REQUEST` | Employee with code ... was not found | Сотрудник с указанным `employeeCode` не найден ||
+|| `400` | `BAD_REQUEST` | Employee with ID ... was not found | Сотрудник с указанным `employeeId` не найден ||
+|| `400` | `BAD_REQUEST` | Could not find employee for specified User ID | Пользователь по `userId` не найден ||
+|| `400` | `BAD_REQUEST` | Could not find user for specified employee | Для сотрудника не найден пользователь ||
+|| `400` | `BAD_REQUEST` | At least one file is required to sign the document | Не передан массив `files` ||
+|| `400` | `BAD_REQUEST` | Signing multiple files is currently not supported | В `files` передано более одного файла ||
+|| `400` | `BAD_REQUEST` | The specified file type is not supported | Указан `fileType`, отличный от `application/pdf` ||
+|| `400` | `BAD_REQUEST` | Invalid file name | Некорректное имя файла ||
+|| `400` | `BAD_REQUEST` | Invalid file name. File extension is not specified | Не указано расширение файла ||
+|| `400` | `BAD_REQUEST` | The specified file extension is not supported | Расширение файла не поддерживается ||
+|| `400` | `BAD_REQUEST` | Region document type is required. Use value '12.999' as a default value | Не передан `regionDocumentType` при наличии списка кодов ||
+|| `400` | `BAD_REQUEST` | Region document type is not valid. Use value '12.999' as a default value | Передан неподдерживаемый `regionDocumentType` ||
+|| `400` | `BAD_REQUEST` | Signing provider is not available | Провайдер недоступен для компании ||
+|| `400` | `BAD_REQUEST` | Signing provider has expired | Истек срок действия провайдера ||
+|| `400` | `BAD_REQUEST` | External date create field is required | Не передан `externalSettings.externalDateCreate` ||
+|| `400` | `BAD_REQUEST` | External ID field is required | Не передан `externalSettings.externalId` ||
+|| `400` | `BAD_REQUEST` | External date create invalid field value | Неверный формат даты в `externalSettings.externalDateCreate` ||
+|| `400` | `BAD_REQUEST` | External ID maximum length of 255 is exceeded | Превышена длина `externalSettings.externalId` ||
+|| `400` | `INTERNAL_ERROR` | Internal error | Ошибка при отправке документа или формировании ответа ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

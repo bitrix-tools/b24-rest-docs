@@ -24,12 +24,14 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **uid**
-[`string`](../data-types.md) | Уникальный идентификатор документа ||
-|| **language**
-[`string`](../data-types.md) | Язык локализации статусов в ответе.
+|| **uid***
+[`string`](../data-types.md) | Уникальный идентификатор документа.
 
-По умолчанию `en` ||
+Получить `uid` можно из ответа метода [sign.b2e.document.send](./sign-b2e-document-send.md) или из поля `data.documentUid` событий [OnSignB2eDocumentStatusChanged](./events/on-sign-b2e-document-status-changed.md) и [OnSignB2eMemberStatusChanged](./events/on-sign-b2e-member-status-changed.md) ||
+|| **language**
+[`string`](../data-types.md) | Язык названий статусов в ответе. Код языка интерфейса Битрикс24, например `ru` или `en`.
+
+Если язык не поддерживается, названия возвращаются на английском. По умолчанию `en` ||
 |#
 
 ## Примеры кода
@@ -380,12 +382,12 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
-    "error": "ACCESS_DENIED",
-    "error_description": "Access denied!"
+    "error": "",
+    "error_description": "Document not found."
 }
 ```
 
@@ -394,12 +396,14 @@ HTTP-статус: **200**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Когда возникает** ||
-|| `ACCESS_DENIED` | Access denied! | Недостаточно прав ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Вызов не из контекста приложения ||
-|| `INTERNAL_ERROR` | Internal error | Ошибка при формировании ответа ||
-|| `-` | Document UID is required | Не передан параметр `uid` ||
-|| `-` | Document not found | Документ с указанным `uid` не найден ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
+|| `403` | `ACCESS_DENIED` | Access denied! | КЭДО недоступен на Битрикс24, у приложения нет scope `sign.b2e` или `crm`, либо у пользователя нет нужного права в КЭДО ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
+|| `400` | `INTERNAL_ERROR` | Internal error | Ошибка при формировании ответа ||
+|| `400` | Пустое значение | Document UID is required. | Не передан параметр `uid` или передана пустая строка ||
+|| `500` | `INTERNAL_SERVER_ERROR` | Internal server error | В `uid` передан массив или объект. Передавайте `uid` строкой ||
+|| `400` | Пустое значение | Document not found. | Документ с указанным `uid` не найден ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

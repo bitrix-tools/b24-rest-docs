@@ -71,5 +71,11 @@
     }
   ],
   "page": "/api-reference/crm/timeline/note/crm-timeline-note-delete.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "ownerTypeId": 1,
+    "ownerId": 1,
+    "itemType": 1,
+    "itemId": 2
+  }
 }

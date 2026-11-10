@@ -78,5 +78,9 @@
     }
   ],
   "page": "/api-reference/landing/page/block-methods/landing-landing-mark-deleted-block.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "lid": 351,
+    "block": 6428
+  }
 }

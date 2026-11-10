@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Управление типами цен»
 
-Метод добавляет правило округления цен.
+Метод `catalog.roundingRule.add` добавляет правило округления цен.
 
 ## Параметры метода
 
@@ -34,17 +34,23 @@
 || **Название**
 `тип` | **Описание** ||
 || **catalogGroupId***
-[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Тип цены ||
+[`catalog_price_type.id`](../data-types.md#catalog_price_type) | Идентификатор типа цены, для которого действует правило.
+
+Идентификатор можно получить методом [catalog.priceType.list](../price-type/catalog-price-type-list.md). Метод не проверяет, что тип цены существует ||
 || **price***
-[`double`](../../data-types.md) | Минимальная цена для округления ||
+[`double`](../../data-types.md) | Минимальная цена, начиная с которой применяется правило. `0` — правило для всех цен типа.
+
+Метод не проверяет, что значение неотрицательное и что у типа цены нет другого правила с таким же `price` ||
 || **roundType***
 [`integer`](../../data-types.md) | Тип округления. Возможные значения:
 - `1` — математическое округление
-- `2` — округление вверх (в пользу магазина)
-- `4` — округление вниз (в пользу клиента)
+- `2` — округление в большую сторону, в пользу магазина
+- `4` — округление в меньшую сторону, в пользу клиента
 ||
 || **roundPrecision***
-[`double`](../../data-types.md) | Точность округления ||
+[`double`](../../data-types.md) | Точность округления, например `10` — округление до десятков.
+
+Возможные значения: `0.0001`, `0.001`, `0.005`, `0.01`, `0.02`, `0.05`, `0.1`, `0.2`, `0.5`, `1`, `2`, `5`, `10`, `20`, `50`, `100`, `200`, `500`, `1000`, `5000` ||
 |#
 
 ## Примеры кода
@@ -198,7 +204,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -214,21 +219,14 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        if ($result->error()) {
-            error_log($result->error());
-            echo 'Error: ' . $result->error();
-        } else {
-            echo 'Success: ' . print_r($result->data(), true);
-        }
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error adding rounding rule: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -352,7 +350,7 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **roundingRule**
+|| **result.roundingRule**
 [`catalog_rounding_rule`](../data-types.md#catalog_rounding_rule) | Объект с информацией о созданном правиле округления цен ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -364,8 +362,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 200040300020,
-    "error_description": "Access Denied"
+    "error": "0",
+    "error_description": "Required fields: catalogGroupId, price, roundType, roundPrecision"
 }
 ```
 
@@ -374,15 +372,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для редактирования
-||
-|| `100` | Не передан обязательный параметр `fields`
-||
-|| `0` | Не установлены обязательные поля
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300020` | Access Denied | Нет права «Управление типами цен» ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Required fields: catalogGroupId, price, roundType, roundPrecision | Не переданы обязательные поля. В тексте ошибки перечислены только непереданные поля ||
+|| `400` | `0` | Invalid rounding type provided. The available values are: 1, 2, 4 | В `roundType` передано значение не из списка ||
+|| `400` | `0` | Invalid rounding precision provided. The available values are: ... | В `roundPrecision` передано значение не из списка. В тексте ошибки перечислены допустимые значения ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

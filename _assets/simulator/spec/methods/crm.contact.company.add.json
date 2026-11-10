@@ -42,7 +42,17 @@
           "type": "boolean",
           "base": "boolean",
           "required": false,
-          "description": "Является ли привязка первичной. Возможные значения: - Y — да - N — нет У первого добавленного элемента IS_PRIMARY по умолчанию равен Y. Передача IS_PRIMARY = Y у новой и не первой привязки перетирает существующую первичную привязку"
+          "description": "Является ли привязка первичной. Возможные значения: - Y — да - N — нет У первого добавленного элемента IS_PRIMARY по умолчанию равен Y. Передача IS_PRIMARY = Y у новой и не первой привязки перетирает существующую первичную привязку",
+          "values": [
+            {
+              "value": "Y",
+              "title": "да"
+            },
+            {
+              "value": "N",
+              "title": "нет У первого добавленного элемента IS_PRIMARY по умолчанию равен Y"
+            }
+          ]
         },
         {
           "name": "SORT",
@@ -87,5 +97,13 @@
     }
   ],
   "page": "/api-reference/crm/contacts/company/crm-contact-company-add.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "id": 54,
+    "fields": {
+      "COMPANY_ID": 32,
+      "IS_PRIMARY": "Y",
+      "SORT": 1000
+    }
+  }
 }

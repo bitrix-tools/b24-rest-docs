@@ -9,9 +9,27 @@
 
 {% endnote %}
 
-В блоке [Объект задачи](#taskdto) описаны все поля задачи, в других блоках — поля связанных объектов. Часть полей задачи доступна как число идентификатор и как объект, например `creatorId` и `creator`. Поле идентификатор используйте в методах [создания](./tasks-task-add-rest-v3.md) и [изменения](./tasks-task-update-rest-v3.md) задачи. Поле объект в методе [получения задачи](./tasks-task-get-rest-v3.md). Как работать с полями связанных объектов описано в статье [Обзор REST API 3.0](../rest-v3.md#connection). 
+Страница помогает разобрать поля задачи в REST 3.0. Их возвращают методы [tasks.task.get](./tasks-task-get-rest-v3.md), [tasks.task.list](./tasks-task-list-rest-v3.md) и [tasks.task.add](./tasks-task-add-rest-v3.md), а принимают методы [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md). В блоке [Объект задачи](#taskdto) описаны все поля задачи, в других блоках — поля связанных объектов.
 
-Права на запись и изменение полей зависят от роли пользователя в задаче, настроек прав на группу, иерархии сотрудников, статуса задачи и некоторых флагов в задаче, например `allowChangeDeadline`. 
+Часть полей задачи существует в двух видах: как идентификатор и как объект, например `creatorId` и `creator`. Какой вид принимает и возвращает каждый метод, показано в таблице.
+
+## Какие поля принимают и возвращают методы {#methods}
+
+#|
+|| **Метод** | **Принимает** | **Возвращает** ||
+|| [tasks.task.add](./tasks-task-add-rest-v3.md) | Поля таблицы [Объект задачи](#taskdto) с идентификаторами связанных объектов: `creatorId`, `responsibleId`, `groupId`. Обязательные — `title`, `creatorId`, `responsibleId` | Объект задачи в том же составе, что [tasks.task.get](./tasks-task-get-rest-v3.md) без `select` ||
+|| [tasks.task.update](./tasks-task-update-rest-v3.md) | Те же поля, что `tasks.task.add` | Признак успеха `true` ||
+|| [tasks.task.get](./tasks-task-get-rest-v3.md) | `id` задачи и `select` | Без `select` — базовый набор полей без связанных объектов. Поля объекта перечислите в `select` через точку, например `["creator.name", "creator.email"]`. Идентификаторы постановщика, исполнителя, группы, стадии, потока, шаблона, письма и авторов изменений метод не отдает, даже если указать их в `select`. Такие поля отмечены в таблице ||
+|| [tasks.task.list](./tasks-task-list-rest-v3.md) | `select`, `filter`, `order`, `pagination` | Без `select` — только `id`. Идентификаторы связанных объектов возвращает, сами объекты — нет, даже если указать их поля в `select` ||
+|#
+
+В `fields` методов `tasks.task.add` и `tasks.task.update` нельзя передать `id`, `created`, `accomplices`, `auditors`, `tags`, `userFields` и поля-объекты — `creator`, `group`, `parent` и другие. На такое поле метод вернет ошибку валидации «Поле не доступно к изменению». Поля с пометкой «изменяется автоматически» передавать не нужно: их значение вычисляет Битрикс24.
+
+Как устроены поля связанных объектов, описано в статье [Обзор REST API 3.0](../rest-v3.md#connection).
+
+Права на запись и изменение полей зависят от роли пользователя в задаче, настроек прав на группу, иерархии сотрудников, статуса задачи и флагов задачи, например `allowsChangeDeadline`. Перед изменением задачи проверьте объект `rights`: его поля показывают действия, доступные текущему пользователю.
+
+Логические поля принимают и возвращают `true` или `false`. Строковые значения `Y` и `N` из классических методов задач в REST 3.0 не подходят: метод вернет ошибку валидации.
 
 ## Объект задачи {#taskdto}
 
@@ -25,41 +43,41 @@
 || **description**
 [`string`](../data-types.md) | Описание задачи ||
 || **creatorId**
-[`integer`](../data-types.md) | Идентификатор постановщика, обязательное поле для [создания задачи](./tasks-task-add-rest-v3.md) ||
+[`integer`](../data-types.md) | Идентификатор постановщика, обязательное поле для [создания задачи](./tasks-task-add-rest-v3.md). Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `creator` ||
 || **creator**
 [`object`](#user) | Постановщик. Объект типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **created**
-[`datetime`](../data-types.md) | Дата создания в формате ISO-8601 ||
+[`datetime`](../data-types.md) | Дата создания в формате ISO 8601. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) его нет ||
 || **responsibleId**
-[`integer`](../data-types.md) | Идентификатор исполнителя, обязательное поле для [создания задачи](./tasks-task-add-rest-v3.md) ||
+[`integer`](../data-types.md) | Идентификатор исполнителя, обязательное поле для [создания задачи](./tasks-task-add-rest-v3.md). Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `responsible` ||
 || **responsible**
 [`object`](#user) | Исполнитель. Объект типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **deadline**
-[`datetime`](../data-types.md) | Крайний срок в формате ISO-8601, например `2025-12-31T23:59:59+02:00` ||
+[```datetime | null```](../data-types.md) | Крайний срок в формате ISO 8601, например `2025-12-31T23:59:59+02:00` ||
 || **needsControl**
-[`boolean`](../data-types.md) | Контроль задачи постановщиком. Возможные значения:
-`Y` — включен
-`N` — отключен, значение по умолчанию ||
+[`boolean`](../data-types.md) | Контроль задачи постановщиком: `true` — после завершения исполнителем задача ждет проверки постановщика. По умолчанию `false` ||
 || **startPlan**
-[`datetime`](../data-types.md) | Плановая дата начала в формате ISO-8601, например `2025-12-31T06:00:00+02:00` ||
+[```datetime | null```](../data-types.md) | Плановая дата начала в формате ISO 8601, например `2025-12-31T06:00:00+02:00` ||
 || **endPlan**
-[`datetime`](../data-types.md) | Плановая дата окончания в формате ISO-8601, например `2025-12-31T18:00:00+02:00`||
+[```datetime | null```](../data-types.md) | Плановая дата окончания в формате ISO 8601, например `2025-12-31T18:00:00+02:00` ||
 || **checklist**
-[`array`](../data-types.md) | Идентификаторы пунктов чек-листов. Для работы с чек-листами используйте методы [task.checklistitem.*](./checklist-item/index.md)||
+[`array<integer>`](../data-types.md) | Идентификаторы пунктов чек-листов. Для работы с чек-листами используйте методы [task.checklistitem.*](./checklist-item/index.md) ||
+|| **fileIds**
+[```array<integer> | null```](../data-types.md) | Идентификаторы файлов Диска, которые нужно прикрепить к задаче. Поле принимают [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md). В ответе [tasks.task.get](./tasks-task-get-rest-v3.md) поле не заполняется и приходит как `null` ||
 || **groupId**
-[`integer`](../data-types.md) | Идентификатор группы/проекта. Для работы с группами используйте методы [sonet_group.*](../sonet-group/index.md) ||
+[`integer`](../data-types.md) | Идентификатор группы/проекта. Для работы с группами используйте методы [sonet_group.*](../sonet-group/index.md). Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `group` ||
 || **group**
 [`object`](#group) | Группа/проект. Объект типа [группа](#group). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **stageId**
-[`integer`](../data-types.md) | Идентификатор стадии. Используйте, если задача находится в группе/проекте ||
+[`integer`](../data-types.md) | Идентификатор стадии. Используйте, если задача находится в группе/проекте. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `stage` ||
 || **stage**
 [`object`](#stage) | Стадия. Объект типа [стадия](#stage). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **epicId**
-[`integer`](../data-types.md) | Идентификатор эпика. Для работы с эпиками используйте методы [tasks.api.scrum.epic.*](../sonet-group/scrum/epic/index.md) ||
+[```integer | null```](../data-types.md) | Идентификатор эпика. Для работы с эпиками используйте методы [tasks.api.scrum.epic.*](../sonet-group/scrum/epic/index.md) ||
 || **storyPoints**
-[`integer`](../data-types.md) | Стори поинты. Для изменения задачи Скрама используйте метод [tasks.api.scrum.task.update](../sonet-group/scrum/task/tasks-api-scrum-task-update.md) ||
+[```integer | null```](../data-types.md) | Стори поинты. Для изменения задачи Скрама используйте метод [tasks.api.scrum.task.update](../sonet-group/scrum/task/tasks-api-scrum-task-update.md) ||
 || **flowId**
-[`integer`](../data-types.md) | Идентификатор потока. Для работы с потоком используйте методы [tasks.flow.Flow.*](./flow/index.md) ||
+[`integer`](../data-types.md) | Идентификатор потока. Для работы с потоком используйте методы [tasks.flow.Flow.*](./flow/index.md). Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `flow` ||
 || **flow**
 [`object`](#flow) | Поток. Объект типа [поток](#flow). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **priority**
@@ -76,15 +94,17 @@
 - `deferred` — отложена
 - `declined` — отклонена ||
 || **statusChanged**
-[`datetime`](../data-types.md) | Дата изменения статуса в формате ISO 8601 ||
+[```datetime | null```](../data-types.md) | Дата изменения статуса в формате ISO 8601 ||
 || **accomplices**
-[`array<object>`](#user) | Список идентификаторов пользователей — соисполнителей в методах [создания](./tasks-task-add-rest-v3.md) или [изменения](./tasks-task-update-rest-v3.md) задачи.
-Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
+[`array<object>`](#user) | Соисполнители. Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md), например `["accomplices.id", "accomplices.name"]`.
+
+Методы [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md) поле не принимают. Чтобы назначить соисполнителей, используйте классический метод [tasks.task.update](./tasks-task-update.md) с полем `ACCOMPLICES` ||
 || **auditors**
-[`array<object>`](#user) | Список идентификаторов пользователей — наблюдателей за задачей в методах [создания](./tasks-task-add-rest-v3.md) или [изменения](./tasks-task-update-rest-v3.md) задачи.
-Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
+[`array<object>`](#user) | Наблюдатели. Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md), например `["auditors.id", "auditors.name"]`.
+
+Методы [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md) поле не принимают. Чтобы назначить наблюдателей, используйте классический метод [tasks.task.update](./tasks-task-update.md) с полем `AUDITORS` ||
 || **parentId**
-[`integer`](../data-types.md) | Идентификатор родительской задачи.
+[```integer | null```](../data-types.md) | Идентификатор родительской задачи.
 Имеет значение `null`, если родительской задачи нет ||
 || **parent**
 [`object`](#taskdto) | Родительская задача. Объект типа [задача](#taskdto). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
@@ -111,132 +131,120 @@
 || **actualDuration**
 [`integer`](../data-types.md) | Фактическая длительность ||
 || **durationType**
-[`string`](../data-types.md) | Единица плановой длительности. Возможные значения: `secs`, `mins`, `hours`, `days`, `weeks`, `monts`, `years` ||
+[`string`](../data-types.md) | Единица плановой длительности. Возможные значения: `seconds`, `minutes`, `hours`, `days`, `weeks`, `months`, `years` ||
 || **started**
-[`datetime`](../data-types.md) | Дата начала выполнения в формате ISO 8601 ||
+[```datetime | null```](../data-types.md) | Дата начала выполнения в формате ISO 8601 ||
 || **estimatedTime**
 [`integer`](../data-types.md) | Оценка времени в секундах ||
 || **replicate**
-[`boolean`](../data-types.md) | Признак повторяемой задачи. Возможные значения: 
-- `Y` — да, сделать задачу регулярной
-- `N` — не повторять  ||
+[`boolean`](../data-types.md) | Признак регулярной задачи: `true` — задача повторяется по расписанию шаблона ||
 || **changed**
 [`datetime`](../data-types.md) | Дата изменения в формате ISO 8601 ||
 || **changedById**
-[`integer`](../data-types.md) | Идентификатор пользователя, изменившего задачу ||
+[`integer`](../data-types.md) | Идентификатор пользователя, изменившего задачу. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `changedBy` ||
 || **changedBy**
 [`object`](#user) | Кто изменил. Объект типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **statusChangedById**
-[`integer`](../data-types.md) | Идентификатор пользователя, изменившего статус ||
+[`integer`](../data-types.md) | Идентификатор пользователя, изменившего статус. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `statusChangedBy` ||
 || **statusChangedBy**
 [`object`](#user) | Кто изменил статус. Объект типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **closedById**
-[`integer`](../data-types.md) | Идентификатор пользователя, закрывшего задачу ||
+[`integer`](../data-types.md) | Идентификатор пользователя, закрывшего задачу. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `closedBy` ||
 || **closedBy**
 [`object`](#user) | Кто закрыл. Объект типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **closed**
-[`datetime`](../data-types.md) | Дата закрытия в формате ISO 8601 ||
+[```datetime | null```](../data-types.md) | Дата закрытия в формате ISO 8601 ||
 || **activity**
 [`datetime`](../data-types.md) | Дата последней активности в формате ISO 8601 ||
 || **guid**
 [`string`](../data-types.md) | Идентификатор `GUID` задачи ||
 || **xmlId**
-[`string`](../data-types.md) | Внешний идентификатор ||
+[```string | null```](../data-types.md) | Внешний идентификатор ||
 || **exchangeId**
-[`string`](../data-types.md) | Идентификатор Exchange ||
+[```string | null```](../data-types.md) | Идентификатор Exchange ||
 || **exchangeModified**
-[`string`](../data-types.md) | Дата изменения в Exchange ||
+[```string | null```](../data-types.md) | Дата изменения в Exchange ||
 || **outlookVersion**
 [`integer`](../data-types.md) | Версия синхронизации с Outlook ||
 || **mark**
 [`string`](../data-types.md) | Оценка задачи. Возможные значения:
-`N` — отрицательная
-`P` — положительная
-`null` — без оценки ||
+- `positive` — положительная
+- `negative` — отрицательная
+- `none` — без оценки ||
 || **allowsChangeDeadline**
-[`boolean`](../data-types.md) | Разрешено менять крайний срок. Возможные значения: 
-- `Y` — разрешено
-- `N` — не разрешено ||
+[`boolean`](../data-types.md) | Исполнителю разрешено менять крайний срок ||
 || **allowsTimeTracking**
-[`boolean`](../data-types.md) | Включен учет времени по задаче. Возможные значения: 
-- `Y` — включен
-- `N` — не включен ||
+[`boolean`](../data-types.md) | Включен учет времени по задаче ||
 || **matchesWorkTime**
-[`boolean`](../data-types.md) | Учитывать рабочее время. Возможные значения: 
-- `Y` — да
-- `N` — нет ||
+[`boolean`](../data-types.md) | Учитывать рабочее время: пропускать выходные дни при расчете плановых дат ||
 || **addInReport**
-[`boolean`](../data-types.md) | Добавлять в отчет. Возможные значения: 
-- `Y` — добавлять 
-- `N` — не добавлять ||
+[```boolean | null```](../data-types.md) | Добавлять задачу в отчет ||
 || **isMultitask**
-[`boolean`](../data-types.md) | Признак «базовая задача с подзадачами». Возможные значения: 
-- `Y` — да
-- `N` — нет ||
+[`boolean`](../data-types.md) | Признак «базовая задача с подзадачами» ||
 || **siteId**
 [`string`](../data-types.md) | Идентификатор сайта ||
+|| **deadlineCount**
+[```integer | null```](../data-types.md) | Служебное поле счетчиков задач. В интеграциях не используйте ||
+|| **declineReason**
+[```string | null```](../data-types.md) | Причина отклонения задачи. Заполняется, когда исполнитель отклонил задачу ||
+|| **forumTopicId**
+[```integer | null```](../data-types.md) | Идентификатор темы форума с комментариями к задаче. Пока тема не создана — `null` ||
 || **forkedByTemplateId**
-[`integer`](../data-types.md) |  Идентификатор шаблона, если задача создана из шаблона ||
+[`integer`](../data-types.md) | Идентификатор шаблона, если задача создана из шаблона. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `forkedByTemplate` ||
 || **forkedByTemplate**
 [`object`](#template) | Шаблон задачи. Объект типа [шаблон](#template). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **maxDeadlineChangeDate**
-[`datetime`](../data-types.md) | Дата, после которой нельзя менять крайний срок, в формате ISO 8601 ||
+[```datetime | null```](../data-types.md) | Дата, после которой нельзя менять крайний срок, в формате ISO 8601 ||
 || **maxDeadlineChanges**
-[`integer`](../data-types.md) | Максимальное количество переносов крайнего срока ||
+[```integer | null```](../data-types.md) | Максимальное количество переносов крайнего срока ||
 || **requireDeadlineChangeReason**
-[`boolean`](../data-types.md) | Требовать причину при изменении крайнего срока. Возможные значения: 
-- `Y` — да
-- `N` — нет ||
+[`boolean`](../data-types.md) | Требовать причину при переносе крайнего срока ||
+|| **tags**
+[`array<object>`](#tag) | Теги задачи. Массив объектов типа [тег](#tag). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md), например `["tags.id", "tags.name"]` ||
 || **link**
-[`string`](../data-types.md) | Ссылка на задачу ||
+[`string`](../data-types.md) | Относительная ссылка на задачу в интерфейсе Битрикс24, например `/company/personal/user/1/tasks/task/view/289/` ||
+|| **userFields**
+[`array<object>`](#user-field) | Пользовательские поля задачи. Массив объектов типа [пользовательское поле](#user-field). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md), например `["userFields.key", "userFields.value"]` ||
 || **rights**
-[`array`](../data-types.md) | Массив действий, которые пользователь может совершить с задачей ||
+[`object`](../data-types.md) | Действия текущего пользователя с задачей. Ключ — код действия, значение — `true`, если действие доступно. Например, `edit` — изменить задачу, `complete` — завершить, `delegate` — делегировать, `changeResponsible` — сменить исполнителя. Полный набор ключей — в примере ответа [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **archiveLink**
 [`string`](../data-types.md) | Ссылка на архив для скачивания всех файлов задачи ||
 || **crmItemIds**
-[`array`](../data-types.md) | Массив идентификаторов связанных объектов CRM в формате:
-- `L_XX` — лид,
+[`array<string>`](../data-types.md) | Идентификаторы связанных объектов CRM в формате:
+- `L_XX` — лид
 - `D_XX` — сделка
 - `C_XX` — контакт
 - `CO_XX` — компания
 - `SI_XX` — счет
 - `TXX_XX` — смарт-процесс ||
 || **emailId**
-[`integer`](../data-types.md) | Идентификатор письма, из которого создана задача ||
+[`integer`](../data-types.md) | Идентификатор письма, из которого создана задача. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `email` ||
 || **email**
 [`object`](#email) | Письмо, из которого создана задача. Объект типа [письмо](#email). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **elapsedTime**
 [`object`](#elapsed-time) | Учет времени. Объект типа [учет времени](#elapsed-time). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **requireResult**
-[`boolean`](../data-types.md) | Требовать результат. Возможные значения: 
-- `Y` — да
-- `N` — нет  ||
+[`boolean`](../data-types.md) | Требовать результат: задачу нельзя завершить без записи о результате ||
 || **matchesSubTasksTime**
-[`boolean`](../data-types.md) | Учитывать сроки подзадач. Возможные значения: 
-- `Y` — да
-- `N` — нет  ||
+[`boolean`](../data-types.md) | Учитывать сроки подзадач при расчете плановых дат ||
 || **autocompleteSubTasks**
-[`boolean`](../data-types.md) | Автозавершение подзадач. Возможные значения: 
-- `Y` — да
-- `N` — нет  ||
+[`boolean`](../data-types.md) | Завершать подзадачи автоматически вместе с базовой задачей ||
 || **allowsChangeDatePlan**
-[`boolean`](../data-types.md) | Разрешено менять плановые даты. Возможные значения: 
-- `Y` — да
-- `N` — нет  ||
+[`boolean`](../data-types.md) | Исполнителю разрешено менять плановые даты ||
 || **inFavorite**
-[`array`](../data-types.md) | Признак «в избранном». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inFavorite": [29]` ||
+[`array<integer>`](../data-types.md) | Признак «в избранном». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inFavorite": [29]` ||
 || **inPin**
-[`array`](../data-types.md) | Признак «задача закреплена». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inPin": [29]` ||
+[`array<integer>`](../data-types.md) | Признак «задача закреплена». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inPin": [29]` ||
 || **inGroupPin**
-[`array`](../data-types.md) | Признак «задача закреплена в группе». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inGroupPin": [29]` ||
+[`array<integer>`](../data-types.md) | Признак «задача закреплена в группе». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inGroupPin": [29]` ||
 || **inMute**
-[`array`](../data-types.md) | Признак «выключить звук». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inMute": [29]` ||
+[`array<integer>`](../data-types.md) | Признак «выключить звук». В поле возвращается массив, в котором лежит ID текущего пользователя, если у него настройка активна `"inMute": [29]` ||
 || **source**
 [`object`](#source) | Источник задачи. Объект [источник](#source). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **dependsOn**
 [`array`](../data-types.md) | Зависимости от задач ||
 || **scenarios**
-[`array`](../data-types.md) | Сценарий создания задачи. Возможные значения: 
+[`array<string>`](../data-types.md) | Сценарии создания задачи. Возможные значения элементов:
 - `default` — значение по умолчанию
 - `crm` — CRM
 - `mobile` — мобильное приложение
@@ -258,13 +266,40 @@
 || **image**
 [`object`](#file) | Объект типа [файл](#file). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **gender**
-[`string`](../data-types.md) | Пол ||
+[`string`](../data-types.md) | Пол. Возможные значения:
+- `M` — мужской
+- `F` — женский
+- `N` — не указан ||
 || **email**
 [`string`](../data-types.md) | Email ||
 || **externalAuthId**
 [`string`](../data-types.md) | Внешний auth ID ||
 || **rights**
 [`array`](../data-types.md) | Права пользователя ||
+|#
+
+## Объект тега {#tag}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../data-types.md) | Идентификатор тега ||
+|| **name**
+[`string`](../data-types.md) | Название тега ||
+|#
+
+## Объект пользовательского поля {#user-field}
+
+Пользовательские поля задачи создают методы [task.item.userfield.*](./user-field/index.md).
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **key**
+[`string`](../data-types.md) | Код поля, например `UF_CRM_TASK` ||
+|| **value**
+[`any`](../data-types.md) | Значение поля. Тип зависит от настроек поля. Если поле не заполнено — `null` ||
 |#
 
 ## Объект файла {#file}
@@ -304,7 +339,11 @@
 || **image**
 [`object`](#file) | Объект типа [файл](#file). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **type**
-[`string`](../data-types.md) | Тип группы ||
+[`string`](../data-types.md) | Тип группы. Возможные значения:
+- `group` — группа
+- `project` — проект
+- `scrum` — Скрам
+- `collab` — коллаба ||
 || **isVisible**
 [`boolean`](../data-types.md) | Признак видимости ||
 |#
@@ -343,7 +382,7 @@
 || **entityId**
 [`integer`](../data-types.md) | Идентификатор объекта чата ||
 || **entityType**
-[`string`](../data-types.md) | Тип объекта чата ||
+[`string`](../data-types.md) | Тип объекта чата. Для чата задачи — `TASKS_TASK` ||
 |#
 
 ## Объект шаблона задачи {#template}
@@ -393,7 +432,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **period**
-[`string`](../data-types.md) | Периодичность ||
+[`string`](../data-types.md) | Периодичность. Возможные значения:
+- `daily` — ежедневно
+- `weekly` — еженедельно
+- `monthly` — ежемесячно
+- `yearly` — ежегодно ||
 || **everyDay**
 [`string`](../data-types.md) | Каждый день ||
 || **workdayOnly**
@@ -479,7 +522,10 @@
 || **seconds**
 [`integer`](../data-types.md) | Секунды ||
 || **source**
-[`string`](../data-types.md) | Источник ||
+[`string`](../data-types.md) | Откуда взялась запись учета времени. Возможные значения:
+- `manual` — сотрудник внес время вручную
+- `system` — время записал таймер задачи
+- `unknown` — источник не определен ||
 || **text**
 [`string`](../data-types.md) | Комментарий ||
 || **createdAtTs**
@@ -496,7 +542,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **type**
-[`string`](../data-types.md) | Тип источника ||
+[`string`](../data-types.md) | Тип источника. Возможное значение — `chat`: задача создана из сообщения чата ||
 || **data**
 [`array`](../data-types.md) | Данные источника ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](./tasks-task-get-rest-v3.md)
+- [{#T}](./tasks-task-list-rest-v3.md)
+- [{#T}](./tasks-task-add-rest-v3.md)
+- [{#T}](./tasks-task-update-rest-v3.md)
+- [{#T}](../rest-v3.md)

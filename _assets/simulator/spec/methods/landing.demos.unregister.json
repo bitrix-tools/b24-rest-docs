@@ -50,5 +50,8 @@
     }
   ],
   "page": "/api-reference/landing/demos/landing-demos-unregister.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "code": "ftmlt"
+  }
 }

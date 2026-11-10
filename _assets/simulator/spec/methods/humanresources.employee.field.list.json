@@ -168,5 +168,20 @@
     "title",
     "type",
     "validationRules"
-  ]
+  ],
+  "requestExample": {
+    "select": [
+      "name",
+      "type",
+      "title",
+      "description",
+      "validationRules",
+      "requiredGroups",
+      "filterable",
+      "sortable",
+      "editable",
+      "multiple",
+      "elementType"
+    ]
+  }
 }

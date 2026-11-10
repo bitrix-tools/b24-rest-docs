@@ -81,5 +81,10 @@
     }
   ],
   "page": "/api-reference/telephony/voximplant/voximplant-infocall-start-with-sound.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "FROM_LINE": "reg151083",
+    "TO_NUMBER": "79991234567",
+    "URL": "https://example.com/sound/notice.mp3"
+  }
 }

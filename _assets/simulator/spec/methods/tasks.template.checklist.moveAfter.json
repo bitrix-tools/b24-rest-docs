@@ -82,5 +82,10 @@
     }
   ],
   "page": "/api-reference/tasks/template/checklist/tasks-template-checklist-move-after.html",
-  "executable": false
+  "executable": false,
+  "requestExample": {
+    "templateId": 139,
+    "checkListItemId": 25,
+    "afterItemId": 29
+  }
 }

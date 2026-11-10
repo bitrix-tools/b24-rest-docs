@@ -13,9 +13,26 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод получает список зарегистрированных приложением типов пользовательских полей. На выход отдает список типов полей с постраничной навигацией.
+Метод `userfieldtype.list` возвращает типы пользовательских полей, которые приложение зарегистрировало методом [userfieldtype.add](./userfieldtype-add.md). Для каждого типа метод отдает код, адрес обработчика, название и описание.
 
-Без параметров. 
+Поле такого типа выводится в карточке элемента CRM, а его содержимое загружает обработчик приложения. Общая схема работы описана в статье [Пользовательские типы полей](./index.md).
+
+Используйте метод, чтобы узнать код типа `USER_TYPE_ID` перед вызовом [userfieldtype.update](./userfieldtype-update.md) или [userfieldtype.delete](./userfieldtype-delete.md).
+
+{% note info "" %}
+
+Метод работает только в контексте [приложения](../../../settings/app-installation/index.md)
+
+{% endnote %}
+
+## Параметры метода
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **start**
+[`integer`](../../data-types.md) | Смещение для постраничной навигации. Метод возвращает не более 50 записей за вызов. Чтобы получить следующую страницу, передайте значение `next` из предыдущего ответа: для второй страницы это `50`, для третьей — `100`. Подробнее — в статье [Особенности списочных методов](../../../settings/how-to-call-rest-api/list-methods-pecularities.md) ||
+|#
 
 ## Примеры кода
 
@@ -23,23 +40,13 @@
 
 {% list tabs %}
 
-- cURL (Webhook)
-
-    ```curl
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/userfieldtype.list
-    ```
-
 - cURL (OAuth)
 
     ```curl
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{}' \
+    -d '{"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/userfieldtype.list
     ```
 
@@ -64,8 +71,6 @@
     // userfieldtype.list returns a single page (max 50 records). For the whole result set
     // use a list helper: $b24.actions.v2.callList.make() returns every record as one
     // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-    // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-    // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
     try {
       const response = await $b24.actions.v2.call.make<UserFieldTypeItem[]>({
         method: 'userfieldtype.list',
@@ -102,8 +107,6 @@
           // userfieldtype.list returns a single page (max 50 records). For the whole result set
           // use a list helper: $b24.actions.v2.callList.make() returns every record as one
           // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'userfieldtype.list',
             params: {
@@ -153,9 +156,10 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
-    ```php        
+    ```php
     try {
         $userFieldTypesResult = $serviceBuilder->getPlacementScope()->userFieldType()->list();
         $userFieldTypes = $userFieldTypesResult->getUserFieldTypes();
@@ -175,7 +179,7 @@
     ```js
     BX24.callMethod(
         'userfieldtype.list',
-        {},
+        { start: 0 },
         function(result)
         {
             if(result.error())
@@ -193,7 +197,7 @@
 
     $result = CRest::call(
         'userfieldtype.list',
-        []
+        ['start' => 0]
     );
 
     echo '<PRE>';
@@ -277,15 +281,58 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
+[`array`](../../data-types.md) | Список зарегистрированных типов пользовательских полей [(подробное описание)](#result). Если приложение не зарегистрировало ни одного типа, список пустой ||
+|| **next**
+[`integer`](../../data-types.md) | Смещение для следующей страницы. Передайте значение в параметр `start`, чтобы получить следующие 50 записей. Ключ есть в ответе, только если записи остались ||
 || **total**
-[`integer`](../../data-types.md) | Число обработанных записей ||
+[`integer`](../../data-types.md) | Общее количество типов, которые зарегистрировало приложение ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
+#### Элемент массива result {#result}
+
+Значения полей приложение задает при регистрации типа методом [userfieldtype.add](./userfieldtype-add.md).
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **USER_TYPE_ID**
+[`string`](../../data-types.md) | Короткий код типа, переданный при регистрации. Его принимают [userfieldtype.update](./userfieldtype-update.md) и [userfieldtype.delete](./userfieldtype-delete.md). Полный код типа для создания поля собирается по форме `rest_<APP_ID>_<USER_TYPE_ID>`, как описано в статье [Пользовательские типы полей](./index.md) ||
+|| **HANDLER**
+[`string`](../../data-types.md) | Адрес обработчика типа. Битрикс24 загружает этот адрес во фрейме внутри поля ||
+|| **TITLE**
+[`string`](../../data-types.md) | Название типа в административном интерфейсе настройки пользовательских полей ||
+|| **DESCRIPTION**
+[`string`](../../data-types.md) | Описание типа в административном интерфейсе настройки пользовательских полей ||
+|#
+
+## Обработка ошибок
+
+HTTP-статус: **403**
+
+```json
+{
+    "error": "WRONG_AUTH_TYPE",
+    "error_description": "Current authorization type is denied for this method Application context required"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не в контексте приложения, например через вебхук ||
+|| `403` | `ACCESS_DENIED` | Access denied! | Метод вызвал пользователь без прав администратора ||
+|#
+
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./userfieldtype-add.md)
 - [{#T}](./userfieldtype-update.md)
 - [{#T}](./userfieldtype-delete.md)
