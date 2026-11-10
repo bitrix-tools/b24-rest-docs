@@ -29,22 +29,27 @@
 || **Название**
 `тип` | **Описание** ||
 || **USER_ID***
-[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления.
+[`integer`](../../data-types.md) | Идентификатор пользователя-получателя уведомления. Получатель должен быть активным пользователем портала: если пользователь не найден или неактивен, метод вернет `result: false`.
 
 Получить идентификатор пользователя можно методами [user.get](../../user/user-get.md), [user.search](../../user/user-search.md) или [im.user.get](../users/im-user-get.md) ||
 || **MESSAGE***
-[`string`](../../data-types.md) | Текст уведомления. Метод удаляет пробелы по краям строки перед отправкой. Поддерживает BB-коды — подробнее в разделе [Форматирование сообщений](../messages/formatting.md) ||
+[`string`](../../data-types.md) | Текст уведомления. Метод удаляет пробелы по краям строки, строка из одних пробелов вызывает ошибку `MESSAGE_EMPTY`. Поддерживает BB-коды — подробнее в разделе [Форматирование сообщений](../messages/formatting.md).
+
+При вызове из приложения первой строкой текста метод добавляет название приложения ||
 || **MESSAGE_OUT**
-[`string`](../../data-types.md) | Текст уведомления для внешних каналов, например, почты ||
+[`string`](../../data-types.md) | Текст уведомления для внешних каналов, например, почты. При вызове из приложения первой строкой текста метод добавляет название приложения ||
 || **TAG**
-[`string`](../../data-types.md) | Уникальный тег уведомления в рамках приложения. При добавлении уведомления с существующим тегом другие уведомления будут удалены. Передавайте с `CLIENT_ID` при вызове через вебхук ||
+[`string`](../../data-types.md) | Тег уведомления. Если у получателя уже есть уведомление этого приложения с таким тегом, предыдущее уведомление удаляется.
+
+Тег сохраняется только при вызове из приложения: метод добавляет к нему ключ приложения, поэтому теги разных приложений не пересекаются. При вызове через вебхук параметр игнорируется ||
 || **SUB_TAG**
-[`string`](../../data-types.md) | Дополнительный тег уведомления без проверки уникальности. Передавайте с `CLIENT_ID` при вызове через вебхук ||
+[`string`](../../data-types.md) | Дополнительный тег уведомления без проверки уникальности. По тегам `TAG` и `SUB_TAG` уведомления можно удалить методом [im.notify.delete](./im-notify-delete.md).
+
+Тег сохраняется только при вызове из приложения. При вызове через вебхук параметр игнорируется ||
 || **ATTACH**
+[`array`](../../data-types.md)
 [`object`](../../data-types.md)
-[`string`](../../data-types.md) | Вложение уведомления в формате объекта или JSON-строки. Подробнее смотрите в разделе [Вложения](../messages/attachments.md) ||
-|| **CLIENT_ID**
-[`string`](../../data-types.md) | Идентификатор приложения. Параметр обязателен только при вызове через вебхук: передавайте его вместе с `TAG` и `SUB_TAG` ||
+[`string`](../../data-types.md) | Вложение уведомления: массив блоков, объект с ключом `BLOCKS` или JSON-строка. Размер вложения в JSON — меньше 60 000 символов. Формат блоков описан в разделе [Вложения](../messages/attachments.md) ||
 |#
 
 ## Примеры кода
@@ -59,7 +64,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"USER_ID":5,"MESSAGE":"Системное уведомление","MESSAGE_OUT":"Системное уведомление для email","TAG":"SYSTEM_EVENT_42","SUB_TAG":"SYSTEM_EVENT|42"}' \
+      -d '{"USER_ID":5,"MESSAGE":"Счет [B]№ 42[/B] оплачен","MESSAGE_OUT":"Счет № 42 оплачен","ATTACH":[{"MESSAGE":"Сумма: 15 000 руб."},{"LINK":{"NAME":"Открыть счет","LINK":"https://example.com/invoice/42"}}]}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.system.add
     ```
 
@@ -69,7 +74,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"USER_ID":5,"MESSAGE":"Системное уведомление","MESSAGE_OUT":"Системное уведомление для email","TAG":"SYSTEM_EVENT_42","SUB_TAG":"SYSTEM_EVENT|42","auth":"**put_access_token_here**"}' \
+      -d '{"USER_ID":5,"MESSAGE":"Счет [B]№ 42[/B] оплачен","MESSAGE_OUT":"Счет № 42 оплачен","ATTACH":[{"MESSAGE":"Сумма: 15 000 руб."},{"LINK":{"NAME":"Открыть счет","LINK":"https://example.com/invoice/42"}}],"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/im.notify.system.add
     ```
 
@@ -88,10 +93,12 @@
         method: 'im.notify.system.add',
         params: {
           USER_ID: 5,
-          MESSAGE: 'System notification',
-          MESSAGE_OUT: 'System notification for email',
-          TAG: 'SYSTEM_EVENT_42',
-          SUB_TAG: 'SYSTEM_EVENT|42',
+          MESSAGE: 'Счет [B]№ 42[/B] оплачен',
+          MESSAGE_OUT: 'Счет № 42 оплачен',
+          ATTACH: [
+            { MESSAGE: 'Сумма: 15 000 руб.' },
+            { LINK: { NAME: 'Открыть счет', LINK: 'https://example.com/invoice/42' } },
+          ],
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -124,10 +131,12 @@
             method: 'im.notify.system.add',
             params: {
               USER_ID: 5,
-              MESSAGE: 'System notification',
-              MESSAGE_OUT: 'System notification for email',
-              TAG: 'SYSTEM_EVENT_42',
-              SUB_TAG: 'SYSTEM_EVENT|42',
+              MESSAGE: 'Счет [B]№ 42[/B] оплачен',
+              MESSAGE_OUT: 'Счет № 42 оплачен',
+              ATTACH: [
+                { MESSAGE: 'Сумма: 15 000 руб.' },
+                { LINK: { NAME: 'Открыть счет', LINK: 'https://example.com/invoice/42' } },
+              ],
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -158,10 +167,12 @@
     try:
         bitrix_response = client.im.notify.system.add(
             user_id=5,
-            message="Системное уведомление",
-            message_out="Системное уведомление для email",
-            tag="SYSTEM_EVENT_42",
-            sub_tag="SYSTEM_EVENT|42",
+            message="Счет [B]№ 42[/B] оплачен",
+            message_out="Счет № 42 оплачен",
+            attach=[
+                {"MESSAGE": "Сумма: 15 000 руб."},
+                {"LINK": {"NAME": "Открыть счет", "LINK": "https://example.com/invoice/42"}},
+            ],
         ).response
         result = bitrix_response.result
         print(result)
@@ -186,10 +197,12 @@
             'im.notify.system.add',
             [
                 'USER_ID' => 5,
-                'MESSAGE' => 'Системное уведомление',
-                'MESSAGE_OUT' => 'Системное уведомление для email',
-                'TAG' => 'SYSTEM_EVENT_42',
-                'SUB_TAG' => 'SYSTEM_EVENT|42',
+                'MESSAGE' => 'Счет [B]№ 42[/B] оплачен',
+                'MESSAGE_OUT' => 'Счет № 42 оплачен',
+                'ATTACH' => [
+                    ['MESSAGE' => 'Сумма: 15 000 руб.'],
+                    ['LINK' => ['NAME' => 'Открыть счет', 'LINK' => 'https://example.com/invoice/42']],
+                ],
             ]
         );
 
@@ -208,10 +221,12 @@
         'im.notify.system.add',
         {
             USER_ID: 5,
-            MESSAGE: 'Системное уведомление',
-            MESSAGE_OUT: 'Системное уведомление для email',
-            TAG: 'SYSTEM_EVENT_42',
-            SUB_TAG: 'SYSTEM_EVENT|42',
+            MESSAGE: 'Счет [B]№ 42[/B] оплачен',
+            MESSAGE_OUT: 'Счет № 42 оплачен',
+            ATTACH: [
+                { MESSAGE: 'Сумма: 15 000 руб.' },
+                { LINK: { NAME: 'Открыть счет', LINK: 'https://example.com/invoice/42' } },
+            ],
         },
         function(result) {
             if (result.error()) {
@@ -232,15 +247,19 @@
         'im.notify.system.add',
         [
             'USER_ID' => 5,
-            'MESSAGE' => 'Системное уведомление',
-            'MESSAGE_OUT' => 'Системное уведомление для email',
-            'TAG' => 'SYSTEM_EVENT_42',
-            'SUB_TAG' => 'SYSTEM_EVENT|42',
+            'MESSAGE' => 'Счет [B]№ 42[/B] оплачен',
+            'MESSAGE_OUT' => 'Счет № 42 оплачен',
+            'ATTACH' => [
+                ['MESSAGE' => 'Сумма: 15 000 руб.'],
+                ['LINK' => ['NAME' => 'Открыть счет', 'LINK' => 'https://example.com/invoice/42']],
+            ],
         ]
     );
 
     if (!empty($result['error'])) {
         echo 'Error: ' . $result['error_description'];
+    } elseif ($result['result'] === false) {
+        echo 'Notification not sent';
     } else {
         echo 'Notification ID: ' . $result['result'];
     }
@@ -252,18 +271,21 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "im.notify.system.add", b24.Params{
     	"USER_ID":     5,
-    	"MESSAGE":     "Системное уведомление",
-    	"MESSAGE_OUT": "Системное уведомление для email",
-    	"TAG":         "SYSTEM_EVENT_42",
-    	"SUB_TAG":     "SYSTEM_EVENT|42",
+    	"MESSAGE":     "Счет [B]№ 42[/B] оплачен",
+    	"MESSAGE_OUT": "Счет № 42 оплачен",
+    	"ATTACH": []map[string]any{
+    		{"MESSAGE": "Сумма: 15 000 руб."},
+    		{"LINK": map[string]any{"NAME": "Открыть счет", "LINK": "https://example.com/invoice/42"}},
+    	},
     })
     if err != nil {
     	return fmt.Errorf("im.notify.system.add: %w", err)
     }
 
+    // result — идентификатор уведомления или false, если уведомление не создано
     var newID b24.ID
     if err := json.Unmarshal(res.Result, &newID); err != nil {
-    	return fmt.Errorf("разбор ответа: %w", err)
+    	return fmt.Errorf("уведомление не создано: %s", res.Result)
     }
     fmt.Println("идентификатор:", newID)
     ```
@@ -276,15 +298,33 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": 12345,
+    "result": 43999,
     "time": {
-        "start": 1760000000.0,
-        "finish": 1760000000.1,
-        "duration": 0.1,
-        "processing": 0.04,
-        "date_start": "2026-03-02T09:30:00+03:00",
-        "date_finish": "2026-03-02T09:30:00+03:00",
-        "operating_reset_at": 1760030000,
+        "start": 1794317393,
+        "finish": 1794317393.208608,
+        "duration": 0.20860791206359863,
+        "processing": 0,
+        "date_start": "2026-11-10T16:29:53+03:00",
+        "date_finish": "2026-11-10T16:29:53+03:00",
+        "operating_reset_at": 1794317940,
+        "operating": 0
+    }
+}
+```
+
+Если получатель не найден или неактивен, метод возвращает HTTP-статус **200** и `false`:
+
+```json
+{
+    "result": false,
+    "time": {
+        "start": 1794317624,
+        "finish": 1794317624.580945,
+        "duration": 0.5809450149536133,
+        "processing": 0,
+        "date_start": "2026-11-10T16:33:44+03:00",
+        "date_finish": "2026-11-10T16:33:44+03:00",
+        "operating_reset_at": 1794318180,
         "operating": 0
     }
 }
@@ -297,7 +337,9 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`integer`](../../data-types.md)
-[`boolean`](../../data-types.md) | Идентификатор созданного уведомления. Если уведомление не создано, может вернуться `false` ||
+[`boolean`](../../data-types.md) | Идентификатор созданного уведомления. Передайте его в `ID` метода [im.notify.delete](./im-notify-delete.md), чтобы удалить уведомление.
+
+Значение `false` означает, что уведомление не создано: получатель не найден или неактивен ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -318,12 +360,12 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией, для которой он запрещен ||
-|| `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или `USER_ID <= 0` ||
-|| `MESSAGE_EMPTY` | Message can't be empty | Не передан текст сообщения ||
-|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен допустимый размер вложения `ATTACH` — 60 000 символов ||
-|| `ATTACH_ERROR` | Incorrect attach params | Передан некорректный формат вложения `ATTACH` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `400` | `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или его значение не больше `0` ||
+|| `400` | `MESSAGE_EMPTY` | Message can't be empty | Параметр `MESSAGE` не передан, не является строкой или содержит только пробелы ||
+|| `400` | `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Размер вложения `ATTACH` в JSON — 60 000 символов или больше ||
+|| `400` | `ATTACH_ERROR` | Incorrect attach params | Во вложении `ATTACH` нет ни одного корректного блока или передана строка, которая не является JSON ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}

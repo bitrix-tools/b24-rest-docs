@@ -13,9 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.history.search` выполняет поиск по истории уведомлений пользователя.
-
-Сортировка уведомлений: сначала по убыванию даты создания, затем по убыванию идентификаторов.
+Метод `im.notify.history.search` ищет уведомления текущего пользователя по тексту, типу, дате и автору.
 
 ## Параметры метода
 
@@ -25,28 +23,64 @@
 || **Название**
 `тип` | **Описание** ||
 || **SEARCH_TEXT**
-[`string`](../../data-types.md) | Текст поиска. Если `SEARCH_TYPE` и `SEARCH_DATE` не заданы, длина строки должна быть не меньше `3` символов ||
+[`string`](../../data-types.md) | Текст для поиска в тексте уведомления. Регистр не учитывается.
+
+Если других фильтров нет, длина без учета пробелов по краям — от `3` символов ||
 || **SEARCH_TYPE**
-[`string`](../../data-types.md) | Фильтр по типу уведомления в формате `MODULE` или ```MODULE|EVENT```. Готовые значения можно получить методом [im.notify.schema.get](./im-notify-schema-get.md) ||
+[`string`](../../data-types.md) | Тип уведомления в формате `MODULE` или ```MODULE|EVENT```, например `calendar` или ```calendar|change```. Коды типов возвращает метод [im.notify.schema.get](./im-notify-schema-get.md).
+
+Не учитывается, если передан `SEARCH_TYPES` ||
 || **SEARCH_TYPES**
-[`array`](../../data-types.md) | Массив фильтров по типам уведомлений в формате `MODULE` или ```MODULE|EVENT``` ||
+[`array`](../../data-types.md) | Массив типов уведомлений, например `["calendar", "tasks"]`.
+
+Если в массиве один элемент, допустим формат ```MODULE|EVENT```. Если элементов несколько, передавайте только коды модулей `MODULE`: значения ```MODULE|EVENT``` в этом случае ничего не находят ||
 || **SEARCH_DATE**
-[`string`](../../data-types.md) | Фильтр по дате в формате ISO 8601 (RFC3339) ||
+[`datetime`](../../data-types.md) | Дата и время в формате RFC 3339, например `2026-11-10T00:00:00+03:00`. Метод найдет уведомления, созданные в течение 24 часов от этого момента.
+
+Не учитывается, если переданы `SEARCH_DATE_FROM` и `SEARCH_DATE_TO` ||
 || **SEARCH_DATE_FROM**
-[`string`](../../data-types.md) | Начало диапазона дат в формате ISO 8601 (RFC3339). Используется вместе с `SEARCH_DATE_TO` ||
+[`datetime`](../../data-types.md) | Начало периода в формате RFC 3339. Передавайте вместе с `SEARCH_DATE_TO`.
+
+Если передать только `SEARCH_DATE_FROM` без других фильтров, метод вернет пустой массив `result` ||
 || **SEARCH_DATE_TO**
-[`string`](../../data-types.md) | Конец диапазона дат в формате ISO 8601 (RFC3339). Используется вместе с `SEARCH_DATE_FROM` ||
+[`datetime`](../../data-types.md) | Конец периода в формате RFC 3339. Передавайте вместе с `SEARCH_DATE_FROM`. Метод добавляет к значению 24 часа: при `2026-11-10T00:00:00+03:00` в выборку попадут уведомления за 10 ноября ||
 || **SEARCH_AUTHORS**
-[`array`](../../data-types.md) | Массив идентификаторов авторов уведомлений для фильтрации ||
-|| **LAST_ID**
-[`integer`](../../data-types.md) | Идентификатор последнего уведомления предыдущей страницы для загрузки следующей. Обычно берется из поля `id` последнего элемента массива `notifications` в ответе предыдущего шага поиска или в ответе [im.notify.get](./im-notify-get.md) ||
-|| **LIMIT**
-[`integer`](../../data-types.md) | Количество уведомлений на страницу. Значение по умолчанию — `50`. Максимальное значение — `50` ||
-|| **CONVERT_TEXT**
-[`string`](../../data-types.md) | Преобразовать текст уведомлений. Значение `Y` включает преобразование, любое другое значение отключает ||
+[`array`](../../data-types.md) | Массив идентификаторов авторов уведомлений, например `[1, 15]`. Значение `0` выбирает системные уведомления.
+
+Получить идентификаторы пользователей можно методом [user.get](../../user/user-get.md) ||
 || **GROUP_TAG**
-[`string`](../../data-types.md) | Групповой тег уведомлений для дополнительной фильтрации ||
+[`string`](../../data-types.md) | Группа уведомлений для дополнительной фильтрации. Допустимые значения:
+- `confirm` — уведомления, которые требуют подтверждения
+- `mention` — упоминания
+- `admin` — уведомления для администратора
+- числовой идентификатор пользовательской группы уведомлений
+
+Работает только вместе с другими фильтрами ||
+|| **LAST_ID**
+[`integer`](../../data-types.md) | Идентификатор последнего уведомления на предыдущей странице — поле `id` последнего элемента массива `notifications`. Метод вернет уведомления с идентификатором меньше `LAST_ID`.
+
+Для первой страницы не передавайте. Значение должно состоять только из цифр, иначе метод вернет ошибку `LAST_ID_STRING` ||
+|| **LIMIT**
+[`integer`](../../data-types.md) | Количество уведомлений на странице. По умолчанию — `50`, максимум — `50`. Большее значение метод уменьшает до `50`.
+
+Не передавайте `0` и отрицательные значения: метод вернет все найденные уведомления без ограничения ||
+|| **CONVERT_TEXT**
+[`string`](../../data-types.md) | Метод принимает параметр, но не учитывает его ||
 |#
+
+{% note info "" %}
+
+Передайте хотя бы один фильтр: `SEARCH_TEXT` длиной от `3` символов, `SEARCH_TYPE`, `SEARCH_TYPES`, `SEARCH_DATE`, `SEARCH_AUTHORS` или пару `SEARCH_DATE_FROM` и `SEARCH_DATE_TO`. Иначе метод вернет ошибку `SEARCH_TEXT_ERROR`. Несколько фильтров объединяются условием И.
+
+{% endnote %}
+
+### Как получить все результаты поиска {#pagination}
+
+Метод сортирует уведомления по убыванию даты создания, затем по убыванию `id`.
+
+1. Запросите первую страницу без `LAST_ID`. В ответе будет поле `total_results` — общее количество найденных уведомлений
+2. Для следующей страницы передайте те же фильтры и `LAST_ID` = `id` последнего элемента массива `notifications`. На этих страницах поля `total_results` нет
+3. Повторяйте шаг 2, пока метод не вернет меньше уведомлений, чем `LIMIT`
 
 ## Примеры кода
 
@@ -60,7 +94,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"SEARCH_TEXT":"счет","SEARCH_TYPE":"tasks|task_update","SEARCH_DATE":"2026-03-03T16:52:29+03:00","LAST_ID":1500,"LIMIT":20,"CONVERT_TEXT":"Y","GROUP_TAG":"TASK|42"}' \
+      -d '{"SEARCH_TEXT":"счет","SEARCH_TYPE":"rest|rest_notify","SEARCH_DATE_FROM":"2026-11-01T00:00:00+03:00","SEARCH_DATE_TO":"2026-11-10T00:00:00+03:00","LIMIT":20}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.history.search
     ```
 
@@ -70,7 +104,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"SEARCH_TEXT":"счет","SEARCH_TYPE":"tasks|task_update","SEARCH_DATE":"2026-03-03T16:52:29+03:00","LAST_ID":1500,"LIMIT":20,"CONVERT_TEXT":"Y","GROUP_TAG":"TASK|42","auth":"**put_access_token_here**"}' \
+      -d '{"SEARCH_TEXT":"счет","SEARCH_TYPE":"rest|rest_notify","SEARCH_DATE_FROM":"2026-11-01T00:00:00+03:00","SEARCH_DATE_TO":"2026-11-10T00:00:00+03:00","LIMIT":20,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/im.notify.history.search
     ```
 
@@ -85,14 +119,14 @@
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
+    // total_results is returned only on the first page (without LAST_ID)
     type NotifyHistorySearchResult = {
       chat_id: number
-      total_results: number
       notifications: Array<{
         id: number
         chat_id: number
         author_id: number
-        date: ISODate | null
+        date: ISODate
         notify_type: number
         notify_module: string
         notify_event: string
@@ -101,8 +135,9 @@
         notify_title: string
         setting_name: string
         text: string
-        notify_read: string
         params: object | null
+        notify_read: 'Y' | 'N'
+        notify_buttons?: string
       }>
       users: Array<{
         id: number
@@ -110,43 +145,44 @@
         name: string
         first_name: string
         last_name: string
-        work_position: string
+        work_position: string | null
         color: string
         avatar: string
         avatar_hr: string
-        gender: string
+        gender: 'M' | 'F'
         birthday: string
         extranet: boolean
         network: boolean
         bot: boolean
         connector: boolean
         external_auth_id: string
+        internal_account: boolean
+        intranet_user: boolean
         status: string
-        idle: ISODate | false
-        last_activity_date: ISODate | null
-        mobile_last_date: ISODate | false
-        desktop_last_date: ISODate | false
+        idle: false
+        last_activity_date: ISODate | false
+        mobile_last_date: false
+        desktop_last_date: false
         absent: ISODate | false
         departments: number[]
-        phones: { work_phone?: string; inner_phone?: string } | false
+        phones: Record<string, string> | false
         bot_data: object | null
         type: string
         website: string
         email: string
       }>
+      total_results?: number
     }
 
     try {
       const response = await $b24.actions.v2.call.make<NotifyHistorySearchResult>({
         method: 'im.notify.history.search',
         params: {
-          SEARCH_TEXT: 'invoice',
-          SEARCH_TYPE: 'tasks|task_update',
-          SEARCH_DATE: '2026-03-03T16:52:29+03:00',
-          LAST_ID: 1500,
+          SEARCH_TEXT: 'счет',
+          SEARCH_TYPE: 'rest|rest_notify',
+          SEARCH_DATE_FROM: '2026-11-01T00:00:00+03:00',
+          SEARCH_DATE_TO: '2026-11-10T00:00:00+03:00',
           LIMIT: 20,
-          CONVERT_TEXT: 'Y',
-          GROUP_TAG: 'TASK|42',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -156,11 +192,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(
-          result.chat_id,
-          result.total_results,
-          result.notifications.length,
-        )
+        console.info('Found:', result.total_results, 'On page:', result.notifications.length)
+
+        // Pass the id of the last notification as LAST_ID to get the next page
+        const last = result.notifications.at(-1)
+        if (last && result.notifications.length === 20) {
+          console.info('Next page LAST_ID:', last.id)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -182,13 +220,11 @@
           const response = await $b24.actions.v2.call.make({
             method: 'im.notify.history.search',
             params: {
-              SEARCH_TEXT: 'invoice',
-              SEARCH_TYPE: 'tasks|task_update',
-              SEARCH_DATE: '2026-03-03T16:52:29+03:00',
-              LAST_ID: 1500,
+              SEARCH_TEXT: 'счет',
+              SEARCH_TYPE: 'rest|rest_notify',
+              SEARCH_DATE_FROM: '2026-11-01T00:00:00+03:00',
+              SEARCH_DATE_TO: '2026-11-10T00:00:00+03:00',
               LIMIT: 20,
-              CONVERT_TEXT: 'Y',
-              GROUP_TAG: 'TASK|42',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -200,11 +236,13 @@
           }
 
           const result = response.getData().result
-          console.info(
-            result.chat_id,
-            result.total_results,
-            result.notifications.length,
-          )
+          console.info('Found:', result.total_results, 'On page:', result.notifications.length)
+
+          // Pass the id of the last notification as LAST_ID to get the next page
+          const last = result.notifications.at(-1)
+          if (last && result.notifications.length === 20) {
+            console.info('Next page LAST_ID:', last.id)
+          }
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -222,13 +260,11 @@
 
     try:
         bitrix_response = client.im.notify.history.search(
-            search_text="Иван",
-            search_type="tasks|task_update",
-            search_date="2026-03-03T16:52:29+03:00",
-            last_id=1500,
+            search_text="счет",
+            search_type="rest|rest_notify",
+            search_date_from="2026-11-01T00:00:00+03:00",
+            search_date_to="2026-11-10T00:00:00+03:00",
             limit=20,
-            convert_text=True,
-            group_tag="TASK|42",
         ).response
         result = bitrix_response.result
         print(result)
@@ -253,12 +289,10 @@
             'im.notify.history.search',
             [
                 'SEARCH_TEXT' => 'счет',
-                'SEARCH_TYPE' => 'tasks|task_update',
-                'SEARCH_DATE' => '2026-03-03T16:52:29+03:00',
-                'LAST_ID' => 1500,
+                'SEARCH_TYPE' => 'rest|rest_notify',
+                'SEARCH_DATE_FROM' => '2026-11-01T00:00:00+03:00',
+                'SEARCH_DATE_TO' => '2026-11-10T00:00:00+03:00',
                 'LIMIT' => 20,
-                'CONVERT_TEXT' => 'Y',
-                'GROUP_TAG' => 'TASK|42',
             ]
         );
 
@@ -277,12 +311,10 @@
         'im.notify.history.search',
         {
             SEARCH_TEXT: 'счет',
-            SEARCH_TYPE: 'tasks|task_update',
-            SEARCH_DATE: '2026-03-03T16:52:29+03:00',
-            LAST_ID: 1500,
+            SEARCH_TYPE: 'rest|rest_notify',
+            SEARCH_DATE_FROM: '2026-11-01T00:00:00+03:00',
+            SEARCH_DATE_TO: '2026-11-10T00:00:00+03:00',
             LIMIT: 20,
-            CONVERT_TEXT: 'Y',
-            GROUP_TAG: 'TASK|42',
         },
         function(result) {
             if (result.error()) {
@@ -303,12 +335,10 @@
         'im.notify.history.search',
         [
             'SEARCH_TEXT' => 'счет',
-            'SEARCH_TYPE' => 'tasks|task_update',
-            'SEARCH_DATE' => '2026-03-03T16:52:29+03:00',
-            'LAST_ID' => 1500,
+            'SEARCH_TYPE' => 'rest|rest_notify',
+            'SEARCH_DATE_FROM' => '2026-11-01T00:00:00+03:00',
+            'SEARCH_DATE_TO' => '2026-11-10T00:00:00+03:00',
             'LIMIT' => 20,
-            'CONVERT_TEXT' => 'Y',
-            'GROUP_TAG' => 'TASK|42',
         ]
     );
 
@@ -324,26 +354,33 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "im.notify.history.search", b24.Params{
-    	"SEARCH_TEXT":  "счет",
-    	"SEARCH_TYPE":  "tasks|task_update",
-    	"SEARCH_DATE":  "2026-03-03T16:52:29+03:00",
-    	"LAST_ID":      1500,
-    	"LIMIT":        20,
-    	"CONVERT_TEXT": "Y",
-    	"GROUP_TAG":    "TASK|42",
-    })
+    	"SEARCH_TEXT":      "счет",
+    	"SEARCH_TYPE":      "rest|rest_notify",
+    	"SEARCH_DATE_FROM": "2026-11-01T00:00:00+03:00",
+    	"SEARCH_DATE_TO":   "2026-11-10T00:00:00+03:00",
+    	"LIMIT":            20,
+    }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("im.notify.history.search: %w", err)
     }
 
     var item struct {
-    	ChatID       int `json:"chat_id"`
-    	TotalResults int `json:"total_results"`
+    	ChatID        int `json:"chat_id"`
+    	TotalResults  int `json:"total_results"`
+    	Notifications []struct {
+    		ID   int    `json:"id"`
+    		Text string `json:"text"`
+    	} `json:"notifications"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ChatID, item.TotalResults)
+    fmt.Println(item.TotalResults, len(item.Notifications))
+
+    // id последнего уведомления передайте в LAST_ID для следующей страницы
+    if n := len(item.Notifications); n == 20 {
+    	fmt.Println("LAST_ID:", item.Notifications[n-1].ID)
+    }
     ```
 
 {% endlist %}
@@ -355,70 +392,71 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "chat_id": 77,
-        "total_results": 1,
+        "chat_id": 2535,
         "notifications": [
             {
-                "id": 1500,
-                "chat_id": 77,
-                "author_id": 1,
-                "date": "2026-03-03T09:00:00+00:00",
+                "id": 44021,
+                "chat_id": 2535,
+                "author_id": 15,
+                "date": "2026-11-10T16:37:49+03:00",
                 "notify_type": 2,
-                "notify_module": "tasks",
-                "notify_event": "task_update",
-                "notify_tag": "TASK|42",
+                "notify_module": "rest",
+                "notify_event": "rest_notify",
+                "notify_tag": "",
                 "notify_sub_tag": "",
                 "notify_title": "",
-                "setting_name": "tasks|task_update",
-                "text": "счет",
-                "notify_read": "Y",
-                "params": null
+                "setting_name": "rest|rest_notify",
+                "text": "Проверьте счет [B]№ 42[/B]",
+                "params": null,
+                "notify_read": "N"
             }
         ],
         "users": [
             {
-                "id": 1,
-                "active":true,
+                "id": 15,
+                "active": true,
                 "name": "Иван Петров",
-                "first_name":"Иван",
-                "last_name":"Петров",
-                "work_position":"",
-                "color":"#1eb4aa",
-                "avatar":"https://example.bitrix24.ru/upload/main/avatar.png",
-                "avatar_hr":"https://example.bitrix24.ru/upload/main/avatar.png",
-                "gender":"M",
-                "birthday":"15-05",
-                "extranet":false,
-                "network":false,
-                "bot":false,
-                "connector":false,
-                "external_auth_id":"socservices",
-                "status":"online",
-                "idle":false,
-                "last_activity_date":"2026-03-04T15:04:20+03:00",
-                "mobile_last_date":false,
-                "desktop_last_date":false,
-                "absent":false,
-                "departments":[1],
-                "phones":{
-                    "work_phone":"+71234567890",
-                    "inner_phone":"22"
+                "first_name": "Иван",
+                "last_name": "Петров",
+                "work_position": null,
+                "color": "#58cc47",
+                "avatar": "https://cdn-ru.bitrix24.ru/b1234567/main/avatar.png",
+                "avatar_hr": "https://cdn-ru.bitrix24.ru/b1234567/main/avatar.png",
+                "gender": "M",
+                "birthday": "",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "socservices",
+                "internal_account": true,
+                "intranet_user": false,
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2026-11-10T16:36:42+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [],
+                "phones": {
+                    "personal_mobile": "79001234567"
                 },
-                "bot_data":null,
-                "type":"user",
-                "website":"example.ru",
-                "email":"ivan@example.ru"
+                "bot_data": null,
+                "type": "user",
+                "website": "",
+                "email": ""
             }
-        ]
+        ],
+        "total_results": 1
     },
     "time": {
-        "start": 1760000000.0,
-        "finish": 1760000000.1,
-        "duration": 0.1,
-        "processing": 0.04,
-        "date_start": "2026-03-04T16:00:00+03:00",
-        "date_finish": "2026-03-04T16:00:00+03:00",
-        "operating_reset_at": 1760030000,
+        "start": 1794317871,
+        "finish": 1794317871.341717,
+        "duration": 0.341717004776001,
+        "processing": 0,
+        "date_start": "2026-11-10T16:37:51+03:00",
+        "date_finish": "2026-11-10T16:37:51+03:00",
+        "operating_reset_at": 1794318420,
         "operating": 0
     }
 }
@@ -430,9 +468,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом поиска.
+[`object`](../../data-types.md) | Объект с результатами поиска [(подробное описание)](#result-object).
 
-Структура объекта подробно описана [ниже](#result-object) ||
+Если у пользователя еще нет системного чата уведомлений или передан только `SEARCH_DATE_FROM` либо только `SEARCH_DATE_TO`, метод вернет пустой массив `[]` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -443,17 +481,13 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **chat_id**
-[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений ||
-|| **total_results**
-[`integer`](../../data-types.md) | Общее количество результатов поиска. Поле возвращается только при первой странице поиска ||
+[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений пользователя ||
 || **notifications**
-[`array`](../../data-types.md) | Список уведомлений.
-
-Структура объекта подробно описана [ниже](#notification-object) ||
+[`array`](../../data-types.md) | Массив найденных уведомлений на странице [(подробное описание)](#notification-object). Если ничего не найдено — пустой массив ||
 || **users**
-[`array`](../../data-types.md) | Пользователи-авторы уведомлений
-
-Структура объекта подробно описана [ниже](#user-object) ||
+[`array`](../../data-types.md) | Массив авторов найденных уведомлений [(подробное описание)](#user-object). В массив не попадают системные уведомления с `author_id` = `0` ||
+|| **total_results**
+[`integer`](../../data-types.md) | Общее количество найденных уведомлений. Есть только в ответе на запрос без `LAST_ID` ||
 |#
 
 #### Объект notification {#notification-object}
@@ -462,36 +496,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор уведомления ||
+[`integer`](../../data-types.md) | Идентификатор уведомления. Используйте `id` последнего элемента как `LAST_ID` для следующей страницы ||
 || **chat_id**
-[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений ||
+[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений пользователя ||
 || **author_id**
-[`integer`](../../data-types.md) | Идентификатор автора уведомления ||
+[`integer`](../../data-types.md) | Идентификатор автора уведомления. Для системных уведомлений — `0` ||
 || **date**
-[`string`](../../data-types.md) | Дата и время уведомления в формате ISO 8601 (RFC3339) ||
+[`datetime`](../../data-types.md) | Дата и время создания уведомления ||
 || **notify_type**
-[`integer`](../../data-types.md) | Тип уведомления ||
+[`integer`](../../data-types.md) | Тип уведомления. Возможные значения:
+- `1` — уведомление с кнопками, требует подтверждения
+- `2` — персональное уведомление от пользователя
+- `4` — системное уведомление ||
 || **notify_module**
-[`string`](../../data-types.md) | Идентификатор модуля уведомления ||
+[`string`](../../data-types.md) | Идентификатор модуля, который отправил уведомление ||
 || **notify_event**
 [`string`](../../data-types.md) | Код события уведомления ||
 || **notify_tag**
-[`string`](../../data-types.md) | Тег уведомления ||
+[`string`](../../data-types.md) | Тег уведомления или пустая строка ||
 || **notify_sub_tag**
-[`string`](../../data-types.md) | Дополнительный тег уведомления ||
+[`string`](../../data-types.md) | Дополнительный тег уведомления или пустая строка ||
 || **notify_title**
-[`string`](../../data-types.md) | Заголовок уведомления ||
+[`string`](../../data-types.md) | Заголовок уведомления или пустая строка ||
 || **setting_name**
-[`string`](../../data-types.md) | Код настройки в формате ```MODULE|EVENT``` ||
+[`string`](../../data-types.md) | Код типа уведомления в формате ```MODULE|EVENT```. Список кодов возвращает метод [im.notify.schema.get](./im-notify-schema-get.md) ||
 || **text**
-[`string`](../../data-types.md) | Текст уведомления ||
-|| **notify_read**
-[`string`](../../data-types.md) | Статус прочтения уведомления: `Y` или `N` ||
-|| **notify_buttons**
-[`string`](../../data-types.md) | JSON клавиатуры для уведомлений типа подтверждения. Поле присутствует не всегда ||
+[`string`](../../data-types.md) | Текст уведомления. Форматирование передается BB-кодами, например `[B]...[/B]` ||
 || **params**
-[`object`](../../data-types.md)
-[`null`](../../data-types.md) | Дополнительные параметры уведомления ||
+[`object`](../../data-types.md) | Дополнительные параметры уведомления, например вложение `ATTACH`, или `null` ||
+|| **notify_read**
+[`string`](../../data-types.md) | Статус прочтения уведомления. Возможные значения: `Y` — прочитано, `N` — не прочитано ||
+|| **notify_buttons**
+[`string`](../../data-types.md) | JSON-строка с кнопками уведомления. Поле есть только у уведомлений с `notify_type` = `1` ||
 |#
 
 #### Объект user {#user-object}
@@ -510,15 +546,15 @@ HTTP-статус: **200**
 || **last_name**
 [`string`](../../data-types.md) | Фамилия пользователя ||
 || **work_position**
-[`string`](../../data-types.md) | Должность пользователя ||
+[`string`](../../data-types.md) | Должность пользователя или `null` ||
 || **color**
 [`string`](../../data-types.md) | Цвет пользователя в формате hex ||
 || **avatar**
-[`string`](../../data-types.md) | Ссылка на аватар ||
+[`string`](../../data-types.md) | Ссылка на аватар или пустая строка ||
 || **avatar_hr**
-[`string`](../../data-types.md) | Ссылка на аватар высокого разрешения ||
+[`string`](../../data-types.md) | Ссылка на аватар высокого разрешения или пустая строка ||
 || **gender**
-[`string`](../../data-types.md) | Пол пользователя ||
+[`string`](../../data-types.md) | Пол пользователя. Возможные значения: `M` — мужской, `F` — женский ||
 || **birthday**
 [`string`](../../data-types.md) | День рождения в формате `DD-MM` или пустая строка ||
 || **extranet**
@@ -531,26 +567,30 @@ HTTP-статус: **200**
 [`boolean`](../../data-types.md) | Признак пользователя открытых линий ||
 || **external_auth_id**
 [`string`](../../data-types.md) | Код внешней авторизации ||
+|| **internal_account**
+[`boolean`](../../data-types.md) | Признак внутренней учетной записи: `external_auth_id` не относится к внешним типам авторизации ||
+|| **intranet_user**
+[`boolean`](../../data-types.md) | Признак сотрудника: у пользователя есть подразделение и внутренняя учетная запись ||
 || **status**
 [`string`](../../data-types.md) | Статус пользователя ||
 || **idle**
-[`datetime`](../../data-types.md) | Дата бездействия пользователя или `false` ||
+[`boolean`](../../data-types.md) | В этом методе всегда `false` ||
 || **last_activity_date**
-[`datetime`](../../data-types.md) | Дата последней активности пользователя ||
+[`datetime`](../../data-types.md) | Дата последней активности пользователя или `false` ||
 || **mobile_last_date**
-[`datetime`](../../data-types.md) | Дата последней активности в мобильном приложении или `false` ||
+[`boolean`](../../data-types.md) | В этом методе всегда `false` ||
 || **desktop_last_date**
-[`datetime`](../../data-types.md) | Дата последней активности в десктопном приложении или `false` ||
+[`boolean`](../../data-types.md) | В этом методе всегда `false` ||
 || **absent**
 [`datetime`](../../data-types.md) | Дата окончания отсутствия пользователя или `false` ||
 || **departments**
 [`array`](../../data-types.md) | Массив идентификаторов подразделений ||
 || **phones**
-[`object`](../../data-types.md) | Телефоны пользователя или `false` [(подробное описание)](#phones) ||
+[`object`](../../data-types.md) | Телефоны пользователя [(подробное описание)](#phones) или `false`, если телефонов нет ||
 || **bot_data**
 [`object`](../../data-types.md) | Данные бота или `null` ||
 || **type**
-[`string`](../../data-types.md) | Тип пользователя ||
+[`string`](../../data-types.md) | Тип пользователя. Возможные значения: `user`, `bot`, `extranet`, `collaber`, `guest` ||
 || **website**
 [`string`](../../data-types.md) | Сайт пользователя ||
 || **email**
@@ -558,6 +598,8 @@ HTTP-статус: **200**
 |#
 
 #### Объект phones {#phones}
+
+В объекте есть только заполненные телефоны.
 
 #|
 || **Название**
@@ -586,9 +628,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `SEARCH_TEXT_ERROR` | SEARCH_TEXT can't be less then 3 symbols | Ошибка возникает, если не заданы `SEARCH_TYPE`, `SEARCH_DATE`, `SEARCH_TYPES`, `SEARCH_AUTHORS`, пара `SEARCH_DATE_FROM` и `SEARCH_DATE_TO`, а длина `SEARCH_TEXT` меньше `3` ||
-|| `LAST_ID_STRING` | Last notification ID can't be string | Параметр `LAST_ID` содержит нечисловое значение ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `SEARCH_TEXT_ERROR` | SEARCH_TEXT can't be less then 3 symbols | Не передан ни один фильтр, а `SEARCH_TEXT` не передан или короче `3` символов. Ошибка возникает и в том случае, если передан только `GROUP_TAG` ||
+|| `400` | `LAST_ID_STRING` | Last notification ID can't be string | Значение `LAST_ID` содержит не только цифры, например `abc` или `-5` ||
+|| `400` | `500` | Incorrect date/time: abc | Значение `SEARCH_DATE`, `SEARCH_DATE_FROM` или `SEARCH_DATE_TO` нельзя распознать как дату ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}

@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.schema.get` возвращает схему доступных типов уведомлений по модулям.
+Метод `im.notify.schema.get` возвращает типы уведомлений портала, сгруппированные по модулям.
 
 ## Параметры метода
 
-Без параметров
+Без параметров.
 
 ## Примеры кода
 
@@ -55,14 +55,15 @@
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
+    // Keys of result are module codes: blog, calendar, tasks and so on
     type NotificationSchemaResult = Record<string, ModuleSchema>
 
     type ModuleSchema = {
-      name: string
-      module_id: string
-      list: Array<{
-        id: string
-        name: string
+      NAME: string
+      MODULE_ID: string
+      LIST: Array<{
+        ID: string
+        NAME: string
       }>
     }
 
@@ -78,7 +79,9 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(Object.keys(result), result)
+        for (const module of Object.values(result)) {
+          console.info(module.NAME, module.LIST.map((item) => item.ID))
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -110,7 +113,9 @@
           }
 
           const result = response.getData().result
-          console.info(Object.keys(result), result)
+          for (const module of Object.values(result)) {
+            console.info(module.NAME, module.LIST.map((item) => item.ID))
+          }
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -191,20 +196,21 @@
     	return fmt.Errorf("im.notify.schema.get: %w", err)
     }
 
-    // Метод заворачивает ответ в объект с ключом "tasks".
-    raw, ok := b24.Unwrap(res.Result, "tasks")
-    if !ok {
-    	return fmt.Errorf("в ответе нет ключа tasks")
+    // Ключи result — коды модулей: blog, calendar, tasks и другие
+    var modules map[string]struct {
+    	Name     string `json:"NAME"`
+    	ModuleID string `json:"MODULE_ID"`
+    	List     []struct {
+    		ID   string `json:"ID"`
+    		Name string `json:"NAME"`
+    	} `json:"LIST"`
     }
-
-    var item struct {
-    	Name     string `json:"name"`
-    	ModuleID string `json:"module_id"`
-    }
-    if err := json.Unmarshal(raw, &item); err != nil {
+    if err := json.Unmarshal(res.Result, &modules); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Name, item.ModuleID)
+    for code, module := range modules {
+    	fmt.Println(code, module.Name, len(module.List))
+    }
     ```
 
 {% endlist %}
@@ -221,24 +227,60 @@ HTTP-статус: **200**
             "MODULE_ID": "tasks",
             "LIST": [
                 {
-                    "ID": "tasks|task_update",
-                    "NAME": "Изменения задач"
+                    "ID": "tasks|comment",
+                    "NAME": "Новый комментарий к задаче"
+                },
+                {
+                    "ID": "tasks|reminder",
+                    "NAME": "Напоминание о задаче"
+                },
+                {
+                    "ID": "tasks|manage",
+                    "NAME": "Создание или изменение задачи"
+                },
+                {
+                    "ID": "tasks|task_assigned",
+                    "NAME": "Вас назначили исполнителем"
+                },
+                {
+                    "ID": "tasks|task_expired_soon",
+                    "NAME": "Задача почти просрочена"
+                }
+            ]
+        },
+        "rest": {
+            "NAME": "Маркетплейс",
+            "MODULE_ID": "rest",
+            "LIST": [
+                {
+                    "ID": "rest|app_install",
+                    "NAME": "Установлено новое приложение"
+                },
+                {
+                    "ID": "rest|app_install_request",
+                    "NAME": "Запрос на установку приложения"
+                },
+                {
+                    "ID": "rest|vi_user_data_request",
+                    "NAME": "Приложение запрашивает доступ к данным"
                 }
             ]
         }
     },
     "time": {
-        "start": 1760000000.0,
-        "finish": 1760000000.1,
-        "duration": 0.1,
-        "processing": 0.04,
-        "date_start": "2026-03-03T10:00:00+03:00",
-        "date_finish": "2026-03-03T10:00:00+03:00",
-        "operating_reset_at": 1760030000,
+        "start": 1794317532,
+        "finish": 1794317532.176408,
+        "duration": 0.176408052444458,
+        "processing": 0,
+        "date_start": "2026-11-10T16:32:12+03:00",
+        "date_finish": "2026-11-10T16:32:12+03:00",
+        "operating_reset_at": 1794318120,
         "operating": 0
     }
 }
 ```
+
+В примере показаны два модуля из ответа. Полный ответ содержит все модули портала, которые отправляют уведомления, например `blog`, `calendar`, `crm`, `disk`, `im`, `tasks`.
 
 ### Возвращаемые данные
 
@@ -246,14 +288,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект схемы уведомлений, ключ верхнего уровня — `MODULE_ID`.
-
-Структура объекта модуля подробно описана [ниже](#module-object) ||
+[`object`](../../data-types.md) | Объект, в котором ключ — код модуля, например `tasks`, а значение — описание модуля и его типов уведомлений [(подробное описание)](#module-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Объект \{MODULE_ID\} {#module-object}
+#### Объект модуля {#module-object}
 
 #|
 || **Название**
@@ -261,11 +301,9 @@ HTTP-статус: **200**
 || **NAME**
 [`string`](../../data-types.md) | Название модуля ||
 || **MODULE_ID**
-[`string`](../../data-types.md) | Идентификатор модуля ||
+[`string`](../../data-types.md) | Код модуля. Совпадает с ключом объекта в `result` и с полем `notify_module` уведомления ||
 || **LIST**
-[`array`](../../data-types.md) | Список типов уведомлений модуля.
-
-Структура элемента подробно описана [ниже](#list-item-object) ||
+[`array`](../../data-types.md) | Массив типов уведомлений модуля [(подробное описание)](#list-item-object) ||
 |#
 
 #### Элемент LIST {#list-item-object}
@@ -274,7 +312,11 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`string`](../../data-types.md) | Идентификатор типа уведомления в формате ```MODULE|EVENT``` ||
+[`string`](../../data-types.md) | Код типа уведомления в формате ```MODULE|EVENT```, например ```tasks|comment```.
+
+Используйте в параметрах `SEARCH_TYPE` и `SEARCH_TYPES` метода [im.notify.history.search](./im-notify-history-search.md). Совпадает с полем `setting_name` уведомления в ответе [im.notify.get](./im-notify-get.md).
+
+В схеме есть не все коды, которые встречаются в уведомлениях: например, уведомления приложений приходят с кодом ```rest|rest_notify```, которого нет в `LIST` ||
 || **NAME**
 [`string`](../../data-types.md) | Название типа уведомления ||
 |#
@@ -290,7 +332,7 @@ HTTP-статус: **401**
 }
 ```
 
-У метода нет собственных кодов ошибок — возможны только системные ошибки REST API.
+У метода нет собственных кодов ошибок, возможны только системные ошибки REST API.
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 

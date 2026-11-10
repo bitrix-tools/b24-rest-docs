@@ -13,11 +13,11 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `user.get` позволяет получить фильтрованный список пользователей. Метод возвращает всех пользователей за исключением: ботов, пользователей для e-mail, пользователей для Открытых Линий, пользователей Реплики.
+Метод `user.get` возвращает список пользователей с фильтрацией, сортировкой и постраничной навигацией.
 
 {% note info "" %}
 
-Метод не возвращает интеграторов. Перечень полей пользователей Битрикс24, который будет получен в результате выполнения метода, зависит от скоупа приложения/вебхука. Какие поля доступны в каждой версии — в статье [Версии скоупа user](user-scope.md).
+Метод не возвращает ботов, интеграторов, почтовых пользователей, пользователей Открытых линий и Реплики. Набор полей в ответе зависит от версии скоупа `user` — подробнее в статье [Версии скоупа user](user-scope.md).
 
 {% endnote %}
 
@@ -28,66 +28,10 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **sort**
-[`string`](../data-types.md) | Поле, по которому сортируются результаты. Сортировка работает по всем полям из [user.add](./user-add.md).
+|| **filter**
+[`object`](../data-types.md) | Объект с условиями отбора пользователей [(подробное описание)](#filter).
 
-По умолчанию метод сортирует пользователей по возрастанию `ID`.
-
-Если `sort` или `order` переданы не строкой, метод также применяет сортировку по умолчанию ||
-|| **order**
-[`string`](../data-types.md) | Направление сортировки:
-- `ASC` — по возрастанию
-- `DESC` — по убыванию
-
-Другое значение вызовет ошибку `Invalid order` ||
-|| **FILTER**
-[`object`](../data-types.md) | Дополнительно можно указывать любые параметры из [user.add](./user-add.md) для фильтрации по их значениям. Кроме основных полей, доступны дополнительные:
-- `UF_DEPARTMENT` — принадлежность к структуре компании;
-- `UF_PHONE_INNER` — внутренний телефонный номер;
-- `IS_ONLINE` — [Y\|N] позволяет показать только авторизованных или нет пользователей.
-- `NAME_SEARCH` — быстрый поиск по персональным данным.
-- `USER_TYPE` — тип пользователя. Может принимать следующие значения: 
-    - `employee` — сотрудник, 
-    - `extranet` — пользователь экстранета, 
-    - `email` — почтовый пользователь
-    - `bot` — чат-бот
-- `ACTIVE` — при значении *true* исключает из запроса уволенных пользователей.
-  
-Параметры фильтрации могут принимать значение массивов.
-Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
-
-- `>=` — больше либо равно
-- `>` — больше
-- `<=` — меньше либо равно
-- `<` — меньше
-- `@` — IN (в качестве значения передается массив). Если по нестроковому пользовательскому полю `UF_*` передан пустой массив, метод вернет пустой результат
-- `!@`— NOT IN (в качестве значения передается массив). Условие с пустым массивом по нестроковому пользовательскому полю `UF_*` не учитывается
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, начинающиеся с «мол»
-    - "%мол" — ищем значения, заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где «мол» может быть в любой позиции
-
-- `%=` — LIKE (см. описание выше)
-
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
-
-- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - "мол%" — ищем значения, не начинающиеся с «мол»
-    - "%мол" — ищем значения, не заканчивающиеся на «мол»
-    - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
-
-- `!%=` — NOT LIKE (см. описание выше)
-
-- `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно
-- `!` — не равно
-
-Значения полей с датой и временем передавайте в формате ISO 8601, например `2020-01-01T00:00:00+03:00`, или в формате даты вашего Битрикс24. Это относится к полям `TIMESTAMP_X`, `DATE_REGISTER`, `LAST_LOGIN`, `LAST_ACTIVITY_DATE`, `PERSONAL_BIRTHDAY`, `UF_EMPLOYMENT_DATE` и к пользовательским полям типа дата и дата со временем. Если значение не распознано как дата, условие не отберет ни одной записи
-
- ||
-|| **ADMIN_MODE**
-[`boolean`](../data-types.md) | [Ключ для работы](*ключ_Ключ для работы) в режиме администратора. Служит для получения данных о любых пользователях ||
+Без этого параметра метод возвращает всех пользователей, доступных текущему пользователю ||
 || **select**
 [`array`](../data-types.md) | Массив с названиями полей, которые вернутся в ответе. Без этого параметра метод возвращает все поля, доступные скоупу приложения или вебхука.
 
@@ -97,6 +41,26 @@
 - `UF_*` — все доступные пользовательские поля, в том числе созданные в Битрикс24
 
 Недоступные скоупу и несуществующие поля метод пропускает без ошибки ||
+|| **sort**
+[`string`](../data-types.md) | Поле, по которому сортируется список, например `LAST_NAME`. Доступны поля из [user.add](./user-add.md) и пользовательские поля `UF_*`.
+
+Сортировка применяется, только если переданы оба параметра `sort` и `order` строками. Иначе метод сортирует список по возрастанию `ID`.
+
+Неизвестное поле вызовет ошибку `100` ||
+|| **order**
+[`string`](../data-types.md) | Направление сортировки:
+- `ASC` — по возрастанию
+- `DESC` — по убыванию
+
+Регистр значения не важен. Другое значение вызовет ошибку `ERROR_ARGUMENT` ||
+|| **ADMIN_MODE**
+[`boolean`](../data-types.md) | Режим администратора:
+- `true` — метод возвращает всех пользователей, включая пользователей экстранета из любых групп
+- `false` — метод возвращает сотрудников компании и пользователей экстранета из групп, в которых состоит текущий пользователь. Пользователь экстранета получает только участников своих групп и себя
+
+Режим включается, только если запрос выполняет администратор. Для остальных пользователей параметр не действует.
+
+По умолчанию — `false` ||
 || **IMAGE_RESIZE**
 [`string`](../data-types.md) | Размер копии фотографии в поле `PERSONAL_PHOTO`:
 
@@ -104,7 +68,7 @@
 - `medium` — 300 × 300 пикселей
 - `large` — 1000 × 1000 пикселей
 
-Без этого параметра метод возвращает ссылку на исходное изображение ||
+Без этого параметра или с другим значением метод возвращает ссылку на исходное изображение ||
 || **start**
 [`integer`](../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -114,10 +78,90 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Значение `-1` отключает подсчет общего количества записей: метод возвращает первую страницу и `total` со значением `0`.
+
+По умолчанию — `0` ||
 |#
 
-{% note tip "Как ускорить получение списка" %}
+Названия параметров нечувствительны к регистру: `filter` и `FILTER` равнозначны.
+
+### Параметр filter {#filter}
+
+Ключ объекта — поле пользователя, значение — искомое значение или массив значений. Условия объединяются по логике И.
+
+Для отбора доступны поля из [user.add](./user-add.md), разрешенные скоупу приложения или вебхука, и дополнительные поля из таблицы. Неизвестные и недоступные скоупу поля метод игнорирует без ошибки.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../data-types.md) \| [`array`](../data-types.md) | Идентификатор пользователя или массив идентификаторов ||
+|| **ACTIVE**
+[`boolean`](../data-types.md) | Статус сотрудника:
+- `true` — работающие сотрудники
+- `false` — уволенные сотрудники
+
+Без этого поля метод возвращает и тех, и других ||
+|| **UF_DEPARTMENT**
+[`integer`](../data-types.md) \| [`array`](../data-types.md) | Идентификатор подразделения или массив идентификаторов. Метод отбирает пользователей, которые напрямую входят в подразделение, без учета дочерних подразделений.
+
+Идентификаторы подразделений можно получить методом [department.get](../departments/department-get.md) ||
+|| **HAS_DEPARTAMENT**
+[`string`](../data-types.md) | Отбор пользователей с подразделением:
+- `Y` — только пользователи, у которых указано подразделение
+- `N` — условие не применяется ||
+|| **USER_TYPE**
+[`string`](../data-types.md) | Тип пользователя:
+- `employee` — сотрудник
+- `extranet` — пользователь экстранета
+
+Значения `email` и `bot` метод принимает, но возвращает пустой список: таких пользователей метод не выдает ||
+|| **IS_ONLINE**
+[`string`](../data-types.md) | Пользователь в сети:
+- `Y` — в сети
+- `N` — не в сети ||
+|| **NAME_SEARCH**
+[`string`](../data-types.md) | Быстрый поиск по персональным данным: имени, фамилии и другим полям поискового индекса пользователя. Префиксы к этому полю не применяются ||
+|| **UF_PHONE_INNER**
+[`string`](../data-types.md) | Внутренний телефонный номер ||
+|| **UF_\***
+[`any`](../data-types.md) | Пользовательские поля, например `UF_USR_1705409592930`. Если по нестроковому пользовательскому полю передать пустой массив с префиксом `@`, метод вернет пустой результат, с префиксом `!@` — не учтет условие ||
+|#
+
+Ключу можно задать префикс, который уточняет условие отбора:
+
+- `=` — равно, точное совпадение. Используется по умолчанию
+- `!=`, `!` — не равно
+- `>=` — больше либо равно
+- `>` — больше
+- `<=` — меньше либо равно
+- `<` — меньше
+- `@` — входит в список, значение передается массивом
+- `!@` — не входит в список, значение передается массивом
+- `%` — содержит подстроку в любой позиции. Символ `%` в значении передавать не нужно
+- `!%` — не содержит подстроку. Символ `%` в значении передавать не нужно
+- `=%` и `%=` — шаблон LIKE, символ `%` передается в значении:
+    - `"Ива%"` — значения, начинающиеся с «Ива»
+    - `"%ова"` — значения, заканчивающиеся на «ова»
+    - `"%ван%"` — значения, где «ван» встречается в любой позиции
+
+Без префикса значение с символом `%` тоже работает как шаблон LIKE: `"NAME": "Ива%"` отберет пользователей с именем, начинающимся с «Ива».
+
+Префикс длиннее двух символов, например `!=%` или `!%=`, метод не распознает и условие игнорирует. Для отбора «не соответствует шаблону» используйте `!%` с подстрокой.
+
+Значения полей с датой и временем передавайте в формате ISO 8601, например `2020-01-01T00:00:00+03:00`, или в формате даты вашего Битрикс24. Это относится к полям `TIMESTAMP_X`, `DATE_REGISTER`, `LAST_LOGIN`, `LAST_ACTIVITY_DATE`, `PERSONAL_BIRTHDAY`, `UF_EMPLOYMENT_DATE` и к пользовательским полям типа дата и дата со временем. Если значение не распознано как дата, условие не отберет ни одной записи.
+
+{% note info "" %}
+
+Поля фильтра можно передать и на верхнем уровне запроса, без `filter`, например `{"UF_DEPARTMENT": 1}`. Так работает старый формат запроса. Если в запросе есть `filter`, поля верхнего уровня метод не учитывает.
+
+{% endnote %}
+
+{% note tip "" %}
+
+Чтобы ускорить получение списка:
 
 - передавайте в параметре `select` только те поля, которые нужны в ответе. Если среди них нет пользовательских полей, метод не будет загружать сведения о них
 - отключайте подсчет общего количества записей параметром `start = -1`, когда выгружаете большой объем данных. Страницы в этом режиме выбирайте фильтром по последнему полученному идентификатору — [Как получить большой объем данных](../../settings/performance/huge-data.md)
@@ -128,6 +172,8 @@
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
+Пример получает работающих сотрудников подразделения с идентификатором `1`, отсортированных по фамилии.
+
 {% list tabs %}
 
 - cURL (Webhook)
@@ -137,10 +183,14 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "UF_DEPARTMENT": 1,
-        "SORT": "ID",
-        "ORDER": "asc",
-        "start": 10
+        "filter": {
+            "UF_DEPARTMENT": 1,
+            "ACTIVE": true
+        },
+        "select": ["ID", "NAME", "LAST_NAME", "EMAIL", "WORK_POSITION", "UF_DEPARTMENT", "USER_TYPE"],
+        "sort": "LAST_NAME",
+        "order": "ASC",
+        "start": 0
     }' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/user.get
     ```
@@ -152,10 +202,14 @@
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
     -d '{
-        "UF_DEPARTMENT": 1,
-        "SORT": "ID",
-        "ORDER": "asc",
-        "start": 10,
+        "filter": {
+            "UF_DEPARTMENT": 1,
+            "ACTIVE": true
+        },
+        "select": ["ID", "NAME", "LAST_NAME", "EMAIL", "WORK_POSITION", "UF_DEPARTMENT", "USER_TYPE"],
+        "sort": "LAST_NAME",
+        "order": "ASC",
+        "start": 0,
         "auth": "**put_access_token_here**"
     }' \
     https://**put_your_bitrix24_address**/rest/user.get
@@ -167,27 +221,16 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
     type UserData = {
       ID: string
-      ACTIVE: boolean
       NAME: string
       LAST_NAME: string
-      SECOND_NAME: string
       EMAIL: string
-      LAST_LOGIN: ISODate | ''
-      DATE_REGISTER: ISODate | ''
-      TIME_ZONE: string
-      IS_ONLINE: string
-      PERSONAL_GENDER: string
-      PERSONAL_BIRTHDAY: ISODate | ''
-      PERSONAL_CITY: string
-      WORK_PHONE: string
       WORK_POSITION: string
-      UF_EMPLOYMENT_DATE: string
       UF_DEPARTMENT: number[]
       USER_TYPE: string
     }
@@ -201,10 +244,14 @@
       const response = await $b24.actions.v2.call.make<UserData[]>({
         method: 'user.get',
         params: {
-          UF_DEPARTMENT: 1,
-          SORT: 'ID',
-          ORDER: 'asc',
-          start: 10,
+          filter: {
+            UF_DEPARTMENT: 1,
+            ACTIVE: true,
+          },
+          select: ['ID', 'NAME', 'LAST_NAME', 'EMAIL', 'WORK_POSITION', 'UF_DEPARTMENT', 'USER_TYPE'],
+          sort: 'LAST_NAME',
+          order: 'ASC',
+          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -241,10 +288,14 @@
           const response = await $b24.actions.v2.call.make({
             method: 'user.get',
             params: {
-              UF_DEPARTMENT: 1,
-              SORT: 'ID',
-              ORDER: 'asc',
-              start: 10,
+              filter: {
+                UF_DEPARTMENT: 1,
+                ACTIVE: true,
+              },
+              select: ['ID', 'NAME', 'LAST_NAME', 'EMAIL', 'WORK_POSITION', 'UF_DEPARTMENT', 'USER_TYPE'],
+              sort: 'LAST_NAME',
+              order: 'ASC',
+              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -276,10 +327,12 @@
         bitrix_response = client.user.get(
             filter={
                 "UF_DEPARTMENT": 1,
+                "ACTIVE": True,
             },
-            sort="ID",
-            order="asc",
-            start=10,
+            select=["ID", "NAME", "LAST_NAME", "EMAIL", "WORK_POSITION", "UF_DEPARTMENT", "USER_TYPE"],
+            sort="LAST_NAME",
+            order="ASC",
+            start=0,
         ).response
         result = bitrix_response.result
         print(result)
@@ -298,7 +351,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -306,13 +358,17 @@
             ->call(
                 'user.get',
                 [
-                    'UF_DEPARTMENT' => 1,
-                    'SORT'         => 'ID',
-                    'ORDER'        => 'asc',
-                    'start'        => 10,
+                    'filter' => [
+                        'UF_DEPARTMENT' => 1,
+                        'ACTIVE'        => true,
+                    ],
+                    'select' => ['ID', 'NAME', 'LAST_NAME', 'EMAIL', 'WORK_POSITION', 'UF_DEPARTMENT', 'USER_TYPE'],
+                    'sort'   => 'LAST_NAME',
+                    'order'  => 'ASC',
+                    'start'  => 0,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -329,9 +385,14 @@
     BX24.callMethod(
         "user.get",
         {
-            "UF_DEPARTMENT": 1,
-            "SORT": "ID",
-            "ORDER": "asc"
+            "filter": {
+                "UF_DEPARTMENT": 1,
+                "ACTIVE": true
+            },
+            "select": ["ID", "NAME", "LAST_NAME", "EMAIL", "WORK_POSITION", "UF_DEPARTMENT", "USER_TYPE"],
+            "sort": "LAST_NAME",
+            "order": "ASC",
+            "start": 0
         },
         function(result)
         {
@@ -359,10 +420,14 @@
     $result = CRest::call(
         'user.get',
         [
-            "UF_DEPARTMENT" => 1,
-            "SORT" => 'ID',
-            "ORDER" => 'asc',
-            "start" => 10
+            'filter' => [
+                'UF_DEPARTMENT' => 1,
+                'ACTIVE' => true
+            ],
+            'select' => ['ID', 'NAME', 'LAST_NAME', 'EMAIL', 'WORK_POSITION', 'UF_DEPARTMENT', 'USER_TYPE'],
+            'sort' => 'LAST_NAME',
+            'order' => 'ASC',
+            'start' => 0
         ]
     );
 
@@ -376,19 +441,27 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "user.get", b24.Params{
-    	"UF_DEPARTMENT": 1,
-    	"SORT":          "ID",
-    	"ORDER":         "asc",
-    	"start":         10,
+    	"filter": b24.Params{
+    		"UF_DEPARTMENT": 1,
+    		"ACTIVE":        true,
+    	},
+    	"select": []string{"ID", "NAME", "LAST_NAME", "EMAIL", "WORK_POSITION", "UF_DEPARTMENT", "USER_TYPE"},
+    	"sort":   "LAST_NAME",
+    	"order":  "ASC",
+    	"start":  0,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("user.get: %w", err)
     }
 
     var items []struct {
-    	ID       b24.ID `json:"ID"`
-    	Name     string `json:"NAME"`
-    	LastName string `json:"LAST_NAME"`
+    	ID           b24.ID `json:"ID"`
+    	Name         string `json:"NAME"`
+    	LastName     string `json:"LAST_NAME"`
+    	Email        string `json:"EMAIL"`
+    	WorkPosition string `json:"WORK_POSITION"`
+    	Department   []int  `json:"UF_DEPARTMENT"`
+    	UserType     string `json:"USER_TYPE"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -457,7 +530,7 @@
         method: 'user.get',
         params: {
           filter: {
-            NAME: 'Iva%',
+            NAME: 'Ива%',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -496,7 +569,7 @@
             method: 'user.get',
             params: {
               filter: {
-                NAME: 'Iva%',
+                NAME: 'Ива%',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -528,7 +601,7 @@
     try:
         bitrix_response = client.user.get(
             filter={
-                "NAME": "Iva%",
+                "NAME": "Ива%",
             },
         ).response
         result = bitrix_response.result
@@ -618,7 +691,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "user.get", b24.Params{
-    	"FILTER": b24.Params{
+    	"filter": b24.Params{
     		"NAME": "Ива%",
     	},
     }, b24.WithIdempotent())
@@ -701,7 +774,7 @@
         method: 'user.get',
         params: {
           filter: {
-            '!%LAST_NAME': 'ov',
+            '!%LAST_NAME': 'ов',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -740,7 +813,7 @@
             method: 'user.get',
             params: {
               filter: {
-                '!%LAST_NAME': 'ov',
+                '!%LAST_NAME': 'ов',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -772,7 +845,7 @@
     try:
         bitrix_response = client.user.get(
             filter={
-                "!%LAST_NAME": "ov",
+                "!%LAST_NAME": "ов",
             },
         ).response
         result = bitrix_response.result
@@ -862,7 +935,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "user.get", b24.Params{
-    	"FILTER": b24.Params{
+    	"filter": b24.Params{
     		"!%LAST_NAME": "ов",
     	},
     }, b24.WithIdempotent())
@@ -946,7 +1019,7 @@
         method: 'user.get',
         params: {
           filter: {
-            '@PERSONAL_CITY': ['Moscow', 'Saint Petersburg'],
+            '@PERSONAL_CITY': ['Москва', 'Санкт-Петербург'],
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -985,7 +1058,7 @@
             method: 'user.get',
             params: {
               filter: {
-                '@PERSONAL_CITY': ['Moscow', 'Saint Petersburg'],
+                '@PERSONAL_CITY': ['Москва', 'Санкт-Петербург'],
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -1018,8 +1091,8 @@
         bitrix_response = client.user.get(
             filter={
                 "@PERSONAL_CITY": [
-                    "Moscow",
-                    "Saint Petersburg",
+                    "Москва",
+                    "Санкт-Петербург",
                 ],
             },
         ).response
@@ -1110,7 +1183,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "user.get", b24.Params{
-    	"FILTER": b24.Params{
+    	"filter": b24.Params{
     		"@PERSONAL_CITY": []string{"Москва", "Санкт-Петербург"},
     	},
     }, b24.WithIdempotent())
@@ -1141,66 +1214,39 @@
 HTTP-статус: **200**
 
 ```json
-    {
-        "result": [
-            {
-                "ID": "1",
-                "ACTIVE": true,
-                "NAME": "Вадим",
-                "LAST_NAME": "Валеев",
-                "SECOND_NAME": "",
-                "EMAIL": "v.r.valeev@bitrix.com",
-                "LAST_LOGIN": "2024-07-25T13:06:54+00:00",
-                "DATE_REGISTER": "2024-07-15T00:00:00+00:00",
-                "TIME_ZONE": "",
-                "IS_ONLINE": "Y",
-                "TIMESTAMP_X": {
-                },
-                "LAST_ACTIVITY_DATE": {
-                },
-                "PERSONAL_GENDER": "",
-                "PERSONAL_WWW": "",
-                "PERSONAL_BIRTHDAY": "2018-07-14T00:00:00+00:00",
-                "PERSONAL_MOBILE": "",
-                "PERSONAL_CITY": "",
-                "WORK_PHONE": "",
-                "WORK_POSITION": "",
-                "UF_EMPLOYMENT_DATE": "",
-                "UF_DEPARTMENT": [1],
-                "USER_TYPE": "employee"
-            },
-            {
-                "ID": "3",
-                "ACTIVE": true,
-                "NAME": "Иван",
-                "LAST_NAME": "Иванов",
-                "EMAIL": "test@gmail.com",
-                "LAST_LOGIN": "2024-07-24T09:01:55+00:00",
-                "DATE_REGISTER": "2024-07-22T00:00:00+00:00",
-                "IS_ONLINE": "N",
-                "TIMESTAMP_X": {
-                },
-                "LAST_ACTIVITY_DATE": {
-                },
-                "PERSONAL_GENDER": "",
-                "PERSONAL_BIRTHDAY": "",
-                "WORK_POSITION": "",
-                "UF_EMPLOYMENT_DATE": "",
-                "UF_DEPARTMENT": [1],
-                "USER_TYPE": "employee"
-            }
-        ],
-        "total": 2,
-        "time": {
-            "start": 1721913235.39648,
-            "finish": 1721913235.45078,
-            "duration": 0.05430006980896,
-            "processing": 0.0187909603118897,
-            "date_start": "2024-07-25T13:13:55+00:00",
-            "date_finish": "2024-07-25T13:13:55+00:00",
-            "operating": 0
+{
+    "result": [
+        {
+            "ID": "1",
+            "NAME": "Елена",
+            "LAST_NAME": "Андреева",
+            "EMAIL": "e.andreeva@example.com",
+            "WORK_POSITION": "Руководитель отдела продаж",
+            "UF_DEPARTMENT": [1, 47],
+            "USER_TYPE": "employee"
+        },
+        {
+            "ID": "1271",
+            "NAME": "Иван",
+            "LAST_NAME": "Иванов",
+            "EMAIL": "i.ivanov@example.com",
+            "WORK_POSITION": "Менеджер по продажам",
+            "UF_DEPARTMENT": [1],
+            "USER_TYPE": "employee"
         }
+    ],
+    "total": 2,
+    "time": {
+        "start": 1794316750,
+        "finish": 1794316750.180457,
+        "duration": 0.18045711517333984,
+        "processing": 0,
+        "date_start": "2026-11-10T16:19:10+03:00",
+        "date_finish": "2026-11-10T16:19:10+03:00",
+        "operating_reset_at": 1794317340,
+        "operating": 0
     }
+}
 ```
 
 ### Возвращаемые данные
@@ -1209,13 +1255,79 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Массив пользователей, до 50 записей на страницу. Поля пользователя описаны в [таблице полей](user-current.md#user-fields). Если пользователей нет, возвращается пустой массив ||
+[`array`](../data-types.md) | Массив пользователей, до 50 записей на страницу [(подробное описание)](#user). Если пользователей нет, возвращается пустой массив ||
 || **total**
-[`integer`](../data-types.md) | Общее количество найденных пользователей. Не возвращается, если `start` больше количества записей ||
+[`integer`](../data-types.md) | Общее количество найденных пользователей. Не возвращается, если `result` пустой. При `start = -1` равно `0` ||
 || **next**
 [`integer`](../data-types.md) | Значение `start` для следующей страницы. Возвращается, если записей больше, чем на текущей странице ||
 || **time**
-[`time`](../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект пользователя {#user}
+
+Метод возвращает поля из `select` или все поля, доступные версии скоупа, — список по версиям в статье [Версии скоупа user](user-scope.md). Поле со значением `null` в ответ не попадает, пустые строки возвращаются. В таблице основные поля, полный список — в [описании полей пользователя](user-current.md#user-fields).
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../data-types.md) | Идентификатор пользователя. Число в виде строки ||
+|| **XML_ID**
+[`string`](../data-types.md) | Внешний код пользователя ||
+|| **ACTIVE**
+[`boolean`](../data-types.md) | Статус сотрудника:
+- `true` — работает
+- `false` — уволен ||
+|| **NAME**
+[`string`](../data-types.md) | Имя ||
+|| **LAST_NAME**
+[`string`](../data-types.md) | Фамилия ||
+|| **SECOND_NAME**
+[`string`](../data-types.md) | Отчество ||
+|| **EMAIL**
+[`string`](../data-types.md) | E-mail ||
+|| **LAST_LOGIN**
+[`string`](../data-types.md) | Дата и время последней авторизации в формате ISO 8601, например `2026-11-09T15:34:45+03:00` ||
+|| **DATE_REGISTER**
+[`string`](../data-types.md) | Дата регистрации в формате ISO 8601 ||
+|| **TIME_ZONE**
+[`string`](../data-types.md) | Часовой пояс пользователя, например `Europe/Moscow` ||
+|| **IS_ONLINE**
+[`string`](../data-types.md) | Пользователь в сети:
+- `Y` — в сети
+- `N` — не в сети ||
+|| **TIMESTAMP_X**
+[`object`](../data-types.md) | Дата последнего изменения профиля. Метод возвращает пустой объект `{}` ||
+|| **LAST_ACTIVITY_DATE**
+[`object`](../data-types.md) | Дата последней активности. Метод возвращает пустой объект `{}` ||
+|| **PERSONAL_GENDER**
+[`string`](../data-types.md) | Пол:
+- `M` — мужской
+- `F` — женский
+- пустая строка — не указан ||
+|| **PERSONAL_BIRTHDAY**
+[`string`](../data-types.md) | Дата рождения в формате ISO 8601. Пустая строка, если не указана ||
+|| **PERSONAL_PHOTO**
+[`string`](../data-types.md) | Ссылка на фотографию профиля. Размер копии задает параметр `IMAGE_RESIZE` ||
+|| **PERSONAL_MOBILE**
+[`string`](../data-types.md) | Личный мобильный телефон ||
+|| **PERSONAL_CITY**
+[`string`](../data-types.md) | Город проживания ||
+|| **WORK_PHONE**
+[`string`](../data-types.md) | Рабочий телефон ||
+|| **WORK_POSITION**
+[`string`](../data-types.md) | Должность ||
+|| **UF_EMPLOYMENT_DATE**
+[`string`](../data-types.md) | Дата приема на работу. Пустая строка, если не указана ||
+|| **UF_DEPARTMENT**
+[`array`](../data-types.md) | Массив идентификаторов подразделений пользователя ||
+|| **UF_PHONE_INNER**
+[`string`](../data-types.md) | Внутренний телефонный номер ||
+|| **USER_TYPE**
+[`string`](../data-types.md) | Тип пользователя:
+- `employee` — сотрудник
+- `extranet` — пользователь экстранета ||
 |#
 
 ## Обработка ошибок
@@ -1237,11 +1349,12 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `ERROR_ARGUMENT` | Invalid order "`значение`" | В `order` передано значение, отличное от `ASC` и `DESC` ||
+|| `400` | `100` | Unknown field definition `FIELD` (`FIELD`) for \Bitrix\Intranet\User Entity. | В `sort` передано поле, которого нет у пользователя ||
 || `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет ни одной версии скоупа: `user`, `user_basic` или `user_brief` ||
 || `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
 |#
 
-Некорректный `FILTER` или неизвестное поле в нем метод игнорирует без ошибки и возвращает список без этого условия.
+Некорректный `filter` или неизвестное поле в нем метод игнорирует без ошибки и возвращает список без этого условия.
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
@@ -1252,8 +1365,7 @@ HTTP-статус: **400**
 - [{#T}](./user-current.md)
 - [{#T}](./user-search.md)
 - [{#T}](./user-fields.md)
+- [{#T}](../departments/department-get.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/how-to-get-elements-by-stage-filter.md)
 - [{#T}](../../tutorials/crm/how-to-add-crm-objects/how-to-send-email.md)
 - [{#T}](../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)
-
-[*ключ_Ключ для работы]: `'ADMIN_MODE': 'True'`

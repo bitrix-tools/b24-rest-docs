@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.answer` отправляет текстовый быстрый ответ на уведомление.
+Метод `im.notify.answer` отправляет текстовый быстрый ответ на уведомление текущего пользователя.
+
+{% note info "" %}
+
+Ответ обрабатывает модуль, который отправил уведомление. Уведомления с быстрым ответом создают модули Битрикс24, методы [im.notify.personal.add](./im-notify-personal-add.md) и [im.notify.system.add](./im-notify-system-add.md) такие уведомления не создают
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,11 +29,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **NOTIFY_ID***
-[`integer`](../../data-types.md) | Идентификатор уведомления, которое поддерживает быстрый ответ.
+[`integer`](../../data-types.md) | Идентификатор уведомления, которое поддерживает быстрый ответ. Получить идентификатор можно методом [im.notify.get](./im-notify-get.md).
 
-Получить идентификатор уведомления можно методом [im.notify.get](./im-notify-get.md) ||
+Вместо `NOTIFY_ID` можно передать параметр `ID`. Если переданы оба, метод использует `ID` ||
 || **ANSWER_TEXT***
-[`string`](../../data-types.md) | Текст быстрого ответа ||
+[`string`](../../data-types.md) | Текст быстрого ответа.
+
+Метод добавляет в начало ответа упоминание автора уведомления, если автор — пользователь ||
 |#
 
 ## Примеры кода
@@ -68,7 +76,7 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type NotifyAnswerResult = {
-      result_message: string[] | boolean
+      result_message: string[] | false
     }
 
     try {
@@ -76,7 +84,7 @@
         method: 'im.notify.answer',
         params: {
           NOTIFY_ID: 270,
-          ANSWER_TEXT: 'I will participate',
+          ANSWER_TEXT: 'Приму участие',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -109,7 +117,7 @@
             method: 'im.notify.answer',
             params: {
               NOTIFY_ID: 270,
-              ANSWER_TEXT: 'I will participate',
+              ANSWER_TEXT: 'Приму участие',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -251,13 +259,33 @@ HTTP-статус: **200**
         ]
     },
     "time": {
-        "start": 1760000000.0,
-        "finish": 1760000000.1,
-        "duration": 0.1,
-        "processing": 0.04,
-        "date_start": "2026-03-02T09:30:00+03:00",
-        "date_finish": "2026-03-02T09:30:00+03:00",
-        "operating_reset_at": 1760030000,
+        "start": 1794317469,
+        "finish": 1794317469.716437,
+        "duration": 0.7164371013641357,
+        "processing": 0,
+        "date_start": "2026-11-10T16:31:09+03:00",
+        "date_finish": "2026-11-10T16:31:09+03:00",
+        "operating_reset_at": 1794318060,
+        "operating": 0
+    }
+}
+```
+
+Если уведомление не найдено среди уведомлений текущего пользователя, метод возвращает HTTP-статус **200** и `false` в поле `result_message`:
+
+```json
+{
+    "result": {
+        "result_message": false
+    },
+    "time": {
+        "start": 1794317474,
+        "finish": 1794317474.076111,
+        "duration": 0.0761110782623291,
+        "processing": 0,
+        "date_start": "2026-11-10T16:31:14+03:00",
+        "date_finish": "2026-11-10T16:31:14+03:00",
+        "operating_reset_at": 1794318060,
         "operating": 0
     }
 }
@@ -269,9 +297,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом отправки ответа.
-
-Структура объекта подробно описана [ниже](#result-object) ||
+[`object`](../../data-types.md) | Объект с результатом отправки ответа [(подробное описание)](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -283,7 +309,9 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result_message**
 [`array`](../../data-types.md)
-[`boolean`](../../data-types.md) | Ответ обработчика быстрого ответа. Может содержать массив строк или `false` ||
+[`boolean`](../../data-types.md) | Результат отправки ответа:
+- массив строк — сообщения модуля, который обработал ответ. Если модуль не вернул сообщение, массив содержит текст `Ваш ответ успешно отправлен.`
+- `false` — уведомление с указанным идентификатором не найдено среди уведомлений текущего пользователя или `ANSWER_TEXT` состоит только из пробелов ||
 |#
 
 ## Обработка ошибок
@@ -302,9 +330,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ID_ERROR` | Notification ID can't be empty | Параметр `NOTIFY_ID` не передан, либо `<= 0` ||
-|| `ANSWER_TEXT_ERROR` | ANSWER_TEXT can't be empty | Пустой параметр `ANSWER_TEXT` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ID_ERROR` | Notification ID can't be empty | Параметры `NOTIFY_ID` и `ID` не переданы или значение меньше или равно `0` ||
+|| `400` | `ANSWER_TEXT_ERROR` | ANSWER_TEXT can't be empty | Параметр `ANSWER_TEXT` не передан или пустой ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
