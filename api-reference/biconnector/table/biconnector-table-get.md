@@ -341,6 +341,7 @@ HTTP-статус: **200**
             "id": 27,
             "type": "rest",
             "name": "sales_orders",
+            "verboseName": "Заказы",
             "description": "Заказы из внешнего сервиса",
             "externalCode": "sales_orders",
             "externalName": "Sales orders",
@@ -393,6 +394,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Тип таблицы, у таблиц REST-источника значение всегда `rest` ||
 || **name**
 [`string`](../../data-types.md) | Название таблицы ||
+|| **verboseName**
+[`string`](../../data-types.md) | Понятное пользователю название таблицы. Если не задано, возвращается пустая строка ||
 || **description**
 [`string`](../../data-types.md) | Описание таблицы ||
 || **externalCode**
@@ -435,7 +438,7 @@ HTTP-статус: **200**
 || **visible**
 [`boolean`](../../data-types.md) | Флаг видимости колонки ||
 || **description**
-[`string`](../../data-types.md) | Описание колонки. Через REST API не заполняется ||
+[`string`](../../data-types.md) | Описание колонки. Если не задано, возвращается пустая строка ||
 |#
 
 ## Обработка ошибок
@@ -465,7 +468,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `DATASET_NOT_FOUND` | Dataset was not found. | Таблицы нет или она принадлежит другому приложению ||

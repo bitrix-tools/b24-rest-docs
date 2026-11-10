@@ -51,21 +51,27 @@
 - `name` [`string`](../../data-types.md) — название поля, заглавные латинские буквы `A-Z`, цифры и знак `_`, не длиннее 32 символов
 - `externalCode` [`string`](../../data-types.md) — внешний код поля
 
+Необязательный ключ:
+
+- `description` [`string`](../../data-types.md) — описание поля
+
 Видимость у добавляемого поля не задается: новые поля создаются видимыми ||
 || **update**
-[`array`](../../data-types.md) | Массив изменяемых полей. Каждый элемент — объект с двумя обязательными ключами:
+[`array`](../../data-types.md) | Массив изменяемых полей. Каждый элемент — объект с ключом `id` и хотя бы одним из ключей `visible` или `description`:
 
 ```
 {
     "id": 12,
-    "visible": false
+    "visible": false,
+    "description": "Имя клиента"
 }
 ```
 
 - `id` [`integer`](../../data-types.md) — идентификатор поля, можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md)
 - `visible` [`boolean`](../../data-types.md) — видимость поля
+- `description` [`string`](../../data-types.md) — описание поля
 
-Видимость — единственный признак поля, который меняет этот блок. Название, тип и внешний код существующего поля изменить нельзя ||
+Название, тип и внешний код существующего поля изменить нельзя ||
 || **delete**
 [`integer[]`](../../data-types.md) | Массив идентификаторов удаляемых полей. Идентификаторы можно получить методом [biconnector.dataset.get](./biconnector-dataset-get.md) ||
 |#
@@ -74,7 +80,7 @@
 
 {% note warning "" %}
 
-Идентификаторы в `update`, которых нет у этого датасета, метод пропускает молча — ошибки не будет. Удаление же идет фильтром только по `id`, без проверки, что поле принадлежит указанному датасету: перед вызовом сверяйте идентификаторы с ответом [biconnector.dataset.get](./biconnector-dataset-get.md)
+Идентификаторы в `update` и `delete`, которых нет у этого датасета, метод пропускает молча — ошибки не будет. Поля других датасетов метод не меняет и не удаляет. Чтобы убедиться, что изменения применились, сверяйте идентификаторы с ответом [biconnector.dataset.get](./biconnector-dataset-get.md)
 
 {% endnote %}
 
@@ -587,7 +593,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
@@ -600,7 +606,8 @@ HTTP-статус: **200**
 || `VALIDATION_DUPLICATE_EXIST_CODE` | The following "externalCode" values already exist in the current fields: #LIST_CODES# | Поля с таким параметром `externalCode` уже существуют ||
 || `VALIDATION_DUPLICATE_EXIST_NAME` | The following "name" values already exist in the current fields: #LIST_NAMES# | Поля с таким параметром `name` уже существуют ||
 || `VALIDATION_FIELD_ADD_MISSING_REQUIRED_FIELDS` | Field to be added must include the required parameters: "name", "externalCode" and "type". | Поле для добавления должно включать параметры `name`, `externalCode` и `type` ||
-|| `VALIDATION_FIELD_UPDATE_MISSING_REQUIRED_FIELDS` | Field to be updated must include the required parameters: "id" and "visible". | Поле для обновления должно включать параметры `id` и `visible` ||
+|| `VALIDATION_FIELD_UPDATE_MISSING_REQUIRED_FIELDS` | Field to be updated must include the required parameters: "id" and "visible". "description" can be passed instead of "visible". | Элемент `update` должен содержать `id` и хотя бы один из ключей `visible` или `description` ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "description" must be of type string. | Описание поля в `add` или `update` передано не строкой ||
 || `VALIDATION_FIELD_DELETE_INVALID_ID` | ID to be deleted must be a positive integer. | Неверный формат `id` для удаления ||
 |#
 

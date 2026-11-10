@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `biconnector.dataset.update` обновляет описание существующего датасета — единственное поле, которое метод меняет.
+Метод `biconnector.dataset.update` обновляет понятное пользователю название, описание и группы существующего датасета.
 
 {% note warning "" %}
 
@@ -60,8 +60,16 @@
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **verboseName**
+[`string`](../../data-types.md) | Понятное пользователю название датасета, например `Заказы`. Максимальная длина 255 символов ||
 || **description**
 [`string`](../../data-types.md) | Описание датасета ||
+|| **tableGroupIds**
+[`array`](../../data-types.md) | Массив идентификаторов групп таблиц. Таблица датасета окажется ровно в этих группах. Каждый идентификатор — положительное целое число, группа должна существовать.
+
+Если параметр не передан или передан пустой массив, группы не меняются.
+
+Получить список групп таблиц через REST API нельзя. Методы [biconnector.dataset.get](./biconnector-dataset-get.md) и [biconnector.dataset.list](./biconnector-dataset-list.md) группы не возвращают ||
 |#
 
 Чтобы изменить состав полей, используйте метод [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md).
@@ -406,7 +414,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
@@ -414,6 +422,9 @@ HTTP-статус: **200**
 || `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
 || `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "tableGroupIds" must be an array of positive integers. | В массиве `tableGroupIds` есть значение, которое не является положительным целым числом ||
+|| `VALIDATION_TABLE_GROUP_NOT_FOUND` | Table group was not found. | Группы таблиц с одним из идентификаторов из `tableGroupIds` нет ||
+|| `BX_INVALID_VALUE` | The length of "VERBOSE_NAME" should not exceed 255 characters. | Значение `verboseName` длиннее 255 символов ||
 || `DATASET_NOT_FOUND` | Dataset was not found. | Датасета нет или он принадлежит другому приложению ||
 || `INVALID_METHOD` | Use the method "biconnector.dataset.fields.update" to update the dataset fields." | В параметре `fields` передан ключ `fields`. Для обновления полей используйте метод [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md). Лишняя кавычка в конце — часть текста, который возвращает модуль ||
 || Пустое значение | Error updating table. | Обновление отклонил обработчик, подписанный на событие до сохранения. Собственного строкового кода у этой ошибки нет: в поле `error` приходит числовой ноль ||

@@ -65,15 +65,23 @@
 [`string`](../../data-types.md) | Уникальный код датасета во внешнем источнике, используется при выборке данных. Максимальная длина 512 символов ||
 || **sourceId***
 [`integer`](../../data-types.md) | Идентификатор источника, можно получить методами [biconnector.source.list](../source/biconnector-source-list.md) или [biconnector.source.add](../source/biconnector-source-add.md). Источник должен принадлежать коннектору текущего приложения, иначе метод вернет `SOURCE_NOT_FOUND` ||
+|| **verboseName**
+[`string`](../../data-types.md) | Понятное пользователю название датасета, например `Заказы`. Максимальная длина 255 символов ||
 || **description**
 [`string`](../../data-types.md) | Описание датасета ||
+|| **tableGroupIds**
+[`array`](../../data-types.md) | Массив идентификаторов групп таблиц, в которые нужно добавить таблицу датасета. Каждый идентификатор — положительное целое число, группа должна существовать.
+
+Если параметр не передан или передан пустой массив, таблица попадает в группу пользовательских таблиц.
+
+Получить список групп таблиц через REST API нельзя. Методы [biconnector.dataset.get](./biconnector-dataset-get.md) и [biconnector.dataset.list](./biconnector-dataset-list.md) группы не возвращают ||
 || **fields***
 [`array`](../../data-types.md) | Массив полей датасета, [(подробное описание)](#field) ||
 |#
 
 ### Элемент массива fields {#field}
 
-Каждый элемент массива `fields` — объект с тремя обязательными полями. Видимость поля при создании не задается: все поля создаются видимыми, скрыть их можно потом методом [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md).
+Каждый элемент массива `fields` — объект с тремя обязательными полями и необязательным описанием поля. Видимость поля при создании не задается: все поля создаются видимыми, скрыть их можно потом методом [biconnector.dataset.fields.update](./biconnector-dataset-fields-update.md).
 
 #|
 || **Название**
@@ -93,6 +101,8 @@
 `timezone` — идентификатор часового пояса
 
 Значение регистрозависимо: `INT` в верхнем регистре вызовет ошибку `VALIDATION_FIELD_INVALID_TYPE` ||
+|| **description**
+[`string`](../../data-types.md) | Описание поля. Если параметр не передан, описание остается пустым ||
 |#
 
 Названия полей и внешние коды не должны повторяться внутри одного запроса: на повтор `name` метод вернет ошибку `DUPLICATE_FIELDS`, на повтор `externalCode` — `VALIDATION_DUPLICATE_FIELD_CODE`.
@@ -593,14 +603,19 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
 || `VALIDATION_UNKNOWN_PARAMETERS` | Unknown parameters: #LIST_OF_PARAMS# | Обнаружены неизвестные параметры: перечень ||
 || `VALIDATION_REQUIRED_FIELD_MISSING` | Field "#TITLE#" is required. | Обязательное поле #TITLE# не передано ||
 || `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "tableGroupIds" must be an array of positive integers. | В массиве `tableGroupIds` есть значение, которое не является положительным целым числом ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "description" must be of type string. | Описание поля в массиве `fields` передано не строкой ||
+|| `VALIDATION_TABLE_GROUP_NOT_FOUND` | Table group was not found. | Группы таблиц с одним из идентификаторов из `tableGroupIds` нет ||
+|| `BX_INVALID_VALUE` | The length of "VERBOSE_NAME" should not exceed 255 characters. | Значение `verboseName` длиннее 255 символов ||
 || `SOURCE_NOT_FOUND` | Source was not found. | Источника нет или он принадлежит другому приложению ||
 || `DATASET_ALREADY_EXIST` | Table with this name already exists. | Имя занято таблицей, которая уже есть в самом BI-Конструкторе ||
+|| `VALIDATION_DATASET_NAME_RESERVED` | Dataset name is reserved by a system table. | Название датасета занято системной таблицей BI Конструктора ||
 || `NAME_EXISTS` | A table named "#NAME#" already exists. | Название #NAME# уже занято другим датасетом Битрикс24. Имя проверяется по всему Битрикс24, а не в пределах источника ||
 || `FIELDS_EMPTY` | $fields is empty | Передан пустой массив `fields` ||
 || `DUPLICATE_FIELDS` | Duplicate column names: #FIELD_NAMES#. | В параметре `name` полей есть повторы: перечень ||

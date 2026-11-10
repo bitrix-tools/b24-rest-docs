@@ -25,7 +25,7 @@
 || **CALL_ID***
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md) ||
 || **MESSAGES***
-[`array`](../data-types.md) | Массив [реплик расшифровки](#messages) ||
+[`array`](../data-types.md) | Массив [реплик расшифровки](#messages). Каждый элемент массива — объект с полями реплики ||
 || **COST**
 [`double`](../data-types.md) | Стоимость расшифровки.
 
@@ -361,8 +361,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_CORE",
-    "error_description": "MESSAGES should be an array"
+    "error": "",
+    "error_description": "MESSAGES[0] should be an array"
 }
 ```
 
@@ -371,14 +371,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_CORE` | CALL_ID should be set | Не передан `CALL_ID` ||
-|| `ERROR_CORE` | MESSAGES should be an array | Параметр `MESSAGES` передан не как массив ||
-|| `ERROR_CORE` | MESSAGES[{N}][SIDE] should be either Client or User | Недопустимое значение `SIDE` ||
-|| `ERROR_CORE` | MESSAGES[{N}][START_TIME] should be greater or equal to zero | Некорректное `START_TIME` ||
-|| `ERROR_CORE` | MESSAGES[{N}][STOP_TIME] should be greater than zero | Некорректное `STOP_TIME` ||
-|| `ERROR_CORE` | MESSAGES[{N}][MESSAGE] is empty | Пустой текст реплики ||
-|| `ERROR_CORE` | Call {CALL_ID} is not found. Is it finished? | Звонок не найден в статистике. Убедитесь, что звонок завершен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | CALL_ID should be set | Не передан `CALL_ID` ||
+|| `400` | Пустое значение | MESSAGES should be an array | Параметр `MESSAGES` передан не как массив ||
+|| `400` | Пустое значение | MESSAGES[{N}] should be an array | Реплика с индексом `N` в `MESSAGES` передана не как объект ||
+|| `400` | Пустое значение | MESSAGES[{N}][SIDE] should be either Client or User | Недопустимое значение `SIDE` ||
+|| `400` | Пустое значение | MESSAGES[{N}][START_TIME] should be greater or equal to zero | Некорректное `START_TIME` ||
+|| `400` | Пустое значение | MESSAGES[{N}][STOP_TIME] should be greater than zero | Некорректное `STOP_TIME` ||
+|| `400` | Пустое значение | MESSAGES[{N}][MESSAGE] is empty | Пустой текст реплики ||
+|| `400` | Пустое значение | Call {CALL_ID} is not found. Is it finished? | Звонок не найден в статистике. Убедитесь, что звонок завершен ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

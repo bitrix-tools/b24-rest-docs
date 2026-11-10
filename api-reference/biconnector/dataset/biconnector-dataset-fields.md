@@ -354,6 +354,14 @@ HTTP-статус: **200**
         "isMultiple": false
       },
       {
+        "title": "verboseName",
+        "type": "string",
+        "isRequired": false,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": false
+      },
+      {
         "title": "description",
         "type": "string",
         "isRequired": false,
@@ -421,6 +429,14 @@ HTTP-статус: **200**
         "title": "fields",
         "type": "array",
         "isRequired": true,
+        "isReadOnly": false,
+        "isImmutable": false,
+        "isMultiple": true
+      },
+      {
+        "title": "tableGroupIds",
+        "type": "array",
+        "isRequired": false,
         "isReadOnly": false,
         "isImmutable": false,
         "isMultiple": true
@@ -497,7 +513,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав либо на Битрикс24 недоступны внешние источники данных BI Конструктора ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

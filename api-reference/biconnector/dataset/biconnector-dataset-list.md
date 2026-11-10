@@ -536,6 +536,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Тип датасета. У датасетов, созданных через REST API, значение всегда равно `rest` ||
 || **name**
 [`string`](../../data-types.md) | Название датасета ||
+|| **verboseName**
+[`string`](../../data-types.md) | Понятное пользователю название датасета. Если не задано, возвращается пустая строка ||
 || **description**
 [`string`](../../data-types.md) | Описание датасета ||
 || **externalCode**
@@ -567,6 +569,7 @@ HTTP-статус: **200**
     "id": 27,
     "type": "rest",
     "name": "sales_orders",
+    "verboseName": "Заказы",
     "description": "Заказы из внешнего сервиса",
     "externalCode": "sales_orders",
     "externalName": "Sales orders",
@@ -624,7 +627,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_SELECT_TYPE` | Parameter "select" must be array. | Параметр `select` должен быть массивом ||
 || `VALIDATION_FILTER_TYPE` | Parameter "filter" must be array. | Параметр `filter` должен быть массивом ||
 || `VALIDATION_ORDER_TYPE` | Parameter "order" must be array. | Параметр `order` должен быть массивом ||
