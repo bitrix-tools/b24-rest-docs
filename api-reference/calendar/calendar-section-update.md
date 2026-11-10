@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод обновляет календарь.
+Метод `calendar.section.update` обновляет календарь: изменяет только переданные параметры.
+
+Объект `access` метод заменяет целиком. Календарь определяется только параметром `id`: тип и владелец берутся из сохраненного календаря, и права метод проверяет по ним. Параметры `type` и `ownerId` обязательны, но значения из запроса в обновление не попадают. Параметр `export` метод не принимает: период экспорта через этот метод не меняется, всегда `all`.
 
 ## Параметры метода
 
@@ -25,38 +27,43 @@
 || **type***
 [`string`](../data-types.md) | Тип календаря. Возможные значения:
 - `user` — календарь пользователя
-- `group` — календарь группы  ||
-|| **ownerId***
-[`integer`](../data-types.md) | Идентификатор владельца календаря ||
+- `group` — календарь группы
+
+Параметр обязателен, но на обновление не влияет: метод берет тип из сохраненного календаря ||
+|| **ownerId**
+[`integer`](../data-types.md) | Идентификатор владельца календаря.
+
+Обязателен для всех типов календаря, кроме `user`. На обновление не влияет: метод берет владельца из сохраненного календаря ||
 || **id***
-[`string`](../data-types.md) | Идентификатор календаря ||
+[`integer`](../data-types.md) | Идентификатор существующего календаря ||
 || **name**
-[`string`](../data-types.md) | Название календаря ||
+[`string`](../data-types.md) | Название календаря. Пустую строку метод игнорирует и оставляет прежнее название ||
 || **description**
-[`string`](../data-types.md) | Описание календаря ||
+[`string`](../data-types.md) | Описание календаря. Пустую строку метод игнорирует: очистить описание этим методом нельзя ||
 || **color**
-[`string`](../data-types.md) | Цвет календаря ||
+[`string`](../data-types.md) | Цвет календаря в формате `#RRGGBB`. Если в значении меньше шести шестнадцатеричных символов, метод сохранит цвет `#9dcf00` ||
 || **text_color**
-[`string`](../data-types.md) | Цвет текста в календаре ||
-|| **export**
-[`object`](../data-types.md) | Объект [параметров экспорта календаря](#export)
-||
+[`string`](../data-types.md) | Цвет текста в календаре в формате `#RRGGBB`. Если в значении меньше шести шестнадцатеричных символов, метод сохранит цвет `#9dcf00` ||
+|| **access**
+[`object`](../data-types.md) | Объект прав доступа к календарю [(подробное описание)](#access) ||
 |#
 
-### Параметр export {#export}
+### Параметр access {#access}
 
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **ALLOW**
-[`boolean`](../data-types.md) | Разрешить экспорт календаря ||
-|| **SET**
-[`string`](../data-types.md) | Период, за который производить экспорт. Возможные значения:
-- `all` — за весь период
-- `3_9` — 3 месяца до и 9 после
-- `6_12` — 6 месяцев до и 12 после
- ||
-|#
+Формат объекта описан в разделе [Параметр access](./calendar-section-add.md#access) метода `calendar.section.add`. Значение — тот же объект, что приходит в поле `ACCESS` ответа [calendar.section.get](./calendar-section-get.md).
+
+Если у пользователя нет права управлять доступом к календарю, переданный объект метод молча игнорирует, а права календаря остаются прежними. Если право есть, пустой объект `{}` сбрасывает права к значениям по умолчанию.
+
+Пример значения:
+
+```json
+{
+    "access": {
+        "U1": 19,
+        "G2": 13
+    }
+}
+```
 
 ## Примеры кода
 
@@ -70,7 +77,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":325,"type":"user","ownerId":2,"name":"Changed Section Name","description":"New description for section","color":"#9cbeAA","text_color":"#283099","export":[{"ALLOW":false}]}' \
+    -d '{"id":325,"type":"user","ownerId":2,"name":"Changed Section Name","description":"New description for section","color":"#9cbeaa","text_color":"#283099"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/calendar.section.update
     ```
 
@@ -80,7 +87,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":325,"type":"user","ownerId":2,"name":"Changed Section Name","description":"New description for section","color":"#9cbeAA","text_color":"#283099","export":[{"ALLOW":false}],"auth":"**put_access_token_here**"}' \
+    -d '{"id":325,"type":"user","ownerId":2,"name":"Changed Section Name","description":"New description for section","color":"#9cbeaa","text_color":"#283099","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/calendar.section.update
     ```
 
@@ -106,13 +113,8 @@
           ownerId: 2,
           name: 'Changed Section Name',
           description: 'New description for section',
-          color: '#9cbeAA',
+          color: '#9cbeaa',
           text_color: '#283099',
-          export: [
-            {
-              ALLOW: false,
-            },
-          ],
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -149,13 +151,8 @@
               ownerId: 2,
               name: 'Changed Section Name',
               description: 'New description for section',
-              color: '#9cbeAA',
+              color: '#9cbeaa',
               text_color: '#283099',
-              export: [
-                {
-                  ALLOW: false,
-                },
-              ],
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -187,14 +184,11 @@
         bitrix_response = client.calendar.section.update(
             type="user",
             owner_id=2,
-            bitrix_id="325",
+            bitrix_id=325,
             name="Changed Section Name",
             description="New description for section",
-            color="#9cbeAA",
+            color="#9cbeaa",
             text_color="#283099",
-            export={
-                "ALLOW": False,
-            },
         ).response
         result = bitrix_response.result
         print(result)
@@ -213,7 +207,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -226,24 +219,18 @@
                     'ownerId'     => 2,
                     'name'        => 'Changed Section Name',
                     'description' => 'New description for section',
-                    'color'       => '#9cbeAA',
+                    'color'       => '#9cbeaa',
                     'text_color'  => '#283099',
-                    'export'      => [
-                        [
-                            'ALLOW' => false
-                        ]
-                    ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+        // Дальше обработайте $result в своем коде
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating calendar section: ' . $e->getMessage();
@@ -261,13 +248,8 @@
             ownerId: 2,
             name: 'Changed Section Name',
             description: 'New description for section',
-            color: '#9cbeAA',
-            text_color: '#283099',
-            export: [
-                {
-                    ALLOW: false
-                }
-            ]
+            color: '#9cbeaa',
+            text_color: '#283099'
         }
     );
     ```
@@ -285,13 +267,8 @@
             'ownerId' => 2,
             'name' => 'Changed Section Name',
             'description' => 'New description for section',
-            'color' => '#9cbeAA',
-            'text_color' => '#283099',
-            'export' => [
-                [
-                    'ALLOW' => false
-                ]
-            ]
+            'color' => '#9cbeaa',
+            'text_color' => '#283099'
         ]
     );
 
@@ -310,13 +287,8 @@
     	"ownerId":     2,
     	"name":        "Changed Section Name",
     	"description": "New description for section",
-    	"color":       "#9cbeAA",
+    	"color":       "#9cbeaa",
     	"text_color":  "#283099",
-    	"export": []b24.Params{
-    		{
-    			"ALLOW": false,
-    		},
-    	},
     })
     if err != nil {
     	return fmt.Errorf("calendar.section.update: %w", err)
@@ -337,14 +309,14 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": 190,
+    "result": 325,
     "time": {
-        "start": 1733812564.64201,
-        "finish": 1733812565.71673,
-        "duration": 1.0747201442718506,
-        "processing": 0.05963897705078125,
-        "date_start": "2024-12-08T06:36:04+00:00",
-        "date_finish": "2024-12-08T06:36:05+00:00"
+        "start": 1733828946.418185,
+        "finish": 1733828946.650208,
+        "duration": 0.23202300071716309,
+        "processing": 0.0054471492767333984,
+        "date_start": "2024-12-10T09:09:06+00:00",
+        "date_finish": "2024-12-10T09:09:06+00:00"
     }
 }
 ```
@@ -356,6 +328,8 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`integer`](../data-types.md) | Идентификатор измененного календаря ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -374,19 +348,19 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустое значение | Не задан обязательный параметр "type" для метода "calendar.section.update" | Не передан обязательный параметр `type` ||
-|| Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.section.update" | Не передан обязательный параметр `ownerId` и параметр `type` не равен `user` ||
-|| Пустое значение | Не задан id секции | Не передан обязательный параметр `id` ||
-|| Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
-|| Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
-|| Пустое значение | Доступ запрещен | Календарь с указанным `id` не существует или нет прав для редактирования календаря ||
-|| Пустое значение | При изменении секции произошла ошибка | Другая ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Не задан обязательный параметр "type" для метода "calendar.section.update" | Не передан обязательный параметр `type` ||
+|| `400` | Пустое значение | Не задан обязательный параметр "ownerId" для метода "calendar.section.update" | Не передан обязательный параметр `ownerId` и параметр `type` не равен `user` ||
+|| `400` | Пустое значение | Не задан id секции | Не передан обязательный параметр `id`. Администратор получает эту ошибку и в том случае, если календаря с указанным `id` нет ||
+|| `400` | Пустое значение | Недопустимое значение параметра "name" | Передан неверный формат данных в поле `name` ||
+|| `400` | Пустое значение | Недопустимое значение параметра "description" | Передан неверный формат данных в поле `description` ||
+|| `400` | Пустое значение | Доступ запрещен | Нет прав на изменение календаря. Пользователь, который не является администратором, получает эту ошибку и в том случае, если календаря с указанным `id` нет ||
+|| `400` | Пустое значение | При изменении секции произошла ошибка | Другая ошибка ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./calendar-section-add.md)
