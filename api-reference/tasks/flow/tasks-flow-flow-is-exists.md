@@ -1,4 +1,4 @@
-# Проверить существование потока tasks.flow.Flow.isExists
+# Проверить название потока на уникальность tasks.flow.Flow.isExists
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.flow.Flow.isExists` проверяет, существует ли поток с указанным именем. Если указан `id`, проверяет, существуют ли потоки с таким же именем, кроме указанного.
+Метод `tasks.flow.Flow.isExists` проверяет, есть ли в Битрикс24 поток с таким названием. Название потока должно быть уникальным, поэтому проверяйте его перед созданием или переименованием потока.
+
+Регистр букв метод не учитывает: названия `Поток продаж` и `поток продаж` для него одинаковые. Права пользователя метод не проверяет и ищет среди всех потоков.
 
 ## Параметры метода
 
@@ -22,14 +24,23 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **flowData*** 
-[`object`](../../data-types.md) | Объект с данными для проверки существования потока ||
-|| **name*** 
-[`string`](../../data-types.md) | Название потока, которое нужно проверить ||
-|| **id** 
-[`integer`](../../data-types.md) | Идентификатор потока для исключения из проверки (необязательный). 
+|| **flowData***
+[`object`](../../data-types.md) | Объект с названием потока для проверки [(подробное описание)](#flowdata) ||
+|#
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+### Параметр flowData {#flowdata}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name***
+[`string`](../../data-types.md) | Название потока, которое нужно проверить.
+
+Для пустой строки метод вернет `"exists": false` ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор потока, который метод пропустит при проверке. Передайте его, если проверяете новое название существующего потока: тогда метод не найдет сам этот поток.
+
+Идентификатор вернет метод [tasks.flow.Flow.create](./tasks-flow-flow-create.md) при создании потока, а для задачи из потока — метод [tasks.task.get](../tasks-task-get.md) ||
 |#
 
 ## Примеры кода
@@ -43,12 +54,13 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
         "flowData": {
             "name": "Flow Name"
         }
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.isExists
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.flow.Flow.isExists
     ```
 
 - cURL (OAuth)
@@ -56,13 +68,14 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
         "flowData": {
             "name": "Flow Name"
-        }
+        },
+        "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.isExists
+    https://**put_your_bitrix24_address**/rest/tasks.flow.Flow.isExists
     ```
 
 - JS (TS)
@@ -185,7 +198,7 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -273,6 +286,14 @@ HTTP-статус: **200**
 {
     "result": {
         "exists": true
+    },
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
     }
 }
 ```
@@ -282,10 +303,19 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
-[`object`](../../data-types.md) | Объект с результатом операции ||
-|| **exists** 
-[`boolean`](../../data-types.md) | Существует ли поток с указанным именем ||
+|| **result**
+[`object`](../../data-types.md) | Объект с результатом операции [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **exists**
+[`boolean`](../../data-types.md) | `true`, если поток с таким названием есть, `false` — если нет ||
 |#
 
 ## Обработка ошибок
@@ -295,7 +325,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "0",
-    "error_description": "Flow not found"
+    "error_description": "name: cannot be null"
 }
 ```
 
@@ -304,15 +334,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение проверки ||
-|| `0` | `Unknown error` | Неизвестная ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | name: cannot be null | Не передан `flowData.name` ||
+|| `400` | `0` | Неизвестная ошибка [Flow: 424] | Внутренняя ошибка. Число в скобках — место в коде, где произошла ошибка, оно поможет поддержке найти причину ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-flow-flow-create.md)
 - [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-get.md)

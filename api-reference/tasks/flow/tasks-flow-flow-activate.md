@@ -1,4 +1,4 @@
-# Активировать/деактивировать поток tasks.flow.Flow.activate
+# Включить или выключить поток tasks.flow.Flow.activate
 
 {% note tip "" %}
 
@@ -11,9 +11,11 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: создатель или администратор потока
+> Кто может выполнять метод: администратор Битрикс24, создатель или администратор потока
 
-Метод `tasks.flow.Flow.activate` включает или выключает поток по его идентификатору. Если поток выключен, он его включает. Если включен, то выключает.
+Метод `tasks.flow.Flow.activate` меняет состояние потока на противоположное: включенный выключает, выключенный включает. Задать нужное состояние нельзя.
+
+Выключенный поток не назначает исполнителей новым задачам. Если поставить в него задачу без исполнителя, метод [tasks.task.add](../tasks-task-add.md) вернет ошибку «Не указан исполнитель». Задачи, которые уже стоят в потоке, остаются в нем.
 
 ## Параметры метода
 
@@ -22,10 +24,10 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **flowId*** 
-[`integer`](../../data-types.md) | Идентификатор потока, который нужно включить или выключить. 
+|| **flowId***
+[`integer`](../../data-types.md) | Идентификатор потока, который нужно включить или выключить.
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Идентификатор вернет метод [tasks.flow.Flow.create](./tasks-flow-flow-create.md) при создании потока, а для задачи из потока — метод [tasks.task.get](../tasks-task-get.md) ||
 |#
 
 ## Примеры кода
@@ -39,10 +41,11 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.activate
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.flow.Flow.activate
     ```
 
 - cURL (OAuth)
@@ -50,11 +53,12 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
-        "flowId": 517
+        "flowId": 517,
+        "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.activate
+    https://**put_your_bitrix24_address**/rest/tasks.flow.Flow.activate
     ```
 
 - JS (TS)
@@ -162,7 +166,7 @@
                     'flowId' => 517
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -240,7 +244,15 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
+    }
 }
 ```
 
@@ -249,8 +261,10 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **result** 
-[`boolean`](../../data-types.md) | Успешность операции ||
+|| **result**
+[`boolean`](../../data-types.md) | `true` — и когда поток включился, и когда выключился. Включен ли поток, покажет поле `active` метода [tasks.flow.Flow.get](./tasks-flow-flow-get.md) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -260,7 +274,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "0",
-    "error_description": "Flow not found"
+    "error_description": "Поток с таким ID не существует"
 }
 ```
 
@@ -269,16 +283,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение операции ||
-|| `0` | `Flow not found` | Поток с указанным идентификатором не найден ||
-|| `0` | `Unknown error` | Неизвестная ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {flowId} | Не передан обязательный параметр `flowId` ||
+|| `400` | `0` | Доступ запрещен или поток не найден | У пользователя нет права включать или выключать поток или потока с таким `flowId` нет ||
+|| `400` | `0` | Поток с таким ID не существует | Потока с таким `flowId` нет. Эту ошибку получает администратор Битрикс24, другие пользователи — ошибку доступа ||
+|| `400` | `0` | Неизвестная ошибка [Flow: 451] | Внутренняя ошибка. Число в скобках — место в коде, где произошла ошибка, оно поможет поддержке найти причину ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-flow-flow-create.md)
 - [{#T}](./tasks-flow-flow-update.md)
 - [{#T}](./tasks-flow-flow-get.md)

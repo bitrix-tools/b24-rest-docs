@@ -308,5 +308,5 @@ HTTP-статус: **400**
 - [{#T}](./task-stages-add.md)
 - [{#T}](./task-stages-update.md)
 - [{#T}](./task-stages-get.md)
-- [{#T}](./task-stages-move-task.md)
 - [{#T}](./task-stages-delete.md)
+- [{#T}](./task-stages-move-task.md)

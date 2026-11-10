@@ -11,9 +11,9 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь, который может видеть поток в списке потоков
+> Кто может выполнять метод: пользователь, который видит поток, — администратор Битрикс24, участник потока или сотрудник отдела, указанного в потоке. Если ставить задачи в поток могут все пользователи, поток видят все сотрудники
 
-Метод `tasks.flow.Flow.pin` закрепляет или открепляет поток в списке потоков по его идентификатору.
+Метод `tasks.flow.Flow.pin` закрепляет поток в списке потоков или открепляет уже закрепленный. Закрепление видит только тот, кто вызвал метод: у других список не изменится.
 
 ## Параметры метода
 
@@ -22,10 +22,10 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **flowId*** 
+|| **flowId***
 [`integer`](../../data-types.md) | Идентификатор потока, который нужно закрепить или открепить.
 
-Получить идентификатор можно методом создания нового потока [tasks.flow.Flow.create](./tasks-flow-flow-create.md) или методом получения задачи [tasks.task.get](../tasks-task-get.md) для задачи из потока ||
+Идентификатор вернет метод [tasks.flow.Flow.create](./tasks-flow-flow-create.md) при создании потока, а для задачи из потока — метод [tasks.task.get](../tasks-task-get.md) ||
 |#
 
 ## Примеры кода
@@ -39,10 +39,11 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
         "flowId": 517
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/tasks.flow.Flow.pin
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/tasks.flow.Flow.pin
     ```
 
 - cURL (OAuth)
@@ -50,11 +51,12 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: Bearer YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
-        "flowId": 517
+        "flowId": 517,
+        "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/tasks.flow.Flow.pin
+    https://**put_your_bitrix24_address**/rest/tasks.flow.Flow.pin
     ```
 
 - JS (TS)
@@ -165,7 +167,7 @@
                     'flowId' => 517
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -198,9 +200,9 @@
 
     ```php
     require_once('crest.php'); // подключение CRest PHP SDK
-    
+
     $flowId = 517;
-    
+
     // выполнение запроса к REST API
     $result = CRest::call(
         'tasks.flow.Flow.pin',
@@ -208,7 +210,7 @@
             'flowId' => $flowId
         ]
     );
-    
+
     // Обработка ответа от Битрикс24
     if ($result['error']) {
         echo 'Error: '.$result['error_description'];
@@ -243,48 +245,62 @@ HTTP-статус: **200**
 
 ```json
 {
-    "result": true
+    "result": true,
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
+    }
 }
 ```
 
 ### Возвращаемые данные
 
 #|
-|| **Название** 
+|| **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат выполнения метода. Возможные значения:
+[`boolean`](../../data-types.md) | Возможные значения:
 - `true` — поток закреплен
-- `false` — поток откреплен 
+- `false` — поток откреплен
 ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **200**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "0",
-    "error_description": "Unknown error"
+    "error_description": "Доступ запрещен или поток не найден"
 }
 ```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Дополнительная информация** ||
-|| `0` | Доступ запрещен или поток не найден | Тариф портала не позволяет работать с потоками или у пользователя нет прав на выполнение операции ||
-|| `0` | Unknown error | Неизвестная ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {flowId} | Не передан обязательный параметр `flowId` ||
+|| `400` | `0` | Доступ запрещен или поток не найден | Пользователь не видит поток или потока с таким `flowId` нет. Администратор Битрикс24 ошибку не получит: для несуществующего потока метод вернет `true` ||
+|| `400` | `0` | Неизвестная ошибка [Flow: 477] | Внутренняя ошибка. Число в скобках — место в коде, где произошла ошибка, оно поможет поддержке найти причину ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./tasks-flow-flow-create.md)
-- [{#T}](./tasks-flow-flow-get.md)
 - [{#T}](./tasks-flow-flow-update.md)
+- [{#T}](./tasks-flow-flow-get.md)
 - [{#T}](./tasks-flow-flow-delete.md)
 - [{#T}](./tasks-flow-flow-is-exists.md)
 - [{#T}](./tasks-flow-flow-activate.md)

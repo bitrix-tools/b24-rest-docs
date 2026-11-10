@@ -11,11 +11,11 @@
 
 > Scope: [`task`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: 
-> - любой пользователь для стадий «Моего плана»
-> - любой пользователь с доступом к группе для стадий канбана
+> Кто может выполнять метод:
+> - любой пользователь для стадий своего «Моего плана»
+> - пользователь с правом просматривать задачи группы для стадий канбана группы
 
-Метод `task.stages.get` получает стадии канбана или «Моего плана».
+Метод `task.stages.get` получает стадии канбана или «Моего плана». Если стадий еще нет, метод сначала создаст стандартные стадии.
 
 ## Параметры метода
 
@@ -25,13 +25,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../data-types.md) | Идентификатор объекта.
-
-Возможные значения:
-- `ID` группы — метод получит стадии канбана группы. При недостаточном уровне прав выводится ошибка доступа
-- `0` — метод получит стадии «Моего плана» текущего пользователя ||
+[`integer`](../../data-types.md) | Чьи стадии получить:
+- `ID` группы — стадии канбана группы. Если у пользователя нет права просматривать задачи группы, метод вернет ошибку доступа
+- `0` — стадии «Моего плана» текущего пользователя ||
+|| **numeric**
+[`boolean`](../../data-types.md) | Если передать `true`, метод вернет стадии массивом, а не объектом с ключами-идентификаторами. По умолчанию — `false` ||
 || **isAdmin**
-[`boolean`](../../data-types.md) | Если установлено `true`, то проверки прав происходить не будет. При условии, что запрашивающий является администратором портала ||
+[`boolean`](../../data-types.md) | Если передать `true`, метод не проверяет права в группе. Параметр действует только для администратора Битрикс24, у других пользователей права проверяются как обычно. По умолчанию — `false` ||
 |#
 
 ## Примеры кода
@@ -45,10 +45,11 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
     -d '{
     "entityId": 0
     }' \
-    https://your-domain.bitrix24.com/rest/_USER_ID_/_CODE_/task.stages.get
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/task.stages.get
     ```
 
 - cURL (OAuth)
@@ -56,11 +57,12 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -H "Authorization: YOUR_ACCESS_TOKEN" \
+    -H "Accept: application/json" \
     -d '{
-    "entityId": 0
+    "entityId": 0,
+    "auth": "**put_access_token_here**"
     }' \
-    https://your-domain.bitrix24.com/rest/task.stages.get
+    https://**put_your_bitrix24_address**/rest/task.stages.get
     ```
 
 - JS (TS)
@@ -85,6 +87,7 @@
       ADDITIONAL_FILTER: unknown[]
       TO_UPDATE: unknown[]
       TO_UPDATE_ACCESS: null
+      CAN_SORT_ITEMS?: boolean
     }
 
     // result is a map of stage ID → StageInfo
@@ -178,6 +181,7 @@
 
     ```php
     try {
+        $entityId = 0;
         $response = $b24Service
             ->core
             ->call(
@@ -186,13 +190,13 @@
                     'entityId' => $entityId,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting task stages: ' . $e->getMessage();
@@ -260,72 +264,88 @@
 
 ## Обработка ответа
 
-HTTP-Статус: **200**
+HTTP-статус: **200**
 
 ```json
 {
     "result": {
-        "5": {
-         "ID": "5",
-         "TITLE": "Не спланированы",
-         "SORT": "100",
-         "COLOR": "00C4FB",
-         "SYSTEM_TYPE": "NEW",
-         "ENTITY_ID": "1",
-         "ENTITY_TYPE": "U",
-         "ADDITIONAL_FILTER": [],
-         "TO_UPDATE": [],
-         "TO_UPDATE_ACCESS": null
+        "19": {
+            "ID": "19",
+            "TITLE": "Не спланированы",
+            "SORT": "100",
+            "COLOR": "00C4FB",
+            "SYSTEM_TYPE": "NEW",
+            "ENTITY_ID": "129",
+            "ENTITY_TYPE": "U",
+            "ADDITIONAL_FILTER": [],
+            "TO_UPDATE": [],
+            "TO_UPDATE_ACCESS": null,
+            "CAN_SORT_ITEMS": true
         },
-        "6": {
-         "ID": "6",
-         "TITLE": "Сделаю на неделе",
-         "SORT": "200",
-         "COLOR": "47D1E2",
-         "SYSTEM_TYPE": null,
-         "ENTITY_ID": "1",
-         "ENTITY_TYPE": "U",
-         "ADDITIONAL_FILTER": [],
-         "TO_UPDATE": [],
-         "TO_UPDATE_ACCESS": null
+        "20": {
+            "ID": "20",
+            "TITLE": "В работе",
+            "SORT": "200",
+            "COLOR": "9DCF00",
+            "SYSTEM_TYPE": null,
+            "ENTITY_ID": "129",
+            "ENTITY_TYPE": "U",
+            "ADDITIONAL_FILTER": [],
+            "TO_UPDATE": [],
+            "TO_UPDATE_ACCESS": null
         }
+    },
+    "time": {
+        "start": 1793956087,
+        "finish": 1793956087.677343,
+        "duration": 0.6773428916931152,
+        "processing": 0,
+        "date_start": "2026-11-06T12:08:07+03:00",
+        "date_finish": "2026-11-06T12:08:07+03:00"
     }
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
-|| **Поле**
+|| **Название**
 `тип` | **Описание** ||
-|| **result** 
-`object` | Объект, содержащий данные о стадиях Канбана / Моего плана, ключами которого являются идентификаторы стадий ||
-|| **ID** 
-`integer` | Идентификатор стадии ||
-|| **TITLE** 
-`string` | Название ||
-|| **SORT** 
-`integer` | Сортировка ||
-|| **COLOR** 
-`string` | Цвет в формате RGB ||
-|| **SYSTEM_TYPE** 
-`string` | Системный тип. Возможные значения: `NEW`, `PROGRESS`, `WORK`, `REVIEW`, `FINISH` ||
-|| **ENTITY_ID** 
-`integer` | Идентификатор объекта, то есть группы или пользователя ||
-|| **ENTITY_TYPE** 
-`string` | Тип объекта. `U` для пользователя, `G` для группы ||
-|| **ADDITIONAL_FILTER** 
-`array` | Дополнительные фильтры. 
+|| **result**
+[`object`](../../data-types.md) | Стадии канбана или «Моего плана». Ключ — идентификатор стадии, значение — объект стадии [(подробное описание)](#stage).
 
-Системный параметр. Всегда имеет значение пустого массива ||
-|| **TO_UPDATE** 
-`array` | Массив элементов для обновления.
+Если передать `numeric: true`, придет массив объектов стадий ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
 
-Системный параметр. Всегда имеет значение пустого массива ||
-|| **TO_UPDATE_ACCESS** 
-`null` | Функции, применяемые к задаче при переносе на эту стадию.
+#### Объект стадии {#stage}
 
-Системный параметр. Всегда имеет значение `null` ||
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор стадии ||
+|| **TITLE**
+[`string`](../../data-types.md) | Название стадии ||
+|| **SORT**
+[`string`](../../data-types.md) | Порядковый номер стадии: чем меньше число, тем левее стадия в канбане ||
+|| **COLOR**
+[`string`](../../data-types.md) | Цвет стадии — шестнадцатеричный код RGB без `#` ||
+|| **SYSTEM_TYPE**
+[`string`](../../data-types.md) | Системный тип стадии: `NEW`, `WORK`, `REVIEW` или `FINISH`. Стадию с системным типом нельзя удалить. У первой стадии всегда `NEW`. У обычной стадии — `null` или пустая строка ||
+|| **ENTITY_ID**
+[`string`](../../data-types.md) | Идентификатор группы или пользователя, которому принадлежат стадии ||
+|| **ENTITY_TYPE**
+[`string`](../../data-types.md) | Тип владельца стадий: `U` — «Мой план» пользователя, `G` — канбан группы ||
+|| **ADDITIONAL_FILTER**
+[`array`](../../data-types.md) | Системный параметр, всегда пустой массив ||
+|| **TO_UPDATE**
+[`array`](../../data-types.md) | Системный параметр, всегда пустой массив ||
+|| **TO_UPDATE_ACCESS**
+[`null`](../../data-types.md) | Системный параметр, всегда `null` ||
+|| **CAN_SORT_ITEMS**
+[`boolean`](../../data-types.md) | Можно ли сортировать задачи внутри стадии. Приходит только у стадий с системным типом ||
 |#
 
 ## Обработка ошибок
@@ -335,7 +355,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Вы не можете просматривать стадии в этой группе"
+    "error_description": "Вы не можете просматривать задачи в этой группе"
 }
 ```
 
@@ -344,17 +364,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Значение** ||
-|| `ACCESS_DENIED` | Вы не можете просматривать стадии в этой группе ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ACCESS_DENIED` | Вы не можете просматривать задачи в этой группе | У пользователя нет права просматривать задачи группы из `entityId` ||
+|| `400` | `DISPATCHER_ERROR` | Argument "entityid" is required, but no value passed for task.stages.get | Не передан обязательный параметр `entityId` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./task-stages-add.md)
 - [{#T}](./task-stages-update.md)
+- [{#T}](./task-stages-delete.md)
 - [{#T}](./task-stages-can-move-task.md)
 - [{#T}](./task-stages-move-task.md)
-- [{#T}](./task-stages-delete.md)

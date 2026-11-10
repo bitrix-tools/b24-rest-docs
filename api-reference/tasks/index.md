@@ -380,9 +380,9 @@
 || [task.stages.add](./stages/task-stages-add.md) | Добавляет стадии канбана или «Моего плана» ||
 || [task.stages.update](./stages/task-stages-update.md) | Обновляет стадии канбана или «Моего плана» ||
 || [task.stages.get](./stages/task-stages-get.md) | Получает стадии канбана или «Моего плана» ||
+|| [task.stages.delete](./stages/task-stages-delete.md) | Удаляет стадии канбана или «Моего плана» ||
 || [task.stages.canmovetask](./stages/task-stages-can-move-task.md) | Определяет, может ли текущий пользователь перемещать задачи в указанном объекте ||
 || [task.stages.movetask](./stages/task-stages-move-task.md) | Перемещает задачи из одной стадии в другую ||
-|| [task.stages.delete](./stages/task-stages-delete.md) | Удаляет стадии канбана или «Моего плана» ||
 |#
 
 ### Задачи в «Плане на день»
