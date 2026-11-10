@@ -1,4 +1,4 @@
-title: Ресурс
+title: Бронирование ресурсов
 href: index.md
 items: 
   - name: Обзор методов
@@ -9,9 +9,9 @@ items:
     href: calendar-resource-update.md
   - name: Получить список ресурсов
     href: calendar-resource-list.md
-  - name: Получить бронирования ресурсов по фильтру
-    href: calendar-resource-booking-list.md
   - name: Удалить ресурс
     href: calendar-resource-delete.md
+  - name: Получить бронирования ресурсов по фильтру
+    href: calendar-resource-booking-list.md
 
 
