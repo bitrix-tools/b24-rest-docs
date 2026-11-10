@@ -104,10 +104,12 @@
 
 - JS (TS)
 
+    Методы CRM пока не входят в список методов REST 3.0, который знает `$b24.actions.v3.call.make`: такой вызов вернет ошибку SDK `JSSDK_CORE_METHOD_NOT_SUPPORT_IN_API_V3`. Вызывайте метод через HTTP-клиент REST 3.0 — `$b24.getHttpClient(ApiVersion.v3).call`.
+
     ```ts
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
-    import { Text } from '@bitrix24/b24jssdk'
+    import { ApiVersion, Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
@@ -129,9 +131,9 @@
     }
 
     try {
-      const response = await $b24.actions.v3.call.make<FormListResult>({
-        method: 'crm.form.list',
-        params: {
+      const response = await $b24.getHttpClient(ApiVersion.v3).call<FormListResult>(
+        'crm.form.list',
+        {
           select: [
             'id',
             'name',
@@ -153,8 +155,8 @@
             offset: 0,
           },
         },
-        requestId: Text.getUuidRfc4122()
-      })
+        Text.getUuidRfc4122()
+      )
 
       // The payload is available only on a successful response
       if (!response.isSuccess) {
@@ -171,6 +173,8 @@
 
 - JS (UMD)
 
+    Методы CRM пока не входят в список методов REST 3.0, который знает `$b24.actions.v3.call.make`. Вызывайте метод через HTTP-клиент REST 3.0 — `$b24.getHttpClient(B24Js.ApiVersion.v3).call`.
+
     ```html
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
@@ -180,9 +184,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v3.call.make({
-            method: 'crm.form.list',
-            params: {
+          const response = await $b24.getHttpClient(B24Js.ApiVersion.v3).call(
+            'crm.form.list',
+            {
               select: [
                 'id',
                 'name',
@@ -204,8 +208,8 @@
                 offset: 0,
               },
             },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
+            B24Js.Text.getUuidRfc4122()
+          )
 
           // The payload is available only on a successful response
           if (!response.isSuccess) {
@@ -227,41 +231,50 @@
 
 - Python
 
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    У методов CRM нет готовых оберток в `b24pysdk`, и SDK отправляет в REST 3.0 только методы из списка `Config().api_v3_methods`. Добавьте метод в этот список и вызовите его через `bitrix_token.call_method` с `prefer_version=3`.
 
-    # client = Client(token, prefer_version=3)
+    ```python
+    from b24pysdk import Config
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    method = "crm.form.list"
+    Config().configure(api_v3_methods=Config().api_v3_methods | {method})
 
     try:
-        bitrix_response = client.crm.form.list(
-            select=[
-                "id",
-                "name",
-                "active",
-                "crm.entityScheme",
-                "responsible.userIds",
-                "updatedTime",
-            ],
-            filter=[
-                ["active", "=", True],
-                ["crm.entityScheme", "=", 1],
-                ["createdTime", ">=", "2026-01-01T00:00:00+03:00"],
-            ],
-            order={
-                "createdTime": "DESC",
+        response = bitrix_token.call_method(
+            api_method=method,
+            params={
+                "select": [
+                    "id",
+                    "name",
+                    "active",
+                    "crm.entityScheme",
+                    "responsible.userIds",
+                    "updatedTime",
+                ],
+                "filter": [
+                    ["active", "=", True],
+                    ["crm.entityScheme", "=", 1],
+                    ["createdTime", ">=", "2026-01-01T00:00:00+03:00"],
+                ],
+                "order": {
+                    "createdTime": "DESC",
+                },
+                "pagination": {
+                    "limit": 50,
+                    "offset": 0,
+                },
             },
-            pagination={
-                "limit": 50,
-                "offset": 0,
-            },
-        ).response
-        result = bitrix_response.result
+            prefer_version=3,
+        )
+        result = response["result"]
         print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
             sep="\n",
         )
     except BitrixSDKException as error:
