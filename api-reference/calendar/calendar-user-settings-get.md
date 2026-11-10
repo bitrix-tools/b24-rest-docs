@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод получает пользовательские настройки календаря.
+Метод `calendar.user.settings.get` получает пользовательские настройки календаря.
+
+## Параметры метода
 
 Без параметров.
 
@@ -56,8 +58,8 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type CalendarUserSettingsResult = {
       view: string
-      meetSection: string
-      crmSection: string
+      meetSection: string | boolean
+      crmSection: string | boolean
       showDeclined: boolean
       denyBusyInvitation: boolean
       collapseOffHours: string
@@ -65,20 +67,29 @@
       showTasks: string
       syncTasks: string
       showCompletedTasks: string
-      lastUsedSection: string
+      lastUsedSection: string | boolean
       sendFromEmail: string
       defaultSections: Record<string, string>
-      syncPeriodPast: string
-      syncPeriodFuture: string
+      syncPeriodPast: string | number
+      syncPeriodFuture: string | number
       defaultReminders: {
-        fullDay: Array<{ type: string; count: number }>
-        withTime: Array<{ type: string; count: number }>
+        fullDay:
+          | { type: string; count?: number; before?: number; time?: number }
+          | Array<{ type: string; count?: number; before?: number; time?: number }>
+        withTime:
+          | { type: string; count?: number; before?: number; time?: number }
+          | Array<{ type: string; count?: number; before?: number; time?: number }>
       }
+      tabId?: string
+      view_crm?: string
+      view_tasks?: string
       timezoneName: string
       timezoneOffsetUTC: number
       timezoneDefaultName: string
-      work_time_start: string
-      work_time_end: string
+      work_time_start?: string
+      work_time_end?: string
+      CalendarSelCont: string | boolean
+      SPCalendarSelCont: string | boolean
     }
 
     try {
@@ -160,7 +171,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -169,15 +179,14 @@
                 'calendar.user.settings.get',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+        // Дальше обработайте $result в своем коде
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting user calendar settings: ' . $e->getMessage();
@@ -217,10 +226,12 @@
     	return fmt.Errorf("calendar.user.settings.get: %w", err)
     }
 
+    // Структура сокращена: ниже только поля, которые нужны примеру.
+    // Полный список полей — в разделе «Возвращаемые данные».
     var item struct {
     	View               string `json:"view"`
-    	MeetSection        string `json:"meetSection"`
-    	CrmSection         string `json:"crmSection"`
+    	MeetSection        any    `json:"meetSection"`
+    	CrmSection         any    `json:"crmSection"`
     	ShowDeclined       bool   `json:"showDeclined"`
     	DenyBusyInvitation bool   `json:"denyBusyInvitation"`
     	CollapseOffHours   string `json:"collapseOffHours"`
@@ -245,6 +256,8 @@ HTTP-статус: **200**
         "crmSection": "4",
         "showDeclined": true,
         "denyBusyInvitation": false,
+        "CalendarSelCont": "false",
+        "SPCalendarSelCont": "false",
         "collapseOffHours": "N",
         "showWeekNumbers": "N",
         "showTasks": "Y",
@@ -262,7 +275,7 @@ HTTP-статус: **200**
             "fullDay": [
                 {
                     "type": "min",
-                    "count": 15
+                    "count": "15"
                 }
             ],
             "withTime": [
@@ -272,6 +285,9 @@ HTTP-статус: **200**
                 }
             ]
         },
+        "tabId": "month",
+        "view_crm": "month",
+        "view_tasks": "month",
         "timezoneName": "Europe/Riga",
         "timezoneOffsetUTC": 7200,
         "timezoneDefaultName": "",
@@ -295,7 +311,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
+[`object`](../data-types.md) | Корневой элемент ответа [(подробное описание)](#settings) ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект настроек {#settings}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **view**
 [`string`](../data-types.md) | Стандартное представление для календаря. Возможные значения:
 - `day` — день
@@ -303,9 +328,9 @@ HTTP-статус: **200**
 - `month` — месяц
 - `list` — список ||
 || **meetSection**
-[`string`](../data-types.md) | Календарь для приглашений ||
+[```string|boolean```](../data-types.md) | Идентификатор календаря для приглашений. Пока настройку не сохраняли, приходит `false` ||
 || **crmSection**
-[`string`](../data-types.md) | Календарь для CRM ||
+[```string|boolean```](../data-types.md) | Идентификатор календаря для CRM. Пока настройку не сохраняли, приходит `false` ||
 || **showDeclined**
 [`boolean`](../data-types.md) | Показывать события, в которых пользователь отказался принять участие ||
 || **denyBusyInvitation**
@@ -315,7 +340,7 @@ HTTP-статус: **200**
 - `Y` — скрывать
 - `N` — не скрывать ||
 || **showWeekNumbers**
-[`string`](../data-types.md) | Показывать номер недель. Возможные значения:
+[`string`](../data-types.md) | Показывать номера недель. Возможные значения:
 - `Y` — показывать
 - `N` — не показывать ||
 || **showTasks**
@@ -329,37 +354,59 @@ HTTP-статус: **200**
 || **showCompletedTasks**
 [`string`](../data-types.md) | Отображать завершенные задачи. Возможные значения:
 - `Y` — отображать
-- `N` — не отображать  ||
+- `N` — не отображать ||
 || **lastUsedSection**
-[`string`](../data-types.md) | Идентификатор календаря, который используется при создании событий, если в параметрах не передан идентификатор календаря. 
+[```string|boolean```](../data-types.md) | Идентификатор календаря, который используется при создании событий, если в параметрах не передан идентификатор календаря.
 
-Значение по умолчанию — `false` ||
+Пока настройку не сохраняли, приходит `false` — календарь не выбран ||
 || **sendFromEmail**
 [`string`](../data-types.md) | E-mail для отправки почтовых приглашений ||
 || **defaultSections**
 [`object`](../data-types.md) | Настройки предустановленных календарей.
 
-Ключем объекта настроек может быть:
-- `user[id]` — тип Календарь пользователя c идентификатором пользователя. Например, `user12` соответствует календарю пользователя с идентификатором `12`
+Ключом объекта настроек может быть:
+- `user[id]` — тип Календарь пользователя с идентификатором пользователя. Например, `user12` соответствует календарю пользователя с идентификатором `12`
 - `group[id]` — тип Календарь группы с идентификатором группы. Например, `group36` соответствует календарю группы с идентификатором `36`
 
-Значением объекта является идентификатор календаря ||
+Значение — идентификатор календаря ||
 || **syncPeriodPast**
-[`string`](../data-types.md) | Количество месяцев для синхронизации в прошлом периоде ||
+[```string|integer```](../data-types.md) | Количество месяцев для синхронизации в прошлом периоде. Пока настройку не сохраняли, приходит числом `3` ||
 || **syncPeriodFuture**
-[`string`](../data-types.md) | Количество месяцев для синхронизации в будущем периоде ||
+[```string|integer```](../data-types.md) | Количество месяцев для синхронизации в будущем периоде. Пока настройку не сохраняли, приходит числом `12` ||
 || **defaultReminders**
-[`object`](../data-types.md) | Объект со стандартными настройками [напоминаний о событии](#defaultReminders) ||
+[`object`](../data-types.md) | Объект со стандартными настройками напоминаний о событии [(подробное описание)](#defaultReminders) ||
+|| **tabId**
+[`string`](../data-types.md) | Последняя открытая вкладка календаря. Поле приходит, только если его сохранил интерфейс календаря. Метод [calendar.user.settings.set](./calendar-user-settings-set.md) это поле не принимает ||
+|| **view_crm**
+[`string`](../data-types.md) | Представление по умолчанию для календаря CRM. Возможные значения:
+- `day` — день
+- `week` — неделя
+- `month` — месяц
+- `list` — список
+
+Поле приходит, только если его сохранил интерфейс календаря. Метод [calendar.user.settings.set](./calendar-user-settings-set.md) это поле не принимает ||
+|| **view_tasks**
+[`string`](../data-types.md) | Представление по умолчанию для календаря задач. Возможные значения:
+- `day` — день
+- `week` — неделя
+- `month` — месяц
+- `list` — список
+
+Поле приходит, только если его сохранил интерфейс календаря. Метод [calendar.user.settings.set](./calendar-user-settings-set.md) это поле не принимает ||
 || **timezoneName**
-[`string`](../data-types.md) | Таймзона календаря ||
+[`string`](../data-types.md) | Часовой пояс календаря ||
 || **timezoneOffsetUTC**
-[`integer`](../data-types.md) | Смешение таймзоны относительно UTC в секундах ||
+[`integer`](../data-types.md) | Смещение часового пояса относительно UTC в секундах ||
 || **timezoneDefaultName**
-[`string`](../data-types.md) | Если параметр `timezoneName` не установлен, здесь будет указан часовой пояс из параметра `timezoneOffsetUTC` ||
+[`string`](../data-types.md) | Часовой пояс, который Битрикс24 предлагает пользователю, если `timezoneName` не установлен. Значение подобрано по смещению `timezoneOffsetUTC` ||
 || **work_time_start**
-[`string`](../data-types.md) | Время начала рабочего дня ||
+[`string`](../data-types.md) | Время начала рабочего дня. Поле приходит, только если у пользователя заполнены рабочие часы в календаре ||
 || **work_time_end**
-[`string`](../data-types.md) | Время окончания рабочего дня ||
+[`string`](../data-types.md) | Время окончания рабочего дня. Поле приходит, только если у пользователя заполнены рабочие часы в календаре ||
+|| **CalendarSelCont**
+[```string|boolean```](../data-types.md) | Служебное поле интерфейса календаря. Пока настройку не сохраняли, приходит `false`, после сохранения — строкой `"true"` или `"false"` ||
+|| **SPCalendarSelCont**
+[```string|boolean```](../data-types.md) | Служебное поле интерфейса календаря. Пока настройку не сохраняли, приходит `false`, после сохранения — строкой `"true"` или `"false"` ||
 |#
 
 #### Объект defaultReminders {#defaultReminders}
@@ -368,10 +415,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **fullDay**
-[`array`](../data-types.md) | Массив [стандартных настроек напоминаний](#reminder-settings) для целодневных событий ||
+[```object|array```](../data-types.md) | Настройки напоминаний для целодневных событий: один объект или массив объектов [(подробное описание)](#reminder-settings). Пока настройку не сохраняли, приходит объектом: `{"type": "daybefore", "before": 0, "time": 480}` ||
 || **withTime**
-[`array`](../data-types.md) | Массив [стандартных настроек напоминаний](#reminder-settings) для событий с указанием времени ||
+[```object|array```](../data-types.md) | Настройки напоминаний для событий с указанием времени: один объект или массив объектов [(подробное описание)](#reminder-settings). Пока настройку не сохраняли, приходит объектом: `{"type": "min", "count": 15}` ||
 |#
+
+Если настройки напоминаний передавали в [calendar.user.settings.set](./calendar-user-settings-set.md), метод вернет их в том же виде: объектом или массивом объектов.
 
 #### Объект настроек напоминания {#reminder-settings}
 
@@ -382,16 +431,23 @@ HTTP-статус: **200**
 [`string`](../data-types.md) | Временной тип напоминания. Возможные значения:
 - `min` — минуты
 - `hour` — часы
-- `day` — дни ||
+- `day` — дни
+- `daybefore` — напоминание в заданное время дня события ||
 || **count**
-[`integer`](../data-types.md) | Числовое значение временного промежутка ||
+[```integer|string```](../data-types.md) | Числовое значение временного промежутка. Используется с типами `min`, `hour` и `day`. Может прийти числом или строкой ||
+|| **before**
+[`integer`](../data-types.md) | Сдвиг напоминания в днях до дня события. Используется с типом `daybefore`. При `0` напоминание приходит в день события ||
+|| **time**
+[`integer`](../data-types.md) | Время напоминания в минутах от начала дня. Используется с типом `daybefore`. При `before: 0` и `time: 480` напоминание приходит в день события в 08:00 ||
 |#
 
 ## Обработка ошибок
 
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./calendar-settings-get.md)
