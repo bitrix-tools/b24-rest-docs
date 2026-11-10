@@ -12,17 +12,17 @@
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - любой пользователь может сбрасывать свои личные настройки
-> - сбросить личные настройки другого пользователя можно при наличии прав на редактирование персонального вида для пользователя
-> - сбросить общие настройки можно при наличии прав на редактирование общего вида
+> - пользователь — свои личные настройки
+> - администратор CRM — личные настройки другого пользователя
+> - пользователь с правом редактировать общий вид карточки сделки — общие настройки
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md).
+Развитие метода остановлено. Используйте [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md) с `entityTypeId = 2`. Метода сброса в REST 3.0 нет.
 
 {% endnote %}
 
-Метод `crm.deal.details.configuration.reset` сбрасывает настройки карточки сделки. Метод удаляет личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
+Метод `crm.deal.details.configuration.reset` удаляет личные настройки карточки сделки указанного пользователя или общие настройки для всех пользователей. После сброса [crm.deal.details.configuration.get](./crm-deal-details-configuration-get.md) с тем же `scope` и воронкой возвращает `null`.
 
 {% note info %}
 
@@ -63,7 +63,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **dealCategoryId**
-[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить с помощью [crm.category.list](../../universal/category/crm-category-list.md)
+[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить методом [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId = 2` или [crm.deal.category.list](../../rest-v3/categories/crm-entity-category-list-rest-v3.md) в REST 3.0 — идентификаторы совпадают
 
 Если не указан, используется воронка по умолчанию для сделок
 ||
@@ -183,7 +183,7 @@
         bitrix_response = client.crm.deal.details.configuration.reset(
             scope="P",
             user_id=1,
-            extras={"dealCategoryId": 0},
+            extras={"dealCategoryId": 32},
         ).response
         result = bitrix_response.result
         print(result)
@@ -351,7 +351,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | Пустое значение | Access denied | Нет прав на сброс настроек карточки сделки ||
+|| `400` | Пустое значение | Access denied. | Передан `scope = P` и `userId` другого пользователя, а текущий пользователь не администратор CRM ||
+|| `400` | Пустое значение | Access denied. | Передан `scope = C`, а у пользователя нет прав на редактирование общего вида карточки сделки в воронке `extras.dealCategoryId` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -362,8 +363,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-details-configuration-get.md)
 - [{#T}](./crm-deal-details-configuration-set.md)
 - [{#T}](./crm-deal-details-configuration-force-common-scope-for-all.md)
-
-
-
-
-

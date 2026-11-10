@@ -1,4 +1,4 @@
-# Получить список всех ресурсов calendar.resource.list
+# Получить список ресурсов calendar.resource.list
 
 {% note tip "" %}
 
@@ -11,9 +11,15 @@
 
 > Scope: [`calendar`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь, кроме экстранет-пользователей
 
-Метод получает список всех ресурсов.
+Метод `calendar.resource.list` получает список всех ресурсов Битрикс24. Ресурсы, удаленные методом [calendar.resource.delete](./calendar-resource-delete.md), в список не попадают. Как устроено бронирование ресурсов, описано в [обзоре методов](./index.md).
+
+Фильтрации, сортировки и постраничной навигации у метода нет: он возвращает все ресурсы одним ответом, параметр `start` игнорируется.
+
+Идентификаторы ресурсов из ответа нужны для методов [calendar.resource.update](./calendar-resource-update.md), [calendar.resource.delete](./calendar-resource-delete.md) и для параметра `filter.resourceTypeIdList` метода [calendar.resource.booking.list](./calendar-resource-booking-list.md).
+
+## Параметры метода
 
 Без параметров.
 
@@ -61,16 +67,10 @@
     }
 
     try {
-      // calendar.resource.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // calendar.resource.list has no pagination: it returns all active resources in one response
       const response = await $b24.actions.v2.call.make<CalendarResourceItem[]>({
         method: 'calendar.resource.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -98,16 +98,10 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // calendar.resource.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // calendar.resource.list has no pagination: it returns all active resources in one response
           const response = await $b24.actions.v2.call.make({
             method: 'calendar.resource.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -153,7 +147,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -180,7 +173,7 @@
     ```js
     BX24.callMethod(
         'calendar.resource.list'
-    )
+    );
     ```
 
 - PHP CRest
@@ -223,12 +216,13 @@ HTTP-статус: **200**
     "result": [
         {
             "ID": "198",
-            "NAME": "Resource name",
+            "NAME": "Car",
             "CREATED_BY": "1"
         },
         {
             "ID": "199",
-            ...
+            "NAME": "Bowling lane 1",
+            "CREATED_BY": "1"
         }
     ],
     "time": {
@@ -248,19 +242,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Массив объектов. Каждый объект содержит описание [ресурса](#resource) ||
+[`array`](../../data-types.md) | Массив объектов. Каждый объект описывает [ресурс](#resource). Если ресурсов нет, возвращается пустой массив ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Объект ресурса {#resource}
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID**
 [`string`](../../data-types.md) | Идентификатор ресурса ||
 || **NAME**
-[`string`](../../data-types.md) | Наименование ресурса ||
+[`string`](../../data-types.md) | Название ресурса ||
 || **CREATED_BY**
-[`string`](../../data-types.md) | Идентификатор пользователя — создателя ресурса ||
+[`string`](../../data-types.md) | Идентификатор пользователя, который создал ресурс ||
 |#
 
 ## Обработка ошибок
@@ -279,16 +276,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустое значение | Доступ запрещен | Запрещен доступ к методу для внешних пользователей ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Доступ запрещен | Метод вызывает экстранет-пользователь ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./calendar-resource-add.md)
 - [{#T}](./calendar-resource-update.md)
-- [{#T}](./calendar-resource-booking-list.md)
 - [{#T}](./calendar-resource-delete.md)
+- [{#T}](./calendar-resource-booking-list.md)

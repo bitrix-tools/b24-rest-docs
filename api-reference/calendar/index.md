@@ -137,8 +137,8 @@
 #|
 || **Метод** | **Описание** ||
 || [calendar.resource.add](./resource/calendar-resource-add.md) | Добавляет ресурс ||
-|| [calendar.resource.update](./resource/calendar-resource-update.md) | Обновляет ресурс ||
+|| [calendar.resource.update](./resource/calendar-resource-update.md) | Меняет название ресурса ||
 || [calendar.resource.list](./resource/calendar-resource-list.md) | Получает список ресурсов ||
+|| [calendar.resource.delete](./resource/calendar-resource-delete.md) | Удаляет ресурс вместе с бронированиями ||
 || [calendar.resource.booking.list](./resource/calendar-resource-booking-list.md) | Получает бронирования ресурсов по фильтру ||
-|| [calendar.resource.delete](./resource/calendar-resource-delete.md) | Удаляет ресурс ||
 |#
