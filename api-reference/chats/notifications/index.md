@@ -13,7 +13,7 @@
 
 Методы `im.notify.*` актуальны, устаревших вариантов у них нет.
 
-{% note warning %}
+{% note warning "" %}
 
 Методы отправки [im.notify](./im-notify.md), [im.notify.personal.add](./im-notify-personal-add.md) и [im.notify.system.add](./im-notify-system-add.md) нельзя вызвать с сессионной авторизацией — они вернут ошибку `WRONG_AUTH_TYPE`. Вызывайте их через вебхук или с токеном приложения.
 

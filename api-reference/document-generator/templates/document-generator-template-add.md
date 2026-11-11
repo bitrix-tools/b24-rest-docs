@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов
 
-Метод `documentgenerator.template.add` добавляет новый шаблон документа.
+Метод `documentgenerator.template.add` добавляет шаблон документа из файла `.docx`.
+
+{% note info "" %}
+
+Метод создает шаблоны только модуля `rest`: в ответе `moduleId` всегда равен `rest`, а провайдер данных — `Bitrix\DocumentGenerator\DataProvider\Rest`.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -32,47 +38,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Название шаблона ||
-|| **fileId***
-[`integer`](../../data-types.md) | Идентификатор ранее загруженного файла шаблона с Диска.
-
-Получить идентификатор файла можно двумя способами.
-
-Использовать один из методов загрузки файла:
-  - [disk.storage.uploadfile](../../disk/storage/disk-storage-upload-file.md)
-  - [disk.folder.uploadfile](../../disk/folder/disk-folder-upload-file.md)
-
-Использовать один из методов получения списка файлов:
-  - [disk.storage.getchildren](../../disk/storage/disk-storage-get-children.md)
-  - [disk.folder.getchildren](../../disk/folder/disk-folder-get-children.md)
-
-||
+[`string`](../../data-types.md) | Название шаблона, от 1 до 100 символов ||
 || **file***
-[`file`](../../data-types.md#standart-types) | Файл шаблона, если его нужно загрузить. Используется вместо параметра `fileId`.
+[`file`](../../data-types.md#standart-types) | Файл шаблона в формате `.docx`. Обязателен, если не передан `fileId`.
 
 Файл можно передать тремя способами:
-- строкой base64
-- массивом `["имя_файла.docx","base64_контент"]`
-- как файл `multipart/form-data`
+- [строкой Base64](../../files/how-to-upload-files.md#string) — имя файла в этом формате не передается
+- [массивом](../../files/how-to-upload-files.md#array) `["имя_файла.docx","base64_контент"]`
+- как файл `multipart/form-data` с именем поля `file`
 
-{% note tip "Частые кейсы и сценарии" %}
+Если передан `fileId`, параметр `file` не используется ||
+|| **fileId**
+[`integer`](../../data-types.md) | Идентификатор файла шаблона в генераторе документов. Используется вместо `file`, чтобы создать шаблон на основе файла уже существующего шаблона.
 
-- [Как загрузить файлы](../../files/how-to-upload-files.md)
-
-{% endnote %}
-
-||
+Получить идентификатор можно в поле `fileId` методом [documentgenerator.template.list](./document-generator-template-list.md). Идентификатор файла Диска не подходит: это другой идентификатор ||
 || **numeratorId***
 [`integer`](../../data-types.md) | Идентификатор нумератора.
 
-Получить идентификатор можно после [создания нумератора](../numerators/document-generator-numerator-add.md) или методом [получения списка нумераторов](../numerators/document-generator-numerator-list.md)
-||
+Получить идентификатор можно после [создания нумератора](../numerators/document-generator-numerator-add.md) или методом [получения списка нумераторов](../numerators/document-generator-numerator-list.md) ||
 || **region***
-[`string`](../../data-types.md) | Регион шаблона, например, `ru` ||
+[`string`](../../data-types.md) | Код региона шаблона, например `ru`.
+
+Получить список регионов можно методом [documentgenerator.region.list](../region/document-generator-region-list.md) ||
 || **code**
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **users**
-[`array`](../../data-types.md) | Пользователи, у которых будет доступ к шаблону.
+[`array`](../../data-types.md) | Коды доступа пользователей, которым доступен шаблон.
 
 Возможные значения:
 
@@ -87,7 +78,7 @@
 - `SG{id}_E` — модераторы рабочей группы или проекта
 - `SG{id}_K` — все члены рабочей группы или проекта
 
-Если не передан, автоматически добавляется текущий пользователь ||
+Если параметр не передан или передан пустой массив, доступ получает текущий пользователь в формате `U{id}` ||
 || **active**
 [`char`](../../data-types.md) | Активность шаблона. Возможные значения:
 - `Y` — активен
@@ -101,12 +92,18 @@
 
 По умолчанию `N` ||
 || **sort**
-[`integer`](../../data-types.md) | Индекс сортировки ||
+[`integer`](../../data-types.md) | Индекс сортировки. По умолчанию `500` ||
 || **timezone**
 [`string`](../../data-types.md) | Часовой пояс, в котором выводятся даты в документах по шаблону. Передается идентификатор часового пояса IANA, например `Europe/Moscow`.
 
 Если поле не передано или передана пустая строка, даты выводятся в общем часовом поясе из настроек шаблонов документов, а если он не выбран — в часовом поясе сервера ||
 |#
+
+{% note tip "" %}
+
+Как подготовить файл и выбрать формат передачи, читайте в статье [Как загрузить файлы](../../files/how-to-upload-files.md).
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -120,7 +117,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"name":"SUPPLY_CONTRACT Template","fileId":5641,"numeratorId":1,"region":"ru","code":"REST_TEMPLATE","users":["UA"],"active":"Y","withStamps":"N","sort":500}}' \
+    -d '{"fields":{"name":"SUPPLY_CONTRACT Template","file":["supply_contract.docx","base64_encoded_content_here"],"numeratorId":1,"region":"ru","code":"REST_TEMPLATE","users":["UA"],"active":"Y","withStamps":"N","sort":500,"timezone":"Europe/Moscow"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/documentgenerator.template.add
   ```
 
@@ -130,7 +127,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"name":"SUPPLY_CONTRACT Template","fileId":5641,"numeratorId":1,"region":"ru","code":"REST_TEMPLATE","users":["UA"],"active":"Y","withStamps":"N","sort":500},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"name":"SUPPLY_CONTRACT Template","file":["supply_contract.docx","base64_encoded_content_here"],"numeratorId":1,"region":"ru","code":"REST_TEMPLATE","users":["UA"],"active":"Y","withStamps":"N","sort":500,"timezone":"Europe/Moscow"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/documentgenerator.template.add
   ```
 
@@ -173,7 +170,7 @@
       params: {
         fields: {
           name: 'SUPPLY_CONTRACT Template',
-          fileId: 5641,
+          file: ['supply_contract.docx', 'base64_encoded_content_here'],
           numeratorId: 1,
           region: 'ru',
           code: 'REST_TEMPLATE',
@@ -181,6 +178,7 @@
           active: 'Y',
           withStamps: 'N',
           sort: 500,
+          timezone: 'Europe/Moscow',
         },
       },
       requestId: Text.getUuidRfc4122()
@@ -215,7 +213,7 @@
           params: {
             fields: {
               name: 'SUPPLY_CONTRACT Template',
-              fileId: 5641,
+              file: ['supply_contract.docx', 'base64_encoded_content_here'],
               numeratorId: 1,
               region: 'ru',
               code: 'REST_TEMPLATE',
@@ -223,6 +221,7 @@
               active: 'Y',
               withStamps: 'N',
               sort: 500,
+              timezone: 'Europe/Moscow',
             },
           },
           requestId: B24Js.Text.getUuidRfc4122()
@@ -253,7 +252,10 @@
 
   template_fields = {
       "name": "SUPPLY_CONTRACT Template",
-      "fileId": 5641,
+      "file": [
+          "supply_contract.docx",
+          "base64_encoded_content_here",
+      ],
       "numeratorId": 1,
       "region": "ru",
       "code": "REST_TEMPLATE",
@@ -263,6 +265,7 @@
       "active": "Y",
       "withStamps": "N",
       "sort": 500,
+      "timezone": "Europe/Moscow",
   }
 
   try:
@@ -293,7 +296,7 @@
           [
               'fields' => [
                   'name' => 'SUPPLY_CONTRACT Template',
-                  'fileId' => 5641,
+                  'file' => ['supply_contract.docx', 'base64_encoded_content_here'],
                   'numeratorId' => 1,
                   'region' => 'ru',
                   'code' => 'REST_TEMPLATE',
@@ -301,6 +304,7 @@
                   'active' => 'Y',
                   'withStamps' => 'N',
                   'sort' => 500,
+                  'timezone' => 'Europe/Moscow',
               ],
           ]
       );
@@ -320,14 +324,15 @@
       {
           fields: {
               name: 'SUPPLY_CONTRACT Template',
-              fileId: 5641,
+              file: ['supply_contract.docx', 'base64_encoded_content_here'],
               numeratorId: 1,
               region: 'ru',
               code: 'REST_TEMPLATE',
               users: ['UA'],
               active: 'Y',
               withStamps: 'N',
-              sort: 500
+              sort: 500,
+              timezone: 'Europe/Moscow'
           }
       },
       function(result)
@@ -354,7 +359,7 @@
       [
           'fields' => [
               'name' => 'SUPPLY_CONTRACT Template',
-              'fileId' => 5641,
+              'file' => ['supply_contract.docx', 'base64_encoded_content_here'],
               'numeratorId' => 1,
               'region' => 'ru',
               'code' => 'REST_TEMPLATE',
@@ -362,6 +367,7 @@
               'active' => 'Y',
               'withStamps' => 'N',
               'sort' => 500,
+              'timezone' => 'Europe/Moscow',
           ],
       ]
   );
@@ -376,7 +382,7 @@
     res, err := client.Core().Call(ctx, "documentgenerator.template.add", b24.Params{
     	"fields": b24.Params{
     		"name":        "SUPPLY_CONTRACT Template",
-    		"fileId":      5641,
+    		"file":        []string{"supply_contract.docx", "base64_encoded_content_here"},
     		"numeratorId": 1,
     		"region":      "ru",
     		"code":        "REST_TEMPLATE",
@@ -384,6 +390,7 @@
     		"active":      "Y",
     		"withStamps":  "N",
     		"sort":        500,
+    		"timezone":    "Europe/Moscow",
     	},
     })
     if err != nil {
@@ -420,11 +427,11 @@ HTTP-статус: **200**
 {
     "result": {
         "template": {
-            "id": "57",
+            "id": "385",
             "name": "SUPPLY_CONTRACT Template",
             "region": "ru",
             "code": "REST_TEMPLATE",
-            "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=57&ts=0",
+            "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=385&ts=1794393725",
             "active": "Y",
             "moduleId": "rest",
             "numeratorId": "1",
@@ -437,21 +444,21 @@ HTTP-статус: **200**
             },
             "isDeleted": "N",
             "sort": "500",
-            "createTime": "2026-03-23T16:51:25+03:00",
-            "updateTime": "2026-03-23T16:51:25+03:00",
-            "timezone": null,
-            "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=6d53c1690000071b00000844000001f7f0f1075612a492ef6fe0b4127e521b543e4376&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3JnRzPTAmXz1IeG56TmtsQklGNjRsQlBkNkNiekNwd1U2bnduQk40Mw%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKblJ6UFRBbVh6MUllRzU2VG10c1FrbEdOalJzUWxCa05rTmlla053ZDFVMmJuZHVRazQwTXc9PXw2ZDUzYzE2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzU2MTJhNDkyZWY2ZmUwYjQxMjdlNTIxYjU0M2U0Mzc2Ig%3D%3D.vtTu%2B9Ac%2BT5VgeyDm1jiVBGsmCQagvrqjACd%2BNgDigA%3D"
+            "createTime": "2026-11-11T13:42:03+03:00",
+            "updateTime": "2026-11-11T13:42:03+03:00",
+            "timezone": "Europe/Moscow",
+            "downloadMachine": "https://mysite.ru/rest/1/xxxxxxxxxxxxxxxx/documentgenerator.api.template.download/?token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTM4NSZ0cz0xNzk0MzkzNzI1Jl89ZjI1VkdnOFlydkdPQUZVRnFpd05NRDBnN3JTTDIySjI%3D%7C...%3D"
         }
     },
     "time": {
-        "start": 1774273885,
-        "finish": 1774273885.843453,
-        "duration": 0.8434529304504395,
-        "processing": 0,
-        "date_start": "2026-03-23T16:51:25+03:00",
-        "date_finish": "2026-03-23T16:51:25+03:00",
-        "operating_reset_at": 1774274485,
-        "operating": 0
+        "start": 1794393723,
+        "finish": 1794393725.630273,
+        "duration": 2.6302731037139893,
+        "processing": 2,
+        "date_start": "2026-11-11T13:42:03+03:00",
+        "date_finish": "2026-11-11T13:42:05+03:00",
+        "operating_reset_at": 1794393960,
+        "operating": 60.87245774269104
     }
 }
 ```
@@ -490,16 +497,16 @@ HTTP-статус: **200**
 || **code**
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **download**
-[`string`](../../data-types.md) | Ссылка на скачивание шаблона ||
+[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона в браузере пользователя, авторизованного в Битрикс24 ||
 || **downloadMachine**
-[`string`](../../data-types.md) | Ссылка на скачивание шаблона для машинной обработки ||
+[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона с токеном доступа. Подходит для скачивания из приложения или скрипта без сессии браузера ||
 || **active**
 [`char`](../../data-types.md) | Активность шаблона. Возможные значения:
 - `Y` — активен
 - `N` — не активен
 ||
 || **moduleId**
-[`string`](../../data-types.md) | Идентификатор модуля ||
+[`string`](../../data-types.md) | Идентификатор модуля шаблона. Для шаблонов, созданных этим методом, всегда `rest` ||
 || **numeratorId**
 [`string`](../../data-types.md) | Идентификатор нумератора ||
 || **withStamps**
@@ -508,13 +515,13 @@ HTTP-статус: **200**
 - `N` — нет
 ||
 || **providers**
-[`object`](../../data-types.md) | Провайдеры данных шаблона. 
+[`object`](../../data-types.md) | Провайдеры данных шаблона.
 
-Ключ и значение равны имени класса провайдера данных ||
+Ключ и значение равны имени класса провайдера данных в нижнем регистре, например `bitrix\documentgenerator\dataprovider\rest` ||
 || **users**
-[`object`](../../data-types.md) | Коды доступа к шаблону. 
+[`object`](../../data-types.md) | Коды доступа к шаблону.
 
-Ключ и значение равны коду доступа ||
+Ключ и значение равны коду доступа, например `UA` или `U1` ||
 || **isDeleted**
 [`char`](../../data-types.md) | Признак удаления шаблона. Возможные значения:
 - `Y` — удален
@@ -550,11 +557,15 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
-|| `400` | `100` | Invalid value to match with parameter {fields}. Should be value of type array | Параметр `fields` передан не как объект ||
-|| `400` | `0` | Empty required fields: name, numeratorId, region | Не переданы обязательные поля для создания шаблона: `name`, `numeratorId`, `region`. В ошибке перечислены те поля, которых не хватает в запросе ||
-|| `400` | `0` | Missing file content | Не передан файл шаблона ||
-|| `400` | `TIMEZONE_INVALID` | Timezone must be a canonical IANA identifier | В поле `timezone` передан не идентификатор часового пояса IANA, например смещение `+03:00` ||
-|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не объектом. В фигурных скобках — переданное значение ||
+|| `400` | `0` | Missing file content | Не передан ни `file`, ни `fileId` ||
+|| `400` | `0` | Could not save file | Параметр `file` передан в неверном формате, например массив без содержимого файла ||
+|| `400` | `0` | Empty required fields: name, numeratorId, region | Не переданы обязательные поля. В тексте ошибки перечислены только недостающие поля из `name`, `numeratorId`, `region` ||
+|| `400` | `TIMEZONE_INVALID` | Timezone must be a canonical IANA identifier. | В поле `timezone` передан не идентификатор часового пояса IANA, например смещение `+03:00` ||
+|| `400` | `BX_INVALID_VALUE` | Для значения поля "NAME" превышена максимальная длина: 100. | Значение `name` длиннее 100 символов ||
+|| `400` | `BX_INVALID_VALUE` | Неправильное значение для "ACTIVE" | В `active` передано значение, отличное от `Y` и `N` ||
+|| `400` | `BX_INVALID_VALUE` | Неправильное значение для "WITH_STAMPS" | В `withStamps` передано значение, отличное от `Y` и `N` ||
+|| `400` | `0` | You do not have permissions to modify templates | У пользователя нет права на изменение шаблонов генератора документов ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

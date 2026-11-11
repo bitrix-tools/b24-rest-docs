@@ -23,14 +23,15 @@
 
 ## Как начать работу
 
-1. Подготовьте файл шаблона `.docx`
+1. Подготовьте файл шаблона `.docx` и закодируйте его в Base64 — способы передачи описаны в статье [Как загрузить файлы](../../files/how-to-upload-files.md)
 2. Получите или создайте нумератор в разделе [Нумераторы](../numerators/index.md)
 3. Выберите предустановленный регион или создайте пользовательский в разделе [Регионы](../region/index.md)
 4. Создайте шаблон методом [documentgenerator.template.add](./document-generator-template-add.md)
-5. Измените шаблон методом [documentgenerator.template.update](./document-generator-template-update.md), если нужно обновить файл или настройки
-6. Проверьте данные шаблона методом [documentgenerator.template.get](./document-generator-template-get.md) или найдите его в списке через [documentgenerator.template.list](./document-generator-template-list.md)
-7. Получите карточку полей шаблона методом [documentgenerator.template.getfields](./document-generator-template-get-fields.md)
-8. Используйте идентификатор шаблона при [создании нового документа](../document-generator-document-add.md)
+5. Проверьте данные шаблона методом [documentgenerator.template.get](./document-generator-template-get.md) или найдите его в списке через [documentgenerator.template.list](./document-generator-template-list.md)
+6. Получите карточку полей шаблона методом [documentgenerator.template.getfields](./document-generator-template-get-fields.md), чтобы узнать, какие плейсхолдеры нужно заполнить
+7. Используйте идентификатор шаблона при [создании нового документа](../document-generator-document-add.md)
+
+Чтобы заменить файл или изменить настройки готового шаблона, используйте метод [documentgenerator.template.update](./document-generator-template-update.md).
 
 ## Связь шаблонов с другими объектами
 
@@ -46,7 +47,7 @@
 
 Все шаблоны этого раздела создаются в scope `documentgenerator` и относятся к модулю `rest`. Поле `moduleId` для них всегда остается `rest`, поэтому через эти методы нельзя управлять шаблонами других модулей.
 
-Провайдеры шаблона заполняются автоматически: методы `documentgenerator.template.*` всегда задают шаблону базовый провайдер `Bitrix\DocumentGenerator\DataProvider\Rest`, даже если в запросе передан другой класс.
+Провайдер `Bitrix\DocumentGenerator\DataProvider\Rest` метод [documentgenerator.template.add](./document-generator-template-add.md) задает шаблону автоматически. Метод [documentgenerator.template.update](./document-generator-template-update.md) заменяет провайдеры классами из параметра `providers`, поэтому при обновлении REST-шаблона этот параметр не передавайте.
 
 Массивы для таблиц и повторяющихся блоков описываются не в шаблоне, а в параметре `fields` при создании документа: сам список — через `Bitrix\DocumentGenerator\DataProvider\ArrayDataProvider`, его элементы — через `Bitrix\DocumentGenerator\DataProvider\HashDataProvider`. Примеры — в разделе [{#T}](../examples/index.md).
 

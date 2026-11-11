@@ -15,6 +15,12 @@
 
 Метод `documentgenerator.template.get` возвращает информацию о шаблоне по его идентификатору.
 
+{% note info "" %}
+
+Метод работает только с шаблонами, загруженными через REST API, — у них `moduleId` равен `rest`. Для шаблонов CRM и других модулей метод вернет ошибку `DOCGEN_ACCESS_ERROR`.
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -25,8 +31,16 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор шаблона.
 
-Получить идентификатор шаблона можно после [создания шаблона](./document-generator-template-add.md) или методом [получения списка шаблонов](./document-generator-template-list.md) ||
+Получить идентификатор шаблона можно после [создания шаблона](./document-generator-template-add.md) или методом [получения списка шаблонов](./document-generator-template-list.md).
+
+Метод возвращает и шаблоны, помеченные как удаленные: у них поле `isDeleted` равно `Y` ||
 |#
+
+{% note info "" %}
+
+Вместо `id` можно передать параметр `templateId` с тем же значением. Если не передан ни один из них, метод вернет ошибку с кодом `100`.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -40,7 +54,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":57}' \
+    -d '{"id":325}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/documentgenerator.template.get
   ```
 
@@ -50,7 +64,7 @@
   curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":57,"auth":"**put_access_token_here**"}' \
+    -d '{"id":325,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/documentgenerator.template.get
   ```
 
@@ -83,6 +97,7 @@
         createTime: ISODate | null
         updateTime: ISODate | null
         timezone: string | null
+        downloadMachine: string
       }
     }
 
@@ -90,7 +105,7 @@
       const response = await $b24.actions.v2.call.make<TemplateGetResult>({
         method: 'documentgenerator.template.get',
         params: {
-          id: 57,
+          id: 325,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -122,7 +137,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'documentgenerator.template.get',
             params: {
-              id: 57,
+              id: 325,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -152,7 +167,7 @@
 
   try:
       bitrix_response = client.documentgenerator.template.get(
-          bitrix_id=57,
+          bitrix_id=325,
       ).response
       result = bitrix_response.result
       print(result)
@@ -176,7 +191,7 @@
       $response = $b24Service->core->call(
           'documentgenerator.template.get',
           [
-              'id' => 57,
+              'id' => 325,
           ]
       );
 
@@ -193,7 +208,7 @@
   BX24.callMethod(
       'documentgenerator.template.get',
       {
-          id: 57
+          id: 325
       },
       function(result)
       {
@@ -217,7 +232,7 @@
   $result = CRest::call(
       'documentgenerator.template.get',
       [
-          'id' => 57,
+          'id' => 325,
       ]
   );
 
@@ -229,7 +244,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "documentgenerator.template.get", b24.Params{
-    	"id": 57,
+    	"id": 325,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("documentgenerator.template.get: %w", err)
@@ -265,37 +280,37 @@ HTTP-статус: **200**
 {
     "result": {
         "template": {
-            "id": "57",
-            "name": "SUPPLY_CONTRACT_NEW Template",
+            "id": "325",
+            "name": "Supply contract",
             "region": "ru",
-            "code": "REST_TEMPLATE",
-            "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=57&ts=0",
+            "code": "TEST_DG_GET",
+            "download": "https://mysite.ru/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=325&ts=1794393617",
             "active": "Y",
             "moduleId": "rest",
-            "numeratorId": "3",
+            "numeratorId": "1",
             "withStamps": "N",
             "providers": {
                 "bitrix\\documentgenerator\\dataprovider\\rest": "bitrix\\documentgenerator\\dataprovider\\rest"
             },
             "users": {
-                "U503": "U503"
+                "UA": "UA"
             },
             "isDeleted": "N",
-            "sort": "700",
-            "createTime": "2026-03-23T16:51:25+03:00",
-            "updateTime": "2026-03-23T17:26:39+03:00",
+            "sort": "500",
+            "createTime": "2026-11-11T13:38:10+03:00",
+            "updateTime": "2026-11-11T13:40:17+03:00",
             "timezone": null,
-            "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=6d53c1690000071b00000844000001f7f0f1075612a492ef6fe0b4127e521b543e4376&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3JnRzPTAmXz00a1NkZTRVdWtNZk1XODVrVlczS2dTc2x5c1lyMmRGag%3D%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKblJ6UFRBbVh6MDBhMU5rWlRSVmRXdE5aazFYT0RWclZsY3pTMmRUYzJ4NWMxbHlNbVJHYWc9PXw2ZDUzYzE2OTAwMDAwNzFiMDAwMDA4NDQwMDAwMDFmN2YwZjEwNzU2MTJhNDkyZWY2ZmUwYjQxMjdlNTIxYjU0M2U0Mzc2Ig%3D%3D.9JnHSEVzH2jcCA1zZA%2BlsYJCTGs6V3dGLNsnjfbnuNs%3D"
+            "downloadMachine": "https://mysite.ru/rest/1/xxxxxxxxxxxxxxxx/documentgenerator.api.template.download/?token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTMyNSZ0cz0xNzk0MzkzNjE3Jl89S01PNnhjOHFVakZ1QmpjUlI3dXFvS1B4ZmNrME1nZHA%3D%7C..."
         }
     },
     "time": {
-        "start": 1774276994,
-        "finish": 1774276994.504076,
-        "duration": 0.5040760040283203,
+        "start": 1794393619,
+        "finish": 1794393619.555549,
+        "duration": 0.555548906326294,
         "processing": 0,
-        "date_start": "2026-03-23T17:43:14+03:00",
-        "date_finish": "2026-03-23T17:43:14+03:00",
-        "operating_reset_at": 1774277594,
+        "date_start": "2026-11-11T13:40:19+03:00",
+        "date_finish": "2026-11-11T13:40:19+03:00",
+        "operating_reset_at": 1794394200,
         "operating": 0
     }
 }
@@ -331,44 +346,57 @@ HTTP-статус: **200**
 || **name**
 [`string`](../../data-types.md) | Название шаблона ||
 || **region**
-[`string`](../../data-types.md) | Регион шаблона ||
+[`string`](../../data-types.md) | Регион шаблона, например `ru`. Список регионов возвращает метод [documentgenerator.region.list](../region/document-generator-region-list.md) ||
 || **code**
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **download**
-[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона ||
+[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона в браузере под авторизацией пользователя Битрикс24 ||
+|| **downloadMachine**
+[`string`](../../data-types.md) | Ссылка на скачивание файла шаблона через REST API. Содержит адрес вебхука или авторизацию приложения и подписанный токен `token` ||
 || **active**
 [`char`](../../data-types.md) | Активность шаблона. Возможные значения:
 - `Y` — активен
 - `N` — не активен
 ||
 || **moduleId**
-[`string`](../../data-types.md) | Код модуля, к которому привязан шаблон ||
+[`string`](../../data-types.md) | Код модуля, к которому привязан шаблон. Для шаблонов, загруженных через REST API, всегда `rest` ||
 || **numeratorId**
-[`string`](../../data-types.md) | Идентификатор нумератора ||
+[`string`](../../data-types.md) | Идентификатор нумератора. Данные нумератора возвращает метод [documentgenerator.numerator.get](../numerators/document-generator-numerator-get.md) ||
 || **withStamps**
 [`char`](../../data-types.md) | Подставлять печати и подписи. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **providers**
-[`object`](../../data-types.md) | Провайдеры данных шаблона. 
+[`object`](../../data-types.md) | Провайдеры данных шаблона. Ключ и значение равны имени класса провайдера в нижнем регистре.
 
-Ключ и значение равны имени класса провайдера данных ||
+Для шаблонов, загруженных через REST API, объект содержит один провайдер `bitrix\documentgenerator\dataprovider\rest` ||
 || **users**
-[`object`](../../data-types.md) | Коды доступа к шаблону. 
+[`object`](../../data-types.md) | Коды доступа к шаблону. Ключ и значение равны коду доступа.
 
-Ключ и значение равны коду доступа ||
+Возможные коды:
+- `U{id}` — пользователь
+- `G{id}` — группа пользователей
+- `AU` — все авторизованные пользователи
+- `UA` — все пользователи
+- `D{id}` — отдел
+- `DR{id}` — отдел с подотделами
+- `SG{id}` — рабочая группа или проект
+- `SG{id}_A` — владелец рабочей группы или проекта
+- `SG{id}_E` — модераторы рабочей группы или проекта
+- `SG{id}_K` — все члены рабочей группы или проекта
+||
 || **isDeleted**
 [`char`](../../data-types.md) | Признак удаления шаблона. Возможные значения:
-- `Y` — удален
+- `Y` — удален. Шаблон помечается удаленным, если при вызове [documentgenerator.template.delete](./document-generator-template-delete.md) по нему уже были созданы документы. Файл такого шаблона отвязан, получить его поля методом [documentgenerator.template.getfields](./document-generator-template-get-fields.md) нельзя
 - `N` — не удален
 ||
 || **sort**
 [`string`](../../data-types.md) | Индекс сортировки ||
 || **createTime**
-[`datetime`](../../data-types.md) | Время создания шаблона ||
+[`datetime`](../../data-types.md) | Дата и время создания шаблона ||
 || **updateTime**
-[`datetime`](../../data-types.md) | Время последнего обновления шаблона ||
+[`datetime`](../../data-types.md) | Дата и время последнего обновления шаблона ||
 || **timezone**
 [`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow`.
 
@@ -392,9 +420,11 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `id` ||
-|| `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
-|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов ||
+|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `id` или `templateId` ||
+|| `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не существует или в `id` передано не положительное целое число, например `0` или `"abc"` ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Шаблон относится не к модулю `rest`, например это шаблон CRM ||
+|| `400` | `0` | You do not have permissions to modify templates | У пользователя нет права на изменение шаблонов генератора документов ||
+|| `400` | `0` | You do not have permissions to modify this template | У пользователя нет права на изменение этого шаблона ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

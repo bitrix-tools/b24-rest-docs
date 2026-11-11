@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов
 
-Метод `documentgenerator.template.getfields` возвращает карточку полей шаблона.
+Метод `documentgenerator.template.getfields` возвращает поля шаблона: плейсхолдеры из файла шаблона и служебные поля документа.
+
+{% note info "" %}
+
+Метод работает только с шаблонами, загруженными через REST API, — у них `moduleId` равен `rest`. Для шаблонов CRM и других модулей метод вернет ошибку `DOCGEN_ACCESS_ERROR`.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -25,8 +31,16 @@
 || **id***
 [`integer`](../../data-types.md) | Идентификатор шаблона.
 
-Получить идентификатор шаблона можно после [создания шаблона](./document-generator-template-add.md) или методом [получения списка шаблонов](./document-generator-template-list.md) ||
+Получить идентификатор шаблона можно после [создания шаблона](./document-generator-template-add.md) или методом [получения списка шаблонов](./document-generator-template-list.md).
+
+Шаблон не должен быть помечен как удаленный. Проверить это можно по полю `isDeleted` в ответе метода [documentgenerator.template.get](./document-generator-template-get.md) ||
 |#
+
+{% note info "" %}
+
+Вместо `id` можно передать параметр `templateId` с тем же значением. Если не передан ни один из них, метод вернет ошибку с кодом `100`.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -66,10 +80,10 @@
 
     type TemplateField = {
       title?: string
-      value: unknown
-      default: unknown
-      required?: string
-      type?: string
+      value: string
+      default: string
+      required?: 'Y'
+      type?: 'IMAGE' | 'STAMP' | 'DATE' | 'TEXT' | 'NAME' | 'PHONE'
       group?: string[]
       chain?: string | unknown[]
     }
@@ -249,23 +263,25 @@ HTTP-статус: **200**
         "templateFields": {
             "DocumentNumber": {
                 "title": "Номер",
-                "value": "9",
+                "value": "А015//11/2026",
                 "required": "Y",
                 "group": [
                     "Документ"
                 ],
                 "chain": "this.DOCUMENT.DOCUMENT_NUMBER",
-                "default": "9"
+                "default": "А015//11/2026"
             },
-            "CurrentDate": {
-                "value": "",
-                "default": ""
+            "DocumentCreateTime": {
+                "title": "Дата генерации",
+                "value": "2026-11-11",
+                "type": "DATE",
+                "group": [
+                    "Документ"
+                ],
+                "chain": "this.DOCUMENT.DOCUMENT_CREATE_TIME",
+                "default": "2026-11-11"
             },
             "ClientName": {
-                "value": "",
-                "default": ""
-            },
-            "ClientPhone": {
                 "value": "",
                 "default": ""
             },
@@ -273,17 +289,9 @@ HTTP-статус: **200**
                 "value": "",
                 "default": ""
             },
-            "Comment": {
-                "value": "",
-                "default": ""
-            },
-            "UserName": {
-                "value": "",
-                "default": ""
-            },
             "DocumentTitle": {
                 "title": "Название документа",
-                "value": "SUPPLY_CONTRACT_NEW Template 1773843147554 9",
+                "value": "Supply contract А015//11/2026",
                 "group": [
                     "Документ"
                 ],
@@ -292,19 +300,19 @@ HTTP-статус: **200**
                     "getTitle"
                 ],
                 "required": "Y",
-                "default": "SUPPLY_CONTRACT_NEW Template 1773843147554 9"
+                "default": "Supply contract А015//11/2026"
             }
         }
     },
     "time": {
-        "start": 1774332782,
-        "finish": 1774332783.055467,
-        "duration": 1.055466890335083,
-        "processing": 1,
-        "date_start": "2026-03-24T09:13:02+03:00",
-        "date_finish": "2026-03-24T09:13:03+03:00",
-        "operating_reset_at": 1774333382,
-        "operating": 0
+        "start": 1794393620,
+        "finish": 1794393620.625241,
+        "duration": 0.6252410411834717,
+        "processing": 0,
+        "date_start": "2026-11-11T13:40:20+03:00",
+        "date_finish": "2026-11-11T13:40:20+03:00",
+        "operating_reset_at": 1794394080,
+        "operating": 0.3588840961456299
     }
 }
 ```
@@ -326,9 +334,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **templateFields**
-[`object`](../../data-types.md) | Объект полей шаблона. Ключ — поле шаблона, значение — описание поля [(подробное описание)](#templatefield).
+[`object`](../../data-types.md) | Поля шаблона. Ключ — имя плейсхолдера без фигурных скобок, например `DocumentNumber` для `{DocumentNumber}`, значение — описание поля [(подробное описание)](#templatefield).
 
-Набор полей в описании зависит от типа поля ||
+Состав ключей:
+- `DocumentTitle` — название документа, возвращается всегда
+- `DocumentNumber` — номер документа, возвращается, если в файле шаблона есть плейсхолдер `{DocumentNumber}`
+- `DocumentCreateTime` — дата создания документа, возвращается, если в файле шаблона есть плейсхолдер `{DocumentCreateTime}`
+- остальные плейсхолдеры из файла шаблона, например `{ClientName}`. Для них возвращаются только поля `value` и `default` с пустой строкой — значения передаются при создании документа методом [documentgenerator.document.add](../document-generator-document-add.md)
+||
 |#
 
 #### Объект templateField {#templatefield}
@@ -337,21 +350,30 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **title**
-[`string`](../../data-types.md) | Название поля, может отсутствовать ||
+[`string`](../../data-types.md) | Название поля. Возвращается только для полей `DocumentTitle`, `DocumentNumber` и `DocumentCreateTime` ||
 || **value**
-[`any`](../../data-types.md) | Текущее значение поля ||
+[`string`](../../data-types.md) | Значение поля, которое будет подставлено в новый документ. Для `DocumentNumber` — следующий номер по нумератору шаблона, для `DocumentCreateTime` — текущая дата в формате `YYYY-MM-DD`, для `DocumentTitle` — название шаблона и номер документа через пробел. Для остальных плейсхолдеров — пустая строка ||
 || **default**
-[`any`](../../data-types.md) | Значение поля по умолчанию ||
+[`string`](../../data-types.md) | Значение поля по умолчанию. В ответе метода совпадает с `value` ||
 || **required**
-[`char`](../../data-types.md) | Признак обязательности.
--  `Y` — обязательное
--  `N` — необязательное ||
+[`char`](../../data-types.md) | Признак обязательного поля. Возвращается со значением `Y` для полей `DocumentTitle` и `DocumentNumber`. Если поле необязательное, ключ отсутствует ||
 || **type**
-[`string`](../../data-types.md) | Тип поля, например `IMAGE` ||
+[`string`](../../data-types.md) | Тип поля. Возвращается не для всех полей, например для `DocumentCreateTime` — `DATE`.
+
+Возможные значения:
+- `DATE` — дата
+- `TEXT` — текст
+- `NAME` — имя
+- `PHONE` — телефон
+- `IMAGE` — изображение
+- `STAMP` — печать или подпись
+||
 || **group**
-[`array`](../../data-types.md) | Группы, к которым относится поле ||
+[`array`](../../data-types.md) | Названия групп, к которым относится поле, например `["Документ"]` ||
 || **chain**
-[`string`](../../data-types.md) \| [`array`](../../data-types.md) | Путь поля в провайдере данных ||
+[`string`](../../data-types.md) \| [`array`](../../data-types.md) | Путь к значению поля в провайдере данных, например `this.DOCUMENT.DOCUMENT_NUMBER`.
+
+Для поля `DocumentTitle` возвращается массив `[{}, "getTitle"]` ||
 |#
 
 ## Обработка ошибок
@@ -371,10 +393,12 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `id` ||
-|| `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
-|| `400` | `0` | Cannot get fields from deleted template | Нельзя получить поля удаленного шаблона ||
-|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для работы с шаблонами ||
+|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `id` или `templateId` ||
+|| `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не существует или в `id` передано не положительное целое число, например `0` или `"abc"` ||
+|| `400` | `0` | Cannot get fields from deleted template | Шаблон помечен как удаленный: поле `isDeleted` равно `Y` ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Шаблон относится не к модулю `rest`, например это шаблон CRM ||
+|| `400` | `0` | You do not have permissions to modify templates | У пользователя нет права на изменение шаблонов генератора документов ||
+|| `400` | `0` | You do not have permissions to modify this template | У пользователя нет права на изменение этого шаблона ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

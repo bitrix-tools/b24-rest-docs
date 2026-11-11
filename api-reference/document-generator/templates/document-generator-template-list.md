@@ -15,6 +15,12 @@
 
 Метод `documentgenerator.template.list` возвращает список шаблонов по фильтру.
 
+{% note info "" %}
+
+Метод возвращает только шаблоны модуля `rest`, то есть созданные методом [documentgenerator.template.add](./document-generator-template-add.md). Шаблоны других модулей, например CRM, в список не попадают
+
+{% endnote %}
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -23,24 +29,25 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив полей, которые нужно вернуть. По умолчанию — `["*"]`.
+[`array`](../../data-types.md) | Массив полей, которые нужно вернуть. Используйте поля из [таблицы полей](#list-fields).
 
-Для `field_N` используйте поля из [таблицы полей](#list-fields).
+По умолчанию — `["*"]`: возвращаются все поля шаблона, кроме `users` и `providers`. Чтобы получить коды доступа и провайдеры, добавьте в `select` поля `users` и `providers`, например `["*", "users", "providers"]`.
 
-Чтобы получить коды доступа и провайдеры, добавьте в `select` поля `users` и `providers` ||
+Поля `id`, `download` и `downloadMachine` возвращаются всегда, даже если их нет в `select` ||
 || **order**
-[`object`](../../data-types.md) | Объект для сортировки шаблонов в формате `{"field_1":"value_1", ... "field_N":"value_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки шаблонов в формате `{"field_1":"value_1", ... "field_N":"value_N"}`. Можно передать несколько полей, сортировка применяется в порядке их перечисления.
+
+Для `field_N` используйте поля из [таблицы полей](#list-fields), кроме `users` и `providers`.
 
 Направление сортировки может принимать значения:
 - `asc` — по возрастанию
 - `desc` — по убыванию
 
-Для `field_N` используйте поля из [таблицы полей](#list-fields).
-||
+По умолчанию сортировка не задана ||
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации шаблонов в формате `{"field_1":"value_1", ... "field_N":"value_N"}`.
 
-Для `field_N` используйте поля из [таблицы полей](#list-fields).
+Для `field_N` используйте поля из [таблицы полей](#list-fields), кроме `users` и `providers`. Значения полей `createTime` и `updateTime` передавайте в формате [`datetime`](../../data-types.md), например `2026-03-18T00:00:00+03:00`.
 
 К ключам `field_n` можно добавить префикс, уточняющий работу фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
@@ -59,7 +66,9 @@
 - `!=` — не равно
 - `!` — не равно
 
-По умолчанию применяется фильтр `isDeleted = "N"` ||
+По умолчанию метод возвращает только шаблоны, которые не помечены удаленными, — применяется фильтр `isDeleted = "N"`. Чтобы получить шаблоны, помеченные удаленными, передайте `"isDeleted": "Y"`, а чтобы получить все шаблоны — `"@isDeleted": ["Y", "N"]`.
+
+Фильтр по `moduleId` не учитывается: метод всегда отбирает шаблоны модуля `rest` ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -69,8 +78,18 @@
 
 Формула расчета значения параметра `start`:
 
-`start = (N — 1) * 50`, где `N` — номер нужной страницы ||
+`start = (N — 1) * 50`, где `N` — номер нужной страницы.
+
+Значение, которое не кратно 50, округляется вниз до кратного 50: например, `start` = `30` вернет первую страницу.
+
+По умолчанию — `0` ||
 |#
+
+{% note warning "" %}
+
+Если передать в `select`, `order` или `filter` поле, которого нет в [таблице полей](#list-fields), метод вернет ошибку `100` с текстом `Internal server error.`
+
+{% endnote %}
 
 ### Поля для select, order, filter {#list-fields}
 
@@ -89,7 +108,7 @@
 || **code**
 [`string`](../../data-types.md) | Символьный код шаблона ||
 || **region**
-[`string`](../../data-types.md) | Регион шаблона ||
+[`string`](../../data-types.md) | Регион шаблона, например `ru`. Получить список регионов можно методом [documentgenerator.region.list](../region/document-generator-region-list.md) ||
 || **timezone**
 [`string`](../../data-types.md) | Часовой пояс шаблона в формате IANA, например `Europe/Moscow` ||
 || **sort**
@@ -98,15 +117,52 @@
 [`datetime`](../../data-types.md) | Дата и время создания ||
 || **updateTime**
 [`datetime`](../../data-types.md) | Дата и время обновления ||
+|| **createdBy**
+[`user`](../../data-types.md#standart-objects) | Идентификатор пользователя, который создал шаблон ||
+|| **updatedBy**
+[`user`](../../data-types.md#standart-objects) | Идентификатор пользователя, который обновил шаблон ||
+|| **moduleId**
+[`string`](../../data-types.md) | Идентификатор модуля шаблона. Для шаблонов из REST API всегда `rest` ||
+|| **fileId**
+[`integer`](../../data-types.md) | Идентификатор файла шаблона ||
+|| **bodyType**
+[`string`](../../data-types.md) | Класс типа тела шаблона, например `Bitrix\DocumentGenerator\Body\Docx` ||
 || **numeratorId**
-[`integer`](../../data-types.md) | Идентификатор нумератора ||
+[`integer`](../../data-types.md) | Идентификатор нумератора. Получить список нумераторов можно методом [documentgenerator.numerator.list](../numerators/document-generator-numerator-list.md) ||
 || **withStamps**
 [`char`](../../data-types.md) | Использование печатей и подписей. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
+|| **productsTableVariant**
+[`string`](../../data-types.md) | Вариант таблицы товаров. Возможные значения:
+- пустая строка — товары и услуги
+- `goods` — только товары
+- `service` — только услуги
+||
+|| **isDeleted**
+[`char`](../../data-types.md) | Признак удаления шаблона. Возможные значения:
+- `Y` — шаблон помечен удаленным
+- `N` — шаблон не удален
+||
+|| **isDefault**
+[`char`](../../data-types.md) | Признак шаблона по умолчанию. Возможные значения:
+- `Y` — да
+- `N` — нет
+||
 || **users**
-[`array`](../../data-types.md) | Коды доступа к шаблону. Только для `select` ||
+[`array`](../../data-types.md) | Коды доступа к шаблону. Только для `select`. Возможные значения:
+- `U{id}` — пользователь
+- `G{id}` — группа пользователей
+- `AU` — все авторизованные пользователи
+- `UA` — все пользователи
+- `D{id}` — отдел
+- `DR{id}` — отдел с подотделами
+- `SG{id}` — рабочая группа или проект
+- `SG{id}_A` — владелец рабочей группы или проекта
+- `SG{id}_E` — модераторы рабочей группы или проекта
+- `SG{id}_K` — все члены рабочей группы или проекта
+||
 || **providers**
 [`array`](../../data-types.md) | Провайдеры данных шаблона. Только для `select` ||
 |#
@@ -189,7 +245,7 @@
       createTime: ISODate | null
       updateTime: ISODate | null
       createdBy: string
-      updatedBy: string
+      updatedBy: string | null
       moduleId: string
       fileId: string
       bodyType: string
@@ -205,8 +261,9 @@
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
+    // When nothing matches the filter, templates is an empty array []
     type TemplateListResult = {
-      templates: Record<string, TemplateItem>
+      templates: Record<string, TemplateItem> | []
     }
 
     try {
@@ -454,46 +511,46 @@ HTTP-статус: **200**
 {
     "result": {
         "templates": {
-            "57": {
-                "id": "57",
+            "387": {
+                "id": "387",
                 "active": "Y",
-                "name": "SUPPLY_CONTRACT_NEW Template",
-                "code": "REST_TEMPLATE",
+                "name": "Supply contract",
+                "code": "SUPPLY_CONTRACT",
                 "region": "ru",
-                "timezone": null,
+                "timezone": "Europe/Moscow",
                 "sort": "700",
-                "createTime": "2026-03-23T16:51:25+03:00",
-                "updateTime": "2026-03-23T17:26:39+03:00",
-                "createdBy": "503",
-                "updatedBy": "503",
+                "createTime": "2026-11-11T13:42:08+03:00",
+                "updateTime": "2026-11-11T13:42:08+03:00",
+                "createdBy": "1269",
+                "updatedBy": null,
                 "moduleId": "rest",
-                "fileId": "5641",
+                "fileId": "6629",
                 "bodyType": "Bitrix\\DocumentGenerator\\Body\\Docx",
                 "numeratorId": "3",
                 "withStamps": "N",
                 "productsTableVariant": "",
                 "isDeleted": "N",
                 "isDefault": "N",
-                "download": "/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=57",
+                "download": "/bitrix/services/main/ajax.php?action=documentgenerator.api.template.download&SITE_ID=s1&id=387",
                 "providers": [
                     "bitrix\\documentgenerator\\dataprovider\\rest"
                 ],
                 "users": [
-                    "U503"
+                    "U1269"
                 ],
-                "downloadMachine": "https://mysite.ru/rest/documentgenerator.api.template.download.json?auth=3f5cc2690000071b00000844000001f7f0f107506cefda4aa5b9d0dc80371e7f0f7e26&token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTU3Jl89RFB3MHZYN1A3RXdiMm5EenY2VFYyc1Vkb0hPejA3SlM%3D%7CImRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZHxkb2N1bWVudGdlbmVyYXRvcnxZV04wYVc5dVBXUnZZM1Z0Wlc1MFoyVnVaWEpoZEc5eUxtRndhUzUwWlcxd2JHRjBaUzVrYjNkdWJHOWhaQ1pUU1ZSRlgwbEVQWE14Sm1sa1BUVTNKbDg5UkZCM01IWllOMUEzUlhkaU1tNUVlblkyVkZZeWMxVmtiMGhQZWpBM1NsTT18M2Y1Y2MyNjkwMDAwMDcxYjAwMDAwODQ0MDAwMDAxZjdmMGYxMDc1MDZjZWZkYTRhYTViOWQwZGM4MDM3MWU3ZjBmN2UyNiI%3D.XuC83kQJE21vRoqv1%2FgdT8OiYq4JdpiSLxumy%2F1UcB0%3D"
+                "downloadMachine": "https://mysite.bitrix24.ru/rest/1269/webhook_code/documentgenerator.api.template.download/?token=documentgenerator%7CYWN0aW9uPWRvY3VtZW50Z2VuZXJhdG9yLmFwaS50ZW1wbGF0ZS5kb3dubG9hZCZTSVRFX0lEPXMxJmlkPTM4NyZfPXYyRWc2U0cyYXBrVHZTZXloazNMSnB2VVd4UEZpdnlJ%7C..."
             }
         }
     },
     "total": 1,
     "time": {
-        "start": 1774341679,
-        "finish": 1774341679.641056,
-        "duration": 0.6410560607910156,
+        "start": 1794393731,
+        "finish": 1794393731.550351,
+        "duration": 0.5503509044647217,
         "processing": 0,
-        "date_start": "2026-03-24T11:41:19+03:00",
-        "date_finish": "2026-03-24T11:41:19+03:00",
-        "operating_reset_at": 1774342279,
+        "date_start": "2026-11-11T13:42:11+03:00",
+        "date_finish": "2026-11-11T13:42:11+03:00",
+        "operating_reset_at": 1794394320,
         "operating": 0
     }
 }
@@ -506,8 +563,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
+|| **next**
+[`integer`](../../data-types.md) | Значение `start` для получения следующей страницы. Возвращается, если после текущей страницы есть еще шаблоны ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество шаблонов в списке ||
+[`integer`](../../data-types.md) | Общее количество шаблонов, которые подходят под фильтр ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -518,7 +577,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **templates**
-[`object`](../../data-types.md) | Объект шаблонов, где ключом выступает `id`, а значением — данные шаблона [(подробное описание)](#template) ||
+[`object`](../../data-types.md) | Объект шаблонов, где ключом выступает `id`, а значением — данные шаблона [(подробное описание)](#template).
+
+Если по фильтру ничего не найдено, возвращается пустой массив `[]` ||
 |#
 
 #### Элемент объекта templates {#template}
@@ -552,13 +613,13 @@ HTTP-статус: **200**
 || **createdBy**
 [`string`](../../data-types.md) | Идентификатор пользователя, который создал шаблон ||
 || **updatedBy**
-[`string`](../../data-types.md) | Идентификатор пользователя, который обновил шаблон ||
+[`string`](../../data-types.md) | Идентификатор пользователя, который обновил шаблон. Значение `null` — шаблон не обновляли после создания ||
 || **moduleId**
-[`string`](../../data-types.md) | Идентификатор модуля ||
+[`string`](../../data-types.md) | Идентификатор модуля, всегда `rest` ||
 || **fileId**
-[`string`](../../data-types.md) | Идентификатор файла шаблона ||
+[`string`](../../data-types.md) | Идентификатор файла шаблона. У шаблона, помеченного удаленным, значение `0` ||
 || **bodyType**
-[`string`](../../data-types.md) | Класс типа тела шаблона ||
+[`string`](../../data-types.md) | Класс типа тела шаблона, например `Bitrix\DocumentGenerator\Body\Docx` ||
 || **numeratorId**
 [`string`](../../data-types.md) | Идентификатор нумератора ||
 || **withStamps**
@@ -567,11 +628,15 @@ HTTP-статус: **200**
 - `N` — нет
 ||
 || **productsTableVariant**
-[`string`](../../data-types.md) | Вариант таблицы товаров ||
+[`string`](../../data-types.md) | Вариант таблицы товаров. Возможные значения:
+- пустая строка — товары и услуги
+- `goods` — только товары
+- `service` — только услуги
+||
 || **isDeleted**
 [`char`](../../data-types.md) | Признак удаления шаблона. Возможные значения:
-- `Y` — удален
-- `N` — не удален
+- `Y` — шаблон помечен удаленным, потому что по нему есть документы
+- `N` — шаблон не удален
 ||
 || **isDefault**
 [`char`](../../data-types.md) | Признак шаблона по умолчанию. Возможные значения:
@@ -579,13 +644,13 @@ HTTP-статус: **200**
 - `N` — нет
 ||
 || **download**
-[`string`](../../data-types.md) | Ссылка на скачивание шаблона ||
+[`string`](../../data-types.md) | Относительная ссылка на скачивание файла шаблона в браузере. Возвращается всегда ||
 || **downloadMachine**
-[`string`](../../data-types.md) | Ссылка на скачивание шаблона для машинной обработки ||
+[`string`](../../data-types.md) | Абсолютная ссылка на скачивание файла шаблона через REST API с токеном доступа. Возвращается всегда ||
 || **users**
-[`array`](../../data-types.md) | Массив кодов доступа, если поле выбрано в `select` ||
+[`array`](../../data-types.md) | Массив кодов доступа, например `["U1269"]`. Возвращается, если поле выбрано в `select` ||
 || **providers**
-[`array`](../../data-types.md) | Массив провайдеров, если поле выбрано в `select` ||
+[`array`](../../data-types.md) | Массив провайдеров данных в нижнем регистре, например `["bitrix\\documentgenerator\\dataprovider\\rest"]`. Возвращается, если поле выбрано в `select` ||
 |#
 
 ## Обработка ошибок
@@ -594,8 +659,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "0",
-    "error_description": "You do not have permissions to modify templates"
+    "error": "100",
+    "error_description": "Internal server error."
 }
 ```
 
@@ -605,7 +670,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для получения списка шаблонов ||
+|| `400` | `100` | Internal server error. | В `select`, `order` или `filter` передано поле, которого нет в [таблице полей](#list-fields) ||
+|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для работы с шаблонами генератора документов ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
