@@ -23,6 +23,8 @@
 
 ## Параметры метода
 
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -723,7 +725,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только свойства из описания параметра `select` ||
+|| `select` | Неизвестное поле `foo` для сущности `DtoFieldDto` | Передайте только свойства из описания параметра `select` ||
 |#
 
 #### Ошибка формата `select`
@@ -732,7 +734,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Не удается распознать выражение select `#SELECT#` | Передайте `select` массивом строк, например `["name","type"]` ||
+|| `select` | Не удается распознать выражение select `["name"]` | Передайте `select` массивом строк, например `["name","type"]` ||
 |#
 
 #### Ошибка доступа
@@ -752,6 +754,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-offer-update-rest-v3.md)
 - [{#T}](./catalog-product-offer-get-rest-v3.md)
 - [{#T}](./catalog-product-offer-list-rest-v3.md)
-- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-download-rest-v3.md)
+- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-field-get.md)

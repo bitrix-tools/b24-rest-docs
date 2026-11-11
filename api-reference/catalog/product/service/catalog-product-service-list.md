@@ -11,59 +11,53 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с одним из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение инфоблока каталога
 
-Метод возвращает список услуг по фильтру.
+Метод `catalog.product.service.list` возвращает список услуг каталога с фильтрацией, сортировкой и постраничной навигацией.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **select**
-[`array`](../../../data-types.md) | 
-Массив со списком полей, которые необходимо выбрать (смотрите поля объекта [catalog_product_service](../../data-types.md#catalog_product_service)).
+|| **select***
+[`array`](../../../data-types.md) | Поля объекта [catalog_product_service](../../data-types.md#catalog_product_service), которые нужно вернуть. Обязательно включите `id` и `iblockId`, например `["id", "iblockId", "name"]`.
 
-Обязательные поля: `id`, `iblockId`
-||
-|| **filter**
-[`object`](../../../data-types.md) | Объект для фильтрации выбранных услуг в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+Чтобы получить значения свойств, укажите ключи `propertyN`, где `N` — идентификатор свойства.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_product_service](../../data-types.md#catalog_product_service). 
+Неизвестные поля метод пропускает без ошибки ||
+|| **filter***
+[`object`](../../../data-types.md) | Объект для фильтрации услуг в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Обязательные поля: `iblockId`.
+Возможные значения для `field` соответствуют полям объекта [catalog_product_service](../../data-types.md#catalog_product_service) и ключам свойств `propertyN`. Неизвестные поля метод пропускает без ошибки.
 
-Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+Обязательное поле: `iblockId` — идентификатор инфоблока товаров торгового каталога, одно число. Получить его можно методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md).
+
+Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, начинающиеся с «мол»
-    - `"%мол"` — ищет значения, заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где «мол» может быть в любой позиции
-- `%=` — LIKE (аналогично `=%`)
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
-- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, не начинающиеся с «мол»
-    - `"%мол"` — ищет значения, не заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где подстроки «мол» нет в любой позиции
-- `!%=` — NOT LIKE (аналогично `!=%`)
-- `=` — равно, точное совпадение (используется по умолчанию). Для поиска IN можно передавать несколько значений массивом 
+- `%` — LIKE, поиск по подстроке в любой позиции строки. Символ `%` в значении фильтра передавать не нужно
+- `!%` — NOT LIKE, значения без подстроки. Символ `%` в значении фильтра передавать не нужно
+- `=` — равно, точное совпадение. Используется по умолчанию. Для поиска IN можно передать несколько значений массивом
 - `!=` — не равно
-- `!` — не равно. Для поиска NOT IN можно передавать несколько значений массивом
+- `!` — не равно. Для поиска NOT IN можно передать несколько значений массивом
 
-Для пользовательских полей `propertyN` формат значения в `filter` зависит от типа условия:
+Префиксы `=%`, `%=`, `!=%`, `!%=`, `><` и `!><` метод не поддерживает: условие с таким префиксом пропускается без ошибки, и метод возвращает услуги без учета этого условия.
+
+Для свойств `propertyN` формат значения в `filter` зависит от типа условия:
 - если фильтруете свойство типа дата или дата-время по диапазону, используйте префикс в ключе, а значение передавайте в поле `value`
-- если фильтруете числовое, строковое или списочное пользовательское поле по точному совпадению, передавайте значение напрямую, без `value`
+- если фильтруете числовое, строковое или списочное свойство по точному совпадению, передавайте значение напрямую, без `value`
 - для поиска `IN` и `NOT IN` можно передавать массив значений
 
-Примеры фильтрации по пользовательским полям:
+Пример фильтрации по свойствам:
 
 ```js
 filter: {
-    iblockId: 14,
+    iblockId: 25,
     '>=property424': {
         value: '2025-05-29T12:00:00+03:00'
     },
@@ -76,10 +70,10 @@ filter: {
 ```
 ||
 || **order**
-[`object`](../../../data-types.md) | 
+[`object`](../../../data-types.md) |
 Объект для сортировки выбранных услуг в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [catalog_product_service](../../data-types.md#catalog_product_service).
+Возможные значения для `field` соответствуют полям объекта [catalog_product_service](../../data-types.md#catalog_product_service). Неизвестные поля метод пропускает без ошибки. Если параметр не передан, услуги сортируются по `id` по возрастанию.
 
 Возможные значения для `order`:
 - `asc` — в порядке возрастания
@@ -94,7 +88,9 @@ filter: {
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+Если `start` больше количества найденных услуг, метод возвращает последнюю страницу
 ||
 |#
 
@@ -116,7 +112,7 @@ filter: {
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","iblockId","name","active","available","bundle","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","iblockSectionId","modifiedBy","previewPicture","previewText","previewTextType","sort","timestampX","type","vatId","vatIncluded","xmlId","property94","property95"],"filter":{"iblockId":23,">id":10,"vatId":[1,2]},"order":{"id":"desc"}}' \
+    -d '{"select":["id","iblockId","name","active","available","bundle","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","iblockSectionId","modifiedBy","previewPicture","previewText","previewTextType","sort","timestampX","type","vatId","vatIncluded","xmlId","property301","property305"],"filter":{"iblockId":25,">id":10,"vatId":[1,2]},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.list
     ```
 
@@ -126,7 +122,7 @@ filter: {
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","iblockId","name","active","available","bundle","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","iblockSectionId","modifiedBy","previewPicture","previewText","previewTextType","sort","timestampX","type","vatId","vatIncluded","xmlId","property94","property95"],"filter":{"iblockId":23,">id":10,"vatId":[1,2]},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","iblockId","name","active","available","bundle","code","createdBy","dateActiveFrom","dateActiveTo","dateCreate","detailPicture","detailText","detailTextType","iblockSectionId","modifiedBy","previewPicture","previewText","previewTextType","sort","timestampX","type","vatId","vatIncluded","xmlId","property301","property305"],"filter":{"iblockId":25,">id":10,"vatId":[1,2]},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.service.list
     ```
 
@@ -208,11 +204,11 @@ filter: {
             'vatId',
             'vatIncluded',
             'xmlId',
-            'property94',
-            'property95',
+            'property301',
+            'property305',
           ],
           filter: {
-            iblockId: 23,
+            iblockId: 25,
             '>id': 10,
             vatId: [1, 2],
           },
@@ -282,11 +278,11 @@ filter: {
                 'vatId',
                 'vatIncluded',
                 'xmlId',
-                'property94',
-                'property95',
+                'property301',
+                'property305',
               ],
               filter: {
-                iblockId: 23,
+                iblockId: 25,
                 '>id': 10,
                 vatId: [1, 2],
               },
@@ -349,11 +345,11 @@ filter: {
                 "vatId",
                 "vatIncluded",
                 "xmlId",
-                "property94",
-                "property95",
+                "property301",
+                "property305",
             ],
             filter={
-                "iblockId": 23,
+                "iblockId": 25,
                 ">id": 10,
                 "vatId": [
                     1,
@@ -416,11 +412,11 @@ filter: {
                         'vatId',
                         'vatIncluded',
                         'xmlId',
-                        'property94',
-                        'property95',
+                        'property301',
+                        'property305',
                     ],
                     'filter' => [
-                        'iblockId' => 23,
+                        'iblockId' => 25,
                         '>id'      => 10,
                         'vatId'    => [1, 2],
                     ],
@@ -429,13 +425,13 @@ filter: {
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error fetching product list: ' . $e->getMessage();
@@ -473,11 +469,11 @@ filter: {
                 "vatId",
                 "vatIncluded",
                 "xmlId",
-                "property94",
-                "property95",
+                "property301",
+                "property305",
             ],
             "filter": {
-                "iblockId": 23,
+                "iblockId": 25,
                 ">id": 10,
                 "vatId": [1, 2],
             },
@@ -529,11 +525,11 @@ filter: {
                 'vatId',
                 'vatIncluded',
                 'xmlId',
-                'property94',
-                'property95',
+                'property301',
+                'property305',
             ],
             'filter' => [
-                'iblockId' => 23,
+                'iblockId' => 25,
                 '>id' => 10,
                 'vatId' => [1, 2],
             ],
@@ -553,9 +549,9 @@ filter: {
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.service.list", b24.Params{
-    	"select": []string{"id", "iblockId", "name", "active", "available", "bundle", "code", "createdBy", "dateActiveFrom", "dateActiveTo", "dateCreate", "detailPicture", "detailText", "detailTextType", "iblockSectionId", "modifiedBy", "previewPicture", "previewText", "previewTextType", "sort", "timestampX", "type", "vatId", "vatIncluded", "xmlId", "property94", "property95"},
+    	"select": []string{"id", "iblockId", "name", "active", "available", "bundle", "code", "createdBy", "dateActiveFrom", "dateActiveTo", "dateCreate", "detailPicture", "detailText", "detailTextType", "iblockSectionId", "modifiedBy", "previewPicture", "previewText", "previewTextType", "sort", "timestampX", "type", "vatId", "vatIncluded", "xmlId", "property301", "property305"},
     	"filter": b24.Params{
-    		"iblockId": 23,
+    		"iblockId": 25,
     		">id":      10,
     		"vatId":    []int{1, 2},
     	},
@@ -605,45 +601,41 @@ HTTP-статус: **200**
                 "bundle": "N",
                 "code": "service",
                 "createdBy": 1,
-                "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-                "dateActiveTo": "2024-05-29T10:00:00+03:00",
-                "dateCreate": "2024-05-27T10:00:00+03:00",
-                "detailPicture": {
-                    "id": "6497",
-                    "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6497\u0026fields%5BproductId%5D=1265",
-                    "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6497\u0026fields%5BproductId%5D=1265"
-                },
+                "dateActiveFrom": null,
+                "dateActiveTo": null,
+                "dateCreate": "2025-05-12T12:04:01+03:00",
+                "detailPicture": null,
                 "detailText": null,
                 "detailTextType": "text",
-                "iblockId": 23,
-                "iblockSectionId": 47,
-                "id": 1265,
+                "iblockId": 25,
+                "iblockSectionId": null,
+                "id": 6969,
                 "modifiedBy": 1,
                 "name": "Услуга",
-                "previewPicture": {
-                    "id": "6496",
-                    "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6496\u0026fields%5BproductId%5D=1265",
-                    "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6496\u0026fields%5BproductId%5D=1265"
-                },
+                "previewPicture": null,
                 "previewText": null,
                 "previewTextType": "text",
+                "property301": null,
+                "property305": null,
                 "sort": 100,
-                "timestampX": "2024-06-14T11:59:04+03:00",
+                "timestampX": "2025-05-12T12:04:01+03:00",
                 "type": 7,
                 "vatId": 1,
                 "vatIncluded": "Y",
-                "xmlId": "1265"
+                "xmlId": "6969"
             }
         ]
     },
     "total": 1,
     "time": {
-        "start": 1718363637.281945,
-        "finish": 1718363637.984081,
-        "duration": 0.7021360397338867,
-        "processing": 0.2966270446777344,
-        "date_start": "2024-06-14T14:13:57+03:00",
-        "date_finish": "2024-06-14T14:13:57+03:00"
+        "start": 1793963897,
+        "finish": 1793963897.165754,
+        "duration": 0.16575407981872559,
+        "processing": 0,
+        "date_start": "2026-11-06T14:18:17+03:00",
+        "date_finish": "2026-11-06T14:18:17+03:00",
+        "operating_reset_at": 1793964360,
+        "operating": 0.13507294654846191
     }
 }
 ```
@@ -655,12 +647,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **services**
+|| **result.services**
 [`catalog_product_service[]`](../../data-types.md#catalog_product_service) | Массив объектов с информацией о выбранных услугах ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество найденных записей ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -669,7 +661,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
+    "error":"200040300010",
     "error_description":"Access denied"
 }
 ```
@@ -679,15 +671,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `0` | Не указаны поля `id`, `iblockId` в полях выбора
-|| 
-|| `0` | Не указано поле `iblockId` в фильтре
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
+|| `400` | `200040300030` | Access Denied | У пользователя нет права на чтение инфоблока каталога ||
+|| `400` | `0` | Required select fields: id, iblockId | В `select` нет поля `id` или `iblockId`. В тексте перечислены недостающие поля ||
+|| `400` | `0` | Required filter fields: iblockId | В `filter` нет поля `iblockId` ||
+|| `400` | `0` | iblock is not catalog | `iblockId` не является инфоблоком торгового каталога ||
+|| `400` | `0` | productType is not allowed for this catalog | В `iblockId` передан инфоблок вариаций. Услуги хранятся в инфоблоке товаров ||
+|| `400` | `0` | Wrong format value of filter field `iblockId`. | В `iblockId` передан массив. Передайте одно число ||
+|| `400` | `100` | Invalid value {...} to match with parameter {select}. Should be value of type array. | Параметр `select` передан не как массив ||
+|| `400` | `100` | Invalid value {...} to match with parameter {filter}. Should be value of type array. | Параметр `filter` передан не как объект ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -697,6 +690,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-service-add.md)
 - [{#T}](./catalog-product-service-update.md)
 - [{#T}](./catalog-product-service-get.md)
-- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-delete.md)
+- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-get-fields-by-filter.md)

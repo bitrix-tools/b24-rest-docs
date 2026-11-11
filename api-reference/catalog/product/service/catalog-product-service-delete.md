@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Удаление товара», одним из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на удаление элементов инфоблока каталога
 
-Метод удаляет услугу. 
+Метод `catalog.product.service.delete` удаляет услугу.
 
 ## Параметры метода
 
@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги.
+[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги. Идентификатор можно получить методом [catalog.product.service.list](./catalog-product-service-list.md).
 
-Для получения идентификаторов услуг необходимо использовать [catalog.product.service.list](./catalog-product-service-list.md) ||
+Метод не проверяет тип элемента: если передать идентификатор товара, метод удалит товар ||
 |#
 
 ## Примеры кода
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1264}' \
+    -d '{"id":7697}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.delete
     ```
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1264,"auth":"**put_access_token_here**"}' \
+    -d '{"id":7697,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.service.delete
     ```
 
@@ -68,7 +68,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'catalog.product.service.delete',
         params: {
-          id: 1264,
+          id: 7697,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -100,7 +100,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.service.delete',
             params: {
-              id: 1264,
+              id: 7697,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -130,7 +130,7 @@
 
     try:
         bitrix_response = client.catalog.product.service.delete(
-            bitrix_id=1264,
+            bitrix_id=7697,
         ).response
         result = bitrix_response.result
         print(result)
@@ -157,10 +157,10 @@
             ->call(
                 'catalog.product.service.delete',
                 [
-                    'id' => 1264,
+                    'id' => 7697,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -177,7 +177,7 @@
     BX24.callMethod(
         'catalog.product.service.delete',
         {
-            id: 1264,
+            id: 7697,
         },
         function(result) {
             if (result.error()) {
@@ -197,7 +197,7 @@
     $result = CRest::call(
         'catalog.product.service.delete',
         [
-            'id' => 1264
+            'id' => 7697
         ]
     );
 
@@ -211,7 +211,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.service.delete", b24.Params{
-    	"id": 1264,
+    	"id": 7697,
     })
     if err != nil {
     	return fmt.Errorf("catalog.product.service.delete: %w", err)
@@ -234,12 +234,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1718362658.676929,
-        "finish": 1718362659.517447,
-        "duration": 0.8405179977416992,
-        "processing": 0.39598703384399414,
-        "date_start": "2024-06-14T13:57:38+03:00",
-        "date_finish": "2024-06-14T13:57:39+03:00"
+        "start": 1793964161,
+        "finish": 1793964162.187206,
+        "duration": 1.1872060298919678,
+        "processing": 1,
+        "date_start": "2026-11-06T14:22:41+03:00",
+        "date_finish": "2026-11-06T14:22:42+03:00",
+        "operating_reset_at": 1793964720,
+        "operating": 0.7908980846405029
     }
 }
 ```
@@ -250,9 +252,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат удаления услуги ||
+[`boolean`](../../../data-types.md) | `true`, если услуга удалена ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -260,8 +262,8 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":200040300040,
+{
+    "error":"200040300040",
     "error_description":"Access Denied"
 }
 ```
@@ -271,17 +273,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300040` | Недостаточно прав для удаления услуги
-|| 
-|| `200040300040` | Недостаточно прав для удаления информационного блока
-|| 
-|| `200040300010` | Недостаточно прав для просмотра торгового каталога
-|| 
-|| `200040300000` | Информационный блок не найден
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права «Удаление товара» или права на удаление элементов инфоблока каталога ||
+|| `400` | Пустое значение | service does not exist. | Услуга с указанным `id` не найдена. Ту же ошибку метод возвращает, если в `id` передана строка, которая не является числом ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

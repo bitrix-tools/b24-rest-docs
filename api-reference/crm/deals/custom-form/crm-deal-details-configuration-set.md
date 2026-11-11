@@ -12,9 +12,9 @@
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - пользователь может устанавливать свои личные настройки
-> - установить личные настройки другого пользователя можно при наличии прав на редактирование персонального вида для пользователя
-> - установить общие настройки можно при наличии прав на редактирование общего вида
+> - пользователь — свои личные настройки
+> - администратор CRM — личные настройки другого пользователя
+> - пользователь с правом редактировать общий вид карточки сделки — общие настройки
 
 {% note warning "DEPRECATED" %}
 
@@ -22,11 +22,17 @@
 
 {% endnote %}
 
-Метод `crm.deal.details.configuration.set` устанавливает настройки карточки сделки. Метод записывает личные настройки карточки указанного пользователя или общие настройки для всех пользователей.
+Метод `crm.deal.details.configuration.set` записывает личные настройки карточки сделки указанного пользователя или общие настройки для всех пользователей.
 
 {% note info %}
 
 Настройки карточки сделок в разных воронках могут отличаться. Для выбора воронки используйте параметр `extras.dealCategoryId`.
+
+{% endnote %}
+
+{% note warning "" %}
+
+Метод не дополняет текущие настройки, а заменяет их. Чтобы изменить один раздел или поле, сначала получите текущую структуру методом [crm.deal.details.configuration.get](./crm-deal-details-configuration-get.md), измените ее и передайте целиком.
 
 {% endnote %}
 
@@ -52,7 +58,7 @@
 Если не задан, берется текущий
 ||
 || **data***
-[`section[]`](#section) | Список `section`, описывающий конфигурацию разделов карточки сделки. Структура `section` описана ниже ||
+[`section[]`](#section) | Список разделов карточки сделки [(подробное описание)](#section). Разделы и поля, которых нет в `data`, из карточки пропадут ||
 || **extras**
 [`object`](../../../data-types.md) | Дополнительные параметры [(подробное описание)](#parameter-extras) ||
 |#
@@ -65,7 +71,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **dealCategoryId**
-[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить с помощью [crm.category.list](../../universal/category/crm-category-list.md)
+[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить методом [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId = 2` или [crm.deal.category.list](../../rest-v3/categories/crm-entity-category-list-rest-v3.md) в REST 3.0 — идентификаторы совпадают
 
 Если не указан, используется воронка по умолчанию для сделок
 ||
@@ -87,7 +93,7 @@
 || **type***
 [`string`](../../../data-types.md) | Тип раздела
 
-На данный момент доступно только значение `section`
+Всегда `section`
 ||
 || **elements**
 [`section_element[]`](#section_element) | Список выводимых в карточке полей с дополнительными настройками ||
@@ -105,14 +111,16 @@
 || **name***
 [`string`](../../../data-types.md) | Идентификатор поля. Список доступных полей можно узнать с помощью [`crm.deal.fields`](../crm-deal-fields.md) ||
 || **optionFlags**
-[`integer`](../../../data-types.md) | Нужно ли показывать поле всегда:
+[```integer|string```](../../../data-types.md) | Нужно ли показывать поле всегда:
 - `1` — да
 - `0` — нет
 
-По умолчанию — `0`
+Можно передать и строкой `"1"` или `"0"`. Нечисловое значение метод не сохраняет и ошибку не возвращает.
+
+Если не передан, признак не сохраняется и поле ведет себя как при `0`. В ответе [crm.deal.details.configuration.get](./crm-deal-details-configuration-get.md) у такого поля нет `optionFlags`
 ||
 || **options**
-[`object`](../../../data-types.md) | Дополнительные опции поля. Состав зависит от поля ||
+[`object`](../../../data-types.md) | Дополнительные опции поля. Состав зависит от поля, например у `CLIENT` — `defaultCountry`, у `OPPORTUNITY_WITH_CURRENCY` — `isPayButtonVisible` и `isPaymentDocumentsVisible`. Если передать не объект, опции не сохранятся, ошибки не будет ||
 |#
 
 ## Примеры кода
@@ -299,7 +307,42 @@
         bitrix_response = client.crm.deal.details.configuration.set(
             scope="P",
             user_id=1,
-            extras={"dealCategoryId": 0},
+            extras={"dealCategoryId": 32},
+            data=[
+                {
+                    "name": "main",
+                    "title": "О сделке",
+                    "type": "section",
+                    "elements": [
+                        {"name": "TITLE"},
+                        {"name": "OPPORTUNITY_WITH_CURRENCY"},
+                        {"name": "STAGE_ID"},
+                        {"name": "CLOSEDATE"},
+                        {"name": "CLIENT"},
+                    ],
+                },
+                {
+                    "name": "additional",
+                    "title": "Дополнительно",
+                    "type": "section",
+                    "elements": [
+                        {"name": "TYPE_ID"},
+                        {"name": "SOURCE_ID"},
+                        {"name": "SOURCE_DESCRIPTION"},
+                        {"name": "OPENED"},
+                        {"name": "ASSIGNED_BY_ID"},
+                        {"name": "COMMENTS"},
+                    ],
+                },
+                {
+                    "name": "products",
+                    "title": "Товары",
+                    "type": "section",
+                    "elements": [
+                        {"name": "PRODUCT_ROW_SUMMARY"},
+                    ],
+                },
+            ],
         ).response
         result = bitrix_response.result
         print(result)
@@ -627,10 +670,11 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | Пустое значение | Access denied | Нет прав на установку настроек карточки сделки ||
+|| `400` | Пустое значение | Access denied. | Передан `scope = P` и `userId` другого пользователя, а текущий пользователь не администратор CRM ||
+|| `400` | Пустое значение | Access denied. | Передан `scope = C`, а у пользователя нет прав на редактирование общего вида карточки сделки в воронке `extras.dealCategoryId` ||
 || `400` | Пустое значение | Parameter 'data' must be array | В `data` передан не массив ||
 || `400` | Пустое значение | There are no data to write | В `data` передан пустой массив ||
-|| `400` | Пустое значение | The data must be indexed array | В `data` передан не индексированный массив ||
+|| `400` | Пустое значение | The data must be indexed array | В `data` передан неиндексированный массив ||
 || `400` | Пустое значение | Section at index `i` have type `data[i].type`. The expected type is 'section' | В `data[i].type` находится значение, отличное от `section` ||
 || `400` | Пустое значение | Section at index `i` does not have name | В `data[i].name` передано пустое значение ||
 || `400` | Пустое значение | Section at index `i` does not have title | В `data[i].title` передано пустое значение ||
@@ -645,8 +689,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-details-configuration-get.md)
 - [{#T}](./crm-deal-details-configuration-reset.md)
 - [{#T}](./crm-deal-details-configuration-force-common-scope-for-all.md)
-
-
-
-
-

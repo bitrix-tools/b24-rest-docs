@@ -12,8 +12,8 @@
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - пользователь может получать свои и общие настройки
-> - получить личные настройки другого пользователя можно при наличии прав на редактирование персонального вида для пользователя
+> - пользователь — свои личные и общие настройки
+> - администратор CRM — личные настройки другого пользователя
 
 {% note warning "DEPRECATED" %}
 
@@ -21,7 +21,7 @@
 
 {% endnote %}
 
-Метод `crm.deal.details.configuration.get` получает настройки карточки сделки. Метод читает личные настройки карточки указанного пользователя или общие настройки, заданные для всех пользователей.
+Метод `crm.deal.details.configuration.get` получает личные настройки карточки сделки указанного пользователя или общие настройки для всех пользователей.
 
 {% note info %}
 
@@ -62,7 +62,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **dealCategoryId**
-[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить с помощью [crm.category.list](../../universal/category/crm-category-list.md)
+[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить методом [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId = 2` или [crm.deal.category.list](../../rest-v3/categories/crm-entity-category-list-rest-v3.md) в REST 3.0 — идентификаторы совпадают
 
 Если не указан, используется воронка по умолчанию для сделок
 ||
@@ -72,7 +72,7 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Пример получения общей конфигурации карточки сделки для воронки с `id = 32`.
+Получить общую конфигурацию карточки сделки в воронке с `id = 32`
 
 {% list tabs %}
 
@@ -116,7 +116,7 @@
 
     type CrmDealDetailsSectionElement = {
       name: string
-      optionFlags?: string
+      optionFlags?: string | number
       options?: Record<string, unknown>
     }
 
@@ -192,9 +192,8 @@
 
     try:
         bitrix_response = client.crm.deal.details.configuration.get(
-            scope="P",
-            user_id=1,
-            extras={"dealCategoryId": 0},
+            scope="C",
+            extras={"dealCategoryId": 32},
         ).response
         result = bitrix_response.result
         print(result)
@@ -416,12 +415,12 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`section[]`](#section)\|`null` | Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки сделки. Возвращает `null` в случае отсутствия конфигурации ||
+[```section[]|null```](#section) | Корневой элемент ответа. Содержит конфигурацию разделов детальной карточки сделки. Равен `null`, если для выбранного `scope` и воронки настройки не сохранены: например, личную карточку не настраивали или ее сбросили методом [crm.deal.details.configuration.reset](./crm-deal-details-configuration-reset.md) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Параметр section {#section}
+### Объект section {#section}
 
 Описывает отдельный раздел с полями внутри карточки сделки
 
@@ -433,12 +432,12 @@ HTTP-статус: **200**
 || **title**
 [`string`](../../../data-types.md) | Название раздела ||
 || **type**
-[`string`](../../../data-types.md) | Тип раздела ||
+[`string`](../../../data-types.md) | Тип раздела. Всегда `section` ||
 || **elements**
 [`section_element[]`](#section_element) | Список выводимых в карточке полей с дополнительными настройками ||
 |#
 
-### Параметр section_element {#section_element}
+### Объект section_element {#section_element}
 
 Конфигурация отдельного поля внутри раздела
 
@@ -446,14 +445,16 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../../data-types.md) | Идентификатор поля ||
+[`string`](../../../data-types.md) | Идентификатор поля из метода [crm.deal.fields](../crm-deal-fields.md), например `TITLE` или `UF_CRM_1687529546` ||
 || **optionFlags**
-[`string`](../../../data-types.md) | Значения:
-- `"1"` — показывать всегда
-- `"0"` — показывать не всегда
+[```integer|string```](../../../data-types.md) | Показывать ли поле всегда:
+- `"1"` или `1` — да
+- `"0"` или `0` — нет
+
+Значение приходит в том типе, в каком его записали. Интерфейс Битрикс24 сохраняет строку. Метод [crm.deal.details.configuration.set](./crm-deal-details-configuration-set.md) сохраняет число или числовую строку в том виде, в каком их передали, а нечисловое значение не сохраняет — тогда в ответе у поля нет `optionFlags`
 ||
 || **options**
-[`object`](../../../data-types.md) | Дополнительные опции поля ||
+[`object`](../../../data-types.md) | Дополнительные опции поля. Состав зависит от поля, например у `CLIENT` — `defaultCountry`, у `OPPORTUNITY_WITH_CURRENCY` — `isPayButtonVisible` и `isPaymentDocumentsVisible`. Значения опций приходят в том виде, в каком их записали. Интерфейс Битрикс24 сохраняет их строками, например `"true"` ||
 |#
 
 ## Обработка ошибок
@@ -473,7 +474,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | Пустое значение | Access denied | Нет прав на получение настроек карточки сделки ||
+|| `400` | Пустое значение | Access denied. | Передан `scope = P` и `userId` другого пользователя, а текущий пользователь не администратор CRM ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -484,8 +485,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-details-configuration-set.md)
 - [{#T}](./crm-deal-details-configuration-reset.md)
 - [{#T}](./crm-deal-details-configuration-force-common-scope-for-all.md)
-
-
-
-
-

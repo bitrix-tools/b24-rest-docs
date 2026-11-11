@@ -11,7 +11,7 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом на чтение вариации в инфоблоке и одним из прав: «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара»
 
 Метод `catalog.product.offer.download` скачивает файл вариации товара из поля изображения или файлового свойства.
 
@@ -73,7 +73,7 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -d '{"fields":{"fileId":6538,"productId":1286,"fieldName":"detailPicture"}}' \
+    -d '{"fields":{"fileId":40057,"productId":7695,"fieldName":"previewPicture"}}' \
     --output offer-file \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.download
     ```
@@ -83,7 +83,7 @@
     ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
-    -d '{"fields":{"fileId":6538,"productId":1286,"fieldName":"detailPicture"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"fileId":40057,"productId":7695,"fieldName":"previewPicture"},"auth":"**put_access_token_here**"}' \
     --output offer-file \
     https://**put_your_bitrix24_address**/rest/catalog.product.offer.download
     ```
@@ -102,9 +102,9 @@
         },
         body: JSON.stringify({
           fields: {
-            fileId: 6538,
-            productId: 1286,
-            fieldName: 'detailPicture',
+            fileId: 40057,
+            productId: 7695,
+            fieldName: 'previewPicture',
           },
         }),
       },
@@ -132,9 +132,9 @@
             },
             body: JSON.stringify({
               fields: {
-                fileId: 6538,
-                productId: 1286,
-                fieldName: 'detailPicture',
+                fileId: 40057,
+                productId: 7695,
+                fieldName: 'previewPicture',
               },
               auth: '**put_access_token_here**',
             }),
@@ -169,9 +169,9 @@
         "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.download",
         json={
             "fields": {
-                "fileId": 6538,
-                "productId": 1286,
-                "fieldName": "detailPicture",
+                "fileId": 40057,
+                "productId": 7695,
+                "fieldName": "previewPicture",
             }
         },
     )
@@ -183,7 +183,6 @@
 
 - PHP
 
-
     ```php
     $curl = curl_init('https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.download');
     curl_setopt_array($curl, [
@@ -192,9 +191,9 @@
         CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
         CURLOPT_POSTFIELDS => json_encode([
             'fields' => [
-                'fileId' => 6538,
-                'productId' => 1286,
-                'fieldName' => 'detailPicture',
+                'fileId' => 40057,
+                'productId' => 7695,
+                'fieldName' => 'previewPicture',
             ],
         ]),
     ]);
@@ -216,9 +215,9 @@
     const auth = BX24.getAuth()
     const url = new URL(`https://${auth.domain}/rest/catalog.product.offer.download`)
     url.searchParams.set('auth', auth.access_token)
-    url.searchParams.set('fields[fileId]', 6538)
-    url.searchParams.set('fields[productId]', 1286)
-    url.searchParams.set('fields[fieldName]', 'detailPicture')
+    url.searchParams.set('fields[fileId]', 40057)
+    url.searchParams.set('fields[productId]', 7695)
+    url.searchParams.set('fields[fieldName]', 'previewPicture')
 
     fetch(url)
       .then(async response => {
@@ -245,7 +244,7 @@
     ```go
     payload, err := json.Marshal(map[string]any{
         "fields": map[string]any{
-            "fileId": 6538, "productId": 1286, "fieldName": "detailPicture",
+            "fileId": 40057, "productId": 7695, "fieldName": "previewPicture",
         },
     })
     if err != nil {
@@ -298,19 +297,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **error_description** | **Описание** ||
-|| `200040300010` | `Access denied` | Недостаточно прав для чтения торгового каталога
-|| 
-|| Пустое значение | `offer does not exist.` | Вариация товара с указанным `productId` не существует
-|| 
-|| `0` | `Name file field is not available` | Поле `fieldName` недоступно для скачивания: имя указано неверно, свойство не существует или не относится к файловому типу
-|| 
-|| `0` | `Product file wrong` | Файл `fileId` не принадлежит указанному полю вариации
-||
-|| `0` | `Product is empty` | Файл с указанным `fileId` не найден в файловом хранилище
-|| 
-|| `0` | `Required fields: fieldName, fileId, productId` | Не передан один или несколько обязательных параметров. В сообщении перечислены отсутствующие параметры
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр товаров каталога», ни права «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права на чтение этой вариации в инфоблоке ||
+|| `400` | Пустое значение | offer does not exist. | Вариация с указанным `productId` не найдена ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: fieldName, fileId, productId | Не передан один или несколько параметров в `fields`. В тексте перечислены отсутствующие параметры ||
+|| `400` | `0` | Name file field is not available | Поле `fieldName` недоступно для скачивания: имя указано неверно, например в верхнем регистре, свойство не существует или не относится к файловому типу ||
+|| `400` | `0` | Product file wrong | Файл `fileId` не относится к полю `fieldName` этой вариации ||
+|| `400` | `0` | Product is empty | Файл с указанным `fileId` не найден в файловом хранилище ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

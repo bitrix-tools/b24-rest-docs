@@ -12,15 +12,15 @@
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод:
-> - установить общую карточку можно при наличии прав на редактирование общего вида
+> - пользователь с правом редактировать общий вид карточки сделки
 
 {% note warning "DEPRECATED" %}
 
-Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.detailpagelayout.setcommonforall](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-set-common-for-all-rest-v3.md).
+Развитие метода остановлено. Используйте метод REST 3.0 [crm.deal.detailpagelayout.setcommonforall](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-set-common-for-all-rest-v3.md). В отличие от `forceCommonScopeForAll`, он не удаляет личные настройки пользователей.
 
 {% endnote %}
 
-Метод `crm.deal.details.configuration.forceCommonScopeForAll` принудительно устанавливает общую карточку сделки для всех пользователей и удаляет их личные настройки.
+Метод `crm.deal.details.configuration.forceCommonScopeForAll` принудительно устанавливает общую карточку сделки для всех пользователей и удаляет их личные настройки в выбранной воронке.
 
 {% note info %}
 
@@ -28,9 +28,13 @@
 
 {% endnote %}
 
-## Параметры метода
+{% note warning "" %}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
+Действие необратимо: удаленные личные настройки в выбранной воронке восстановить нельзя. Перед вызовом проверьте общий вид методом [crm.deal.details.configuration.get](./crm-deal-details-configuration-get.md) с `scope = C`. Если он вернул `null`, общий вид в воронке не сохранен — сначала задайте его методом [crm.deal.details.configuration.set](./crm-deal-details-configuration-set.md) с `scope = C`.
+
+{% endnote %}
+
+## Параметры метода
 
 #|
 || **Название**
@@ -41,13 +45,11 @@
 
 ### Параметр extras {#parameter-extras}
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
 #|
 || **Название**
 `тип` | **Описание** ||
 || **dealCategoryId**
-[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить с помощью [crm.category.list](../../universal/category/crm-category-list.md)
+[`integer`](../../../data-types.md) | Идентификатор воронки сделок. Можно получить методом [crm.category.list](../../universal/category/crm-category-list.md) с `entityTypeId = 2` или [crm.deal.category.list](../../rest-v3/categories/crm-entity-category-list-rest-v3.md) в REST 3.0 — идентификаторы совпадают
 
 Если не указан, используется воронка по умолчанию для сделок
 ||
@@ -161,7 +163,7 @@
 
     try:
         bitrix_response = client.crm.deal.details.configuration.force_common_scope_for_all(
-            extras={"dealCategoryId": 0},
+            extras={"dealCategoryId": 32},
         ).response
         result = bitrix_response.result
         print(result)
@@ -317,7 +319,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | Пустое значение | Access denied | Нет прав на установку общей карточки для всех пользователей ||
+|| `400` | Пустое значение | Access denied. | У пользователя нет прав на редактирование общего вида карточки сделки в воронке `extras.dealCategoryId` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -328,8 +330,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-deal-details-configuration-get.md)
 - [{#T}](./crm-deal-details-configuration-set.md)
 - [{#T}](./crm-deal-details-configuration-reset.md)
-
-
-
-
-

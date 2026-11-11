@@ -95,8 +95,10 @@
 
 - JS (TS)
 
+    Методы CRM пока не входят в список методов REST 3.0, который знает `$b24.actions.v3.call.make`: такой вызов вернет ошибку SDK `JSSDK_CORE_METHOD_NOT_SUPPORT_IN_API_V3`. Вызывайте метод через HTTP-клиент REST 3.0 — `$b24.getHttpClient(ApiVersion.v3).call`.
+
     ```ts
-    import { Text } from '@bitrix24/b24jssdk'
+    import { ApiVersion, Text } from '@bitrix24/b24jssdk'
     import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
@@ -110,9 +112,9 @@
     }
 
     try {
-      const response = await $b24.actions.v3.call.make<Result>({
-        method: 'crm.form.sitebutton.field.get',
-        params: {
+      const response = await $b24.getHttpClient(ApiVersion.v3).call<Result>(
+        'crm.form.sitebutton.field.get',
+        {
           name: 'bound',
           select: [
             'name',
@@ -122,8 +124,8 @@
             'sortable',
           ],
         },
-        requestId: Text.getUuidRfc4122()
-      })
+        Text.getUuidRfc4122()
+      )
 
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
@@ -139,6 +141,8 @@
 
 - JS (UMD)
 
+    Методы CRM пока не входят в список методов REST 3.0, который знает `$b24.actions.v3.call.make`. Вызывайте метод через HTTP-клиент REST 3.0 — `$b24.getHttpClient(B24Js.ApiVersion.v3).call`.
+
     ```html
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
@@ -146,9 +150,9 @@
         try {
           const $b24 = await B24Js.initializeB24Frame()
 
-          const response = await $b24.actions.v3.call.make({
-            method: 'crm.form.sitebutton.field.get',
-            params: {
+          const response = await $b24.getHttpClient(B24Js.ApiVersion.v3).call(
+            'crm.form.sitebutton.field.get',
+            {
               name: 'bound',
               select: [
                 'name',
@@ -158,8 +162,8 @@
                 'sortable',
               ],
             },
-            requestId: B24Js.Text.getUuidRfc4122()
-          })
+            B24Js.Text.getUuidRfc4122()
+          )
 
           if (!response.isSuccess) {
             console.error(response.getErrorMessages().join('; '))
@@ -180,8 +184,15 @@
 
 - Python
 
+    У методов CRM нет готовых оберток в `b24pysdk`, и SDK отправляет в REST 3.0 только методы из списка `Config().api_v3_methods`. Добавьте метод в этот список и вызовите его через `bitrix_token.call_method` с `prefer_version=3`.
+
     ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    from b24pysdk import Config
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    method = "crm.form.sitebutton.field.get"
+    Config().configure(api_v3_methods=Config().api_v3_methods | {method})
 
     select = [
         "name",
@@ -192,17 +203,21 @@
     ]
 
     try:
-        bitrix_response = client.crm.form.sitebutton.field.get(
-            name="bound",
-            select=select,
-        ).response
-        result = bitrix_response.result
+        response = bitrix_token.call_method(
+            api_method=method,
+            params={
+                "name": "bound",
+                "select": select,
+            },
+            prefer_version=3,
+        )
+        result = response["result"]
         print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
             sep="\n",
         )
     except BitrixSDKException as error:

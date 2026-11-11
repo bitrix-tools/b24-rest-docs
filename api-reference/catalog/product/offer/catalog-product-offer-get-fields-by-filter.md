@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара»
 
-Метод возвращает поля вариации товара по фильтру.
+Метод `catalog.product.offer.getFieldsByFilter` возвращает описание полей и свойств вариации для указанного каталога вариаций: тип, обязательность и доступность для изменения.
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **filter***
-[`object`](../../../data-types.md) | Фильтр для получения всех полей вариации товара ||
+[`object`](../../../data-types.md) | Фильтр с идентификатором каталога вариаций ([подробное описание](#filter)) ||
 |#
 
-### Параметр filter
+### Параметр filter {#filter}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -34,10 +34,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **iblockId***
-[`catalog_catalog.id`](../../data-types.md#catalog_catalog) | Идентификатор информационного блока торгового каталога для вариаций. 
+[`catalog_catalog.iblockId`](../../data-types.md#catalog_catalog) | Идентификатор инфоблока каталога вариаций.
 
-Для получения существующих идентификаторов информационных блоков торговых каталогов необходимо использовать [catalog.catalog.list](../../catalog/catalog-catalog-list.md). У инфоблока вариаций заполнено поле `productIblockId` 
-||
+Получить идентификатор можно методом [catalog.catalog.list](../../catalog/catalog-catalog-list.md): у каталога вариаций заполнено поле `productIblockId` ||
 |#
 
 ## Примеры кода
@@ -52,7 +51,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"iblockId":24}}' \
+    -d '{"filter":{"iblockId":27}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.getFieldsByFilter
     ```
 
@@ -62,7 +61,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"iblockId":24},"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"iblockId":27},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.offer.getFieldsByFilter
     ```
 
@@ -76,7 +75,7 @@
 
     declare const $b24: B24Frame
 
-    type OfferFieldDescription = {
+    type FieldDescription = {
       isImmutable: boolean
       isReadOnly: boolean
       isRequired: boolean
@@ -90,7 +89,7 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type OfferFieldsResult = {
-      offer: Record<string, OfferFieldDescription>
+      offer: Record<string, FieldDescription>
     }
 
     try {
@@ -98,7 +97,7 @@
         method: 'catalog.product.offer.getFieldsByFilter',
         params: {
           filter: {
-            iblockId: 24,
+            iblockId: 27,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -109,7 +108,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Offer fields:', Object.keys(result.offer).length, result.offer)
+        console.info('Offer fields:', Object.keys(result.offer))
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -123,7 +122,7 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function getOfferFieldsByFilter() {
+      async function getOfferFields() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
@@ -131,10 +130,10 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.offer.getFieldsByFilter',
             params: {
-              filter: {
-                iblockId: 24,
-              },
-            },
+                  filter: {
+                    iblockId: 27,
+                  },
+                },
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -145,14 +144,14 @@
           }
 
           const result = response.getData().result
-          console.info('Offer fields:', Object.keys(result.offer).length, result.offer)
+          console.info('Offer fields:', Object.keys(result.offer))
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', getOfferFieldsByFilter)
+      document.addEventListener('DOMContentLoaded', getOfferFields)
     </script>
     ```
 
@@ -164,7 +163,7 @@
     try:
         bitrix_response = client.catalog.product.offer.get_fields_by_filter(
             filter={
-                "iblockId": 24,
+                "iblockId": 27,
             },
         ).response
         result = bitrix_response.result
@@ -184,7 +183,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -193,11 +191,11 @@
                 'catalog.product.offer.getFieldsByFilter',
                 [
                     'filter' => [
-                        'iblockId' => 24,
+                        'iblockId' => 27,
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -212,13 +210,14 @@
 
     ```js
     BX24.callMethod(
-        'catalog.product.offer.getFieldsByFilter', 
+        'catalog.product.offer.getFieldsByFilter',
         {
             filter: {
-                iblockId: 24,
-            }
+                iblockId: 27,
+            },
         },
-        function(result) {
+        function(result)
+        {
             if (result.error())
                 console.error(result.error());
             else
@@ -236,8 +235,8 @@
         'catalog.product.offer.getFieldsByFilter',
         [
             'filter' => [
-                'iblockId' => 24,
-            ]
+                'iblockId' => 27,
+            ],
         ]
     );
 
@@ -252,9 +251,9 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.offer.getFieldsByFilter", b24.Params{
     	"filter": b24.Params{
-    		"iblockId": 24,
+    		"iblockId": 27,
     	},
-    })
+    }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.product.offer.getFieldsByFilter: %w", err)
     }
@@ -265,7 +264,20 @@
     	return fmt.Errorf("в ответе нет ключа offer")
     }
 
-    fmt.Printf("%s\n", raw)
+    // Ключ — имя поля или свойства propertyN, значение — описание поля.
+    var fields map[string]struct {
+    	Type        string `json:"type"`
+    	Name        string `json:"name"`
+    	IsRequired  bool   `json:"isRequired"`
+    	IsReadOnly  bool   `json:"isReadOnly"`
+    	IsImmutable bool   `json:"isImmutable"`
+    }
+    if err := json.Unmarshal(raw, &fields); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    for name, f := range fields {
+    	fmt.Println(name, f.Type, f.IsRequired)
+    }
     ```
 
 {% endlist %}
@@ -290,6 +302,13 @@ HTTP-статус: **200**
                 "isReadOnly": true,
                 "isRequired": false,
                 "name": "Доступность к покупке",
+                "type": "char"
+            },
+            "barcodeMulti": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Уникальные штрихкоды для каждого экземпляра",
                 "type": "char"
             },
             "bundle": {
@@ -375,6 +394,13 @@ HTTP-статус: **200**
                 "isRequired": true,
                 "name": "Идентификатор инфоблока",
                 "type": "integer"
+            },
+            "iblockSection": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Разделы",
+                "type": "list"
             },
             "iblockSectionId": {
                 "isImmutable": false,
@@ -464,27 +490,60 @@ HTTP-статус: **200**
                 "name": "Тип оплаты",
                 "type": "char"
             },
-            "property261": {
-                "isDynamic": true,
-                "isImmutable": false,
-                "isMultiple": false,
-                "isReadOnly": false,
-                "isRequired": false,
-                "name": "Новая строка",
-                "propertyType": "S",
-                "type": "productproperty",
-                "userType": null
-            },
-            "property262": {
+            "property429": {
                 "isDynamic": true,
                 "isImmutable": false,
                 "isMultiple": true,
                 "isReadOnly": false,
                 "isRequired": false,
-                "name": "Новая строка 2",
+                "name": "Картинки",
+                "propertyType": "F",
+                "type": "productproperty",
+                "userType": ""
+            },
+            "property895": {
+                "isDynamic": true,
+                "isImmutable": false,
+                "isMultiple": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Цвет",
                 "propertyType": "S",
                 "type": "productproperty",
+                "userType": "directory"
+            },
+            "property907": {
+                "isDynamic": true,
+                "isImmutable": false,
+                "isMultiple": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Размеры одежды",
+                "propertyType": "L",
+                "type": "productproperty",
                 "userType": null
+            },
+            "property909": {
+                "isDynamic": true,
+                "isImmutable": false,
+                "isMultiple": true,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Картинки вариации",
+                "propertyType": "F",
+                "type": "productproperty",
+                "userType": ""
+            },
+            "property925": {
+                "isDynamic": true,
+                "isImmutable": false,
+                "isMultiple": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Дата/Время",
+                "propertyType": "S",
+                "type": "productproperty",
+                "userType": "DateTime"
             },
             "purchasingCurrency": {
                 "isImmutable": false,
@@ -521,6 +580,20 @@ HTTP-статус: **200**
                 "name": "Режим количественного учета",
                 "type": "char"
             },
+            "recurSchemeLength": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Длина периода оплаты",
+                "type": "integer"
+            },
+            "recurSchemeType": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Единица времени периода оплаты",
+                "type": "char"
+            },
             "sort": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -541,6 +614,13 @@ HTTP-статус: **200**
                 "isRequired": false,
                 "name": "Дата изменения",
                 "type": "datetime"
+            },
+            "trialPriceId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Товар для пробной оплаты",
+                "type": "integer"
             },
             "type": {
                 "isImmutable": false,
@@ -577,6 +657,13 @@ HTTP-статус: **200**
                 "name": "Ширина",
                 "type": "double"
             },
+            "withoutOrder": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "name": "Продление без оформления заказа",
+                "type": "char"
+            },
             "xmlId": {
                 "isImmutable": false,
                 "isReadOnly": false,
@@ -587,12 +674,14 @@ HTTP-статус: **200**
         }
     },
     "time": {
-        "start": 1718625284.575801,
-        "finish": 1718625285.105152,
-        "duration": 0.529350996017456,
-        "processing": 0.06528401374816895,
-        "date_start": "2024-06-17T14:54:44+03:00",
-        "date_finish": "2024-06-17T14:54:45+03:00"
+        "start": 1793891987,
+        "finish": 1793891987.676673,
+        "duration": 0.6766729354858398,
+        "processing": 0,
+        "date_start": "2026-11-05T18:19:47+03:00",
+        "date_finish": "2026-11-05T18:19:47+03:00",
+        "operating_reset_at": 1793892540,
+        "operating": 0
     }
 }
 ```
@@ -604,10 +693,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **offer**
-[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [catalog_product_offer](../../data-types.md#catalog_product_offer), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description) ||
+|| **result.offer**
+[`object`](../../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — поле объекта [catalog_product_offer](../../data-types.md#catalog_product_offer), а `value` — объект типа [rest_field_description](../../data-types.md#rest_field_description).
+
+Свойства вариации приходят с ключом `propertyN`, где `N` — идентификатор свойства, и с типом `productproperty`. Для них дополнительно приходят `propertyType` — тип свойства, `userType` — пользовательский тип и `isMultiple` — множественность. Свойство привязки к головному товару приходит с ключом `parentId` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -616,8 +707,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "0",
+    "error_description": "productType is not allowed for this catalog"
 }
 ```
 
@@ -626,15 +717,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан или пустой параметр `filter`
-|| 
-|| `0` | Не указан идентификатор информационного блока
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр товаров каталога», ни права «Изменение цены продажи товара» ||
+|| `400` | `100` | Could not find value for parameter {filter} | Не передан параметр `filter` ||
+|| `400` | `0` | Incorrect filter format | В `filter` передан не объект ||
+|| `400` | `0` | parameter - iblockId is empty | В `filter` не передан `iblockId` ||
+|| `400` | `0` | iblock is not catalog | Инфоблок с указанным `iblockId` не найден или не является каталогом ||
+|| `400` | `0` | productType is not allowed for this catalog | В `iblockId` передан инфоблок товаров, а не инфоблок вариаций ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

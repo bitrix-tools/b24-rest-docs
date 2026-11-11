@@ -33,7 +33,9 @@
 - [bizproc.robot.add](./bizproc-robot-add.md), [bizproc.robot.update](./bizproc-robot-update.md)
 - [bizproc.activity.add](../bizproc-activity/bizproc-activity-add.md), [bizproc.activity.update](../bizproc-activity/bizproc-activity-update.md)
 
-Регистр ключей не важен. Значение Битрикс24 приводит к типу `Type` этого параметра. Ключи, которых нет в `RETURN_PROPERTIES`, Битрикс24 не сохранит ||
+Регистр ключей не важен. Значение Битрикс24 приводит к типу `Type` этого параметра. Ключи, которых нет в `RETURN_PROPERTIES`, Битрикс24 не сохранит.
+
+Чтобы параметр остался незаполненным, передайте пустую строку `""`. Если ключ не передать, параметр получит значение `Default`, заданное при регистрации. Подробнее — в разделе [Как вернуть незаполненное значение](#empty-value) ||
 || **LOG_MESSAGE**
 [`string`](../../data-types.md) | Текст для журнала бизнес-процесса.
 
@@ -49,9 +51,29 @@
 
 {% endnote %}
 
+## Как вернуть незаполненное значение {#empty-value}
+
+Чтобы робот или действие вернули параметр незаполненным, передайте в `RETURN_VALUES` пустую строку `""`. Способ работает для параметра любого типа, в том числе множественного, и при любом способе вызова метода. Пустая строка заменяет и значение `Default`, заданное при регистрации.
+
+Другие значения процесс обрабатывает по-разному. Условие «не заполнено» в роботах и бизнес-процессах сработает не для всех из них.
+
+#|
+|| **Значение в `RETURN_VALUES`** | **Результат в процессе** ||
+|| `""` | Параметр не заполнен ||
+|| Ключ не передан | Параметр получает значение `Default`, заданное при регистрации. Если `Default` не задан, параметр не заполнен ||
+|| `null` | Параметр получает значение `Default`, заданное при регистрации. Если `Default` не задан, параметр не заполнен ||
+|| `false` | В запросе с JSON-телом параметр не заполнен. BX24.js и CRest отправляют `false` как `0`, и параметр получает значение `0` ||
+|| `[]` | В запросе с JSON-телом параметр не заполнен. BX24.js и CRest не отправляют пустой массив, и параметр получает значение `Default` ||
+|| `0` или `"0"` | Параметр заполнен значением `0` ||
+|| `"N"` | Для параметра типа `bool` параметр заполнен значением «Нет» ||
+|| Строка из пробелов | Параметр заполнен строкой из пробелов ||
+|#
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
+
+В примере параметр `outputString` возвращается со значением, а `errorText` — незаполненным.
 
 {% list tabs %}
 
@@ -61,7 +83,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"event_token":"55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90","return_values":{"outputString":"846c55d14f552180874a628d2615e285"}}' \
+    -d '{"event_token":"55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90","return_values":{"outputString":"846c55d14f552180874a628d2615e285","errorText":""}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/bizproc.event.send
     ```
 
@@ -71,7 +93,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"event_token":"55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90","return_values":{"outputString":"846c55d14f552180874a628d2615e285"},"auth":"**put_access_token_here**"}' \
+    -d '{"event_token":"55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90","return_values":{"outputString":"846c55d14f552180874a628d2615e285","errorText":""},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/bizproc.event.send
     ```
 
@@ -86,7 +108,8 @@
     		params: {
     			event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
     			return_values: {
-    				outputString: '846c55d14f552180874a628d2615e285'
+    				outputString: '846c55d14f552180874a628d2615e285',
+    				errorText: ''
     			}
     		}
     	});
@@ -112,6 +135,7 @@
             event_token="55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90",
             return_values={
                 "outputString": "846c55d14f552180874a628d2615e285",
+                "errorText": "",
             },
         ).response
         result = bitrix_response.result
@@ -141,7 +165,8 @@
                 [
                     'event_token' => '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
                     'return_values' => [
-                        'outputString' => '846c55d14f552180874a628d2615e285'
+                        'outputString' => '846c55d14f552180874a628d2615e285',
+                        'errorText' => ''
                     ]
                 ]
             );
@@ -166,7 +191,8 @@
         {
             event_token: '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
             return_values: {
-                outputString: '846c55d14f552180874a628d2615e285'
+                outputString: '846c55d14f552180874a628d2615e285',
+                errorText: ''
             }
         },
         function(result) {
@@ -188,7 +214,8 @@
         [
             'event_token' => '55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90',
             'return_values' => [
-                'outputString' => '846c55d14f552180874a628d2615e285'
+                'outputString' => '846c55d14f552180874a628d2615e285',
+                'errorText' => ''
             ]
         ]
     );
@@ -206,6 +233,7 @@
     	"EVENT_TOKEN": "55c1dc1c3f0d75.78875596|A51601_82584_96831_81132|hsyUws1j4XiwqPqN45eH66CcQtEvpUIP.47dd5d888e8e549d2c984713e12a4268e6e87d0208ca1f093ba1075e77f92e90",
     	"RETURN_VALUES": b24.Params{
     		"outputString": "846c55d14f552180874a628d2615e285",
+    		"errorText":    "",
     	},
     })
     if err != nil {

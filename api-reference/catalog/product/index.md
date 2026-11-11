@@ -15,11 +15,22 @@
 
 Для простого товара используйте методы `catalog.product.*`, для услуги — `catalog.product.service.*`. Товар с вариациями создавайте через головной товар `catalog.product.sku.*` и связанные с ним вариации `catalog.product.offer.*`. Состав полей каждого типа приведен в [типах данных Каталога](../data-types.md); доступные поля конкретного каталога можно получить методом `getFieldsByFilter` соответствующей группы.
 
+Методы товаров есть в двух версиях API: REST 2 и [REST 3.0](../../rest-v3.md). В таблицах методов REST 3.0 помечены как `v 3.0`. Особенности новой версии описаны в разделе [Товары в REST 3.0](#rest3).
+
 > Быстрый переход: [все методы и события](#all-methods)
 >
 > Пользовательская документация:
 > - [Как создать товар в каталоге](https://helpdesk.bitrix24.ru/open/11657084/)
 > - [Как работать с вариациями товара](https://helpdesk.bitrix24.ru/open/11657102/)
+
+## Как начать работу
+
+1. Получите идентификатор торгового каталога методом [catalog.catalog.list](../catalog/catalog-catalog-list.md)
+2. Если нужно распределить товары по разделам, создайте разделы методами [catalog.section.*](../section/index.md)
+3. Создайте [товар](./catalog-product-add.md), [услугу](./service/catalog-product-service-add.md) или [головной товар](./sku/catalog-product-sku-add.md) с [вариациями](./offer/catalog-product-offer-add.md)
+4. Добавьте изображения методом [catalog.productImage.add](../product-image/catalog-product-image-add.md) или через поля изображения при создании товара
+5. Укажите цену методами [catalog.price.*](../price/index.md)
+6. Проверьте результат методом [catalog.product.get](./catalog-product-get.md) или соответствующим методом `get` для услуги, головного товара и вариации
 
 ## Связь товара с другими объектами
 
@@ -39,16 +50,7 @@
 
 **Складской учет.** Если включен складской учет, то при создании или редактировании товара вам не нужно указывать доступное количество — складской учет автоматически установит значения.
 
-## Как начать работу
-
-1. Получите идентификатор торгового каталога методом [catalog.catalog.list](../catalog/catalog-catalog-list.md)
-2. Если нужно распределить товары по разделам, создайте разделы методами [catalog.section.*](../section/index.md)
-3. Создайте [товар](./catalog-product-add.md), [услугу](./service/catalog-product-service-add.md) или [головной товар](./sku/catalog-product-sku-add.md) с [вариациями](./offer/catalog-product-offer-add.md)
-4. Добавьте изображения методом [catalog.productImage.add](../product-image/catalog-product-image-add.md) или через поля изображения при создании товара
-5. Укажите цену методами [catalog.price.*](../price/index.md)
-6. Проверьте результат методом [catalog.product.get](./catalog-product-get.md) или соответствующим методом `get` для услуги, головного товара и вариации
-
-## Товары в REST 3.0
+## Товары в REST 3.0 {#rest3}
 
 В [REST 3.0](../../rest-v3.md) для товаров, услуг, головных товаров и вариаций есть методы добавления, изменения, получения, удаления и скачивания файлов и методы получения схемы полей `*.field.list` и `*.field.get`. Методы, которые есть в обеих версиях API, помечены в таблицах как `v 3.0`. Справочник типов товаров возвращает метод [catalog.product.type.list](./catalog-product-type-list.md).
 

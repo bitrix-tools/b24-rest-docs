@@ -431,7 +431,7 @@ HTTP-статус: **200**
         "items": [
             {
                 "id": 7555,
-                "name": "DOCS-V3-OFFER Футболка синяя L",
+                "name": "Футболка синяя L",
                 "type": 4,
                 "properties": {
                     "PROPERTY_101": {
@@ -451,7 +451,7 @@ HTTP-статус: **200**
             },
             {
                 "id": 7557,
-                "name": "DOCS-V3-OFFER Футболка белая L",
+                "name": "Футболка белая L",
                 "type": 4,
                 "properties": {
                     "PROPERTY_101": {
@@ -634,8 +634,8 @@ HTTP-статус: **400**
 || `200040300000` | Iblock Not Found | Передайте в `filter` условие `iblockId` с идентификатором существующего каталога ||
 || `-` | productType is not allowed for this catalog | Передайте в `iblockId` инфоблок каталога вариаций ||
 || `-` | The type field supports only the =, != and in filter operators | Используйте для `type` операторы `=`, `!=` или `in` ||
-|| `#FIELD#` | В DTO `ProductDto` в поле `#FIELD#` требуется наличие атрибута `Filterable` для такого запроса | Фильтруйте только по полям из описания параметра `filter` ||
-|| `#FIELD#` | В DTO `ProductDto` в поле `#FIELD#` требуется наличие атрибута `Sortable` для такого запроса | Сортируйте только по полям из описания параметра `order` ||
+|| `previewText` | В DTO `ProductDto` в поле `previewText` требуется наличие атрибута `Filterable` для такого запроса | Фильтруйте только по полям из описания параметра `filter` ||
+|| `measure` | В DTO `ProductDto` в поле `measure` требуется наличие атрибута `Sortable` для такого запроса | Сортируйте только по полям из описания параметра `order` ||
 || `-` | pagination.offset must be a non-negative multiple of pagination.limit | Передайте `offset`, кратный `limit`, или используйте `page` ||
 |#
 
@@ -645,7 +645,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter` | Неизвестный оператор фильтра `#OPERATOR#` | Используйте операторы `=`, `!=`, `>`, `>=`, `<`, `<=` ||
+|| `filter` | Неизвестный оператор фильтра `%` | Используйте операторы `=`, `!=`, `>`, `>=`, `<`, `<=` ||
 |#
 
 #### Ошибка пагинации
@@ -654,7 +654,16 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `pagination` | Не удается распознать параметр пагинации `#PAGINATION#` | Передайте `limit` больше `0` ||
+|| `pagination` | Не удается распознать параметр пагинации `{"limit":0}` | Передайте `limit` больше `0` ||
+|#
+
+#### Ошибка сортировки
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDORDEREXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `order` | Не удается распознать выражение сортировки `bad` | Передайте направление `asc` или `desc` ||
 |#
 
 #### Ошибка неизвестного поля
@@ -663,7 +672,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select`, `filter`, `order` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Укажите только поля из описания параметров. Ключи `PROPERTY_{id}` не поддерживаются ||
+|| `select`, `filter`, `order` | Неизвестное поле `foo` для сущности `ProductDto` | Укажите только поля из описания параметров. Ключи `PROPERTY_{id}` не поддерживаются ||
 |#
 
 #### Ошибка доступа
@@ -675,6 +684,17 @@ HTTP-статус: **400**
 || `-` | Доступ запрещен | Проверьте права пользователя на каталог и на инфоблок ||
 |#
 
+#### Ошибка сервера
+
+HTTP-статус: **500**
+
+Ошибка приходит в формате прежней версии API: `{"error": "INTERNAL_SERVER_ERROR", "error_description": "Internal server error"}`.
+
+#|
+|| **Код** | **Описание ошибки** | **Как исправить** ||
+|| `INTERNAL_SERVER_ERROR` | Internal server error | В `select` нет поля `id`. Добавьте `id` в `select` ||
+|#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
@@ -682,7 +702,7 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-offer-add-rest-v3.md)
 - [{#T}](./catalog-product-offer-update-rest-v3.md)
 - [{#T}](./catalog-product-offer-get-rest-v3.md)
-- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-download-rest-v3.md)
+- [{#T}](./catalog-product-offer-delete-rest-v3.md)
 - [{#T}](./catalog-product-offer-field-list.md)
 - [{#T}](./catalog-product-offer-field-get.md)

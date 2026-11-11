@@ -45,21 +45,27 @@
 - `name` [`string`](../../data-types.md) — название колонки, заглавные латинские буквы `A-Z`, цифры и знак `_`, не длиннее 32 символов
 - `externalCode` [`string`](../../data-types.md) — внешний код колонки
 
+Необязательный ключ:
+
+- `description` [`string`](../../data-types.md) — описание колонки
+
 Видимость у добавляемой колонки не задается: новые колонки создаются видимыми ||
 || **update**
-[`array`](../../data-types.md) | Массив изменяемых колонок. Каждый элемент — объект с двумя обязательными ключами:
+[`array`](../../data-types.md) | Массив изменяемых колонок. Каждый элемент — объект с ключом `id` и хотя бы одним из ключей `visible` или `description`:
 
 ```
 {
     "id": 12,
-    "visible": false
+    "visible": false,
+    "description": "Имя клиента"
 }
 ```
 
 - `id` [`integer`](../../data-types.md) — идентификатор колонки, можно получить методом [biconnector.table.get](./biconnector-table-get.md)
 - `visible` [`boolean`](../../data-types.md) — видимость колонки
+- `description` [`string`](../../data-types.md) — описание колонки
 
-Видимость — единственный признак колонки, который меняет этот блок. Название, тип и внешний код существующей колонки изменить нельзя ||
+Название, тип и внешний код существующей колонки изменить нельзя ||
 || **delete**
 [`integer[]`](../../data-types.md) | Массив идентификаторов удаляемых колонок. Идентификаторы можно получить методом [biconnector.table.get](./biconnector-table-get.md) ||
 |#
@@ -68,7 +74,7 @@
 
 {% note warning "" %}
 
-Идентификаторы в `update`, которых нет у этой таблицы, метод пропускает молча — ошибки не будет. Удаление же идет фильтром только по `id`, без проверки, что колонка принадлежит указанной таблице: перед вызовом сверяйте идентификаторы с ответом [biconnector.table.get](./biconnector-table-get.md)
+Идентификаторы в `update` и `delete`, которых нет у этой таблицы, метод пропускает молча — ошибки не будет. Колонки других таблиц метод не меняет и не удаляет. Чтобы убедиться, что изменения применились, сверяйте идентификаторы с ответом [biconnector.table.get](./biconnector-table-get.md)
 
 {% endnote %}
 
@@ -563,7 +569,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `DATASET_NOT_FOUND` | Dataset was not found. | Таблицы нет или она принадлежит другому приложению ||
@@ -576,7 +582,8 @@ HTTP-статус: **200**
 || `VALIDATION_DUPLICATE_EXIST_CODE` | The following "externalCode" values already exist in the current fields: #LIST_CODES# | Поля с таким параметром `externalCode` уже существуют ||
 || `VALIDATION_DUPLICATE_EXIST_NAME` | The following "name" values already exist in the current fields: #LIST_NAMES# | Поля с таким параметром `name` уже существуют ||
 || `VALIDATION_FIELD_ADD_MISSING_REQUIRED_FIELDS` | Field to be added must include the required parameters: "name", "externalCode" and "type". | Поле для добавления должно включать параметры `name`, `externalCode` и `type` ||
-|| `VALIDATION_FIELD_UPDATE_MISSING_REQUIRED_FIELDS` | Field to be updated must include the required parameters: "id" and "visible". | Поле для обновления должно включать параметры `id` и `visible` ||
+|| `VALIDATION_FIELD_UPDATE_MISSING_REQUIRED_FIELDS` | Field to be updated must include the required parameters: "id" and "visible". "description" can be passed instead of "visible". | Элемент `update` должен содержать `id` и хотя бы один из ключей `visible` или `description` ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "description" must be of type string. | Описание колонки в `add` или `update` передано не строкой ||
 || `VALIDATION_FIELD_DELETE_INVALID_ID` | ID to be deleted must be a positive integer. | Неверный формат `id` для удаления ||
 |#
 

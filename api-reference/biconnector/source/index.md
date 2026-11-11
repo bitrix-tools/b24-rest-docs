@@ -60,7 +60,7 @@
 || **description**
 [`string`](../../data-types.md) | Описание источника | Нет | ✅ | ✅ ||
 || **active**
-[`boolean`](../../data-types.md) | Активность источника. Новый источник всегда создается активным, а через REST значение не меняется: активностью управляет переключатель в разделе «Рабочее место аналитика». Неактивный источник перестает отдавать данные | Нет | ✅ | ❌ ||
+[`boolean`](../../data-types.md) | Активность источника. Новый источник всегда создается активным. Изменить активность можно методом [biconnector.source.update](./biconnector-source-update.md). Неактивный источник перестает отдавать данные | Нет | ✅ | ✅ ||
 || **dateCreate**
 [`datetime`](../../data-types.md) | Дата создания источника | Нет | ✅ | ❌ ||
 || **dateUpdate**
@@ -77,7 +77,7 @@
 
 Плоский список выше описывает состав источника, но в ответе метода [biconnector.source.get](./biconnector-source-get.md) поля лежат на двух уровнях: собственные поля источника — во вложенном объекте `item.connection`, а `connectorId` и `settings` — прямо в `item`. Путь к названию источника выглядит как `result.item.connection.title`, а не `result.item.title`.
 
-Метод [biconnector.source.fields](./biconnector-source-fields.md) отдает `active` как доступное для записи, но значение этого поля методы `add` и `update` не читают.
+Метод [biconnector.source.add](./biconnector-source-add.md) значение `active` не читает, его читает только [biconnector.source.update](./biconnector-source-update.md).
 
 ### Поле settings {#settings}
 

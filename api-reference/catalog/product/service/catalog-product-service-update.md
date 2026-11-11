@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Редактирование товара», одним из прав «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на изменение элементов инфоблока каталога
 
-Метод обновляет поля услуги. 
+Метод `catalog.product.service.update` изменяет поля услуги.
 
 ## Параметры метода
 
@@ -23,86 +23,102 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги.
+[`catalog_product_service.id`](../../data-types.md#catalog_product_service) | Идентификатор услуги. Идентификатор можно получить методом [catalog.product.service.list](./catalog-product-service-list.md).
 
-Для получения идентификаторов услуг необходимо использовать [catalog.product.service.list](./catalog-product-service-list.md) 
-||
+Метод не проверяет тип элемента: если передать идентификатор товара, метод изменит его поля и вернет `service: []` ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей для обновления услуги ||
+[`object`](../../../data-types.md) | Объект с полями услуги, которые нужно изменить [(подробное описание)](#fields).
+
+Если передать пустой объект, метод вернет услугу без изменений ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **name**
-[`string`](../../../data-types.md) | Наименование услуги ||
+[`string`](../../../data-types.md) | Название услуги. Пустое значение вызывает ошибку «Не введено название» ||
 || **active**
-[`string`](../../../data-types.md) | Признак активности. Возможные значения:
-- `Y` — да
-- `N` — нет
-||
+[`string`](../../../data-types.md) | Активность услуги.
+
+Возможные значения:
+
+- `Y` — активна
+- `N` — неактивна
+
+Другие значения сохраняются как `N` ||
 || **code**
 [`string`](../../../data-types.md) | Символьный код ||
 || **xmlId**
 [`string`](../../../data-types.md) | Внешний код ||
-|| **createdBy**
-[`user.id`](../../../data-types.md) | Кем создан ||
-|| **modifiedBy**
-[`user.id`](../../../data-types.md) | Кем изменен ||
-|| **dateActiveFrom**
-[`datetime`](../../../data-types.md) | Дата начала активности ||
-|| **dateActiveTo**
-[`datetime`](../../../data-types.md) | Дата окончания активности ||
-|| **dateCreate**
-[`datetime`](../../../data-types.md) | Дата создания ||
-|| **iblockSectionId**
-[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела информационного блока ||
-|| **IblockSection**
-[`array`](../../../data-types.md)| Массив со всеми разделами, к которым привязана услуга ||
-|| **measure**
-[`catalog_measure.id`](../../data-types.md#catalog_measure)| Единица измерения ||
-|| **previewText**
-[`string`](../../../data-types.md) | Описание для анонса ||
-|| **detailText**
-[`string`](../../../data-types.md) | Детальное описание ||
-|| **previewPicture**
-[`object`](../../../data-types.md) | Картинка для анонса. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате base64. 
-
-Для удаления картинки используется объект в формате `{remove: 'Y'}` ||
-|| **detailPicture**
-[`object`](../../../data-types.md) | Детальная картинка. Объект в формате `{fileData: [value1, value2]}`, где `value1` — название файла картинки с расширением, `value2` — картинка в формате base64. 
-
-Для удаления картинки используется объект в формате `{remove: 'Y'}` ||
-|| **previewTextType**
-[`string`](../../../data-types.md) | Тип описания для анонса. Возможные значения:
-- `text` — текст
-- `html` — HTML
-||
-|| **detailTextType**
-[`string`](../../../data-types.md) | Тип детального описания. Возможные значения:
-- `text` — текст
-- `html` — HTML
-||
 || **sort**
 [`integer`](../../../data-types.md) | Сортировка ||
+|| **createdBy**
+[`user.id`](../../../data-types.md) | Идентификатор пользователя, который создал услугу. Идентификатор можно получить методом [user.get](../../../user/user-get.md) ||
+|| **modifiedBy**
+[`user.id`](../../../data-types.md) | Идентификатор пользователя, который изменил услугу ||
+|| **dateActiveFrom**
+[`datetime`](../../../data-types.md) | Дата начала активности. Сейчас дату нельзя задать: строка в любом формате вызывает ошибку «Неверный формат даты начала активности», число игнорируется. Принимается `null` ||
+|| **dateActiveTo**
+[`datetime`](../../../data-types.md) | Дата окончания активности. Сейчас дату нельзя задать: строка в любом формате вызывает ошибку «Неверный формат даты завершения активности», число игнорируется. Принимается `null` ||
+|| **dateCreate**
+[`datetime`](../../../data-types.md) | Дата создания. Поле заполняется автоматически, передавать его не нужно: сейчас переданная дата сохраняется неверно, например `2026-11-01T10:00:00+03:00` сохраняется как `2001-11-30T00:00:00+03:00` ||
+|| **iblockSectionId**
+[`catalog_section.id`](../../data-types.md#catalog_section) | Идентификатор основного раздела. Идентификатор можно получить методом [catalog.section.list](../../section/catalog-section-list.md).
+
+Для несуществующего раздела метод возвращает ошибку `200040300050`. Чтобы отвязать услугу от разделов, передайте `0` ||
+|| **iblockSection**
+[`catalog_section.id[]`](../../data-types.md#catalog_section) | Массив идентификаторов разделов, к которым нужно привязать услугу, например `[41, 39]`. Основной раздел задайте в `iblockSectionId`.
+
+Массив заменяет текущие привязки к разделам ||
+|| **measure**
+[`catalog_measure.id`](../../data-types.md#catalog_measure) | Идентификатор единицы измерения. Идентификатор можно получить методом [catalog.measure.list](../../measure/catalog-measure-list.md).
+
+Метод не проверяет, что единица измерения существует: несуществующий идентификатор сохраняется без ошибки ||
+|| **previewText**
+[`string`](../../../data-types.md) | Описание для анонса ||
+|| **previewTextType**
+[`string`](../../../data-types.md) | Тип описания для анонса.
+
+Возможные значения:
+
+- `text` — текст
+- `html` — HTML ||
+|| **previewPicture**
+[`object`](../../../data-types.md) | Картинка для анонса. Объект в формате `{"fileData": ["photo.png", "base64"]}`: первый элемент — название файла с расширением, второй — содержимое файла в кодировке [Base64](../../../files/how-to-upload-files.md).
+
+Чтобы удалить картинку, передайте `{"remove": "Y"}` ||
+|| **detailText**
+[`string`](../../../data-types.md) | Детальное описание ||
+|| **detailTextType**
+[`string`](../../../data-types.md) | Тип детального описания.
+
+Возможные значения:
+
+- `text` — текст
+- `html` — HTML ||
+|| **detailPicture**
+[`object`](../../../data-types.md) | Детальная картинка. Объект в формате `{"fileData": ["photo.png", "base64"]}`: первый элемент — название файла с расширением, второй — содержимое файла в кодировке [Base64](../../../files/how-to-upload-files.md).
+
+Чтобы удалить картинку, передайте `{"remove": "Y"}` ||
 || **vatId**
-[`catalog_vat.id`](../../data-types.md#catalog_vat) | Идентификатор НДС ||
+[`catalog_vat.id`](../../data-types.md#catalog_vat) | Идентификатор ставки НДС. Идентификатор можно получить методом [catalog.vat.list](../../vat/catalog-vat-list.md).
+
+Метод не проверяет, что ставка существует: несуществующий идентификатор сохраняется без ошибки ||
 || **vatIncluded**
-[`string`](../../../data-types.md) | Включен ли НДС в цену. Возможные значения:
+[`string`](../../../data-types.md) | НДС включен в цену.
+
+Возможные значения:
+
 - `Y` — да
-- `N` — нет
-||
+- `N` — нет ||
 || **propertyN**
-[`object`\|`array`](../../../data-types.md) | Значение свойства услуги, где `N` — идентификатор свойства. Свойств может быть несколько. 
+[`object`\|`array`](../../../data-types.md) | Значение свойства услуги, где `N` — идентификатор свойства. Свойств может быть несколько.
 
-Значение указывается в формате `{valueId: valueId, value: value}` либо в формате `[{valueId: valueId1, value: value1}, ..., {valueId: valueIdN, value: valueN}]`, если свойство множественное. Здесь `valueId` — идентификатор значения свойства, а `value` — значение свойства. 
+Значение одиночного свойства — объект `{"valueId": 4159, "value": "SRV-AC-03"}`, множественного — массив таких объектов. `valueId` — идентификатор значения свойства, его можно получить методом [catalog.product.service.get](./catalog-product-service-get.md).
 
-Если не указать `valueId`, то существующее значение будет удалено из базы данных и заменено на новое, указанное в `value`. Если свойство множественное, то все существующие значения свойства, для которых не был указан `valueId`, будут удалены. Исключение — свойства типа «файл»: их значения, не переданные в запросе, сохраняются, но `valueId` оставшихся значений после удаления меняются.
-
-`valueId` всех свойств услуги можно получить с помощью методов [catalog.product.service.get](./catalog-product-service-get.md) и [catalog.product.service.list](./catalog-product-service-list.md)
-||
+Если не указать `valueId`, существующее значение удаляется и заменяется новым из `value`. У множественного свойства удаляются все значения, для которых не передан `valueId`. Исключение — свойства типа «Файл»: значения, не переданные в запросе, сохраняются, но их `valueId` меняются ||
 |#
 
 {% note warning "Работа с ценой услуг" %}
@@ -123,7 +139,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1265,"fields":{"name":"Услуга","active":"Y","code":"service","createdBy":1,"dateActiveFrom":"2024-05-28T10:00:00","dateActiveTo":"2024-05-29T10:00:00","dateCreate":"2024-05-27T10:00:00","detailPicture":{"fileData":["detailPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"detailText":"","detailTextType":"text","iblockSectionId":47,"modifiedBy":1,"previewPicture":{"fileData":["previewPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"previewText":"","previewTextType":"text","sort":100,"vatId":1,"vatIncluded":"Y","xmlId":"216","property258":{"value":"test","valueId":9809},"property259":[{"value":"test1","valueId":9810},{"value":"test2","valueId":9811}]}}' \
+    -d '{"id":7697,"fields":{"name":"Монтаж кондиционера с выездом","previewText":"Установка сплит-системы с выездом мастера","detailPicture":{"fileData":["photo.png","iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="]},"property301":{"valueId":4159,"value":"SRV-AC-03"},"property305":[{"valueId":4161,"value":"Выезд мастера"},{"value":"Демонтаж старого блока"}]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.service.update
     ```
 
@@ -133,7 +149,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1265,"fields":{"name":"Услуга","active":"Y","code":"service","createdBy":1,"dateActiveFrom":"2024-05-28T10:00:00","dateActiveTo":"2024-05-29T10:00:00","dateCreate":"2024-05-27T10:00:00","detailPicture":{"fileData":["detailPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"detailText":"","detailTextType":"text","iblockSectionId":47,"modifiedBy":1,"previewPicture":{"fileData":["previewPicture.png","iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"]},"previewText":"","previewTextType":"text","sort":100,"vatId":1,"vatIncluded":"Y","xmlId":"216","property258":{"value":"test","valueId":9809},"property259":[{"value":"test1","valueId":9810},{"value":"test2","valueId":9811}]},"auth":"**put_access_token_here**"}' \
+    -d '{"id":7697,"fields":{"name":"Монтаж кондиционера с выездом","previewText":"Установка сплит-системы с выездом мастера","detailPicture":{"fileData":["photo.png","iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="]},"property301":{"valueId":4159,"value":"SRV-AC-03"},"property305":[{"valueId":4161,"value":"Выезд мастера"},{"value":"Демонтаж старого блока"}]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.service.update
     ```
 
@@ -148,71 +164,49 @@
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type ServiceUpdateResult = {
+    type ServiceResult = {
       service: {
-        active: string,
-        available: string,
-        bundle: string,
-        code: string,
-        createdBy: number,
-        dateActiveFrom: ISODate | null,
-        dateActiveTo: ISODate | null,
-        dateCreate: ISODate | null,
-        detailPicture: { id: string, url: string, urlMachine: string } | null,
-        detailText: string | null,
-        detailTextType: string,
-        iblockId: number,
-        iblockSectionId: number,
         id: number,
-        modifiedBy: number,
+        iblockId: number,
+        iblockSectionId: number | null,
+        iblockSection: number[] | null,
         name: string,
-        previewPicture: { id: string, url: string, urlMachine: string } | null,
-        previewText: string | null,
-        previewTextType: string,
-        property258: { value: string, valueId: string } | null,
-        property259: Array<{ value: string, valueId: string }> | null,
-        sort: number,
-        timestampX: ISODate,
-        type: number,
-        vatId: number,
-        vatIncluded: string,
+        code: string | null,
+        active: string,
         xmlId: string,
-      },
+        dateCreate: ISODate,
+        timestampX: ISODate,
+        previewPicture: { id: string, url: string, urlMachine: string } | null,
+        detailPicture: { id: string, url: string, urlMachine: string } | null,
+        property301: { value: string, valueId: string } | null,
+        property305: Array<{ value: string, valueId: string }> | null,
+        [key: string]: unknown,
+      }
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<ServiceUpdateResult>({
+      const response = await $b24.actions.v2.call.make<ServiceResult>({
         method: 'catalog.product.service.update',
         params: {
-          id: 1265,
+          id: 7697,
           fields: {
-            name: 'Service',
-            active: 'Y',
-            code: 'service',
-            createdBy: 1,
-            dateActiveFrom: '2024-05-28T10:00:00',
-            dateActiveTo: '2024-05-29T10:00:00',
-            dateCreate: '2024-05-27T10:00:00',
+            name: 'Монтаж кондиционера с выездом',
+            previewText: 'Установка сплит-системы с выездом мастера',
             detailPicture: {
-              fileData: ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
+              fileData: ['photo.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='],
             },
-            detailText: '',
-            detailTextType: 'text',
-            iblockSectionId: 47,
-            modifiedBy: 1,
-            previewPicture: {
-              fileData: ['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
+            property301: {
+              valueId: 4159,
+              value: 'SRV-AC-03',
             },
-            previewText: '',
-            previewTextType: 'text',
-            sort: 100,
-            vatId: 1,
-            vatIncluded: 'Y',
-            xmlId: '216',
-            property258: { value: 'test', valueId: 9809 },
-            property259: [
-              { value: 'test1', valueId: 9810 },
-              { value: 'test2', valueId: 9811 },
+            property305: [
+              {
+                valueId: 4161,
+                value: 'Выезд мастера',
+              },
+              {
+                value: 'Демонтаж старого блока',
+              },
             ],
           },
         },
@@ -224,7 +218,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Updated service:', result.service.id, result.service.name)
+        console.info('Updated service id:', result.service.id, 'name:', result.service.name)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -246,35 +240,25 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.service.update',
             params: {
-              id: 1265,
+              id: 7697,
               fields: {
-                name: 'Service',
-                active: 'Y',
-                code: 'service',
-                createdBy: 1,
-                dateActiveFrom: '2024-05-28T10:00:00',
-                dateActiveTo: '2024-05-29T10:00:00',
-                dateCreate: '2024-05-27T10:00:00',
+                name: 'Монтаж кондиционера с выездом',
+                previewText: 'Установка сплит-системы с выездом мастера',
                 detailPicture: {
-                  fileData: ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
+                  fileData: ['photo.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='],
                 },
-                detailText: '',
-                detailTextType: 'text',
-                iblockSectionId: 47,
-                modifiedBy: 1,
-                previewPicture: {
-                  fileData: ['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nо3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC'],
+                property301: {
+                  valueId: 4159,
+                  value: 'SRV-AC-03',
                 },
-                previewText: '',
-                previewTextType: 'text',
-                sort: 100,
-                vatId: 1,
-                vatIncluded: 'Y',
-                xmlId: '216',
-                property258: { value: 'test', valueId: 9809 },
-                property259: [
-                  { value: 'test1', valueId: 9810 },
-                  { value: 'test2', valueId: 9811 },
+                property305: [
+                  {
+                    valueId: 4161,
+                    value: 'Выезд мастера',
+                  },
+                  {
+                    value: 'Демонтаж старого блока',
+                  },
                 ],
               },
             },
@@ -288,7 +272,7 @@
           }
 
           const result = response.getData().result
-          console.info('Updated service:', result.service.id, result.service.name)
+          console.info('Updated service id:', result.service.id, 'name:', result.service.name)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -306,55 +290,32 @@
 
     try:
         bitrix_response = client.catalog.product.service.update(
-            bitrix_id=1265,
+            id=7697,
             fields={
-                "name": "Услуга",
-                "active": "Y",
-                "code": "service",
-                "createdBy": 1,
-                "dateActiveFrom": "2024-05-28T10:00:00",
-                "dateActiveTo": "2024-05-29T10:00:00",
-                "dateCreate": "2024-05-27T10:00:00",
+                "name": "Монтаж кондиционера с выездом",
+                "previewText": "Установка сплит-системы с выездом мастера",
                 "detailPicture": {
-                    "fileData": [
-                        "detailPicture.png",
-                        "put_base64_file_content_here",
-                    ],
+                    "fileData": ["photo.png", "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="],
                 },
-                "detailText": "",
-                "detailTextType": "text",
-                "iblockSectionId": 47,
-                "modifiedBy": 1,
-                "previewPicture": {
-                    "fileData": [
-                        "previewPicture.png",
-                        "put_base64_file_content_here",
-                    ],
+                "property301": {
+                    "valueId": 4159,
+                    "value": "SRV-AC-03",
                 },
-                "previewText": "",
-                "previewTextType": "text",
-                "sort": 100,
-                "vatId": 1,
-                "vatIncluded": "Y",
-                "xmlId": "216",
-                "property258": {
-                    "value": "test",
-                    "valueId": 9809,
-                },
-                "property259": [
+                "property305": [
                     {
-                        "value": "test1",
-                        "valueId": 9810,
+                        "valueId": 4161,
+                        "value": "Выезд мастера",
                     },
                     {
-                        "value": "test2",
-                        "valueId": 9811,
+                        "value": "Демонтаж старого блока",
                     },
                 ],
             },
         ).response
+
         result = bitrix_response.result
         print(result)
+
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
@@ -370,7 +331,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -378,50 +338,39 @@
             ->call(
                 'catalog.product.service.update',
                 [
-                    'id' => 1265,
+                    'id'     => 7697,
                     'fields' => [
-                        'name' => 'Услуга',
-                        'active' => 'Y',
-                        'code' => 'service',
-                        'createdBy' => 1,
-                        'dateActiveFrom' => '2024-05-28T10:00:00',
-                        'dateActiveTo' => '2024-05-29T10:00:00',
-                        'dateCreate' => '2024-05-27T10:00:00',
+                        'name'          => 'Монтаж кондиционера с выездом',
+                        'previewText'   => 'Установка сплит-системы с выездом мастера',
                         'detailPicture' => [
-                            'fileData' => ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
+                            'fileData' => ['photo.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='],
                         ],
-                        'detailText' => '',
-                        'detailTextType' => 'text',
-                        'iblockSectionId' => 47,
-                        'modifiedBy' => 1,
-                        'previewPicture' => [
-                            'fileData' => ['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
+                        'property301'   => [
+                            'valueId' => 4159,
+                            'value'   => 'SRV-AC-03',
                         ],
-                        'previewText' => '',
-                        'previewTextType' => 'text',
-                        'sort' => 100,
-                        'vatId' => 1,
-                        'vatIncluded' => 'Y',
-                        'xmlId' => '216',
-                        'property258' => ['value' => 'test', 'valueId' => 9809],
-                        'property259' => [
-                            ['value' => 'test1', 'valueId' => 9810],
-                            ['value' => 'test2', 'valueId' => 9811]
+                        'property305'   => [
+                            [
+                                'valueId' => 4161,
+                                'value'   => 'Выезд мастера',
+                            ],
+                            [
+                                'value' => 'Демонтаж старого блока',
+                            ],
                         ],
-                    ]
+                    ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
-        echo 'Error updating product service: ' . $e->getMessage();
+        echo 'Error updating service: ' . $e->getMessage();
     }
     ```
 
@@ -429,42 +378,37 @@
 
     ```js
     BX24.callMethod(
-    'catalog.product.service.update', 
-    {
-        'id': 1265,
-        'fields':{
-                name: 'Услуга',
-                active: 'Y',
-                code: 'service',
-                createdBy: 1,
-                dateActiveFrom: '2024-05-28T10:00:00',
-                dateActiveTo: '2024-05-29T10:00:00',
-                dateCreate: '2024-05-27T10:00:00',
-                detailPicture: {
-                    'fileData':  ['detailPicture.png','iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']},
-                detailText: '',
-                detailTextType: 'text',
-                iblockSectionId: 47,
-                modifiedBy: 1,
-                previewPicture: {
-                    'fileData':['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']},
-                previewText: '',
-                previewTextType: 'text',
-                sort: 100,
-                vatId: 1,
-                vatIncluded: 'Y',
-                xmlId: '216',
-                property258: {value: 'test', valueId: 9809},
-                property259: [{value: 'test1', valueId: 9810}, {value: 'test2', valueId: 9811}],
-    },
-    },
-    function(result)
-    {
-    if(result.error())
-    console.error(result.error());
-    else
-    console.log(result.data());
-    }
+        'catalog.product.service.update',
+        {
+            'id': 7697,
+            'fields': {
+                'name': 'Монтаж кондиционера с выездом',
+                'previewText': 'Установка сплит-системы с выездом мастера',
+                'detailPicture': {
+                    'fileData': ['photo.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==']
+                },
+                'property301': {
+                    'valueId': 4159,
+                    'value': 'SRV-AC-03'
+                },
+                'property305': [
+                    {
+                        'valueId': 4161,
+                        'value': 'Выезд мастера'
+                    },
+                    {
+                        'value': 'Демонтаж старого блока'
+                    }
+                ]
+            }
+        },
+        function(result)
+        {
+            if(result.error())
+                console.error(result.error());
+            else
+                console.log(result.data());
+        }
     );
     ```
 
@@ -476,37 +420,27 @@
     $result = CRest::call(
         'catalog.product.service.update',
         [
-            'id' => 1265,
+            'id'     => 7697,
             'fields' => [
-                'name' => 'Услуга',
-                'active' => 'Y',
-                'code' => 'service',
-                'createdBy' => 1,
-                'dateActiveFrom' => '2024-05-28T10:00:00',
-                'dateActiveTo' => '2024-05-29T10:00:00',
-                'dateCreate' => '2024-05-27T10:00:00',
+                'name'          => 'Монтаж кондиционера с выездом',
+                'previewText'   => 'Установка сплит-системы с выездом мастера',
                 'detailPicture' => [
-                    'fileData' => ['detailPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
+                    'fileData' => ['photo.png', 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=='],
                 ],
-                'detailText' => '',
-                'detailTextType' => 'text',
-                'iblockSectionId' => 47,
-                'modifiedBy' => 1,
-                'previewPicture' => [
-                    'fileData' => ['previewPicture.png', 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC']
+                'property301'   => [
+                    'valueId' => 4159,
+                    'value'   => 'SRV-AC-03',
                 ],
-                'previewText' => '',
-                'previewTextType' => 'text',
-                'sort' => 100,
-                'vatId' => 1,
-                'vatIncluded' => 'Y',
-                'xmlId' => '216',
-                'property258' => ['value' => 'test', 'valueId' => 9809],
-                'property259' => [
-                    ['value' => 'test1', 'valueId' => 9810],
-                    ['value' => 'test2', 'valueId' => 9811]
+                'property305'   => [
+                    [
+                        'valueId' => 4161,
+                        'value'   => 'Выезд мастера',
+                    ],
+                    [
+                        'value' => 'Демонтаж старого блока',
+                    ],
                 ],
-            ]
+            ],
         ]
     );
 
@@ -520,43 +454,24 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.service.update", b24.Params{
-    	"id": 1265,
+    	"id":     7697,
     	"fields": b24.Params{
-    		"name":           "Услуга",
-    		"active":         "Y",
-    		"code":           "service",
-    		"createdBy":      1,
-    		"dateActiveFrom": "2024-05-28T10:00:00",
-    		"dateActiveTo":   "2024-05-29T10:00:00",
-    		"dateCreate":     "2024-05-27T10:00:00",
+    		"name":          "Монтаж кондиционера с выездом",
+    		"previewText":   "Установка сплит-системы с выездом мастера",
     		"detailPicture": b24.Params{
-    			"fileData": []string{"detailPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
+    			"fileData": []string{"photo.png", "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="},
     		},
-    		"detailText":      "",
-    		"detailTextType":  "text",
-    		"iblockSectionId": 47,
-    		"modifiedBy":      1,
-    		"previewPicture": b24.Params{
-    			"fileData": []string{"previewPicture.png", "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"},
+    		"property301":   b24.Params{
+    			"valueId": 4159,
+    			"value":   "SRV-AC-03",
     		},
-    		"previewText":     "",
-    		"previewTextType": "text",
-    		"sort":            100,
-    		"vatId":           1,
-    		"vatIncluded":     "Y",
-    		"xmlId":           "216",
-    		"property258": b24.Params{
-    			"value":   "test",
-    			"valueId": 9809,
-    		},
-    		"property259": []b24.Params{
-    			{
-    				"value":   "test1",
-    				"valueId": 9810,
+    		"property305":   []b24.Params{
+    			b24.Params{
+    				"valueId": 4161,
+    				"value":   "Выезд мастера",
     			},
-    			{
-    				"value":   "test2",
-    				"valueId": 9811,
+    			b24.Params{
+    				"value": "Демонтаж старого блока",
     			},
     		},
     	},
@@ -572,17 +487,18 @@
     }
 
     var item struct {
-    	Active         string `json:"active"`
-    	Available      string `json:"available"`
-    	Bundle         string `json:"bundle"`
-    	Code           string `json:"code"`
-    	CreatedBy      int    `json:"createdBy"`
-    	DateActiveFrom string `json:"dateActiveFrom"`
+    	ID              int    `json:"id"`
+    	IblockID        int    `json:"iblockId"`
+    	IblockSectionID int    `json:"iblockSectionId"`
+    	Name            string `json:"name"`
+    	Code            string `json:"code"`
+    	Active          string `json:"active"`
+    	XMLID           string `json:"xmlId"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Active, item.Available)
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -598,59 +514,60 @@ HTTP-статус: **200**
             "active": "Y",
             "available": "N",
             "bundle": "N",
-            "code": "service",
-            "createdBy": 1,
-            "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-            "dateActiveTo": "2024-05-29T10:00:00+03:00",
-            "dateCreate": "2024-05-27T10:00:00+03:00",
+            "code": null,
+            "createdBy": 1269,
+            "dateActiveFrom": null,
+            "dateActiveTo": null,
+            "dateCreate": "2026-11-06T14:21:47+03:00",
             "detailPicture": {
-                "id": "6501",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6501\u0026fields%5BproductId%5D=1265",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6501\u0026fields%5BproductId%5D=1265"
+                "id": "40065",
+                "url": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=40065&fields%5BproductId%5D=7697",
+                "urlMachine": "/rest/catalog.product.download?fields%5BfieldName%5D=detailPicture&fields%5BfileId%5D=40065&fields%5BproductId%5D=7697"
             },
             "detailText": null,
             "detailTextType": "text",
-            "iblockId": 23,
-            "iblockSectionId": 47,
-            "id": 1265,
-            "modifiedBy": 1,
-            "name": "Услуга",
-            "previewPicture": {
-                "id": "6500",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6500\u0026fields%5BproductId%5D=1265",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6500\u0026fields%5BproductId%5D=1265"
-            },
-            "previewText": null,
+            "iblockId": 25,
+            "iblockSection": null,
+            "iblockSectionId": null,
+            "id": 7697,
+            "measure": null,
+            "modifiedBy": 1269,
+            "name": "Монтаж кондиционера с выездом",
+            "previewPicture": null,
+            "previewText": "Установка сплит-системы с выездом мастера",
             "previewTextType": "text",
-            "property258": {
-                "value": "test",
-                "valueId": "9809"
+            "property301": {
+                "value": "SRV-AC-03",
+                "valueId": "4159"
             },
-            "property259": [
+            "property303": null,
+            "property305": [
                 {
-                    "value": "test1",
-                    "valueId": "9810"
+                    "value": "Выезд мастера",
+                    "valueId": "4161"
                 },
                 {
-                    "value": "test2",
-                    "valueId": "9811"
+                    "value": "Демонтаж старого блока",
+                    "valueId": "4163"
                 }
             ],
-            "sort": 100,
-            "timestampX": "2024-06-14T12:53:26+03:00",
+            "sort": 500,
+            "timestampX": "2026-11-06T14:21:59+03:00",
             "type": 7,
-            "vatId": 1,
-            "vatIncluded": "Y",
-            "xmlId": "216"
+            "vatId": null,
+            "vatIncluded": "N",
+            "xmlId": "7697"
         }
     },
     "time": {
-        "start": 1718366006.003236,
-        "finish": 1718366007.201945,
-        "duration": 1.1987090110778809,
-        "processing": 0.7935080528259277,
-        "date_start": "2024-06-14T14:53:26+03:00",
-        "date_finish": "2024-06-14T14:53:27+03:00"
+        "start": 1793964118,
+        "finish": 1793964119.417712,
+        "duration": 1.4177119731903076,
+        "processing": 0,
+        "date_start": "2026-11-06T14:21:58+03:00",
+        "date_finish": "2026-11-06T14:21:59+03:00",
+        "operating_reset_at": 1793964660,
+        "operating": 0.6042139530181885
     }
 }
 ```
@@ -662,10 +579,12 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **service**
-[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с информацией об обновленной услуге ||
+|| **result.service**
+[`catalog_product_service`](../../data-types.md#catalog_product_service) | Объект с полями услуги после изменения. Пустые поля приходят со значением `null`.
+
+В ответе приходят все свойства инфоблока в виде ключей `propertyN`. В примере показаны только свойства `property301`, `property303` и `property305` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -674,7 +593,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
+    "error":"200040300010",
     "error_description":"Access denied"
 }
 ```
@@ -684,37 +603,22 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300043` | Недостаточно прав для обновления информационного блока
-|| 
-|| `200040300050` | Недостаточно прав для привязки элемента информационного блока к разделу
-|| 
-|| `200040300040` | Недостаточно прав для обновления услуг
-|| 
-|| `200040300000` | Информационный блок с указанным идентификатором не найден
-|| 
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан параметр `id`
-||
-|| `100` | Не указан или пустой параметр `fields`
-||
-|| `0` | Раздел с указанным идентификатором не существует
-|| 
-|| `0` | Ставка НДС с указанным идентификатором не существует
-|| 
-|| `0` | Указанная валюта закупочной цены не существует
-|| 
-|| `0` | Пользователь с указанным идентификатором, создавший услугу, не существует
-|| 
-|| `0` | Пользователь с указанным идентификатором, изменивший услугу, не существует
-|| 
-|| `0` | Услуга с указанным идентификатором не существует в информационном блоке с указанным идентификатором
-||
-|| `0` | Услуга с указанным идентификатором не существует
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни одного из прав «Просмотр каталога товаров», «Просмотр товаров каталога», «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права «Редактирование товара» ||
+|| `400` | `200040300043` | Access Denied | У пользователя нет права на изменение элементов инфоблока каталога ||
+|| `400` | `200040300050` | Access Denied | Раздел `iblockSectionId` не существует или у пользователя нет права привязывать к нему элементы ||
+|| `400` | Пустое значение | service does not exist. | Услуга с указанным `id` не найдена. Ту же ошибку метод возвращает, если в `id` передана строка, которая не является числом ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {fields}. Should be value of type array. | В `fields` передан не объект ||
+|| `400` | `0` | productType is not allowed for this catalog | В `fields.iblockId` передан другой инфоблок. Перенести услугу в другой каталог нельзя ||
+|| `400` | `0` | Неверный формат даты начала активности.<br> | В `dateActiveFrom` передана строка. Сейчас дату задать нельзя ||
+|| `400` | `0` | Неверный формат даты завершения активности.<br> | В `dateActiveTo` передана строка. Сейчас дату задать нельзя ||
+|| `400` | `0` | Не введено название.<br> | В `name` передана пустая строка ||
+|| `400` | `0` | User createdBy is not exists | Пользователь `createdBy` не найден ||
+|| `400` | `0` | User modifiedBy is not exists | Пользователь `modifiedBy` не найден ||
+|| `400` | `0` | Wrong format of field `name`. | В поле передан массив или объект вместо значения. В тексте указано имя поля ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -724,6 +628,6 @@ HTTP-статус: **400**
 - [{#T}](./catalog-product-service-add.md)
 - [{#T}](./catalog-product-service-get.md)
 - [{#T}](./catalog-product-service-list.md)
-- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-delete.md)
+- [{#T}](./catalog-product-service-download.md)
 - [{#T}](./catalog-product-service-get-fields-by-filter.md)

@@ -11,9 +11,17 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Удаление товара», правом на удаление вариации в инфоблоке и одним из прав: «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара»
 
-Метод удаляет вариацию товара. 
+Метод `catalog.product.offer.delete` удаляет вариацию товара.
+
+{% note warning "" %}
+
+Метод не проверяет, что запись с указанным `id` — вариация. Если передать идентификатор товара из инфоблока товаров, метод удалит этот товар и вернет `true`. Проверяйте идентификатор методом [catalog.product.offer.get](./catalog-product-offer-get.md) перед удалением.
+
+{% endnote %}
+
+Если удалить последнюю вариацию головного товара, он становится простым товаром.
 
 ## Параметры метода
 
@@ -23,9 +31,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`catalog_product_offer.id`](../../data-types.md#catalog_product_offer) | Идентификатор вариации товара.
+[`catalog_product_offer.id`](../../data-types.md#catalog_product_offer) | Идентификатор вариации.
 
-Для получения идентификаторов вариаций товара необходимо использовать [catalog.product.offer.list](./catalog-product-offer-list.md) ||
+Получить идентификаторы вариаций можно методом [catalog.product.offer.list](./catalog-product-offer-list.md) ||
 |#
 
 ## Примеры кода
@@ -40,7 +48,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1285}' \
+    -d '{"id":7695}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.offer.delete
     ```
 
@@ -50,7 +58,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1285,"auth":"**put_access_token_here**"}' \
+    -d '{"id":7695,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.offer.delete
     ```
 
@@ -64,11 +72,14 @@
 
     declare const $b24: B24Frame
 
+    // result is true when the offer is deleted
+    type OfferDeleteResult = boolean
+
     try {
-      const response = await $b24.actions.v2.call.make<boolean>({
+      const response = await $b24.actions.v2.call.make<OfferDeleteResult>({
         method: 'catalog.product.offer.delete',
         params: {
-          id: 1285,
+          id: 7695,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -78,7 +89,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Product offer deleted:', result)
+        console.info('Deleted:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -92,7 +103,7 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function deleteProductOffer() {
+      async function deleteOffer() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
@@ -100,8 +111,8 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.offer.delete',
             params: {
-              id: 1285,
-            },
+                  id: 7695,
+                },
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -112,14 +123,14 @@
           }
 
           const result = response.getData().result
-          console.info('Product offer deleted:', result)
+          console.info('Deleted:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', deleteProductOffer)
+      document.addEventListener('DOMContentLoaded', deleteOffer)
     </script>
     ```
 
@@ -130,7 +141,7 @@
 
     try:
         bitrix_response = client.catalog.product.offer.delete(
-            bitrix_id=1285,
+            bitrix_id=7695,
         ).response
         result = bitrix_response.result
         print(result)
@@ -149,7 +160,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -157,10 +167,10 @@
             ->call(
                 'catalog.product.offer.delete',
                 [
-                    'id' => 1285,
+                    'id' => 7695,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -177,14 +187,14 @@
     BX24.callMethod(
         'catalog.product.offer.delete',
         {
-            id: 1285,
+            id: 7695,
         },
-        function(result) {
-            if (result.error()) {
+        function(result)
+        {
+            if (result.error())
                 console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+            else
+                console.log(result.data());
         }
     );
     ```
@@ -197,7 +207,7 @@
     $result = CRest::call(
         'catalog.product.offer.delete',
         [
-            'id' => 1285
+            'id' => 7695,
         ]
     );
 
@@ -211,17 +221,18 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.offer.delete", b24.Params{
-    	"id": 1285,
+    	"id": 7695,
     })
     if err != nil {
     	return fmt.Errorf("catalog.product.offer.delete: %w", err)
     }
 
-    var ok bool
-    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    // Метод возвращает true, если вариация удалена.
+    var deleted bool
+    if err := json.Unmarshal(res.Result, &deleted); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println("выполнено:", ok)
+    fmt.Println(deleted)
     ```
 
 {% endlist %}
@@ -234,12 +245,14 @@ HTTP-статус: **200**
 {
     "result": true,
     "time": {
-        "start": 1718623769.704759,
-        "finish": 1718623770.549073,
-        "duration": 0.8443140983581543,
-        "processing": 0.4027719497680664,
-        "date_start": "2024-06-17T14:29:29+03:00",
-        "date_finish": "2024-06-17T14:29:30+03:00"
+        "start": 1793895576,
+        "finish": 1793895576.862352,
+        "duration": 0.8623518943786621,
+        "processing": 0,
+        "date_start": "2026-11-05T19:19:36+03:00",
+        "date_finish": "2026-11-05T19:19:36+03:00",
+        "operating_reset_at": 1793895780,
+        "operating": 3.7463879585266113
     }
 }
 ```
@@ -250,9 +263,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат удаления вариации товара ||
+[`boolean`](../../../data-types.md) | `true`, если вариация удалена ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -260,9 +273,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":200040300040,
-    "error_description":"Access Denied"
+{
+    "error": "",
+    "error_description": "offer does not exist."
 }
 ```
 
@@ -271,17 +284,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300040` | Недостаточно прав для удаления вариации товара
-|| 
-|| `200040300040` | Недостаточно прав для удаления информационного блока
-|| 
-|| `200040300010` | Недостаточно прав для просмотра торгового каталога
-|| 
-|| `200040300000` | Информационный блок не найден
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет ни права «Просмотр каталога товаров», ни права «Просмотр товаров каталога», ни права «Изменение цены продажи товара» ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права «Удаление товара» или права на удаление этой вариации в инфоблоке ||
+|| `400` | Пустое значение | offer does not exist. | Вариация с указанным `id` не найдена или запись с этим `id` не является вариацией ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | В `id` передано не число ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

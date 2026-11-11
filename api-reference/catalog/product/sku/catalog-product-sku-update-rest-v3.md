@@ -208,7 +208,7 @@
 - `N` — запрещена
 - `D` — по настройкам модуля ||
 || **properties**
-[`object`](../../../data-types.md) | Значения свойств, которые нужно изменить. Ключ — `PROPERTY_{id}`, где `{id}` — идентификатор свойства. Значение передавайте объектом `{"VALUE": ...}` или массивом таких объектов. Значение строкой или числом метод не сохраняет.
+[`object`](../../../data-types.md) | Значения свойств, которые нужно изменить. Ключ — `PROPERTY_{id}`, где `{id}` — идентификатор свойства. Значение передавайте объектом `{"VALUE": ...}` или массивом таких объектов. Значение строкой или числом метод не сохраняет и очищает текущее значение свойства без ошибки.
 
 Свойства, которые не переданы, сохраняют текущие значения ||
 |#
@@ -239,7 +239,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":7553,"fields":{"name":"DOCS-V3-SKU Футболка хлопковая","detailText":"Состав: 100% хлопок"}}' \
+    -d '{"id":7553,"fields":{"name":"Футболка хлопковая","detailText":"Состав: 100% хлопок"}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.update
     ```
 
@@ -249,7 +249,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":7553,"fields":{"name":"DOCS-V3-SKU Футболка хлопковая","detailText":"Состав: 100% хлопок"},"auth":"**put_access_token_here**"}' \
+    -d '{"id":7553,"fields":{"name":"Футболка хлопковая","detailText":"Состав: 100% хлопок"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.product.sku.update
     ```
 
@@ -275,7 +275,7 @@
         params: {
           id: 7553,
           fields: {
-            name: 'DOCS-V3-SKU Футболка хлопковая',
+            name: 'Футболка хлопковая',
             detailText: 'Состав: 100% хлопок',
           },
         },
@@ -308,7 +308,7 @@
             params: {
               id: 7553,
               fields: {
-                name: 'DOCS-V3-SKU Футболка хлопковая',
+                name: 'Футболка хлопковая',
                 detailText: 'Состав: 100% хлопок',
               },
             },
@@ -341,7 +341,7 @@
         bitrix_response = client.catalog.product.sku.update(
             id=7553,
             fields={
-                "name": "DOCS-V3-SKU Футболка хлопковая",
+                "name": "Футболка хлопковая",
                 "detailText": "Состав: 100% хлопок",
             },
         ).response
@@ -373,7 +373,7 @@
                 [
                     'id' => 7553,
                     'fields' => [
-                        'name' => 'DOCS-V3-SKU Футболка хлопковая',
+                        'name' => 'Футболка хлопковая',
                         'detailText' => 'Состав: 100% хлопок',
                     ],
                 ]
@@ -399,7 +399,7 @@
         {
             id: 7553,
             fields: {
-                name: 'DOCS-V3-SKU Футболка хлопковая',
+                name: 'Футболка хлопковая',
                 detailText: 'Состав: 100% хлопок',
             },
         },
@@ -424,7 +424,7 @@
         [
             'id' => 7553,
             'fields' => [
-                'name' => 'DOCS-V3-SKU Футболка хлопковая',
+                'name' => 'Футболка хлопковая',
                 'detailText' => 'Состав: 100% хлопок',
             ],
         ]
@@ -442,7 +442,7 @@
     res, err := client.Core().Call(ctx, "catalog.product.sku.update", b24.Params{
     	"id": 7553,
     	"fields": b24.Params{
-    		"name": "DOCS-V3-SKU Футболка хлопковая",
+    		"name": "Футболка хлопковая",
     		"detailText": "Состав: 100% хлопок",
     	},
     })
@@ -479,8 +479,8 @@ HTTP-статус: **200**
         "item": {
             "id": 7553,
             "iblockId": 25,
-            "name": "DOCS-V3-SKU Футболка хлопковая",
-            "code": "docs-v3-sku-futbolka",
+            "name": "Футболка хлопковая",
+            "code": "futbolka",
             "xmlId": "7553",
             "active": "Y",
             "sort": 100,
@@ -721,8 +721,8 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `-` | Не заполнено значение хотя бы одного обязательного поля: id, filter | Передайте `id`. Вместе с этим сообщением приходит второе: «Должно быть передано только одно из значений: id, filter» ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` ||
-|| `-` | Product - #ID# is not exists in catalog - #IBLOCK_ID# | Уберите `iblockId` из `fields` или передайте текущий инфоблок записи ||
-|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: #KEYS# | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
+|| `-` | Product - 7553 is not exists in catalog - 27 | Уберите `iblockId` из `fields` или передайте текущий инфоблок записи ||
+|| `-` | The properties field accepts only the property keys PROPERTY_{id}, unknown keys: foo | Передайте в `properties` только ключи вида `PROPERTY_{id}` ||
 |#
 
 #### Ошибки валидации объекта
@@ -731,7 +731,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `#FIELD#` | Поле "#FIELD#" не доступно к заполнению | Уберите из `fields` поля только для чтения: `id`, `type`, `available`, `bundle`, `dateCreate`, `timestampX` ||
+|| `available` | Поле "available" не доступно к заполнению | Уберите из `fields` поля только для чтения. Ошибка с тем же текстом приходит для каждого такого поля: `id`, `type`, `available`, `bundle`, `dateCreate`, `timestampX` ||
 |#
 
 #### Ошибка отсутствия объекта
@@ -740,7 +740,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Записи нет или это не головной товар. Проверьте идентификатор методом [catalog.product.sku.list](./catalog-product-sku-list-rest-v3.md) ||
+|| `id` | Запись с ID = `999999` не найдена | Записи нет или это не головной товар. Проверьте идентификатор методом [catalog.product.sku.list](./catalog-product-sku-list-rest-v3.md) ||
 |#
 
 #### Ошибка формата фильтра
@@ -749,7 +749,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter` | Не удается распознать выражение фильтра `filter` | Метод не поддерживает `filter`. Передайте `id` ||
+|| `filter` | Не удается распознать выражение фильтра `Unknown filter condition` | Метод не поддерживает `filter`. Передайте `id` ||
 |#
 
 #### Ошибка неизвестного поля
@@ -758,7 +758,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
+|| `-` | Неизвестное поле `foo` для сущности `ProductDto` | Передайте в `fields` только поля из таблицы [Параметр fields](#fields) ||
 |#
 
 #### Ошибка доступа

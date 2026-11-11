@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение элемента инфоблока каталога
 
-Метод возвращает значения полей головного товара по идентификатору. 
+Метод `catalog.product.sku.get` возвращает значения полей головного товара по идентификатору.
 
 ## Параметры метода
 
@@ -25,7 +25,7 @@
 || **id***
 [`catalog_product_sku.id`](../../data-types.md#catalog_product_sku) | Идентификатор головного товара.
 
-Для получения идентификаторов головных товаров необходимо использовать [catalog.product.sku.list](./catalog-product-sku-list.md) ||
+Получить идентификаторы головных товаров можно методом [catalog.product.sku.list](./catalog-product-sku-list.md) ||
 |#
 
 ## Примеры кода
@@ -40,7 +40,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1289}' \
+    -d '{"id":7679}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.get
     ```
 
@@ -50,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":1289,"auth":"**put_access_token_here**"}' \
+    -d '{"id":7679,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.sku.get
     ```
 
@@ -64,54 +64,49 @@
 
     declare const $b24: B24Frame
 
-    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type PropertyValue = { value: string; valueId: string }
+    type Picture = { id: string; url: string; urlMachine: string }
+
+    type SkuItem = {
+      active: string
+      available: string
+      bundle: string
+      code: string | null
+      createdBy: number
+      dateActiveFrom: ISODate | null
+      dateActiveTo: ISODate | null
+      dateCreate: ISODate
+      detailPicture: Picture | null
+      detailText: string | null
+      detailTextType: string
+      iblockId: number
+      iblockSection: number[] | null
+      iblockSectionId: number | null
+      id: number
+      modifiedBy: number
+      name: string
+      previewPicture: Picture | null
+      previewText: string | null
+      previewTextType: string
+      property303: PropertyValue | null
+      property305: PropertyValue[] | null
+      sort: number | null
+      timestampX: ISODate
+      type: number
+      xmlId: string | null
+    }
+
+    // Shape of the payload returned in result (match the "response handling" section of the page).
+    // For a simple product or a variation the method returns an empty array.
     type SkuGetResult = {
-      sku: {
-        active: string
-        available: string
-        bundle: string
-        canBuyZero: string
-        code: string
-        createdBy: number
-        dateActiveFrom: ISODate | null
-        dateActiveTo: ISODate | null
-        dateCreate: ISODate | null
-        detailPicture: { id: string; url: string; urlMachine: string } | null
-        detailText: string | null
-        detailTextType: string
-        height: number
-        iblockId: number
-        iblockSectionId: number
-        id: number
-        length: number
-        measure: number
-        modifiedBy: number
-        name: string
-        previewPicture: { id: string; url: string; urlMachine: string } | null
-        previewText: string | null
-        previewTextType: string
-        property258: { value: string; valueId: string }
-        property259: { value: string; valueId: string }[]
-        purchasingCurrency: string
-        purchasingPrice: string
-        quantity: number
-        sort: number
-        subscribe: string
-        timestampX: ISODate | null
-        type: number
-        vatId: number
-        vatIncluded: string
-        weight: number
-        width: number
-        xmlId: string
-      }
+      sku: SkuItem | []
     }
 
     try {
       const response = await $b24.actions.v2.call.make<SkuGetResult>({
         method: 'catalog.product.sku.get',
         params: {
-          id: 1289,
+          id: 7679,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -120,8 +115,12 @@
       if (!response.isSuccess) {
         console.error(response.getErrorMessages().join('; '))
       } else {
-        const result = response.getData()!.result
-        console.info(result.sku.id, result.sku.name, result.sku.type)
+        const sku = response.getData()!.result.sku
+        if (Array.isArray(sku)) {
+          console.warn('The ID does not belong to a parent product')
+        } else {
+          console.info('SKU product:', sku.id, sku.name)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -135,7 +134,7 @@
     <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
     <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
     <script>
-      async function getProductSku() {
+      async function getSkuProduct() {
         try {
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
@@ -143,7 +142,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'catalog.product.sku.get',
             params: {
-              id: 1289,
+              id: 7679,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -154,15 +153,19 @@
             return
           }
 
-          const result = response.getData().result
-          console.info(result.sku.id, result.sku.name, result.sku.type)
+          const sku = response.getData().result.sku
+          if (Array.isArray(sku)) {
+            console.warn('The ID does not belong to a parent product')
+            return
+          }
+          console.info('SKU product:', sku.id, sku.name)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
         }
       }
 
-      document.addEventListener('DOMContentLoaded', getProductSku)
+      document.addEventListener('DOMContentLoaded', getSkuProduct)
     </script>
     ```
 
@@ -173,7 +176,7 @@
 
     try:
         bitrix_response = client.catalog.product.sku.get(
-            bitrix_id=1289,
+            bitrix_id=7679,
         ).response
         result = bitrix_response.result
         print(result)
@@ -192,7 +195,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -200,20 +202,17 @@
             ->call(
                 'catalog.product.sku.get',
                 [
-                    'id' => 1289
+                    'id' => 7679,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        echo 'Info: ' . print_r($result, true);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error getting product SKU: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -221,15 +220,16 @@
 
     ```js
     BX24.callMethod(
-        'catalog.product.sku.get', {
-            'id': 1289
+        'catalog.product.sku.get',
+        {
+            id: 7679,
         },
-        function(result) {
-            if (result.error()) {
+        function(result)
+        {
+            if (result.error())
                 console.error(result.error());
-            } else {
-                console.info(result.data());
-            }
+            else
+                console.log(result.data());
         }
     );
     ```
@@ -242,7 +242,7 @@
     $result = CRest::call(
         'catalog.product.sku.get',
         [
-            'id' => 1289
+            'id' => 7679,
         ]
     );
 
@@ -256,30 +256,44 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.sku.get", b24.Params{
-    	"id": 1289,
+    	"id": 7679,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("catalog.product.sku.get: %w", err)
     }
 
     // Метод заворачивает ответ в объект с ключом "sku".
+    // Для простого товара или вариации в "sku" приходит пустой массив.
     raw, ok := b24.Unwrap(res.Result, "sku")
     if !ok {
     	return fmt.Errorf("в ответе нет ключа sku")
     }
+    if string(raw) == "[]" {
+    	return fmt.Errorf("товар не является головным")
+    }
 
+    // Необязательные поля могут прийти как null, поэтому для них указатели.
+    type propertyValue struct {
+    	Value   string `json:"value"`
+    	ValueID string `json:"valueId"`
+    }
     var item struct {
-    	Active     string `json:"active"`
-    	Available  string `json:"available"`
-    	Bundle     string `json:"bundle"`
-    	CanBuyZero string `json:"canBuyZero"`
-    	Code       string `json:"code"`
-    	CreatedBy  int    `json:"createdBy"`
+    	ID              b24.ID          `json:"id"`
+    	IblockID        int             `json:"iblockId"`
+    	Name            string          `json:"name"`
+    	Active          string          `json:"active"`
+    	Code            *string         `json:"code"`
+    	Sort            *int            `json:"sort"`
+    	Type            int             `json:"type"`
+    	IblockSectionID *int            `json:"iblockSectionId"`
+    	PreviewText     *string         `json:"previewText"`
+    	Property303     *propertyValue  `json:"property303"`
+    	Property305     []propertyValue `json:"property305"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Active, item.Available)
+    fmt.Println(item.ID, item.Name)
     ```
 
 {% endlist %}
@@ -295,69 +309,50 @@ HTTP-статус: **200**
             "active": "Y",
             "available": "N",
             "bundle": "N",
-            "canBuyZero": "Y",
-            "code": "product_sku",
-            "createdBy": 1,
-            "dateActiveFrom": "2024-05-28T10:00:00+03:00",
-            "dateActiveTo": "2024-05-29T10:00:00+03:00",
-            "dateCreate": "2024-05-27T10:00:00+03:00",
-            "detailPicture": {
-                "id": "6552",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6552\u0026fields%5BproductId%5D=1289",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=detailPicture\u0026fields%5BfileId%5D=6552\u0026fields%5BproductId%5D=1289"
-            },
-            "detailText": null,
-            "detailTextType": "text",
-            "height": 100,
-            "iblockId": 23,
-            "iblockSectionId": 47,
-            "id": 1289,
-            "length": 100,
-            "measure": 5,
-            "modifiedBy": 1,
-            "name": "Головной товар",
-            "previewPicture": {
-                "id": "6551",
-                "url": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6551\u0026fields%5BproductId%5D=1289",
-                "urlMachine": "\/rest\/catalog.product.download?fields%5BfieldName%5D=previewPicture\u0026fields%5BfileId%5D=6551\u0026fields%5BproductId%5D=1289"
-            },
-            "previewText": null,
+            "code": "futbolka-bazovaya",
+            "createdBy": 1269,
+            "dateActiveFrom": null,
+            "dateActiveTo": null,
+            "dateCreate": "2026-11-05T18:38:10+03:00",
+            "detailPicture": null,
+            "detailText": "<p>Футболка из 100% хлопка</p>",
+            "detailTextType": "html",
+            "iblockId": 25,
+            "iblockSection": [
+                31
+            ],
+            "iblockSectionId": 31,
+            "id": 7679,
+            "modifiedBy": 1269,
+            "name": "Футболка базовая",
+            "previewPicture": null,
+            "previewText": "Футболка свободного кроя из хлопка",
             "previewTextType": "text",
-            "property258": {
-                "value": "test",
-                "valueId": "9877"
+            "property303": {
+                "value": "Хлопковый двор",
+                "valueId": "4117"
             },
-            "property259": [
+            "property305": [
                 {
-                    "value": "test1",
-                    "valueId": "9878"
-                },
-                {
-                    "value": "test2",
-                    "valueId": "9879"
+                    "value": "Хлопок",
+                    "valueId": "4119"
                 }
             ],
-            "purchasingCurrency": "RUB",
-            "purchasingPrice": "1000.000000",
-            "quantity": 10,
-            "sort": 100,
-            "subscribe": "Y",
-            "timestampX": "2024-06-17T16:03:20+03:00",
+            "sort": 300,
+            "timestampX": "2026-11-05T18:38:23+03:00",
             "type": 6,
-            "vatId": 1,
-            "vatIncluded": "Y",
-            "weight": 100,
-            "width": 100,
-            "xmlId": "1243"
+            "xmlId": "tshirt-basic-01"
         }
     },
     "time": {
-        "start": 1718636890.413679,
-        "finish": 1718636891.096817,
-        "duration": 0.6831381320953369,
-        "processing": 0.27536606788635254,
-        "date_start": "2024-06-17T18:08:10+03:00",
-        "date_finish": "2024-06-17T18:08:11+03:00"
+        "start": 1793893104,
+        "finish": 1793893104.8058,
+        "duration": 0.8057999610900879,
+        "processing": 0,
+        "date_start": "2026-11-05T18:38:24+03:00",
+        "date_finish": "2026-11-05T18:38:24+03:00",
+        "operating_reset_at": 1793893680,
+        "operating": 0
     }
 }
 ```
@@ -369,10 +364,16 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **sku**
-[`catalog_product_sku`](../../data-types.md#catalog_product_sku) | Объект с информацией о головном товаре ||
+|| **result.sku**
+[`catalog_product_sku`](../../data-types.md#catalog_product_sku) | Объект с полями головного товара. Пустые поля приходят со значением `null`.
+
+В ответе приходят все свойства инфоблока в виде ключей `propertyN`: у заполненного свойства — объект `{"value": ..., "valueId": ...}`, у множественного — массив таких объектов. В примере показаны только свойства `property303` и `property305`.
+
+Поля торгового каталога, например `canBuyZero` и `vatId`, метод не возвращает. Получить их можно методом [catalog.product.sku.list](./catalog-product-sku-list.md), если перечислить поля в `select`.
+
+Если `id` принадлежит простому товару или вариации, в `sku` приходит пустой массив `[]` ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -381,8 +382,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300010,
-    "error_description":"Access Denied"
+    "error": "",
+    "error_description": "sku does not exist."
 }
 ```
 
@@ -391,19 +392,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300000` | Информационный блок с указанным идентификатором не существует
-|| 
-|| `200040300040` | Недостаточно прав для чтения элемента информационного блока
-|| 
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `100` | Не указан параметр `id`
-|| 
-|| `0` | Головной товар не существует
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр каталога ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права на чтение элемента инфоблока каталога ||
+|| `400` | Пустое значение | sku does not exist. | Товар с указанным `id` не найден. Ту же ошибку метод возвращает, если в `id` передан `0` или строка, которая не является числом ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

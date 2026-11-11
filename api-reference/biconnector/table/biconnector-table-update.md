@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правами «Доступ к BI Конструктору» и «Доступ к рабочему месту аналитика» одновременно
 
-Метод `biconnector.table.update` обновляет описание существующей таблицы — единственное поле, которое метод меняет.
+Метод `biconnector.table.update` обновляет понятное пользователю название, описание и группы существующей таблицы.
 
 {% note warning "" %}
 
@@ -54,8 +54,16 @@
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **verboseName**
+[`string`](../../data-types.md) | Понятное пользователю название таблицы, например `Заказы`. Максимальная длина 255 символов ||
 || **description**
 [`string`](../../data-types.md) | Описание таблицы ||
+|| **tableGroupIds**
+[`array`](../../data-types.md) | Массив идентификаторов групп таблиц. Таблица окажется ровно в этих группах. Каждый идентификатор — положительное целое число, группа должна существовать.
+
+Если параметр не передан или передан пустой массив, группы таблицы не меняются.
+
+Получить список групп таблиц через REST API нельзя. Методы [biconnector.table.get](./biconnector-table-get.md) и [biconnector.table.list](./biconnector-table-list.md) группы таблицы не возвращают ||
 |#
 
 Чтобы изменить состав колонок, используйте метод [biconnector.table.fields.update](./biconnector-table-fields-update.md).
@@ -399,7 +407,7 @@ HTTP-статус: **200**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, либо метод вызван вебхуком или вне контекста приложения ||
+|| `ACCESS_DENIED` | Access denied. | Нет одного из двух прав, на Битрикс24 недоступны внешние источники данных BI Конструктора, либо метод вызван вебхуком или вне контекста приложения ||
 || `VALIDATION_ID_NOT_PROVIDED` | ID is missing. | Идентификатор не указан ||
 || `VALIDATION_INVALID_ID_FORMAT` | ID has to be a positive integer. | Неверный формат ID ||
 || `VALIDATION_FIELDS_NOT_PROVIDED` | Fields not provided. | Поля не переданы в запросе ||
@@ -407,6 +415,9 @@ HTTP-статус: **200**
 || `VALIDATION_READ_ONLY_FIELD` | Field "#TITLE#" is read only. | Поле #TITLE# доступно только для чтения и не может быть изменено ||
 || `VALIDATION_IMMUTABLE_FIELD` | Field "#TITLE#" is immutable. | Поле #TITLE# неизменяемое ||
 || `VALIDATION_INVALID_FIELD_TYPE` | Field "#TITLE#" must be of type #TYPE#. | Поле #TITLE# должно быть типа #TYPE# ||
+|| `VALIDATION_INVALID_FIELD_TYPE` | Field "tableGroupIds" must be an array of positive integers. | В массиве `tableGroupIds` есть значение, которое не является положительным целым числом ||
+|| `VALIDATION_TABLE_GROUP_NOT_FOUND` | Table group was not found. | Группы таблиц с одним из идентификаторов из `tableGroupIds` нет ||
+|| `BX_INVALID_VALUE` | The length of "VERBOSE_NAME" should not exceed 255 characters. | Значение `verboseName` длиннее 255 символов ||
 || `DATASET_NOT_FOUND` | Dataset was not found. | Таблицы нет или она принадлежит другому приложению ||
 || `INVALID_METHOD` | Use the method "biconnector.dataset.fields.update" to update the dataset fields." | В параметре `fields` передан ключ `fields`. Для обновления колонок используйте метод [biconnector.table.fields.update](./biconnector-table-fields-update.md). Текст ошибки приходит от общего с устаревшим семейством кода: он называет метод `biconnector.dataset.fields.update` и содержит лишнюю кавычку в конце ||
 || Пустое значение | Error updating table. | Обновление отклонил обработчик, подписанный на событие до сохранения. Собственного строкового кода у этой ошибки нет: в поле `error` приходит числовой ноль ||

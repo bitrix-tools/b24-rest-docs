@@ -427,7 +427,7 @@ HTTP-статус: **200**
             {
                 "id": 7551,
                 "name": "Монтаж и настройка оборудования",
-                "xmlId": "DOCS-V3-SERVICE-1",
+                "xmlId": "installation-001",
                 "vatId": 1,
                 "measure": 9
             },
@@ -603,8 +603,8 @@ HTTP-статус: **400**
 || `-` | The type field supports only the =, != and in filter operators | Для `type` используйте операторы `=`, `!=` или `in` ||
 || `-` | Filter OR groups are not supported | Уберите из фильтра группы с логикой `or` ||
 || `-` | pagination.offset must be a non-negative multiple of pagination.limit | Передайте `offset`, кратный `limit`, или используйте `page` ||
-|| `#FIELD#` | В DTO `ProductDto` в поле `#FIELD#` требуется наличие атрибута `Filterable` для такого запроса | Фильтруйте только по полям из описания параметра `filter` ||
-|| `#FIELD#` | В DTO `ProductDto` в поле `#FIELD#` требуется наличие атрибута `Sortable` для такого запроса | Сортируйте только по полям из описания параметра `order` ||
+|| `previewText` | В DTO `ProductDto` в поле `previewText` требуется наличие атрибута `Filterable` для такого запроса | Фильтруйте только по полям из описания параметра `filter` ||
+|| `vatId` | В DTO `ProductDto` в поле `vatId` требуется наличие атрибута `Sortable` для такого запроса | Сортируйте только по полям из описания параметра `order` ||
 |#
 
 #### Ошибка оператора фильтра
@@ -613,7 +613,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `filter` | Неизвестный оператор фильтра `#OPERATOR#` | Используйте операторы из [обзора REST 3.0](../../../rest-v3.md#operators) ||
+|| `filter` | Неизвестный оператор фильтра `like` | Используйте операторы из [обзора REST 3.0](../../../rest-v3.md#operators) ||
 |#
 
 #### Ошибка пагинации
@@ -622,7 +622,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `pagination` | Не удается распознать параметр пагинации `#PAGINATION#` | Передайте в `limit` число больше `0` ||
+|| `pagination` | Не удается распознать параметр пагинации `{"limit":0}` | Передайте в `limit` число больше `0` ||
 |#
 
 #### Ошибки в параметрах select, filter и order
@@ -631,7 +631,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductDto` | Укажите только поля из описания параметра `select`. Ключи `PROPERTY_{id}` не поддерживаются ||
+|| `-` | Неизвестное поле `foo` для сущности `ProductDto` | Укажите только поля из описания параметра `select`. Ключи `PROPERTY_{id}` не поддерживаются ||
 |#
 
 #### Ошибка доступа
@@ -649,7 +649,7 @@ HTTP-статус: **403**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-service-get-rest-v3.md)
 - [{#T}](./catalog-product-service-add-rest-v3.md)
+- [{#T}](./catalog-product-service-get-rest-v3.md)
 - [{#T}](./catalog-product-service-field-list.md)
 - [{#T}](../../catalog/catalog-catalog-list-rest-v3.md)

@@ -11,9 +11,9 @@
 
 > Scope: [`catalog`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: пользователь с правом «Просмотр каталога товаров», «Просмотр товаров каталога» или «Изменение цены продажи товара» и правом на чтение элемента инфоблока каталога
 
-Метод скачивает файлы головного товара по переданным параметрам. 
+Метод `catalog.product.sku.download` возвращает файл головного товара: картинку для анонса, детальную картинку или файл из свойства типа «Файл».
 
 ## Параметры метода
 
@@ -23,10 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей для скачивания файлов головного товара ||
+[`object`](../../../data-types.md) | Параметры файла, который нужно скачать ([подробное описание](#fields)) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -34,23 +34,22 @@
 || **Название**
 `тип` | **Описание** ||
 || **fileId***
-[`integer`](../../../data-types.md) | Идентификатор зарегистрированного файла.
+[`integer`](../../../data-types.md) | Идентификатор файла.
 
-Для получения идентификаторов файлов головного товара необходимо использовать [catalog.product.sku.get](./catalog-product-sku-get.md) либо [catalog.product.sku.list](./catalog-product-sku-list.md)
-||
+Получить идентификатор можно методом [catalog.product.sku.get](./catalog-product-sku-get.md): это поле `id` в объекте `previewPicture`, `detailPicture` или в значении файлового свойства ||
 || **productId***
 [`catalog_product_sku.id`](../../data-types.md#catalog_product_sku) | Идентификатор головного товара.
 
-Для получения идентификаторов головных товаров необходимо использовать [catalog.product.sku.list](./catalog-product-sku-list.md)
-||
+Получить идентификаторы головных товаров можно методом [catalog.product.sku.list](./catalog-product-sku-list.md) ||
 || **fieldName***
-[`string`](../../../data-types.md) | Имя поля (свойства или поля элемента информационного блока), в котором хранится файл. Возможные значения:
-- `DETAIL_PICTURE` — детальная картинка, поле доступно в старой карточке товара
-- `PREVIEW_PICTURE` — картинка для анонса, поле доступно в старой карточке товара
-- `PROPERTY_N` — свойство, где `N` — идентификатор свойства либо код свойства
+[`string`](../../../data-types.md) | Имя поля, в котором хранится файл. Передавайте имя в camelCase:
+- `previewPicture` — картинка для анонса
+- `detailPicture` — детальная картинка
+- `propertyN` — свойство типа «Файл», где `N` — идентификатор свойства, например `property309`
 
-Для получения существующих идентификаторов либо кодов свойств головных товаров необходимо использовать [catalog.productProperty.list](../../product-property/catalog-product-property-list.md)
-||
+Имена в верхнем регистре, например `DETAIL_PICTURE` или `PROPERTY_309`, метод отклоняет с ошибкой `Name file field is not available`.
+
+Получить идентификаторы свойств можно методом [catalog.product.sku.getFieldsByFilter](./catalog-product-sku-get-fields-by-filter.md): у файловых свойств `propertyType` равен `F` ||
 |#
 
 ## Примеры кода
@@ -65,7 +64,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"fileId":6546,"productId":1289,"fieldName":"detailPicture"}}' \
+    -d '{"fields":{"fileId":40051,"productId":7679,"fieldName":"detailPicture"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.sku.download
     ```
 
@@ -75,7 +74,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"fileId":6546,"productId":1289,"fieldName":"detailPicture"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"fileId":40051,"productId":7679,"fieldName":"detailPicture"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/catalog.product.sku.download
     ```
 
@@ -94,8 +93,8 @@
         method: 'catalog.product.sku.download',
         params: {
           fields: {
-            fileId: 6546,
-            productId: 1289,
+            fileId: 40051,
+            productId: 7679,
             fieldName: 'detailPicture',
           },
         },
@@ -130,8 +129,8 @@
             method: 'catalog.product.sku.download',
             params: {
               fields: {
-                fileId: 6546,
-                productId: 1289,
+                fileId: 40051,
+                productId: 7679,
                 fieldName: 'detailPicture',
               },
             },
@@ -164,8 +163,8 @@
     try:
         bitrix_response = client.catalog.product.sku.download(
             fields={
-                "fileId": 6546,
-                "productId": 1289,
+                "fileId": 40051,
+                "productId": 7679,
                 "fieldName": "detailPicture",
             },
         ).response
@@ -186,7 +185,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -195,24 +193,20 @@
                 'catalog.product.sku.download',
                 [
                     'fields' => [
-                        'fileId'     => 6546,
-                        'productId'  => 1289,
+                        'fileId'     => 40051,
+                        'productId'  => 7679,
                         'fieldName'  => 'detailPicture',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
-        echo 'Success: ' . print_r($result, true);
-        // Нужная вам логика обработки данных
-        processData($result);
-    
+
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error downloading product SKU: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
@@ -223,8 +217,8 @@
         'catalog.product.sku.download',
         {
             fields: {
-                fileId: 6546,
-                productId: 1289,
+                fileId: 40051,
+                productId: 7679,
                 fieldName: 'detailPicture',
             }
         },
@@ -247,8 +241,8 @@
         'catalog.product.sku.download',
         [
             'fields' => [
-                'fileId' => 6546,
-                'productId' => 1289,
+                'fileId' => 40051,
+                'productId' => 7679,
                 'fieldName' => 'detailPicture'
             ]
         ]
@@ -265,8 +259,8 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.sku.download", b24.Params{
     	"fields": b24.Params{
-    		"fileId":    6546,
-    		"productId": 1289,
+    		"fileId":    40051,
+    		"productId": 7679,
     		"fieldName": "detailPicture",
     	},
     })
@@ -285,20 +279,20 @@
 
 HTTP-статус: **200**
 
-В качестве ответа приходит файл по переданным параметрам.
+Метод возвращает сам файл, а не JSON. Тип содержимого в заголовке `Content-Type` соответствует файлу, например `image/png`, имя файла передается в заголовке `Content-Disposition`.
 
 ### Возвращаемые данные
 
-Возвращается файл по переданным параметрам.
+Содержимое файла. Сохраните тело ответа в файл с именем из заголовка `Content-Disposition`.
 
 ## Обработка ошибок
 
 HTTP-статус: **400**
 
 ```json
-{	
-    "error":0,
-    "error_description":"Required fields: fileId"
+{
+    "error": "0",
+    "error_description": "Product file wrong"
 }
 ```
 
@@ -307,19 +301,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения торгового каталога
-|| 
-|| `0` | Головной товар с указанным идентификатором не существует
-|| 
-|| `0` | Указанное свойство не существует либо не является файловым
-|| 
-|| `0` | Файл с указанным идентификатором не существует
-|| 
-|| `0` | Не переданы обязательные поля
-|| 
-|| `0` | Другие ошибки (например, фатальные ошибки)
-|| 
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | У пользователя нет права на просмотр каталога ||
+|| `400` | `200040300040` | Access Denied | У пользователя нет права на чтение элемента инфоблока каталога ||
+|| `400` | Пустое значение | sku does not exist. | Товар с указанным `productId` не найден ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `0` | Required fields: fileId | В `fields` не передано поле `fileId`. Для других обязательных полей приходит та же ошибка с именем поля: `Required fields: productId`, `Required fields: fieldName` ||
+|| `400` | `0` | Name file field is not available | В `fieldName` передано поле, которое не хранит файлы, или имя в верхнем регистре ||
+|| `400` | `0` | Product file wrong | Файла с указанным `fileId` нет в поле `fieldName` этого товара ||
+|| `400` | `0` | Product is empty | Файл с указанным `fileId` не найден ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

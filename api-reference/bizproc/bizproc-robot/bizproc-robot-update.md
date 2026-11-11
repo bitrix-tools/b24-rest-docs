@@ -189,7 +189,9 @@
 - `Y` — да
 - `N` — нет ||
 || **Default**
-[`any`](../../data-types.md) | Значение параметра по умолчанию. Для `Type = 'select'` указывайте ключ из `Options` ||
+[`any`](../../data-types.md) | Значение параметра по умолчанию. Для `Type = 'select'` указывайте ключ из `Options`.
+
+Для параметра из `RETURN_PROPERTIES` значение остается, если [bizproc.event.send](./bizproc-event-send.md#empty-value) не передал ключ этого параметра или передал `null` ||
 |#
 
 #### Примеры объектов
