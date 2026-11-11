@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь с правом чтения дела
 
 {% note warning "DEPRECATED" %}
 
@@ -21,6 +21,8 @@
 
 Метод `crm.activity.get` возвращает информацию о деле по идентификатору.
 
+Для конфигурируемого дела используйте метод [crm.activity.configurable.get](../configurable/crm-activity-configurable-get.md).
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
@@ -29,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне, например `999` ||
+[`integer`](../../../../data-types.md) | Идентификатор дела в таймлайне — положительное целое число, например `999` ||
 |#
 
 ## Примеры кода
@@ -93,13 +95,13 @@
       DESCRIPTION: string
       DESCRIPTION_TYPE: string
       DIRECTION: string
-      LOCATION: string
-      SETTINGS: unknown[]
+      LOCATION: string | null
+      SETTINGS: Record<string, unknown> | unknown[]
       ORIGINATOR_ID: string | null
       ORIGIN_ID: string | null
       AUTHOR_ID: string
       EDITOR_ID: string
-      PROVIDER_PARAMS: unknown[]
+      PROVIDER_PARAMS: Record<string, unknown> | unknown[]
       PROVIDER_DATA: string | null
       RESULT_MARK: string
       RESULT_VALUE: unknown | null
@@ -345,7 +347,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../../data-types.md) | Корневой элемент ответа. Значения для поля `result` соответствуют [полям объекта](./crm-activity-fields.md#all-fields) ||
+[`object`](../../../../data-types.md) | Объект с данными дела. Описание полей — в справочнике [полей объекта](./crm-activity-fields.md#all-fields). Если к делу прикреплены файлы, метод возвращает их в поле `FILES` для хранилища Битрикс24.Диск или в поле `WEBDAV_ELEMENTS` для хранилища WebDAV. Поле `STORAGE_ELEMENT_IDS` из ответа удаляется ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -357,7 +359,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "",
-    "error_description": "Access denied."
+    "error_description": "ID is not defined or invalid."
 }
 ```
 
@@ -366,10 +368,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `Activity is not found` | Дело с указанным идентификатором не найдено для сущности в CRM ||
-|| `Access denied` | Отсутствуют права на редактирование сущности в CRM ||
-|| `Application context required` | Некорректный параметр `PROVIDER_ID` для дела, созданного в контексте приложения ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | Идентификатор дела не указан или некорректен ||
+|| `400` | Пустое значение | `Use crm.activity.configurable.get for this activity provider` | Дело создано провайдером конфигурируемых дел. Используйте [crm.activity.configurable.get](../configurable/crm-activity-configurable-get.md) ||
+|| `400` | Пустое значение | Пустое значение | Дело с указанным `id` не найдено или у пользователя нет прав на его чтение. Метод возвращает пустые `error` и `error_description` ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -378,7 +380,7 @@ HTTP-статус: **400**
 
 - [{#T}](./crm-activity-add.md)
 - [{#T}](./crm-activity-update.md)
-- [{#T}](./crm-activity-delete.md)
 - [{#T}](./crm-activity-list.md)
+- [{#T}](./crm-activity-delete.md)
 - [{#T}](./crm-activity-communication-fields.md)
 - [{#T}](./crm-activity-fields.md)

@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на добавление дела
+> Кто может выполнять метод: пользователь с правом на изменение каждого связанного элемента CRM
 
 {% note warning "DEPRECATED" %}
 
@@ -29,51 +29,59 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`array`](../../../../data-types.md) | Массив значений [полей дела](#fields) в виде структуры:
+[`object`](../../../../data-types.md) | Объект значений полей дела [(подробное описание)](#fields). Пример структуры:
 
 ```json
-fields:
 {
-    "OWNER_TYPE_ID": 2, 
-    "OWNER_ID": 102, 
-    "TYPE_ID": 2, 
-    "SUBJECT": "Новый звонок",
+    "fields": {
+        "OWNER_TYPE_ID": 2,
+        "OWNER_ID": 102,
+        "TYPE_ID": 2,
+        "COMMUNICATIONS": [{"VALUE": "+79990000000"}],
+        "SUBJECT": "Новый звонок"
+    }
 }
 ```
-Имеется дополнительное поле `DISABLE_SENDING_MESSAGE_COPY`. Оно предназначено для принудительного отключения отправки копии сообщения адресату из MESSAGE_FROM. Если параметр не заполнен или указано любое значение отличное от `Y` - копия отправлена будет. Пример:
+Поле `SETTINGS.DISABLE_SENDING_MESSAGE_COPY` отключает отправку копии письма адресату из `MESSAGE_FROM`, если указано значение `Y`. Пример:
 
-```js
-[
-    'fields'=> array(
-        'SETTINGS'=> array(
-            'DISABLE_SENDING_MESSAGE_COPY'=>'Y'
-        )
-    )
-]
+```json
+{
+    "fields": {
+        "SETTINGS": {
+            "DISABLE_SENDING_MESSAGE_COPY": "Y"
+        }
+    }
+}
 ```
  ||
 |#
 
 ### Параметр fields {#fields}
 
+Полный список и описание полей — в [crm.activity.fields](./crm-activity-fields.md). Ниже приведены поля и особенности их передачи при создании дела.
+
+Укажите элемент CRM через `OWNER_TYPE_ID` и `OWNER_ID` либо передайте корректную связь в `COMMUNICATIONS`. Для создания дела необходима хотя бы одна связь с элементом CRM.
+
+Связанные элементы CRM должны существовать, а пользователь — иметь право на изменение каждого из них. В примерах замените `OWNER_TYPE_ID`, `OWNER_ID`, `ENTITY_TYPE_ID` и `ENTITY_ID` на типы и идентификаторы доступных элементов. Если в коммуникации передан `VALUE`, но не указаны `ENTITY_TYPE_ID` или `ENTITY_ID`, метод использует для нее `OWNER_TYPE_ID` и `OWNER_ID`.
+
 {% include [Сноска об обязательных параметрах](../../../../../_includes/required.md) %}
 
 #|
 || **Поле** `тип` | **Описание** ||
-|| **OWNER_ID***
+|| **OWNER_ID**
 [`integer`](../../../../data-types.md) | Идентификатор элемента CRM ||
-|| **OWNER_TYPE_ID***
+|| **OWNER_TYPE_ID**
 [`integer`](../../../../data-types.md) | [Идентификатор типа объекта CRM](../../../data-types.md#object_type) ||
-|| **TYPE_ID***
-[`crm_enum_activitytype`](../../../data-types.md#activity-enums) | Тип дела. Чтобы получить доступные типы дел, используйте метод [crm.enum.activitytype](../../../auxiliary/enum/outdated/crm-enum-activity-type.md). 
+|| **TYPE_ID**
+[`crm_enum_activitytype`](../../../data-types.md#activity-enums) | Тип дела. Обязателен, если не указан `PROVIDER_ID`. Если указан `PROVIDER_ID`, а `TYPE_ID` не задан, метод использует тип «дело провайдера». Доступные значения описаны в [справочнике типов дел](../../../data-types.md#activity-enums).
 
 Чтобы создать дело с типом «задача», используйте метод [создания](../../../../tasks/tasks-task-add.md) или [изменения](../../../../tasks/tasks-task-update.md) задачи и укажите элемент CRM в поле `UF_CRM_TASK` ||
-|| **ASSOCIATED_ENTITY_ID**
-[`integer`](../../../../data-types.md) | Идентификатор связанного с делом элемента ||
-|| **COMMUNICATIONS***
-[`crm_activity_communication`](../../../data-types.md) | [Описание коммуникации](./crm-activity-communication-fields.md) ||
+|| **COMMUNICATIONS**
+[`crm_activity_communication`](../../../data-types.md) | Массив [коммуникаций](./crm-activity-communication-fields.md). Обязателен для звонка, встречи и письма; для дела провайдера может отсутствовать. Для звонка и встречи допускается не более одной коммуникации ||
+|| **COMPLETED**
+[`char`](../../../../data-types.md) | Признак завершения дела: `Y` — завершено, `N` — не завершено ||
 || **DEADLINE**
-[`datetime`](../../../../data-types.md) | Дата и время срока исполнения дела. Поле напрямую не устанавливается, значение берётся из START_TIME для звонка и встречи и из END_TIME для задачи ||
+[`datetime`](../../../../data-types.md) | Дата и время срока исполнения дела. Переданное значение игнорируется: срок рассчитывает провайдер дела, а если он срок не установил, используется `START_TIME` ||
 || **DESCRIPTION**
 [`string`](../../../../data-types.md) | Текстовое описание дела ||
 || **DESCRIPTION_TYPE**
@@ -87,13 +95,13 @@ fields:
 || **LOCATION**
 [`string`](../../../../data-types.md) | Местоположение ||
 || **NOTIFY_TYPE**
-[`crm_enum_activitynotifytype`](../../../data-types.md#activity-enums) | Тип уведомления ||
+[`crm_enum_activitynotifytype`](../../../data-types.md#activity-enums) | Единица времени напоминания: `1` — минуты, `2` — часы, `3` — дни, `0` — напоминание не задано ||
+|| **NOTIFY_VALUE**
+[`integer`](../../../../data-types.md) | Количество единиц `NOTIFY_TYPE` для напоминания. Обязательно, если `NOTIFY_TYPE` больше `0` ||
 || **ORIGINATOR_ID**
 [`string`](../../../../data-types.md) | Идентификатор источника данных, используется только для привязки к внешнему источнику ||
 || **ORIGIN_ID**
 [`string`](../../../../data-types.md) | Идентификатор элемента в источнике данных, используется только для привязки к внешнему источнику ||
-|| **ORIGIN_VERSION**
-[`string`](../../../../data-types.md) | Оригинальная версия, используется для защиты данных от случайного перетирания внешней системой. Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть редактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных ||
 || **PRIORITY**
 [`crm_enum_activitypriority`](../../../data-types.md#activity-enums) | Приоритет ||
 || **PROVIDER_DATA**
@@ -106,28 +114,26 @@ fields:
 [`string`](../../../../data-types.md) | Идентификатор типа провайдера, статус из справочника ||
 || **PROVIDER_PARAMS**
 [`object`](../../../../data-types.md) | Дополнительные параметры провайдера ||
-|| **RESPONSIBLE_ID***
-[`user`](../../../../data-types.md) | Идентификатор пользователя, ответственного за дело ||
+|| **RESPONSIBLE_ID**
+[`user`](../../../../data-types.md) | Идентификатор пользователя, ответственного за дело. Если не указан, метод пытается использовать ответственного элемента CRM, затем текущего пользователя ||
 || **SETTINGS**
 [`object`](../../../../data-types.md) | Дополнительные настройки ||
 || **START_TIME**
 [`datetime`](../../../../data-types.md) | Время начала выполнения дела ||
 || **STATUS**
 [`crm_enum_activitystatus`](../../../data-types.md#activity-enums) | Статус дела ||
-|| **SUBJECT**
-[`string`](../../../../data-types.md) | Дополнительное описание дела ||
+|| **SUBJECT***
+[`string`](../../../../data-types.md) | Тема дела. Поле обязательно и не может быть пустым ||
 || **WEBDAV_ELEMENTS**
-[`diskfile`](../../../data-types.md) | Добавленные файлы. Устарел, сохраняется для совместимости ||
-|| **IS_INCOMING_CHANNEL**
-[`char`](../../../../data-types.md) | Флаг, говорящий дело создано из входящего канала или нет (`Y`/`N`) ||
+[`diskfile`](../../../data-types.md) | Добавленные файлы. Для хранилища Диск поле устарело и сохраняется для совместимости, передавайте файлы в `FILES`. Для хранилища WebDAV передайте объекты с `ELEMENT_ID` ||
 |#
 
 
 ### Варианты использования значений полей
 
 Для дел типа `e-mail`:
-- если письмо не должно быть отправлено, устанавливайте параметры `DIRECTION=2` и `COMPLETED='N'`;
-- если необходимо пометить письма как завершенные, выполните обновление дел с выставлением флага завершения.
+- если письмо не должно быть отправлено, устанавливайте параметры `DIRECTION=2` и `COMPLETED='N'`
+- если необходимо пометить письма как завершенные, выполните обновление дел с выставлением флага завершения
 
 ## Примеры кода
 
@@ -284,10 +290,10 @@ fields:
                 "OWNER_TYPE_ID": 2,
                 "OWNER_ID": 101,
                 "TYPE_ID": 2,
+                "COMMUNICATIONS": [{"VALUE": "+79990000000"}],
                 "SUBJECT": "Follow up with customer",
                 "START_TIME": datetime.now().isoformat(timespec="seconds"),
                 "END_TIME": (datetime.now() + timedelta(hours=1)).isoformat(timespec="seconds"),
-                "DEADLINE": (datetime.now() + timedelta(hours=1)).isoformat(timespec="seconds"),
                 "COMPLETED": "N",
                 "RESPONSIBLE_ID": 1,
                 "PRIORITY": 2,
@@ -532,6 +538,8 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
+При создании исходящего завершенного письма (`TYPE_ID=4`, `COMPLETED=Y`, `DIRECTION=2`) метод сначала сохраняет дело, затем отправляет письмо. Если отправка завершается ошибкой `Email send error. ...`, дело уже создано. Перед повторным вызовом проверьте [список дел](./crm-activity-list.md), чтобы не создать дубликат.
+
 HTTP-статус: **400**
 
 ```json
@@ -546,28 +554,30 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `The field SUBJECT is not defined or empty` | Поле `SUBJECT` не установлено ||
-|| `The field RESPONSIBLE_ID is not defined or invalid` | Поле `RESPONSIBLE_ID` не установлено ||
-|| `The field TYPE_ID is not defined or invalid` | Поле `TYPE_ID` не установлено ||
-|| `The field COMMUNICATIONS is not defined or invalid` | Поле `COMMUNICATIONS` не установлено ||
-|| `The only one communication is allowed for activity of specified type` | Количество контактов более 1 ||
-|| `Could not build binding. Please ensure that owner info and communications are defined correctly` | Связи для дела не указаны ||
-|| 
-- `Email send error. Failed to load module "subscribe"`
-- `Email send error. Invalid data`
-- `Email send error. Invalid email is specified`
-- `Email send error. "From" is not found`
-- `Email send error. "To" is not found`
-- `Email send error. Failed to add posting. Please see details below`
-- `Email send error. Failed to save posting file. Please see details below`
-- `Email send error. Failed to update activity`
-- `Email send error. General error`
- | Ошибки "почтовых" дел ||
-|| `The custom activity without provider is not supported in current context` | Тип дела не поддерживается в заданном контексте ||
-|| `Use crm.activity.configurable.add for this activity provider` | Некорректный вызов метода для конфигурируемого дела ||
-|| `Access denied` | Отсутствуют права на добавление сущности в CRM ||
-|| `Application context required` | Некорректный параметр `PROVIDER_ID` для дела, созданного в контексте приложения ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `The field SUBJECT is not defined or empty.` | Не заполнено поле `SUBJECT` ||
+|| `400` | Пустое значение | `The field RESPONSIBLE_ID is not defined or invalid.` | Не удалось определить ответственного за дело ||
+|| `400` | Пустое значение | `The field TYPE_ID is not defined or invalid.` | Поле `TYPE_ID` не задано или содержит недопустимое значение ||
+|| `400` | Пустое значение | `The field COMMUNICATIONS is not defined or invalid.` | Не переданы корректные коммуникации для звонка, встречи или письма ||
+|| `400` | Пустое значение | `The only one communication is allowed for activity of specified type.` | Для звонка или встречи передано более одной коммуникации ||
+|| `400` | Пустое значение | `Could not build binding. Please ensure that owner info and communications are defined correctly.` | Не удалось построить связь с элементом CRM по владельцу и коммуникациям ||
+|| `400` | Пустое значение | `Entity type '<тип>' is not supported in current context` | Тип связанного элемента CRM не поддерживается; `<тип>` — имя типа или его идентификатор в квадратных скобках ||
+|| `400` | Пустое значение | `Could not find '<тип>' with ID: <ID>` | Связанный элемент CRM не найден; `<тип>` — имя типа, `<ID>` — идентификатор элемента ||
+|| `400` | Пустое значение | `The activity type "<тип> is not supported in current context".` | Тип дела не поддерживается; `<тип>` — название типа дела ||
+|| `400` | Пустое значение | `Email send error. Failed to load module "subscribe".` | Не удалось загрузить модуль subscribe ||
+|| `400` | Пустое значение | `Email send error. Invalid data.` | Некорректные данные письма ||
+|| `400` | Пустое значение | `Email send error. Invalid email is specified.` | Указан некорректный адрес электронной почты ||
+|| `400` | Пустое значение | `Email send error. "From" is not found.` | Не найден отправитель письма ||
+|| `400` | Пустое значение | `Email send error. "To" is not found.` | Не найден получатель письма ||
+|| `400` | Пустое значение | `Email send error. Failed to add posting. Please see details below.` | Не удалось создать почтовую рассылку; подробности передаются в сообщении ошибки ||
+|| `400` | Пустое значение | `Email send error. Failed to save posting file. Please see details below.` | Не удалось сохранить файл почтовой рассылки; подробности передаются в сообщении ошибки ||
+|| `400` | Пустое значение | `Email send error. Failed to update activity.` | Не удалось обновить дело при отправке письма ||
+|| `400` | Пустое значение | `Email send error. General error.` | Общая ошибка отправки письма ||
+|| `400` | Пустое значение | `The custom activity without provider is not supported in current context.` | Для дела провайдера не найден провайдер ||
+|| `400` | Пустое значение | `Use crm.activity.configurable.add for this activity provider` | Для конфигурируемого дела используйте `crm.activity.configurable.add` ||
+|| `400` | Пустое значение | `Access denied.` | Нет прав на изменение связанного элемента CRM ||
+|| `400` | Пустое значение | `Application context required.` | Дело с провайдером приложения можно создать только в контексте приложения ||
+|| `400` | `ERROR_CORE` | `NOTIFY_VALUE is not assigned.<br>` | Для выбранного типа уведомления не передано `NOTIFY_VALUE` ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
@@ -575,9 +585,9 @@ HTTP-статус: **400**
 ## Продолжите изучение 
 
 - [{#T}](./crm-activity-update.md)
-- [{#T}](./crm-activity-delete.md)
 - [{#T}](./crm-activity-get.md)
 - [{#T}](./crm-activity-list.md)
+- [{#T}](./crm-activity-delete.md)
 - [{#T}](./crm-activity-communication-fields.md)
 - [{#T}](./crm-activity-fields.md)
 - [{#T}](../../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-activity-to-contact.md)
