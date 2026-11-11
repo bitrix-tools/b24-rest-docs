@@ -13,15 +13,19 @@
 >
 > Кто может выполнять метод: авторизованный пользователь
 
-Метод `im.v2.Event.get` получает события для текущего пользователя в режиме опроса.
+Метод `im.v2.Event.get` возвращает события мессенджера для текущего пользователя, например новые сообщения и реакции. Приложение само периодически вызывает метод и забирает накопленные события — это режим polling.
 
 {% note info "" %}
 
-Для получения событий пользователь должен быть предварительно подписан через [im.v2.Event.subscribe](./event-subscribe.md). Без подписки события не записываются и метод вернет пустой массив.
+Сначала подпишите пользователя на события методом [im.v2.Event.subscribe](./event-subscribe.md). Без подписки события не записываются, и метод вернет пустой массив `result.events`.
 
 {% endnote %}
 
-Метод использует подтверждение через `offset`: передайте `nextOffset` из предыдущего ответа, чтобы получить следующую порцию событий.
+Записанные события хранятся 24 часа. Более старые Битрикс24 удаляет, даже если приложение их не получило.
+
+Обработав события, передайте в `offset` значение `nextOffset`: метод удалит их из очереди и вернет следующую порцию.
+
+Если пользователя подпишут несколько приложений, любое из них вызовом с `offset` удалит события для всех: очередь у пользователя одна. Подробнее — в обзоре [Лимиты и ограничения](./index.md#limits).
 
 ## Параметры метода
 
@@ -31,9 +35,11 @@
 || **Название**
 `Тип` | **Описание** ||
 || **offset**
-[`integer`](../../../../data-types.md) | Подтверждает обработанные события и возвращает события, начиная с этого значения. Передайте `nextOffset` из предыдущего ответа ||
+[`integer`](../../../../data-types.md) | Передавайте `nextOffset` из предыдущего ответа. Метод вернет события с ID от `offset`, а события с меньшим ID удалит из очереди как подтвержденные. Без параметра метод ничего не подтверждает. По умолчанию `0`, отрицательное значение метод считает нулем.
+
+Если передать значение больше `nextOffset`, метод удалит и события, которые вы еще не получили ||
 || **limit**
-[`integer`](../../../../data-types.md) | Максимальное количество возвращаемых событий (1–1000). По умолчанию `100` ||
+[`integer`](../../../../data-types.md) | Максимальное количество возвращаемых событий (1–1000). По умолчанию `100`. Значение вне диапазона метод заменяет ближайшей границей ||
 |#
 
 ## Примеры кода
@@ -62,20 +68,87 @@
       https://**put_your_bitrix24_address**/rest/im.v2.Event.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('im.v2.Event.get', {
-        offset: 2000,
-        limit: 50,
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      const { result } = response.getData();
-      console.log('result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type EventGetResult = {
+      events: Array<{
+        eventId: number
+        type: string
+        date: string
+        data: Record<string, unknown>
+      }>
+      nextOffset: number
+      hasMore: boolean
     }
+
+    try {
+      const response = await $b24.actions.v2.call.make<EventGetResult>({
+        method: 'im.v2.Event.get',
+        params: {
+          offset: 2000,
+          limit: 50,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Events:', result.events.length, '| nextOffset:', result.nextOffset, '| hasMore:', result.hasMore)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getEvents() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'im.v2.Event.get',
+            params: {
+              offset: 2000,
+              limit: 50,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Events:', result.events.length, '| nextOffset:', result.nextOffset, '| hasMore:', result.hasMore)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getEvents)
+    </script>
     ```
 
 - Python
@@ -204,16 +277,39 @@ HTTP-статус: **200**
             {
                 "eventId": 2001,
                 "type": "ONIMV2MESSAGEADD",
-                "date": "2025-01-15T10:30:00+03:00",
-                "data": {}
+                "date": "2024-10-11T09:58:12+03:00",
+                "data": {
+                    "message": {
+                        "id": 189,
+                        "chatId": 19,
+                        "authorId": 129,
+                        "date": "2024-10-11T09:58:12+03:00",
+                        "text": "Добрый день! Когда будет готов отчет?",
+                        "isSystem": false,
+                        "params": []
+                    },
+                    "chat": {
+                        "id": 19,
+                        "dialogId": "129",
+                        "type": "private",
+                        "name": ""
+                    },
+                    "user": {
+                        "id": 129,
+                        "name": "Мария Иванова",
+                        "bot": false
+                    },
+                    "language": "ru",
+                    "additionalMessages": []
+                }
             }
         ],
         "nextOffset": 2002,
         "hasMore": false
     },
     "time": {
-        "start": 1728626400.123,
-        "finish": 1728626400.234,
+        "start": 1728630000.123,
+        "finish": 1728630000.234,
         "duration": 0.111,
         "processing": 0.045,
         "date_start": "2024-10-11T10:00:00+03:00",
@@ -221,6 +317,8 @@ HTTP-статус: **200**
     }
 }
 ```
+
+В примере объекты `message`, `chat` и `user` сокращены. Полный состав полей — в описании события [ONIMV2MESSAGEADD](./events.md#onimv2messageadd).
 
 ## Возвращаемые данные
 
@@ -232,17 +330,17 @@ HTTP-статус: **200**
 || **result.events**
 [`object[]`](../../../../data-types.md) | Массив событий ||
 || **result.events[].eventId**
-[`integer`](../../../../data-types.md) | ID события. Передайте в следующем вызове как `offset` для подтверждения ||
+[`integer`](../../../../data-types.md) | ID события ||
 || **result.events[].type**
 [`string`](../../../../data-types.md) | Тип события. Список типов описан [ниже](#event-types) ||
 || **result.events[].date**
 [`datetime`](../../../../data-types.md) | Дата и время события ||
 || **result.events[].data**
-[`object`](../../../../data-types.md) | Данные события. Формат зависит от типа события: [описание событий](./events.md) ||
+[`object`](../../../../data-types.md) | Данные события. Состав полей зависит от `type`, ссылки на описание каждого типа — в таблице [ниже](#event-types) ||
 || **result.nextOffset**
-[`integer`](../../../../data-types.md) | Смещение для следующего запроса. Передайте в параметр `offset` в следующем вызове ||
+[`integer`](../../../../data-types.md) | ID, с которого начнется следующая порция. Передайте его в `offset` следующего вызова, чтобы подтвердить полученные события. Если новых событий нет, равно переданному `offset` ||
 || **result.hasMore**
-[`boolean`](../../../../data-types.md) | `true`, если есть еще необработанные события ||
+[`boolean`](../../../../data-types.md) | `true`, если метод вернул столько событий, сколько задано в `limit`: в очереди могут остаться еще. Вызовите метод снова с `offset`, равным `nextOffset` ||
 || **time**
 [`time`](../../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -251,34 +349,41 @@ HTTP-статус: **200**
 
 #|
 || **Тип** | **Описание** ||
-|| `ONIMV2MESSAGEADD` | Новое сообщение в чате ||
-|| `ONIMV2MESSAGEUPDATE` | Сообщение отредактировано ||
-|| `ONIMV2MESSAGEDELETE` | Сообщение удалено ||
-|| `ONIMV2REACTIONCHANGE` | Реакция на сообщение изменена ||
-|| `ONIMV2JOINCHAT` | Новый участник в чате ||
+|| [ONIMV2MESSAGEADD](./events.md#onimv2messageadd) | Новое сообщение в чате ||
+|| [ONIMV2MESSAGEUPDATE](./events.md#onimv2messageupdate) | Сообщение отредактировано ||
+|| [ONIMV2MESSAGEDELETE](./events.md#onimv2messagedelete) | Сообщение удалено ||
+|| [ONIMV2REACTIONCHANGE](./events.md#onimv2reactionchange) | Реакция на сообщение изменена ||
+|| [ONIMV2JOINCHAT](./events.md#onimv2joinchat) | Новый участник в чате ||
 |#
 
 Подробное описание формата данных каждого события: [{#T}](./events.md).
 
-## Эксклюзивность получения событий
-
-События конкретного пользователя может получать только **одно приложение**. Если несколько приложений подпишут одного пользователя, вызов с `offset` подтверждает и удаляет записи для всех — приложения будут «отбирать» события друг у друга.
-
-Это ограничение намеренное: предполагается, что один агент должен мгновенно реагировать на события. Несколько агентов, обрабатывающих одни и те же события одного пользователя, приводят к дублирующимся и противоречивым ответам.
-
-Если нужно несколько независимых обработчиков — используйте разные пользовательские контексты или webhook-подписки.
-
 ## Обработка ошибок
 
-Метод не генерирует специфических ошибок. Если пользователь не подписан через [im.v2.Event.subscribe](./event-subscribe.md), метод вернет пустой массив `events`.
+HTTP-статус: **400**
+
+```json
+{
+    "error": "100",
+    "error_description": "Invalid value {abc} to match with parameter {offset}. Should be value of type int."
+}
+```
 
 {% include notitle [Обработка ошибок](../../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Код** | **Описание** | **Значение** ||
+|| `100` | Invalid value {abc} to match with parameter {offset}. Should be value of type int. | В `offset` или `limit` передано не число ||
+|#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [Журнал изменений API imbot.v2](../../change-log.md)
+- [События im.v2](./index.md)
 - [{#T}](./event-subscribe.md)
 - [{#T}](./event-unsubscribe.md)
 - [{#T}](./events.md)

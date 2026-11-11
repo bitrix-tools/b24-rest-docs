@@ -15,7 +15,7 @@
 
 Метод `imbot.v2.Chat.Message.get` возвращает сообщение по его ID.
 
-Типичный сценарий: бот получил событие с `replyId` и хочет прочитать исходное сообщение.
+Например, бот получил событие с ответом на сообщение и хочет прочитать исходное. ID исходного сообщения приходит в `message.params.REPLY_ID` — передайте его в `messageId`.
 
 {% note warning "" %}
 
@@ -31,13 +31,13 @@
 || **Название**
 `Тип` | **Описание** ||
 || **botId***
-[`integer`](../../../../data-types.md) | ID бота ||
+[`integer`](../../../../data-types.md) | ID бота, целое число больше 0 ||
 || **botToken**
 [`string`](../../../../data-types.md) | Уникальный токен авторизации бота. Обязателен при авторизации через вебхук, не нужен для OAuth.
 
-Передавайте тот же botToken, который был указан при регистрации чат-бота ||
+Передавайте актуальный токен: указанный при регистрации бота или новый, если токен сменили методом [imbot.v2.Bot.update](../bots/bot-update.md). Со старым токеном метод вернет ошибку `BOT_OWNERSHIP_ERROR` ||
 || **messageId***
-[`integer`](../../../../data-types.md) | ID сообщения ||
+[`integer`](../../../../data-types.md) | ID сообщения. Можно взять из `message.id` события [ONIMBOTV2MESSAGEADD](../events/events.md#onimbotv2messageadd) ||
 |#
 
 ## Примеры кода
@@ -66,20 +66,91 @@
       https://**put_your_bitrix24_address**/rest/imbot.v2.Chat.Message.get
     ```
 
-- JS
+- JS (TS)
 
-    ```js
-    try {
-      const response = await $b24.callMethod('imbot.v2.Chat.Message.get', {
-        botId: 456,
-        messageId: 789,
-      });
+    ```ts
+    // This snippet is an ES module: top-level await requires type="module" or a bundler.
+    // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
+    import { Text } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
-      const { result } = response.getData();
-      console.log('result:', result);
-    } catch (error) {
-      console.error('Error:', error);
+    declare const $b24: B24Frame
+
+    // Shape of the payload returned in result (match the "response handling" section of the page)
+    type MessageGetResult = {
+      message: {
+        id: number
+        chatId: number
+        authorId: number
+        text: string
+      }
+      user: {
+        id: number | null
+        name: string
+      }
     }
+
+    try {
+      const response = await $b24.actions.v2.call.make<MessageGetResult>({
+        method: 'imbot.v2.Chat.Message.get',
+        params: {
+          botId: 456,
+          botToken: 'my_bot_token',
+          messageId: 789,
+        },
+        requestId: Text.getUuidRfc4122()
+      })
+
+      // The payload is available only on a successful response
+      if (!response.isSuccess) {
+        console.error(response.getErrorMessages().join('; '))
+      } else {
+        const result = response.getData()!.result
+        console.info('Message:', result.message.id, '| Text:', result.message.text)
+      }
+    } catch (error) {
+      // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+      console.error(error)
+    }
+    ```
+
+- JS (UMD)
+
+    ```html
+    <!-- Load the SDK (UMD build); it is exposed as the global B24Js -->
+    <script src="https://unpkg.com/@bitrix24/b24jssdk@1/dist/umd/index.min.js"></script>
+    <script>
+      async function getMessage() {
+        try {
+          // Initialize the SDK inside a Bitrix24 frame
+          const $b24 = await B24Js.initializeB24Frame()
+
+          const response = await $b24.actions.v2.call.make({
+            method: 'imbot.v2.Chat.Message.get',
+            params: {
+              botId: 456,
+              botToken: 'my_bot_token',
+              messageId: 789,
+            },
+            requestId: B24Js.Text.getUuidRfc4122()
+          })
+
+          // The payload is available only on a successful response
+          if (!response.isSuccess) {
+            console.error(response.getErrorMessages().join('; '))
+            return
+          }
+
+          const result = response.getData().result
+          console.info('Message:', result.message.id, '| Text:', result.message.text)
+        } catch (error) {
+          // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
+          console.error(error)
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', getMessage)
+    </script>
     ```
 
 - Python
@@ -90,6 +161,7 @@
     try:
         bitrix_response = client.imbot.v2.chat.message.get(
             bot_id=456,
+            bot_token="my_bot_token",
             message_id=789,
         ).response
         result = bitrix_response.result
@@ -117,6 +189,7 @@
                 'imbot.v2.Chat.Message.get',
                 [
                     'botId' => 456,
+                    'botToken' => 'my_bot_token',
                     'messageId' => 789,
                 ]
             );
@@ -139,6 +212,7 @@
         'imbot.v2.Chat.Message.get',
         {
             botId: 456,
+            botToken: 'my_bot_token',
             messageId: 789,
         },
         function(result) {
@@ -160,6 +234,7 @@
         'imbot.v2.Chat.Message.get',
         [
             'botId' => 456,
+            'botToken' => 'my_bot_token',
             'messageId' => 789,
         ]
     );
@@ -197,6 +272,8 @@
 
 HTTP-статус: **200**
 
+В примере у сообщения и пользователя показаны не все поля. Полный состав — в описании объектов [Message](../../entities.md#message) и [User](../../entities.md#user).
+
 ```json
 {
     "result": {
@@ -207,9 +284,9 @@ HTTP-статус: **200**
             "date": "2026-03-19T14:30:00+03:00",
             "text": "Привет! Как дела?",
             "isSystem": false,
-            "uuid": "",
+            "uuid": null,
             "forward": null,
-            "params": {},
+            "params": [],
             "viewedByOthers": true
         },
         "user": {
@@ -217,16 +294,16 @@ HTTP-статус: **200**
             "active": true,
             "name": "John Smith",
             "bot": false,
-            "type": "employee"
+            "type": "user"
         }
     },
     "time": {
-        "start": 1728626400.123,
-        "finish": 1728626400.234,
+        "start": 1773919860.123,
+        "finish": 1773919860.234,
         "duration": 0.111,
         "processing": 0.045,
-        "date_start": "2024-10-11T10:00:00+03:00",
-        "date_finish": "2024-10-11T10:00:00+03:00"
+        "date_start": "2026-03-19T14:31:00+03:00",
+        "date_finish": "2026-03-19T14:31:00+03:00"
     }
 }
 ```
@@ -256,7 +333,7 @@ HTTP-статус: **200**
 || **chatId**
 [`integer`](../../../../data-types.md) | Идентификатор чата ||
 || **authorId**
-[`integer`](../../../../data-types.md) | Идентификатор автора сообщения ||
+[`integer`](../../../../data-types.md) | Идентификатор автора сообщения. `0` у системных сообщений ||
 || **date**
 [`string`](../../../../data-types.md) | Дата отправки сообщения ||
 || **text**
@@ -264,13 +341,19 @@ HTTP-статус: **200**
 || **isSystem**
 [`boolean`](../../../../data-types.md) | Системное сообщение ||
 || **uuid**
-[`string`](../../../../data-types.md) | Внешний идентификатор сообщения ||
+[```string|null```](../../../../data-types.md) | UUID сообщения, если его передали при отправке, или `null` ||
 || **forward**
-[`object`](../../../../data-types.md) | Данные о пересланном сообщении ||
+[```object|null```](../../../../data-types.md) | Данные о пересылке, если сообщение переслано, или `null`. Состав полей — в описании объекта [Message](../../entities.md#message) ||
 || **params**
-[`object`](../../../../data-types.md) | Дополнительные параметры сообщения ||
+[```object|array```](../../../../data-types.md) | Дополнительные параметры сообщения: вложения, клавиатура, файлы и другие. Если параметров нет — пустой массив `[]`. Описание ключей — [Объект params](../../entities.md#message-params) ||
 || **viewedByOthers**
 [`boolean`](../../../../data-types.md) | Сообщение просмотрено другими участниками ||
+|| **chat_id**
+[`integer`](../../../../data-types.md) | То же, что `chatId`. Поле старого формата ||
+|| **author_id**
+[`integer`](../../../../data-types.md) | То же, что `authorId`. Поле старого формата ||
+|| **block**
+[```object|null```](../../../../data-types.md) | Служебное поле, у обычных сообщений `null` ||
 |#
 
 ### Поля объекта User {#user-object}
@@ -279,7 +362,7 @@ HTTP-статус: **200**
 || **Поле**
 `Тип` | **Описание** ||
 || **id**
-[`integer`](../../../../data-types.md) | Идентификатор пользователя ||
+[```integer|null```](../../../../data-types.md) | Идентификатор пользователя. `null` у системных сообщений ||
 || **active**
 [`boolean`](../../../../data-types.md) | Пользователь активен ||
 || **name**
@@ -287,19 +370,19 @@ HTTP-статус: **200**
 || **bot**
 [`boolean`](../../../../data-types.md) | Признак пользователя-бота ||
 || **type**
-[`string`](../../../../data-types.md) | Тип пользователя ||
+[`string`](../../../../data-types.md) | Тип пользователя, например `user` — сотрудник, `bot` — чат-бот ||
 |#
 
 Полное описание всех полей объектов — на странице [Объекты и поля](../../entities.md)
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
     "error": "BOT_TYPE_NOT_ALLOWED",
-    "error_description": "Bot type not allowed"
+    "error_description": "Method is available only for supervisor and personal bots"
 }
 ```
 
@@ -309,11 +392,14 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token is not specified | Не указан `botToken`. Обязателен при авторизации через вебхук ||
-|| `BOT_ID_REQUIRED` | Bot ID is required | Не указан `botId` ||
+|| `BOT_TOKEN_NOT_SPECIFIED` | Bot token not specified (botToken is required for webhook auth) | Не указан `botToken`. Обязателен при авторизации через вебхук ||
+|| `BOT_ID_REQUIRED` | botId is required | Не указан `botId` или он меньше 1 ||
 || `BOT_NOT_FOUND` | Bot not found | Бот не найден ||
-|| `BOT_OWNERSHIP_ERROR` | Bot is registered by another application | Бот зарегистрирован другим приложением ||
-|| `BOT_TYPE_NOT_ALLOWED` | Bot type not allowed | Метод доступен только для ботов типа `supervisor` и `personal` ||
+|| `BOT_OWNERSHIP_ERROR` | Bot was installed by another rest application | Бот зарегистрирован другим приложением или с другим `botToken` ||
+|| `BOT_TYPE_NOT_ALLOWED` | Method is available only for supervisor and personal bots | Метод доступен только для ботов типа `supervisor` и `personal` ||
+|| `MESSAGE_NOT_FOUND` | MESSAGE_NOT_FOUND | Сообщение не найдено ||
+|| `ACCESS_DENIED` | ACCESS_DENIED | Бот не состоит в закрытом чате с этим сообщением. Сообщения открытых чатов бот может читать без участия в них ||
+|| `MESSAGE_ACCESS_DENIED` | MESSAGE_ACCESS_DENIED | Бот состоит в чате, но сообщение отправлено до добавления бота, а история чата для бота скрыта ||
 |#
 
 {% include [Системные ошибки](../../../../../_includes/system-errors.md) %}

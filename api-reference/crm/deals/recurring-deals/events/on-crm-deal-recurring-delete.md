@@ -13,7 +13,11 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONCRMDEALRECURRINGDELETE` сработает при удалении шаблона регулярной сделки.
+Событие `ONCRMDEALRECURRINGDELETE` сработает при удалении настроек повторения регулярной сделки.
+
+Настройки удаляются вместе со сделкой-шаблоном, когда ее удаляют вручную, методом [crm.deal.delete](../../crm-deal-delete.md) или [crm.item.delete](../../../universal/crm-item-delete.md). Сразу после `onCrmDealRecurringDelete` приходит событие [onCrmDealDelete](../../events/on-crm-deal-delete.md).
+
+Метод [crm.deal.recurring.delete](../crm-deal-recurring-delete.md) удаляет настройки, только если сделки-шаблона уже нет. В этом случае событие тоже приходит.
 
 {% note info "" %}
 
@@ -39,12 +43,11 @@
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
         "scope": "crm",
-        "domain": "some-domain.bitrix24.com",
+        "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "L",
-        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -60,17 +63,17 @@
 || **event_handler_id**
 [`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию об удаленном шаблоне.
+[`object`](../../../../data-types.md) | Объект, содержащий информацию об удаленных настройках повторения.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях удаленного шаблона.
+[`object`](../../../../data-types.md) | Объект с идентификатором удаленных настроек повторения.
 
 Структура описана [ниже](#fields) ||
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, в котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -81,7 +84,9 @@
 || **Параметр**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../data-types.md) | Идентификатор удаленной записи в таблице настроек регулярных сделок ||
+[`integer`](../../../../data-types.md) | Идентификатор удаленных настроек повторения. Это тот же `ID`, который приходил в событиях [onCrmDealRecurringAdd](./on-crm-deal-recurring-add.md), [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) и [onCrmDealRecurringExpose](./on-crm-deal-recurring-expose.md).
+
+Настроек уже нет, поэтому [crm.deal.recurring.get](../crm-deal-recurring-get.md) с этим `ID` вернет ошибку `Recurring deal is not found` ||
 |#
 
 ### Параметр auth {#auth}
@@ -93,5 +98,5 @@
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
 - [{#T}](./on-crm-deal-recurring-add.md)
-- [{#T}](./on-crm-deal-recurring-expose.md)
 - [{#T}](./on-crm-deal-recurring-update.md)
+- [{#T}](./on-crm-deal-recurring-expose.md)
