@@ -13,7 +13,9 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONCRMDEALRECURRINGADD` сработает при создании нового шаблона для регулярной сделки.
+Событие `ONCRMDEALRECURRINGADD` сработает при создании шаблона регулярной сделки вручную или методом [crm.deal.recurring.add](../crm-deal-recurring-add.md).
+
+Сделку-шаблон Битрикс24 создает как обычную сделку: при создании шаблона в интерфейсе или копированием обычной сделки методом `crm.deal.recurring.add`. Поэтому перед `onCrmDealRecurringAdd` приходит событие [onCrmDealAdd](../../events/on-crm-deal-add.md) с `ID` сделки-шаблона — это значение совпадает с `RECURRING_DEAL_ID`. Если в `crm.deal.recurring.add` передать сделку-шаблон с `IS_RECURRING` = `Y`, новая сделка не создается и `onCrmDealAdd` не приходит.
 
 {% note info "" %}
 
@@ -40,12 +42,11 @@
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
         "scope": "crm",
-        "domain": "some-domain.bitrix24.com",
+        "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "L",
-        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -61,17 +62,17 @@
 || **event_handler_id**
 [`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о созданном шаблоне.
+[`object`](../../../../data-types.md) | Объект, содержащий информацию о созданных настройках повторения.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях созданного шаблона.
+[`object`](../../../../data-types.md) | Объект с идентификаторами созданных настроек повторения и сделки-шаблона.
 
 Структура описана [ниже](#fields) ||
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, в котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -82,9 +83,9 @@
 || **Параметр**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../data-types.md) | Идентификатор записи в таблице настроек регулярных сделок ||
+[`integer`](../../../../data-types.md) | Идентификатор настроек повторения. Передайте его в параметр `id` метода [crm.deal.recurring.get](../crm-deal-recurring-get.md), чтобы получить настройки ||
 || **RECURRING_DEAL_ID**
-[`integer`](../../../../data-types.md) | Идентификатор шаблона регулярной сделки ||
+[`integer`](../../../../data-types.md) | Идентификатор сделки-шаблона, из которой копируются значения полей. Совпадает с полем `DEAL_ID` в ответе [crm.deal.recurring.get](../crm-deal-recurring-get.md). Поля сделки-шаблона возвращает [crm.deal.get](../../crm-deal-get.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -95,6 +96,6 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./on-crm-deal-recurring-update.md)
 - [{#T}](./on-crm-deal-recurring-delete.md)
 - [{#T}](./on-crm-deal-recurring-expose.md)
-- [{#T}](./on-crm-deal-recurring-update.md)

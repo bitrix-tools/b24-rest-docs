@@ -1,4 +1,4 @@
-# Событие при создании новой сделки из шаблона регулярной сделки onCrmDealRecurringExpose
+# Событие при создании сделки по шаблону регулярной сделки onCrmDealRecurringExpose
 
 {% note tip "" %}
 
@@ -13,7 +13,15 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONCRMDEALRECURRINGEXPOSE` сработает при создании новой сделки из шаблона регулярной сделки.
+Событие `ONCRMDEALRECURRINGEXPOSE` сработает при создании сделки по шаблону регулярной сделки — по расписанию или методом [crm.deal.recurring.expose](../crm-deal-recurring-expose.md).
+
+Сделка по шаблону создается как обычная сделка. События приходят в таком порядке:
+
+1. [onCrmDealAdd](../../events/on-crm-deal-add.md) с `ID` новой сделки
+2. `onCrmDealRecurringExpose`
+3. [onCrmDealRecurringUpdate](./on-crm-deal-recurring-update.md) — Битрикс24 записывает в настройки счетчик повторов и дату последнего запуска
+
+Чтобы не обработать новую сделку дважды, сверяйте `DEAL_ID` из этого события с `ID` из `onCrmDealAdd`.
 
 {% note info "" %}
 
@@ -41,12 +49,11 @@
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
         "scope": "crm",
-        "domain": "some-domain.bitrix24.com",
+        "domain": "some-domain.bitrix24.ru",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "L",
-        "client_endpoint": "https://some-domain.bitrix24.com/rest/",
+        "client_endpoint": "https://some-domain.bitrix24.ru/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -62,17 +69,17 @@
 || **event_handler_id**
 [`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о созданной сделке.
+[`object`](../../../../data-types.md) | Объект, содержащий информацию о созданной по шаблону сделке и настройках повторения.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях созданной сделки и шаблона, по которому сделка была создана.
+[`object`](../../../../data-types.md) | Объект с идентификаторами настроек повторения, сделки-шаблона и созданной сделки.
 
 Структура описана [ниже](#fields) ||
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, в котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -83,11 +90,11 @@
 || **Параметр**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../../data-types.md) | Идентификатор записи в таблице настроек регулярных сделок ||
+[`integer`](../../../../data-types.md) | Идентификатор настроек повторения. Передайте его в параметр `id` метода [crm.deal.recurring.get](../crm-deal-recurring-get.md), чтобы получить настройки ||
 || **RECURRING_DEAL_ID**
-[`integer`](../../../../data-types.md) | Идентификатор шаблона регулярной сделки ||
+[`integer`](../../../../data-types.md) | Идентификатор сделки-шаблона, из которой копируются значения полей. Совпадает с полем `DEAL_ID` в ответе [crm.deal.recurring.get](../crm-deal-recurring-get.md). Поля сделки-шаблона возвращает [crm.deal.get](../../crm-deal-get.md) ||
 || **DEAL_ID**
-[`integer`](../../../../data-types.md) | Идентификатор созданной по шаблону сделки ||
+[`integer`](../../../../data-types.md) | Идентификатор сделки, созданной по шаблону. Поля сделки возвращает [crm.deal.get](../../crm-deal-get.md) ||
 |#
 
 ### Параметр auth {#auth}
@@ -98,6 +105,6 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
-- [{#T}](./on-crm-deal-recurring-delete.md)
 - [{#T}](./on-crm-deal-recurring-add.md)
 - [{#T}](./on-crm-deal-recurring-update.md)
+- [{#T}](./on-crm-deal-recurring-delete.md)
