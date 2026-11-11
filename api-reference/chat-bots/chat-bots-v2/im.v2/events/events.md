@@ -17,7 +17,7 @@
 
 Битрикс24 записывает события только после вызова [im.v2.Event.subscribe](./event-subscribe.md) от имени пользователя, а доставляет их только в режиме polling — вызовами [im.v2.Event.get](./event-get.md). Порядок подписки и опроса описан в обзоре [Работа с чатом](../index.md).
 
-Каждое событие приходит элементом массива `result.events` с полями `eventId`, `type`, `date` и `data`. Таблицы и примеры ниже описывают содержимое `data`; оболочка элемента описана на странице [im.v2.Event.get](./event-get.md). Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
+Каждое событие — элемент массива `result.events` с полями `eventId`, `type`, `date` и `data`. Таблицы и примеры ниже описывают содержимое `data`, остальные поля — на странице [im.v2.Event.get](./event-get.md). Поля объектов `message`, `chat`, `user` описаны в [{#T}](../../entities.md).
 
 > Быстрый переход: [все события](#all-events)
 
@@ -34,15 +34,14 @@
 
 ## Отличия от ответов методов
 
-В данных событий объекты `chat` и `user` возвращаются в сокращенном формате:
+В данных событий объекты `chat` и `user` приходят сокращенными:
 
-- объект `chat` не содержит полей `role` и `muteList` — они зависят от конкретного пользователя и не могут быть одинаковыми для всех получателей
-- объект `user` не содержит полей `network`, `botData`, `avatarHr`
-- поля онлайн-статуса (`idle`, `lastActivityDate`, `mobileLastDate`, `desktopLastDate`) всегда равны `false`
+- `chat` — без полей `role` и `muteList`: они зависят от конкретного пользователя и не могут быть одинаковыми для всех получателей
+- `user` — без полей `network`, `botData`, `avatarHr`, а поля онлайн-статуса `idle`, `lastActivityDate`, `mobileLastDate`, `desktopLastDate` всегда равны `false`
 
 {% note info "" %}
 
-Поля `auth` в данных события нет: события `im.v2` не вызывают обработчик приложения, а приходят в ответе [im.v2.Event.get](./event-get.md), поэтому авторизация передается в самом запросе.
+В данных события нет поля `auth`. События `im.v2` приходят в ответе [im.v2.Event.get](./event-get.md), а не в обработчик приложения, поэтому авторизация передается в самом запросе.
 
 {% endnote %}
 
@@ -50,7 +49,7 @@
 
 ## ONIMV2MESSAGEADD {#onimv2messageadd}
 
-Новое сообщение в чате, в котором состоит подписанный пользователь.
+Новое сообщение в чате, в котором состоит подписанный пользователь, в том числе отправленное им самим.
 
 #|
 || **Поле** | **Тип** | **Описание** ||
@@ -58,6 +57,7 @@
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором отправлено сообщение. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения. Описание полей объекта — [User](../../entities.md#user) ||
 || **language** | `string` | Язык Битрикс24 (например, `en`, `ru`) ||
+|| **additionalMessages** | `array` | Массив объектов [`Message`](../../entities.md#message). Если `message` — ответ на другое сообщение, в массиве — исходное сообщение, иначе массив пустой. Если исходное сообщение удалено, оно придет с текстом об удалении ||
 |#
 
 ### Пример данных
@@ -71,9 +71,9 @@
         "date": "2025-01-15T10:30:00+03:00",
         "text": "Hello everyone!",
         "isSystem": false,
-        "uuid": "",
+        "uuid": null,
         "forward": null,
-        "params": {},
+        "params": [],
         "viewedByOthers": false
     },
     "chat": {
@@ -93,13 +93,27 @@
         "entityData1": "",
         "entityData2": "",
         "entityData3": "",
-        "entityLink": {},
+        "entityLink": {
+            "type": "",
+            "url": "",
+            "id": ""
+        },
         "diskFolderId": 42,
-        "permissions": {},
+        "permissions": {
+            "manageUsersAdd": "member",
+            "manageUsersDelete": "manager",
+            "manageUi": "member",
+            "manageSettings": "owner",
+            "manageMessages": "member",
+            "manageMessagesAutoDelete": "manager",
+            "manageGuestInvites": "manager",
+            "manageDelete": "member",
+            "canPost": "member"
+        },
         "parentChatId": 0,
         "parentMessageId": 0,
         "isNew": false,
-        "textFieldEnabled": "Y",
+        "textFieldEnabled": true,
         "backgroundId": null
     },
     "user": {
@@ -127,9 +141,10 @@
         "phones": false,
         "website": "",
         "email": "john@example.com",
-        "type": "employee"
+        "type": "user"
     },
-    "language": "en"
+    "language": "en",
+    "additionalMessages": []
 }
 ```
 
@@ -137,7 +152,7 @@
 
 ## ONIMV2MESSAGEUPDATE {#onimv2messageupdate}
 
-Сообщение в чате отредактировано.
+Сообщение в чате отредактировано. Если сообщение изменено методом [im.message.update](../../../../chats/messages/im-message-update.md), событие не приходит.
 
 #|
 || **Поле** | **Тип** | **Описание** ||
@@ -145,9 +160,10 @@
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в котором отредактировано сообщение. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Автор сообщения. Описание полей объекта — [User](../../entities.md#user) ||
 || **language** | `string` | Язык Битрикс24 ||
+|| **additionalMessages** | `array` | Массив объектов [`Message`](../../entities.md#message). Если `message` — ответ на другое сообщение, в массиве — исходное сообщение, иначе массив пустой. Если исходное сообщение удалено, оно придет с текстом об удалении ||
 |#
 
-Формат данных идентичен [ONIMV2MESSAGEADD](#onimv2messageadd). Поле `message` содержит обновленный текст.
+Данные устроены так же, как у [ONIMV2MESSAGEADD](#onimv2messageadd), только в `message` — сообщение с обновленным текстом.
 
 ---
 
@@ -165,7 +181,7 @@
 
 ### Пример данных
 
-Объекты `chat` и `user` здесь и в примерах ниже сокращены. Полный состав — в примере [ONIMV2MESSAGEADD](#onimv2messageadd).
+Объекты `chat` и `user` здесь и в примерах ниже сокращены. Больше всего полей показано в примере [ONIMV2MESSAGEADD](#onimv2messageadd), описание всех полей — на странице [{#T}](../../entities.md).
 
 ```json
 {
@@ -179,7 +195,7 @@
     "user": {
         "id": 1,
         "name": "John Smith",
-        "type": "employee"
+        "type": "user"
     },
     "language": "en"
 }
@@ -194,11 +210,12 @@
 #|
 || **Поле** | **Тип** | **Описание** ||
 || **reaction** | `string` | Код реакции (например, `like`) ||
-|| **action** | `string` | Действие: `add` — реакция добавлена, `delete` — удалена ||
-|| **message** | [`Message`](../../entities.md#message) | Сообщение, на которое изменена реакция. Описание полей объекта — [Message](../../entities.md#message) ||
+|| **action** | `string` | Действие с реакцией. В событиях `im.v2` приходит пустой строкой и при добавлении, и при удалении реакции: по этому полю их не различить ||
+|| **message** | [`Message`](../../entities.md#message) | Сообщение, реакция на которое добавлена или удалена. Описание полей объекта — [Message](../../entities.md#message) ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Пользователь, изменивший реакцию. Описание полей объекта — [User](../../entities.md#user) ||
 || **language** | `string` | Язык Битрикс24 ||
+|| **additionalMessages** | `array` | Массив объектов [`Message`](../../entities.md#message). Если `message` — ответ на другое сообщение, в массиве — исходное сообщение, иначе массив пустой. Если исходное сообщение удалено, оно придет с текстом об удалении ||
 |#
 
 ### Пример данных
@@ -206,7 +223,7 @@
 ```json
 {
     "reaction": "like",
-    "action": "add",
+    "action": "",
     "message": {
         "id": 5012,
         "chatId": 5,
@@ -214,9 +231,9 @@
         "date": "2025-01-15T10:30:00+03:00",
         "text": "Hello everyone!",
         "isSystem": false,
-        "uuid": "",
+        "uuid": null,
         "forward": null,
-        "params": {},
+        "params": [],
         "viewedByOthers": false
     },
     "chat": {
@@ -228,9 +245,10 @@
     "user": {
         "id": 2,
         "name": "Jane Doe",
-        "type": "employee"
+        "type": "user"
     },
-    "language": "en"
+    "language": "en",
+    "additionalMessages": []
 }
 ```
 
@@ -242,7 +260,7 @@
 
 #|
 || **Поле** | **Тип** | **Описание** ||
-|| **dialogId** | `string` | ID диалога (например, `chat5`) ||
+|| **dialogId** | `string` | ID диалога. Для группового чата — `chat` и ID чата, например `chat5`. Для личного — ID собеседника ||
 || **chat** | [`Chat`](../../entities.md#chat) | Чат, в который добавлен участник. Описание полей объекта — [Chat](../../entities.md#chat) ||
 || **user** | [`User`](../../entities.md#user) | Добавленный пользователь. Описание полей объекта — [User](../../entities.md#user) ||
 || **language** | `string` | Язык Битрикс24 ||
@@ -262,7 +280,7 @@
     "user": {
         "id": 3,
         "name": "Alex Brown",
-        "type": "employee"
+        "type": "user"
     },
     "language": "en"
 }
@@ -271,6 +289,7 @@
 ## Продолжите изучение
 
 - [Журнал изменений API imbot.v2](../../change-log.md)
+- [События im.v2](./index.md)
 - [{#T}](./event-get.md)
 - [{#T}](./event-subscribe.md)
 - [{#T}](../../entities.md)
