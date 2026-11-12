@@ -57,7 +57,7 @@
 2. Проверьте подключение методами [voximplant.sip.get](./voximplant/sip/voximplant-sip-get.md) и [voximplant.sip.status](./voximplant/sip/voximplant-sip-status.md).
 3. Получите список доступных линий методом [voximplant.line.get](./voximplant/lines/voximplant-line-get.md).
 4. Назначьте исходящую линию по умолчанию через [voximplant.line.outgoing.set](./voximplant/lines/voximplant-line-outgoing-set.md) или [voximplant.line.outgoing.sip.set](./voximplant/lines/voximplant-line-outgoing-sip-set.md).
-5. Для сотрудников получите SIP-настройки методом [voximplant.user.get](./voximplant/users/voximplant-user-get.md) и при необходимости включите SIP-аппарат методом [voximplant.user.activatePhone](./voximplant/users/voximplant-user-activate-phone.md).
+5. Для сотрудников получите SIP-настройки методом [voximplant.user.get](./voximplant/users/voximplant-user-get.md) и при необходимости включите SIP-аппарат методом [voximplant.user.activatePhone](./voximplant/users/voximplant-user-activate-phone.md) или выключите методом [voximplant.user.deactivatePhone](./voximplant/users/voximplant-user-deactivate-phone.md).
 6. Подпишитесь на события [OnVoximplantCallInit](./voximplant/events/on-voximplant-call-init.md), [OnVoximplantCallStart](./voximplant/events/on-voximplant-call-start.md), [OnVoximplantCallEnd](./voximplant/events/on-voximplant-call-end.md), если нужно обрабатывать жизненный цикл звонка.
 
 ## Виджеты
@@ -168,6 +168,7 @@
 || **Метод** | **Описание** ||
 || [voximplant.user.get](./voximplant/users/voximplant-user-get.md) | Возвращает настройки пользователей ||
 || [voximplant.user.activatePhone](./voximplant/users/voximplant-user-activate-phone.md) | Устанавливает сотруднику признак наличия SIP-аппарата ||
+|| [voximplant.user.deactivatePhone](./voximplant/users/voximplant-user-deactivate-phone.md) | Снимает у сотрудника признак наличия SIP-аппарата ||
 |#
 
 ### Follow-up звонков в REST 3.0

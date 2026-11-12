@@ -25,7 +25,7 @@
 || Реагировать на начало и завершение звонков | [События](./events/index.md) ||
 || Управлять SIP-подключениями приложения | [Управление SIP-подключениями](./sip/index.md) ||
 || Управлять исходящими линиями по умолчанию | [Управление линиями](./lines/index.md) ||
-|| Получать SIP-настройки пользователя и включать SIP-аппарат | [Управление пользователями](./users/index.md) ||
+|| Получать SIP-настройки пользователя, включать и выключать SIP-аппарат | [Управление пользователями](./users/index.md) ||
 |#
 
 ## Связь с другими объектами
@@ -63,7 +63,7 @@
 2. Для исходящего звонка используйте [voximplant.callback.start](./voximplant-callback-start.md), [voximplant.infocall.startwithsound](./voximplant-infocall-start-with-sound.md) или [voximplant.infocall.startwithtext](./voximplant-infocall-start-with-text.md).
 3. Для SIP-сценария создайте подключение через [voximplant.sip.add](./sip/voximplant-sip-add.md), затем проверьте его через [voximplant.sip.get](./sip/voximplant-sip-get.md) и [voximplant.sip.status](./sip/voximplant-sip-status.md).
 4. Назначьте исходящую линию через [voximplant.line.outgoing.set](./lines/voximplant-line-outgoing-set.md) или [voximplant.line.outgoing.sip.set](./lines/voximplant-line-outgoing-sip-set.md). После [voximplant.line.outgoing.set](./lines/voximplant-line-outgoing-set.md) проверьте фактическую линию методом [voximplant.line.outgoing.get](./lines/voximplant-line-outgoing-get.md).
-5. Для работы с SIP-настройками сотрудников используйте [voximplant.user.get](./users/voximplant-user-get.md) и [voximplant.user.activatePhone](./users/voximplant-user-activate-phone.md).
+5. Для работы с SIP-настройками сотрудников используйте [voximplant.user.get](./users/voximplant-user-get.md), [voximplant.user.activatePhone](./users/voximplant-user-activate-phone.md) и [voximplant.user.deactivatePhone](./users/voximplant-user-deactivate-phone.md).
 6. Подпишитесь на события в разделе [События](./events/index.md), если нужна обработка жизненного цикла звонка.
 
 ## Обзор методов и событий {#all-methods}
@@ -127,4 +127,5 @@
 || **Метод** | **Описание** ||
 || [voximplant.user.get](./users/voximplant-user-get.md) | Возвращает настройки пользователей ||
 || [voximplant.user.activatePhone](./users/voximplant-user-activate-phone.md) | Устанавливает сотруднику признак наличия SIP-аппарата ||
+|| [voximplant.user.deactivatePhone](./users/voximplant-user-deactivate-phone.md) | Снимает у сотрудника признак наличия SIP-аппарата ||
 |#

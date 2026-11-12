@@ -279,9 +279,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| — | `Parameter USER_ID is not set` | Не указан обязательный параметр `USER_ID` ||
-|| — | `You are not allowed to modify user's settings` | Недостаточно прав для активации SIP-аппарата пользователя ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Parameter USER_ID is not set` | Не указан обязательный параметр `USER_ID` ||
+|| `400` | Пустое значение | `You are not allowed to modify user's settings` | Недостаточно прав для активации SIP-аппарата пользователя ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -290,3 +290,4 @@ HTTP-статус: **400**
 
 - [{#T}](./index.md)
 - [{#T}](./voximplant-user-get.md)
+- [{#T}](./voximplant-user-deactivate-phone.md)

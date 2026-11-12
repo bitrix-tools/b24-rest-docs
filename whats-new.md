@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 12 ноября, 2026
+
+- Добавили метод [voximplant.user.deactivatePhone](./api-reference/telephony/voximplant/users/voximplant-user-deactivate-phone.md): снимает у сотрудника признак наличия SIP-аппарата
+
 ### 5 ноября, 2026
 
 - Добавили методы CRM в REST 3.0: элементы, поля, воронки и стадии, товарные позиции, реквизиты, адреса, дела, виды карточки и справочники. Аналоги старых методов собраны на странице [Переход на новые методы CRM](./api-reference/crm/migration.md), все группы — в [обзоре CRM](./api-reference/crm/index.md)

@@ -12,13 +12,13 @@
 SIP-настройки пользователей определяют параметры подключения сотрудника к SIP-аппарату или софтфону. Методы `voximplant.user.*` позволяют:
 
 - посмотреть текущую конфигурацию сотрудника
-- включить признак SIP-аппарата
+- включить или выключить признак SIP-аппарата
 
 Метод [voximplant.user.get](./voximplant-user-get.md) возвращает основные параметры для подключения и звонков: линию по умолчанию, статус аппарата, сервер, учетные данные и внутренний номер.
 
 ## Права доступа {#permissions}
 
-Оба метода проверяют право `Настройки пользователя — Изменение`. Несмотря на то что [voximplant.user.get](./voximplant-user-get.md) только читает настройки, для его вызова также требуется это право.
+Все методы проверяют право `Настройки пользователя — Изменение`. Несмотря на то что [voximplant.user.get](./voximplant-user-get.md) только читает настройки, для его вызова также требуется это право.
 
 Уровень права определяет, с какими пользователями можно работать:
 
@@ -26,7 +26,7 @@ SIP-настройки пользователей определяют пара�
 - `Свои + своего отдела` — с текущим пользователем и сотрудниками его отдела
 - `Любые` — со всеми пользователями
 
-[voximplant.user.get](./voximplant-user-get.md) возвращает настройки доступных пользователей. При вызове из приложения метод дополнительно требует подтверждения администратора Битрикс24. [voximplant.user.activatePhone](./voximplant-user-activate-phone.md) активирует SIP-аппарат только у пользователя, доступного по уровню права.
+[voximplant.user.get](./voximplant-user-get.md) возвращает настройки доступных пользователей. При вызове из приложения метод дополнительно требует подтверждения администратора Битрикс24. [voximplant.user.activatePhone](./voximplant-user-activate-phone.md) и [voximplant.user.deactivatePhone](./voximplant-user-deactivate-phone.md) включают и выключают SIP-аппарат только у пользователя, доступного по уровню права.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -46,7 +46,7 @@ SIP-настройки пользователей определяют пара�
 
 1. Получите `USER_ID` сотрудника через [user.get](../../../user/user-get.md)
 2. Проверьте текущие SIP-настройки методом [voximplant.user.get](./voximplant-user-get.md)
-3. Включите SIP-аппарат методом [voximplant.user.activatePhone](./voximplant-user-activate-phone.md)
+3. Включите SIP-аппарат методом [voximplant.user.activatePhone](./voximplant-user-activate-phone.md) или выключите методом [voximplant.user.deactivatePhone](./voximplant-user-deactivate-phone.md)
 
 ## Обзор методов {#all-methods}
 
@@ -58,4 +58,5 @@ SIP-настройки пользователей определяют пара�
 || **Метод** | **Описание** ||
 || [voximplant.user.get](./voximplant-user-get.md) | Возвращает настройки пользователей ||
 || [voximplant.user.activatePhone](./voximplant-user-activate-phone.md) | Устанавливает сотруднику признак наличия SIP-аппарата ||
+|| [voximplant.user.deactivatePhone](./voximplant-user-deactivate-phone.md) | Снимает у сотрудника признак наличия SIP-аппарата ||
 |#
