@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом на обновление дела
+> Кто может выполнять метод: любой пользователь с правом на изменение текущего элемента CRM, а при смене владельца — и нового элемента
 
 {% note warning "DEPRECATED" %}
 
@@ -185,18 +185,14 @@
 - Python
 
     ```python
-    from datetime import datetime, timedelta
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
         bitrix_response = client.crm.activity.update(
             bitrix_id=999,
             fields={
-                "SUBJECT": "Updated follow-up",
-                "START_TIME": (datetime.now() + timedelta(days=1)).isoformat(timespec="seconds"),
-                "DESCRIPTION": "Updated activity description",
                 "RESPONSIBLE_ID": 1,
-                "COMPLETED": "N",
+                "DESCRIPTION": "Новое описание дела",
             },
         ).response
         result = bitrix_response.result

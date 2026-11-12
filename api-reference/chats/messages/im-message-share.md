@@ -1,4 +1,4 @@
-# Создать объект на основании сообщения im.message.share
+# Создать чат, задачу, пост или событие из сообщения im.message.share
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: участник чата
 
-Метод `im.message.share` создает объект на основании сообщения.
+Метод `im.message.share` создает из сообщения чат, задачу, пост в ленте или событие календаря. Например, из просьбы коллеги в чате можно сразу поставить задачу.
 
 ## Параметры метода
 
@@ -25,15 +25,15 @@
 || **MESSAGE_ID***
 [`integer`](../../data-types.md) | Идентификатор сообщения.
 
-Идентификатор можно получить с помощью метода [im.dialog.messages.get](./im-dialog-messages-get.md) ||
+Идентификатор возвращают методы [im.message.add](./im-message-add.md) и [im.dialog.messages.get](./im-dialog-messages-get.md) ||
 || **DIALOG_ID***
-[`string`](../../data-types.md) | Идентификатор чата в формате:
+[`string`](../../data-types.md) | Идентификатор диалога в формате:
 
-- `chatXXX` — чат
-- `sgXXX` — чат группы или проекта
-- `XXX` — идентификатор пользователя личного чата 
-  
-Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+- `chatXXX` — групповой чат, где `XXX` — идентификатор чата
+- `sgXXX` — чат группы или проекта, где `XXX` — идентификатор группы
+- `XXX` — личный диалог, где `XXX` — идентификатор пользователя
+
+Идентификатор чата вернет метод [im.chat.get](../im-chat-get.md), идентификатор пользователя — методы [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
 || **TYPE***
 [`string`](../../data-types.md) | Тип создаваемого объекта.
 
@@ -41,7 +41,9 @@
 - `CHAT` — чат
 - `TASK` — задача
 - `POST` — пост в ленте
-- `CALEND` — событие календаря ||
+- `CALEND` — событие календаря
+
+Если передать другое значение или не передать параметр, метод вернет `true`, но ничего не создаст ||
 |#
 
 ## Примеры кода
@@ -96,7 +98,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Object created:', result)
+        console.info('Request completed:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -132,7 +134,7 @@
           }
 
           const result = response.getData().result
-          console.info('Object created:', result)
+          console.info('Request completed:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -284,7 +286,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если объект создан ||
+[`boolean`](../../data-types.md) | `true` — запрос обработан. Метод вернет `true`, даже когда объект не создан из-за неверного `TYPE`.
+
+Идентификатор созданного объекта метод не возвращает. Найти объект можно по системному сообщению, которое приходит в чат после вызова. Это сообщение возвращает метод [im.dialog.messages.get](./im-dialog-messages-get.md). У задачи, поста и события ссылка на объект есть в тексте сообщения, у нового чата идентификатор передается в поле `params.CHAT_ID` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -305,11 +309,11 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан или некорректен `MESSAGE_ID` ||
-|| `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Не передан или некорректен `DIALOG_ID` ||
-|| `ACCESS_ERROR` | You do not have access to the specified dialog | Нет доступа к диалогу ||
-|| `PARAMS_ERROR` | Incorrect params | Некорректные параметры запроса ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MESSAGE_ID_ERROR` | Message ID can't be empty | Параметр `MESSAGE_ID` не передан или передан в неверном формате ||
+|| `400` | `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Параметр `DIALOG_ID` не передан или передан в неверном формате ||
+|| `400` | `PARAMS_ERROR` | Incorrect params | Объект не создан: сообщение не найдено, у пользователя нет права публиковать в ленте группы, пользователь внешний (экстранет) или создание завершилось ошибкой ||
+|| `403` | `ACCESS_ERROR` | You do not have access to the specified dialog | Чат не найден или у текущего пользователя нет к нему доступа ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -317,5 +321,12 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./im-message-delete.md)
+- [{#T}](./im-message-like.md)
 - [{#T}](./im-message-command.md)
 - [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-read.md)
+- [{#T}](./im-dialog-unread.md)
+- [{#T}](./im-dialog-writing.md)

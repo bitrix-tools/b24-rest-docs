@@ -23,7 +23,7 @@
 
 Методы `humanresources.hcmlink.*` управляют данными интеграции КЭДО с системами кадрового учета через HCM Link: компаниями, сотрудниками, сопоставлениями и значениями полей.
 
-Методы выполняются только в контексте авторизации [приложения](../../settings/app-installation/index.md). Вызовы через вебхук методы отклоняют с ошибкой `WRONG_AUTH_TYPE`.
+Методы [sign.b2e.document.send](./sign-b2e-document-send.md), [sign.b2e.document.get](./sign-b2e-document-get.md) и [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md) работают и в [приложении](../../settings/app-installation/index.md), и через [входящий вебхук](../../local-integrations/local-webhooks.md). Остальные методы раздела, в том числе `humanresources.hcmlink.*`, доступны только приложению: вызов через вебхук они отклоняют с ошибкой `WRONG_AUTH_TYPE`.
 
 ## Как выбрать группу методов
 
@@ -45,7 +45,7 @@
 
 **HCM Link.** Интеграция с системами кадрового учета передает компании, сотрудников и значения полей для документов КЭДО. Если документ отправляется по данным HCM Link, методы `sign.b2e.*` связываются с методами [humanresources.hcmlink.*](./hcm-link/index.md).
 
-**Файл документа.** Метод `sign.b2e.document.send` принимает PDF-файл в параметре `files[].fileContent`, закодированный в Base64. После подписания файл можно получить из списков подписанных документов пользователя или сейфа компании. Если документ связан с HCM Link, данные подписанного файла можно получить методом [sign.b2e.hcmlink.document.get](./sign-b2e-hcmlink-document-get.md) по идентификатору участника подписания.
+**Файл документа.** Метод [sign.b2e.document.send](./sign-b2e-document-send.md) принимает файл в Base64 в параметре `files[].fileContent`. Подходят форматы PDF, DOCX, DOC, RTF, ODT, JPG и PNG. После подписания файл можно получить из списков подписанных документов пользователя или сейфа компании. Если документ связан с HCM Link, данные подписанного файла можно получить методом [sign.b2e.hcmlink.document.get](./sign-b2e-hcmlink-document-get.md) по идентификатору участника подписания.
 
 **Статусы подписания.** События `OnSignB2eDocumentStatusChanged` и `OnSignB2eMemberStatusChanged` сообщают об изменениях статусов документа и участников. Событие `OnSignHcmLinkB2eDocumentSigned` сообщает о подписании документа, связанного с HCM Link. Детали документа можно получить методом [sign.b2e.document.get](./sign-b2e-document-get.md) по `uid`.
 

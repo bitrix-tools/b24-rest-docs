@@ -11,7 +11,7 @@
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: автор сообщения или администратор в общем чате
+> Кто может выполнять метод: автор сообщения или администратор в Общем чате
 
 Метод `im.message.delete` удаляет сообщение.
 
@@ -25,7 +25,7 @@
 || **MESSAGE_ID***
 [`integer`](../../data-types.md) | Идентификатор сообщения.
 
-Идентификатор можно получить с помощью метода [im.dialog.messages.get](./im-dialog-messages-get.md) ||
+Идентификатор возвращают методы [im.message.add](./im-message-add.md) и [im.dialog.messages.get](./im-dialog-messages-get.md) ||
 |#
 
 ## Примеры кода
@@ -254,7 +254,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если сообщение удалено ||
+[`boolean`](../../data-types.md) | `true`, если сообщение удалено. Обычно сообщение остается в чате с текстом «Это сообщение было удалено», а в его `params` появляется `IS_DELETED: "Y"`. Если администратор удаляет сообщение в Общем чате, оно удаляется полностью ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -275,9 +275,9 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан или некорректен `MESSAGE_ID` ||
-|| `CANT_EDIT_MESSAGE` | Time has expired for modification or you don't have access | Нет прав на удаление сообщения или истек срок редактирования ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MESSAGE_ID_ERROR` | Message ID can't be empty | Параметр `MESSAGE_ID` не передан или его значение не больше `0` ||
+|| `403` | `CANT_EDIT_MESSAGE` | Time has expired for modification or you don't have access | Сообщение не найдено, уже удалено или текущий пользователь не может его удалить ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -287,3 +287,10 @@ HTTP-статус: **400**, **403**
 - [{#T}](./im-message-add.md)
 - [{#T}](./im-message-update.md)
 - [{#T}](./im-message-like.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
+- [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-read.md)
+- [{#T}](./im-dialog-unread.md)
+- [{#T}](./im-dialog-writing.md)

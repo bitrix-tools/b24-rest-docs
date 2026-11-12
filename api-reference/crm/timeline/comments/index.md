@@ -35,19 +35,21 @@
 ## Как работать с комментариями
 
 1. Определите элемент CRM, к которому относится комментарий.
-2. Проверьте права доступа к элементу CRM, иначе методы могут вернуть ошибку `Access denied`. Доступ зависит от прав текущего пользователя на конкретный элемент.
-3. Получите состав доступных полей методом [crm.timeline.comment.fields](./crm-timeline-comment-fields.md).
-4. Добавьте комментарий методом [crm.timeline.comment.add](./crm-timeline-comment-add.md).
-5. Получите список комментариев методом [crm.timeline.comment.list](./crm-timeline-comment-list.md) или данные конкретного комментария методом [crm.timeline.comment.get](./crm-timeline-comment-get.md).
-6. Измените комментарий методом [crm.timeline.comment.update](./crm-timeline-comment-update.md).
-7. Удалите ненужный комментарий методом [crm.timeline.comment.delete](./crm-timeline-comment-delete.md).
-8. Для отслеживания изменений подпишитесь на события раздела [События комментариев](./events/index.md).
+2. Проверьте права доступа к элементу CRM. Для чтения комментариев нужно право на чтение элемента, для добавления — право на его изменение. Изменить комментарий может только его автор с правом изменения элемента CRM. Удалить комментарий с тем же правом может автор или администратор соответствующего объекта CRM с учетом воронки.
+3. Получите описание полей методом [crm.timeline.comment.fields](./crm-timeline-comment-fields.md).
+4. Чтобы отслеживать изменения, подпишитесь на [события комментариев](./events/index.md).
+5. Добавьте комментарий методом [crm.timeline.comment.add](./crm-timeline-comment-add.md).
+6. Получите список комментариев методом [crm.timeline.comment.list](./crm-timeline-comment-list.md) или данные конкретного комментария методом [crm.timeline.comment.get](./crm-timeline-comment-get.md).
+7. При необходимости измените комментарий методом [crm.timeline.comment.update](./crm-timeline-comment-update.md).
+8. При необходимости удалите комментарий методом [crm.timeline.comment.delete](./crm-timeline-comment-delete.md).
+
+Если комментарий привязан к нескольким элементам CRM, изменение и удаление работают с одной выбранной привязкой: передайте `ownerTypeId` и `ownerId` нужного элемента. Без них метод удаления вернет ошибку `MULTIPLE_BINDINGS`. Особенности описаны на страницах методов [crm.timeline.comment.update](./crm-timeline-comment-update.md) и [crm.timeline.comment.delete](./crm-timeline-comment-delete.md). Там же — ошибки и условия доступа.
 
 ## Обзор методов и событий {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: `любой пользователь`
+> Кто может выполнять методы: зависит от метода и прав пользователя на элемент CRM
 
 {% list tabs %}
 

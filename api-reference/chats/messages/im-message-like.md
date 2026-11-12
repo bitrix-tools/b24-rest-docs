@@ -1,4 +1,4 @@
-# Изменить статус «Мне нравится» im.message.like
+# Поставить или снять «Мне нравится» im.message.like
 
 {% note tip "" %}
 
@@ -25,16 +25,16 @@
 || **MESSAGE_ID***
 [`integer`](../../data-types.md) | Идентификатор сообщения.
 
-Идентификатор можно получить с помощью метода [im.dialog.messages.get](./im-dialog-messages-get.md) ||
+Идентификатор возвращают методы [im.message.add](./im-message-add.md) и [im.dialog.messages.get](./im-dialog-messages-get.md) ||
 || **ACTION**
-[`string`](../../data-types.md) | Действие с реакцией на сообщение.
+[`string`](../../data-types.md) | Что сделать с отметкой «Мне нравится».
 
 Допустимые значения:
-- `auto` — автоматически переключить текущий статус: если реакции «Мне нравится» нет, она будет установлена, если реакция есть — снята
+- `auto` — переключить: поставить, если отметки нет, или снять, если есть
 - `plus` — поставить «Мне нравится»
 - `minus` — снять «Мне нравится»
-  
-По умолчанию — `auto`  ||
+
+По умолчанию — `auto`. Регистр не важен. Неизвестное значение метод считает `auto` ||
 |#
 
 ## Примеры кода
@@ -291,9 +291,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан или некорректен `MESSAGE_ID` ||
-|| `WITHOUT_CHANGES` | Action completed without changes | Состояние реакции уже было таким же ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MESSAGE_ID_ERROR` | Message ID can't be empty | Параметр `MESSAGE_ID` не передан или его значение не больше `0` ||
+|| `400` | `WITHOUT_CHANGES` | Action completed without changes | Отметка не изменилась. Причины:
+- сообщение не найдено
+- текущий пользователь не участник чата
+- отметка уже в нужном состоянии, например при повторном вызове с `plus` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -303,3 +306,10 @@ HTTP-статус: **400**
 - [{#T}](./im-message-add.md)
 - [{#T}](./im-message-update.md)
 - [{#T}](./im-message-delete.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
+- [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-read.md)
+- [{#T}](./im-dialog-unread.md)
+- [{#T}](./im-dialog-writing.md)

@@ -13,7 +13,6 @@
 >
 > Кто может выполнять метод: пользователь с правом отправлять сообщения в чат
 
-
 Метод `im.message.add` отправляет сообщение в чат.
 
 ## Параметры метода
@@ -24,30 +23,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **DIALOG_ID***
-[`string`](../../data-types.md) | Идентификатор чата в формате:
+[`string`](../../data-types.md) | Идентификатор диалога в формате:
 
-- `chatXXX` — чат
-- `sgXXX` — чат группы или проекта
-- `XXX` — идентификатор пользователя личного чата 
-  
-Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+- `chatXXX` — групповой чат, где `XXX` — идентификатор чата
+- `sgXXX` — чат группы или проекта, где `XXX` — идентификатор группы
+- `XXX` — личный диалог, где `XXX` — идентификатор пользователя
+
+Идентификатор чата вернет метод [im.chat.get](../im-chat-get.md), идентификатор пользователя — методы [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
 || **MESSAGE***
 [`string`](../../data-types.md) | Текст сообщения. Обязателен, если не передан `ATTACH`.
 
+Если текст длиннее 20 006 символов, метод без ошибки оставит первые 20 000 и добавит в конце ` (...)`.
+
 Поддерживается [форматирование](./formatting.md) ||
 || **ATTACH**
-[`object`](../../data-types.md) 
-[`string`](../../data-types.md) | Вложение с блоками контента: изображения, ссылки, файлы. Обязателен, если не передан `MESSAGE`.
+[`object`](../../data-types.md)
+[`string`](../../data-types.md) | Вложение с блоками контента: изображения, ссылки, файлы. Параметр обязателен, если не передан `MESSAGE`.
 
-Подробнее читайте в разделе [Вложения](./attachments.md) ||
+Подробнее читайте в статье [Вложения](./attachments.md) ||
 || **KEYBOARD**
-[`object`](../../data-types.md) 
+[`object`](../../data-types.md)
 [`string`](../../data-types.md) | Кнопки под сообщением, с которыми может взаимодействовать пользователь.
 
 Подробнее читайте в статье [Работа с клавиатурами](./keyboards.md) ||
 || **MENU**
-[`object`](../../data-types.md) 
-[`string`](../../data-types.md) | Дополнительные пункты в контекстном меню чата.
+[`object`](../../data-types.md)
+[`string`](../../data-types.md) | Свои пункты в контекстном меню сообщения, например ссылка или копирование текста.
 
 Подробнее читайте в статье [Контекстное меню](./menu.md) ||
 || **SYSTEM**
@@ -56,20 +57,20 @@
 Допустимые значения:
 - `Y` — системное сообщение
 - `N` — обычное сообщение
-  
+
 По умолчанию — `N` ||
 || **URL_PREVIEW**
-[`string`](../../data-types.md) | Преобразование ссылок в rich-ссылки.
+[`string`](../../data-types.md) | Показывать ли под ссылкой в сообщении карточку с заголовком, описанием и картинкой страницы.
 
 Допустимые значения:
-- `Y` — включено
-- `N` — выключено
+- `Y` — показывать карточку
+- `N` — не показывать
 
 По умолчанию — `Y` ||
 || **REPLY_ID**
-[`integer`](../../data-types.md) | Идентификатор сообщения, на которое отправляется ответ. Сообщение для ответа должно быть в том же чате.
+[`integer`](../../data-types.md) | Идентификатор сообщения, на которое вы отвечаете. Сообщение должно быть в том же чате.
 
-Идентификатор можно получить с помощью метода [im.dialog.messages.get](./im-dialog-messages-get.md) ||
+Идентификатор вернет метод [im.dialog.messages.get](./im-dialog-messages-get.md) ||
 |#
 
 ## Примеры кода
@@ -113,7 +114,7 @@
         method: 'im.message.add',
         params: {
           DIALOG_ID: 'chat2941',
-          MESSAGE: 'Message text',
+          MESSAGE: 'Текст сообщения',
           SYSTEM: 'N',
           URL_PREVIEW: 'Y',
           REPLY_ID: 34237,
@@ -149,7 +150,7 @@
             method: 'im.message.add',
             params: {
               DIALOG_ID: 'chat2941',
-              MESSAGE: 'Message text',
+              MESSAGE: 'Текст сообщения',
               SYSTEM: 'N',
               URL_PREVIEW: 'Y',
               REPLY_ID: 34237,
@@ -312,8 +313,8 @@ HTTP-статус: **200**
         "finish": 1772552939.091396,
         "duration": 0.09139609336853027,
         "processing": 0,
-        "date_start": "2026-03-03T17:48:59+03:00",
-        "date_finish": "2026-03-03T17:48:59+03:00",
+        "date_start": "2026-03-03T18:48:59+03:00",
+        "date_finish": "2026-03-03T18:48:59+03:00",
         "operating_reset_at": 1772553539,
         "operating": 0
     }
@@ -333,7 +334,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -347,19 +348,24 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `MESSAGE_EMPTY` | Message can't be empty | Пустой `MESSAGE` и отсутствует `ATTACH` ||
-|| `USER_ID_EMPTY` | User ID can't be empty | Не передан или некорректен идентификатор пользователя в `DIALOG_ID` ||
-|| `USER_NOT_FOUND` | User not found | Пользователь не найден ||
-|| `CHAT_ID` | Ошибка при создании сообщения | Не удалось создать сообщение. Убедитесь, что чат с таким `ID` существует ||
-|| `ACCESS_ERROR` | Action unavailable | Недостаточно прав для отправки сообщения ||
-|| `PARAMS_ERROR` | Incorrect params | Некорректный набор параметров запроса ||
-|| `ATTACH_ERROR` | Incorrect attach params | Невалидный объект `ATTACH` ||
-|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Размер `ATTACH` превышает допустимый ||
-|| `KEYBOARD_ERROR` | Incorrect keyboard params | Невалидный объект `KEYBOARD` ||
-|| `MENU_ERROR` | Incorrect menu params | Невалидный объект `MENU` ||
-|| `REPLY_ACCESS_ERROR` | Action unavailable | Нет доступа к сообщению в `REPLY_ID` ||
-|| `REPLY_FROM_OTHER_CHAT_ERROR` | You can only reply to a message within the same chat | Нельзя отвечать на сообщение из другого чата ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MESSAGE_EMPTY` | Message can't be empty | Параметр `MESSAGE` пустой, и не передан `ATTACH` ||
+|| `400` | `MESSAGE_EMPTY` | Wrong message type | `MESSAGE` передан не строкой ||
+|| `400` | `USER_ID_EMPTY` | User ID can't be empty | Идентификатор пользователя в `DIALOG_ID` не больше `0` ||
+|| `400` | `USER_NOT_FOUND` | User not found | Пользователь не найден ||
+|| `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | По `DIALOG_ID` не удалось определить чат, например у группы `sgXXX` нет чата ||
+|| `400` | `CHAT_ID` | Ошибка при создании сообщения | Чат с таким идентификатором не найден. Текст ошибки возвращается на языке Битрикс24 ||
+|| `400` | `CANCELED` | Вы не можете отправлять сообщения в указанный чат | Текущий пользователь не может писать в этот чат. Текст ошибки возвращается на языке Битрикс24 ||
+|| `403` | `ACCESS_ERROR` | Action unavailable | Недостаточно прав для отправки сообщения ||
+|| `403` | `ACCESS_ERROR` | It is forbidden to send messages to this chat | Отправка сообщений запрещена в настройках чата ||
+|| `400` | `PARAMS_ERROR` | Incorrect params | Параметр `DIALOG_ID` не передан ||
+|| `400` | `PARAMS_ERROR` | Message isn't added | Сообщение не удалось создать ||
+|| `400` | `ATTACH_ERROR` | Incorrect attach params | Невалидный объект `ATTACH` ||
+|| `400` | `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Размер `ATTACH` превышает допустимый ||
+|| `400` | `KEYBOARD_ERROR` | Incorrect keyboard params | Невалидный объект `KEYBOARD` ||
+|| `400` | `MENU_ERROR` | Incorrect menu params | Невалидный объект `MENU` ||
+|| `403` | `REPLY_ACCESS_ERROR` | Action unavailable | Сообщение `REPLY_ID` не найдено или нет доступа к нему ||
+|| `403` | `REPLY_FROM_OTHER_CHAT_ERROR` | You can only reply to a message within the same chat | Сообщение `REPLY_ID` находится в другом чате ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -369,7 +375,10 @@ HTTP-статус: **400**
 - [{#T}](./im-message-update.md)
 - [{#T}](./im-message-delete.md)
 - [{#T}](./im-message-like.md)
-- [{#T}](./attachments.md)
-- [{#T}](./keyboards.md)
-- [{#T}](./menu.md)
-
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
+- [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-read.md)
+- [{#T}](./im-dialog-unread.md)
+- [{#T}](./im-dialog-writing.md)

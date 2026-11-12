@@ -15,8 +15,6 @@
 
 Метод `sign.b2e.document.get` возвращает информацию о документе и участниках подписания.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
@@ -39,6 +37,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"uid":"b6f5f1f1-9d20-4b6b-ae0f-2f0a8a0c2b3c"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sign.b2e.document.get
+    ```
 
 - cURL (OAuth)
 
@@ -399,7 +407,6 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
 || `403` | `ACCESS_DENIED` | Access denied! | КЭДО недоступен на Битрикс24, у приложения нет scope `sign.b2e` или `crm`, либо у пользователя нет нужного права в КЭДО ||
-|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
 || `400` | `INTERNAL_ERROR` | Internal error | Ошибка при формировании ответа ||
 || `400` | Пустое значение | Document UID is required. | Не передан параметр `uid` или передана пустая строка ||
 || `500` | `INTERNAL_SERVER_ERROR` | Internal server error | В `uid` передан массив или объект. Передавайте `uid` строкой ||

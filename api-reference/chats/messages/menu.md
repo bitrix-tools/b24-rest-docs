@@ -9,27 +9,26 @@
 
 {% endnote %}
 
-Контекстное меню — это набор действий в сообщении. Вы можете добавить свои пункты в контекстное меню, чтобы открывать ссылки или отправлять команды боту.
+Контекстное меню — список действий с сообщением. Свои пункты меню могут открывать ссылку, вставлять или копировать текст, звонить, открывать чат или отправлять команду боту.
 
-Методы, которые поддерживают работу с контекстным меню:
+Меню передают в параметре `MENU` при отправке или изменении сообщения:
 
-- [imbot.message.add](../../chat-bots/outdated/messages/imbot-message-add.md) — отправить сообщение от имени чат-бота
-- [imbot.message.update](../../chat-bots/outdated/messages/imbot-message-update.md) — изменить отправленное сообщение чат-бота
-- [imbot.command.answer](../../chat-bots/outdated/commands/imbot-command-answer.md) — отправить ответ на команду чат-бота
 - [im.message.add](./im-message-add.md) — отправить сообщение в чат
 - [im.message.update](./im-message-update.md) — изменить отправленное сообщение
 
+Кнопки [клавиатуры](./keyboards.md) видны под сообщением сразу, а пункты меню — только когда пользователь откроет меню сообщения. Клавиатура подходит для действия, которого ждут в ответ на сообщение, меню — для дополнительных действий, которые не должны занимать место в чате.
+
+Пункт с командой для бота `COMMAND` работает только в сообщениях самого чат-бота. Такие сообщения отправляют устаревшие методы [imbot.message.add](../../chat-bots/outdated/messages/imbot-message-add.md), [imbot.message.update](../../chat-bots/outdated/messages/imbot-message-update.md) и [imbot.command.answer](../../chat-bots/outdated/commands/imbot-command-answer.md). Методы [чат-ботов 2.0](../../chat-bots/chat-bots-v2/imbot.v2/messages/index.md) контекстное меню не поддерживают.
+
 ## Как добавить пункт в контекстное меню
 
-Чтобы добавить пункт в контекстное меню, при создании или обновлении сообщения передайте параметр `MENU`.
-
-`MENU` можно передавать:
+`MENU` можно передать:
 
 - строкой JSON
 - объектом с корневым ключом `ITEMS`
 - массивом пунктов без обертки
 
-Если в `MENU` нет ключа `ITEMS`, сервер автоматически считает, что передан сокращенный формат, и оборачивает массив в `ITEMS`.
+Массив без ключа `ITEMS` — сокращенный формат: сервер сам обернет его в `ITEMS`.
 
 {% list tabs %}
 
@@ -65,27 +64,25 @@
 || **TEXT**
 [`string`](../../data-types.md) | Текст пункта меню.
 
-Для пунктов меню обязательно указывать `TEXT` и одно поле действия — `LINK`, `COMMAND`, `ACTION + ACTION_VALUE` или `APP_ID` ||
+В каждом пункте обязательны `TEXT` и одно поле действия: `LINK`, `COMMAND`, `ACTION + ACTION_VALUE` или `APP_ID` ||
 || **LINK**
 [`string`](../../data-types.md) | Ссылка пункта меню. Допустимы `http/https` и относительный путь `/...` ||
 || **COMMAND**
-[`string`](../../data-types.md) | Команда для бота.
+[`string`](../../data-types.md) | Команда для чат-бота. Работает только в сообщениях чат-бота.
 
-Подробнее об обработке команд чат-ботом читайте [ниже](#command-processing) ||
+Как чат-бот обрабатывает команду — в разделе [Обработка команд чат-ботом](#command-processing) ||
 || **COMMAND_PARAMS**
 [`string`](../../data-types.md) | Параметры команды. Передавайте вместе с `COMMAND` ||
 || **APP_ID**
 [`integer`](../../data-types.md) | Идентификатор приложения для чата.
 
-Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки ||
+Устаревший сценарий. Чтобы открыть приложение из чата, используйте [виджеты в мессенджере](../../widgets/im/index.md) ||
 || **APP_PARAMS**
 [`string`](../../data-types.md) | Параметры запуска приложения для чата. Передавайте вместе с `APP_ID`.
 
-Устаревший сценарий. Чтобы открыть приложение из чата, используйте встройки
-
 {% note info "" %}
 
-На текущий момент вариант с параметрами `APP_ID` и `APP_PARAMS` используется в чатах [Открытых линий](../../imopenlines/openlines/index.md)
+Параметры `APP_ID` и `APP_PARAMS` сейчас используют в чатах [Открытых линий](../../imopenlines/openlines/index.md) — переписке с клиентами из мессенджеров и соцсетей
 
 {% endnote %}
 ||
@@ -102,15 +99,15 @@
 || **ACTION_VALUE**
 [`string`](../../data-types.md) | Значение для `ACTION`:
 
-- `PUT` — текст, который будет вставлен в поле ввода
-- `SEND` — текст, который будет отправлен
-- `COPY` — текст, который будет скопирован в буфер обмена
+- `PUT` — текст для вставки в поле ввода
+- `SEND` — текст для отправки
+- `COPY` — текст для копирования в буфер обмена
 - `CALL` — номер телефона в международном формате
-- `DIALOG` — идентификатор чата в формате `chatXXX` для группового чата и `ID` пользователя для личного чата
+- `DIALOG` — идентификатор чата в формате `chatXXX` для группового чата, идентификатор пользователя — для личного диалога
 
 Доступно начиная с [ревизии REST API IM](../im-revision-get.md) 28 ||
 || **CONTEXT**
-[`string`](../../data-types.md) | Контекст отображения.
+[`string`](../../data-types.md) | Где показывать пункт меню.
 
 Допустимые значения:
 - `MOBILE` — показывать только на мобильном устройстве
@@ -150,7 +147,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие в меню","URL_PREVIEW":"Y","MENU":{"ITEMS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TEXT":"Отправить текст","ACTION":"SEND","ACTION_VALUE":"Готово"}]}},"auth":"**put_access_token_here**"}' \
+    -d '{"DIALOG_ID":"chat2725","MESSAGE":"Выберите действие в меню","URL_PREVIEW":"Y","MENU":{"ITEMS":[{"TEXT":"Открыть сайт","LINK":"https://www.example.ru/"},{"TEXT":"Отправить текст","ACTION":"SEND","ACTION_VALUE":"Готово"}]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/im.message.add
     ```
 
@@ -169,18 +166,18 @@
         method: 'im.message.add',
         params: {
           DIALOG_ID: 'chat2725',
-          MESSAGE: 'Select an action from the menu',
+          MESSAGE: 'Выберите действие в меню',
           URL_PREVIEW: 'Y',
           MENU: {
             ITEMS: [
               {
-                TEXT: 'Open website',
+                TEXT: 'Открыть сайт',
                 LINK: 'https://www.example.ru/',
               },
               {
-                TEXT: 'Send text',
+                TEXT: 'Отправить текст',
                 ACTION: 'SEND',
-                ACTION_VALUE: 'Done',
+                ACTION_VALUE: 'Готово',
               },
             ],
           },
@@ -216,18 +213,18 @@
             method: 'im.message.add',
             params: {
               DIALOG_ID: 'chat2725',
-              MESSAGE: 'Select an action from the menu',
+              MESSAGE: 'Выберите действие в меню',
               URL_PREVIEW: 'Y',
               MENU: {
                 ITEMS: [
                   {
-                    TEXT: 'Open website',
+                    TEXT: 'Открыть сайт',
                     LINK: 'https://www.example.ru/',
                   },
                   {
-                    TEXT: 'Send text',
+                    TEXT: 'Отправить текст',
                     ACTION: 'SEND',
-                    ACTION_VALUE: 'Done',
+                    ACTION_VALUE: 'Готово',
                   },
                 ],
               },
@@ -267,7 +264,7 @@
                 "ITEMS": [
                     {
                         "TEXT": "Открыть сайт",
-                        "LINK": "https://www.example.com/",
+                        "LINK": "https://www.example.ru/",
                     },
                     {
                         "TEXT": "Отправить текст",
@@ -424,8 +421,8 @@
     	return fmt.Errorf("im.message.add: %w", err)
     }
 
-    // Ответ приходит как json.RawMessage — разберите его
-    // в структуру под форму ответа, показанную ниже на этой странице.
+    // Ответ приходит как json.RawMessage: в result — идентификатор
+    // созданного сообщения
     fmt.Printf("%s\n", res.Result)
     ```
 
@@ -433,29 +430,28 @@
 
 ## Как обновить или удалить контекстное меню
 
-Для обновления пунктов меню используйте методы:
+Изменить пункты меню можно только у своего сообщения и только в течение трех суток после отправки — так же, как текст сообщения. Для этого есть методы:
 
 - [im.message.update](./im-message-update.md)
 - [imbot.message.update](../../chat-bots/outdated/messages/imbot-message-update.md)
 
-Чтобы отключить показ дополнительных пунктов меню, передайте:
-
-- `MENU: 'N'`
-- пустое значение `MENU`
+Чтобы убрать свои пункты из меню, передайте `MENU: 'N'` или пустую строку `MENU: ''`.
 
 ## Обработка команд чат-ботом {#command-processing}
 
-1. Чтобы команда отрабатывала в меню, зарегистрируйте ее через метод [imbot.command.register](../../chat-bots/outdated/commands/imbot-command-register.md).
+Методы [im.message.add](./im-message-add.md) и [im.message.update](./im-message-update.md) не сохраняют пункт, у которого единственное действие — `COMMAND`. Если других пунктов в `MENU` нет, метод вернет ошибку: `MENU_ERROR` у `im.message.add`, `menu_ERROR` у `im.message.update`.
 
-    В пункте меню укажите следующие ключи:
+1. Чтобы команда срабатывала из меню, зарегистрируйте ее методом [imbot.command.register](../../chat-bots/outdated/commands/imbot-command-register.md)
+
+    В пункте меню укажите ключи:
 
     ```php
     "COMMAND" => "example", // команда, которая будет отправлена чат-боту
     "COMMAND_PARAMS" => "example", // параметры для команды
-     ```
+    ```
 
-2. Нажатие на пункт меню сформирует событие [ONIMCOMMANDADD](../../chat-bots/outdated/commands/events/on-im-command-add.md).
-3. Внутри события в массиве `data[COMMAND]` будут переданы данные о вызванном событии. Значение `COMMAND_CONTEXT` покажет в каком контексте была вызвана команда:
+2. Когда пользователь нажмет на пункт меню, придет событие [ONIMCOMMANDADD](../../chat-bots/outdated/commands/events/on-im-command-add.md)
+3. Данные события придут в массиве `data[COMMAND][<COMMAND_ID>]`. Значение `COMMAND_CONTEXT` показывает, откуда вызвали команду:
    - `TEXTAREA` — команда введена вручную
    - `KEYBOARD` — команда вызвана кнопкой
    - `MENU` — команда вызвана из контекстного меню

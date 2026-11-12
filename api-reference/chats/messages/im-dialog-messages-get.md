@@ -1,4 +1,4 @@
-# Получить список последних сообщений im.dialog.messages.get
+# Получить сообщения чата im.dialog.messages.get
 
 {% note tip "" %}
 
@@ -11,13 +11,13 @@
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: участник чата
+> Кто может выполнять метод: участник чата или пользователь с доступом к открытому чату
 
-Метод `im.dialog.messages.get` получает сообщения указанного диалога, в том числе системные. Не поддерживает стандартную постраничную навигацию из-за потенциально большого объема данных
+Метод `im.dialog.messages.get` возвращает сообщения чата, в том числе системные.
 
 {% note info "" %}
 
-Получить сообщения без участия в чате можно только для чатов открытой линии через метод [imopenlines.session.history.get](../../imopenlines/openlines/sessions/imopenlines-session-history-get.md)
+Без участия в чате метод отдает сообщения открытых чатов, например Общего чата. Историю чата открытой линии получают методом [imopenlines.session.history.get](../../imopenlines/openlines/sessions/imopenlines-session-history-get.md). Чат открытой линии — это переписка с клиентом из внешнего канала, например из Telegram.
 
 {% endnote %}
 
@@ -28,29 +28,45 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **DIALOG_ID***
-[`string`](../../data-types.md) | Идентификатор чата в формате:
+|| **DIALOG_ID**
+[`string`](../../data-types.md) | Идентификатор диалога в формате:
 
-- `chatXXX` — чат
-- `sgXXX` — чат группы или проекта
-- `XXX` — идентификатор пользователя личного чата
+- `chatXXX` — групповой чат, где `XXX` — идентификатор чата
+- `sgXXX` — чат группы или проекта, где `XXX` — идентификатор группы
+- `XXX` — личный диалог, где `XXX` — идентификатор пользователя
 
-Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+Идентификатор чата вернет метод [im.chat.get](../im-chat-get.md), идентификатор пользователя — методы [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+|| **CHAT_ID**
+[`integer`](../../data-types.md) | Идентификатор чата без префикса `chat`, например `2935` ||
 || **LAST_ID**
-[`integer`](../../data-types.md) | Идентификатор сообщения, относительно которого нужно загрузить более старые сообщения. Метод вернет сообщения с идентификатором меньше указанного.
+[`integer`](../../data-types.md) | Идентификатор сообщения. Метод вернет сообщения старше него — с идентификатором меньше указанного.
 
-Чтобы последовательно загрузить историю назад, сначала запросите последние сообщения без `LAST_ID` и `FIRST_ID`. Затем передайте в `LAST_ID` минимальный `id` из полученного массива `messages` ||
+Для первого запроса не передавайте. Как листать историю — в разделе [Как получить всю историю](#pagination) ||
 || **FIRST_ID**
-[`integer`](../../data-types.md) | Идентификатор сообщения, относительно которого нужно загрузить более новые сообщения. Метод вернет сообщения с идентификатором больше указанного.
+[`integer`](../../data-types.md) | Идентификатор сообщения. Метод вернет сообщения новее него — с идентификатором больше указанного. Например, при `FIRST_ID=123` и `LIMIT=10` — до 10 сообщений с `id` больше `123`.
 
-Например, при `FIRST_ID=123` и `LIMIT=10` метод вернет до 10 сообщений с идентификатором больше `123`. Чтобы получить сообщения, добавленные после уже загруженной выборки, передайте в `FIRST_ID` максимальный `id` из полученного массива `messages` ||
+Если переданы и `FIRST_ID`, и `LAST_ID`, метод учитывает только `FIRST_ID` ||
 || **LIMIT**
-[`integer`](../../data-types.md) | Ограничение на количество сообщений в ответе. Если не переданы `LAST_ID` и `FIRST_ID` — метод вернет последние сообщения диалога с учетом `LIMIT`.
-
-Метод может вернуть больше сообщений, чем указано в `LIMIT`, если в чате есть непрочитанные сообщения.
+[`integer`](../../data-types.md) | Сколько сообщений вернуть. Если в чате есть непрочитанные сообщения, метод может вернуть больше, чем указано в `LIMIT`.
 
 По умолчанию — `20`. Максимальное значение — `50` ||
+|| **CONVERT_TEXT**
+[`string`](../../data-types.md) | `Y` — добавить в каждое сообщение поле `text_converted` с текстом, в котором BB-коды преобразованы в HTML ||
 |#
+
+{% note warning "" %}
+
+Передайте один из параметров: `DIALOG_ID` или `CHAT_ID`. Если переданы оба, метод использует `CHAT_ID`.
+
+{% endnote %}
+
+### Как получить всю историю {#pagination}
+
+Стандартной постраничной навигации у метода нет: историю загружают частями через `LAST_ID` и `FIRST_ID`.
+
+1. Запросите сообщения чата без `LAST_ID` и `FIRST_ID`. Если непрочитанных больше, чем `LIMIT`, метод вернет сообщения начиная с первого непрочитанного, иначе — последние сообщения
+2. Чтобы загрузить более старые, передайте в `LAST_ID` наименьший `id` из массива `messages`. Повторяйте, пока метод не вернет пустой массив `messages`
+3. Чтобы загрузить более новые, передайте в `FIRST_ID` наибольший `id` из массива `messages`. Повторяйте, пока метод не вернет пустой массив `messages`
 
 ## Примеры кода
 
@@ -64,7 +80,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat1489","FIRST_ID":84869,"LIMIT":10}' \
+      -d '{"DIALOG_ID":"chat1489","FIRST_ID":84868,"LIMIT":10}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.dialog.messages.get
     ```
 
@@ -74,7 +90,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"DIALOG_ID":"chat1489","FIRST_ID":84869,"LIMIT":10,"auth":"**put_access_token_here**"}' \
+      -d '{"DIALOG_ID":"chat1489","FIRST_ID":84868,"LIMIT":10,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/im.dialog.messages.get
     ```
 
@@ -100,7 +116,7 @@
         unread: boolean
         uuid: string | null
         replaces: unknown[]
-        params: Record<string, unknown>
+        params: Record<string, unknown> | unknown[]
         disappearing_date: ISODate | null
       }[]
       users: {
@@ -110,7 +126,7 @@
         first_name: string
         last_name: string
         status: string
-        last_activity_date: ISODate
+        last_activity_date: ISODate | false
         type: string
       }[]
       files: {
@@ -135,7 +151,7 @@
         method: 'im.dialog.messages.get',
         params: {
           DIALOG_ID: 'chat1489',
-          FIRST_ID: 84869,
+          FIRST_ID: 84868,
           LIMIT: 10,
         },
         requestId: Text.getUuidRfc4122()
@@ -169,7 +185,7 @@
             method: 'im.dialog.messages.get',
             params: {
               DIALOG_ID: 'chat1489',
-              FIRST_ID: 84869,
+              FIRST_ID: 84868,
               LIMIT: 10,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -201,7 +217,7 @@
     try:
         bitrix_response = client.im.dialog.messages.get(
             dialog_id="chat1489",
-            first_id=84869,
+            first_id=84868,
             limit=10,
         ).response
         result = bitrix_response.result
@@ -227,7 +243,7 @@
             'im.dialog.messages.get',
             [
                 'DIALOG_ID' => 'chat1489',
-                'FIRST_ID' => 84869,
+                'FIRST_ID' => 84868,
                 'LIMIT' => 10,
             ]
         );
@@ -246,7 +262,7 @@
         'im.dialog.messages.get',
         {
             DIALOG_ID: 'chat1489',
-            FIRST_ID: 84869,
+            FIRST_ID: 84868,
             LIMIT: 10
         },
         function(result)
@@ -272,7 +288,7 @@
         'im.dialog.messages.get',
         [
             'DIALOG_ID' => 'chat1489',
-            'FIRST_ID' => 84869,
+            'FIRST_ID' => 84868,
             'LIMIT' => 10,
         ]
     );
@@ -286,7 +302,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "im.dialog.messages.get", b24.Params{
     	"DIALOG_ID": "chat1489",
-    	"FIRST_ID":  84869,
+    	"FIRST_ID":  84868,
     	"LIMIT":     10,
     }, b24.WithIdempotent())
     if err != nil {
@@ -490,15 +506,15 @@ HTTP-статус: **200**
 || **messages**
 [`array`](../../data-types.md) | Массив сообщений [(подробное описание)](#message).
 
-Метод вернет пустой массив, если в `LAST_ID` или `FIRST_ID` указать несуществующий идентификатор сообщения ||
+Метод вернет пустой массив, если в чате нет сообщений до `LAST_ID` или после `FIRST_ID` ||
 || **users**
 [`array`](../../data-types.md) | Пользователи из выборки [(подробное описание)](#user).
 
-Метод вернет пустой массив, если в `LAST_ID` или `FIRST_ID` указать несуществующий идентификатор сообщения ||
+Пустой массив в тех же случаях, что и `messages` ||
 || **files**
 [`array`](../../data-types.md) | Файлы из выборки [(подробное описание)](#file).
 
-Метод вернет пустой массив, если в `LAST_ID` или `FIRST_ID` указать несуществующий идентификатор сообщения ||
+Пустой массив в тех же случаях, что и `messages` ||
 |#
 
 #### Объект message {#message}
@@ -516,18 +532,20 @@ HTTP-статус: **200**
 [`datetime`](../../data-types.md) | Дата сообщения в формате ISO 8601 ||
 || **text**
 [`string`](../../data-types.md) | Текст сообщения ||
+|| **text_converted**
+[`string`](../../data-types.md) | Текст сообщения в HTML. Приходит, если передан `CONVERT_TEXT=Y` ||
 || **unread**
 [`boolean`](../../data-types.md) | Признак непрочитанного сообщения ||
 || **uuid**
 [`string`](../../data-types.md) | Уникальный идентификатор сообщения, `null` для системных сообщений ||
 || **replaces**
-[`array`](../../data-types.md) | Массив замен текста сообщения ||
+[`array`](../../data-types.md) | Даты, которые Битрикс24 распознал в тексте сообщения [(подробное описание)](#replaces). Если дат нет — пустой массив ||
 || **params**
 [`object`](../../data-types.md) | Дополнительные параметры сообщения [(подробное описание)](#params).
 
-Набор полей объекта зависит от типа сообщения: обычное или системное ||
+Набор полей объекта зависит от типа сообщения: обычное или системное. Если параметров нет, приходит пустой массив `[]` ||
 || **disappearing_date**
-[`datetime`](../../data-types.md) | Дата исчезновения сообщения, `null` если не задана ||
+[`datetime`](../../data-types.md) | Дата исчезновения сообщения, `null`, если не задана ||
 |#
 
 #### Объект params {#params}
@@ -538,13 +556,48 @@ HTTP-статус: **200**
 || **LIKE**
 [`array`](../../data-types.md) | Идентификаторы пользователей, которые поставили реакцию сообщению ||
 || **CODE**
-[`array`](../../data-types.md) | Коды системных событий:
+[`array`](../../data-types.md) | Коды системных событий, например:
 - `CHAT_JOIN` — пользователь добавлен в чат
 - `CHAT_LEAVE` — пользователь покинул чат ||
 || **NOTIFY**
 [`string`](../../data-types.md) | Признак отправки уведомления. Значение `N` — уведомление не отправляется ||
 || **FILE_ID**
 [`array`](../../data-types.md) | Идентификаторы файлов, которые прикреплены к сообщению ||
+|| **ATTACH**
+[`array`](../../data-types.md) | Вложения сообщения. Формат описан в статье [Вложения](./attachments.md) ||
+|| **KEYBOARD**
+[`array`](../../data-types.md) | Кнопки под сообщением. Формат описан в статье [Работа с клавиатурами](./keyboards.md) ||
+|| **MENU**
+[`array`](../../data-types.md) | Пункты контекстного меню сообщения. Формат описан в статье [Контекстное меню](./menu.md) ||
+|| **IS_EDITED**
+[`string`](../../data-types.md) | `Y`, если сообщение изменено ||
+|| **IS_DELETED**
+[`string`](../../data-types.md) | `Y`, если сообщение удалено ||
+|| **DATE_TEXT**
+[`array`](../../data-types.md) | Даты из текста сообщения в том виде, как они написаны ||
+|| **DATE_TS**
+[`array`](../../data-types.md) | Те же даты в формате Unix timestamp ||
+|| **CHAT_ID**
+[`integer`](../../data-types.md) | Идентификатор чата, который создан из этого сообщения методом [im.message.share](./im-message-share.md). Приходит в системном сообщении о создании чата ||
+|#
+
+Ключи с пустыми значениями и значениями по умолчанию в `params` не приходят.
+
+#### Объект replaces {#replaces}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../data-types.md) | Тип замены. Сейчас всегда `DATE` ||
+|| **text**
+[`string`](../../data-types.md) | Фрагмент текста с датой, например `12.11.2026 в 15:00` ||
+|| **value**
+[`datetime`](../../data-types.md) | Распознанная дата в формате ISO 8601 ||
+|| **start**
+[`integer`](../../data-types.md) | Позиция начала фрагмента в тексте сообщения ||
+|| **end**
+[`integer`](../../data-types.md) | Позиция конца фрагмента в тексте сообщения ||
 |#
 
 #### Объект user {#user}
@@ -578,6 +631,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Дата рождения ||
 || **extranet**
 [`boolean`](../../data-types.md) | Признак экстранет-пользователя ||
+|| **intranet_user**
+[`boolean`](../../data-types.md) | `true`, если пользователь — сотрудник: состоит в отделе компании и его учетная запись не внешняя ||
+|| **internal_account**
+[`boolean`](../../data-types.md) | `true`, если учетная запись не внешняя, например не принадлежит клиенту открытой линии ||
 || **network**
 [`boolean`](../../data-types.md) | Признак пользователя сети Bitrix24 ||
 || **bot**
@@ -589,19 +646,19 @@ HTTP-статус: **200**
 || **status**
 [`string`](../../data-types.md) | Статус пользователя ||
 || **idle**
-[`boolean`](../../data-types.md) | Признак неактивности пользователя ||
+[`datetime`](../../data-types.md) | Дата в формате ISO 8601, если пользователь неактивен, иначе `false` ||
 || **last_activity_date**
-[`datetime`](../../data-types.md) | Дата последней активности ||
+[`datetime`](../../data-types.md) | Дата последней активности или `false` ||
 || **mobile_last_date**
-[`datetime`](../../data-types.md) | Дата последней активности в мобильном приложении, `false` если приложение не использовалось ||
+[`datetime`](../../data-types.md) | Дата последней активности в мобильном приложении, `false`, если приложение не использовалось ||
 || **desktop_last_date**
-[`datetime`](../../data-types.md) | Дата последней активности в десктопном приложении, `false` если приложение не использовалось ||
+[`datetime`](../../data-types.md) | Дата последней активности в десктопном приложении, `false`, если приложение не использовалось ||
 || **absent**
-[`boolean`](../../data-types.md) | Признак отсутствия пользователя ||
+[`datetime`](../../data-types.md) | Дата в формате ISO 8601, если пользователь отсутствует, иначе `false` ||
 || **departments**
 [`array`](../../data-types.md) | Идентификаторы отделов пользователя ||
 || **phones**
-[`object`](../../data-types.md) | Телефоны пользователя, `false` если не заданы ||
+[`object`](../../data-types.md) | Телефоны пользователя или `false`, если телефоны не заданы ||
 || **bot_data**
 [`object`](../../data-types.md) | Данные бота, `null` для обычного пользователя ||
 || **type**
@@ -706,7 +763,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -722,15 +779,21 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Параметр `DIALOG_ID` не передан, передан пустым или в неверном формате ||
-|| `400` | `FIRST_ID_STRING` | First ID can't be string | Параметр `FIRST_ID` передан нечисловым значением ||
-|| `400` | `LAST_ID_STRING` | Last ID can't be string | Параметр `LAST_ID` передан нечисловым значением ||
-|| `403` | `ACCESS_ERROR` | You do not have access to the specified dialog | У пользователя нет доступа к диалогу ||
+|| `400` | `FIRST_ID_STRING` | First ID can't be string | Значение `FIRST_ID` состоит не только из цифр, например `abc`, `-1` или `1.5` ||
+|| `400` | `LAST_ID_STRING` | Last ID can't be string | Значение `LAST_ID` состоит не только из цифр, например `abc`, `-1` или `1.5` ||
+|| `403` | `ACCESS_ERROR` | You do not have access to the specified dialog | У пользователя нет доступа к чату ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./im-message-delete.md)
+- [{#T}](./im-message-like.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
 - [{#T}](./im-dialog-messages-search.md)
 - [{#T}](./im-dialog-read.md)
 - [{#T}](./im-dialog-unread.md)

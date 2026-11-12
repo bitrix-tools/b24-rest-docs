@@ -1,4 +1,4 @@
-# Установить признак «не прочитано» у сообщений im.dialog.unread
+# Отметить сообщения непрочитанными im.dialog.unread
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.dialog.unread` устанавливает признак «не прочитано» для сообщений в диалоге начиная с указанного сообщения.
+Метод `im.dialog.unread` отмечает непрочитанными сообщения чата, начиная с указанного.
 
 ## Параметры метода
 
@@ -23,15 +23,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **DIALOG_ID***
-[`string`](../../data-types.md) | Идентификатор чата в формате:
+[`string`](../../data-types.md) | Идентификатор диалога в формате:
 
-- `chatXXX` — чат
-- `sgXXX` — чат группы или проекта
-- `XXX` — идентификатор пользователя личного чата
+- `chatXXX` — групповой чат, где `XXX` — идентификатор чата
+- `sgXXX` — чат группы или проекта, где `XXX` — идентификатор группы
+- `XXX` — личный диалог, где `XXX` — идентификатор пользователя
 
-Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+Идентификатор чата вернет метод [im.chat.get](../im-chat-get.md), идентификатор пользователя — методы [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
 || **MESSAGE_ID***
-[`integer`](../../data-types.md) | Идентификатор первого непрочитанного сообщения ||
+[`integer`](../../data-types.md) | Идентификатор сообщения, начиная с которого сообщения станут непрочитанными ||
 |#
 
 ## Примеры кода
@@ -85,7 +85,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Unread flag set:', result)
+        console.info('Request completed:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -120,7 +120,7 @@
           }
 
           const result = response.getData().result
-          console.info('Unread flag set:', result)
+          console.info('Request completed:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -261,7 +261,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Возвращает `true`, если признак непрочитанных сообщений установлен успешно ||
+[`boolean`](../../data-types.md) | Всегда `true`, даже если сообщение не найдено или текущий пользователь не участник чата. По ответу нельзя понять, что отметка поставлена. Проверить отметку можно по счетчику чата в ответе метода [im.counters.get](../im-counters-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -273,7 +273,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "MESSAGE_ID_ERROR",
-    "error_description": "Message ID can't be empty"
+    "error_description": "First unread message id can't be empty"
 }
 ```
 
@@ -283,7 +283,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `MESSAGE_ID_ERROR` | First unread message id can't be empty | Параметр `MESSAGE_ID` не передан или передан со значением меньше или равным `0` ||
+|| `400` | `MESSAGE_ID_ERROR` | First unread message id can't be empty | Параметр `MESSAGE_ID` не передан или меньше либо равен `0` ||
 || `400` | `DIALOG_ID_EMPTY` | Dialog ID can't be empty | Параметр `DIALOG_ID` не передан, передан пустым или в неверном формате ||
 |#
 
@@ -291,6 +291,12 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./im-message-delete.md)
+- [{#T}](./im-message-like.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
 - [{#T}](./im-dialog-messages-get.md)
 - [{#T}](./im-dialog-messages-search.md)
 - [{#T}](./im-dialog-read.md)

@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь с правом изменения элемента CRM, к которому добавляется комментарий
 
-Метод добавляет новое дело типа «Комментарий» в таймлайн.
+Метод `crm.timeline.comment.add` добавляет комментарий в таймлайн элемента CRM.
 
 ## Параметры метода
 
@@ -23,33 +23,29 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления нового дела типа «Комментарий» в виде структуры:
+[`object`](../../../data-types.md) | Значения полей (подробное описание приведено [ниже](#parametr-fields)) для добавления комментария. Пример тела запроса:
 
 ```json
-
-fields:
 {
-    "ENTITY_ID": 'значение',
-    "ENTITY_TYPE": 'значение',
-    "COMMENT": 'значение',
-    "FILES": [
-        [
-            "название файла", 
-            "содержимое файла"
-        ],
-        [
-            "название файла",
-            "содержимое файла"
-        ],
-    ]
+    "fields": {
+        "ENTITY_ID": 10,
+        "ENTITY_TYPE": "deal",
+        "COMMENT": "Новый комментарий",
+        "FILES": [
+            [
+                "1.gif",
+                "R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=="
+            ]
+        ]
+    }
 }
 ```
 
-Содержимое файла передается в виде [base64-строки](../../../files/how-to-upload-files.md)
+В `FILES` передается массив файлов. Каждый файл — массив из имени файла и содержимого в виде [base64-строки](../../../files/how-to-upload-files.md). Если не передавать файлы, комментарий создается без них
 
 {% note warning %}
 
-С версии crm 23.100.0 метод принимает только параметры с ключом `fields` в нижнем регистре. Другие недокументированные варианты (Fields, FIELDS, arFields) не принимаются.
+С версии CRM 23.100.0 метод принимает параметр `fields` только с именем в нижнем регистре. Другие недокументированные варианты (`Fields`, `FIELDS`, `arFields`) не принимаются.
 
 {% endnote %}
 
@@ -58,21 +54,27 @@ fields:
 
 ### Параметр fields {#parametr-fields}
 
+Полное описание полей — в методе [`crm.timeline.comment.fields`](./crm-timeline-comment-fields.md#fields). Для добавления используйте следующие поля.
+
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ENTITY_ID***
-[`integer`](../../../data-types.md) | `ID` элемента, к которому привязан комментарий.
+[`integer`](../../../data-types.md) | Положительный идентификатор элемента CRM, к которому добавляется комментарий.
 
 Значение можно получить методом [`crm.item.list`](../../universal/crm-item-list.md) или при создании элемента с помощью [`crm.item.add`](../../universal/crm-item-add.md) ||
-|| **ENTITY_TYPE***
-[`string`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../../universal/user-defined-object-types/index.md) объекта CRM, к элементу которого привязан комментарий. Например: `lead`, `deal`, `contact`, `company`, `order`, `dynamic_1046` ||
+|| **ENTITY_TYPE**
+[`string`](../../../data-types.md) | Символьное имя типа элемента CRM, например `deal` или `dynamic_1046`. Примеры типов — в [описании полей](./crm-timeline-comment-fields.md#fields).
+
+Обязательно, если не передан ненулевой `ENTITY_TYPE_ID` ||
+|| **ENTITY_TYPE_ID**
+[`integer`](../../../data-types.md) | [Числовой идентификатор типа объекта CRM](../../data-types.md#object_type), например `2` для сделки. Если передан и не равен `0`, используется вместо `ENTITY_TYPE` ||
 || **COMMENT***
-[`string`](../../../data-types.md) | Текст комментария ||
+[`string`](../../../data-types.md) | Текст комментария. Не должен быть пустым после удаления пробелов, табуляций и переводов строк в начале и в конце. Автором будет текущий пользователь ||
 || **FILES**
-[`attached_diskfile`](../../data-types.md#attached_diskfile) | Список файлов. Массив значений, описанный по [правилам](../../../files/how-to-upload-files.md) ||
+[`attached_diskfile`](../../data-types.md#attached_diskfile) | Необязательный массив файлов в формате, показанном в примере тела запроса выше ||
 |#
 
 ## Примеры кода
@@ -355,8 +357,8 @@ HTTP-статус: **200**
         "start": 1715091541.642592,
         "finish": 1715091541.730599,
         "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
         "operating": 0
     }
 }
@@ -370,7 +372,7 @@ HTTP-статус: **200**
 || **result**
 [`integer`](../../../data-types.md) | Возвращает целочисленный идентификатор добавленного комментария ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -379,8 +381,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error": "INVALID_ARG_VALUE",
+    "error_description": "Empty comment message"
 }
 ```
 
@@ -389,12 +391,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `ACCESS_DENIED` | Недостаточно прав ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| `INVALID_ARG_VALUE` | Пустой коментарий ||
-|| `100` | Не переданы обязательные поля ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `OWNER_NOT_FOUND` | Owner was not found | `ENTITY_ID` не передан или не положительный, либо не удалось определить тип элемента CRM по `ENTITY_TYPE_ID` или `ENTITY_TYPE` ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | Нет права изменения элемента CRM ||
+|| `400` | `INVALID_ARG_VALUE` | Empty comment message | `COMMENT` не передан или пуст после удаления пробелов, табуляций и переводов строк в начале и в конце ||
+|| `400` | `ADDING_DISABLED` | Could not create comment | Не удалось создать комментарий ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный объект `fields` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -406,4 +408,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-timeline-comment-list.md)
 - [{#T}](./crm-timeline-comment-delete.md)
 - [{#T}](./crm-timeline-comment-fields.md)
+- [{#T}](./events/on-Crm-Timeline-Comment-Add.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-comment-to-spa.md)

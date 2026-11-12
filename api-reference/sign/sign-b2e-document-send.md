@@ -15,8 +15,6 @@
 
 Метод `sign.b2e.document.send` отправляет документ на подписание со стороны компании.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
@@ -136,9 +134,16 @@
 || **Название**
 `тип` | **Описание** ||
 || **fileName*** 
-[`string`](../data-types.md) | Имя файла. Обязательно с расширением `.pdf` ||
+[`string`](../data-types.md) | Имя файла с расширением. Метод принимает расширения `pdf`, `docx`, `doc`, `rtf`, `odt`, `jpg`, `jpeg`, `png` в любом регистре ||
 || **fileType*** 
-[`string`](../data-types.md) | MIME-тип файла. Поддерживается `application/pdf` ||
+[`string`](../data-types.md) | MIME-тип файла. Должен соответствовать расширению в `fileName`:
+- `pdf` — `application/pdf`
+- `docx` — `application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+- `doc` — `application/msword`
+- `rtf` — `application/rtf` или `text/rtf`
+- `odt` — `application/vnd.oasis.opendocument.text`
+- `jpg`, `jpeg` — `image/jpeg`
+- `png` — `image/png` ||
 || **fileContent*** 
 [`string`](../data-types.md) | Содержимое файла, закодированное в Base64 ||
 |#
@@ -165,6 +170,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"fields":{"company":{"crmId":12},"members":[{"userId":25,"role":"signer"},{"userId":42,"role":"assignee"}],"responsible":{"userId":7},"companyProviderUid":"d4f6b8a1-4c6d-4d8c-9c7c-2d1b1f6d0f2b","files":[{"fileName":"contract.pdf","fileType":"application/pdf","fileContent":"JVBERi0xLjQKJ..."}],"regionDocumentType":"12.999","externalSettings":{"externalId":"EXT-123","externalDateCreate":"2025-02-18T09:19:34+03:00"},"message":"Пожалуйста, подпишите документ"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sign.b2e.document.send
+    ```
 
 - cURL (OAuth)
 
@@ -690,7 +705,6 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
 || `403` | `ACCESS_DENIED` | Access denied! | КЭДО недоступен на Битрикс24, у приложения нет scope `sign.b2e` или `crm`, либо у пользователя нет права создавать документы КЭДО. Также возникает, если переданы данные HCM Link, а scope `humanresources.hcmlink` не подключен ||
-|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
 || `400` | `BAD_REQUEST` | [fields] Empty request fields. | Не передан объект `fields` ||
 || `400` | `BAD_REQUEST` | [companyProviderUid] field is required | Не передан `companyProviderUid`, в том числе если `fields` пустой ||
 || `400` | `BAD_REQUEST` | The responsible field is required | Не передан `responsible` ||
@@ -704,10 +718,11 @@ HTTP-статус: **400**
 || `400` | `BAD_REQUEST` | Could not find user for specified employee | Для сотрудника не найден пользователь ||
 || `400` | `BAD_REQUEST` | At least one file is required to sign the document | Не передан массив `files` ||
 || `400` | `BAD_REQUEST` | Signing multiple files is currently not supported | В `files` передано более одного файла ||
-|| `400` | `BAD_REQUEST` | The specified file type is not supported | Указан `fileType`, отличный от `application/pdf` ||
+|| `400` | `BAD_REQUEST` | The specified file type is not supported | Указан неподдерживаемый `fileType` ||
 || `400` | `BAD_REQUEST` | Invalid file name | Некорректное имя файла ||
 || `400` | `BAD_REQUEST` | Invalid file name. File extension is not specified | Не указано расширение файла ||
 || `400` | `BAD_REQUEST` | The specified file extension is not supported | Расширение файла не поддерживается ||
+|| `400` | `BAD_REQUEST` | The specified file type does not match the file extension | `fileType` не соответствует расширению в `fileName`, например файл `contract.docx` передан с типом `application/pdf` ||
 || `400` | `BAD_REQUEST` | Region document type is required. Use value '12.999' as a default value | Не передан `regionDocumentType` при наличии списка кодов ||
 || `400` | `BAD_REQUEST` | Region document type is not valid. Use value '12.999' as a default value | Передан неподдерживаемый `regionDocumentType` ||
 || `400` | `BAD_REQUEST` | Signing provider is not available | Провайдер недоступен для компании ||

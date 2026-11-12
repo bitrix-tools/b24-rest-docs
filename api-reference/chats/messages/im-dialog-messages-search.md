@@ -1,4 +1,4 @@
-# Найти сообщение в чате im.dialog.messages.search
+# Найти сообщения в чате im.dialog.messages.search
 
 {% note tip "" %}
 
@@ -11,9 +11,9 @@
 
 > Scope: [`im`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: участник чата
+> Кто может выполнять метод: участник чата или пользователь с доступом к открытому чату
 
-Метод `im.dialog.messages.search` выполняет поиск сообщений в чате.
+Метод `im.dialog.messages.search` ищет сообщения в чате по тексту и дате.
 
 ## Параметры метода
 
@@ -22,35 +22,38 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **CHAT_ID^*^**
-[`integer`](../../data-types.md) | Идентификатор чата, в котором выполняется поиск ||
+|| **CHAT_ID***
+[`integer`](../../data-types.md) | Идентификатор чата, в котором искать сообщения, — число без префикса `chat`. Его можно получить методом [im.chat.get](../im-chat-get.md) ||
 || **SEARCH_MESSAGE**
-[`string`](../../data-types.md) | Строка поиска по тексту сообщения.
+[`string`](../../data-types.md) | Текст, который нужно найти в сообщениях.
 
-Поиск по этому параметру выполняется для строк длиной более 2 символов ||
+Метод ищет только по строке длиннее 2 символов. Если передать 1–2 символа, метод вернет сообщения чата без фильтра по тексту ||
 || **DATE_FROM**
 [`datetime`](../../data-types.md) | Начало периода поиска в формате ISO 8601 (RFC3339) ||
 || **DATE_TO**
 [`datetime`](../../data-types.md) | Конец периода поиска в формате ISO 8601 (RFC3339) ||
 || **DATE**
-[`datetime`](../../data-types.md) | Поиск сообщений за конкретную дату в формате ISO 8601 (RFC3339).
+[`datetime`](../../data-types.md) | Дата в формате ISO 8601 (RFC3339), за которую нужны сообщения.
 
 Если параметр передан, поиск выполняется в пределах суток от указанной даты ||
 || **ORDER**
-[`object`](../../data-types.md) | Параметры сортировки.
+[`object`](../../data-types.md) | Сортировка. Доступно одно поле:
+- `ID` — направление сортировки, значения `ASC` (по возрастанию) или `DESC` (по убыванию). Метод сортирует по дате создания сообщения, затем по `id`
 
-Поддерживаемое поле:
-- `ID` — сортировка по идентификатору сообщения, значения `ASC` или `DESC`
-
-По умолчанию: `{"ID": "DESC"}` ||
+По умолчанию — `{"ID": "DESC"}` ||
 || **LIMIT**
-[`integer`](../../data-types.md) | Количество возвращаемых сообщений.
+[`integer`](../../data-types.md) | Сколько сообщений вернуть.
 
-Значение по умолчанию: `50`.
-Максимальное значение: `200` ||
+По умолчанию — `50`. Максимальное значение — `200`: большее метод уменьшает до `200`, а `0` и отрицательное заменяет на `50` ||
 || **LAST_ID**
-[`integer`](../../data-types.md) | Идентификатор последнего сообщения из предыдущей выборки для пагинации ||
+[`integer`](../../data-types.md) | Идентификатор последнего сообщения на предыдущей странице — поле `id` последнего элемента массива `messages`. Метод вернет сообщения, которые идут после него в порядке `ORDER`.
+
+Для первой страницы не передавайте ||
 |#
+
+### Как получить все результаты поиска {#pagination}
+
+Запросите первую страницу без `LAST_ID`. Для следующей передайте в `LAST_ID` значение `id` последнего элемента массива `messages`: при сортировке `DESC` метод вернет сообщения с меньшим `id`, при `ASC` — с большим. Выборка закончена, когда пришло меньше сообщений, чем размер страницы — значение `LIMIT` с ограничениями из таблицы параметров.
 
 ## Примеры кода
 
@@ -92,17 +95,20 @@
     type DialogMessagesSearchResult = {
       messages: Array<{
         id: number
+        chatId: number
         chat_id: number
+        authorId: number
         author_id: number
         date: ISODate
         text: string
         isSystem: boolean
         uuid: string | null
         forward: object | null
-        params: unknown[]
+        params: Record<string, unknown> | unknown[]
         viewedByOthers: boolean
         unread: boolean
         viewed: boolean
+        block: object | null
       }>
       users: unknown[]
       files: unknown[]
@@ -327,6 +333,8 @@ HTTP-статус: **200**
                 "bot": false,
                 "connector": false,
                 "externalAuthId": "socservices",
+                "internalAccount": true,
+                "intranetUser": true,
                 "status": "online",
                 "idle": false,
                 "lastActivityDate": "2026-02-13T14:27:33+03:00",
@@ -348,16 +356,35 @@ HTTP-статус: **200**
         "additionalMessages": [],
         "copilot": null,
         "stickers": [],
-        "reactions": [],
+        "reactions": [
+            {
+                "messageId": 33653,
+                "reactionCounters": {
+                    "like": 1
+                },
+                "reactionUsers": {
+                    "like": [1]
+                },
+                "ownReactions": ["like"]
+            }
+        ],
         "tariffRestrictions": {
             "isHistoryLimitExceeded": false
         },
-        "usersShort": [],
+        "usersShort": [
+            {
+                "id": 1,
+                "name": "Алекс",
+                "avatar": "https://cdn-ru.bitrix24.ru/path/avatar.jpg",
+                "color": "#df532d",
+                "type": "user"
+            }
+        ],
         "messages": [
             {
                 "id": 33653,
-                "chatId": 2421,
-                "chat_id": 2421,
+                "chatId": 3,
+                "chat_id": 3,
                 "authorId": 1,
                 "author_id": 1,
                 "date": "2026-02-13T14:28:00+03:00",
@@ -365,12 +392,13 @@ HTTP-статус: **200**
                 "isSystem": false,
                 "uuid": "18533186-232b-4423-8438-64501da182f5",
                 "forward": null,
-                "params": [],
+                "params": {
+                    "LIKE": [1]
+                },
                 "viewedByOthers": false,
                 "block": null,
                 "unread": false,
-                "viewed": true,
-                "viewedCount": 0
+                "viewed": true
             }
         ]
     },
@@ -393,34 +421,45 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **result.messages**
-[`array`](../../data-types.md) | Массив найденных сообщений [(подробное описание)](#message) ||
-|| **result.users**
-[`array`](../../data-types.md) | Пользователи, связанные с найденными сообщениями [(подробное описание)](#user) ||
-|| **result.files**
-[`array`](../../data-types.md) | Файлы из найденных сообщений ||
-|| **result.additionalMessages**
-[`array`](../../data-types.md) | Дополнительные сообщения, связанные с найденными, например пересылаемые или цитируемые [(подробное описание)](#message) ||
-|| **result.copilot**
-[`object`](../../data-types.md) | Данные BitrixGPT, если присутствуют в ответе. Может быть `null` ||
-|| **result.stickers**
-[`array`](../../data-types.md) | Стикеры, связанные с найденными сообщениями ||
-|| **result.reactions**
-[`array`](../../data-types.md) | Реакции на найденные сообщения [(подробное описание)](#reactions) ||
-|| **result.tariffRestrictions**
-[`object`](../../data-types.md) | Информация о тарифных ограничениях истории.
-
-Содержит флаг `isHistoryLimitExceeded` — признак превышения лимита истории сообщений по тарифу ||
-|| **result.usersShort**
-[`array`](../../data-types.md) | Краткая информация о пользователях, поставивших реакции.
-
-Используется как дополняющий справочник к `result.reactions.reactionUsers`, содержит `id`, `name`, `avatar` ||
+[`object`](../../data-types.md) | Найденные сообщения и связанные с ними данные [(подробное описание)](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Сообщение {#message}
+#### Объект result {#result-object}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **messages**
+[`array`](../../data-types.md) | Массив найденных сообщений [(подробное описание)](#message) ||
+|| **users**
+[`array`](../../data-types.md) | Пользователи, связанные с найденными сообщениями [(подробное описание)](#user) ||
+|| **files**
+[`array`](../../data-types.md) | Файлы из найденных сообщений. Структура элемента — как у [объекта file](./im-dialog-messages-get.md#file) в ответе метода [im.dialog.messages.get](./im-dialog-messages-get.md). Если файлов нет — пустой массив ||
+|| **additionalMessages**
+[`array`](../../data-types.md) | Дополнительные сообщения, связанные с найденными, например пересылаемые или цитируемые [(подробное описание)](#message) ||
+|| **copilot**
+[`object`](../../data-types.md) | Данные BitrixGPT. Может быть `null` ||
+|| **stickers**
+[`array`](../../data-types.md) | Стикеры, связанные с найденными сообщениями. Если стикеров нет — пустой массив ||
+|| **reactions**
+[`array`](../../data-types.md) | Реакции на найденные сообщения [(подробное описание)](#reactions) ||
+|| **tariffRestrictions**
+[`object`](../../data-types.md) | Ограничения истории по тарифу.
+
+Флаг `isHistoryLimitExceeded` равен `true`, если тарифное ограничение истории убрало из выборки часть сообщений ||
+|| **usersShort**
+[`array`](../../data-types.md) | Пользователи, которые поставили реакции: `id`, `name`, `avatar`, `color` — цвет аватара, `type` — тип пользователя.
+
+По этим данным можно показать имена и аватары для идентификаторов из `result.reactions[].reactionUsers` ||
+|| **commentInfo**
+[`array`](../../data-types.md) | Данные о комментариях к найденным сообщениям. Заполняется для сообщений каналов ||
+|#
+
+Если ничего не найдено, все массивы объекта `result` приходят пустыми.
+
+#### Объект message {#message}
 
 #|
 || **Название**
@@ -430,11 +469,11 @@ HTTP-статус: **200**
 || **chatId**
 [`integer`](../../data-types.md) | Идентификатор чата ||
 || **chat_id**
-[`integer`](../../data-types.md) | Идентификатор чата. Дубль поля `chatId` в старом написании ||
+[`integer`](../../data-types.md) | Идентификатор чата. То же, что `chatId`, в старом написании ||
 || **authorId**
 [`integer`](../../data-types.md) | Идентификатор автора сообщения ||
 || **author_id**
-[`integer`](../../data-types.md) | Идентификатор автора сообщения. Дубль поля `authorId` в старом написании ||
+[`integer`](../../data-types.md) | Идентификатор автора сообщения. То же, что `authorId`, в старом написании ||
 || **date**
 [`datetime`](../../data-types.md) | Дата и время создания сообщения ||
 || **text**
@@ -444,22 +483,20 @@ HTTP-статус: **200**
 || **uuid**
 [`string`](../../data-types.md) | Внешний UUID сообщения. Может быть `null` ||
 || **forward**
-[`object`](../../data-types.md) | Информация о пересылке. Может быть `null` ||
+[`object`](../../data-types.md) | Информация о пересылке. `null`, если сообщение не переслано ||
 || **params**
-[`array`](../../data-types.md) | Параметры сообщения ||
+[`object`](../../data-types.md) | Параметры сообщения. Если параметров нет, приходит пустой массив `[]` ||
 || **viewedByOthers**
 [`boolean`](../../data-types.md) | Признак, что сообщение просмотрено другими участниками ||
 || **unread**
 [`boolean`](../../data-types.md) | Признак непрочитанного сообщения для текущего пользователя ||
 || **viewed**
 [`boolean`](../../data-types.md) | Признак, что сообщение просмотрено текущим пользователем ||
-|| **viewedCount**
-[`integer`](../../data-types.md) | Количество участников, которые просмотрели сообщение ||
 || **block**
-[`object`](../../data-types.md) | Служебные данные блокировки сообщения. Может быть `null` ||
+[`object`](../../data-types.md) | Контентные блоки сообщения. `null`, если блоков нет ||
 |#
 
-#### Пользователь {#user}
+#### Объект user {#user}
 
 #|
 || **Название**
@@ -488,6 +525,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | День рождения ||
 || **extranet**
 [`boolean`](../../data-types.md) | Признак экстранет-пользователя ||
+|| **intranetUser**
+[`boolean`](../../data-types.md) | `true`, если пользователь — сотрудник: состоит в отделе компании и его учетная запись не внешняя ||
+|| **internalAccount**
+[`boolean`](../../data-types.md) | `true`, если учетная запись не внешняя, например не принадлежит клиенту открытой линии ||
 || **network**
 [`boolean`](../../data-types.md) | Признак пользователя Bitrix24 Network ||
 || **bot**
@@ -499,21 +540,21 @@ HTTP-статус: **200**
 || **status**
 [`string`](../../data-types.md) | Статус пользователя ||
 || **idle**
-[`boolean`](../../data-types.md) | Признак неактивности ||
+[`datetime`](../../data-types.md) | Дата в формате ISO 8601, если пользователь неактивен, иначе `false` ||
 || **lastActivityDate**
-[`datetime`](../../data-types.md) | Дата и время последней активности ||
+[`datetime`](../../data-types.md) | Дата и время последней активности или `false` ||
 || **mobileLastDate**
 [`datetime`](../../data-types.md) | Последняя активность в мобильном приложении. Может быть `false` ||
 || **desktopLastDate**
 [`datetime`](../../data-types.md) | Последняя активность в десктоп-приложении. Может быть `false` ||
 || **absent**
-[`boolean`](../../data-types.md) | Признак отсутствия ||
+[`datetime`](../../data-types.md) | Дата в формате ISO 8601, если пользователь отсутствует, иначе `false` ||
 || **departments**
 [`array`](../../data-types.md) | Массив идентификаторов подразделений ||
 || **phones**
-[`object`](../../data-types.md) | Телефоны пользователя ||
+[`object`](../../data-types.md) | Телефоны пользователя или `false`, если телефоны не заданы ||
 || **botData**
-[`object`](../../data-types.md) | Дополнительные данные бота. Для обычного пользователя `null` ||
+[`object`](../../data-types.md) | Данные бота. Для обычного пользователя — `null` ||
 || **type**
 [`string`](../../data-types.md) | Тип пользователя ||
 || **website**
@@ -522,7 +563,7 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | E-mail пользователя ||
 |#
 
-#### Реакции {#reactions}
+#### Объект reactions {#reactions}
 
 #|
 || **Название**
@@ -530,11 +571,11 @@ HTTP-статус: **200**
 || **messageId**
 [`integer`](../../data-types.md) | Идентификатор сообщения ||
 || **reactionCounters**
-[`object`](../../data-types.md) | Количество реакций по каждому типу ||
+[`object`](../../data-types.md) | Количество реакций по типам: ключ — код реакции, например `like`, значение — число реакций ||
 || **reactionUsers**
-[`object`](../../data-types.md) | Пользователи по типам реакций ||
+[`object`](../../data-types.md) | Кто поставил реакции: ключ — код реакции, значение — массив идентификаторов пользователей. Если реакций одного типа больше пяти, список может быть неполным. Имена и аватары этих пользователей — в `usersShort` ||
 || **ownReactions**
-[`array`](../../data-types.md) | Реакции текущего пользователя ||
+[`array`](../../data-types.md) | Коды реакций, которые поставил текущий пользователь, например `["like"]` ||
 |#
 
 ## Обработка ошибок
@@ -553,19 +594,24 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `CHAT_ID_EMPTY` | CHAT_ID can't be empty | Не передан обязательный параметр `CHAT_ID` ||
-|| `ACCESS_ERROR` | You do not have access to this chat | Нет доступа к указанному чату ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `CHAT_ID_EMPTY` | ``CHAT_ID can`t be empty`` | Параметр `CHAT_ID` не передан или его значение не число ||
+|| `400` | `500` | `Incorrect date/time: <значение>` | Значение `DATE_FROM`, `DATE_TO` или `DATE` не распознано как дата ||
+|| `400` | `ERROR_ARGUMENT` | Invalid order "UP" | В `ORDER` передано направление не `ASC` и не `DESC`. В тексте ошибки — переданное значение ||
+|| `403` | `ACCESS_ERROR` | You do not have access to this chat | Нет доступа к указанному чату ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./im-message-delete.md)
+- [{#T}](./im-message-like.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
 - [{#T}](./im-dialog-messages-get.md)
 - [{#T}](./im-dialog-read.md)
 - [{#T}](./im-dialog-unread.md)
 - [{#T}](./im-dialog-writing.md)
-- [{#T}](./im-message-add.md)
-- [{#T}](./im-message-update.md)
-- [{#T}](./im-message-delete.md)
