@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `crm.activity.list` возвращает список активностей по фильтру с учетом прав текущего пользователя.
+Метод `crm.activity.list` возвращает список дел по фильтру с учетом прав текущего пользователя.
 
 ## Параметры метода
 
@@ -51,14 +51,14 @@
   - "%мол" — ищем значения, заканчивающиеся на «мол»
   - "%мол%" — ищем значения, где «мол» может быть в любой позиции
 - `%=` — LIKE (см. описание выше)
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
 - `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
   - "мол%" — ищем значения, не начинающиеся с «мол»
   - "%мол" — ищем значения, не заканчивающиеся на «мол»
   - "%мол%" — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (см. описание выше)
 - `=` — равно, точное совпадение (используется по умолчанию)
-- `!=` - не равно
+- `!=` — не равно
 - `!` — не равно
 ||
 || **order**
@@ -84,7 +84,7 @@
 `start = (N-1) * 50`, где `N` — номер нужной страницы ||
 |#
 
-Cм. описание [списочных методов](../../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
+Подробнее — в описании [особенностей списочных методов](../../../../../settings/how-to-call-rest-api/list-methods-pecularities.md).
 
 {% note info "" %}
 
@@ -247,18 +247,12 @@ Cм. описание [списочных методов](../../../../../setting
     try:
         bitrix_response = client.crm.activity.list(
             select=[
-                "ID",
-                "OWNER_TYPE_ID",
-                "OWNER_ID",
-                "SUBJECT",
-                "STATUS",
-                "DEADLINE",
-                "RESPONSIBLE_ID",
+                "*",
+                "COMMUNICATIONS",
             ],
             filter={
-                "OWNER_TYPE_ID": 2,
-                "OWNER_ID": 101,
-                "COMPLETED": "N",
+                "OWNER_TYPE_ID": 3,
+                "OWNER_ID": 102,
             },
             order={
                 "ID": "DESC",
@@ -333,9 +327,6 @@ Cм. описание [списочных методов](../../../../../setting
             filter={
                 "OWNER_TYPE_ID": 2,
                 "OWNER_ID": 101,
-            },
-            order={
-                "ID": "DESC",
             },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
@@ -583,9 +574,9 @@ HTTP-статус: **400**, **403**
 
 ### Использование BINDINGS {#example-bindings}
 
-Получить поля: идентификатор, название, тип владельца и идентификатор владельца
+Получить все поля и коммуникации дел
 
-Условие отбора: дело привязано одновременно к сделке и к контакту
+Условие отбора: дело привязано к сделке или к контакту
 
 {% note info %}
 
@@ -826,9 +817,6 @@ HTTP-статус: **400**, **403**
                         "OWNER_TYPE_ID": 3,
                     },
                 ],
-            },
-            order={
-                "ID": "DESC",
             },
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
@@ -1715,8 +1703,14 @@ HTTP-статус: **200**
 }
 ```
 
-## Продолжите изучение 
+## Продолжите изучение
 
+- [{#T}](./crm-activity-add.md)
+- [{#T}](./crm-activity-update.md)
+- [{#T}](./crm-activity-get.md)
+- [{#T}](./crm-activity-delete.md)
+- [{#T}](./crm-activity-fields.md)
+- [{#T}](./crm-activity-communication-fields.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity-between-objects.md)
 - [{#T}](../../../../../tutorials/crm/how-to-edit-crm-objects/how-to-move-activity.md)
 - [{#T}](../../../../../tutorials/crm/how-to-get-lists/get-activity-list-by-deals.md)

@@ -1,4 +1,4 @@
-# Дела в CRM: обзор методов
+# Дела в CRM: обзор методов и событий
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 
 Дела делятся на входящие и запланированные:
 
-* Входящие — дела, поступившие от клиента, например письмо, звонок или чат. Для таких дел важно верно указать параметр `DIRECTION` = `1`, чтобы сработал счетчик входящих дел CRM
+* Входящие — дела, поступившие от клиента, например письмо, звонок или чат. Для таких дел важно верно указать направление, чтобы сработал счетчик входящих дел CRM
 * Запланированные — дела, которые создают сотрудники, например задачи или универсальные дела. В них можно указать срок выполнения, добавить связи с элементами CRM, с календарем, пригласить коллег, прикрепить файлы
 
 > Быстрый переход: [все методы и события](#all-methods)
@@ -29,7 +29,7 @@
 || [Системное дело](./activity-base/index.md) | Телефония, почта, чат или приложение методом [crm.activity.add](./activity-base/crm-activity-add.md) | Нужны звонок, письмо, встреча или дело со стандартной карточкой ||
 || [Универсальное дело](./todo/index.md) | Сотрудник в карточке элемента или приложение методом [crm.activity.todo.add](./todo/crm-activity-todo-add.md) | Нужны срок, цвет, участники, переговорная и синхронизация с календарем ||
 || [Конфигурируемое дело](./configurable/index.md) | Только приложение методом [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md) | Нужен собственный внешний вид карточки дела с блоками и кнопками приложения ||
-|| [Дело пользовательского типа](./types/index.md) | Приложение методом [crm.activity.add](./activity-base/crm-activity-add.md) после регистрации типа | Нужны своя иконка и название типа дела в интерфейсе ||
+|| [Дело пользовательского типа](./types/index.md) | Приложение после регистрации типа: методом [crm.activity.add](./activity-base/crm-activity-add.md) или, для конфигурируемого типа, методом [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md) | Нужны своя иконка и название типа дела в интерфейсе ||
 |#
 
 ## Идентификаторы типов дел {#activity-types}
@@ -46,65 +46,57 @@
 || `6` | Дело провайдера: универсальные и конфигурируемые дела, дела приложений ||
 |#
 
+Значение `0` в ответе означает, что тип не определен. Статусы, важность, направление и другие перечисления дел описаны в справочнике [Перечисления дел](../../data-types.md#activity-enums).
+
 Направление дела задает параметр `DIRECTION`: `1` — входящее, `2` — исходящее. Направление актуально для звонков и писем, для встреч оно не используется.
 
 ## Как начать работу
 
 1. Определите элемент CRM, в таймлайне которого будет храниться дело: тип объекта передается в `OWNER_TYPE_ID`, идентификатор — в `OWNER_ID`. Значения типов смотрите в справочнике [Тип объекта CRM](../../data-types.md#object_type).
-2. Получите состав доступных полей методом [crm.activity.fields](./activity-base/crm-activity-fields.md).
-3. Создайте дело методом нужного вида: [crm.activity.add](./activity-base/crm-activity-add.md), [crm.activity.todo.add](./todo/crm-activity-todo-add.md) или [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md).
-4. Получите дело методом [crm.activity.get](./activity-base/crm-activity-get.md) или список дел элемента методом [crm.activity.list](./activity-base/crm-activity-list.md).
-5. Удалите ненужное дело методом [crm.activity.delete](./activity-base/crm-activity-delete.md).
+2. Получите описание полей в разделе [Поля дела REST 3.0](../../rest-v3/activities/index.md#fields). Описание полей с признаками фильтрации и сортировки возвращает метод `crm.activity.field.list`.
+3. Создайте дело методом нужного вида: [crm.activity.todo.add](./todo/crm-activity-todo-add.md) для универсального дела, [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md) для конфигурируемого. Для остальных видов используйте [crm.activity.add](./activity-base/crm-activity-add.md): методы REST 3.0 пока не создают дела и не изменяют их поля. Изменяйте дело методом того же вида: [crm.activity.todo.update](./todo/crm-activity-todo-update.md), [crm.activity.configurable.update](./configurable/crm-activity-configurable-update.md) или [crm.activity.update](./activity-base/crm-activity-update.md).
+4. Получите дело методом REST 3.0 [crm.activity.get](../../rest-v3/activities/crm-activity-get-rest-v3.md), а список дел элемента — методом [crm.<тип>.activity.list](../../rest-v3/activities/crm-entity-activity-list-rest-v3.md). Какие поля дела методы REST 3.0 не возвращают, указано в разделе [Устаревшие методы](#deprecated).
+5. Удалите ненужное дело методом REST 3.0 [crm.activity.delete](../../rest-v3/activities/crm-activity-delete-rest-v3.md).
 6. Подпишитесь на [события дел](./events/index.md), чтобы отслеживать изменения в реальном времени.
 
-## Связи дел с другими элементами CRM
+## Связи дел с другими элементами CRM {#bindings}
 
-Дела, связанные с элементами CRM, хранятся в таймлайне карточки элемента. Если у дела есть связь с несколькими элементами — например, письмо может быть привязано и к сделке и к контакту — оно будет храниться в таймлайнах всех связанных элементов.
+Дела, связанные с элементами CRM, хранятся в таймлайне карточки элемента. Если у дела есть связь с несколькими элементами — например, письмо может быть привязано и к сделке, и к контакту, — оно хранится в таймлайнах всех связанных элементов.
 
-Связи между делами и элементами CRM можно добавлять и удалять методами группы [crm.activity.binding.*](./binding/index.md).
+Связи между делами и элементами CRM добавляют, переносят и удаляют методы REST 3.0 [crm.activity.binding.bind](../../rest-v3/activities/crm-activity-binding-bind-rest-v3.md), [crm.activity.binding.move](../../rest-v3/activities/crm-activity-binding-move-rest-v3.md) и [crm.activity.binding.unbind](../../rest-v3/activities/crm-activity-binding-unbind-rest-v3.md), список связей возвращает [crm.activity.binding.list](../../rest-v3/activities/crm-activity-binding-list-rest-v3.md).
 
 ## Системные дела
 
-Системные дела CRM создает автоматически:
+Часть системных дел CRM создает автоматически:
 
 * дело звонка создает подключенная в Битрикс24 телефония. Для завершения звонка используйте метод [telephony.externalcall.finish](../../../telephony/telephony-external-call-finish.md). Метод завершает звонок, создает дело в карточке элемента и возвращает идентификатор созданного дела в параметре `CRM_ACTIVITY_ID`
-* дело письма создает почта. Когда на подключенный в Битрикс24 адрес приходит письмо от клиента, CRM проверяет, существует ли в базе клиент с e-mail из письма. По результатам проверки будет создано дело в карточке найденного элемента или новый клиент, в карточке которого появится дело
+* дело письма создает почта. Когда на подключенный в Битрикс24 адрес приходит письмо от клиента, CRM проверяет, существует ли в базе клиент с e-mail из письма. Если клиент найден, дело появится в его карточке. Если нет — CRM создаст клиента и добавит дело в его карточку
 
-Чтобы создать, изменить или удалить системное дело, используйте группу методов [crm.activity.*](./activity-base/index.md). При создании системного дела указывайте `TYPE_ID`, например для дела письма — `TYPE_ID` = `4`. Значения остальных типов перечислены в блоке [Идентификаторы типов дел](#activity-types).
+Чтобы создать, изменить или удалить системное дело, используйте группу методов [crm.activity.*](./activity-base/index.md). Значения `TYPE_ID` перечислены в блоке [Идентификаторы типов дел](#activity-types).
 
 ### Дела пользовательских типов
 
-Приложения могут регистрировать пользовательские типы дел: загрузить собственную иконку и указать название типа. Например, можно создать свой тип дел с иконкой и названием вашего приложения.
+Приложения могут регистрировать пользовательские типы дел с собственной иконкой и названием.
 
 * Зарегистрировать тип дела — используйте методы группы [crm.activity.type.*](./types/index.md). При создании типа необходимо задать его кодовое обозначение в параметре `TYPE_ID`
-* Создать дело с типом приложения — используйте группу методов системных дел [crm.activity.add](./activity-base/crm-activity-add.md). При создании дела укажите кодовое обозначение пользовательского типа `TYPE_ID`, зарегистрированного для типа дел, в параметре `PROVIDER_TYPE_ID`
-
-{% note tip "" %}
-
-Методы [crm.activity.delete](./activity-base/crm-activity-delete.md) (удаляет дело) и [crm.activity.list](./activity-base/crm-activity-list.md) (получает список дел) общие для всех видов дел CRM.
-
-{% endnote %}
+* Создать дело с типом приложения — используйте метод [crm.activity.add](./activity-base/crm-activity-add.md): передайте код типа в `PROVIDER_TYPE_ID` и `PROVIDER_ID` = `REST_APP`. Если тип зарегистрирован с `IS_CONFIGURABLE_TYPE` = `Y`, передайте его код в поле `typeId` метода [crm.activity.configurable.add](./configurable/crm-activity-configurable-add.md)
 
 ## Универсальные дела
 
-Универсальные дела — это тип дел с расширенными настройками: крайним сроком, цветом, участниками, переговорной и синхронизацией с календарем.
-
-Создает дело метод [crm.activity.todo.add](./todo/crm-activity-todo-add.md), изменяет — [crm.activity.todo.update](./todo/crm-activity-todo-update.md). Отдельные методы меняют только одно свойство дела: крайний срок, описание, цвет или ответственного. Как выбрать нужный метод, описано в разделе [Универсальные дела CRM](./todo/index.md).
+Кроме [crm.activity.todo.add](./todo/crm-activity-todo-add.md) и [crm.activity.todo.update](./todo/crm-activity-todo-update.md), для универсальных дел есть методы, которые меняют только одно свойство дела: крайний срок, описание, цвет или ответственного. Как выбрать нужный метод, описано в разделе [Универсальные дела CRM](./todo/index.md).
 
 ## Конфигурируемые дела
 
-Конфигурируемые дела — это тип дел, создать который можно только из приложения. Для этого типа можно настроить внешний вид карточки дела и ее функционал:
+Приложение настраивает внешний вид и функции карточки конфигурируемого дела:
 
 * [Структура конфигурируемого дела](./configurable/structure/layout.md)
 * [Бейджи конфигурируемого дела](./configurable/badges/index.md)
 
-Чтобы создать или изменить конфигурируемое дело, используйте группу методов [crm.activity.configurable.*](./configurable/index.md).
-
 ## Виджеты
 
-В дела можно встраивать приложения. Для встроек используют специальные места, в делах доступно одно — [Пункт контекстного меню дела в карточке элемента](../../../widgets/crm/activity-timeline-menu.md) `CRM_XXX_ACTIVITY_TIMELINE_MENU`.
+В дела можно встраивать приложения. В делах доступны две точки встраивания. [Пункт меню в списке дел](../../../widgets/crm/list-menu.md) — `CRM_ACTIVITY_LIST_MENU`. [Пункт контекстного меню дела в карточке элемента](../../../widgets/crm/activity-timeline-menu.md) — `CRM_XXX_ACTIVITY_TIMELINE_MENU`, где вместо `XXX` указывают тип объекта, например `DEAL`. Для смарт-процессов — `CRM_DYNAMIC_XXX_ACTIVITY_TIMELINE_MENU`, где `XXX` — числовой идентификатор типа смарт-процесса, например `CRM_DYNAMIC_183_ACTIVITY_TIMELINE_MENU`.
 
-Благодаря встройке можно будет использовать приложение, не покидая карточку элемента. Приложение будет открываться на той странице, которую вы укажете при регистрации встройки.
+Встройки позволяют работать с приложением, не покидая CRM. Приложение открывается на странице, которую вы укажете при регистрации встройки.
 
 {% note tip "Частые кейсы и сценарии" %}
 
@@ -121,6 +113,23 @@
 
 * [Доступные контентные блоки](./configurable/structure/content-block.md)
 
+## Устаревшие методы {#deprecated}
+
+Методы предыдущей версии работают, но их развитие остановлено. Для новой разработки используйте замены из таблицы.
+
+#|
+|| **Метод** | **Замена** | **Ограничение замены** ||
+|| [crm.activity.add](./activity-base/crm-activity-add.md) | [crm.activity.todo.add](./todo/crm-activity-todo-add.md) | Создает только универсальное дело. Звонок, встречу, письмо и дело пользовательского типа по-прежнему создает `crm.activity.add` ||
+|| [crm.activity.update](./activity-base/crm-activity-update.md) | [crm.activity.todo.update](./todo/crm-activity-todo-update.md) | Обновляет только универсальное дело ||
+|| [crm.activity.get](./activity-base/crm-activity-get.md) | [crm.activity.get](../../rest-v3/activities/crm-activity-get-rest-v3.md) REST 3.0 | Не возвращает часть полей, например `settings`, `providerParams`, `location`, `status` ||
+|| [crm.activity.list](./activity-base/crm-activity-list.md) | [crm.activity.list](../../rest-v3/activities/crm-activity-list-rest-v3.md) REST 3.0 | Доступен только администратору Битрикс24 и не возвращает часть полей. Дела одного элемента без прав администратора возвращает [crm.<тип>.activity.list](../../rest-v3/activities/crm-entity-activity-list-rest-v3.md) ||
+|| [crm.activity.delete](./activity-base/crm-activity-delete.md) | [crm.activity.delete](../../rest-v3/activities/crm-activity-delete-rest-v3.md) REST 3.0 | Требует права на удаление в элементах CRM, к которым привязано дело ||
+|| [crm.activity.fields](./activity-base/crm-activity-fields.md), [crm.activity.communication.fields](./activity-base/crm-activity-communication-fields.md) | `crm.activity.field.list` REST 3.0, описание в разделе [Поля дела](../../rest-v3/activities/index.md#fields) | Не описывает часть полей, например `settings` и `providerParams`. Средства связи описывает поле `communications` ||
+|| [crm.activity.binding.*](./binding/index.md) | [crm.activity.binding.bind](../../rest-v3/activities/crm-activity-binding-bind-rest-v3.md), [unbind](../../rest-v3/activities/crm-activity-binding-unbind-rest-v3.md), [move](../../rest-v3/activities/crm-activity-binding-move-rest-v3.md), [list](../../rest-v3/activities/crm-activity-binding-list-rest-v3.md) REST 3.0 | Параметры и ответ в формате REST 3.0 описаны на страницах методов ||
+|#
+
+Остальные методы REST 3.0 для дел — завершение [crm.activity.complete](../../rest-v3/activities/crm-activity-complete-rest-v3.md), возврат в работу [crm.activity.uncomplete](../../rest-v3/activities/crm-activity-uncomplete-rest-v3.md), методы элемента `crm.<тип>.activity.*` и работа с письмами `crm.activity.mail.*` — перечислены в [обзоре дел REST 3.0](../../rest-v3/activities/index.md).
+
 ## Обзор методов и событий {#all-methods}
 
 > Scope: [`crm`](../../../scopes/permissions.md)
@@ -133,13 +142,15 @@
 
 - Методы
 
+    Развитие методов, кроме `crm.activity.call.getTranscript`, остановлено. Замены перечислены в разделе [Устаревшие методы](#deprecated).
+
     #|
     || **Метод** | **Описание** ||
     || [crm.activity.add](./activity-base/crm-activity-add.md) | Создает новое дело ||
     || [crm.activity.update](./activity-base/crm-activity-update.md) | Обновляет дело ||
     || [crm.activity.get](./activity-base/crm-activity-get.md) | Возвращает дело по идентификатору ||
     || [crm.activity.list](./activity-base/crm-activity-list.md) | Возвращает список дел всех типов по фильтру ||
-    || [crm.activity.delete](./activity-base/crm-activity-delete.md) | Удаляет любой тип дел ||
+    || [crm.activity.delete](./activity-base/crm-activity-delete.md) | Удаляет дело любого вида ||
     || [crm.activity.call.getTranscript](./activity-base/crm-activity-call-get-transcript.md) | Возвращает готовую расшифровку звонка ||
     || [crm.activity.fields](./activity-base/crm-activity-fields.md) | Возвращает описание полей дел ||
     || [crm.activity.communication.fields](./activity-base/crm-activity-communication-fields.md) | Возвращает описание полей коммуникации ||
@@ -149,20 +160,22 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmActivityAdd](./events/on-crm-activity-add.md) | При создании дела вручную или методом [crm.activity.add](./activity-base/crm-activity-add.md) ||
-    || [onCrmActivityUpdate](./events/on-crm-activity-update.md) | При обновлении дела вручную или методом [crm.activity.update](./activity-base/crm-activity-update.md) ||
-    || [onCrmActivityDelete](./events/on-crm-activity-delete.md) | При удалении дела вручную или методом [crm.activity.delete](./activity-base/crm-activity-delete.md) ||
+    || [onCrmActivityAdd](./events/on-crm-activity-add.md) | При создании дела ||
+    || [onCrmActivityUpdate](./events/on-crm-activity-update.md) | При изменении дела ||
+    || [onCrmActivityDelete](./events/on-crm-activity-delete.md) | При удалении дела ||
     |#
 
 {% endlist %}
 
 ### Управление связями дел
 
+Развитие методов остановлено. Замены перечислены в разделе [Устаревшие методы](#deprecated).
+
 #|
 || **Метод** | **Описание** ||
 || [crm.activity.binding.add](./binding/crm-activity-binding-add.md) | Добавляет связь дела с элементом CRM ||
-|| [crm.activity.binding.list](./binding/crm-activity-binding-list.md) | Возвращает список связей дела ||
 || [crm.activity.binding.move](./binding/crm-activity-binding-move.md) | Переносит связь дела на другой элемент CRM ||
+|| [crm.activity.binding.list](./binding/crm-activity-binding-list.md) | Возвращает список связей дела ||
 || [crm.activity.binding.delete](./binding/crm-activity-binding-delete.md) | Удаляет связь дела с элементом CRM ||
 |#
 

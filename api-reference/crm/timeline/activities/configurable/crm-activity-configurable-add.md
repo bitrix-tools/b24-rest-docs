@@ -793,6 +793,7 @@ HTTP-статус: **400**
 || `ACCESS_DENIED` | Недостаточно прав на создание дела в элементе CRM ||
 || `100` | Не передан обязательный параметр `ownerTypeId`, `ownerId`, `fields` или `layout` ||
 || `ERROR_WRONG_CONTEXT` | Метод вызван не из приложения, например через входящий вебхук ||
+|| `WRONG_DATETIME_FORMAT` | Не удалось распознать дату в `fields.deadline` ||
 || `WRONG_FIELD_VALUE` | Некорректное значение поля: неизвестный `badgeCode` или `typeId` в `fields`, неподходящий тип вложенного блока, неверный формат цвета в `sliderParams` ||
 || `INCOMING_ACTIVITY_CAN_NOT_BE_WITH_DEADLINE` | Входящее дело не может иметь крайний срок ||
 || `ERROR_EMPTY_LAYOUT` | Передан пустой `layout` ||

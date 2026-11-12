@@ -133,7 +133,7 @@
 
 Для дел типа `e-mail`:
 - если письмо не должно быть отправлено, устанавливайте параметры `DIRECTION=2` и `COMPLETED='N'`
-- если необходимо пометить письма как завершенные, выполните обновление дел с выставлением флага завершения
+- если письмо нужно пометить как завершенное, вызовите метод [crm.activity.update](./crm-activity-update.md) и передайте `COMPLETED='Y'`
 
 ## Примеры кода
 
@@ -281,25 +281,29 @@
 - Python
 
     ```python
-    from datetime import datetime, timedelta
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
         bitrix_response = client.crm.activity.add(
             fields={
                 "OWNER_TYPE_ID": 2,
-                "OWNER_ID": 101,
+                "OWNER_ID": 102,
                 "TYPE_ID": 2,
-                "COMMUNICATIONS": [{"VALUE": "+79990000000"}],
-                "SUBJECT": "Follow up with customer",
-                "START_TIME": datetime.now().isoformat(timespec="seconds"),
-                "END_TIME": (datetime.now() + timedelta(hours=1)).isoformat(timespec="seconds"),
+                "COMMUNICATIONS": [
+                    {"VALUE": "+79832322323", "ENTITY_ID": 134, "ENTITY_TYPE_ID": 3},
+                ],
+                "SUBJECT": "Новый звонок",
+                "START_TIME": "2023-12-31T12:00:00+00:00",
+                "END_TIME": "2023-12-31T12:30:00+00:00",
                 "COMPLETED": "N",
                 "RESPONSIBLE_ID": 1,
-                "PRIORITY": 2,
-                "DESCRIPTION": "Discuss proposal details",
+                "PRIORITY": 3,
+                "DESCRIPTION": "Важный звонок",
                 "DESCRIPTION_TYPE": 3,
                 "DIRECTION": 2,
+                "FILES": [
+                    {"fileData": ["example.jpg", "base64_encoded_content_here"]},
+                ],
             },
         ).response
         result = bitrix_response.result
