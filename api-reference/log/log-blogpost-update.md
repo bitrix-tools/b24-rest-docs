@@ -423,6 +423,7 @@ HTTP-статус: **400**
 || `SONET_CONTROLLER_LIVEFEED_BLOGPOST_UPDATE_ERROR` | `No write perms` | Недостаточно прав на изменение сообщения ||
 || `SONET_CONTROLLER_LIVEFEED_BLOGPOST_UPDATE_ERROR` | `No post found` | Сообщение не найдено ||
 || `SONET_CONTROLLER_LIVEFEED_BLOGPOST_UPDATE_ERROR` | `No blog found` | Не удалось получить блог автора сообщения ||
+|| — | `Нет доступа к одному или нескольким адресатам сообщения` | В `DEST` есть внешний пользователь, который недоступен текущему пользователю. Ошибка возможна, если установлен модуль `extranet`. Администраторы портала и сотрудники подразделений доступны как адресаты всегда ||
 || — | `Cannot update blog post` | Внутренняя ошибка при изменении сообщения ||
 |#
 

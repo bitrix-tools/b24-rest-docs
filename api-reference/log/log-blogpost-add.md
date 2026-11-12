@@ -459,6 +459,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение** ||
 || `SONET_CONTROLLER_LIVEFEED_BLOGPOST_ADD_ERROR` | `Blog post hasn't been added` | Общая ошибка сохранения сообщения, например, при пустом `POST_MESSAGE` ||
 || `SONET_CONTROLLER_LIVEFEED_BLOGPOST_ADD_ERROR` | `No destination specified` | Не удалось определить получателей сообщения ||
+|| — | `Нет доступа к одному или нескольким адресатам сообщения` | В `DEST` есть внешний пользователь, который недоступен текущему пользователю. Ошибка возможна, если установлен модуль `extranet`. Администраторы портала и сотрудники подразделений доступны как адресаты всегда ||
 || `SONET_CONTROLLER_LIVEFEED_BLOGPOST_MODULE_BLOG_NOT_INSTALLED` | `Blog module is not installed` | Модуль `blog` не установлен ||
 || `SONET_CONTROLLER_LIVEFEED_BLOG_NOT_FOUND` | `Blog not found` | Не удалось получить блог, к которому относится сообщение ||
 || — | `Cannot add blog post` | Внутренняя ошибка при создании сообщения ||
