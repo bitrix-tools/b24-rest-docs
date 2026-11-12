@@ -19,11 +19,11 @@
 
 {% endnote %}
 
-Метод получает список воронок (направлений), которые относятся к типу объекта CRM с идентификатором `entityTypeId`.
+Метод `crm.category.list` получает список воронок, которые относятся к типу объекта CRM с идентификатором `entityTypeId`.
 
 {% note warning "Какие воронки попадут в список" %}
 
-Список отдаваемых воронок фильтруется по правам доступа. Это значит, что если у пользователя нет прав для чтения определенной воронки, она не попадет в ответ.
+Метод возвращает только те воронки, к которым у пользователя есть право на чтение.
 
 {% endnote %}
 
@@ -35,8 +35,23 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) сущностей CRM, для которого нужно получить список воронок ||
+[`integer`](../../../data-types.md) | Идентификатор [системного](../../index.md) или [пользовательского типа](../user-defined-object-types/index.md) объекта CRM, для которого нужно получить список воронок. Тип объекта должен поддерживать воронки: [список поддерживаемых объектов](./index.md#какие-объекты-поддерживают-воронки) ||
+|| **filter**
+[`object`](../../../data-types.md) | Необязательный фильтр воронок [(подробное описание)](#filter). По умолчанию пустой ||
+|| **isCategoryMenu**
+[`boolean`](../../../data-types.md) | Если `true`, возвращает данные воронок для меню со счетчиком `counter`. Необязательный параметр, по умолчанию `false` ||
 |#
+
+### Параметр filter {#filter}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **code**
+[`string`](../../../data-types.md) | Точное значение кода воронки. Например, `CATALOG_CONTRACTOR_CONTACT` для воронки поставщиков-контактов. Если не передано, фильтрация по коду не применяется. Другие поля и операторы фильтра не поддерживаются ||
+|#
+
+Метод возвращает весь список воронок, доступных пользователю и соответствующих фильтру, без постраничной навигации.
 
 ## Примеры кода
 
@@ -90,16 +105,11 @@
     }
 
     try {
-      // crm.category.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // Метод возвращает список доступных пользователю воронок
       const response = await $b24.actions.v2.call.make<CategoryListResult>({
         method: 'crm.category.list',
         params: {
           entityTypeId: 2,
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -128,16 +138,11 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.category.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // Метод возвращает список доступных пользователю воронок
           const response = await $b24.actions.v2.call.make({
             method: 'crm.category.list',
             params: {
               entityTypeId: 2,
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -345,12 +350,25 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит единственный элемент с ключом `categories`, который представляет собой массив воронок. Структура отдельно взятой воронки соответсвует объекту [`category`](./crm-category-add.md#category) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **total**
-[`integer`](../../../data-types.md) | Общее количество воронок, принадлежащих определенному `entityTypeId` ||
+[`integer`](../../../data-types.md) | Количество воронок, доступных пользователю и соответствующих фильтру ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **categories**
+[`array`](../../../data-types.md) | Массив воронок. При `isCategoryMenu=false` поля воронки описаны в объекте [`category`](./crm-category-add.md#category). При `isCategoryMenu=true` возвращаются поля для меню, описанные ниже ||
+|#
+
+При `isCategoryMenu=false` поля `isSystem` и `code` возвращаются только для контактов и компаний — `entityTypeId=3` и `entityTypeId=4`. Для сделок и смарт-процессов эти поля в ответ не входят. Поле `isSystem` — `boolean` со значениями `Y` или `N`, поле `code` — строковый код воронки.
+
+При `isCategoryMenu=true` каждая воронка содержит только `id`, `name`, `sort`, `entityTypeId`, `isDefault` и `counter`. Поле `counter` типа `integer` — значение счетчика текущего пользователя в этой воронке.
 
 ## Обработка ошибок
 
@@ -368,15 +386,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `NOT_FOUND` | Смарт-процесс не найден | Возникает, при некорректных значениях `entityTypeId` ||
-|| `ENTITY_TYPE_NOT_SUPPORTED` | Entity type `{entityTypeName}` is not supported | Возникает, если объект CRM не поддерживает воронки ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {entityTypeId} | Не передан обязательный параметр `entityTypeId` ||
+|| `400` | `NOT_FOUND` | Смарт-процесс не найден | Тип объекта CRM с указанным `entityTypeId` не найден ||
+|| `400` | `ENTITY_TYPE_NOT_SUPPORTED` | Сущность CRM {entityTypeName} не поддерживается | Объект CRM не поддерживает воронки. Вместо `{entityTypeName}` возвращается название типа объекта ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение 
 
+- [Воронки CRM: обзор методов](./index.md)
 - [{#T}](./crm-category-add.md)
 - [{#T}](./crm-category-update.md)
 - [{#T}](./crm-category-get.md)
