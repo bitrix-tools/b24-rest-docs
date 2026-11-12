@@ -1,4 +1,4 @@
-# Событие на удаление дела onCrmActivityDelete
+# Событие при удалении дела onCrmActivityDelete
 
 {% note tip "" %}
 
@@ -27,7 +27,8 @@
 
 ```json
 {
-    "event": "onCrmActivityDelete",
+    "event": "ONCRMACTIVITYDELETE",
+    "event_handler_id": "185",
     "data": {
         "FIELDS": {
             "ID": "999"
@@ -55,19 +56,21 @@
 || **event**
 [`string`](../../../../data-types.md) | Символьный код события.
 
-В данном случае — `onCrmActivityDelete` ||
+В данном случае — `ONCRMACTIVITYDELETE` ||
+|| **event_handler_id**
+[`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
 [`object`](../../../../data-types.md) | Объект, содержащий информацию об удаленном деле.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях удаленного дела.
+[`object`](../../../../data-types.md) | Объект с идентификатором удаленного дела.
 
 Структура описана [ниже](#fields) ||
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, на котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -89,5 +92,6 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-crm-activity-add.md)
 - [{#T}](./on-crm-activity-update.md)

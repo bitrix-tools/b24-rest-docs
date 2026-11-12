@@ -1,4 +1,4 @@
-# Событие на обновление дела onCrmActivityUpdate
+# Событие при обновлении дела onCrmActivityUpdate
 
 {% note tip "" %}
 
@@ -27,7 +27,8 @@
 
 ```json
 {
-    "event": "onCrmActivityUpdate",
+    "event": "ONCRMACTIVITYUPDATE",
+    "event_handler_id": "185",
     "data": {
         "FIELDS": {
             "ID": "999"
@@ -55,19 +56,21 @@
 || **event**
 [`string`](../../../../data-types.md) | Символьный код события.
 
-В данном случае — `onCrmActivityUpdate` ||
+В данном случае — `ONCRMACTIVITYUPDATE` ||
+|| **event_handler_id**
+[`integer`](../../../../data-types.md) | Идентификатор обработчика события ||
 || **data**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию об измененном деле.
+[`object`](../../../../data-types.md) | Объект, содержащий информацию об обновленном деле.
 
 Содержит единственный ключ `FIELDS` ||
 || **data.FIELDS**
-[`object`](../../../../data-types.md) | Объект, содержащий информацию о полях измененного дела.
+[`object`](../../../../data-types.md) | Объект с идентификатором обновленного дела.
 
 Структура описана [ниже](#fields) ||
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, на котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -89,5 +92,6 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-crm-activity-add.md)
 - [{#T}](./on-crm-activity-delete.md)
