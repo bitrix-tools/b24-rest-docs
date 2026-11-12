@@ -1,4 +1,4 @@
-# Установить признак «прочитано» у сообщений im.dialog.read
+# Отметить сообщения прочитанными im.dialog.read
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.dialog.read` устанавливает признак «прочитано» для сообщений диалога до указанного сообщения включительно.
+Метод `im.dialog.read` отмечает прочитанными сообщения чата до указанного включительно. Метод ставит отметку только для пользователя, от имени которого вызван.
 
 ## Параметры метода
 
@@ -23,15 +23,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **DIALOG_ID***
-[`string`](../../data-types.md) | Идентификатор чата в формате:
+[`string`](../../data-types.md) | Идентификатор диалога в формате:
 
-- `chatXXX` — чат
-- `sgXXX` — чат группы или проекта
-- `XXX` — идентификатор пользователя личного чата
+- `chatXXX` — групповой чат, где `XXX` — идентификатор чата
+- `sgXXX` — чат группы или проекта, где `XXX` — идентификатор группы
+- `XXX` — личный диалог, где `XXX` — идентификатор пользователя
 
-Идентификатор чата можно получить с помощью метода [im.chat.get](../im-chat-get.md). Идентификатор пользователя — с помощью методов [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
+Идентификатор чата вернет метод [im.chat.get](../im-chat-get.md), идентификатор пользователя — методы [user.get](../../user/user-get.md) и [user.search](../../user/user-search.md) ||
 || **MESSAGE_ID**
-[`integer`](../../data-types.md) | Идентификатор последнего прочитанного сообщения. Если не передан — метод устанавливает признак прочтения для всех непрочитанных сообщений ||
+[`integer`](../../data-types.md) | Идентификатор последнего сообщения, которое нужно отметить прочитанным. Если не передать, метод отметит прочитанными все непрочитанные сообщения ||
 |#
 
 ## Примеры кода
@@ -72,14 +72,14 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type ImDialogReadResult = {
-      dialogId: string,
+      dialogId: string | number,
       chatId: number,
       lastId: number,
       counter: number,
     }
 
     try {
-      const response = await $b24.actions.v2.call.make<ImDialogReadResult>({
+      const response = await $b24.actions.v2.call.make<ImDialogReadResult | false>({
         method: 'im.dialog.read',
         params: {
           DIALOG_ID: 'chat1489',
@@ -93,7 +93,11 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.dialogId, result.chatId, result.lastId, result.counter)
+        if (result === false) {
+          console.info('Messages are not marked as read')
+        } else {
+          console.info(result.dialogId, result.chatId, result.lastId, result.counter)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -128,6 +132,10 @@
           }
 
           const result = response.getData().result
+          if (result === false) {
+            console.info('Messages are not marked as read')
+            return
+          }
           console.info(result.dialogId, result.chatId, result.lastId, result.counter)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -234,8 +242,14 @@
     	return fmt.Errorf("im.dialog.read: %w", err)
     }
 
+    // Если отметить сообщения не удалось, result равен false
+    if string(res.Result) == "false" {
+    	fmt.Println("Сообщения не отмечены прочитанными")
+    	return nil
+    }
+
     var item struct {
-    	DialogID string `json:"dialogId"`
+    	DialogID any    `json:"dialogId"`
     	ChatID   b24.ID `json:"chatId"`
     	LastID   b24.ID `json:"lastId"`
     	Counter  int    `json:"counter"`
@@ -273,15 +287,34 @@ HTTP-статус: **200**
 }
 ```
 
+Если текущий пользователь не участник чата или отметить сообщения не удалось, метод возвращает HTTP-статус **200** и `false`:
+
+```json
+{
+    "result": false,
+    "time": {
+        "start": 1772624912,
+        "finish": 1772624912.615753,
+        "duration": 0.6157529354095459,
+        "processing": 0,
+        "date_start": "2026-03-04T14:48:32+03:00",
+        "date_finish": "2026-03-04T14:48:32+03:00",
+        "operating_reset_at": 1772625512,
+        "operating": 0
+    }
+}
+```
+
 ### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result).
+[`object`](../../data-types.md)
+[`boolean`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result).
 
-Возвращает `false`, если у пользователя нет доступа к чату ||
+Равен `false`, если текущий пользователь не участник чата или отметить сообщения не удалось ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -292,13 +325,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **dialogId**
-[`string`](../../data-types.md) | Идентификатор диалога ||
+[`string`](../../data-types.md)
+[`integer`](../../data-types.md) | Идентификатор чата в формате `DIALOG_ID`. Для личного диалога — число, идентификатор пользователя ||
 || **chatId**
 [`integer`](../../data-types.md) | Идентификатор чата ||
 || **lastId**
 [`integer`](../../data-types.md) | Идентификатор последнего прочитанного сообщения ||
 || **counter**
-[`integer`](../../data-types.md) | Количество непрочитанных сообщений после выполнения метода ||
+[`integer`](../../data-types.md) | Количество непрочитанных сообщений после выполнения метода. В групповом чате значение больше 99 приходит как `100` ||
 |#
 
 ## Обработка ошибок
@@ -325,6 +359,12 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./im-message-add.md)
+- [{#T}](./im-message-update.md)
+- [{#T}](./im-message-delete.md)
+- [{#T}](./im-message-like.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
 - [{#T}](./im-dialog-messages-get.md)
 - [{#T}](./im-dialog-messages-search.md)
 - [{#T}](./im-dialog-unread.md)

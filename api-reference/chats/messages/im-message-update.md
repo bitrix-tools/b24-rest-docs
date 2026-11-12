@@ -25,42 +25,50 @@
 || **MESSAGE_ID***
 [`integer`](../../data-types.md) | Идентификатор сообщения.
 
-Идентификатор возвращает метод [im.message.add](./im-message-add.md) ||
+Идентификатор возвращают методы [im.message.add](./im-message-add.md) и [im.dialog.messages.get](./im-dialog-messages-get.md).
+
+Изменить можно только свое сообщение и только в течение трех суток после отправки. Пересланное сообщение изменить нельзя ||
 || **MESSAGE**
 [`string`](../../data-types.md) | Новый текст сообщения. Если передать пустое значение, сообщение будет удалено.
 
 Если параметр не передан, текст сообщения не изменится ||
 || **ATTACH**
 [`object`](../../data-types.md)
-[`string`](../../data-types.md) | Вложение с блоками контента: изображения, ссылки, файлы. Чтобы удалить вложение, передайте `N` или пустое значение.
+[`string`](../../data-types.md) | Вложение с блоками контента: изображения, ссылки, файлы.
 
-Подробнее читайте в разделе [Вложения](./attachments.md) ||
+Передайте объект с массивом блоков в ключе `BLOCKS`, например `{"BLOCKS":[{"MESSAGE":"Текст блока"}]}`, или сам массив блоков. Чтобы удалить вложение, передайте `N` или пустое значение.
+
+Подробнее читайте в статье [Вложения](./attachments.md) ||
 || **KEYBOARD**
 [`object`](../../data-types.md)
-[`string`](../../data-types.md) | Кнопки под сообщением, с которыми может взаимодействовать пользователь. Чтобы отключить вывод кнопок, передайте `N` или пустое значение.
+[`string`](../../data-types.md) | Кнопки под сообщением, с которыми может взаимодействовать пользователь.
+
+Передайте объект с массивом кнопок в ключе `BUTTONS`, например `{"BUTTONS":[{"TEXT":"Открыть","LINK":"https://example.com"}]}`, или сам массив кнопок. Чтобы убрать кнопки, передайте `N` или пустое значение.
 
 Подробнее читайте в статье [Работа с клавиатурами](./keyboards.md) ||
 || **MENU**
 [`object`](../../data-types.md)
-[`string`](../../data-types.md) | Дополнительные пункты в контекстном меню чата. Чтобы отключить показ дополнительных пунктов меню, передайте `N` или пустое значение.
+[`string`](../../data-types.md) | Свои пункты в контекстном меню сообщения, например ссылка или копирование текста.
+
+Передайте объект с массивом пунктов в ключе `ITEMS`, например `{"ITEMS":[{"TEXT":"Открыть","LINK":"https://example.com"}]}`, или сам массив пунктов. Чтобы убрать свои пункты, передайте `N` или пустое значение.
 
 Подробнее читайте в статье [Контекстное меню](./menu.md) ||
 || **URL_PREVIEW**
-[`string`](../../data-types.md) | Преобразование ссылок в rich-ссылки.
+[`string`](../../data-types.md) | Показывать ли под ссылкой в сообщении карточку с заголовком, описанием и картинкой страницы.
 
 Допустимые значения:
-- `Y` — включено
-- `N` — выключено ||
+- `Y` — показывать карточку
+- `N` — не показывать ||
 || **IS_EDITED**
-[`string`](../../data-types.md) | Флаг отметки «изменено»:
-- `Y` — отметить
-- `N` — не отмечать
+[`string`](../../data-types.md) | Показывать ли у сообщения метку «изменено»:
+- `Y` — показать
+- `N` — не показывать
 
-По умолчанию — `Y` 
+По умолчанию — `Y`
 
 {% note info "" %}
 
-Параметр применяется при обновлении `ATTACH`. При изменении `MESSAGE` метка «изменено» может появиться даже если передан `IS_EDITED = 'N'`
+Параметр действует при изменении `ATTACH`. При изменении `MESSAGE` метка может появиться, даже если передать `N`
 
 {% endnote %} ||
 |#
@@ -77,7 +85,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"MESSAGE_ID":34239,"MESSAGE":"Обновленный текст","KEYBOARD":"N"}' \
+    -d '{"MESSAGE_ID":34239,"MESSAGE":"Обновленный текст"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.message.update
     ```
 
@@ -87,7 +95,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"MESSAGE_ID":34239,"MESSAGE":"Обновленный текст","KEYBOARD":"N","auth":"**put_access_token_here**"}' \
+    -d '{"MESSAGE_ID":34239,"MESSAGE":"Обновленный текст","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/im.message.update
     ```
 
@@ -106,8 +114,7 @@
         method: 'im.message.update',
         params: {
           MESSAGE_ID: 34239,
-          MESSAGE: 'Updated text',
-          KEYBOARD: 'N',
+          MESSAGE: 'Обновленный текст',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -140,8 +147,7 @@
             method: 'im.message.update',
             params: {
               MESSAGE_ID: 34239,
-              MESSAGE: 'Updated text',
-              KEYBOARD: 'N',
+              MESSAGE: 'Обновленный текст',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -173,7 +179,6 @@
         bitrix_response = client.im.message.update(
             message_id=34239,
             message="Обновленный текст",
-            keyboard="N",
         ).response
         result = bitrix_response.result
         print(result)
@@ -200,8 +205,7 @@
                 'im.message.update',
                 [
                     'MESSAGE_ID' => 34239,
-                    'MESSAGE' => 'Обновленный текст',
-                    'KEYBOARD' => 'N'
+                    'MESSAGE' => 'Обновленный текст'
                 ]
             );
 
@@ -225,8 +229,7 @@
         'im.message.update',
         {
             MESSAGE_ID: 34239,
-            MESSAGE: 'Обновленный текст',
-            KEYBOARD: 'N'
+            MESSAGE: 'Обновленный текст'
         },
         function(result)
         {
@@ -247,8 +250,7 @@
         'im.message.update',
         [
             'MESSAGE_ID' => 34239,
-            'MESSAGE' => 'Обновленный текст',
-            'KEYBOARD' => 'N'
+            'MESSAGE' => 'Обновленный текст'
         ]
     );
 
@@ -264,7 +266,6 @@
     res, err := client.Core().Call(ctx, "im.message.update", b24.Params{
     	"MESSAGE_ID": 34239,
     	"MESSAGE":    "Обновленный текст",
-    	"KEYBOARD":   "N",
     })
     if err != nil {
     	return fmt.Errorf("im.message.update: %w", err)
@@ -305,7 +306,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если сообщение обновлено ||
+[`boolean`](../../data-types.md) | `true`, если запрос выполнен без ошибки. Если передан только `MESSAGE_ID`, метод тоже вернет `true`, но сообщение не изменится ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -326,15 +327,15 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `MESSAGE_ID_ERROR` | Message ID can't be empty | Не передан или некорректен `MESSAGE_ID` ||
-|| `CANT_EDIT_MESSAGE` | Time has expired for modification or you don't have access | Нет прав на редактирование сообщения или истек срок изменения ||
-|| `ATTACH_ERROR` | Incorrect attach params | Невалидный объект `ATTACH` ||
-|| `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Размер `ATTACH` превышает допустимый ||
-|| `KEYBOARD_ERROR` | Incorrect keyboard params | Невалидный объект `KEYBOARD` ||
-|| `KEYBOARD_OVERSIZE` | You have exceeded the maximum allowable size of keyboard | Размер `KEYBOARD` превышает допустимый ||
-|| `menu_ERROR` | Incorrect menu params | Невалидный объект `MENU` ||
-|| `MENU_OVERSIZE` | You have exceeded the maximum allowable size of menu | Размер `MENU` превышает допустимый ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MESSAGE_ID_ERROR` | Message ID can't be empty | Параметр `MESSAGE_ID` не передан или его значение не больше `0` ||
+|| `403` | `CANT_EDIT_MESSAGE` | Time has expired for modification or you don't have access | Сообщение не найдено, удалено, переслано, отправлено другим пользователем или больше трех суток назад ||
+|| `400` | `ATTACH_ERROR` | Incorrect attach params | Невалидный объект `ATTACH` ||
+|| `400` | `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Размер `ATTACH` превышает допустимый ||
+|| `400` | `KEYBOARD_ERROR` | Incorrect keyboard params | Невалидный объект `KEYBOARD` ||
+|| `400` | `KEYBOARD_OVERSIZE` | You have exceeded the maximum allowable size of keyboard | Размер `KEYBOARD` превышает допустимый ||
+|| `400` | `menu_ERROR` | Incorrect menu params | Невалидный объект `MENU` ||
+|| `400` | `MENU_OVERSIZE` | You have exceeded the maximum allowable size of menu | Размер `MENU` превышает допустимый ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -343,7 +344,11 @@ HTTP-статус: **400**, **403**
 
 - [{#T}](./im-message-add.md)
 - [{#T}](./im-message-delete.md)
-- [{#T}](./keyboards.md)
-- [{#T}](./attachments.md)
-- [{#T}](./menu.md)
-
+- [{#T}](./im-message-like.md)
+- [{#T}](./im-message-share.md)
+- [{#T}](./im-message-command.md)
+- [{#T}](./im-dialog-messages-get.md)
+- [{#T}](./im-dialog-messages-search.md)
+- [{#T}](./im-dialog-read.md)
+- [{#T}](./im-dialog-unread.md)
+- [{#T}](./im-dialog-writing.md)
