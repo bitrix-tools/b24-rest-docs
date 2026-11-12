@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.userfield.settings.fields` возвращает описание полей настроек для указанного типа пользовательского поля.
+Метод `crm.userfield.settings.fields` возвращает описание настроек для указанного типа пользовательского поля.
 
 ## Параметры метода
 
@@ -23,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **type***
-[`string`](../../../data-types.md) | Тип пользовательского поля. Значение из списка, который возвращает метод [crm.userfield.types](./crm-userfield-types.md) ||
+[`string`](../../../data-types.md) | Код типа пользовательского поля из ответа метода [crm.userfield.types](./crm-userfield-types.md), например `string` или `enumeration`. Значение чувствительно к регистру: для `String` метод вернет пустой массив.
+
+Настройки по типам [(подробное описание)](#settings) ||
 |#
 
 ## Примеры кода
@@ -136,7 +138,7 @@
 
     try:
         bitrix_response = client.crm.userfield.settings.fields(
-            type="string",
+            type="double",
         ).response
         result = bitrix_response.result
         print(result)
@@ -222,11 +224,16 @@
     	return fmt.Errorf("crm.userfield.settings.fields: %w", err)
     }
 
+    // Для типов без настроек, например date, result — пустой массив []
+    if b24.IsEmpty(res.Result) {
+    	fmt.Println("у типа нет настроек")
+    	return nil
+    }
     keys, ok := b24.Keys(res.Result)
     if !ok {
     	return fmt.Errorf("ожидался объект в ответе")
     }
-    fmt.Println("полей в ответе:", len(keys))
+    fmt.Println("настроек в ответе:", len(keys))
     ```
 
 {% endlist %}
@@ -266,9 +273,40 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа с настройками поля. Итоговый перечень полей зависит от типа запрошенного поля ||
+[`object`](../../../data-types.md) | Описание настроек для типа `type`: ключ — код настройки, значение — описание настройки [(подробное описание)](#descriptor).
+
+Если у типа нет настроек, которые описывает метод, или тип неизвестен, возвращается пустой массив `[]` [(подробное описание)](#settings) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Настройки по типам полей {#settings}
+
+Состав ключей `result` зависит от типа поля. Ключи передают в `SETTINGS` при создании или изменении поля, например в [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md). Метод REST 3.0 [crm.<тип>.field.custom.add](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md) принимает те же настройки в camelCase, например `iblockId` вместо `IBLOCK_ID`. Поля типов `enumeration`, `file` и типов приложений он не создает.
+
+#|
+|| **Тип поля** | **Ключи result** ||
+|| `string` | `DEFAULT_VALUE` (`string`) — значение по умолчанию, `ROWS` (`int`) — количество строк в поле ввода ||
+|| `integer` | `DEFAULT_VALUE` (`int`) — значение по умолчанию ||
+|| `double` | `DEFAULT_VALUE` (`double`) — значение по умолчанию, `PRECISION` (`int`) — точность ||
+|| `boolean` | `DEFAULT_VALUE` (`int`) — значение по умолчанию, `DISPLAY` (`string`) — внешний вид ||
+|| `datetime` | `DEFAULT_VALUE` (`datetime`) — значение по умолчанию ||
+|| `enumeration` | `DISPLAY` (`string`) — внешний вид, `LIST_HEIGHT` (`int`) — высота списка. Элементы списка описывает метод [crm.userfield.enumeration.fields](./crm-userfield-enumeration-fields.md) ||
+|| `iblock_section`, `iblock_element` | `DEFAULT_VALUE` (`int`) — значение по умолчанию, `IBLOCK_ID` (`int`) — идентификатор инфоблока, `IBLOCK_TYPE_ID` (`string`) — идентификатор типа инфоблока, `DISPLAY` (`string`) — внешний вид, `LIST_HEIGHT` (`int`) — высота списка, `ACTIVE_FILTER` (`char`) — показывать только активные элементы ||
+|| `crm_status` | `ENTITY_TYPE` (`string`) — справочник CRM, к которому привязано поле ||
+|| `crm` | `LEAD`, `CONTACT`, `COMPANY`, `DEAL` (`char`) — к каким объектам CRM можно привязать значение ||
+|| `date`, `money`, `url`, `address`, `file`, `employee`, типы приложений | Пустой массив `[]` ||
+|#
+
+#### Описание настройки {#descriptor}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../../data-types.md) | Тип значения настройки: `string`, `int`, `double`, `datetime` или `char` ||
+|| **title**
+[`string`](../../../data-types.md) | Название настройки на языке интерфейса Битрикс24 ||
 |#
 
 ## Обработка ошибок
@@ -298,3 +336,6 @@ HTTP-статус: **400**
 - [{#T}](./crm-userfield-types.md)
 - [{#T}](./crm-userfield-fields.md)
 - [{#T}](./crm-userfield-enumeration-fields.md)
+- [{#T}](../../deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md)
+- [{#T}](./index.md)

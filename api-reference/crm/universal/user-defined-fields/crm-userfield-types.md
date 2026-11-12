@@ -15,23 +15,27 @@
 
 Метод `crm.userfield.types` получает доступные типы пользовательских полей.
 
-Возвращаются типы:
+Возвращаются стандартные типы:
 - `string` — строка
 - `integer` — целое число
 - `double` — число
 - `boolean` — да/нет
-- `datetime` — дата и время
 - `enumeration` — список
-- `iblock_section` — привязка к разделам инф. блоков
-- `iblock_element` — привязка к элементам инфоблоков
-- `employee` — привязка к сотруднику
-- `crm_status` — привязка к справочнику CRM
-- `crm` — привязка к элементам CRM
-- `address` — адрес Google карты
+- `datetime` — дата и время
+- `date` — дата
 - `money` — деньги
 - `url` — ссылка
+- `address` — адрес Google карты
+- `file` — файл
+- `employee` — привязка к сотруднику
+- `crm_status` — привязка к справочникам CRM
+- `iblock_section` — привязка к разделам инфоблоков
+- `iblock_element` — привязка к элементам инфоблоков
+- `crm` — привязка к элементам CRM
 
-Также метод возвращает [пользовательские типы](./userfield-type.md), зарегистрированные текущим приложением.
+При вызове из приложения по OAuth метод возвращает в конце списка [пользовательские типы](./userfield-type.md) — типы приложения, которые оно зарегистрировало методом [userfieldtype.add](../../../widgets/user-field/userfieldtype-add.md). При вызове через вебхук возвращаются только стандартные типы.
+
+Метод REST 3.0 [crm.<тип>.field.custom.add](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md) не создает поля типов `enumeration`, `file` и типов приложений. Для них используйте [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) или `crm.*.userfield.add`, например [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md).
 
 ## Параметры метода
 
@@ -214,7 +218,7 @@
 
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
-    res, err := client.Core().Call(ctx, "crm.userfield.types", nil)
+    res, err := client.Core().Call(ctx, "crm.userfield.types", nil, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("crm.userfield.types: %w", err)
     }
@@ -335,12 +339,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`string`](../../../data-types.md) | Код типа пользовательского поля ||
+[`string`](../../../data-types.md) | Код типа пользовательского поля. Код стандартного типа передавайте в `USER_TYPE_ID` и в параметр `type` метода [crm.userfield.settings.fields](./crm-userfield-settings-fields.md) без изменений. К коду типа приложения при создании поля добавьте префикс `rest_<APP_ID>_`, например `rest_123_userfield1` ||
 || **title**
 [`string`](../../../data-types.md) | Название типа пользовательского поля ||
 |#
 
 ## Обработка ошибок
+
+Собственных ошибок у метода нет: он не проверяет права в CRM и не принимает параметров.
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
@@ -348,6 +354,10 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
+- [{#T}](./userfield-type.md)
 - [{#T}](./crm-userfield-fields.md)
 - [{#T}](./crm-userfield-settings-fields.md)
 - [{#T}](./crm-userfield-enumeration-fields.md)
+- [{#T}](../../rest-v3/fields/crm-entity-field-custom-add-rest-v3.md)
+- [{#T}](../userfieldconfig/index.md)
+- [{#T}](./index.md)

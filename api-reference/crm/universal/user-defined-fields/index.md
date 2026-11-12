@@ -17,39 +17,40 @@
 >
 > Пользовательская документация: [Пользовательские поля в CRM](https://helpdesk.bitrix24.ru/open/22048980/)
 
-## Как выбрать раздел
+## Как выбрать раздел {#how-to-choose}
 
 В документации есть несколько разделов про пользовательские поля. Выберите нужный по задаче.
 
 #|
 || **Если вам нужно** | **Открывайте раздел** ||
 || Узнать типы, характеристики, настройки и формат списков | Текущий раздел ||
-|| Создать, изменить или удалить поле для любого объекта | [Настройки пользовательских полей](../userfieldconfig/index.md) ||
-|| Создать поле для конкретного объекта его собственными методами | Разделы `crm.*.userfield.*`: [лиды](../../leads/userfield/index.md), [сделки](../../deals/user-defined-fields/index.md), [контакты](../../contacts/userfield/index.md), [компании](../../companies/userfields/index.md), [предложения](../../quote/user-field/index.md), [реквизиты](../../requisites/user-fields/index.md) ||
+|| Создать, изменить или удалить поле лида, сделки, контакта, компании, предложения, счета или смарт-процесса в новой интеграции | [Поля CRM в REST 3.0](../../rest-v3/fields/index.md), методы `crm.<тип>.field.custom.*` ||
+|| Создать поле типа `enumeration`, `file` или типа приложения | [Настройки пользовательских полей](../userfieldconfig/index.md) или объектный метод `crm.*.userfield.add`. REST 3.0 такие поля не создает ||
+|| Создать поле реквизита или поддерживать интеграцию на объектных методах | Разделы `crm.*.userfield.*`: [лиды](../../leads/userfield/index.md), [сделки](../../deals/user-defined-fields/index.md), [контакты](../../contacts/userfield/index.md), [компании](../../companies/userfields/index.md), [предложения](../../quote/user-field/index.md), [реквизиты](../../requisites/user-fields/index.md). Методы лидов, сделок, контактов, компаний и предложений устарели ||
 || Вывести в поле интерфейс своего приложения | [Пользовательские типы полей в CRM](./userfield-type.md) ||
 |#
 
-## Связь пользовательских полей с объектами CRM
+## Связь с объектами CRM
 
-**Объекты CRM.** Объектные методы `crm.*.userfield.*` используют справочную информацию из этого раздела для [лидов](../../leads/userfield/index.md), [сделок](../../deals/user-defined-fields/index.md), [контактов](../../contacts/userfield/index.md), [компаний](../../companies/userfields/index.md), [предложений](../../quote/user-field/index.md) и [реквизитов](../../requisites/user-fields/index.md).
+**Объекты CRM.** Методы этого раздела от объекта не зависят: характеристики, типы и настройки одинаковы для всех объектов CRM. Объект задается при создании поля. Объектные методы `crm.*.userfield.add` подставляют `ENTITY_ID` сами. В REST 3.0 объект указывают в имени метода, например `crm.deal.field.custom.add`.
 
 ## Ключевые термины {#key-terms}
 
-- `ENTITY_ID` — код CRM-объекта, к которому привязано поле
+- `ENTITY_ID` — код объекта CRM, к которому привязано поле, например `CRM_DEAL`
 - `FIELD_NAME` — код пользовательского поля в формате `UF_CRM_*`
 - `USER_TYPE_ID` — тип данных пользовательского поля, полный список значений возвращает [crm.userfield.types](./crm-userfield-types.md)
 - `SETTINGS` — настройки поля, которые зависят от выбранного типа
 - `LIST` — набор элементов для поля типа `enumeration`
-- `MULTIPLE` — признак множественного поля: `Y` или `N`. Значения множественного поля передают массивом в [crm.item.add](../crm-item-add.md) и [crm.item.update](../crm-item-update.md), даже если значение одно, а [crm.item.get](../crm-item-get.md) возвращает их массивом
+- `MULTIPLE` — признак множественного поля: `Y` или `N`. Значения такого поля [crm.item.add](../crm-item-add.md) и [crm.item.update](../crm-item-update.md) принимают массивом, даже если значение одно. [crm.item.get](../crm-item-get.md) тоже возвращает их массивом
 
 ## Как начать работу
 
-1. Определите объект CRM, для которого нужно добавить поле, и откройте его раздел `crm.*.userfield.*`. Например, [crm.lead.userfield.*](../../leads/userfield/index.md), [crm.deal.userfield.*](../../deals/user-defined-fields/index.md), [crm.contact.userfield.*](../../contacts/userfield/index.md).
-2. Получите доступные типы через [crm.userfield.types](./crm-userfield-types.md) и выберите подходящий `USER_TYPE_ID`.
-3. Получите структуру поля через [crm.userfield.fields](./crm-userfield-fields.md), чтобы проверить обязательные характеристики.
-4. Для выбранного типа получите настройки через [crm.userfield.settings.fields](./crm-userfield-settings-fields.md), где параметр `type` для стандартных типов совпадает с `USER_TYPE_ID`.
+1. Получите доступные типы через [crm.userfield.types](./crm-userfield-types.md) и выберите подходящий `USER_TYPE_ID`.
+2. Выберите метод создания поля по таблице [Как выбрать раздел](#how-to-choose): метод зависит от типа поля и объекта.
+3. Получите структуру поля через [crm.userfield.fields](./crm-userfield-fields.md), чтобы узнать, какие характеристики задаются только при создании, а какие система заполняет сама.
+4. Для выбранного типа получите настройки через [crm.userfield.settings.fields](./crm-userfield-settings-fields.md).
 5. Если тип `enumeration`, проверьте формат элементов списка через [crm.userfield.enumeration.fields](./crm-userfield-enumeration-fields.md).
-6. После этого создайте или обновите поле в объектном разделе.
+6. Создайте поле выбранным методом. В REST 3.0 ключи поля и настроек передаются в camelCase: `userTypeId` вместо `USER_TYPE_ID`, `iblockId` вместо `IBLOCK_ID`.
 
 {% note tip "Дополнительно" %}
 
@@ -67,7 +68,7 @@
 || **Метод** | **Описание** ||
 || [crm.userfield.types](./crm-userfield-types.md) | Возвращает список типов пользовательских полей ||
 || [crm.userfield.fields](./crm-userfield-fields.md) | Возвращает описание характеристик пользовательских полей ||
-|| [crm.userfield.settings.fields](./crm-userfield-settings-fields.md) | Возвращает описание полей настроек для указанного типа ||
+|| [crm.userfield.settings.fields](./crm-userfield-settings-fields.md) | Возвращает описание настроек для указанного типа ||
 || [crm.userfield.enumeration.fields](./crm-userfield-enumeration-fields.md) | Возвращает описание полей для пользовательского поля типа `enumeration` ||
 |#
 

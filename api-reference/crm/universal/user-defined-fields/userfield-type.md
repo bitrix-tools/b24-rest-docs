@@ -9,34 +9,54 @@
 
 {% endnote %}
 
-В CRM можно создавать поля двух типов:
-- стандартные: число, строка, дата, адрес, ссылка, файл и так далее,
-- пользовательские: встройки приложений внутри карточки CRM.
-  
-С помощью полей пользовательского типа можно:
-
-- выводить в карточке CRM данные, которым не подходят стандартные типы полей. Значение поля сохраняется в Битрикс24, а приложение показывает его внутри поля и при необходимости дополняет данными из своего сервиса.
-- создавать элементы интерфейса в карточках CRM. Например, выводить внутри поля кнопки для управления приложением.
-- интегрировать внешние сервисы в карточку CRM. Например, выводить в поле динамическую информацию. При каждом открытии карточки поле будет совершать запрос к обработчику приложения и автоматически подгружать свежие данные.
+Статья объясняет, как приложение регистрирует свой тип поля, как создать поле этого типа в карточке CRM и как разобрать типовые ошибки. Работа обработчика внутри поля описана в статье [Пользовательские типы полей: обзор методов](../../../widgets/user-field/index.md).
 
 > Быстрый переход: [все методы](#all-methods)
 >
-> Пользовательская документация: [Работа с пользовательскими полями](https://helpdesk.bitrix24.ru/open/22048980/)
+> Пользовательская документация: [Пользовательские поля в CRM](https://helpdesk.bitrix24.ru/open/22048980/)
 
-## Связь с объектами CRM
+## Стандартные и пользовательские типы
 
-Пользовательские типы полей можно добавлять в карточки:
-- [сделок](../../deals/index.md) — используйте методы [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
-- [лидов](../../leads/index.md) — [crm.lead.userfield.add](../../leads/userfield/crm-lead-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
-- [контактов](../../contacts/index.md) — [crm.contact.userfield.add](../../contacts/userfield/crm-contact-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
-- [компаний](../../companies/index.md) — [crm.company.userfield.add](../../companies/userfields/crm-company-userfield-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
-- [новых счетов](../invoice.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
-- [коммерческих предложений](../../quote/index.md) — [crm.quote.userfield.add](../../quote/user-field/crm-quote-user-field-add.md) или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md),
-- [смарт-процессов](../index.md) — [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md).
+Поле CRM может иметь стандартный или пользовательский тип:
 
-В поле `USER_TYPE_ID` передавайте значение по форме `rest_#ID_приложения#_#USER_TYPE_ID#`. Например, для приложения с `ID: 123` и `USER_TYPE_ID: userfield1` значение будет `rest_123_userfield1`.
+- стандартные типы — строка, число, дата, список, адрес, ссылка, файл и другие. Их полный список возвращает метод [crm.userfield.types](./crm-userfield-types.md)
+- пользовательские типы — типы, которые приложение регистрирует методом [userfieldtype.add](../../../widgets/user-field/userfieldtype-add.md). Поле такого типа показывает в карточке CRM интерфейс приложения — это встройка
 
-Чтобы получить `ID` приложения, используйте метод [app.info](../../../common/system/app-info.md).
+Если значение — обычный текст, число, дата или выбор из списка, подойдет стандартный тип. Пользовательский тип нужен, если поле должно:
+
+- выводить данные, для которых не подходят стандартные типы. Значение хранится в Битрикс24, а приложение показывает его и при необходимости дополняет данными своего сервиса
+- выводить элементы управления, например кнопки приложения
+- подгружать данные внешнего сервиса: при каждом открытии карточки поле запрашивает обработчик приложения
+
+## Как работает пользовательский тип поля
+
+1. Приложение регистрирует тип методом [userfieldtype.add](../../../widgets/user-field/userfieldtype-add.md): передает код типа `USER_TYPE_ID` и адрес обработчика `HANDLER`. Код типа сохраняется строчными буквами: `MyField` превратится в `myfield`.
+2. Поле этого типа создают с полным кодом `rest_<APP_ID>_<USER_TYPE_ID>`, где `APP_ID` — значение `ID` из ответа метода [app.info](../../../common/system/app-info.md).
+3. Когда пользователь открывает карточку, Битрикс24 загружает `HANDLER` во фрейме поля и передает данные поля и элемента в `PLACEMENT_OPTIONS`.
+4. Обработчик передает значение в форму карточки командой `setValue` через [BX24.placement.call](../../../widgets/ui-interaction/bx24-placement-call.md). Значение запишется в Битрикс24, когда пользователь сохранит карточку.
+
+Методы `userfieldtype.*` работают только в контексте приложения: при вызове через вебхук они возвращают ошибку `WRONG_AUTH_TYPE`. Вызывать их может только администратор. Для создания поля эти условия не действуют. Поле по полному коду типа можно создать через вебхук или из другого приложения — нужны только права и scope из раздела [Как создать поле пользовательского типа](#create-field).
+
+## Как создать поле пользовательского типа {#create-field}
+
+Поле создают универсальным методом [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) или методом `crm.*.userfield.add` нужного объекта.
+
+Методы `crm.*.userfield.add` устарели, но поля с типами приложений создают. Методы REST 3.0 `crm.<тип>.field.custom.add`, которые их заменяют, такие поля не создают.
+
+#|
+|| **Объект** | **Метод создания поля** ||
+|| [Сделка](../../deals/index.md) | [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md) ||
+|| [Лид](../../leads/index.md) | [crm.lead.userfield.add](../../leads/userfield/crm-lead-userfield-add.md) ||
+|| [Контакт](../../contacts/index.md) | [crm.contact.userfield.add](../../contacts/userfield/crm-contact-userfield-add.md) ||
+|| [Компания](../../companies/index.md) | [crm.company.userfield.add](../../companies/userfields/crm-company-userfield-add.md) ||
+|| [Предложение](../../quote/index.md) | [crm.quote.userfield.add](../../quote/user-field/crm-quote-user-field-add.md) ||
+|| [Новый счет](../invoice.md) | Только [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) ||
+|| [Смарт-процесс](../user-defined-object-types/index.md) | Только [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md) ||
+|#
+
+В методах `crm.*.userfield.add` полный код передают в `fields.USER_TYPE_ID`, в `userfieldconfig.add` — в `field.userTypeId`. Например, для приложения с `ID: 123` и типа `userfield1` код будет `rest_123_userfield1`.
+
+Методам `crm.*.userfield.add` нужен scope `crm`, методу `userfieldconfig.add` — scope `userfieldconfig` и `crm`. Всем этим методам нужно право «Разрешить изменять настройки» в CRM.
 
 ## Ошибки при работе с пользовательскими типами полей
 
@@ -44,68 +64,66 @@
 
 При создании поля с пользовательским типом можно получить ошибку `Error! 400: ERROR_CORE: Указан неверный пользовательский тип. (400)`.
 
-1. Выполните метод [userfieldtype.list](../../../widgets/user-field/userfieldtype-list.md).
+1. Выполните метод [userfieldtype.list](../../../widgets/user-field/userfieldtype-list.md) из того приложения, которое регистрировало тип: метод возвращает только типы вызывающего приложения.
 
-   - Если метод вернул тип поля `USER_TYPE_ID`,  переходите к пункту 2.
+   - Если в списке есть нужный тип, сверьте код в запросе на создание поля. Нужен полный код `rest_<APP_ID>_<USER_TYPE_ID>`, где `USER_TYPE_ID` — значение из ответа `userfieldtype.list`. Если код верный, переходите к пункту 2.
 
    - Если нужный тип поля не найден, зарегистрируйте новый тип методом [userfieldtype.add](../../../widgets/user-field/userfieldtype-add.md).
 
-2. Выполните метод [app.info](../../../common/system/app-info.md). Метод проверит корректность установки приложения.
+2. Выполните метод [app.info](../../../common/system/app-info.md). Метод возвращает флаг `INSTALLED` — признак завершенной установки.
 
    - Если метод вернул `INSTALLED = true`, приложение установлено корректно.
 
-   - Если метод вернул `INSTALLED = false`, выполните на странице приложения метод [BX24.installFinish](../../../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md). Метод завершит установку приложения с интерфейсом.
+   - Если метод вернул `INSTALLED = false`, вызовите на странице приложения функцию [BX24.installFinish](../../../../sdk/bx24-js-sdk/system-functions/bx24-install-finish.md). Она завершит установку приложения с интерфейсом.
 
-    ```javascript
-    BX24.init(function(){
-        BX24.installFinish();
-    });
-    ```
+     ```javascript
+     BX24.init(function(){
+         BX24.installFinish();
+     });
+     ```
 
-### Ошибка 50x при загрузке поля
+### Обработчик не открывается в поле
 
-Если поле создалось без ошибок, но контент в нем не загружается:
+Если поле создано, но обработчик в нем не открывается или показывает ошибку:
 
-1. Проверьте URL обработчика `HANDLER`, указанный при регистрации поля, методом [userfieldtype.list](../../../widgets/user-field/userfieldtype-list.md). Чтобы изменить `HANDLER`, используйте метод [userfieldtype.update](../../../widgets/user-field/userfieldtype-update.md).
+1. Проверьте URL обработчика `HANDLER`, указанный при регистрации типа поля, методом [userfieldtype.list](../../../widgets/user-field/userfieldtype-list.md). Чтобы изменить `HANDLER`, используйте метод [userfieldtype.update](../../../widgets/user-field/userfieldtype-update.md).
 
 2. Убедитесь, что обработчик доступен из интернета:
 
-   - не используйте локальные адреса: localhost, 192.168.* и другие адреса, доступные только из локальной сети,
+   - не используйте локальные адреса: localhost, 192.168.* и другие адреса, доступные только из локальной сети
 
-   - проверьте доступность обработчика с помощью публичных сервисов «доступности сайта».
+   - проверьте, что адрес `HANDLER` открывается с устройства вне вашей сети
 
 3. Проверьте:
 
-   - корректность SSL-сертификата, если используется HTTPS,
+   - что SSL-сертификат обработчика корректный
 
-   - отсутствие блокировок в .htaccess или firewall на сервере обработчика,
+   - что в .htaccess и firewall на сервере обработчика нет блокировок
 
-   - возвращаемые HTTP-коды, должен быть 200 OK.
+## Требования и рекомендации
 
-## Общие рекомендации
+- Обработчик должен открываться по HTTPS: страница Битрикс24 открыта по HTTPS, и браузер блокирует загрузку фрейма по HTTP.
 
-- Используйте HTTPS-протокол для обработчиков, иначе браузеры могут блокировать загрузку контента приложения.
+- Давайте понятные названия типам полей: учитывайте назначение поля и связь с приложением.
 
-- Давайте понятные названия для типов полей: учитывайте назначение поля и связь с приложением. Тип поля нельзя переименовать после создания — только удалить и зарегистрировать заново.
-
-{% note tip "Частые кейсы и сценарии" %}
-
--  [Встроить виджет в лид в виде пользовательского поля](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md)
-
--  [Механизм встраивания виджетов](../../../widgets/index.md)
-
-{% endnote %}
+- Код типа `USER_TYPE_ID` после регистрации не меняется: `userfieldtype.update` изменяет только название, описание и обработчик. Для нового кода удалите тип и зарегистрируйте заново.
 
 ## Обзор методов {#all-methods}
 
-> Scope: [`placement, crm`](../../../scopes/permissions.md)
-> 
-> Кто может выполнять метод: администратор
+> Scope: [`placement`](../../../scopes/permissions.md)
+>
+> Кто может выполнять методы: администратор, только в контексте приложения
 
 #|
 || **Метод** | **Описание** ||
 || [userfieldtype.add](../../../widgets/user-field/userfieldtype-add.md) | Регистрирует новый тип пользовательского поля ||
 || [userfieldtype.update](../../../widgets/user-field/userfieldtype-update.md) | Изменяет параметры существующего типа поля ||
-|| [userfieldtype.list](../../../widgets/user-field/userfieldtype-list.md) | Возвращает список зарегистрированных типов полей ||
+|| [userfieldtype.list](../../../widgets/user-field/userfieldtype-list.md) | Возвращает типы полей, которые зарегистрировало вызывающее приложение ||
 || [userfieldtype.delete](../../../widgets/user-field/userfieldtype-delete.md) | Удаляет зарегистрированный тип поля ||
 |#
+
+## Продолжите изучение
+
+- [{#T}](../../../widgets/user-field/index.md)
+- [{#T}](../../../../tutorials/crm/crm-widgets/widget-as-field-in-lead-page.md)
+- [{#T}](../../../widgets/index.md)
