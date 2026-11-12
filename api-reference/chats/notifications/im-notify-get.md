@@ -13,9 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `im.notify.get` возвращает список уведомлений пользователя частями. Следующая часть запрашивается через `LAST_ID` и `LAST_TYPE`.
-
-Сортировка уведомлений: сначала по убыванию даты создания, затем по убыванию идентификаторов.
+Метод `im.notify.get` возвращает уведомления текущего пользователя постранично.
 
 ## Параметры метода
 
@@ -25,33 +23,34 @@
 || **Название**
 `тип` | **Описание** ||
 || **LAST_ID**
-[`integer`](../../data-types.md) | Идентификатор последнего уведомления предыдущей страницы для загрузки следующей. Обычно берется из поля `id` последнего элемента массива `notifications` в ответе предыдущего шага выборки или в ответе [im.notify.history.search](./im-notify-history-search.md)
+[`integer`](../../data-types.md) | Идентификатор последнего уведомления на предыдущей странице — поле `id` последнего элемента массива `notifications`. Метод вернет уведомления с идентификатором меньше `LAST_ID`.
 
-Идентификатор уведомления также возвращают методы [im.notify](./im-notify.md), [im.notify.personal.add](./im-notify-personal-add.md) и [im.notify.system.add](./im-notify-system-add.md).
-
-Параметр нужно использовать вместе с `LAST_TYPE` ||
+Для первой страницы не передавайте. Передавайте вместе с `LAST_TYPE`, иначе метод вернет ошибку `LAST_ID_AND_LAST_TYPE`. Значение должно состоять только из цифр, иначе метод вернет ошибку `LAST_ID_STRING` ||
 || **LAST_TYPE**
-[`integer`](../../data-types.md) | Технический курсор пагинации.
+[`integer`](../../data-types.md) | Тип последнего уведомления на предыдущей странице. Допустимые значения:
+- `1` — последнее уведомление требует подтверждения, его поле `notify_type` равно `1`
+- `3` — последнее уведомление обычное, его поле `notify_type` равно `2` или `4`
 
-Допустимые значения:
-- `1` — продолжить выборку с этапа подтверждений
-- `3` — продолжить выборку с этапа обычных уведомлений
+Для первой страницы не передавайте. Передавайте вместе с `LAST_ID`.
 
-Параметр нужно использовать вместе с `LAST_ID`.
-
-Для значений, отличных от `1` и `3`, сервер не возвращает отдельную ошибку ||
+Если передать `1`, когда последним было обычное уведомление, метод вернет обычные уведомления с начала списка, и они повторятся. При других значениях метод вернет пустой массив `notifications` ||
 || **LIMIT**
-[`integer`](../../data-types.md) | Количество уведомлений на страницу. Значение по умолчанию — `50`. Максимальное значение — `50` ||
+[`integer`](../../data-types.md) | Количество уведомлений на странице. По умолчанию — `50`, максимум — `50`. Большее значение метод уменьшает до `50`.
+
+Не передавайте `0` и отрицательные значения: метод не вернет обычные уведомления ||
 || **CONVERT_TEXT**
-[`string`](../../data-types.md) | Преобразовать текст уведомлений. Значение `Y` включает преобразование, любое другое значение отключает ||
+[`string`](../../data-types.md) | Метод принимает параметр, но не учитывает его ||
 |#
 
-На одной странице метод может вернуть смешанный набор уведомлений: сначала подтверждения, затем обычные уведомления для добора до `LIMIT`.
+### Как получить все уведомления {#pagination}
 
-Для стабильной постраничной выборки:
+Метод сортирует уведомления по убыванию даты создания, затем по убыванию `id`. Сначала на страницу попадают уведомления, которые требуют подтверждения, затем метод добирает страницу обычными уведомлениями.
 
-- передавайте `LAST_ID` последнего элемента предыдущей страницы
-- используйте `LAST_TYPE` из предыдущего шага пагинации
+1. Запросите первую страницу без `LAST_ID` и `LAST_TYPE`
+2. Возьмите последний элемент массива `notifications`. Передайте его `id` в `LAST_ID`. Если его `notify_type` равен `1`, передайте `LAST_TYPE` = `1`, иначе `LAST_TYPE` = `3`
+3. Повторяйте шаг 2, пока метод не вернет меньше уведомлений, чем `LIMIT`
+
+Ответ не содержит готового курсора следующей страницы: `LAST_ID` и `LAST_TYPE` вычисляйте по последнему элементу.
 
 ## Примеры кода
 
@@ -65,7 +64,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"LAST_ID":1500,"LAST_TYPE":3,"LIMIT":20,"CONVERT_TEXT":"Y"}' \
+      -d '{"LAST_ID":1500,"LAST_TYPE":3,"LIMIT":20}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/im.notify.get
     ```
 
@@ -75,7 +74,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"LAST_ID":1500,"LAST_TYPE":3,"LIMIT":20,"CONVERT_TEXT":"Y","auth":"**put_access_token_here**"}' \
+      -d '{"LAST_ID":1500,"LAST_TYPE":3,"LIMIT":20,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/im.notify.get
     ```
 
@@ -102,9 +101,9 @@
       notify_title: string
       setting_name: string
       text: string
-      notify_read: string
-      notify_buttons?: string
       params: object | null
+      notify_read: 'Y' | 'N'
+      notify_buttons?: string
     }
 
     type UserItem = {
@@ -113,20 +112,22 @@
       name: string
       first_name: string
       last_name: string
-      work_position: string
+      work_position: string | null
       color: string
       avatar: string
       avatar_hr: string
-      gender: string
+      gender: 'M' | 'F'
       birthday: string
       extranet: boolean
       network: boolean
       bot: boolean
       connector: boolean
       external_auth_id: string
+      internal_account: boolean
+      intranet_user: boolean
       status: string
       idle: ISODate | false
-      last_activity_date: ISODate
+      last_activity_date: ISODate | false
       mobile_last_date: ISODate | false
       desktop_last_date: ISODate | false
       absent: ISODate | false
@@ -139,10 +140,11 @@
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
+    // total_count, total_unread_count and chat_id are absent when the user has no notifications
     type ImNotifyGetResult = {
-      total_count: number
-      total_unread_count: number
-      chat_id: number
+      total_count?: number
+      total_unread_count?: number
+      chat_id?: number
       notifications: NotificationItem[]
       users: UserItem[]
     }
@@ -154,7 +156,6 @@
           LAST_ID: 1500,
           LAST_TYPE: 3,
           LIMIT: 20,
-          CONVERT_TEXT: 'Y',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -164,8 +165,13 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Total notifications:', result.total_count, 'Unread:', result.total_unread_count)
         console.info('Notifications on page:', result.notifications.length)
+
+        // Cursor for the next page is built from the last notification
+        const last = result.notifications.at(-1)
+        if (last && result.notifications.length === 20) {
+          console.info('Next page:', { LAST_ID: last.id, LAST_TYPE: last.notify_type === 1 ? 1 : 3 })
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -190,7 +196,6 @@
               LAST_ID: 1500,
               LAST_TYPE: 3,
               LIMIT: 20,
-              CONVERT_TEXT: 'Y',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -202,8 +207,13 @@
           }
 
           const result = response.getData().result
-          console.info('Total notifications:', result.total_count, 'Unread:', result.total_unread_count)
           console.info('Notifications on page:', result.notifications.length)
+
+          // Cursor for the next page is built from the last notification
+          const last = result.notifications.at(-1)
+          if (last && result.notifications.length === 20) {
+            console.info('Next page:', { LAST_ID: last.id, LAST_TYPE: last.notify_type === 1 ? 1 : 3 })
+          }
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -224,7 +234,6 @@
             last_id=1500,
             last_type=3,
             limit=20,
-            convert_text=True,
         ).response
         result = bitrix_response.result
         print(result)
@@ -251,7 +260,6 @@
                 'LAST_ID' => 1500,
                 'LAST_TYPE' => 3,
                 'LIMIT' => 20,
-                'CONVERT_TEXT' => 'Y',
             ]
         );
 
@@ -272,7 +280,6 @@
             LAST_ID: 1500,
             LAST_TYPE: 3,
             LIMIT: 20,
-            CONVERT_TEXT: 'Y',
         },
         function(result) {
             if (result.error()) {
@@ -295,7 +302,6 @@
             'LAST_ID' => 1500,
             'LAST_TYPE' => 3,
             'LIMIT' => 20,
-            'CONVERT_TEXT' => 'Y',
         ]
     );
 
@@ -311,10 +317,9 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "im.notify.get", b24.Params{
-    	"LAST_ID":      1500,
-    	"LAST_TYPE":    3,
-    	"LIMIT":        20,
-    	"CONVERT_TEXT": "Y",
+    	"LAST_ID":   1500,
+    	"LAST_TYPE": 3,
+    	"LIMIT":     20,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("im.notify.get: %w", err)
@@ -324,11 +329,26 @@
     	TotalCount       int `json:"total_count"`
     	TotalUnreadCount int `json:"total_unread_count"`
     	ChatID           int `json:"chat_id"`
+    	Notifications    []struct {
+    		ID         int    `json:"id"`
+    		NotifyType int    `json:"notify_type"`
+    		Text       string `json:"text"`
+    	} `json:"notifications"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.TotalCount, item.TotalUnreadCount)
+    fmt.Println(item.TotalCount, item.TotalUnreadCount, len(item.Notifications))
+
+    // Курсор следующей страницы строится по последнему уведомлению
+    if n := len(item.Notifications); n == 20 {
+    	last := item.Notifications[n-1]
+    	lastType := 3
+    	if last.NotifyType == 1 {
+    		lastType = 1
+    	}
+    	fmt.Println("LAST_ID:", last.ID, "LAST_TYPE:", lastType)
+    }
     ```
 
 {% endlist %}
@@ -340,72 +360,103 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "total_count": 120,
-        "total_unread_count": 5,
-        "chat_id": 77,
+        "total_count": 34,
+        "total_unread_count": 13,
+        "chat_id": 2535,
         "notifications": [
             {
-                "id": 1500,
-                "chat_id": 77,
-                "author_id": 1,
-                "date": "2026-03-03T09:00:00+00:00",
+                "id": 1499,
+                "chat_id": 2535,
+                "author_id": 0,
+                "date": "2026-11-10T16:30:11+03:00",
+                "notify_type": 4,
+                "notify_module": "rest",
+                "notify_event": "rest_notify",
+                "notify_tag": "",
+                "notify_sub_tag": "",
+                "notify_title": "",
+                "setting_name": "rest|rest_notify",
+                "text": "Счет [B]№ 42[/B] оплачен",
+                "params": {
+                    "ATTACH": [
+                        {
+                            "ID": 1794317528,
+                            "BLOCKS": [
+                                {
+                                    "MESSAGE": "Сумма: 15 000 руб."
+                                }
+                            ],
+                            "DESCRIPTION": "",
+                            "COLOR": "#29619b",
+                            "COLOR_TOKEN": "base"
+                        }
+                    ]
+                },
+                "notify_read": "N"
+            },
+            {
+                "id": 1497,
+                "chat_id": 2535,
+                "author_id": 15,
+                "date": "2026-11-10T16:29:54+03:00",
                 "notify_type": 2,
                 "notify_module": "rest",
                 "notify_event": "rest_notify",
-                "notify_tag": "MP|12345|TASK_42",
-                "notify_sub_tag": "MP|12345|TASK|42",
+                "notify_tag": "",
+                "notify_sub_tag": "",
                 "notify_title": "",
                 "setting_name": "rest|rest_notify",
-                "text": "Напоминание",
-                "notify_read": "N",
-                "params": null
+                "text": "Проверьте договор до конца дня",
+                "params": null,
+                "notify_read": "N"
             }
         ],
         "users": [
             {
-                "id": 1,
-                "active":true,
+                "id": 15,
+                "active": true,
                 "name": "Иван Петров",
-                "first_name":"Иван",
-                "last_name":"Петров",
-                "work_position":"",
-                "color":"#1eb4aa",
-                "avatar":"https://example.bitrix24.ru/upload/main/avatar.png",
-                "avatar_hr":"https://example.bitrix24.ru/upload/main/avatar.png",
-                "gender":"M",
-                "birthday":"15-05",
-                "extranet":false,
-                "network":false,
-                "bot":false,
-                "connector":false,
-                "external_auth_id":"socservices",
-                "status":"online",
-                "idle":false,
-                "last_activity_date":"2026-03-03T15:04:20+03:00",
-                "mobile_last_date":false,
-                "desktop_last_date":false,
-                "absent":false,
-                "departments":[1],
-                "phones":{
-                    "work_phone":"+71234567890",
-                    "inner_phone":"22"
+                "first_name": "Иван",
+                "last_name": "Петров",
+                "work_position": null,
+                "color": "#58cc47",
+                "avatar": "https://cdn-ru.bitrix24.ru/b1234567/main/avatar.png",
+                "avatar_hr": "https://cdn-ru.bitrix24.ru/b1234567/main/avatar.png",
+                "gender": "M",
+                "birthday": "",
+                "extranet": false,
+                "network": false,
+                "bot": false,
+                "connector": false,
+                "external_auth_id": "socservices",
+                "internal_account": true,
+                "intranet_user": false,
+                "status": "online",
+                "idle": false,
+                "last_activity_date": "2026-11-10T16:28:38+03:00",
+                "mobile_last_date": false,
+                "desktop_last_date": false,
+                "absent": false,
+                "departments": [],
+                "phones": {
+                    "personal_mobile": "79001234567"
                 },
-                "bot_data":null,
-                "type":"user",
-                "website":"example.ru",
-                "email":"ivan@example.ru"
+                "bot_data": null,
+                "type": "user",
+                "website": "",
+                "email": ""
             }
         ]
     },
     "time": {
-        "start": 1760000000.0,
-        "finish": 1760000000.1,
-        "duration": 0.1,
-        "processing": 0.04,
-        "date_start": "2026-03-03T10:00:00+03:00",
-        "date_finish": "2026-03-03T10:00:00+03:00",
-        "operating_reset_at": 1760030000,
-        "operating": 0
+        "start": 1794317458,
+        "finish": 1794317458.62455,
+        "duration": 0.6245501041412354,
+        "processing": 0,
+        "date_start": "2026-11-10T16:30:58+03:00",
+        "date_finish": "2026-11-10T16:30:58+03:00",
+        "operating_reset_at": 1794317940,
+        "operating": 0.120635986328125
     }
 }
 ```
@@ -416,9 +467,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с данными уведомлений.
-
-Структура объекта подробно описана [ниже](#result-object) ||
+[`object`](../../data-types.md) | Объект с уведомлениями и их авторами [(подробное описание)](#result-object) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -429,22 +478,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **total_count**
-[`integer`](../../data-types.md) | Общее количество уведомлений ||
+[`integer`](../../data-types.md) | Общее количество уведомлений пользователя ||
 || **total_unread_count**
 [`integer`](../../data-types.md) | Количество непрочитанных уведомлений ||
 || **chat_id**
-[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений ||
+[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений пользователя ||
 || **notifications**
-[`array`](../../data-types.md) | Список уведомлений.
-
-Структура объекта подробно описана [ниже](#notification-object) ||
+[`array`](../../data-types.md) | Массив уведомлений на странице [(подробное описание)](#notification-object) ||
 || **users**
-[`array`](../../data-types.md) | Массив объектов с данными авторов уведомлений.
-
-Структура объекта подробно описана [ниже](#users-object) ||
+[`array`](../../data-types.md) | Массив авторов уведомлений на странице [(подробное описание)](#users-object). В массив не попадают системные уведомления с `author_id` = `0` ||
 |#
 
-Если у пользователя нет системного чата уведомлений или в нем нет сообщений, метод возвращает только поля `notifications` и `users`.
+Если у пользователя нет уведомлений, `result` содержит только пустые массивы `notifications` и `users`.
 
 #### Объект notification {#notification-object}
 
@@ -452,36 +497,40 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор уведомления ||
+[`integer`](../../data-types.md) | Идентификатор уведомления. Используйте `id` последнего элемента как `LAST_ID` для следующей страницы ||
 || **chat_id**
-[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений ||
+[`integer`](../../data-types.md) | Идентификатор системного чата уведомлений пользователя ||
 || **author_id**
-[`integer`](../../data-types.md) | Идентификатор автора уведомления ||
+[`integer`](../../data-types.md) | Идентификатор автора уведомления. Для системных уведомлений — `0` ||
 || **date**
-[`string`](../../data-types.md) | Дата и время уведомления в формате ISO 8601 (RFC3339) ||
+[`datetime`](../../data-types.md) | Дата и время создания уведомления ||
 || **notify_type**
-[`integer`](../../data-types.md) | Тип уведомления ||
+[`integer`](../../data-types.md) | Тип уведомления. Возможные значения:
+- `1` — уведомление с кнопками, требует подтверждения
+- `2` — персональное уведомление от пользователя
+- `4` — системное уведомление
+
+Используйте значение последнего элемента, чтобы выбрать `LAST_TYPE` для следующей страницы ||
 || **notify_module**
-[`string`](../../data-types.md) | Идентификатор модуля уведомления ||
+[`string`](../../data-types.md) | Идентификатор модуля, который отправил уведомление ||
 || **notify_event**
 [`string`](../../data-types.md) | Код события уведомления ||
 || **notify_tag**
-[`string`](../../data-types.md) | Тег уведомления ||
+[`string`](../../data-types.md) | Тег уведомления или пустая строка ||
 || **notify_sub_tag**
-[`string`](../../data-types.md) | Дополнительный тег уведомления ||
+[`string`](../../data-types.md) | Дополнительный тег уведомления или пустая строка ||
 || **notify_title**
-[`string`](../../data-types.md) | Заголовок уведомления ||
+[`string`](../../data-types.md) | Заголовок уведомления или пустая строка ||
 || **setting_name**
-[`string`](../../data-types.md) | Код настройки в формате ```MODULE|EVENT``` ||
+[`string`](../../data-types.md) | Код типа уведомления в формате ```MODULE|EVENT```. Список кодов возвращает метод [im.notify.schema.get](./im-notify-schema-get.md) ||
 || **text**
-[`string`](../../data-types.md) | Текст уведомления ||
-|| **notify_read**
-[`string`](../../data-types.md) | Статус прочтения уведомления: `Y` или `N` ||
-|| **notify_buttons**
-[`string`](../../data-types.md) | JSON клавиатуры для уведомлений типа подтверждения. Поле присутствует не всегда ||
+[`string`](../../data-types.md) | Текст уведомления. Форматирование передается BB-кодами, например `[B]...[/B]` ||
 || **params**
-[`object`](../../data-types.md)
-[`null`](../../data-types.md) | Дополнительные параметры уведомления ||
+[`object`](../../data-types.md) | Дополнительные параметры уведомления, например вложение `ATTACH`, или `null` ||
+|| **notify_read**
+[`string`](../../data-types.md) | Статус прочтения уведомления. Возможные значения: `Y` — прочитано, `N` — не прочитано ||
+|| **notify_buttons**
+[`string`](../../data-types.md) | JSON-строка с кнопками уведомления. Поле есть только у уведомлений с `notify_type` = `1` ||
 |#
 
 #### Объект users {#users-object}
@@ -500,15 +549,15 @@ HTTP-статус: **200**
 || **last_name**
 [`string`](../../data-types.md) | Фамилия пользователя ||
 || **work_position**
-[`string`](../../data-types.md) | Должность пользователя ||
+[`string`](../../data-types.md) | Должность пользователя или `null` ||
 || **color**
 [`string`](../../data-types.md) | Цвет пользователя в формате hex ||
 || **avatar**
-[`string`](../../data-types.md) | Ссылка на аватар ||
+[`string`](../../data-types.md) | Ссылка на аватар или пустая строка ||
 || **avatar_hr**
-[`string`](../../data-types.md) | Ссылка на аватар высокого разрешения ||
+[`string`](../../data-types.md) | Ссылка на аватар высокого разрешения или пустая строка ||
 || **gender**
-[`string`](../../data-types.md) | Пол пользователя ||
+[`string`](../../data-types.md) | Пол пользователя. Возможные значения: `M` — мужской, `F` — женский ||
 || **birthday**
 [`string`](../../data-types.md) | День рождения в формате `DD-MM` или пустая строка ||
 || **extranet**
@@ -521,26 +570,30 @@ HTTP-статус: **200**
 [`boolean`](../../data-types.md) | Признак пользователя открытых линий ||
 || **external_auth_id**
 [`string`](../../data-types.md) | Код внешней авторизации ||
+|| **internal_account**
+[`boolean`](../../data-types.md) | Признак внутренней учетной записи: `external_auth_id` не относится к внешним типам авторизации ||
+|| **intranet_user**
+[`boolean`](../../data-types.md) | Признак сотрудника: у пользователя есть подразделение и внутренняя учетная запись ||
 || **status**
 [`string`](../../data-types.md) | Статус пользователя ||
 || **idle**
-[`datetime`](../../data-types.md) | Дата бездействия пользователя или `false` ||
+[`boolean`](../../data-types.md) | В этом методе всегда `false` ||
 || **last_activity_date**
-[`datetime`](../../data-types.md) | Дата последней активности пользователя ||
+[`datetime`](../../data-types.md) | Дата последней активности пользователя или `false` ||
 || **mobile_last_date**
-[`datetime`](../../data-types.md) | Дата последней активности в мобильном приложении или `false` ||
+[`boolean`](../../data-types.md) | В этом методе всегда `false` ||
 || **desktop_last_date**
-[`datetime`](../../data-types.md) | Дата последней активности в десктопном приложении или `false` ||
+[`boolean`](../../data-types.md) | В этом методе всегда `false` ||
 || **absent**
 [`datetime`](../../data-types.md) | Дата окончания отсутствия пользователя или `false` ||
 || **departments**
 [`array`](../../data-types.md) | Массив идентификаторов подразделений ||
 || **phones**
-[`object`](../../data-types.md) | Телефоны пользователя или `false` [(подробное описание)](#phones) ||
+[`object`](../../data-types.md) | Телефоны пользователя [(подробное описание)](#phones) или `false`, если телефонов нет ||
 || **bot_data**
 [`object`](../../data-types.md) | Данные бота или `null` ||
 || **type**
-[`string`](../../data-types.md) | Тип пользователя ||
+[`string`](../../data-types.md) | Тип пользователя. Возможные значения: `user`, `bot`, `extranet`, `collaber`, `guest` ||
 || **website**
 [`string`](../../data-types.md) | Сайт пользователя ||
 || **email**
@@ -548,6 +601,8 @@ HTTP-статус: **200**
 |#
 
 #### Объект phones {#phones}
+
+В объекте есть только заполненные телефоны.
 
 #|
 || **Название**
@@ -576,9 +631,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `LAST_ID_AND_LAST_TYPE` | Parameters LAST_ID and LAST_TYPE should be used together | Передан только один параметр из пары `LAST_ID` и `LAST_TYPE` ||
-|| `LAST_ID_STRING` | Last notification ID can't be string | Параметр `LAST_ID` содержит нечисловое значение ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `LAST_ID_AND_LAST_TYPE` | Parameters LAST_ID and LAST_TYPE should be used together | Передан только один параметр из пары `LAST_ID` и `LAST_TYPE` ||
+|| `400` | `LAST_ID_STRING` | Last notification ID can't be string | Значение `LAST_ID` содержит не только цифры, например `abc` или `-5` ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}

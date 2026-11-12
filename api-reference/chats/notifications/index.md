@@ -43,14 +43,16 @@
 
 1. Получите идентификатор получателя методом [user.get](../../user/user-get.md)
 2. Отправьте уведомление методом [im.notify](./im-notify.md) и выберите тип в параметре `TYPE`
-3. Сохраните идентификатор уведомления из ответа — он нужен для методов прочтения, ответа и удаления
-4. Управляйте состоянием уведомлений методами [im.notify.read](./im-notify-read.md), [im.notify.read.list](./im-notify-read-list.md) и [im.notify.delete](./im-notify-delete.md)
+3. Сохраните идентификатор уведомления из поля `result` ответа — он нужен для методов прочтения и удаления. Если получатель не найден или неактивен, в `result` придет `false`
+4. Управляйте состоянием уведомлений методами [im.notify.read](./im-notify-read.md), [im.notify.read.list](./im-notify-read-list.md), [im.notify.read.all](./im-notify-read-all.md) и [im.notify.delete](./im-notify-delete.md)
 
 ## Связь уведомлений с другими объектами
 
 **Пользователь.** Уведомление уходит пользователю, которого указали в `USER_ID`. Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md).
 
-**Приложение.** Теги уведомлений привязаны к приложению. Тег `TAG` уникален в его рамках: если отправить новое уведомление с тем же `TAG`, система удалит предыдущее. `SUB_TAG` — вспомогательный тег без проверки уникальности. При вызове через вебхук оба тега передают вместе с `CLIENT_ID`.
+**Приложение.** Теги `TAG` и `SUB_TAG` сохраняются, только если метод отправки вызывает приложение. При вызове через вебхук теги игнорируются без ошибки. Тег `TAG` уникален в рамках приложения и получателя: новое уведомление с тем же `TAG` удаляет предыдущее у этого получателя. `SUB_TAG` — вспомогательный тег без проверки уникальности.
+
+**Модули Битрикс24.** Уведомления с быстрым ответом и с кнопками создают модули, например календарь при приглашении на встречу. Методы отправки `im.notify.*` такие уведомления не создают, поэтому [im.notify.answer](./im-notify-answer.md) и [im.notify.confirm](./im-notify-confirm.md) работают только с уведомлениями модулей.
 
 **Вложения.** К уведомлению можно приложить структурированный контент в параметре `ATTACH` — формат описан в статье [Вложения](../messages/attachments.md).
 
@@ -62,14 +64,16 @@
 || **Задача** | **Метод** ||
 || Отправить уведомление | [im.notify](./im-notify.md) — один метод на оба типа, тип задается параметром `TYPE`. Отдельные методы [im.notify.personal.add](./im-notify-personal-add.md) и [im.notify.system.add](./im-notify-system-add.md) решают те же задачи ||
 || Получить уведомления и типы | [im.notify.get](./im-notify-get.md), [im.notify.schema.get](./im-notify-schema-get.md) ||
-|| Управлять прочтением | [im.notify.read](./im-notify-read.md) — одно уведомление, [im.notify.read.list](./im-notify-read-list.md) — список, [im.notify.read.all](./im-notify-read-all.md) — все ||
-|| Ответить или нажать кнопку | [im.notify.answer](./im-notify-answer.md), [im.notify.confirm](./im-notify-confirm.md) ||
-|| Удалить или найти в истории | [im.notify.delete](./im-notify-delete.md), [im.notify.history.search](./im-notify-history-search.md) ||
+|| Управлять прочтением | [im.notify.read](./im-notify-read.md) — уведомление и все более новые, только одно — с `ONLY_CURRENT = Y`; [im.notify.read.list](./im-notify-read-list.md) — список; [im.notify.read.all](./im-notify-read-all.md) — все ||
+|| Ответить или нажать кнопку | [im.notify.answer](./im-notify-answer.md), [im.notify.confirm](./im-notify-confirm.md). После нажатия кнопки уведомление удаляется ||
+|| Удалить или найти в истории | [im.notify.delete](./im-notify-delete.md) — по `ID` удаляет уведомления текущего пользователя, по `TAG` — у всех получателей; [im.notify.history.search](./im-notify-history-search.md) — поиск ||
 |#
 
-## Лимиты и пагинация
+## Ответ методов и пагинация
 
-- методы [im.notify.get](./im-notify-get.md) и [im.notify.history.search](./im-notify-history-search.md) отдают выборку постранично по курсору, максимум — 50 уведомлений на страницу
+- методы отправки возвращают идентификатор созданного уведомления в корневом поле `result`, тип `integer`, например `"result": 43999`. Тот же идентификатор приходит в поле `id` уведомления в ответе [im.notify.get](./im-notify-get.md) и принимается в параметре `ID` метода [im.notify.delete](./im-notify-delete.md)
+- [im.notify.get](./im-notify-get.md) отдает уведомления страницами по `LIMIT` штук, максимум 50. Первую страницу запрашивайте без курсора. Для следующей передайте вместе `LAST_ID` — `id` последнего элемента `result.notifications` — и `LAST_TYPE` — `1`, если у этого элемента `notify_type = 1`, иначе `3`. Выборка закончена, когда пришло меньше уведомлений, чем `LIMIT`. Подробнее — в разделе [Постраничная выборка](./im-notify-get.md#pagination)
+- [im.notify.history.search](./im-notify-history-search.md) листается только по `LAST_ID` с тем же ограничением `LIMIT`. Поле `total_results` приходит только в ответе на первую страницу
 - размер сериализованного вложения `ATTACH` ограничен 60 000 символов
 
 ## Обзор методов {#all-methods}
@@ -89,7 +93,7 @@
 || [im.notify.read](./im-notify-read.md) | Отмечает прочитанным уведомление или возвращает его в непрочитанные ||
 || [im.notify.read.all](./im-notify-read-all.md) | Отмечает прочитанными все уведомления ||
 || [im.notify.answer](./im-notify-answer.md) | Отвечает на уведомление с быстрым ответом ||
-|| [im.notify.confirm](./im-notify-confirm.md) | Взаимодействует с кнопками уведомлений ||
+|| [im.notify.confirm](./im-notify-confirm.md) | Нажимает кнопку в уведомлении ||
 || [im.notify.delete](./im-notify-delete.md) | Удаляет уведомления ||
 || [im.notify.history.search](./im-notify-history-search.md) | Выполняет поиск по истории уведомлений ||
 |#

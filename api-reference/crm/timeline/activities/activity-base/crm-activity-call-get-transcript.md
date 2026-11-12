@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом на чтение объекта CRM
+> Кто может выполнять метод: пользователь с правом на чтение хотя бы одного привязанного объекта CRM
 
 Метод `crm.activity.call.getTranscript` возвращает текст готовой расшифровки звонка по идентификатору дела CRM.
 
@@ -250,13 +250,17 @@
     	return fmt.Errorf("crm.activity.call.getTranscript: %w", err)
     }
 
-    var item struct {
+    var item *struct {
     	Transcription string `json:"transcription"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Transcription)
+    if item == nil {
+        fmt.Println("Расшифровки для этого звонка нет")
+    } else {
+        fmt.Println(item.Transcription)
+    }
     ```
 
 {% endlist %}
@@ -303,7 +307,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
@@ -318,14 +322,17 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {activityId} | Не передан обязательный параметр `activityId` ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {activityId}. Should be value of type int. | Значение `activityId` нельзя преобразовать в целое число. В тексте ошибки указано переданное значение, например `abc` ||
 || `400` | `NOT_FOUND` | Элемент не найден | Дело с указанным `activityId` не найдено или не привязано к объектам CRM ||
-|| `403` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет прав на чтение привязанных объектов CRM или в Битрикс24 выключена AI-обработка звонков ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет прав на чтение ни одного привязанного объекта CRM или в Битрикс24 выключена AI-обработка звонков ||
 |#
 
 {% include [системные ошибки](../../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [Дела CRM в таймлайне: обзор методов](./index.md)
 - [{#T}](./crm-activity-get.md)
 - [{#T}](./crm-activity-list.md)
 - [{#T}](./crm-activity-delete.md)
