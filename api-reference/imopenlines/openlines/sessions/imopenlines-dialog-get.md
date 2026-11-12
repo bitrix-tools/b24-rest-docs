@@ -1,4 +1,4 @@
-# Получить информацию о диалоге оператора imopenlines.dialog.get
+# Получить информацию о диалоге imopenlines.dialog.get
 
 {% note tip "" %}
 
@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом на доступ к диалогу
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
-Метод `imopenlines.dialog.get` возвращает данные чата открытой линии. Достаточно передать один из параметров.
+Метод `imopenlines.dialog.get` возвращает данные чата открытой линии.
 
 ## Параметры метода
 
@@ -23,26 +23,32 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID**
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии.
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](./imopenlines-session-open.md) или [imopenlines.session.history.get](./imopenlines-session-history-get.md) ||
 || **DIALOG_ID**
-[`string`](../../../data-types.md) | Идентификатор диалога в формате `chat<ID>`, где `<ID>` — идентификатор чата открытой линии ||
+[`string`](../../../data-types.md) | Идентификатор диалога в формате `chat<ID>`, где `<ID>` — идентификатор чата открытой линии. Например, `chat1777`.
+
+Значение в другом формате метод не принимает и возвращает ошибку `ACCESS_ERROR` ||
 || **SESSION_ID**
-[`integer`](../../../data-types.md) | Идентификатор сессии. 
+[`integer`](../../../data-types.md) | Идентификатор сессии диалога.
 
 Идентификатор можно получить методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) в поле `sessionId` ||
 || **USER_CODE**
-[`string`](../../../data-types.md) | Строковый код пользователя для канала внешней системы. 
+[`string`](../../../data-types.md) | Код пользователя открытой линии в канале внешней системы.
 
 Формат кода: ```<connector>|<LINE_ID>|<CONNECTOR_CHAT_ID>|<CONNECTOR_USER_ID>```, где:
-- `<connector>` — идентификатор коннектора: `livechat`, `telegram` и другие
+- `<connector>` — идентификатор коннектора, например `livechat` или `telegrambot`
 - `<LINE_ID>` — идентификатор открытой линии
 - `<CONNECTOR_CHAT_ID>` — идентификатор чата в канале
 - `<CONNECTOR_USER_ID>` — идентификатор пользователя в канале
 
+Код можно передать с префиксом ```imol|```, метод его отбрасывает.
+
 Значение можно получить методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) из `result.chat.<chatId>.entityId` ||
 |#
+
+Передайте один из параметров. Если передано несколько, метод использует первый по порядку: `CHAT_ID`, `DIALOG_ID`, `SESSION_ID`, `USER_CODE`.
 
 ## Примеры кода
 
@@ -57,7 +63,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"USER_CODE":"livechat|1|1373|211"}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.dialog.get.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.dialog.get
     ```
 
 - cURL (OAuth)
@@ -66,8 +72,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"USER_CODE":"livechat|1|1373|211","auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.dialog.get.json
+      -d '{"USER_CODE":"livechat|1|1373|211","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.dialog.get
     ```
 
 - JS (TS)
@@ -420,7 +426,7 @@ HTTP-статус: **200**
 || **description**
 [`string`](../../../data-types.md) | Описание чата или `null` ||
 || **owner**
-[`integer`](../../../data-types.md) | Идентификатор владельца чата ||
+[`integer`](../../../data-types.md) | Идентификатор оператора, который ведет диалог. Значение `0`, если ответственного нет ||
 || **extranet**
 [`boolean`](../../../data-types.md) | Признак экстранет-чата ||
 || **avatar**
@@ -453,16 +459,26 @@ HTTP-статус: **200**
 [`string`](../../../data-types.md) | Тип канала чата, для открытых линий значение `LINES` ||
 || **entity_id**
 [`string`](../../../data-types.md) | Код пользователя открытой линии в формате ```<connector>|<LINE_ID>|<CONNECTOR_CHAT_ID>|<CONNECTOR_USER_ID>```, где:
-- `<connector>` — идентификатор коннектора: `livechat`, `telegram` и другие
+- `<connector>` — идентификатор коннектора, например `livechat` или `telegrambot`
 - `<LINE_ID>` — идентификатор открытой линии
 - `<CONNECTOR_CHAT_ID>` — идентификатор чата в канале
 - `<CONNECTOR_USER_ID>` — идентификатор пользователя в канале ||
 || **entity_data_1**
-[`string`](../../../data-types.md) | Строка с данными сессии открытой линии ||
+[`string`](../../../data-types.md) | Данные текущей сессии, разделенные вертикальной чертой. Элементы по порядку:
+1. `Y`, если диалог связан с CRM
+2. Тип объекта CRM, например `LEAD` или `DEAL`
+3. Идентификатор объекта CRM
+4. `Y`, если диалог закреплен за оператором
+5. `Y`, если диалог ожидает действия
+6. Идентификатор сессии
+7. Дата создания сессии в формате Unix timestamp
+8. Идентификатор открытой линии
+9. Дата блокировки отправки сообщений в формате Unix timestamp
+10. Причина блокировки ||
 || **entity_data_2**
-[`string`](../../../data-types.md) | Строка с привязками CRM ||
+[`string`](../../../data-types.md) | Привязки диалога к объектам CRM в формате ```LEAD|<ID>|COMPANY|<ID>|CONTACT|<ID>|DEAL|<ID>```. Значение `0` означает, что привязки нет ||
 || **entity_data_3**
-[`string`](../../../data-types.md) | Дополнительный служебный флаг ||
+[`string`](../../../data-types.md) | Флаг скрытого режима диалога: `Y` или `N` ||
 || **mute_list**
 [`array`](../../../data-types.md) | Список идентификаторов пользователей с выключенными уведомлениями ||
 || **date_create**
@@ -606,8 +622,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
-|| `400` | `ACCESS_ERROR` | You do not have access to the specified dialog | Диалог не найден или нет доступа к нему ||
+|| `400` | `ACCESS_ERROR` | You do not have access to the specified dialog | Не передан ни один из параметров, `DIALOG_ID` передан не в формате `chat<ID>`, чат не найден, не относится к открытой линии или у пользователя нет доступа к нему ||
+|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed | Модуль Веб-мессенджер не установлен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

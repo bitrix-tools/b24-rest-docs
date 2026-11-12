@@ -1,9 +1,9 @@
 title: Диалоги
 href: imopenlines-session-open.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
-  - name: Получить чат по символьному коду
+  - name: Получить чат по коду пользователя
     href: imopenlines-session-open.md
   - name: Начать новый диалог
     href: imopenlines-session-start.md
@@ -13,13 +13,13 @@ items:
     href: imopenlines-session-history-get.md
   - name: Забрать диалог у текущего оператора
     href: imopenlines-session-intercept.md
-  - name: Закрепить или открепить диалог от оператора
+  - name: Закрепить или открепить диалог
     href: imopenlines-session-mode-pin.md
   - name: Закрепить все доступные диалоги за оператором
     href: imopenlines-session-mode-pin-all.md
-  - name: Открепить все диалоги от оператора
+  - name: Открепить все закрепленные диалоги оператора
     href: imopenlines-session-mode-unpin-all.md
-  - name: Переключить диалог в «скрытый» режим
+  - name: Переключить диалог в скрытый режим
     href: imopenlines-session-mode-silent.md
   - name: Поставить оценку работе сотрудника в диалоге
     href: imopenlines-session-head-vote.md
@@ -29,5 +29,3 @@ items:
     href: imopenlines-crm-lead-create.md
   - name: Получить информацию о диалоге
     href: imopenlines-dialog-get.md
-
-    

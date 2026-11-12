@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правами на диалог
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
-Метод `imopenlines.operator.skip` передает текущий диалог следующему оператору в очереди.
+Метод `imopenlines.operator.skip` отказывается от диалога от имени пользователя, который вызывает метод, и передает диалог следующему оператору в очереди линии.
 
 ## Параметры метода
 
@@ -23,10 +23,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии.
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](../sessions/imopenlines-session-open.md) или [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) ||
 |#
+
+В чате появляется системное сообщение о том, что пользователь пропустил диалог. Если в чате нет активного диалога, метод исключает пользователя из чата и возвращает ошибку.
 
 ## Примеры кода
 
@@ -41,7 +43,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"CHAT_ID":2043}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.operator.skip.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.operator.skip
     ```
 
 - cURL (OAuth)
@@ -50,8 +52,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CHAT_ID":2043,"auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.operator.skip.json
+      -d '{"CHAT_ID":2043,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.operator.skip
     ```
 
 - JS (TS)
@@ -78,7 +80,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Dialog skipped:', result)
+        console.info('Диалог пропущен:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -112,7 +114,7 @@
           }
 
           const result = response.getData().result
-          console.info('Dialog skipped:', result)
+          console.info('Диалог пропущен:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -275,10 +277,10 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Пустой или некорректный `CHAT_ID` ||
+|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Не передан `CHAT_ID`, передано значение меньше `1` или чат не найден ||
 || `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Указанный чат не относится к открытым линиям ||
-|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | У текущего пользователя нет прав на диалог ||
-|| `400` | `ACCESS_DENIED_KICK` | Недостаточно прав на исключение участников из чата | Указанный чат невозможно передать другому оператору, например, по причине того, что диалог закрыт ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Пользователь не участник чата и у него нет права «Подключение к разговору» на эту линию ||
+|| `400` | `ACCESS_DENIED_KICK` | Недостаточно прав на исключение участников из чата | В чате нет активного диалога, и пользователя не удалось исключить из чата ||
 || `400` | `USER_ID` | Указан не корректный идентификатор пользователя | Не определен пользователь, от имени которого выполняется метод ||
 |#
 

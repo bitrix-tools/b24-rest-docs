@@ -1,4 +1,4 @@
-# Получить идентификатор последнего чата imopenlines.crm.chat.getLastId
+# Получить идентификатор последнего чата объекта CRM imopenlines.crm.chat.getLastId
 
 {% note tip "" %}
 
@@ -27,12 +27,20 @@
 - `lead` — лид
 - `deal` — сделка
 - `company` — компания
-- `contact` — контакт ||
+- `contact` — контакт
+
+Регистр значения не учитывается ||
 || **CRM_ENTITY***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM.
 
 Получить идентификатор можно универсальным методом [получения списка элементов CRM](../../../crm/universal/crm-item-list.md) ||
 |#
+
+{% note info "" %}
+
+Передавайте имена параметров в верхнем регистре: `CRM_ENTITY_TYPE`, а не `crm_entity_type`. Имена в нижнем регистре метод не распознает и вернет ошибку о пропущенном параметре
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -85,7 +93,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Last chat ID:', result)
+        console.info('ID последнего чата:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -120,7 +128,7 @@
           }
 
           const result = response.getData().result
-          console.info('Last chat ID:', result)
+          console.info('ID последнего чата:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -266,7 +274,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../../../data-types.md) | Идентификатор последнего чата ||
+[`integer`](../../../data-types.md) | Идентификатор чата, в котором последним менялось дело открытой линии объекта CRM.
+
+Метод возвращает чат, даже если диалог в нем закрыт. Чтобы получить только активные чаты, используйте метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -288,13 +298,13 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Empty CRM data | Не переданы обязательные параметры `CRM_ENTITY_TYPE` и `CRM_ENTITY` ||
+|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Empty CRM data | Не передан обязательный параметр `CRM_ENTITY_TYPE` или `CRM_ENTITY` ||
 || `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Could not find CRM entity | Возможные причины:
 - для указанного объекта CRM не найден чат
-- указан неверный `CRM_ENTITY_TYPE`
+- в `CRM_ENTITY_TYPE` передан тип не из списка, например `quote` или `abc`
 - указан несуществующий `CRM_ENTITY`
 - у пользователя нет доступа к объекту CRM ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument CRM_ENTITY has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` не число или число меньше 1 ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

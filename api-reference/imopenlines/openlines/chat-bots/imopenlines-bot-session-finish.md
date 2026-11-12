@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь приложения с зарегистрированным чат-ботом
 
-Метод `imopenlines.bot.session.finish` завершает текущий диалог открытой линии от имени чат-бота приложения.
+Метод `imopenlines.bot.session.finish` завершает текущий диалог открытой линии от имени чат-бота приложения. Метод назначает чат-бота ответственным за диалог и закрывает диалог.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата, диалог которого нужно завершить. 
+[`integer`](../../../data-types.md) | Идентификатор чата, диалог которого нужно завершить.
 
 Идентификатор чата можно получить с помощью методов [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) или [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) ||
 || **CLIENT_ID**
@@ -84,7 +84,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Session finished:', result)
+        console.info('Диалог завершен:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -118,7 +118,7 @@
           }
 
           const result = response.getData().result
-          console.info('Session finished:', result)
+          console.info('Диалог завершен:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -170,10 +170,10 @@
           ->getResponseData()
           ->getResult();
 
-      echo 'Session finished: ' . var_export($result, true);
+      echo 'Диалог завершен: ' . var_export($result, true);
   } catch (Throwable $exception) {
       error_log($exception->getMessage());
-      echo 'Error finishing session: ' . $exception->getMessage();
+      echo 'Ошибка завершения диалога: ' . $exception->getMessage();
   }
   ```
 
@@ -208,9 +208,9 @@
   );
 
   if (!empty($result['error'])) {
-      echo 'Error: ' . $result['error_description'];
+      echo 'Ошибка: ' . $result['error_description'];
   } else {
-      echo 'Session finished: ' . var_export($result['result'], true);
+      echo 'Диалог завершен: ' . var_export($result['result'], true);
   }
   ```
 
@@ -260,7 +260,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Содержит `true`, если диалог успешно завершен ||
+[`boolean`](../../../data-types.md) | Содержит `true` после выполнения метода.
+
+Метод возвращает `true`, даже если чат с указанным `CHAT_ID` не найден или в чате нет активного диалога ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -283,8 +285,9 @@ HTTP-статус: **400**, **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение `<= 0` ||
-|| `400` | `BOT_ID_ERROR` | Bot not found | В приложении не найден зарегистрированный чат-бот ||
-|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `400` | `BOT_ID_ERROR` | Bot not found | В приложении или по переданному `CLIENT_ID` не найден зарегистрированный чат-бот ||
+|| `403` | `ACCESS_DENIED` | Access denied! Client ID not specified. | Метод вызван через вебхук без параметра `CLIENT_ID` ||
+|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией пользователя. Вызывайте метод через вебхук или с OAuth-токеном приложения ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

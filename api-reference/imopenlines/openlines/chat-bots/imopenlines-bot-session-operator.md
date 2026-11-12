@@ -13,7 +13,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `imopenlines.bot.session.operator` переключает диалог со стороны чат-бота на свободного оператора открытой линии.
+Метод `imopenlines.bot.session.operator` переключает диалог со стороны чат-бота на свободного оператора открытой линии. Метод работает, только если диалог сейчас ведет чат-бот.
+
+После вызова:
+- диалог передается следующему оператору из очереди линии
+- в чат добавляется системное сообщение о переводе на оператора
+- чат-бот покидает чат. Если в настройках линии параметр [WELCOME_BOT_LEFT](../imopenlines-config-add.md#params) равен `close`, бот остается в чате до закрытия диалога
 
 ## Параметры метода
 
@@ -78,7 +83,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Session redirected to free operator:', result)
+        console.info('Диалог передан оператору:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -112,7 +117,7 @@
           }
 
           const result = response.getData().result
-          console.info('Session redirected to free operator:', result)
+          console.info('Диалог передан оператору:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -164,10 +169,10 @@
           ->getResponseData()
           ->getResult();
 
-      echo 'Session redirected: ' . var_export($result, true);
+      echo 'Диалог передан оператору: ' . var_export($result, true);
   } catch (Throwable $exception) {
       error_log($exception->getMessage());
-      echo 'Error redirecting session: ' . $exception->getMessage();
+      echo 'Ошибка перевода диалога: ' . $exception->getMessage();
   }
   ```
 
@@ -202,9 +207,9 @@
   );
 
   if (!empty($result['error'])) {
-      echo 'Error: ' . $result['error_description'];
+      echo 'Ошибка: ' . $result['error_description'];
   } else {
-      echo 'Session redirected: ' . var_export($result['result'], true);
+      echo 'Диалог передан оператору: ' . var_export($result['result'], true);
   }
   ```
 
@@ -276,8 +281,8 @@ HTTP-статус: **400**, **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение `<= 0` ||
-|| `400` | `WRONG_CHAT` | Operator is not a bot | Указанный диалог уже ведет оператор, а не чат-бот ||
-|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `400` | `WRONG_CHAT` | Operator is not a bot | Диалог ведет оператор, а не чат-бот, в чате нет активного диалога или чат с указанным `CHAT_ID` не найден ||
+|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией пользователя. Вызывайте метод через вебхук или с OAuth-токеном приложения ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

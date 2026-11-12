@@ -11,9 +11,11 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом на доступ к диалогу
+> Кто может выполнять метод: оператор, который ведет диалог
 
-Метод `imopenlines.crm.lead.create` создает лид CRM по текущему чату открытой линии.
+Метод `imopenlines.crm.lead.create` создает лид CRM по данным клиента из диалога открытой линии.
+
+Если в настройках линии параметр `CRM_CREATE` равен `deal`, метод создает не лид, а сделку с контактом клиента в воронке из `CRM_CREATE_SECOND`. Настройки линии можно получить методом [imopenlines.config.get](../imopenlines-config-get.md).
 
 ## Параметры метода
 
@@ -23,10 +25,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии. 
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](./imopenlines-session-open.md) или [imopenlines.dialog.get](./imopenlines-dialog-get.md) ||
 |#
+
+Если диалог уже связан с CRM, метод не создает новый объект и возвращает `true`. Связь с CRM показывает первый элемент строки `entity_data_1` в ответе метода [imopenlines.dialog.get](./imopenlines-dialog-get.md): значение `Y` означает, что связь есть.
+
+После создания лида или сделки в чат диалога приходит системное сообщение со ссылкой на созданный объект.
 
 ## Примеры кода
 
@@ -41,7 +47,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"CHAT_ID":2043}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.crm.lead.create.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.crm.lead.create
     ```
 
 - cURL (OAuth)
@@ -50,8 +56,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CHAT_ID":2043,"auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.crm.lead.create.json
+      -d '{"CHAT_ID":2043,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.crm.lead.create
     ```
 
 - JS (TS)
@@ -78,7 +84,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Lead created:', result)
+        console.info('Лид создан:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -112,7 +118,7 @@
           }
 
           const result = response.getData().result
-          console.info('Lead created:', result)
+          console.info('Лид создан:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -253,7 +259,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true`, если лид успешно создан ||
+[`boolean`](../../../data-types.md) | Возвращает `true`, если лид или сделка созданы или диалог уже связан с CRM ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -275,11 +281,13 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Пустой или некорректный `CHAT_ID` ||
-|| `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Указанный чат не относится к открытым линиям ||
-|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | У текущего пользователя нет доступа к диалогу ||
+|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | `CHAT_ID` не передан, меньше `1` или чат не найден ||
+|| `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Чат не относится к открытой линии ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Пользователь не участвует в чате и у него нет права «Подключение к разговору» на линию ||
 || `400` | `USER_ID` | Указан не корректный идентификатор пользователя | Не определен пользователь, от имени которого выполняется метод ||
-|| `400` | `ERROR_USER_NOT_OPERATOR` | Attempt to save a CRM entity by a user who is not an operator | Метод вызван пользователем, который не является текущим оператором сессии открытой линии ||
+|| `400` | `ERROR_USER_NOT_OPERATOR` | Attempt to save a CRM entity by a user who is not an operator | Метод вызвал пользователь, который не ведет этот диалог ||
+|| `400` | `IMOL_CHAT_ERROR_ANSWER_NOT_LOAD_SESSION` | Не удалось загрузить сессию | У чата нет сессии открытой линии ||
+|| `400` | `IMOL_CHAT_ERROR_NOT_LOAD_CRM` | Failed to load CRM | Модуль CRM недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

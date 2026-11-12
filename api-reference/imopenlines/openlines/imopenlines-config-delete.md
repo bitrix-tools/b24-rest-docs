@@ -11,7 +11,7 @@
 
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом изменения открытых линий
+> Кто может выполнять метод: пользователь с правом «Изменение» на «Список открытых линий»
 
 Метод `imopenlines.config.delete` удаляет открытую линию.
 
@@ -25,7 +25,7 @@
 || **CONFIG_ID***
 [`integer`](../../data-types.md) | Идентификатор открытой линии.
 
-Получить идентификатор открытой линии можно при [создании открытой линии](./imopenlines-config-add.md) или методом [получения списка открытых линий](./imopenlines-config-list-get.md) ||
+Идентификатор возвращает метод [imopenlines.config.add](./imopenlines-config-add.md) при создании линии. Получить идентификаторы существующих линий можно методом [imopenlines.config.list.get](./imopenlines-config-list-get.md) ||
 |#
 
 ## Примеры кода
@@ -282,8 +282,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CONFIG_ID_EMPTY` | Config ID can't be empty | Параметр `CONFIG_ID` не передан или передан некорректно ||
-|| `403` | `CONFIG_WRONG_USER_PERMISSION` | Permission denied | Недостаточно прав для удаления линии ||
+|| `400` | `CONFIG_ID_EMPTY` | Config ID can't be empty | Параметр `CONFIG_ID` не передан или не является положительным числом ||
+|| `403` | `CONFIG_WRONG_USER_PERMISSION` | Permission denied | У пользователя нет права изменять настройки этой линии ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

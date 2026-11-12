@@ -1,4 +1,4 @@
-# Удалить пользователя из чата imopenlines.crm.chat.user.delete
+# Удалить пользователя из чата объекта CRM imopenlines.crm.chat.user.delete
 
 {% note tip "" %}
 
@@ -11,7 +11,7 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с доступом к объекту CRM
+> Кто может выполнять метод: пользователь с правом чтения объекта CRM
 
 Метод `imopenlines.crm.chat.user.delete` удаляет пользователя из чата, привязанного к объекту CRM.
 
@@ -27,22 +27,36 @@
 - `lead` — лид
 - `deal` — сделка
 - `company` — компания
-- `contact` — контакт ||
+- `contact` — контакт
+
+Регистр значения не учитывается ||
 || **CRM_ENTITY***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM.
 
 Получить идентификатор можно универсальным методом [получения списка элементов CRM](../../../crm/universal/crm-item-list.md) ||
 || **USER_ID***
-[`integer`](../../../data-types.md) | Идентификатор пользователя или бота, которого нужно удалить из чата.
+[`integer`](../../../data-types.md) | Идентификатор пользователя или бота, которого нужно удалить из чата. Пользователь должен быть активным.
 
 Получить идентификатор пользователя позволяют методы [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md) ||
 || **CHAT_ID**
-[`integer`](../../../data-types.md) | Идентификатор чата. 
+[`integer`](../../../data-types.md) | Идентификатор чата.
 
-По умолчанию используется последний чат, привязанный к объекту CRM.
+Если параметр не передан, метод берет последний чат объекта CRM — тот же, который возвращает [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md).
 
-Получить идентификаторы чатов, привязанных к объекту CRM, можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
+Получить идентификаторы активных чатов объекта CRM можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
 |#
+
+{% note warning "" %}
+
+Метод работает только с активным чатом — чатом, диалог в котором оператор взял в работу и который еще не перешел в режим закрытия. Если диалог в чате ждет в очереди или закрыт, метод вернет ошибку `CHAT_NOT_IN_CRM`. Список активных чатов объекта CRM возвращает метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md)
+
+{% endnote %}
+
+{% note info "" %}
+
+Передавайте имена параметров в верхнем регистре: `CRM_ENTITY_TYPE`, а не `crm_entity_type`. Имена в нижнем регистре метод не распознает и вернет ошибку о пропущенном параметре
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -97,7 +111,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Chat ID from which the user was removed:', result)
+        console.info('ID чата, из которого удален пользователь:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -134,7 +148,7 @@
           }
 
           const result = response.getData().result
-          console.info('Chat ID from which the user was removed:', result)
+          console.info('ID чата, из которого удален пользователь:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -284,7 +298,7 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
@@ -292,7 +306,7 @@ HTTP-статус: **200**
 || **result**
 [`integer`](../../../data-types.md) | Идентификатор чата, из которого удален пользователь.
 
-Если `CHAT_ID` не передан и чат для объекта CRM не найден или не существует, метод вернет `"result":0` ||
+Если `CHAT_ID` не передан и у объекта CRM нет чатов, метод вернет `"result":0` и никого не удалит ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -315,16 +329,17 @@ HTTP-статус: **400**, **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! You don't have access to join user to chat | Возможные причины:
-- указан неверный или несуществующий `CRM_ENTITY_TYPE`
-- у пользователя, который выполняет метод, нет доступа к объекту CRM
+- у пользователя, который выполняет метод, нет права чтения объекта CRM
+- передан неизвестный тип объекта в `CRM_ENTITY_TYPE`, например `abc`
 ||
-|| `400` | `CRM_CHAT_EMPTY_USER` | Empty User ID | Не указан обязательный параметр `USER_ID` ||
-|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Empty CRM data | Не переданы обязательные параметры `CRM_ENTITY_TYPE` и `CRM_ENTITY` ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `CRM_CHAT_EMPTY_USER` | Empty User ID | Не передан обязательный параметр `USER_ID` или значение меньше 1 ||
+|| `400` | `CRM_CHAT_EMPTY_CRM_DATA` | Empty CRM data | Не передан обязательный параметр `CRM_ENTITY_TYPE` или `CRM_ENTITY` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` не число или число меньше 1 ||
 || `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
 || `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Возможные причины:
-- чат не связан с объектом CRM
-- чат с указанным `CHAT_ID` не существует ||
+- чат не связан с объектом CRM или не существует
+- диалог в чате не активен: ждет в очереди или закрыт
+||
 || `403` | `CHAT_DELETE_USER_PERMISSION_DENIED` | You don't have access to delete a user from this chat | У пользователя нет доступа к удалению участника из чата ||
 || `400` | `CRM_CHAT_USER_NOT_ACTIVE` | User not active | Удаляемый пользователь `USER_ID` не активен или не существует ||
 || `400` | `WRONG_REQUEST` | You don't have access or user already not in chat | Пользователь уже удален из чата или недоступен для удаления ||

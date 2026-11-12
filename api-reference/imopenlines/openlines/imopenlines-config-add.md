@@ -11,7 +11,7 @@
 
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом изменения открытых линий
 
 Метод `imopenlines.config.add` добавляет новую открытую линию.
 
@@ -36,7 +36,9 @@
 || **ACTIVE**
 [`char`](../../data-types.md) | Активность линии. Возможные значения:
 - `Y` — линия активна
-- `N` — линия неактивна ||
+- `N` — линия неактивна
+
+По умолчанию `Y` ||
 || **QUEUE**
 [`array`](../../data-types.md) | Очередь операторов. Передается массив объектов с полями `ENTITY_TYPE` и `ENTITY_ID`.
 
@@ -57,16 +59,19 @@
     }
 ]
 ```
-||
+
+Если передано подразделение, в очередь попадают его сотрудники. Если параметр не передан, очередь остается пустой ||
 || **QUEUE_TYPE**
 [`string`](../../data-types.md) | Режим распределения обращений. Возможные значения:
 - `evenly` — равномерно распределять обращения между операторами
 - `strictly` — направлять обращения строго по порядку очереди
-- `all` — направлять обращение всем операторам очереди ||
+- `all` — направлять обращение всем операторам очереди
+
+По умолчанию `all`. Значение не из списка метод заменяет на `all`. Если тариф Битрикс24 не позволяет режим `all`, линия получает `evenly` ||
 || **QUEUE_TIME**
-[`integer`](../../data-types.md) | Время в секундах до перехода обращения к следующему оператору ||
+[`integer`](../../data-types.md) | Время в секундах до перехода обращения к следующему оператору. По умолчанию `60` ||
 || **NO_ANSWER_TIME**
-[`integer`](../../data-types.md) | Время в секундах до срабатывания сценария без ответа ||
+[`integer`](../../data-types.md) | Время в секундах до срабатывания сценария без ответа. По умолчанию `60` ||
 || **WELCOME_MESSAGE**
 [`char`](../../data-types.md) | Отправлять приветственное сообщение. Возможные значения:
 - `Y` — да
@@ -76,11 +81,15 @@
 || **WORKTIME_ENABLE**
 [`char`](../../data-types.md) | Учитывать рабочее время линии. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию `N`. Если тариф Битрикс24 не позволяет настраивать рабочее время, метод сохраняет `N` ||
 || **WORKTIME_FROM**
-[`string`](../../data-types.md) | Начало рабочего времени в формате `HH:MM` ||
+[`string`](../../data-types.md) | Начало рабочего времени: часы и минуты через точку, например `9` или `9.30`. Значение больше `23.30` метод заменяет на `23.30`.
+
+Передавайте вместе с `WORKTIME_TO`. Если одно из значений в другом формате, например `09:00`, метод сохраняет время с `9` до `18.30` ||
 || **WORKTIME_TO**
-[`string`](../../data-types.md) | Окончание рабочего времени в формате `HH:MM` ||
+[`string`](../../data-types.md) | Окончание рабочего времени в том же формате, например `18` или `18.30`. Если значение не больше `WORKTIME_FROM`, метод сдвигает окончание на час после начала ||
 || **WORKTIME_TIMEZONE**
 [`string`](../../data-types.md) | Часовой пояс, например `Europe/Kaliningrad` ||
 || **CRM**
@@ -88,19 +97,26 @@
 - `Y` — да
 - `N` — нет ||
 || **CRM_CREATE**
-[`string`](../../data-types.md) | Что создавать в CRM для нового клиента ||
+[`string`](../../data-types.md) | Что создавать в CRM для нового клиента. Возможные значения:
+- `lead` — лид
+- `deal` — сделку
+- `none` — ничего не создавать
+
+По умолчанию `lead`. Значение не из списка метод заменяет на `lead` ||
 || **VOTE_MESSAGE**
 [`char`](../../data-types.md) | Запрашивать оценку качества обслуживания. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **LANGUAGE_ID**
-[`string`](../../data-types.md) | Язык линии, например `ru` ||
+[`string`](../../data-types.md) | Язык линии, например `ru`. Метод сохраняет первые два символа ||
 || **CRM_CREATE_SECOND**
-[`string`](../../data-types.md) | Дополнительный режим создания элемента CRM ||
+[`string`](../../data-types.md) | Идентификатор воронки, в которой создается сделка, если `CRM_CREATE` = `deal`. Получить идентификаторы воронок можно методом [crm.category.list](../../crm/universal/category/crm-category-list.md) с `entityTypeId` = `2`. Если не передан, сделка создается в общей воронке ||
 || **CRM_CREATE_THIRD**
-[`char`](../../data-types.md) | Создавать третий элемент CRM. Возможные значения:
-- `Y` — да
-- `N` — нет ||
+[`char`](../../data-types.md) | Правило для сделок, если `CRM_CREATE` = `deal`. Возможные значения:
+- `Y` — правило по умолчанию
+- `N` — создавать новую сделку для каждого обращения
+
+По умолчанию `Y` ||
 || **CRM_CHAT_TRACKER**
 [`char`](../../data-types.md) | Включить чат-трекер для CRM. Возможные значения:
 - `Y` — да
@@ -114,22 +130,28 @@
 - `Y` — да
 - `N` — нет ||
 || **CRM_SOURCE**
-[`string`](../../data-types.md) | Источник для создаваемого элемента CRM ||
+[`string`](../../data-types.md) | Источник для создаваемого элемента CRM. Возможные значения:
+- `create` — создать для линии отдельный источник по каждому каналу
+- идентификатор `STATUS_ID` источника из справочника CRM. Получить список источников можно методом [crm.status.list](../../crm/status/crm-status-list.md) с фильтром `ENTITY_ID` = `SOURCE`
+
+По умолчанию `create`. Если источника с переданным идентификатором нет, линия работает как с `create` ||
 || **MAX_CHAT**
-[`integer`](../../data-types.md) | Максимальное число одновременных диалогов у оператора ||
+[`integer`](../../data-types.md) | Максимальное число одновременных диалогов у оператора. `0` — без ограничения. По умолчанию `0` ||
 || **TYPE_MAX_CHAT**
 [`string`](../../data-types.md) | Тип ограничения `MAX_CHAT`. Возможные значения:
 - `answered` — учитывать только диалоги, в которых оператор уже ответил
 - `answered_new` — учитывать диалоги с ответом и новые диалоги
-- `closed` — учитывать закрытые диалоги ||
+- `closed` — учитывать закрытые диалоги
+
+По умолчанию `answered`. Значение не из списка метод заменяет на `answered_new` ||
 || **CATEGORY_ENABLE**
 [`char`](../../data-types.md) | Включить категории. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **CATEGORY_ID**
-[`integer`](../../data-types.md) | Идентификатор категории ||
+[`integer`](../../data-types.md) | Идентификатор категории. Метод сохраняет значение, только если `CATEGORY_ENABLE` = `Y` ||
 || **SESSION_PRIORITY**
-[`integer`](../../data-types.md) | Приоритет сессии в очереди ||
+[`integer`](../../data-types.md) | Приоритет сессии в очереди, от `0` до `86400`. По умолчанию `0` ||
 || **WELCOME_BOT_ENABLE**
 [`char`](../../data-types.md) | Включить чат-бота приветствия. Возможные значения:
 - `Y` — да
@@ -139,9 +161,9 @@
 - `first` — подключать бота только в начале диалога
 - `always` — подключать бота в каждом диалоге ||
 || **WELCOME_BOT_ID**
-[`integer`](../../data-types.md) | Идентификатор чат-бота ||
+[`integer`](../../data-types.md) | Идентификатор чат-бота. Метод сохраняет значение, только если `WELCOME_BOT_ENABLE` = `Y` ||
 || **WELCOME_BOT_TIME**
-[`integer`](../../data-types.md) | Через сколько секунд переводить диалог от бота в очередь ||
+[`integer`](../../data-types.md) | Через сколько секунд переводить диалог от бота в очередь. По умолчанию `600` ||
 || **WELCOME_BOT_LEFT**
 [`string`](../../data-types.md) | Когда отключать бота. Возможные значения:
 - `queue` — отключать бота при переводе в очередь операторов
@@ -154,6 +176,8 @@
 [`char`](../../data-types.md) | Показывать индикатор набора текста. Возможные значения:
 - `Y` — да
 - `N` — нет ||
+|| **SHOW_NOTIFICATION_REDIRECT**
+[`char`](../../data-types.md) | Показывать в диалоге уведомление, когда обращение переходит к оператору, который начал рабочий день. Возможные значения: `Y` или `N`. По умолчанию значение не задано, уведомление не показывается ||
 || **SEND_WELCOME_EACH_SESSION**
 [`char`](../../data-types.md) | Отправлять приветствие в каждой сессии. Возможные значения:
 - `Y` — да
@@ -179,7 +203,7 @@
 || **NO_ANSWER_TEXT**
 [`string`](../../data-types.md) | Текст для сценария без ответа ||
 || **WORKTIME_DAYOFF**
-[`array`](../../data-types.md) | Выходные дни. Возможные значения элементов:
+[`array`](../../data-types.md) | Выходные дни. Значения не из списка метод пропускает. Возможные значения элементов:
 - `MO` — понедельник
 - `TU` — вторник
 - `WE` — среда
@@ -188,7 +212,7 @@
 - `SA` — суббота
 - `SU` — воскресенье ||
 || **WORKTIME_HOLIDAYS**
-[`string`](../../data-types.md) | Праздничные дни в формате строки, перечисленные через запятую `DD.MM,DD.MM` ||
+[`string`](../../data-types.md) \| [`array`](../../data-types.md) | Праздничные дни в формате `D.MM`: строка через запятую, например `1.01,7.01`, или массив строк. Если формат неверный, метод сохраняет пустой список ||
 || **WORKTIME_DAYOFF_RULE**
 [`string`](../../data-types.md) | Сценарий в нерабочее время. Возможные значения:
 - `none` — не выполнять сценарий
@@ -202,7 +226,9 @@
 || **CLOSE_RULE**
 [`string`](../../data-types.md) | Сценарий при закрытии. Возможные значения:
 - `none` — не выполнять сценарий
-- `text` — отправить текстовое сообщение ||
+- `text` — отправить текстовое сообщение
+
+По умолчанию `text` ||
 || **CLOSE_FORM_ID**
 [`integer`](../../data-types.md) | Идентификатор CRM-формы при закрытии ||
 || **CLOSE_BOT_ID**
@@ -210,7 +236,7 @@
 || **CLOSE_TEXT**
 [`string`](../../data-types.md) | Текст сообщения при закрытии ||
 || **VOTE_TIME_LIMIT**
-[`integer`](../../data-types.md) | Лимит времени на голосование ||
+[`integer`](../../data-types.md) | Лимит времени на голосование. `0` — без ограничения ||
 || **VOTE_CLOSING_DELAY**
 [`char`](../../data-types.md) | Закрывать сессию сразу после оценки. Возможные значения:
 - `Y` — да
@@ -220,25 +246,25 @@
 - `Y` — да
 - `N` — нет ||
 || **VOTE_MESSAGE_1_TEXT**
-[`string`](../../data-types.md) | Текст запроса оценки в виджете ||
+[`string`](../../data-types.md) | Текст запроса оценки в виджете, не более 100 символов ||
 || **VOTE_MESSAGE_1_LIKE**
-[`string`](../../data-types.md) | Текст после положительной оценки в виджете ||
+[`string`](../../data-types.md) | Текст после положительной оценки в виджете, не более 100 символов ||
 || **VOTE_MESSAGE_1_DISLIKE**
-[`string`](../../data-types.md) | Текст после отрицательной оценки в виджете ||
+[`string`](../../data-types.md) | Текст после отрицательной оценки в виджете, не более 100 символов ||
 || **VOTE_MESSAGE_2_TEXT**
-[`string`](../../data-types.md) | Текст запроса оценки в внешних каналах ||
+[`string`](../../data-types.md) | Текст запроса оценки во внешних каналах ||
 || **VOTE_MESSAGE_2_LIKE**
-[`string`](../../data-types.md) | Текст после положительной оценки в внешних каналах ||
+[`string`](../../data-types.md) | Текст после положительной оценки во внешних каналах ||
 || **VOTE_MESSAGE_2_DISLIKE**
-[`string`](../../data-types.md) | Текст после отрицательной оценки в внешних каналах ||
+[`string`](../../data-types.md) | Текст после отрицательной оценки во внешних каналах ||
 || **AUTO_CLOSE_RULE**
 [`string`](../../data-types.md) | Сценарий автозакрытия. Возможные значения:
 - `none` — не выполнять сценарий
 - `text` — отправить текстовое сообщение ||
 || **FULL_CLOSE_TIME**
-[`integer`](../../data-types.md) | Время полного закрытия после ручного закрытия ||
+[`integer`](../../data-types.md) | Время в минутах до полного закрытия диалога после ручного закрытия. По умолчанию `10` ||
 || **AUTO_CLOSE_TIME**
-[`integer`](../../data-types.md) | Время до автозакрытия ||
+[`integer`](../../data-types.md) | Время в секундах до автозакрытия диалога. По умолчанию `14400` ||
 || **AUTO_CLOSE_FORM_ID**
 [`integer`](../../data-types.md) | Идентификатор CRM-формы для автозакрытия ||
 || **AUTO_CLOSE_BOT_ID**
@@ -246,11 +272,13 @@
 || **AUTO_CLOSE_TEXT**
 [`string`](../../data-types.md) | Текст при автозакрытии ||
 || **AUTO_EXPIRE_TIME**
-[`integer`](../../data-types.md) | Срок жизни автоматически закрытой сессии ||
+[`integer`](../../data-types.md) | Срок жизни автоматически закрытой сессии в секундах. По умолчанию `86400` ||
 || **TEMPORARY**
 [`char`](../../data-types.md) | Создать временную линию. Возможные значения:
-- `Y` — создать временную линию
-- `N` — создать постоянную линию ||
+- `Y` — создать временную линию. Битрикс24 удалит ее через 8 часов
+- `N` — создать постоянную линию
+
+По умолчанию `N` ||
 || **QUICK_ANSWERS_IBLOCK_ID**
 [`integer`](../../data-types.md) | Идентификатор инфоблока быстрых ответов ||
 || **KPI_FIRST_ANSWER_TIME**
@@ -287,7 +315,16 @@
 [`char`](../../data-types.md) | Показывать форму с задержкой. Возможные значения:
 - `Y` — да
 - `N` — нет ||
+|| **AGREEMENT_MESSAGE**
+[`char`](../../data-types.md) | Показывать предупреждение о сборе персональных данных. Возможные значения:
+- `Y` — да
+- `N` — нет
+
+По умолчанию `N`. Если передано `Y`, укажите соглашение в `AGREEMENT_ID`, иначе метод вернет `false` ||
+|| **AGREEMENT_ID**
+[`integer`](../../data-types.md) | Идентификатор соглашения об обработке персональных данных ||
 || **CONFIRM_CLOSE**
+
 [`char`](../../data-types.md) | Запрашивать подтверждение закрытия. Возможные значения:
 - `Y` — да
 - `N` — нет ||
@@ -333,13 +370,13 @@
           "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
           "CRM": "Y",
           "CRM_CREATE": "deal",
-          "CRM_SOURCE": "openline_web",
+          "CRM_SOURCE": "create",
           "CRM_FORWARD": "Y",
           "MAX_CHAT": 4,
           "TYPE_MAX_CHAT": "answered_new",
           "WORKTIME_ENABLE": "Y",
-          "WORKTIME_FROM": "09:00",
-          "WORKTIME_TO": "21:00",
+          "WORKTIME_FROM": "9",
+          "WORKTIME_TO": "21",
           "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
           "WORKTIME_DAYOFF": [
             "SA",
@@ -382,13 +419,13 @@
           "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
           "CRM": "Y",
           "CRM_CREATE": "deal",
-          "CRM_SOURCE": "openline_web",
+          "CRM_SOURCE": "create",
           "CRM_FORWARD": "Y",
           "MAX_CHAT": 4,
           "TYPE_MAX_CHAT": "answered_new",
           "WORKTIME_ENABLE": "Y",
-          "WORKTIME_FROM": "09:00",
-          "WORKTIME_TO": "21:00",
+          "WORKTIME_FROM": "9",
+          "WORKTIME_TO": "21",
           "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
           "WORKTIME_DAYOFF": [
             "SA",
@@ -417,7 +454,7 @@
         method: 'imopenlines.config.add',
         params: {
           PARAMS: {
-            LINE_NAME: 'Online store support line',
+            LINE_NAME: 'Линия поддержки интернет-магазина',
             QUEUE: [
               { ENTITY_TYPE: 'user', ENTITY_ID: '1' },
               { ENTITY_TYPE: 'user', ENTITY_ID: '15' },
@@ -427,20 +464,20 @@
             QUEUE_TIME: 45,
             NO_ANSWER_TIME: 120,
             WELCOME_MESSAGE: 'Y',
-            WELCOME_MESSAGE_TEXT: 'Hello! We will respond within a couple of minutes',
+            WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
             CRM: 'Y',
             CRM_CREATE: 'deal',
-            CRM_SOURCE: 'openline_web',
+            CRM_SOURCE: 'create',
             CRM_FORWARD: 'Y',
             MAX_CHAT: 4,
             TYPE_MAX_CHAT: 'answered_new',
             WORKTIME_ENABLE: 'Y',
-            WORKTIME_FROM: '09:00',
-            WORKTIME_TO: '21:00',
+            WORKTIME_FROM: '9',
+            WORKTIME_TO: '21',
             WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
             WORKTIME_DAYOFF: ['SA', 'SU'],
             WORKTIME_DAYOFF_RULE: 'text',
-            WORKTIME_DAYOFF_TEXT: 'The line is currently unavailable. Write to us and we will respond during business hours',
+            WORKTIME_DAYOFF_TEXT: 'Сейчас линия не работает. Напишите, и мы ответим в рабочее время',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -474,7 +511,7 @@
             method: 'imopenlines.config.add',
             params: {
               PARAMS: {
-                LINE_NAME: 'Online store support line',
+                LINE_NAME: 'Линия поддержки интернет-магазина',
                 QUEUE: [
                   { ENTITY_TYPE: 'user', ENTITY_ID: '1' },
                   { ENTITY_TYPE: 'user', ENTITY_ID: '15' },
@@ -484,20 +521,20 @@
                 QUEUE_TIME: 45,
                 NO_ANSWER_TIME: 120,
                 WELCOME_MESSAGE: 'Y',
-                WELCOME_MESSAGE_TEXT: 'Hello! We will respond within a couple of minutes',
+                WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
                 CRM: 'Y',
                 CRM_CREATE: 'deal',
-                CRM_SOURCE: 'openline_web',
+                CRM_SOURCE: 'create',
                 CRM_FORWARD: 'Y',
                 MAX_CHAT: 4,
                 TYPE_MAX_CHAT: 'answered_new',
                 WORKTIME_ENABLE: 'Y',
-                WORKTIME_FROM: '09:00',
-                WORKTIME_TO: '21:00',
+                WORKTIME_FROM: '9',
+                WORKTIME_TO: '21',
                 WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
                 WORKTIME_DAYOFF: ['SA', 'SU'],
                 WORKTIME_DAYOFF_RULE: 'text',
-                WORKTIME_DAYOFF_TEXT: 'The line is currently unavailable. Write to us and we will respond during business hours',
+                WORKTIME_DAYOFF_TEXT: 'Сейчас линия не работает. Напишите, и мы ответим в рабочее время',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -529,7 +566,7 @@
     try:
         bitrix_response = client.imopenlines.config.add(
             params={
-                "LINE_NAME": "Online store support line",
+                "LINE_NAME": "Линия поддержки интернет-магазина",
                 "QUEUE": [
                     {
                         "ENTITY_TYPE": "user",
@@ -548,23 +585,23 @@
                 "QUEUE_TIME": 45,
                 "NO_ANSWER_TIME": 120,
                 "WELCOME_MESSAGE": "Y",
-                "WELCOME_MESSAGE_TEXT": "Hello! We will respond within a couple of minutes",
+                "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
                 "CRM": "Y",
                 "CRM_CREATE": "deal",
-                "CRM_SOURCE": "openline_web",
+                "CRM_SOURCE": "create",
                 "CRM_FORWARD": "Y",
                 "MAX_CHAT": 4,
                 "TYPE_MAX_CHAT": "answered_new",
                 "WORKTIME_ENABLE": "Y",
-                "WORKTIME_FROM": "09:00",
-                "WORKTIME_TO": "21:00",
+                "WORKTIME_FROM": "9",
+                "WORKTIME_TO": "21",
                 "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
                 "WORKTIME_DAYOFF": [
                     "SA",
                     "SU",
                 ],
                 "WORKTIME_DAYOFF_RULE": "text",
-                "WORKTIME_DAYOFF_TEXT": "The line is currently unavailable. Write to us and we will respond during business hours",
+                "WORKTIME_DAYOFF_TEXT": "Сейчас линия не работает. Напишите, и мы ответим в рабочее время",
             },
         ).response
         result = bitrix_response.result
@@ -614,13 +651,13 @@
                         'WELCOME_MESSAGE_TEXT' => 'Здравствуйте! Ответим в течение пары минут',
                         'CRM' => 'Y',
                         'CRM_CREATE' => 'deal',
-                        'CRM_SOURCE' => 'openline_web',
+                        'CRM_SOURCE' => 'create',
                         'CRM_FORWARD' => 'Y',
                         'MAX_CHAT' => 4,
                         'TYPE_MAX_CHAT' => 'answered_new',
                         'WORKTIME_ENABLE' => 'Y',
-                        'WORKTIME_FROM' => '09:00',
-                        'WORKTIME_TO' => '21:00',
+                        'WORKTIME_FROM' => '9',
+                        'WORKTIME_TO' => '21',
                         'WORKTIME_TIMEZONE' => 'Europe/Kaliningrad',
                         'WORKTIME_DAYOFF' => ['SA', 'SU'],
                         'WORKTIME_DAYOFF_RULE' => 'text',
@@ -668,13 +705,13 @@
                 WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
                 CRM: 'Y',
                 CRM_CREATE: 'deal',
-                CRM_SOURCE: 'openline_web',
+                CRM_SOURCE: 'create',
                 CRM_FORWARD: 'Y',
                 MAX_CHAT: 4,
                 TYPE_MAX_CHAT: 'answered_new',
                 WORKTIME_ENABLE: 'Y',
-                WORKTIME_FROM: '09:00',
-                WORKTIME_TO: '21:00',
+                WORKTIME_FROM: '9',
+                WORKTIME_TO: '21',
                 WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
                 WORKTIME_DAYOFF: ['SA', 'SU'],
                 WORKTIME_DAYOFF_RULE: 'text',
@@ -726,13 +763,13 @@
                 'WELCOME_MESSAGE_TEXT' => 'Здравствуйте! Ответим в течение пары минут',
                 'CRM' => 'Y',
                 'CRM_CREATE' => 'deal',
-                'CRM_SOURCE' => 'openline_web',
+                'CRM_SOURCE' => 'create',
                 'CRM_FORWARD' => 'Y',
                 'MAX_CHAT' => 4,
                 'TYPE_MAX_CHAT' => 'answered_new',
                 'WORKTIME_ENABLE' => 'Y',
-                'WORKTIME_FROM' => '09:00',
-                'WORKTIME_TO' => '21:00',
+                'WORKTIME_FROM' => '9',
+                'WORKTIME_TO' => '21',
                 'WORKTIME_TIMEZONE' => 'Europe/Kaliningrad',
                 'WORKTIME_DAYOFF' => ['SA', 'SU'],
                 'WORKTIME_DAYOFF_RULE' => 'text',
@@ -772,13 +809,13 @@
     		"WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
     		"CRM":                  "Y",
     		"CRM_CREATE":           "deal",
-    		"CRM_SOURCE":           "openline_web",
+    		"CRM_SOURCE":           "create",
     		"CRM_FORWARD":          "Y",
     		"MAX_CHAT":             4,
     		"TYPE_MAX_CHAT":        "answered_new",
     		"WORKTIME_ENABLE":      "Y",
-    		"WORKTIME_FROM":        "09:00",
-    		"WORKTIME_TO":          "21:00",
+    		"WORKTIME_FROM":        "9",
+    		"WORKTIME_TO":          "21",
     		"WORKTIME_TIMEZONE":    "Europe/Kaliningrad",
     		"WORKTIME_DAYOFF":      []string{"SA", "SU"},
     		"WORKTIME_DAYOFF_RULE": "text",
@@ -824,18 +861,35 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../../data-types.md), [`boolean`](../../data-types.md) | Идентификатор созданной открытой линии или `false`, если создать линию не удалось ||
+[`integer`](../../data-types.md) \| [`boolean`](../../data-types.md) | Идентификатор созданной открытой линии.
+
+Метод возвращает `false`, если линию не удалось сохранить, например, при `AGREEMENT_MESSAGE` = `Y` без доступного соглашения в `AGREEMENT_ID` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-Метод не задает собственных кодов ошибок. Если сохранить открытую линию не удалось, метод возвращает `false` в поле `result`.
+HTTP-статус: **403**
+
+```json
+{
+    "error": "CONFIG_WRONG_USER_PERMISSION",
+    "error_description": "Permission denied"
+}
+```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `CONFIG_WRONG_USER_PERMISSION` | Permission denied | Недостаточно прав для создания открытой линии ||
+|#
+
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
+
 
 ## Продолжите изучение
 

@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `imopenlines.bot.session.message.send` отправляет в диалог открытой линии автоматическое сообщение от чат-бота приложения.
+Метод `imopenlines.bot.session.message.send` отправляет в диалог открытой линии автоматическое сообщение от чат-бота приложения. Клиент получает его в своем канале связи, в чате сообщение отображается как системное.
+
+Метод отправляет сообщение, только если в чате есть активный диалог.
 
 ## Параметры метода
 
@@ -27,11 +29,13 @@
 
 Идентификатор чата можно получить с помощью методов [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) или [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) ||
 || **NAME**
-[`string`](../../../data-types.md) | Код типа автоответа. 
+[`string`](../../../data-types.md) | Код типа автоответа.
 
 Допустимые значения:
 - `WELCOME` — отправляет автоматическое приветствие из настроек Открытой линии, параметр `MESSAGE` в этом режиме игнорируется
-- `DEFAULT` — отправляет текст из параметра `MESSAGE` ||
+- `DEFAULT` — отправляет текст из параметра `MESSAGE`
+
+Если `NAME` не передан или передано другое значение, метод не отправляет сообщение, но возвращает `true` ||
 || **MESSAGE**
 [`string`](../../../data-types.md) | Текст сообщения для режима `NAME=DEFAULT`. По умолчанию используется пустая строка.
 
@@ -80,7 +84,7 @@
         params: {
           CHAT_ID: 112,
           NAME: 'DEFAULT',
-          MESSAGE: 'Hello! How can I help you?',
+          MESSAGE: 'Здравствуйте! Чем могу помочь?',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -90,7 +94,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Auto message sent:', result)
+        console.info('Сообщение отправлено:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -114,7 +118,7 @@
             params: {
               CHAT_ID: 112,
               NAME: 'DEFAULT',
-              MESSAGE: 'Hello! How can I help you?',
+              MESSAGE: 'Здравствуйте! Чем могу помочь?',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -126,7 +130,7 @@
           }
 
           const result = response.getData().result
-          console.info('Auto message sent:', result)
+          console.info('Сообщение отправлено:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -146,7 +150,7 @@
         bitrix_response = client.imopenlines.bot.session.message.send(
             chat_id=112,
             name="DEFAULT",
-            message="Hello! How can I help you?",
+            message="Здравствуйте! Чем могу помочь?",
         ).response
         result = bitrix_response.result
         print(result)
@@ -182,10 +186,10 @@
           ->getResponseData()
           ->getResult();
 
-      echo 'Auto message sent: ' . var_export($result, true);
+      echo 'Сообщение отправлено: ' . var_export($result, true);
   } catch (Throwable $exception) {
       error_log($exception->getMessage());
-      echo 'Error sending auto message: ' . $exception->getMessage();
+      echo 'Ошибка отправки сообщения: ' . $exception->getMessage();
   }
   ```
 
@@ -224,9 +228,9 @@
   );
 
   if (!empty($result['error'])) {
-      echo 'Error: ' . $result['error_description'];
+      echo 'Ошибка: ' . $result['error_description'];
   } else {
-      echo 'Auto message sent: ' . var_export($result['result'], true);
+      echo 'Сообщение отправлено: ' . var_export($result['result'], true);
   }
   ```
 
@@ -277,7 +281,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Флаг успешного вызова метода. Метод не возвращает признак фактического создания сообщения в чате ||
+[`boolean`](../../../data-types.md) | Содержит `true` после выполнения метода. Метод не сообщает, было ли сообщение отправлено: `true` приходит, даже если чат не найден, в чате нет активного диалога или сообщение пустое ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -300,7 +304,7 @@ HTTP-статус: **400**, **403**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение `<= 0` ||
-|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией пользователя. Вызывайте метод через вебхук или с OAuth-токеном приложения ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

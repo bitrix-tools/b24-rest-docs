@@ -11,9 +11,11 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор или оператор открытой линии
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию. Пользователю также нужен доступ к списку быстрых ответов линии
 
-Метод `imopenlines.message.quick.save` сохраняет сообщение из чата открытой линии в список быстрых ответов.
+Метод `imopenlines.message.quick.save` сохраняет сообщение из чата открытой линии в список быстрых ответов этой линии.
+
+Если сообщение уже сохранено в быстрые ответы, метод обновляет текст ответа. Если в списке уже есть ответ с таким же текстом, метод не создает дубликат.
 
 ## Параметры метода
 
@@ -21,13 +23,13 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии, из которого нужно сохранить сообщение.
+[`integer`](../../../data-types.md) | Идентификатор чата открытой линии, из которого нужно сохранить сообщение. Метод сохраняет ответ в список быстрых ответов линии этого чата.
 
 Идентификатор чата можно получить с помощью метода [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) или [imopenlines.session.open](../sessions/imopenlines-session-open.md) ||
 || **MESSAGE_ID***
-[`integer`](../../../data-types.md) | Идентификатор сообщения, которое нужно добавить в быстрые ответы.
+[`integer`](../../../data-types.md) | Идентификатор сообщения, которое нужно добавить в быстрые ответы. У пользователя должен быть доступ к чату, в котором находится сообщение.
 
 Идентификатор сообщения можно получить с помощью метода [imopenlines.session.history.get](../sessions/imopenlines-session-history-get.md) ||
 |#
@@ -42,20 +44,20 @@
 
     ```bash
     curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CHAT_ID":1331,"MESSAGE_ID":83507}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.message.quick.save
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"CHAT_ID":1331,"MESSAGE_ID":83507}' \
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.message.quick.save
     ```
 
 - cURL (OAuth)
 
     ```bash
     curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"CHAT_ID":1331,"MESSAGE_ID":83507,"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/imopenlines.message.quick.save
+      -H "Content-Type: application/json" \
+      -H "Accept: application/json" \
+      -d '{"CHAT_ID":1331,"MESSAGE_ID":83507,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.message.quick.save
     ```
 
 - JS (TS)
@@ -83,7 +85,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Saved to quick answers:', result)
+        console.info('Сохранено в быстрые ответы:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -118,7 +120,7 @@
           }
 
           const result = response.getData().result
-          console.info('Saved to quick answers:', result)
+          console.info('Сохранено в быстрые ответы:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -211,9 +213,9 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Ошибка: ' . $result['error_description'];
     } else {
-        echo 'Saved to quick answers: ' . var_export($result['result'], true);
+        echo 'Сохранено в быстрые ответы: ' . var_export($result['result'], true);
     }
     ```
 
@@ -257,13 +259,13 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Содержит `true` при успешном сохранении в быстрые ответы ||
+[`boolean`](../../../data-types.md) | Содержит `true`, если сообщение сохранено в быстрые ответы ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -281,14 +283,16 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
+Описание ошибки `error_description` приходит на языке Битрикс24.
+
 ### Возможные коды ошибок
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Пустой или некорректный `CHAT_ID` ||
-|| `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Указанный чат не относится к открытым линиям ||
-|| `400` | `CANT_SAVE_QUICK_ANSWER` | Ошибка сохранения быстрого ответа | Сообщение `MESSAGE_ID` не удалось сохранить в быстрые ответы ||
-|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | У текущего пользователя нет доступа к диалогу ||
+|| `400` | `CANT_SAVE_QUICK_ANSWER` | Ошибка сохранения быстрого ответа | Не передан `MESSAGE_ID`, сообщение не найдено, у пользователя нет доступа к списку быстрых ответов или ответ не удалось сохранить ||
+|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Не передан `CHAT_ID`, передано не число или чат не найден ||
+|| `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Чат `CHAT_ID` или чат сообщения `MESSAGE_ID` не относится к открытым линиям ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав. | У пользователя нет доступа к чату открытой линии ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

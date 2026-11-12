@@ -27,8 +27,18 @@
 
 Получить идентификатор открытой линии можно при [создании открытой линии](./imopenlines-config-add.md) или методом [получения списка открытых линий](./imopenlines-config-list-get.md) ||
 || **PARAMS**
-[`object`](../../data-types.md) | Объект с настройками для обновления. Набор полей соответствует параметру [PARAMS](./imopenlines-config-add.md#params) метода `imopenlines.config.add` ||
+[`object`](../../data-types.md) | Объект с настройками для обновления. Набор полей соответствует параметру [PARAMS](./imopenlines-config-add.md#params) метода `imopenlines.config.add`.
+
+Метод меняет только переданные поля, значения по умолчанию из `imopenlines.config.add` не применяются ||
 |#
+
+Учитывайте при передаче `PARAMS`:
+
+- `LINE_NAME` не может быть пустой строкой
+- `QUEUE` заменяет очередь целиком. Пустой массив, элементы без `ENTITY_TYPE` и `ENTITY_ID` или подразделение без сотрудников метод не принимает
+- `WORKTIME_FROM` и `WORKTIME_TO` передавайте вместе в формате часов с точкой, например `9` и `18.30`. Время в формате `09:00` метод заменяет на интервал с `9` до `18.30`
+
+Если одно из условий нарушено, метод не сохраняет изменения и возвращает `false`.
 
 ## Примеры кода
 
@@ -66,8 +76,8 @@
           "WELCOME_MESSAGE": "Y",
           "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
           "WORKTIME_ENABLE": "Y",
-          "WORKTIME_FROM": "09:00",
-          "WORKTIME_TO": "21:00",
+          "WORKTIME_FROM": "9",
+          "WORKTIME_TO": "21",
           "WORKTIME_TIMEZONE": "Europe/Kaliningrad"
         }
       }' \
@@ -104,8 +114,8 @@
           "WELCOME_MESSAGE": "Y",
           "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
           "WORKTIME_ENABLE": "Y",
-          "WORKTIME_FROM": "09:00",
-          "WORKTIME_TO": "21:00",
+          "WORKTIME_FROM": "9",
+          "WORKTIME_TO": "21",
           "WORKTIME_TIMEZONE": "Europe/Kaliningrad"
         },
         "auth": "**put_access_token_here**"
@@ -129,7 +139,7 @@
         params: {
           CONFIG_ID: 15,
           PARAMS: {
-            LINE_NAME: 'Online Store Support Line (VIP)',
+            LINE_NAME: 'Линия поддержки интернет-магазина (VIP)',
             QUEUE: [
               {
                 ENTITY_TYPE: 'user',
@@ -148,10 +158,10 @@
             QUEUE_TIME: 45,
             NO_ANSWER_TIME: 120,
             WELCOME_MESSAGE: 'Y',
-            WELCOME_MESSAGE_TEXT: 'Hello! We will reply in a couple of minutes',
+            WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
             WORKTIME_ENABLE: 'Y',
-            WORKTIME_FROM: '09:00',
-            WORKTIME_TO: '21:00',
+            WORKTIME_FROM: '9',
+            WORKTIME_TO: '21',
             WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
           },
         },
@@ -187,7 +197,7 @@
             params: {
               CONFIG_ID: 15,
               PARAMS: {
-                LINE_NAME: 'Online Store Support Line (VIP)',
+                LINE_NAME: 'Линия поддержки интернет-магазина (VIP)',
                 QUEUE: [
                   {
                     ENTITY_TYPE: 'user',
@@ -206,10 +216,10 @@
                 QUEUE_TIME: 45,
                 NO_ANSWER_TIME: 120,
                 WELCOME_MESSAGE: 'Y',
-                WELCOME_MESSAGE_TEXT: 'Hello! We will reply in a couple of minutes',
+                WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
                 WORKTIME_ENABLE: 'Y',
-                WORKTIME_FROM: '09:00',
-                WORKTIME_TO: '21:00',
+                WORKTIME_FROM: '9',
+                WORKTIME_TO: '21',
                 WORKTIME_TIMEZONE: 'Europe/Kaliningrad',
               },
             },
@@ -243,7 +253,7 @@
         bitrix_response = client.imopenlines.config.update(
             config_id=15,
             params={
-                "LINE_NAME": "Online Store Support Line (VIP)",
+                "LINE_NAME": "Линия поддержки интернет-магазина (VIP)",
                 "QUEUE": [
                     {
                         "ENTITY_TYPE": "user",
@@ -262,10 +272,10 @@
                 "QUEUE_TIME": 45,
                 "NO_ANSWER_TIME": 120,
                 "WELCOME_MESSAGE": "Y",
-                "WELCOME_MESSAGE_TEXT": "Hello! We will reply in a couple of minutes",
+                "WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
                 "WORKTIME_ENABLE": "Y",
-                "WORKTIME_FROM": "09:00",
-                "WORKTIME_TO": "21:00",
+                "WORKTIME_FROM": "9",
+                "WORKTIME_TO": "21",
                 "WORKTIME_TIMEZONE": "Europe/Kaliningrad",
             },
         ).response
@@ -316,8 +326,8 @@
                         'WELCOME_MESSAGE' => 'Y',
                         'WELCOME_MESSAGE_TEXT' => 'Здравствуйте! Ответим в течение пары минут',
                         'WORKTIME_ENABLE' => 'Y',
-                        'WORKTIME_FROM' => '09:00',
-                        'WORKTIME_TO' => '21:00',
+                        'WORKTIME_FROM' => '9',
+                        'WORKTIME_TO' => '21',
                         'WORKTIME_TIMEZONE' => 'Europe/Kaliningrad',
                     ],
                 ]
@@ -362,8 +372,8 @@
                 WELCOME_MESSAGE: 'Y',
                 WELCOME_MESSAGE_TEXT: 'Здравствуйте! Ответим в течение пары минут',
                 WORKTIME_ENABLE: 'Y',
-                WORKTIME_FROM: '09:00',
-                WORKTIME_TO: '21:00',
+                WORKTIME_FROM: '9',
+                WORKTIME_TO: '21',
                 WORKTIME_TIMEZONE: 'Europe/Kaliningrad'
             }
         },
@@ -412,8 +422,8 @@
                 'WELCOME_MESSAGE' => 'Y',
                 'WELCOME_MESSAGE_TEXT' => 'Здравствуйте! Ответим в течение пары минут',
                 'WORKTIME_ENABLE' => 'Y',
-                'WORKTIME_FROM' => '09:00',
-                'WORKTIME_TO' => '21:00',
+                'WORKTIME_FROM' => '9',
+                'WORKTIME_TO' => '21',
                 'WORKTIME_TIMEZONE' => 'Europe/Kaliningrad',
             ],
         ]
@@ -450,8 +460,8 @@
     		"WELCOME_MESSAGE":      "Y",
     		"WELCOME_MESSAGE_TEXT": "Здравствуйте! Ответим в течение пары минут",
     		"WORKTIME_ENABLE":      "Y",
-    		"WORKTIME_FROM":        "09:00",
-    		"WORKTIME_TO":          "21:00",
+    		"WORKTIME_FROM":        "9",
+    		"WORKTIME_TO":          "21",
     		"WORKTIME_TIMEZONE":    "Europe/Kaliningrad",
     	},
     })
@@ -496,7 +506,8 @@ HTTP-статус: **200**
 || **result**
 [`boolean`](../../data-types.md) | Возвращает:
 - `true` — если линия успешно обновлена
-- `false` — если линия с указанным `CONFIG_ID` не существует ||
+- `false` — если линия с указанным `CONFIG_ID` не существует или изменения не прошли проверку: пустое название, некорректная очередь, предупреждение `AGREEMENT_MESSAGE` = `Y` без доступного соглашения ||
+
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

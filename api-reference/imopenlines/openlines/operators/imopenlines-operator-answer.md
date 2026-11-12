@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правами на диалог
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
-Метод `imopenlines.operator.answer` передает диалог открытой линии текущему оператору.
+Метод `imopenlines.operator.answer` назначает пользователя, который вызывает метод, ответственным за диалог открытой линии.
 
 ## Параметры метода
 
@@ -23,10 +23,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии.
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](../sessions/imopenlines-session-open.md) или [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) ||
 |#
+
+Метод забирает диалог из очереди или у чат-бота. Если диалог уже ведет другой оператор, метод вернет ошибку `ANSWER_ALREADY_TAKEN`. Чтобы забрать диалог у другого оператора, используйте метод [imopenlines.session.intercept](../sessions/imopenlines-session-intercept.md).
 
 ## Примеры кода
 
@@ -41,7 +43,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"CHAT_ID":2043}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.operator.answer.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.operator.answer
     ```
 
 - cURL (OAuth)
@@ -50,8 +52,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CHAT_ID":2043,"auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.operator.answer.json
+      -d '{"CHAT_ID":2043,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.operator.answer
     ```
 
 - JS (TS)
@@ -78,7 +80,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Operator answered dialog:', result)
+        console.info('Диалог принят:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -112,7 +114,7 @@
           }
 
           const result = response.getData().result
-          console.info('Operator answered dialog:', result)
+          console.info('Диалог принят:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -253,7 +255,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true`, если оператор успешно забрал диалог ||
+[`boolean`](../../../data-types.md) | Возвращает `true`, если пользователь стал ответственным за диалог ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -275,10 +277,14 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Пустой или некорректный `CHAT_ID` ||
+|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Не передан `CHAT_ID`, передано значение меньше `1` или чат не найден ||
 || `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Указанный чат не относится к открытым линиям ||
-|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | У текущего пользователя нет прав на диалог ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Пользователь не участник чата и у него нет права «Подключение к разговору» на эту линию ||
 || `400` | `USER_ID` | Указан не корректный идентификатор пользователя | Не определен пользователь, от имени которого выполняется метод ||
+|| `400` | `ANSWER_ALREADY_TAKEN` | Диалог уже принят другим оператором | Диалог ведет другой оператор ||
+|| `400` | `IMOL_CHAT_ERROR_ANSWER_ALREADY_RESPONSIBLE` | Назначаемый оператор уже ответственный за диалог | Пользователь уже ведет этот диалог ||
+|| `400` | `IMOL_CHAT_ERROR_ANSWER_COMPETITIVE_REQUEST` | Уже есть конкурентный запрос выполняющий принятие данного диалога | Диалог в этот момент принимает другой запрос ||
+|| `400` | `IMOL_CHAT_ERROR_ANSWER_NOT_LOAD_SESSION` | Не удалось загрузить сессию | Не удалось загрузить или создать сессию диалога ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

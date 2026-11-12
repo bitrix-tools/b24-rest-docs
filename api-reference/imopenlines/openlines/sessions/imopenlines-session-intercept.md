@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правами на диалог
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
-Метод `imopenlines.session.intercept` переводит текущий диалог на оператора, который вызывает метод.
+Метод `imopenlines.session.intercept` забирает диалог у текущего оператора или чат-бота и назначает ответственным пользователя, который вызывает метод.
 
 ## Параметры метода
 
@@ -23,10 +23,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии. 
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](./imopenlines-session-open.md) или [imopenlines.dialog.get](./imopenlines-dialog-get.md) ||
 |#
+
+Метод возвращает `true` и в случаях, когда диалог не переходит к пользователю: если пользователь уже ведет этот диалог или у диалога нет ответственного. Чтобы убедиться, что диалог перешел, получите данные чата методом [imopenlines.dialog.get](./imopenlines-dialog-get.md) и проверьте поле `owner`.
 
 ## Примеры кода
 
@@ -41,7 +43,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"CHAT_ID":2043}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.session.intercept.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.session.intercept
     ```
 
 - cURL (OAuth)
@@ -50,8 +52,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CHAT_ID":2043,"auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.session.intercept.json
+      -d '{"CHAT_ID":2043,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.session.intercept
     ```
 
 - JS (TS)
@@ -78,7 +80,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Session intercepted:', result)
+        console.info('Диалог перехвачен:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -112,7 +114,7 @@
           }
 
           const result = response.getData().result
-          console.info('Session intercepted:', result)
+          console.info('Диалог перехвачен:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -253,7 +255,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true`, если диалог успешно переведен на текущего оператора ||
+[`boolean`](../../../data-types.md) | Возвращает `true`, если проверка доступа пройдена и запрос на перехват выполнен ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -275,8 +277,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или значение `<= 0` ||
-|| `400` | `OPERATOR_WRONG` | You can not redirect to this operator | Операция недоступна для текущего пользователя или состояния диалога ||
+|| `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение меньше `1` ||
+|| `400` | `OPERATOR_WRONG` | You can not redirect to this operator | Чат не найден, не является чатом открытой линии или у пользователя нет доступа к диалогу ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -40,65 +40,18 @@
 
 1. Найдите чат объекта CRM методом [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) без `ACTIVE_ONLY`. Метод вернет чаты, в которых диалог еще идет, — только в них можно отправить сообщение
 2. Получите идентификатор автора: сотрудника — методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md), чат-бота — методом [imbot.v2.Bot.list](../../../chat-bots/chat-bots-v2/imbot.v2/bots/bot-list.md). Автор должен быть участником чата. Если его нет в чате, добавьте методом [imopenlines.crm.chat.user.add](../chats/imopenlines-crm-chat-user-add.md)
-3. Отправьте сообщение методом [imopenlines.crm.message.add](./imopenlines-crm-message-add.md): передайте объект CRM, чат, автора и текст. Метод вернет идентификатор нового сообщения
+3. Отправьте сообщение методом [imopenlines.crm.message.add](./imopenlines-crm-message-add.md): передайте объект CRM, чат, автора и текст. Метод вернет идентификатор нового сообщения. Автору и пользователю, который вызывает метод, нужно право чтения объекта CRM
 
 ## Как сохранить быстрый ответ
 
 1. Получите историю чата методом [imopenlines.session.history.get](../sessions/imopenlines-session-history-get.md) и выберите сообщение, которое нужно сохранить
-2. Передайте идентификаторы `CHAT_ID` и `MESSAGE_ID` в метод [imopenlines.message.quick.save](./imopenlines-message-quick-save.md). Сообщение сохранится в списке быстрых ответов
-
-## Формат ответа и ошибки
-
-При успешном вызове в `result` приходит:
-
-- у [imopenlines.crm.message.add](./imopenlines-crm-message-add.md) — идентификатор нового сообщения
-- у [imopenlines.message.quick.save](./imopenlines-message-quick-save.md) — `true`
-
-Рядом с `result` приходит `time` — время выполнения запроса:
-
-```json
-{
-    "result": 41625,
-    "time": {
-        "start": 1790201451,
-        "finish": 1790201452.158646,
-        "duration": 1.1586461067199707,
-        "processing": 0,
-        "date_start": "2026-09-24T01:10:51+03:00",
-        "date_finish": "2026-09-24T01:10:52+03:00",
-        "operating_reset_at": 1790202052,
-        "operating": 0.13654208183288574
-    }
-}
-```
-
-При ошибке метод возвращает код в `error` и описание в `error_description`:
-
-```json
-{
-    "error": "CHAT_NOT_IN_CRM",
-    "error_description": "Chat does not belong to the CRM entity being checked"
-}
-```
-
-Чаще всего встречаются такие ошибки:
-
-#|
-|| **Код** | **Когда возникает** ||
-|| `CHAT_NOT_IN_CRM` | [imopenlines.crm.message.add](./imopenlines-crm-message-add.md): диалог в чате завершен или чат не относится к указанному объекту CRM ||
-|| `CANCELED` | [imopenlines.crm.message.add](./imopenlines-crm-message-add.md): автора из `USER_ID` нет в чате ||
-|| `ERROR_ARGUMENT` | Не передан обязательный параметр, например `MESSAGE` или `USER_ID` ||
-|| `CHAT_TYPE` | [imopenlines.message.quick.save](./imopenlines-message-quick-save.md): сообщение не из чата открытой линии ||
-|| `CANT_SAVE_QUICK_ANSWER` | [imopenlines.message.quick.save](./imopenlines-message-quick-save.md): быстрый ответ не удалось сохранить, например не передан `MESSAGE_ID` ||
-|#
-
-Полный список ошибок с причинами — на страницах методов [imopenlines.crm.message.add](./imopenlines-crm-message-add.md) и [imopenlines.message.quick.save](./imopenlines-message-quick-save.md), раздел «Обработка ошибок».
+2. Передайте идентификаторы `CHAT_ID` и `MESSAGE_ID` в метод [imopenlines.message.quick.save](./imopenlines-message-quick-save.md). Сообщение сохранится в списке быстрых ответов линии этого чата
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода — для [imopenlines.crm.message.add](./imopenlines-crm-message-add.md) и вызывающему, и автору сообщения нужно право чтения объекта CRM, к которому привязан чат; [imopenlines.message.quick.save](./imopenlines-message-quick-save.md) вызывает администратор или оператор открытой линии
+> Кто может выполнять методы: в зависимости от метода — для [imopenlines.crm.message.add](./imopenlines-crm-message-add.md) и вызывающему, и автору сообщения нужно право чтения объекта CRM, к которому привязан чат; [imopenlines.message.quick.save](./imopenlines-message-quick-save.md) — участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
 #|
 || **Метод** | **Описание** ||

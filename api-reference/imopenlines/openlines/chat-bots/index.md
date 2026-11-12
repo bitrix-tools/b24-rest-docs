@@ -19,9 +19,11 @@
 
 **Пользователь.** Идентификатор сотрудника `USER_ID` нужен, чтобы передать диалог конкретному оператору. Получить его можно методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md).
 
-**Чат.** Бот работает внутри чата открытой линии. Самого бота регистрируют и настраивают методами бот-платформы [Чат-боты 2.0](../../../chat-bots/chat-bots-v2/index.md). Те же методы подходят для обычного чат-бота вне открытых линий. Для нового бота используйте Чат-боты 2.0: устаревшие методы `imbot.*` сохранены только для существующих интеграций, порядок перехода описан в статье [Миграция с imbot на imbot.v2](../../../chat-bots/chat-bots-v2/migration.md).
+**Чат.** Бот работает внутри чата открытой линии. Все методы принимают идентификатор чата `CHAT_ID`. Бот получает его из события [ONIMBOTV2MESSAGEADD](../../../chat-bots/chat-bots-v2/imbot.v2/events/events.md#onimbotv2messageadd), также его возвращают методы [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) и [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md). Самого бота регистрируют и настраивают методами бот-платформы [Чат-боты 2.0](../../../chat-bots/chat-bots-v2/index.md). Те же методы подходят для обычного чат-бота вне открытых линий. Для нового бота используйте Чат-боты 2.0: устаревшие методы `imbot.*` сохранены только для существующих интеграций, порядок перехода описан в статье [Миграция с imbot на imbot.v2](../../../chat-bots/chat-bots-v2/migration.md).
 
-**Открытые линии.** Чат-боты используют текущую сессию открытой линии. Перевести диалог конкретному оператору или в очередь можно методом [imopenlines.bot.session.transfer](./imopenlines-bot-session-transfer.md), завершить сессию — методом [imopenlines.bot.session.finish](./imopenlines-bot-session-finish.md).
+**Открытые линии.** Чат-боты работают с текущим диалогом в чате открытой линии. Перевести диалог конкретному оператору или в очередь можно методом [imopenlines.bot.session.transfer](./imopenlines-bot-session-transfer.md): для перевода в очередь передайте идентификатор линии из ответа метода [imopenlines.config.list.get](../imopenlines-config-list-get.md). Завершить диалог можно методом [imopenlines.bot.session.finish](./imopenlines-bot-session-finish.md).
+
+**Приложение.** Методы `imopenlines.bot.session.transfer` и `imopenlines.bot.session.finish` находят чат-бота по приложению, которое его зарегистрировало. При вызове через вебхук передайте параметр `CLIENT_ID` — тот же, что при регистрации бота, или `botToken` для Чат-ботов 2.0.
 
 {% note tip "Пользовательская документация" %}
 
@@ -46,7 +48,7 @@
 || **Метод** | **Описание** ||
 || [imopenlines.bot.session.message.send](./imopenlines-bot-session-message-send.md) | Отправляет автоматическое сообщение в диалог ||
 || [imopenlines.bot.session.operator](./imopenlines-bot-session-operator.md) | Переключает диалог на свободного оператора ||
-|| [imopenlines.bot.session.transfer](./imopenlines-bot-session-transfer.md) | Переводит диалог на оператора по идентификатору или очередь ||
+|| [imopenlines.bot.session.transfer](./imopenlines-bot-session-transfer.md) | Переводит диалог на сотрудника или в очередь открытой линии ||
 || [imopenlines.bot.session.finish](./imopenlines-bot-session-finish.md) | Завершает диалог ||
 |#
 

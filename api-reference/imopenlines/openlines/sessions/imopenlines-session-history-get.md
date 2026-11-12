@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: оператор, который вел сессию, пользователь с правом «История разговора» на сессии этого оператора или пользователь с доступом к объекту CRM, связанному с сессией
 
-Метод `imopenlines.session.history.get` возвращает историю сообщений сессии открытой линии.
+Метод `imopenlines.session.history.get` возвращает сообщения одной сессии диалога открытой линии постранично, от новых к старым.
 
 ## Параметры метода
 
@@ -25,19 +25,33 @@
 || **SESSION_ID**
 [`integer`](../../../data-types.md) | Идентификатор сессии открытой линии.
 
-Идентификатор можно получить методом [imopenlines.dialog.get](./imopenlines-dialog-get.md) из поля `entity_data_1`. Идентификатор `SESSION_ID` находится в шестом параметре строки `entity_data_1`. Например, для ```"entity_data_1":"Y|LEAD|1205|N|N|321|1773223732|0|0|0"``` идентификатор сессии — `321` ||
+Идентификатор можно получить методом [imopenlines.dialog.get](./imopenlines-dialog-get.md) из поля `entity_data_1`. Идентификатор `SESSION_ID` находится в шестом элементе строки `entity_data_1`. Например, для ```"entity_data_1":"Y|LEAD|1205|N|N|321|1773223732|0|0|0"``` идентификатор сессии — `321` ||
 || **CHAT_ID**
 [`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`. Например, `1763`, не `chat1763`.
 
 Идентификатор можно получить методами [imopenlines.dialog.get](./imopenlines-dialog-get.md) или [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) ||
+|| **LIMIT**
+[`integer`](../../../data-types.md) | Количество сообщений на странице. По умолчанию `50`, максимум `200`.
+
+Значение больше `200` метод заменяет на `200`, значение `0` или меньше — на `50` ||
+|| **LAST_ID**
+[`integer`](../../../data-types.md) | Идентификатор сообщения, после которого начинается следующая страница. Передайте значение `nextId` из ответа на предыдущий запрос.
+
+Не передавайте параметр, чтобы получить первую страницу с самыми новыми сообщениями ||
+|| **LAST_DATE**
+[`integer`](../../../data-types.md) | Дата сообщения `LAST_ID` в формате Unix timestamp. Передайте значение `nextDate` из ответа на предыдущий запрос вместе с `LAST_ID`.
+
+Параметр нужен, чтобы страницы загружались правильно, даже если сообщение `LAST_ID` удалили между запросами ||
 |#
 
-Метод принимает один из параметров: `SESSION_ID` или `CHAT_ID`.
+Передайте один из параметров `SESSION_ID` или `CHAT_ID`:
 
-- Если передан `SESSION_ID`, метод работает по нему.
-- Если `SESSION_ID` не передан, метод пытается определить последнюю сессию по `CHAT_ID` с сортировкой `ID DESC`.
+- если передан `SESSION_ID`, метод возвращает сообщения этой сессии
+- если передан только `CHAT_ID`, метод возвращает сообщения последней сессии чата
 
-На практике для стабильного результата рекомендуется передавать `SESSION_ID`.
+Чтобы получить сообщения конкретной сессии, передавайте `SESSION_ID`.
+
+Чтобы получить всю историю сессии, повторяйте запрос, пока в ответе `hasNextPage` равно `true`. В каждом следующем запросе передавайте `LAST_ID` и `LAST_DATE` из полей `nextId` и `nextDate` предыдущего ответа.
 
 ## Примеры кода
 
@@ -51,7 +65,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"SESSION_ID":321}' \
+      -d '{"SESSION_ID":321,"LIMIT":50}' \
       https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.session.history.get
     ```
 
@@ -61,7 +75,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"SESSION_ID":321,"auth":"**put_access_token_here**"}' \
+      -d '{"SESSION_ID":321,"LIMIT":50,"auth":"**put_access_token_here**"}' \
       https://**put_your_bitrix24_address**/rest/imopenlines.session.history.get
     ```
 
@@ -156,6 +170,9 @@
         urlshow: string
         urldownload: string
       }>
+      nextId: number | null
+      nextDate: number | null
+      hasNextPage: boolean
     }
 
     try {
@@ -163,6 +180,7 @@
         method: 'imopenlines.session.history.get',
         params: {
           SESSION_ID: 321,
+          LIMIT: 50,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -172,7 +190,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info(result.sessionId, result.chatId, Object.keys(result.message).length)
+        console.info(result.sessionId, result.usersMessage[result.userId], result.hasNextPage)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -195,6 +213,7 @@
             method: 'imopenlines.session.history.get',
             params: {
               SESSION_ID: 321,
+              LIMIT: 50,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -206,7 +225,7 @@
           }
 
           const result = response.getData().result
-          console.info(result.sessionId, result.chatId, Object.keys(result.message).length)
+          console.info(result.sessionId, result.usersMessage[result.userId], result.hasNextPage)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -251,6 +270,7 @@
                 'imopenlines.session.history.get',
                 [
                     'SESSION_ID' => 321,
+                    'LIMIT' => 50,
                 ]
             );
 
@@ -271,6 +291,7 @@
         'imopenlines.session.history.get',
         {
             SESSION_ID: 321,
+            LIMIT: 50,
         },
         function(result) {
             if (result.error()) {
@@ -291,6 +312,7 @@
         'imopenlines.session.history.get',
         [
             'SESSION_ID' => 321,
+            'LIMIT' => 50,
         ]
     );
 
@@ -307,6 +329,7 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "imopenlines.session.history.get", b24.Params{
     	"SESSION_ID": 321,
+    	"LIMIT":      50,
     }, b24.WithIdempotent())
     if err != nil {
     	return fmt.Errorf("imopenlines.session.history.get: %w", err)
@@ -397,7 +420,7 @@ HTTP-статус: **200**
         "usersMessage": {
             "chat1763": [
                 "85851",
-                "85833",
+                "85833"
             ]
         },
         "users": {
@@ -541,7 +564,10 @@ HTTP-статус: **200**
                 "isvideonote": false,
                 "isvoicenote": false
             }
-        }
+        },
+        "nextId": null,
+        "nextDate": null,
+        "hasNextPage": false
     },
     "time": {
         "start": 1773224138,
@@ -577,23 +603,23 @@ HTTP-статус: **200**
 || **chatId**
 [`integer`](../../../data-types.md) | Идентификатор чата ||
 || **canJoin**
-[`string`](../../../data-types.md) | Флаг возможности подключения к диалогу: `Y` или `N` ||
+[`string`](../../../data-types.md) | Может ли пользователь подключиться к диалогу: `Y` или `N` ||
 || **canVoteHead**
-[`string`](../../../data-types.md) | Флаг возможности оценки операторов руководителем: `Y` или `N` ||
+[`string`](../../../data-types.md) | Может ли пользователь оценить работу оператора как руководитель: `Y` или `N` ||
 || **sessionId**
 [`integer`](../../../data-types.md) | Идентификатор сессии ||
 || **sessionVoteHead**
-[`integer`](../../../data-types.md) | Оценка, которая выставлена руководителем ||
+[`integer`](../../../data-types.md) | Оценка руководителя от `1` до `5` или `0`, если оценки нет ||
 || **sessionCommentHead**
 [`string`](../../../data-types.md) | Комментарий руководителя к оценке или `null` ||
 || **userId**
 [`string`](../../../data-types.md) | Идентификатор чата в формате `chat<ID>` ||
 || **message**
-[`object`](../../../data-types.md) | Сообщения чата, индексированные по идентификатору сообщения.
+[`object`](../../../data-types.md) | Сообщения страницы, где ключ — идентификатор сообщения.
 
 Структура объекта подробно описана [ниже](#message) ||
 || **usersMessage**
-[`object`](../../../data-types.md) | Связь чата и списка идентификаторов сообщений.
+[`object`](../../../data-types.md) | Идентификаторы сообщений страницы по порядку, от новых к старым. Используйте этот список, чтобы выводить сообщения в правильном порядке: в JavaScript ключи объекта `message` перебираются по возрастанию.
 
 Структура объекта подробно описана [ниже](#users-message) ||
 || **users**
@@ -605,7 +631,7 @@ HTTP-статус: **200**
 
 Структура объекта подробно описана [ниже](#openlines) ||
 || **userInGroup**
-[`object`](../../../data-types.md) | Пользователи, которые группированы по подразделениям, или пустой массив 
+[`object`](../../../data-types.md) | Пользователи, которые группированы по подразделениям, или пустой массив.
 
 Структура объекта подробно описана [ниже](#user-in-group) ||
 || **woUserInGroup**
@@ -619,13 +645,19 @@ HTTP-статус: **200**
 
 Структура объекта подробно описана [ниже](#user-block-chat) ||
 || **userInChat**
-[`object`](../../../data-types.md) | Состав участников чата или пустой массив. 
+[`object`](../../../data-types.md) | Состав участников чата или пустой массив.
 
 Структура объекта участников чата подробно описана [ниже](#user-in-chat) ||
 || **files**
 [`object`](../../../data-types.md) | Файлы, которые связаны с сообщениями, или пустой массив.
 
 Структура объекта файлов подробно описана [ниже](#files) ||
+|| **nextId**
+[`integer`](../../../data-types.md) | Идентификатор самого старого сообщения страницы. Передайте его в `LAST_ID`, чтобы получить следующую страницу. Значение `null`, если страниц больше нет ||
+|| **nextDate**
+[`integer`](../../../data-types.md) | Дата сообщения `nextId` в формате Unix timestamp. Передайте ее в `LAST_DATE`. Значение `null`, если страниц больше нет ||
+|| **hasNextPage**
+[`boolean`](../../../data-types.md) | `true`, если есть более старые сообщения и нужно запросить следующую страницу ||
 |#
 
 ### Объект message {#message}
@@ -760,7 +792,7 @@ HTTP-статус: **200**
 || **\<chatId\>**
 [`object`](../../../data-types.md) | Данные чата.
 
-Структура объекта подразделения подробно описана [ниже](#chat-item) ||
+Структура объекта чата подробно описана [ниже](#chat-item) ||
 |#
 
 ### Объект chatItem {#chat-item}
@@ -816,7 +848,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **\<chatId\>**
-[`object`](../../../data-types.md) | Объект с флагами блокировки пользователей в чате: ключ — идентификатор пользователя, значение — `true` или `false` || ||
+[`object`](../../../data-types.md) | Объект с флагами блокировки пользователей в чате: ключ — идентификатор пользователя, значение — `true` или `false` ||
 |#
 
 ### Объект userInChat {#user-in-chat}
@@ -834,7 +866,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **\<fileId\>**
-[`object`](../../../data-types.md) | Данные файла. 
+[`object`](../../../data-types.md) | Данные файла.
 
 Структура объекта подробно описана [ниже](#file-item) ||
 |#
@@ -877,13 +909,13 @@ HTTP-статус: **200**
 || **viewerattrs**
 [`object`](../../../data-types.md) | Параметры просмотра файла в интерфейсе ||
 || **mediaurl**
-[`string`](../../../data-types.md) | URL медиафайла ||
+[`object`](../../../data-types.md) | Ссылки на превью изображения разных размеров ||
 || **istranscribable**
 [`boolean`](../../../data-types.md) | Признак доступности расшифровки файла ||
 || **isvideonote**
-[`boolean`](../../../data-types.md) | Признак видео-заметки ||
+[`boolean`](../../../data-types.md) | Признак видеосообщения ||
 || **isvoicenote**
-[`boolean`](../../../data-types.md) | Признак голосовой заметки ||
+[`boolean`](../../../data-types.md) | Признак голосового сообщения ||
 |#
 
 ## Обработка ошибок
@@ -902,10 +934,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `MISSING_REQUIRED_PARAM` | Session ID or Chat ID must be provided | Не переданы `SESSION_ID` и `CHAT_ID` ||
-|| `INVALID_SESSION_ID` | Unable to determine session ID from provided parameters | По переданным параметрам не удалось определить сессию ||
-|| `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Недостаточно прав для просмотра истории, сессия не найдена или недоступна ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `MISSING_REQUIRED_PARAM` | Session ID or Chat ID must be provided | Не переданы `SESSION_ID` и `CHAT_ID` ||
+|| `400` | `INVALID_SESSION_ID` | Unable to determine session ID from provided parameters | `SESSION_ID` не число или у чата `CHAT_ID` нет сессий ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Сессия не найдена или у пользователя нет права просматривать ее историю ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}

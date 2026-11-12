@@ -1,6 +1,6 @@
 title: Операторы
 href: imopenlines-operator-answer.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
   - name: Забрать диалог себе
@@ -11,7 +11,7 @@ items:
     href: imopenlines-operator-another-finish.md
   - name: Пропустить диалог
     href: imopenlines-operator-skip.md
-  - name: Отметить диалог в качестве «спама»
+  - name: Отметить диалог как спам
     href: imopenlines-operator-spam.md
   - name: Передать диалог другому оператору или в другую линию
     href: imopenlines-operator-transfer.md

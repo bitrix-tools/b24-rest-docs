@@ -1,4 +1,4 @@
-# Отправить сообщение в открытую линию imopenlines.crm.message.add
+# Отправить сообщение в чат элемента CRM imopenlines.crm.message.add
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом чтения элемента CRM, к которому привязан чат
 
-Метод `imopenlines.crm.message.add` отправляет сообщение от имени сотрудника или бота в чат, который привязан к элементу CRM.
+Метод `imopenlines.crm.message.add` отправляет сообщение от имени сотрудника или бота в чат открытой линии, который привязан к элементу CRM. К сообщению добавляется пометка «Отправлено автоматически».
 
 ## Параметры метода
 
@@ -21,14 +21,15 @@
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **CRM_ENTITY_TYPE***
 [`string`](../../../data-types.md) | Тип объекта CRM:
-- lead — лид
-- deal — сделка
-- company — компания
-- contact — контакт
- ||
+- `lead` — лид
+- `deal` — сделка
+- `company` — компания
+- `contact` — контакт
+
+Регистр не учитывается ||
 || **CRM_ENTITY***
 [`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязан чат.
 
@@ -40,7 +41,7 @@
 
 Список чат-ботов можно получить с помощью метода [imbot.bot.list](../../../chat-bots/outdated/bots/imbot-bot-list.md) ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии, который связан с элементом CRM. 
+[`integer`](../../../data-types.md) | Идентификатор чата открытой линии, который связан с элементом CRM. В чате должен идти диалог: оператор взял его в работу, диалог не закрыт и не ожидает ответа клиента.
 
 Идентификатор чата можно получить с помощью метода [imopenlines.crm.chat.get](../chats/imopenlines-crm-chat-get.md) или [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) ||
 || **MESSAGE***
@@ -91,7 +92,7 @@
           CRM_ENTITY: 1195,
           USER_ID: 27,
           CHAT_ID: 1341,
-          MESSAGE: 'Message text',
+          MESSAGE: 'Текст сообщения',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -101,7 +102,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Created message ID:', result)
+        console.info('Идентификатор сообщения:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -127,7 +128,7 @@
               CRM_ENTITY: 1195,
               USER_ID: 27,
               CHAT_ID: 1341,
-              MESSAGE: 'Message text',
+              MESSAGE: 'Текст сообщения',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -139,7 +140,7 @@
           }
 
           const result = response.getData().result
-          console.info('Created message ID:', result)
+          console.info('Идентификатор сообщения:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -161,7 +162,7 @@
             crm_entity=1195,
             user_id=27,
             chat_id=1341,
-            message="Message text",
+            message="Текст сообщения",
         ).response
         result = bitrix_response.result
         print(result)
@@ -244,9 +245,9 @@
     );
 
     if (!empty($result['error'])) {
-        echo 'Error: ' . $result['error_description'];
+        echo 'Ошибка: ' . $result['error_description'];
     } else {
-        echo 'Created message ID: ' . $result['result'];
+        echo 'Идентификатор сообщения: ' . $result['result'];
     }
     ```
 
@@ -294,11 +295,11 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
-`Тип` | **Описание** ||
+`тип` | **Описание** ||
 || **result**
 [`integer`](../../../data-types.md) | Идентификатор созданного сообщения в чате ||
 || **time**
@@ -322,9 +323,7 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Чат не связан с объектом CRM ||
-|| `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | У текущего пользователя нет доступа к объекту CRM ||
-|| `403` | `ACCESS_DENIED` | Access denied! User dont have access to this entity | Пользователь `USER_ID` не имеет доступа к объекту CRM ||
+|| `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Чат не связан с объектом CRM или в чате нет активного диалога ||
 || `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY_TYPE' is null or empty | Не передан обязательный параметр `CRM_ENTITY_TYPE` ||
 || `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY' is null or empty | Не передан обязательный параметр `CRM_ENTITY` ||
 || `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
@@ -333,7 +332,9 @@ HTTP-статус: **400**, **403**
 || `400` | `ERROR_ARGUMENT` | Argument 'CHAT_ID' is null or empty | Не передан обязательный параметр `CHAT_ID` ||
 || `400` | `ERROR_ARGUMENT` | The value of an argument 'CHAT_ID' has an invalid type | Параметр `CHAT_ID` передан в неверном формате ||
 || `400` | `ERROR_ARGUMENT` | Argument 'MESSAGE' is null or empty | Не передан обязательный параметр `MESSAGE` ||
-|| `400` | `MESSAGE_ADD_ERROR` | Message isn't added | Сообщение не отправлено ||
+|| `400` | `MESSAGE_ADD_ERROR` | Message isn't added | Сообщение не отправлено, например автор `USER_ID` не может писать в этот чат ||
+|| `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | У текущего пользователя нет права чтения объекта CRM или в `CRM_ENTITY_TYPE` передан неизвестный тип ||
+|| `403` | `ACCESS_DENIED` | Access denied! User dont have access to this entity | У пользователя `USER_ID` нет права чтения объекта CRM ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}

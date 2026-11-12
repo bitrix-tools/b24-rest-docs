@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: пользователь приложения с зарегистрированным чат-ботом
 
-Метод `imopenlines.bot.session.transfer` переводит диалог открытой линии от чат-бота на указанного оператора или очередь.
+Метод `imopenlines.bot.session.transfer` переводит диалог открытой линии от чат-бота на указанного сотрудника или в очередь открытой линии.
+
+Названия параметров передавайте в верхнем регистре: метод не распознает `chat_id` или `user_id`.
 
 ## Параметры метода
 
@@ -31,7 +33,7 @@
 
 Идентификатор пользователя можно получить с помощью методов [user.get](../../../user/user-get.md) или [user.search](../../../user/user-search.md) ||
 || **QUEUE_ID**
-[`integer`](../../../data-types.md) | Идентификатор очереди, в которую нужно перевести диалог.
+[`integer`](../../../data-types.md) | Идентификатор открытой линии, в очередь которой нужно перевести диалог. Можно указать текущую линию или другую.
 
 В параметр передавайте значение поля `ID` из ответа метода [imopenlines.config.list.get](../imopenlines-config-list-get.md).
 
@@ -39,17 +41,19 @@
 || **TRANSFER_ID**
 [`string`](../../../data-types.md)\|[`integer`](../../../data-types.md) | Универсальный параметр назначения перевода.
 
-Допустимые форматы: `USER_ID` сотрудника или строка `queue<QUEUE_ID>`.
+Допустимые форматы: идентификатор сотрудника, например `12`, или строка `queue` с идентификатором открытой линии, например `queue3`.
 
 Идентификатор пользователя можно получить методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md), идентификатор очереди — методом [imopenlines.config.list.get](../imopenlines-config-list-get.md) ||
 || **LEAVE**
-[`boolean`](../../../data-types.md) | Флаг присутствия чат-бота в диалоге после перевода. 
+[`string`](../../../data-types.md) | Флаг присутствия чат-бота в диалоге после перевода на сотрудника.
 
 Допустимые значения:
 - `Y` — бот покидает чат сразу
 - `N` — бот остается до подтверждения перевода
 
-По умолчанию используется `N` ||
+По умолчанию используется `N`. Любое значение, кроме `Y`, метод считает `N`.
+
+При переводе в очередь параметр не учитывается ||
 || **CLIENT_ID**
 [`string`](../../../data-types.md) | Параметр обязателен только для вебхуков.
 
@@ -58,7 +62,7 @@
 - или значение параметра `botToken`, переданного при регистрации чат-бота методом [imbot.v2.Bot.register](../../../chat-bots/chat-bots-v2/imbot.v2/bots/bot-register.md) ||
 |#
 
-Рекомендуется передавать только один параметр назначения: `USER_ID`, `QUEUE_ID`, или `TRANSFER_ID`. Если переданы несколько параметров одновременно, метод использует приоритет: `USER_ID` -> `QUEUE_ID` -> `TRANSFER_ID`. При передаче `TRANSFER_ID` метод преобразует его в `USER_ID` или `QUEUE_ID`.
+Передавайте один параметр назначения: `USER_ID`, `QUEUE_ID` или `TRANSFER_ID`. Если передать несколько, метод сначала разбирает `TRANSFER_ID`: число заменяет значение `USER_ID`, строка `queue<ID>` заменяет значение `QUEUE_ID`. Затем метод выбирает назначение: если задан `USER_ID`, диалог переводится на сотрудника, иначе — в очередь `QUEUE_ID`.
 
 ## Примеры кода
 
@@ -112,7 +116,7 @@
       console.error(response.getErrorMessages().join('; '))
     } else {
       const result = response.getData()!.result
-      console.info('Session transferred:', result)
+      console.info('Диалог переведен:', result)
     }
   } catch (error) {
     // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -148,7 +152,7 @@
         }
 
         const result = response.getData().result
-        console.info('Session transferred:', result)
+        console.info('Диалог переведен:', result)
       } catch (error) {
         // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
         console.error(error)
@@ -204,10 +208,10 @@
           ->getResponseData()
           ->getResult();
 
-      echo 'Session transferred: ' . var_export($result, true);
+      echo 'Диалог переведен: ' . var_export($result, true);
   } catch (Throwable $exception) {
       error_log($exception->getMessage());
-      echo 'Error transferring session: ' . $exception->getMessage();
+      echo 'Ошибка перевода диалога: ' . $exception->getMessage();
   }
   ```
 
@@ -246,9 +250,9 @@
   );
 
   if (!empty($result['error'])) {
-      echo 'Error: ' . $result['error_description'];
+      echo 'Ошибка: ' . $result['error_description'];
   } else {
-      echo 'Session transferred: ' . var_export($result['result'], true);
+      echo 'Диалог переведен: ' . var_export($result['result'], true);
   }
   ```
 
@@ -300,7 +304,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Содержит `true`, если диалог успешно переведен ||
+[`boolean`](../../../data-types.md) | Содержит `true`, если диалог переведен ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -325,10 +329,11 @@ HTTP-статус: **400**, **403**
 || `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение `<= 0` ||
 || `400` | `USER_ID_EMPTY` | User ID can't be empty | Передан `USER_ID` с пустым значением или значением `<= 0` ||
 || `400` | `QUEUE_ID_EMPTY` | QUEUE ID can't be empty | Передан `QUEUE_ID` с пустым значением или значением `<= 0` ||
-|| `400` | `TRANSFER_ID_EMPTY` | Queue ID or User ID can't be empty | Не переданы `USER_ID` и `QUEUE_ID`, а также не задан `TRANSFER_ID` ||
-|| `400` | `BOT_ID_ERROR` | Bot not found | В приложении не найден зарегистрированный чат-бот ||
-|| `400` | `OPERATOR_WRONG` | You can not redirect to this operator | Перевод на указанного оператора или очередь недоступен ||
-|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией, для которой он запрещен ||
+|| `400` | `TRANSFER_ID_EMPTY` | Queue ID or User ID can't be empty | Не передан ни один из параметров `USER_ID`, `QUEUE_ID` и `TRANSFER_ID` ||
+|| `400` | `BOT_ID_ERROR` | Bot not found | В приложении или по переданному `CLIENT_ID` не найден зарегистрированный чат-бот ||
+|| `400` | `OPERATOR_WRONG` | You can not redirect to this operator | Диалог не удалось перевести: чат не найден, в чате нет активного диалога, сотрудник неактивен или открытая линия не найдена ||
+|| `403` | `ACCESS_DENIED` | Access denied! Client ID not specified. | Метод вызван через вебхук без параметра `CLIENT_ID` ||
+|| `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization. | Метод вызван с сессионной авторизацией пользователя. Вызывайте метод через вебхук или с OAuth-токеном приложения ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -1,9 +1,9 @@
 title: Сообщения
 href: index.md
-items: 
+items:
   - name: Обзор методов
     href: index.md
-  - name: Отправить сообщение в открытую линию
+  - name: Отправить сообщение в чат элемента CRM
     href: imopenlines-crm-message-add.md
   - name: Сохранить сообщение в качестве быстрого ответа
     href: imopenlines-message-quick-save.md

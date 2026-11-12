@@ -11,7 +11,7 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правами на диалог
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
 Метод `imopenlines.operator.transfer` передает диалог другому оператору или в очередь другой открытой линии.
 
@@ -23,15 +23,15 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии.
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](../sessions/imopenlines-session-open.md) или [imopenlines.dialog.get](../sessions/imopenlines-dialog-get.md) ||
 || **TRANSFER_ID**
 [`string`](../../../data-types.md)\|[`integer`](../../../data-types.md) | Универсальный параметр для передачи диалога.
 
-Допустимые форматы: `USER_ID` сотрудника или строка `queue<QUEUE_ID>`.
+Допустимые форматы: идентификатор сотрудника, например `15`, или строка `queue<ID линии>`, например `queue3`.
 
-Идентификатор пользователя можно получить методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md), идентификатор очереди — методом [imopenlines.config.list.get](../imopenlines-config-list-get.md) ||
+Идентификатор пользователя можно получить методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md), идентификатор линии — методом [imopenlines.config.list.get](../imopenlines-config-list-get.md) ||
 || **USER_ID**
 [`integer`](../../../data-types.md) | Идентификатор оператора, которому нужно передать диалог.
 
@@ -42,7 +42,9 @@
 `QUEUE_ID` можно получить методом [imopenlines.config.list.get](../imopenlines-config-list-get.md) из поля `ID` ||
 |#
 
-Рекомендуется передавать только один параметр: `TRANSFER_ID`, `USER_ID` или `QUEUE_ID`.
+Передайте один из параметров: `TRANSFER_ID`, `USER_ID` или `QUEUE_ID`. Если передать несколько, метод выберет получателя не по порядку в запросе: например, при `USER_ID` и `QUEUE_ID` диалог перейдет сотруднику.
+
+Сотрудник, которому передается диалог, должен быть активным. Передать диалог себе нельзя: чтобы забрать диалог, используйте метод [imopenlines.operator.answer](./imopenlines-operator-answer.md). После передачи пользователь, который вызвал метод, выходит из чата.
 
 ## Примеры кода
 
@@ -57,7 +59,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"CHAT_ID":2043,"USER_ID":15}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.operator.transfer.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.operator.transfer
     ```
 
 - cURL (OAuth)
@@ -66,8 +68,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CHAT_ID":2043,"USER_ID":15,"auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.operator.transfer.json
+      -d '{"CHAT_ID":2043,"USER_ID":15,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.operator.transfer
     ```
 
 - JS (TS)
@@ -95,7 +97,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Transfer result:', result)
+        console.info('Диалог передан:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -130,7 +132,7 @@
           }
 
           const result = response.getData().result
-          console.info('Transfer result:', result)
+          console.info('Диалог передан:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -298,11 +300,12 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение `<= 0` ||
-|| `400` | `USER_ID_EMPTY` | User ID can't be empty | Передан пустой или некорректный `USER_ID` ||
-|| `400` | `QUEUE_ID_EMPTY` | QUEUE ID can't be empty | Передан пустой или некорректный `QUEUE_ID` ||
+|| `400` | `CHAT_ID_EMPTY` | Chat ID can't be empty | Не передан `CHAT_ID` или передано значение меньше `1` ||
+|| `400` | `USER_ID_EMPTY` | User ID can't be empty | `USER_ID` или числовой `TRANSFER_ID` не число или меньше `1` ||
+|| `400` | `QUEUE_ID_EMPTY` | QUEUE ID can't be empty | `QUEUE_ID` или номер линии в `TRANSFER_ID` вида `queue<ID линии>` не число или меньше `1` ||
 || `400` | `TRANSFER_ID_EMPTY` | Queue ID or User ID can't be empty | Не переданы `TRANSFER_ID`, `USER_ID` и `QUEUE_ID` ||
-|| `400` | `OPERATOR_WRONG` | You can not redirect to this operator | Целевой оператор или линия недоступны для передачи текущего диалога ||
+|| `400` | `OPERATOR_WRONG` | You can not redirect to this operator | Чат не найден или не является чатом открытой линии, у пользователя нет доступа к диалогу, в чате нет активного диалога, сотрудник неактивен или линия не найдена ||
+|| `400` | `SELF_TRANSFER_FAIL` | You can not redirect the dialog to yourself, use imopenlines.operator.answer to take it | В `USER_ID` или `TRANSFER_ID` передан идентификатор пользователя, который вызывает метод ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

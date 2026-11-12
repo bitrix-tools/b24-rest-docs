@@ -11,14 +11,16 @@
 
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь, кроме вызова с сессионной авторизацией
 
-Метод `imopenlines.network.message.add` отправляет сообщение пользователю от имени открытой линии, подключенной в Битрикс24 Network.
+Метод `imopenlines.network.message.add` отправляет сообщение пользователю от имени открытой линии Битрикс24 Network.
+
+Перед отправкой подключите линию методом [imopenlines.network.join](./imopenlines-network-join.md). Если линия не подключена, метод возвращает ошибку `NOT_FOUND`.
 
 Ограничения работы метода:
-1. Метод недоступен при сессионной авторизации. Для сессионной авторизации возвращает ошибку `WRONG_AUTH_TYPE`
-2. Можно отправлять сообщение не более одного раза для каждого пользователя в течение одной недели. Для аккаунта с лицензией Партнера (NFR) ограничений по лимиту нет
-3. Можно использовать клавиатуру только для форматирования кнопки ссылки на стороннем сайте
+- метод недоступен при сессионной авторизации, в этом случае он возвращает ошибку `WRONG_AUTH_TYPE`
+- одному пользователю можно отправить не больше одного сообщения в неделю. Для Битрикс24 с лицензией Партнера (NFR) лимита нет
+- клавиатуру можно использовать только для кнопок-ссылок на сторонние сайты
 
 ## Параметры метода
 
@@ -28,25 +30,31 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../../data-types.md) | Код открытой линии, строка из 32 символов, например `ab515f5d85a8b844d484f6ea75a2e494` ||
-|| **USER_ID***
-[`integer`](../../data-types.md) | Идентификатор получателя сообщения, например `2` ||
-|| **MESSAGE***
-[`string`](../../data-types.md) | Текст сообщения. 
+[`string`](../../data-types.md) | Код открытой линии, строка из 32 символов, например `ab515f5d85a8b844d484f6ea75a2e494`.
 
-Как форматировать текст — в статье [форматирование](../../chats/messages/formatting.md) ||
+Линия с этим кодом должна быть подключена методом [imopenlines.network.join](./imopenlines-network-join.md) ||
+|| **USER_ID***
+[`integer`](../../data-types.md) | Идентификатор пользователя текущего Битрикс24, которому отправляется сообщение, например `2`.
+
+Получить идентификатор пользователя можно методом [user.get](../../user/user-get.md) ||
+|| **MESSAGE***
+[`string`](../../data-types.md) | Текст сообщения.
+
+Как форматировать текст — в статье [Форматирование](../../chats/messages/formatting.md) ||
 || **ATTACH**
-[`object`](../../data-types.md) | Вложение.
+[`object`](../../data-types.md) | Вложение. Объект вложения в формате JSON должен быть короче 60 000 символов.
 
 Формат вложения описан в статье [Как использовать вложения](../../chats/messages/attachments.md) ||
 || **KEYBOARD**
-[`object`](../../data-types.md) | Клавиатура.
+[`object`](../../data-types.md) | Клавиатура. Передайте объект с массивом `BUTTONS` или сразу массив кнопок.
 
 Как создавать клавиатуры — в статье [Работа с клавиатурами](../../chats/messages/keyboards.md) ||
 || **URL_PREVIEW**
-[`char`](../../data-types.md) | Предпросмотр ссылок. Включен `Y` по умолчанию. 
+[`char`](../../data-types.md) | Предпросмотр ссылок. Возможные значения:
+- `Y` — включен
+- `N` — выключен
 
-Передайте `N`, чтобы отключить предпросмотр ссылок ||
+По умолчанию `Y` ||
 |#
 
 ## Примеры кода
@@ -180,13 +188,13 @@
         params: {
           CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
           USER_ID: 2,
-          MESSAGE: 'We have prepared materials on connecting open lines',
+          MESSAGE: 'Подготовили материалы по подключению открытых линий',
           ATTACH: {
             ID: 1,
             COLOR_TOKEN: 'primary',
             BLOCKS: [
               {
-                MESSAGE: 'Attached are the checklist and connection diagram',
+                MESSAGE: 'Во вложении отправили чек-лист и схему подключения',
               },
               {
                 FILE: [
@@ -254,13 +262,13 @@
             params: {
               CODE: 'ab515f5d85a8b844d484f6ea75a2e494',
               USER_ID: 2,
-              MESSAGE: 'We have prepared materials on connecting open lines',
+              MESSAGE: 'Подготовили материалы по подключению открытых линий',
               ATTACH: {
                 ID: 1,
                 COLOR_TOKEN: 'primary',
                 BLOCKS: [
                   {
-                    MESSAGE: 'Attached are the checklist and connection diagram',
+                    MESSAGE: 'Во вложении отправили чек-лист и схему подключения',
                   },
                   {
                     FILE: [
@@ -326,13 +334,13 @@
         bitrix_response = client.imopenlines.network.message.add(
             code="ab515f5d85a8b844d484f6ea75a2e494",
             user_id=2,
-            message="We have prepared materials on connecting open lines",
+            message="Подготовили материалы по подключению открытых линий",
             attach={
                 "ID": 1,
                 "COLOR_TOKEN": "primary",
                 "BLOCKS": [
                     {
-                        "MESSAGE": "Attached are the checklist and connection diagram",
+                        "MESSAGE": "Во вложении отправили чек-лист и схему подключения",
                     },
                     {
                         "FILE": [
@@ -682,11 +690,11 @@ HTTP-статус: **400**
 || `403` | `WRONG_AUTH_TYPE` | Access for this method not allowed by session authorization | Метод вызван с сессионной авторизацией ||
 || `400` | `CODE` | You entered an invalid code | Некорректный код в параметре `CODE`, ожидается строка из 32 символов ||
 || `400` | `IMBOT_ERROR` | Module IMBOT is not installed | Не установлен модуль imbot ||
-|| `400` | `NOT_FOUND` | Line not found | Открытая линия не найдена ||
-|| `400` | `USER_ID_EMPTY` | User ID can't be empty | Не указан идентификатор пользователя ||
-|| `400` | `USER_MESSAGE_LIMIT` | You cant send more than one message per week to each user | Превышен лимит сообщений для конкретного пользователя ||
+|| `400` | `NOT_FOUND` | Line not found | Линия с указанным кодом не подключена к Битрикс24 или код относится к служебной линии ||
+|| `400` | `USER_ID_EMPTY` | User ID can't be empty | Параметр `USER_ID` не передан или не является числом ||
+|| `400` | `USER_MESSAGE_LIMIT` | You cant send more than one message per week to each user | Этому пользователю уже отправляли сообщение от линии за последние 7 дней ||
 || `400` | `MESSAGE_EMPTY` | Message can't be empty | Не указан текст сообщения ||
-|| `400` | `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Превышен максимально допустимый размер вложения 30 Кб ||
+|| `400` | `ATTACH_OVERSIZE` | You have exceeded the maximum allowable size of attach | Объект вложения в формате JSON длиннее 60 000 символов ||
 || `400` | `ATTACH_ERROR` | Incorrect attach params | Объект вложения не прошел проверку ||
 || `400` | `KEYBOARD_ERROR` | Incorrect keyboard params | Объект клавиатуры не прошел проверку ||
 || `400` | `WRONG_REQUEST` | Message isn't added | Сообщение не отправлено ||

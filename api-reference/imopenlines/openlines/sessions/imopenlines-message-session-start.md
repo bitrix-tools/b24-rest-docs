@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правами на диалог
+> Кто может выполнять метод: участник чата открытой линии или пользователь с правом «Подключение к разговору» на эту линию
 
-Метод `imopenlines.message.session.start` запускает новую сессию и переносит в нее указанное сообщение.
+Метод `imopenlines.message.session.start` закрывает текущую сессию диалога и начинает новую с указанного сообщения клиента.
 
 ## Параметры метода
 
@@ -23,14 +23,22 @@
 || **Название**
 `тип` | **Описание** ||
 || **CHAT_ID***
-[`integer`](../../../data-types.md) | Идентификатор чата открытой линии. 
+[`integer`](../../../data-types.md) | Числовой идентификатор чата открытой линии без префикса `chat`.
 
 Идентификатор можно получить методом [imopenlines.session.open](./imopenlines-session-open.md) или [imopenlines.dialog.get](./imopenlines-dialog-get.md) ||
 || **MESSAGE_ID***
-[`integer`](../../../data-types.md) | Идентификатор сообщения внутри чата. 
+[`integer`](../../../data-types.md) | Идентификатор сообщения клиента, с которого начнется новая сессия.
 
 Идентификатор можно получить методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) в ключах объекта `message` ||
 |#
+
+Сообщение `MESSAGE_ID` должно соответствовать условиям:
+
+- находится в чате `CHAT_ID`
+- отправлено клиентом, а не оператором или системой
+- отправлено в текущей сессии, а не в одной из предыдущих
+
+Текущая сессия диалога должна быть открыта. Если условие не выполнено, метод возвращает ошибку `START_SESSION_FAIL`.
 
 ## Примеры кода
 
@@ -45,7 +53,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"CHAT_ID":2043,"MESSAGE_ID":18971}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.message.session.start.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.message.session.start
     ```
 
 - cURL (OAuth)
@@ -54,8 +62,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"CHAT_ID":2043,"MESSAGE_ID":18971,"auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.message.session.start.json
+      -d '{"CHAT_ID":2043,"MESSAGE_ID":18971,"auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.message.session.start
     ```
 
 - JS (TS)
@@ -83,7 +91,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Session started:', result)
+        console.info('Новая сессия начата:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -118,7 +126,7 @@
           }
 
           const result = response.getData().result
-          console.info('Session started:', result)
+          console.info('Новая сессия начата:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -264,7 +272,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true`, если новая сессия запущена на основании сообщения ||
+[`boolean`](../../../data-types.md) | Возвращает `true`, если новая сессия начата ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -275,8 +283,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "CHAT_ID",
-    "error_description": "Указан не корректный идентификатор чата"
+    "error": "ACCESS_DENIED",
+    "error_description": "Вы не можете открыть этот разговор, т.к. у вас недостаточно прав."
 }
 ```
 
@@ -286,10 +294,8 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `CHAT_ID` | Указан не корректный идентификатор чата | Пустой или некорректный `CHAT_ID` ||
-|| `400` | `CHAT_TYPE` | Указанный чат не является открытой линией | Указанный чат не относится к открытым линиям ||
-|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | У текущего пользователя нет доступа к диалогу ||
-|| `400` | `USER_ID` | Указан не корректный идентификатор пользователя | Не определен пользователь, от имени которого выполняется метод ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | `CHAT_ID` не передан или чат не найден, чат не относится к открытой линии или у пользователя нет доступа к диалогу ||
+|| `400` | `START_SESSION_FAIL` | Не удалось начать новый диалог | Текущая сессия закрыта или сообщение `MESSAGE_ID` не подходит: не найдено, находится в другом чате, отправлено не клиентом или до начала текущей сессии ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

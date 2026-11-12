@@ -1,4 +1,4 @@
-# Добавить пользователя к существующему чату imopenlines.crm.chat.user.add
+# Добавить пользователя в чат объекта CRM imopenlines.crm.chat.user.add
 
 {% note tip "" %}
 
@@ -11,7 +11,7 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с доступом к объекту CRM
+> Кто может выполнять метод: пользователь с правом чтения объекта CRM
 
 Метод `imopenlines.crm.chat.user.add` добавляет пользователя в чат, привязанный к объекту CRM.
 
@@ -27,22 +27,36 @@
 - `lead` — лид
 - `deal` — сделка
 - `company` — компания
-- `contact` — контакт ||
+- `contact` — контакт
+
+Регистр значения не учитывается ||
 || **CRM_ENTITY***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM.
 
 Получить идентификатор можно универсальным методом [получения списка элементов CRM](../../../crm/universal/crm-item-list.md) ||
 || **USER_ID***
-[`integer`](../../../data-types.md) | Идентификатор пользователя или бота, которого нужно добавить в чат.
+[`integer`](../../../data-types.md) | Идентификатор пользователя или бота, которого нужно добавить в чат. Пользователь должен быть активным, иметь право чтения объекта CRM и право «История разговора» на линию, к которой относится чат.
 
 Получить идентификатор пользователя позволяют методы [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md) ||
 || **CHAT_ID**
 [`integer`](../../../data-types.md) | Идентификатор чата.
 
-По умолчанию используется последний чат, привязанный к объекту CRM.
+Если параметр не передан, метод берет последний чат объекта CRM — тот же, который возвращает [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md).
 
-Получить идентификаторы чатов, привязанных к объекту CRM, можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
+Получить идентификаторы активных чатов объекта CRM можно методом [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) ||
 |#
+
+{% note warning "" %}
+
+Метод работает только с активным чатом — чатом, диалог в котором оператор взял в работу и который еще не перешел в режим закрытия. Если диалог в чате ждет в очереди или закрыт, метод вернет ошибку `CHAT_NOT_IN_CRM`. Список активных чатов объекта CRM возвращает метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md)
+
+{% endnote %}
+
+{% note info "" %}
+
+Передавайте имена параметров в верхнем регистре: `CRM_ENTITY_TYPE`, а не `crm_entity_type`. Имена в нижнем регистре метод не распознает и вернет ошибку о пропущенном параметре
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -97,7 +111,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Chat ID the user was added to:', result)
+        console.info('ID чата, в который добавлен пользователь:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -134,7 +148,7 @@
           }
 
           const result = response.getData().result
-          console.info('Chat ID the user was added to:', result)
+          console.info('ID чата, в который добавлен пользователь:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -284,7 +298,7 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
@@ -292,7 +306,7 @@ HTTP-статус: **200**
 || **result**
 [`integer`](../../../data-types.md) | Идентификатор чата, в который добавлен пользователь.
 
-Если `CHAT_ID` не передан и чат для объекта CRM не найден или не существует, метод вернет `"result":0` ||
+Если `CHAT_ID` не передан и у объекта CRM нет чатов, метод вернет `"result":0` и никого не добавит. Параметр `USER_ID` в этом случае не проверяется ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -314,16 +328,22 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `ACCESS_DENIED` | Access denied! You don't have access to join user to chat | У пользователя, который выполняет метод, нет прав добавлять пользователей в чат объекта CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! You don't have access to join user to chat | Возможные причины:
+- у пользователя, который выполняет метод, нет права чтения объекта CRM
+- передан неизвестный тип объекта в `CRM_ENTITY_TYPE`, например `abc`
+||
 || `403` | `ACCESS_DENIED` | Access denied! This user does not have access to the chat because he does not have access to this CRM entity | У пользователя `USER_ID` нет доступа к объекту CRM ||
 || `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY_TYPE' is null or empty | Не передан обязательный параметр `CRM_ENTITY_TYPE` ||
 || `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY' is null or empty | Не передан обязательный параметр `CRM_ENTITY` ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
-|| `400` | `ERROR_ARGUMENT` | Argument 'Empty USER_ID' is null or empty | Не передан обязательный параметр `USER_ID` ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` не число или число меньше 1 ||
+|| `400` | `ERROR_ARGUMENT` | Argument 'Empty USER_ID' is null or empty | Не передан обязательный параметр `USER_ID` или значение меньше 1 ||
 || `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль `im` не установлен ||
-|| `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Чат `CHAT_ID` не связан с объектом CRM ||
+|| `400` | `CHAT_NOT_IN_CRM` | Chat does not belong to the CRM entity being checked | Возможные причины:
+- чат не связан с объектом CRM или не существует
+- диалог в чате не активен: ждет в очереди или закрыт
+||
 || `400` | `CRM_CHAT_USER_NOT_ACTIVE` | User not active | Пользователь `USER_ID` не активен или не существует ||
-|| `403` | `ACCESS_DENIED` | Access denied! This user does not have access to the chat because he does not have access to this view chat history | Пользователь `USER_ID` не имеет доступа к истории чата ||
+|| `403` | `ACCESS_DENIED` | Access denied! This user does not have access to the chat because he does not have access to this view chat history | У пользователя `USER_ID` нет права «История разговора» на линию ||
 || `400` | `WRONG_REQUEST` | You don't have access or user already member in chat | Пользователь уже состоит в чате или недоступен для добавления ||
 |#
 

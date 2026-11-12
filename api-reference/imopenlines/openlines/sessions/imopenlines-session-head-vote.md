@@ -11,9 +11,15 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: руководитель, у которого есть право оценки в настройках линии
+> Кто может выполнять метод: пользователь с правом «Оценка разговора руководителем» на открытую линию диалога
 
-Метод `imopenlines.session.head.vote` сохраняет оценку руководителя и комментарий по завершенному диалогу.
+Метод `imopenlines.session.head.vote` сохраняет оценку и комментарий руководителя к работе оператора в диалоге.
+
+{% note info "" %}
+
+В облачном Битрикс24 оценка руководителя доступна не на всех тарифах. Если тариф не позволяет ее использовать, метод вернет ошибку `ACCESS_DENIED`. В коробочной версии ограничение тарифа не применяется.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,20 +29,25 @@
 || **Название**
 `тип` | **Описание** ||
 || **SESSION_ID***
-[`integer`](../../../data-types.md) | Идентификатор сессии. 
+[`integer`](../../../data-types.md) | Идентификатор сессии диалога.
 
-Идентификатор можно получить методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) в поле `sessionId` ||
+Идентификатор можно получить методом [imopenlines.session.history.get](./imopenlines-session-history-get.md) в поле `sessionId` или методом [imopenlines.dialog.get](./imopenlines-dialog-get.md) из шестого элемента строки `entity_data_1` ||
 || **RATING**
-[`integer`](../../../data-types.md) | Оценка руководителя. Передайте значение от `1` до `5` ||
+[`integer`](../../../data-types.md) | Оценка руководителя от `1` до `5`.
+
+Значение больше `5` метод сохраняет как `0` — оценка сбрасывается. Значение `0` без `COMMENT` метод считает пустым и возвращает ошибку `EMPTY_VOTE_PARAMS` ||
 || **COMMENT**
-[`string`](../../../data-types.md) | Комментарий руководителя к оценке ||
+[`string`](../../../data-types.md) | Комментарий руководителя к оценке.
+
+Максимальная длина — 10 000 символов. Более длинный текст метод обрезает и добавляет в конце `...` ||
 |#
 
-{% note info "" %}
+Передайте хотя бы один из параметров `RATING` или `COMMENT`:
 
-Необходимо передать хотя бы один из параметров: `RATING` или `COMMENT`.
+- если передан только `RATING`, метод сохраняет оценку и очищает ранее сохраненный комментарий руководителя
+- если передан только `COMMENT`, метод сохраняет комментарий, оценка не меняется
 
-{% endnote %} 
+После сохранения оператор диалога получает уведомление с оценкой или комментарием.
 
 ## Примеры кода
 
@@ -51,7 +62,7 @@
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
       -d '{"SESSION_ID":1743,"RATING":5,"COMMENT":"Отличная обработка"}' \
-      https://your-domain.bitrix24.ru/rest/1/webhook_key/imopenlines.session.head.vote.json
+      https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/imopenlines.session.head.vote
     ```
 
 - cURL (OAuth)
@@ -60,8 +71,8 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -H "Accept: application/json" \
-      -d '{"SESSION_ID":1743,"RATING":5,"COMMENT":"Отличная обработка","auth":"<access_token>"}' \
-      https://your-domain.bitrix24.ru/rest/imopenlines.session.head.vote.json
+      -d '{"SESSION_ID":1743,"RATING":5,"COMMENT":"Отличная обработка","auth":"**put_access_token_here**"}' \
+      https://**put_your_bitrix24_address**/rest/imopenlines.session.head.vote
     ```
 
 - JS (TS)
@@ -80,7 +91,7 @@
         params: {
           SESSION_ID: 1743,
           RATING: 5,
-          COMMENT: 'Excellent handling',
+          COMMENT: 'Отличная обработка',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -90,7 +101,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Vote saved:', result)
+        console.info('Оценка сохранена:', result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -114,7 +125,7 @@
             params: {
               SESSION_ID: 1743,
               RATING: 5,
-              COMMENT: 'Excellent handling',
+              COMMENT: 'Отличная обработка',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -126,7 +137,7 @@
           }
 
           const result = response.getData().result
-          console.info('Vote saved:', result)
+          console.info('Оценка сохранена:', result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -146,7 +157,7 @@
         bitrix_response = client.imopenlines.session.head.vote(
             session_id=1743,
             rating=5,
-            comment="Excellent handling",
+            comment="Отличная обработка",
         ).response
         result = bitrix_response.result
         print(result)
@@ -277,7 +288,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Возвращает `true`, если оценка сохранена ||
+[`boolean`](../../../data-types.md) | Возвращает `true`, если оценка или комментарий сохранены ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -299,9 +310,9 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `EMPTY_SESSION_ID` | Session ID can't be empty | Не передан `SESSION_ID` или значение `<= 0` ||
-|| `400` | `EMPTY_VOTE_PARAMS` | At least one of the parameters RATING or COMMENT must be specified | Не переданы одновременно `RATING` и `COMMENT` ||
-|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Текущий пользователь не может оценить указанную сессию ||
+|| `400` | `EMPTY_SESSION_ID` | Session ID can't be empty | Не передан `SESSION_ID` или передан `0` ||
+|| `400` | `EMPTY_VOTE_PARAMS` | At least one of the parameters RATING or COMMENT must be specified | Не передан ни `RATING`, ни `COMMENT`, или оба пустые ||
+|| `400` | `ACCESS_DENIED` | Вы не можете открыть этот разговор, т.к. у вас недостаточно прав | Сессия не найдена, у пользователя нет права оценивать диалоги этой линии или в облачном Битрикс24 оценка руководителя недоступна на тарифе ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

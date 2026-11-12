@@ -11,9 +11,9 @@
 
 > Scope: [`imopenlines`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом просмотра открытых линий
 
-Метод `imopenlines.config.list.get` получает список открытых линий.
+Метод `imopenlines.config.list.get` получает список открытых линий, которые пользователь может просматривать.
 
 ## Параметры метода
 
@@ -37,14 +37,16 @@
 || **select**
 [`array`](../../data-types.md) | Массив содержит [список полей](#result), которые необходимо выбрать.
 
-Можно указывать поля из таблицы [Элемент массива result](#result). Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` возвращаются только через `OPTIONS` ||
+Можно указывать поля из таблицы [Элемент массива result](#result). Чтобы вернуть поле под другим именем, передайте объект в формате `{"псевдоним": "поле"}`, например `{"NAME": "LINE_NAME"}`. Псевдоним не должен совпадать с названием существующего поля.
+
+Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` возвращаются только через `OPTIONS` ||
 || **order**
 [`object`](../../data-types.md) | Объект для сортировки списка открытых линий в формате `{"field_1": "value_1", ... "field_N": "value_N"}`
 
-Направление сортировки может принимать значения: 
+Направление сортировки может принимать значения:
 
-- `asc` — по возрастанию
-- `desc` — по убыванию
+- `ASC` — по возрастанию
+- `DESC` — по убыванию
 
 Для `field_N` используйте поля из таблицы [Элемент массива result](#result). Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` не поддерживаются в `order`
 
@@ -54,9 +56,9 @@
 
 Для `field_N` используйте поля из таблицы [Элемент массива result](#result). Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` не поддерживаются в `filter` ||
 || **limit**
-[`integer`](../../data-types.md) | Количество элементов на страницу. По умолчанию: `50`. Максимальное значение: `200` ||
+[`integer`](../../data-types.md) | Количество линий в ответе. Неотрицательное целое число. Если параметр не передан, метод возвращает все линии ||
 || **offset**
-[`integer`](../../data-types.md) | Смещение для постраничной выборки. По умолчанию: `0` ||
+[`integer`](../../data-types.md) | Количество линий, которые нужно пропустить от начала выборки. Неотрицательное целое число ||
 |#
 
 ### Параметр OPTIONS {#options}
@@ -67,13 +69,19 @@
 || **QUEUE**
 [`char`](../../data-types.md) | Возвращать очередь операторов. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию `N` ||
 || **CONFIG_QUEUE**
 [`char`](../../data-types.md) | Возвращать очередь линии. Каждый элемент очереди содержит `ENTITY_TYPE` и `ENTITY_ID`. Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+По умолчанию `N` ||
 || **CHECK_PERMISSION**
-[`string`](../../data-types.md) | Проверять доступ к линиям по указанному действию из карты прав открытых линий ||
+[`string`](../../data-types.md) | Действие для проверки прав. Возможные значения: `VIEW`, `PERFORM`, `MODIFY`.
+
+Параметр не влияет на результат: метод всегда возвращает линии, которые пользователь может просматривать ||
 |#
 
 ## Примеры кода
@@ -427,19 +435,19 @@ HTTP-статус: **200**
             "ID": "15",
             "LINE_NAME": "Линия поддержки VIP",
             "ACTIVE": "Y",
-            "QUEUE": [101, 205],
+            "QUEUE": ["101", "205"],
             "QUEUE_USERS_FIELDS": {
                 "101": {
                     "USER_NAME": "Иван Петров",
                     "USER_WORK_POSITION": "Оператор",
                     "USER_AVATAR": "https://example.bitrix24.ru/upload/main/a1b/avatar.jpg",
-                    "USER_AVATAR_ID": 312
+                    "USER_AVATAR_ID": "312"
                 },
                 "205": {
                     "USER_NAME": "Анна Смирнова",
                     "USER_WORK_POSITION": null,
                     "USER_AVATAR": "",
-                    "USER_AVATAR_ID": null
+                    "USER_AVATAR_ID": "0"
                 }
             },
             "CONFIG_QUEUE": [
@@ -453,13 +461,13 @@ HTTP-статус: **200**
             "ID": "16",
             "LINE_NAME": "Линия продаж",
             "ACTIVE": "Y",
-            "QUEUE": [101],
+            "QUEUE": ["101"],
             "QUEUE_USERS_FIELDS": {
                 "101": {
                     "USER_NAME": "Иван Петров",
                     "USER_WORK_POSITION": "Оператор",
                     "USER_AVATAR": "https://example.bitrix24.ru/upload/main/a1b/avatar.jpg",
-                    "USER_AVATAR_ID": 312
+                    "USER_AVATAR_ID": "312"
                 }
             },
             "CONFIG_QUEUE": []
@@ -538,6 +546,8 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Проверять доступность операторов. Возможные значения:
 - `Y` — да
 - `N` — нет ||
+|| **SHOW_NOTIFICATION_REDIRECT**
+[`string`](../../data-types.md) | Показывать в диалоге уведомление, когда обращение переходит к оператору, который начал рабочий день. Возможные значения: `Y`, `N` или `null`, если значение не задано. При `null` уведомление не показывается ||
 || **WATCH_TYPING**
 [`string`](../../data-types.md) | Показывать набор текста оператором. Возможные значения:
 - `Y` — да
@@ -651,9 +661,9 @@ HTTP-статус: **200**
 || **AUTO_EXPIRE_TIME**
 [`string`](../../data-types.md) | Время истечения активности ||
 || **DATE_CREATE**
-[`object`](../../data-types.md) | Дата создания настройки в сериализованном виде ||
+[`object`](../../data-types.md) | Дата создания линии. Сейчас метод возвращает пустой объект `{}` ||
 || **DATE_MODIFY**
-[`object`](../../data-types.md) | Дата изменения настройки в сериализованном виде ||
+[`object`](../../data-types.md) | Дата изменения линии. Сейчас метод возвращает пустой объект `{}` ||
 || **MODIFY_USER_ID**
 [`string`](../../data-types.md) | Идентификатор пользователя, изменившего настройки ||
 || **TEMPORARY**
@@ -677,17 +687,17 @@ HTTP-статус: **200**
 || **OPERATOR_DATA**
 [`string`](../../data-types.md) | Режим отображения данных оператора ||
 || **QUEUE**
-[`array`](../../data-types.md) | Идентификаторы операторов в очереди. 
+[`array`](../../data-types.md) | Идентификаторы операторов в очереди.
 
 Поле возвращается при `OPTIONS.QUEUE = "Y"` ||
 || **QUEUE_USERS_FIELDS**
-[`object`](../../data-types.md) | Дополнительные поля пользователей очереди. Ключ — идентификатор пользователя, значение — описание полей очереди [(подробное описание)](#queue-users-fields-item). 
+[`object`](../../data-types.md) | Дополнительные поля пользователей очереди. Ключ — идентификатор пользователя, значение — описание полей очереди [(подробное описание)](#queue-users-fields-item).
 
-Поле возвращается при `OPTIONS.QUEUE = "Y"`  ||
+Поле возвращается при `OPTIONS.QUEUE = "Y"` ||
 || **CONFIG_QUEUE**
 [`array`](../../data-types.md) | Упорядоченный список объектов очереди линии [(подробное описание)](#config-queue-item-fields).
 
-Поле возвращается при `OPTIONS.CONFIG_QUEUE = "Y"`  ||
+Поле возвращается при `OPTIONS.CONFIG_QUEUE = "Y"` ||
 || **DEFAULT_OPERATOR_DATA**
 [`array`](../../data-types.md) | Набор полей отображения оператора по умолчанию ||
 || **KPI_FIRST_ANSWER_TIME**
@@ -795,7 +805,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `400` | `INVALID_FORMAT` | Unsupported PARAMS fields are passed: ... | В `PARAMS` переданы поля, которых нет в списке `select`, `filter`, `order`, `limit`, `offset` ||
+|| `400` | `INVALID_FORMAT` | Unsupported PARAMS fields are passed: foo | В `PARAMS` переданы поля, которых нет в списке `select`, `filter`, `order`, `limit`, `offset` ||
 || `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'select' is passed | Поле `PARAMS.select` передано не массивом ||
 || `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'order' is passed | Поле `PARAMS.order` передано в неверном формате ||
 || `400` | `INVALID_FORMAT` | A wrong format for the PARAMS field 'filter' is passed | Поле `PARAMS.filter` передано в неверном формате ||
@@ -804,16 +814,17 @@ HTTP-статус: **400**
 || `400` | `INVALID_FORMAT` | A wrong field name is passed in the PARAMS field 'select' | В `PARAMS.select` передано пустое или некорректное имя поля ||
 || `400` | `INVALID_FORMAT` | A wrong field name is passed in the PARAMS field 'order' | В `PARAMS.order` передано пустое или некорректное имя поля ||
 || `400` | `INVALID_FORMAT` | A wrong field name is passed in the PARAMS field 'filter' | В `PARAMS.filter` передано пустое или некорректное имя поля ||
-|| `400` | `INVALID_FORMAT` | An unknown field '...' is passed in the PARAMS field 'select' | В `PARAMS.select` передано неизвестное поле ||
-|| `400` | `INVALID_FORMAT` | An unknown field '...' is passed in the PARAMS field 'order' | В `PARAMS.order` передано неизвестное поле ||
-|| `400` | `INVALID_FORMAT` | An unknown field '...' is passed in the PARAMS field 'filter' | В `PARAMS.filter` передано неизвестное поле ||
-|| `400` | `INVALID_FORMAT` | A wrong field alias is passed in the PARAMS field 'select' | В `PARAMS.select` передан некорректный псевдоним поля ||
-|| `400` | `INVALID_FORMAT` | The alias '...' matches an existing field in the PARAMS field 'select' | Псевдоним в `PARAMS.select` конфликтует с существующим полем ||
+|| `400` | `INVALID_FORMAT` | An unknown field 'FOO' is passed in the PARAMS field 'select' | В `PARAMS.select` передано поле, которого нет у открытой линии. Поля `QUEUE`, `QUEUE_USERS_FIELDS`, `CONFIG_QUEUE` в `select` не передаются ||
+|| `400` | `INVALID_FORMAT` | An unknown field 'FOO' is passed in the PARAMS field 'order' | В `PARAMS.order` передано неизвестное поле ||
+|| `400` | `INVALID_FORMAT` | An unknown field 'FOO' is passed in the PARAMS field 'filter' | В `PARAMS.filter` передано неизвестное поле ||
+|| `400` | `INVALID_FORMAT` | A wrong field alias is passed in the PARAMS field 'select' | Псевдоним в `PARAMS.select` пустой или содержит точку, кавычки или управляющие символы ||
+|| `400` | `INVALID_FORMAT` | The alias 'LINE_NAME' matches an existing field in the PARAMS field 'select' | Псевдоним в `PARAMS.select` конфликтует с существующим полем ||
 || `400` | `INVALID_FORMAT` | A wrong sorting direction is passed in the PARAMS field 'order' | В `PARAMS.order` передано направление сортировки, отличное от `ASC` или `DESC` ||
-|| `400` | `INVALID_FORMAT` | Unsupported OPTIONS fields are passed: ... | В `OPTIONS` переданы поля, которых нет в списке `QUEUE`, `CONFIG_QUEUE`, `CHECK_PERMISSION` ||
+|| `400` | `INVALID_FORMAT` | Unsupported OPTIONS fields are passed: X | В `OPTIONS` переданы поля, которых нет в списке `QUEUE`, `CONFIG_QUEUE`, `CHECK_PERMISSION` ||
 || `400` | `INVALID_FORMAT` | A wrong format for the OPTIONS field 'QUEUE' is passed | Поле `OPTIONS.QUEUE` передано не скалярным значением ||
 || `400` | `INVALID_FORMAT` | A wrong format for the OPTIONS field 'CONFIG_QUEUE' is passed | Поле `OPTIONS.CONFIG_QUEUE` передано не скалярным значением ||
-|| `400` | `INVALID_FORMAT` | An unknown value for the OPTIONS field 'CHECK_PERMISSION' is passed | В `OPTIONS.CHECK_PERMISSION` передано неизвестное действие ||
+|| `400` | `INVALID_FORMAT` | An unknown value for the OPTIONS field 'CHECK_PERMISSION' is passed | В `OPTIONS.CHECK_PERMISSION` передано значение, отличное от `VIEW`, `PERFORM`, `MODIFY` ||
+|| `403` | `CONFIG_WRONG_USER_PERMISSION` | Permission denied | У пользователя нет права просматривать открытые линии ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

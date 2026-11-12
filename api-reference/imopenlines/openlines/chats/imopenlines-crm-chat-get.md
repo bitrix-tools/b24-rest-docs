@@ -11,7 +11,7 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с доступом к объекту CRM
+> Кто может выполнять метод: пользователь с правом чтения объекта CRM
 
 Метод `imopenlines.crm.chat.get` получает список чатов, которые привязаны к объекту CRM.
 
@@ -28,7 +28,8 @@
 - `deal` — сделка
 - `company` — компания
 - `contact` — контакт
-||
+
+Регистр значения не учитывается. Для других типов объектов CRM метод вернет пустой массив ||
 || **CRM_ENTITY***
 [`integer`](../../../data-types.md) | Идентификатор объекта CRM.
 
@@ -38,9 +39,16 @@
 - `Y` — вернуть только активные чаты
 - `N` — вернуть все чаты
 
-По умолчанию — `Y`
-||
+По умолчанию — `Y`. Любое значение, кроме `N`, метод считает `Y`.
+
+Активный чат — чат, диалог в котором оператор взял в работу и который еще не перешел в режим закрытия. Диалоги в очереди и закрытые диалоги к активным не относятся ||
 |#
+
+{% note info "" %}
+
+Передавайте имена параметров в верхнем регистре: `CRM_ENTITY_TYPE`, а не `crm_entity_type`. Имена в нижнем регистре метод не распознает и вернет ошибку о пропущенном параметре
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -101,7 +109,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Chats count:', result.length, 'First chat ID:', result[0]?.CHAT_ID)
+        console.info('Количество чатов:', result.length, 'ID первого чата:', result[0]?.CHAT_ID)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -137,7 +145,7 @@
           }
 
           const result = response.getData().result
-          console.info('Chats count:', result.length, 'First chat ID:', result[0]?.CHAT_ID)
+          console.info('Количество чатов:', result.length, 'ID первого чата:', result[0]?.CHAT_ID)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -294,20 +302,20 @@ HTTP-статус: **200**
 }
 ```
 
-## Возвращаемые данные
+### Возвращаемые данные
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../data-types.md) | Список объектов чатов [(подробное описание)](#result-item).
+[`array`](../../../data-types.md) | Список чатов [(подробное описание)](#result-item). Чаты отсортированы по дате последнего изменения диалога, сначала новые. Чаты отключенных каналов связи в список не попадают.
 
-Возвращает пустой массив `"result":[]`, если объекта с указанным `CRM_ENTITY` не существует ||
+Метод вернет пустой массив `"result":[]`, если объекта с указанным `CRM_ENTITY` не существует, у объекта нет подходящих чатов или тип объекта не из списка `CRM_ENTITY_TYPE` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Объект result {#result-item}
+#### Объект result {#result-item}
 
 #|
 || **Название**
@@ -315,7 +323,7 @@ HTTP-статус: **200**
 || **CHAT_ID**
 [`string`](../../../data-types.md) | Идентификатор чата ||
 || **CONNECTOR_ID**
-[`string`](../../../data-types.md) | Идентификатор коннектора ||
+[`string`](../../../data-types.md) | Идентификатор коннектора — канала связи, через который клиент пишет в открытую линию, например `livechat` или `telegrambot` ||
 || **CONNECTOR_TITLE**
 [`string`](../../../data-types.md) | Название коннектора ||
 |#
@@ -337,10 +345,13 @@ HTTP-статус: **400**, **403**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | У пользователя нет доступа к объекту CRM ||
+|| `403` | `ACCESS_DENIED` | Access denied! You dont have access to this action | Возможные причины:
+- у пользователя нет права чтения объекта CRM
+- передан неизвестный тип объекта в `CRM_ENTITY_TYPE`, например `abc`
+||
 || `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY_TYPE' is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY_TYPE` ||
 || `400` | `ERROR_ARGUMENT` | Argument 'CRM_ENTITY' is null or empty | Не передан или передан пустым обязательный параметр `CRM_ENTITY` ||
-|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` передан в неверном формате ||
+|| `400` | `ERROR_ARGUMENT` | The value of an argument 'CRM_ENTITY' has an invalid type | Параметр `CRM_ENTITY` не число или число меньше 1 ||
 |#
 
 {% include [Системные ошибки](../../../../_includes/system-errors.md) %}

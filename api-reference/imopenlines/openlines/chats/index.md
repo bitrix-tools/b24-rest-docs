@@ -29,9 +29,11 @@
 || `USER_ID` | Идентификатор участника — сотрудника или чат-бота. Найти сотрудника можно методами [user.get](../../../user/user-get.md) и [user.search](../../../user/user-search.md) | `15` ||
 |#
 
-Метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) по умолчанию возвращает только чаты, в которых оператор принял диалог и еще не завершил его. Чтобы получить все чаты объекта, передайте `ACTIVE_ONLY` со значением `N`. Метод [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md) возвращает последний чат объекта, даже если диалог в нем завершен.
+Имена параметров передавайте в верхнем регистре: в нижнем регистре методы их не распознают.
 
-Менять участников можно только в тех чатах, которые [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) возвращает по умолчанию. Для завершенного чата методы [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) вернут ошибку `CHAT_NOT_IN_CRM`.
+Метод [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) по умолчанию возвращает только активные чаты: оператор взял диалог в работу, и диалог еще не перешел в режим закрытия. Диалоги в очереди и закрытые диалоги в этот список не попадают. Чтобы получить все чаты объекта, передайте `ACTIVE_ONLY` со значением `N`. Метод [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md) возвращает последний чат объекта, даже если диалог в нем завершен.
+
+Менять участников можно только в тех чатах, которые [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) возвращает по умолчанию. Для чата, диалог в котором ждет в очереди или закрыт, методы [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) вернут ошибку `CHAT_NOT_IN_CRM`.
 
 ## Связь чатов с другими объектами
 
@@ -51,7 +53,7 @@
 2. Добавьте в чат сотрудника или чат-бота методом [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md): передайте те же `CRM_ENTITY_TYPE` и `CRM_ENTITY`, идентификатор участника — в `USER_ID`, а чат — в `CHAT_ID`. Убрать участника можно методом [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) с теми же параметрами
 3. Напишите клиенту от имени сотрудника или бота методом [imopenlines.crm.message.add](../messages/imopenlines-crm-message-add.md)
 
-Если диалог еще не привязан к CRM, создайте по нему лид методом [imopenlines.crm.lead.create](../sessions/imopenlines-crm-lead-create.md) — ему тоже нужен `CHAT_ID`. Если диалог уже привязан, метод ничего не создаст, но вернет `true`.
+Если диалог еще не привязан к CRM, создайте по нему лид методом [imopenlines.crm.lead.create](../sessions/imopenlines-crm-lead-create.md) — ему тоже нужен `CHAT_ID`. Если линия настроена на сделки, метод создаст сделку с контактом. Если диалог уже привязан, метод ничего не создаст, но вернет `true`.
 
 {% note tip "Пользовательская документация" %}
 
@@ -65,12 +67,12 @@
 
 > Scope: [`imopenlines`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: в зависимости от метода — [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md), [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) требуют права на чтение объекта CRM
+> Кто может выполнять методы: зависит от метода. Методы [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md), [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) и [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) требуют права на чтение объекта CRM
 
 #|
 || **Метод** | **Описание** ||
 || [imopenlines.crm.chat.get](./imopenlines-crm-chat-get.md) | Получает чаты для объекта CRM ||
 || [imopenlines.crm.chat.getLastId](./imopenlines-crm-chat-get-last-id.md) | Получает идентификатор последнего чата объекта CRM ||
-|| [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) | Добавляет пользователя к существующему чату объекта CRM ||
+|| [imopenlines.crm.chat.user.add](./imopenlines-crm-chat-user-add.md) | Добавляет пользователя в чат объекта CRM ||
 || [imopenlines.crm.chat.user.delete](./imopenlines-crm-chat-user-delete.md) | Удаляет пользователя из чата объекта CRM ||
 |#
