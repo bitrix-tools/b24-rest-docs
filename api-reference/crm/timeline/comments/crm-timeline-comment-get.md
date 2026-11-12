@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: `любой пользователь`
+> Кто может выполнять метод: любой пользователь с правом чтения хотя бы одного связанного элемента CRM
 
-Метод получает информацию о деле типа «Комментарий».
+Метод `crm.timeline.comment.get` получает информацию о комментарии в таймлайне CRM.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Целочисленный идентификатор дела типа «Комментарий» (например, `1`). Получить идентификаторы можно методом [`crm.timeline.comment.list`](./crm-timeline-comment-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор комментария, положительное целое число. Получить идентификаторы можно методом [`crm.timeline.comment.list`](./crm-timeline-comment-list.md) ||
 |#
 
 ## Примеры кода
@@ -70,16 +70,16 @@
       CREATED: ISODate
       COMMENT: string
       AUTHOR_ID: string
-      FILES: Record<string, {
+      FILES?: Record<string, {
         id: number
         date: ISODate
         type: string
         name: string
         size: number
-        image?: { width: number; height: number }
+        image: { width: number; height: number } | false
         authorId: number
         authorName: string
-        urlPreview: string
+        urlPreview: string | null
         urlShow: string
         urlDownload: string
       }>
@@ -266,8 +266,8 @@ HTTP-статус: **200**
         "COMMENT": "New comment was added",
         "AUTHOR_ID": "1",
         "FILES": {
-            "1": {
-                "id": 1,
+            "930": {
+                "id": 930,
                 "date": "2020-03-02T12:00:00+03:00",
                 "type": "image",
                 "name": "1.gif",
@@ -282,8 +282,8 @@ HTTP-статус: **200**
                 "urlShow": "https://my.bitrix24.com/disk/showFile/930/?&ncc=1&ts=1718366521&filename=1.gif",
                 "urlDownload": "https://my.bitrix24.com/disk/downloadFile/930/?&ncc=1&filename=1.gif"
             },
-            "2": {
-                "id": 2,
+            "931": {
+                "id": 931,
                 "date": "2020-03-02T12:00:00+03:00",
                 "type": "image",
                 "name": "2.gif",
@@ -304,8 +304,8 @@ HTTP-статус: **200**
         "start": 1715091541.642592,
         "finish": 1715091541.730599,
         "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
         "operating": 0
     }
 }
@@ -317,9 +317,61 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Значения для поля `result` соответствуют [полям комментария](./crm-timeline-comment-fields.md#fields). ||
+[`object`](../../../data-types.md) | Объект с информацией о комментарии [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+Полное описание полей — в методе [crm.timeline.comment.fields](./crm-timeline-comment-fields.md#fields). Идентификаторы `ID`, `ENTITY_ID` и `AUTHOR_ID` имеют тип `integer`, но в JSON могут возвращаться строками.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор комментария ||
+|| **ENTITY_ID**
+[`integer`](../../../data-types.md) | Идентификатор первого связанного элемента CRM, на чтение которого у пользователя есть право ||
+|| **ENTITY_TYPE**
+[`string`](../../../data-types.md) | Тип элемента CRM, указанного в `ENTITY_ID` ||
+|| **CREATED**
+[`datetime`](../../../data-types.md) | Дата и время создания комментария ||
+|| **COMMENT**
+[`string`](../../../data-types.md) | Текст комментария ||
+|| **AUTHOR_ID**
+[`integer`](../../../data-types.md) | Идентификатор автора комментария ||
+|| **FILES**
+[`object`](../../../data-types.md) | Файлы комментария. Ключ — идентификатор файла на Диске, значение — объект файла [(подробное описание)](#files). Поле возвращается, если у комментария есть файлы, доступен модуль Диск и удалось получить данные хотя бы одного файла ||
+|#
+
+#### Элемент FILES {#files}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор файла на Диске ||
+|| **date**
+[`datetime`](../../../data-types.md) | Дата и время создания файла ||
+|| **type**
+[`string`](../../../data-types.md) | Тип содержимого: `image`, `video` или `file` ||
+|| **name**
+[`string`](../../../data-types.md) | Имя файла ||
+|| **size**
+[`integer`](../../../data-types.md) | Размер файла в байтах ||
+|| **image**
+[`object`](../../../data-types.md), [`boolean`](../../../data-types.md) | Размеры изображения или превью видео: `width` и `height` типа `integer`, в пикселях. Для остальных файлов — `false` ||
+|| **authorId**
+[`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего файл ||
+|| **authorName**
+[`string`](../../../data-types.md) | Имя пользователя, создавшего файл ||
+|| **urlPreview**
+[`string`](../../../data-types.md) или `null` | Ссылка на превью. Если превью недоступно — `null` ||
+|| **urlShow**
+[`string`](../../../data-types.md) | Ссылка на просмотр изображения или скачивание другого файла ||
+|| **urlDownload**
+[`string`](../../../data-types.md) | Ссылка на скачивание файла ||
 |#
 
 ## Обработка ошибок
@@ -338,10 +390,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Not found. | Элемент с указанными параметрами не найден ||
-|| Пустая строка | Access denied. | Отсутствуют права на редактирование элемента CRM ||
-|| Пустая строка | ID is not defined or invalid. | Не переданы обязательные поля ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Not found. | Запись таймлайна с указанным `id` не найдена ||
+|| `400` | Пустое значение | Access denied. | Нет права чтения ни одного элемента CRM, связанного с комментарием, или у комментария нет привязок ||
+|| `400` | Пустое значение | ID is not defined or invalid. | Параметр `id` не передан или содержит некорректный идентификатор ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -13,23 +13,25 @@
 >
 > Кто может выполнять метод: пользователь с доступом на чтение элементов CRM
 
-Метод `crm.timeline.comment.list` получает список всех дел типа «Комментарий» указанного элемента CRM.
+Метод `crm.timeline.comment.list` получает список комментариев в таймлайне указанного элемента CRM.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../../data-types.md) | Массив полей, которые необходимо выбрать. Передавайте поля объекта [result](./crm-timeline-comment-fields.md#fields). Если не передан или передан пустой массив, будут возвращены все поля ||
+[`array`](../../../data-types.md) | Массив полей, которые необходимо выбрать: `ID`, `ENTITY_ID`, `ENTITY_TYPE`, `CREATED`, `COMMENT`, `AUTHOR_ID`. Описание полей — в разделе [Список полей](./crm-timeline-comment-fields.md#fields). Если параметр не передан или передан пустой массив, возвращаются все перечисленные поля. Поле `FILES` через `select` не выбирается: оно возвращается независимо от `select`, если у комментария есть файлы и доступен модуль Диск. Укажите в `select` хотя бы одно из перечисленных полей — при `select` только с `FILES` массив `result` может оказаться пустым или неполным, хотя `total` больше нуля ||
 || **filter***
 [`object`](../../../data-types.md) | Объект для фильтрации выбранных комментариев в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Метод учитывает только два поля, оба обязательны:
+Метод учитывает только два поля. Передавайте оба, чтобы указать элемент CRM:
 - `ENTITY_ID` — ID элемента CRM, к которому привязан комментарий
 - `ENTITY_TYPE` — [тип объекта CRM](../../data-types.md#object_type), например: `deal`, `lead`, `contact`, `company`
 
-Другие поля, в том числе `CREATED`, метод игнорирует: отфильтровать комментарии по ним нельзя. Если не передать `ENTITY_ID` или `ENTITY_TYPE`, метод не определит элемент CRM и вернет ошибку.
+Другие поля, в том числе `CREATED`, метод игнорирует: отфильтровать комментарии по ним нельзя. Если элемент CRM не определен или у пользователя нет доступа к нему, метод может вернуть ошибку `Access denied.`
 
 Чтобы получить комментарии за период, выберите все комментарии элемента, например с помощью параметров `select` и `start`, и отфильтруйте их по полю `CREATED` на стороне приложения
 ||
@@ -50,7 +52,7 @@
 
 Если параметр не передан, используется значение `0` (первая страница).
 
-Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
+Чтобы выбрать вторую страницу результатов, передайте значение `50`. Для третьей страницы передайте `100` и так далее.
 
 Формула расчета значения параметра `start`:
 
@@ -70,7 +72,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"ENTITY_ID":10,"ENTITY_TYPE":"deal"},"select":["ID","CREATED","ENTITY_ID","ENTITY_TYPE","AUTHOR_ID","COMMENT","FILES"],"start":50}' \
+    -d '{"filter":{"ENTITY_ID":10,"ENTITY_TYPE":"deal"},"select":["ID","CREATED","ENTITY_ID","ENTITY_TYPE","AUTHOR_ID","COMMENT"],"start":50}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.timeline.comment.list
     ```
 
@@ -80,7 +82,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"filter":{"ENTITY_ID":10,"ENTITY_TYPE":"deal"},"select":["ID","CREATED","ENTITY_ID","ENTITY_TYPE","AUTHOR_ID","COMMENT","FILES"],"start":50,"auth":"**put_access_token_here**"}' \
+    -d '{"filter":{"ENTITY_ID":10,"ENTITY_TYPE":"deal"},"select":["ID","CREATED","ENTITY_ID","ENTITY_TYPE","AUTHOR_ID","COMMENT"],"start":50,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.timeline.comment.list
     ```
 
@@ -100,10 +102,10 @@
       type: string
       name: string
       size: number
-      image?: { width: number; height: number }
+      image: { width: number; height: number } | false
       authorId: number
       authorName: string
-      urlPreview: string
+      urlPreview: string | null
       urlShow: string
       urlDownload: string
     }
@@ -111,12 +113,12 @@
     // Shape of each CommentItem returned in result[]
     type CommentItem = {
       ID: string
-      ENTITY_ID: string
+      ENTITY_ID: number
       ENTITY_TYPE: string
       CREATED: ISODate | null
       COMMENT: string
       AUTHOR_ID: string
-      FILES: Record<string, CommentFile>
+      FILES?: Record<string, CommentFile>
     }
 
     try {
@@ -139,7 +141,6 @@
             'ENTITY_TYPE',
             'AUTHOR_ID',
             'COMMENT',
-            'FILES',
           ],
           start: 50,
         },
@@ -189,7 +190,6 @@
                 'ENTITY_TYPE',
                 'AUTHOR_ID',
                 'COMMENT',
-                'FILES',
               ],
               start: 50,
             },
@@ -234,7 +234,6 @@
                 "ENTITY_TYPE",
                 "AUTHOR_ID",
                 "COMMENT",
-                "FILES",
             ],
         ).response
         result = bitrix_response.result
@@ -270,7 +269,6 @@
                 "ENTITY_TYPE",
                 "AUTHOR_ID",
                 "COMMENT",
-                "FILES",
             ],
         ).as_list().response
         result = bitrix_response.result
@@ -307,7 +305,6 @@
                 "ENTITY_TYPE",
                 "AUTHOR_ID",
                 "COMMENT",
-                "FILES",
             ],
         ).as_list_fast(descending=True).response
         result = bitrix_response.result
@@ -346,7 +343,6 @@
                         'ENTITY_TYPE',
                         'AUTHOR_ID',
                         'COMMENT',
-                        'FILES',
                     ],
                     'start' => 50,
                 ]
@@ -379,7 +375,6 @@
                 "ENTITY_TYPE",
                 "AUTHOR_ID",
                 "COMMENT", 
-                "FILES",
             ],
             start: 50,
         },
@@ -411,7 +406,6 @@
                 'ENTITY_TYPE',
                 'AUTHOR_ID',
                 'COMMENT',
-                'FILES',
             ],
             'start' => 50,
         ]
@@ -431,7 +425,7 @@
     		"ENTITY_ID":   10,
     		"ENTITY_TYPE": "deal",
     	},
-    	"select": []string{"ID", "CREATED", "ENTITY_ID", "ENTITY_TYPE", "AUTHOR_ID", "COMMENT", "FILES"},
+    	"select": []string{"ID", "CREATED", "ENTITY_ID", "ENTITY_TYPE", "AUTHOR_ID", "COMMENT"},
 	"start": 50,
     }, b24.WithIdempotent())
     if err != nil {
@@ -471,14 +465,14 @@ HTTP-статус: **200**
     "result": [
         {
             "ID": "999",
-            "ENTITY_ID": "2",
+            "ENTITY_ID": 2,
             "ENTITY_TYPE": "deal",
             "CREATED": "2020-03-02T12:00:00+03:00",
             "COMMENT": "New comment was added",
             "AUTHOR_ID": "1",
             "FILES": {
-                "1": {
-                    "id": 1,
+                "930": {
+                    "id": 930,
                     "date": "2020-03-02T12:00:00+03:00",
                     "type": "image",
                     "name": "1.gif",
@@ -493,8 +487,8 @@ HTTP-статус: **200**
                     "urlShow": "https://my.bitrix24.com/disk/showFile/930/?&ncc=1&ts=1718366521&filename=1.gif",
                     "urlDownload": "https://my.bitrix24.com/disk/downloadFile/930/?&ncc=1&filename=1.gif"
                 },
-                "2": {
-                    "id": 2,
+                "931": {
+                    "id": 931,
                     "date": "2020-03-02T12:00:00+03:00",
                     "type": "image",
                     "name": "2.gif",
@@ -513,12 +507,11 @@ HTTP-статус: **200**
         },
         {
             "ID": "1000",
-            "ENTITY_ID": "2",
+            "ENTITY_ID": 2,
             "ENTITY_TYPE": "deal",
             "CREATED": "2020-03-02T12:00:00+03:00",
             "COMMENT": "Test comment",
-            "AUTHOR_ID": "1",
-            "FILES": {}
+            "AUTHOR_ID": "1"
         }
     ],
     "total": 2,
@@ -526,8 +519,8 @@ HTTP-статус: **200**
         "start": 1715091541.642592,
         "finish": 1715091541.730599,
         "duration": 0.08800697326660156,
-        "date_start": "2024-05-03T17:19:01+03:00",
-        "date_finish": "2024-05-03T17:19:01+03:00",
+        "date_start": "2024-05-07T17:19:01+03:00",
+        "date_finish": "2024-05-07T17:19:01+03:00",
         "operating": 0
     }
 }
@@ -539,11 +532,63 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../../data-types.md) | Корневой элемент ответа, содержащий массив объектов с информацией о выбранных комментариях ||
+[`array`](../../../data-types.md) | Массив [объектов комментариев](#result) ||
 || **total**
 [`integer`](../../../data-types.md) | Общее количество найденных записей ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект комментария {#result}
+
+Элемент массива `result` содержит поля, выбранные через `select`, и может содержать `FILES`. Полное описание полей комментария приведено в разделе [Список полей](./crm-timeline-comment-fields.md#fields).
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор комментария. В ответе передается строкой ||
+|| **ENTITY_ID**
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM. В ответе передается числом ||
+|| **ENTITY_TYPE**
+[`string`](../../../data-types.md) | Тип элемента CRM ||
+|| **CREATED**
+[`datetime`](../../../data-types.md) | Дата создания комментария ||
+|| **COMMENT**
+[`string`](../../../data-types.md) | Текст комментария ||
+|| **AUTHOR_ID**
+[`integer`](../../../data-types.md) | Идентификатор автора комментария. В ответе передается строкой ||
+|| **FILES**
+[`object`](../../../data-types.md) | Объект файлов с ключами — идентификаторами файлов на Диске. Значения — [объекты файлов](#comment-file). Может возвращаться независимо от `select`, если у комментария есть файлы и доступен модуль Диск. Если файлов нет или их данные не удалось получить, поле отсутствует ||
+|#
+
+#### Объект файла в FILES {#comment-file}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../../data-types.md) | Идентификатор файла на Диске ||
+|| **date**
+[`datetime`](../../../data-types.md) | Дата создания файла ||
+|| **type**
+[`string`](../../../data-types.md) | Тип содержимого: `image`, `video` или `file` ||
+|| **name**
+[`string`](../../../data-types.md) | Имя файла ||
+|| **size**
+[`integer`](../../../data-types.md) | Размер файла в байтах ||
+|| **image**
+[`object`](../../../data-types.md) или `false` | Размеры изображения или превью видео: `width` — ширина в пикселях, `height` — высота в пикселях. Оба значения целые. Для остальных файлов — `false` ||
+|| **authorId**
+[`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего файл ||
+|| **authorName**
+[`string`](../../../data-types.md) | Имя пользователя, создавшего файл ||
+|| **urlPreview**
+[`string`](../../../data-types.md) или `null` | URL превью файла. Если превью недоступно — `null` ||
+|| **urlShow**
+[`string`](../../../data-types.md) | URL просмотра изображения или скачивания файла другого типа ||
+|| **urlDownload**
+[`string`](../../../data-types.md) | URL скачивания файла ||
 |#
 
 ## Обработка ошибок
@@ -562,8 +607,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Сообщение об ошибке** | **Описание** ||
-|| Пустая строка | Access denied | Отсутствуют права на указанный элемент CRM или в фильтре не переданы обязательные поля `ENTITY_ID` и `ENTITY_TYPE` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | Нет доступа к указанному элементу CRM. Ошибка также возможна, если элемент не определен из-за отсутствующих или неверных полей `ENTITY_ID` и `ENTITY_TYPE` в фильтре ||
+|| `400` | Пустое значение | Parameter 'filter' must be array. | Параметр `filter` передан значением, которое не является массивом или объектом ||
+|| `400` | Пустое значение | Parameter 'order' must be array. | Параметр `order` передан значением, которое не является массивом или объектом ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
