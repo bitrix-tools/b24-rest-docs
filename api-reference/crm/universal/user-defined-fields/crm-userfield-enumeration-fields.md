@@ -1,4 +1,4 @@
-# Получить описание полей для пользовательского поля типа «enumeration» (список) crm.userfield.enumeration.fields
+# Получить описание полей для пользовательского поля типа enumeration (список) crm.userfield.enumeration.fields
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.userfield.enumeration.fields` возвращает описание полей для пользовательского поля типа "enumeration" (список).
+Метод `crm.userfield.enumeration.fields` возвращает описание полей элемента списка для пользовательского поля типа `enumeration`.
+
+В таком формате элементы передают в ключе `LIST` методов `crm.*.userfield.add` и `crm.*.userfield.update`, например [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md), и получают в ответе `crm.*.userfield.get` и `crm.*.userfield.list`. Метод REST 3.0 `crm.<тип>.field.custom.add` не создает поля типа `enumeration`, для них используйте устаревшие методы `crm.*.userfield.add` или [userfieldconfig.add](../userfieldconfig/userfieldconfig-add.md).
 
 ## Параметры метода
 
@@ -266,24 +268,43 @@ HTTP-статус: **200**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Поля объекта result {#result}
+#### Объект result {#result}
+
+Ключ объекта `result` — поле элемента списка, значение — описание поля [(подробное описание)](#descriptor). В таблице указан тип значения, которое поле принимает в `LIST`. Сводное описание элемента — объект [uf_enum_element](../../../data-types.md#uf_enum_element).
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор значения списка ||
+[`integer`](../../../data-types.md) | Идентификатор элемента. Задает система: при создании поля не передается. В `update` передайте `ID`, чтобы изменить или удалить существующий элемент. Элемент без `ID` добавляется в список как новый ||
 || **SORT**
-[`integer`](../../../data-types.md) | Порядок сортировки ||
+[`integer`](../../../data-types.md) | Порядок сортировки. Если не передан или меньше 1, элемент получает `500` ||
 || **VALUE**
-[`string`](../../../data-types.md) | Значение элемента списка ||
+[`string`](../../../data-types.md) | Текст элемента. Элементы с пустым `VALUE` при создании поля пропускаются ||
 || **DEF**
-[`string`](../../../data-types.md) | Признак значения по умолчанию ||
+[`char`](../../../data-types.md) | Признак значения по умолчанию: `Y` или `N`. Если поле не множественное, значением по умолчанию станет только первый элемент с `DEF: Y` ||
 || **DEL**
-[`string`](../../../data-types.md) | Флаг удаления элемента ||
+[`char`](../../../data-types.md) | Флаг удаления: `Y` вместе с `ID` в `update` удаляет элемент. Элементы, которые не переданы в `update`, остаются ||
+|#
+
+Кроме этих полей, элемент списка принимает `XML_ID` — внешний идентификатор элемента. Метод его не описывает. В ответе `XML_ID` элемента есть у `crm.*.userfield.list`, у `crm.*.userfield.get` его нет.
+
+#### Описание поля {#descriptor}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../../data-types.md) | Тип значения: `int` или `string` ||
+|| **title**
+[`string`](../../../data-types.md) | Название поля на языке интерфейса Битрикс24 ||
+|| **isReadOnly**
+[`boolean`](../../../data-types.md) | Значение задает система. Ключ есть только у `ID` ||
 |#
 
 ## Обработка ошибок
+
+Собственных ошибок у метода нет: он не проверяет права в CRM и не принимает параметров.
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
@@ -291,6 +312,8 @@ HTTP-статус: **200**
 
 ## Продолжите изучение
 
-- [{#T}](./crm-userfield-fields.md)
 - [{#T}](./crm-userfield-types.md)
+- [{#T}](./crm-userfield-fields.md)
 - [{#T}](./crm-userfield-settings-fields.md)
+- [{#T}](../../deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](./index.md)

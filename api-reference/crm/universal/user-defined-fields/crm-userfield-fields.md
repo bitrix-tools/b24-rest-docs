@@ -13,7 +13,9 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `crm.userfield.fields` возвращает описание характеристик пользовательских полей
+Метод `crm.userfield.fields` возвращает описание характеристик пользовательского поля CRM: тип значения каждой характеристики и признаки того, задается ли она при создании и меняется ли позже.
+
+По этому описанию собирают `fields` для методов `crm.*.userfield.add` и `crm.*.userfield.update`, например [crm.deal.userfield.add](../../deals/user-defined-fields/crm-deal-userfield-add.md). Какой метод создает поле нужного типа, указано в разделе [Как выбрать раздел](./index.md#how-to-choose).
 
 ## Параметры метода
 
@@ -326,52 +328,73 @@ HTTP-статус: **200**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-#### Поля объекта result {#result}
+#### Объект result {#result}
+
+Ключ объекта `result` — код характеристики пользовательского поля, значение — описание характеристики [(подробное описание)](#descriptor). В таблице указан тип значения, которое характеристика принимает в `crm.*.userfield.*`.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор ||
+[`integer`](../../../data-types.md) | Идентификатор поля. Только для чтения ||
 || **ENTITY_ID**
-[`string`](../../../data-types.md) | Объект пользовательского поля ||
+[`string`](../../../data-types.md) | Код объекта CRM, к которому привязано поле, например `CRM_DEAL`. Метод `crm.*.userfield.add` подставляет код по объекту из имени метода, передавать его не нужно ||
 || **FIELD_NAME**
-[`string`](../../../data-types.md) | Код поля ||
+[`string`](../../../data-types.md) | Код поля в формате `UF_CRM_*`. Обязателен при создании. Код приводится к верхнему регистру, недостающий префикс `UF_CRM_` добавляется: `PRIORITY` станет `UF_CRM_PRIORITY`. Изменить код нельзя ||
 || **USER_TYPE_ID**
-[`string`](../../../data-types.md) | Тип данных пользовательского поля ||
+[`string`](../../../data-types.md) | Тип данных поля из ответа [crm.userfield.types](./crm-userfield-types.md). Задается при создании, изменить нельзя ||
 || **XML_ID**
-[`string`](../../../data-types.md) | Внешний Ид (XML ID) ||
+[`string`](../../../data-types.md) | Внешний идентификатор ||
 || **SORT**
 [`integer`](../../../data-types.md) | Порядок сортировки ||
 || **MULTIPLE**
-[`char`](../../../data-types.md) | Признак множественности ||
+[`char`](../../../data-types.md) | Признак множественного поля: `Y` или `N`, по умолчанию `N`. Задается при создании, в `update` не меняется ||
 || **MANDATORY**
-[`char`](../../../data-types.md) | Признак обязательности ||
+[`char`](../../../data-types.md) | Признак обязательного поля: `Y` или `N` ||
 || **SHOW_FILTER**
-[`char`](../../../data-types.md) | Признак отображения в фильтре списка ||
+[`char`](../../../data-types.md) | Признак отображения в фильтре списка. При записи передавайте `Y` или `N`. В ответе `crm.*.userfield.get` и `crm.*.userfield.list` вместо `Y` приходит `E` — поиск по маске. У полей типа `employee` приходит `I` — точное совпадение ||
 || **SHOW_IN_LIST**
-[`char`](../../../data-types.md) | Признак отображения в списке ||
+[`char`](../../../data-types.md) | Признак отображения в списке: `Y` или `N` ||
 || **EDIT_IN_LIST**
-[`char`](../../../data-types.md) | Разрешать редактирование пользователем ||
+[`char`](../../../data-types.md) | Разрешено ли пользователю редактировать значение: `Y` или `N` ||
 || **IS_SEARCHABLE**
-[`char`](../../../data-types.md) | Значения поля участвуют в поиске ||
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске: `Y` или `N` ||
 || **EDIT_FORM_LABEL**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись в форме редактирования ||
+[`string`](../../../data-types.md) или [`lang_map`](../../data-types.md#tipy-dannyh) | Подпись в форме редактирования. Строка или объект с подписями по языкам ||
 || **LIST_COLUMN_LABEL**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Заголовок в списке ||
+[`string`](../../../data-types.md) или [`lang_map`](../../data-types.md#tipy-dannyh) | Заголовок колонки в списке ||
 || **LIST_FILTER_LABEL**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Подпись фильтра в списке ||
+[`string`](../../../data-types.md) или [`lang_map`](../../data-types.md#tipy-dannyh) | Подпись поля в фильтре списка ||
 || **ERROR_MESSAGE**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Сообщение об ошибке ||
+[`string`](../../../data-types.md) или [`lang_map`](../../data-types.md#tipy-dannyh) | Сообщение об ошибке ||
 || **HELP_MESSAGE**
-[`string`](../../../data-types.md)\|[`lang_map`](../../data-types.md) | Помощь ||
+[`string`](../../../data-types.md) или [`lang_map`](../../data-types.md#tipy-dannyh) | Текст подсказки ||
 || **LIST**
-[`uf_enum_element`](./crm-userfield-enumeration-fields.md) | Элементы списка для поля типа `enumeration` ||
+[`uf_enum_element[]`](../../../data-types.md#uf_enum_element) | Элементы списка для поля типа `enumeration`. Описание полей элемента возвращает метод [crm.userfield.enumeration.fields](./crm-userfield-enumeration-fields.md) ||
 || **SETTINGS**
-[`object`](../../../data-types.md) | Дополнительные настройки в зависимости от типа поля ||
+[`object`](../../../data-types.md) | Настройки, которые зависят от типа поля. Состав для каждого типа возвращает метод [crm.userfield.settings.fields](./crm-userfield-settings-fields.md) ||
+|#
+
+#### Описание характеристики {#descriptor}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../../data-types.md) | Тип значения: `int`, `string`, `char`, `object` или `uf_enum_element` ||
+|| **title**
+[`string`](../../../data-types.md) | Название характеристики на языке интерфейса Битрикс24 ||
+|| **isReadOnly**
+[`boolean`](../../../data-types.md) | Значение задает система, передать его нельзя. Ключ есть только у `ID` ||
+|| **isImmutable**
+[`boolean`](../../../data-types.md) | Значение задается при создании поля и не меняется в `update`. Ключ есть у `ENTITY_ID`, `FIELD_NAME`, `USER_TYPE_ID` ||
+|| **isMultiple**
+[`boolean`](../../../data-types.md) | Значение передается массивом. Ключ есть только у `LIST` ||
 |#
 
 ## Обработка ошибок
+
+Собственных ошибок у метода нет: он не проверяет права в CRM и не принимает параметров.
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
@@ -380,5 +403,7 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./crm-userfield-types.md)
-- [{#T}](./crm-userfield-enumeration-fields.md)
 - [{#T}](./crm-userfield-settings-fields.md)
+- [{#T}](./crm-userfield-enumeration-fields.md)
+- [{#T}](../../deals/user-defined-fields/crm-deal-userfield-add.md)
+- [{#T}](./index.md)
