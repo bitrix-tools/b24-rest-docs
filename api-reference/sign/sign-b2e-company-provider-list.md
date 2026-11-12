@@ -15,8 +15,6 @@
 
 Метод `sign.b2e.company.provider.list` возвращает список провайдеров подписи для выбранной компании.
 
-Метод работает только в контексте авторизации [приложения](../../settings/app-installation/index.md).
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
@@ -57,6 +55,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"companyCrmId":12,"limit":2,"offset":0}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sign.b2e.company.provider.list
+    ```
 
 - cURL (OAuth)
 
@@ -373,7 +381,6 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! User authorization required | Запрос выполнен без авторизации пользователя ||
 || `403` | `ACCESS_DENIED` | Access denied! | КЭДО недоступен на Битрикс24, у приложения нет scope `sign.b2e` или `crm`, либо у пользователя нет права создавать документы КЭДО. Также возникает, если передан `companyUuid`, а scope `humanresources.hcmlink` не подключен ||
-|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method Application context required | Метод вызван не из приложения с OAuth-авторизацией, например через вебхук ||
 || `400` | Пустое значение | Parameter 'companyUuid' or 'companyCrmId' is required | Не передан ни `companyUuid`, ни `companyCrmId` ||
 || `400` | `510` | Company was not found. | Компания не найдена по `companyUuid` или `companyCrmId`. Так же метод отвечает, если в `companyCrmId` передан не идентификатор, например массив ||
 || `400` | `0` | Error while autoregistering providers | Не удалось зарегистрировать провайдеров компании в сервисе подписи. Проверьте реквизиты компании в CRM: у компании должен быть заполнен ИНН ||

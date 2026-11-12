@@ -31,7 +31,9 @@
 || **manifest**
 [`object`](../../data-types.md) | Манифест блока.
 
-Структуру манифеста смотрите в методе [landing.block.getManifestFile](../block/methods/landing-block-get-manifest-file.md) и в разделе [Файл манифеста](../block/manifest.md) ||
+Структуру манифеста смотрите в методе [landing.block.getManifestFile](../block/methods/landing-block-get-manifest-file.md) и в разделе [Файл манифеста](../block/manifest.md).
+
+Метод молча удаляет из манифеста ключи `callbacks` и `assets.class`: они не сохраняются, ошибки не будет. Подтипы `widget` и `widgetvue` в `block.subtype` метод не принимает и возвращает ошибку `UNSUPPORTED_BLOCK_SUBTYPE` ||
 |#
 
 ### Тип fields {#fields}
@@ -453,7 +455,7 @@ HTTP-статус: **400**
 || `CONTENT_IS_BAD` | Небезопасный контент блока | Поле `fields.CONTENT` не прошло sanitize-проверку ||
 || `PRESET_CONTENT_IS_BAD` | Небезопасный контент пресета | Небезопасное содержимое в `manifest.cards[*].presets[*]` ||
 || `UNSUPPORTED_BLOCK_TYPE` | Неподдерживаемый тип блока | В коде метода проверяется ограничение на `MAINPAGE` в `manifest.block.type` ||
-|| `UNSUPPORTED_BLOCK_SUBTYPE` | Неподдерживаемый подтип блока | В `manifest.block.subtype` передан `widget` ||
+|| `UNSUPPORTED_BLOCK_SUBTYPE` | Неподдерживаемый подтип блока | В `manifest.block.subtype` передан `widget` или `widgetvue` ||
 || `insufficient_scope` | Недостаточно scope у токена | Токен не содержит scope `landing` ||
 || `SYSTEM_ERROR` | Внутренняя ошибка | Ошибка выполнения на стороне сервера ||
 |#
