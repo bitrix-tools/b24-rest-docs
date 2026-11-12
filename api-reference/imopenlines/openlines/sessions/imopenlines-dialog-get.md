@@ -623,7 +623,7 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `ACCESS_ERROR` | You do not have access to the specified dialog | Не передан ни один из параметров, `DIALOG_ID` передан не в формате `chat<ID>`, чат не найден, не относится к открытой линии или у пользователя нет доступа к нему ||
-|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed | Модуль Веб-мессенджер не установлен ||
+|| `400` | `IM_NOT_INSTALLED` | Messenger is not installed. | Модуль Веб-мессенджер не установлен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
