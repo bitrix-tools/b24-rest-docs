@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «чтения» контактов
+> Кто может выполнять метод: пользователь с правом на чтение контактов
 
 {% note warning "DEPRECATED" %}
 
@@ -19,9 +19,11 @@
 
 {% endnote %}
 
-Метод `crm.contact.list` возвращает список контактов по фильтру. Является реализацией списочного метода для контактов.
+Метод `crm.contact.list` возвращает список контактов по фильтру.
 
-Чтобы получить список компаний, привязанных к контакту, используйте метод [`crm.contact.company.items.get`](company/crm-contact-company-items-get.md)
+Метод выбирает только контакты из общего направления, фильтр по `CATEGORY_ID` это не меняет. Контакты других направлений, например «Контакты поставщика», получайте методом [crm.item.list](../universal/crm-item-list.md) с `entityTypeId=3` и `categoryId`.
+
+Чтобы получить список компаний, привязанных к контакту, используйте метод [`crm.contact.company.items.get`](company/crm-contact-company-items-get.md).
 
 ## Параметры метода
 
@@ -29,22 +31,22 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`string[]`](../../data-types.md) | Список полей, которые должны быть заполнены у контактов в выборке.
+[`string[]`](../../data-types.md) | Список полей контакта, которые нужно вернуть в ответе. Поле `ID` возвращается, даже если его нет в списке.
 
-При выборке можно использовать маски:
-- `'*'` — для выборки всех полей (без пользовательских и множественных)
-- `'UF_*'` — для выборки всех пользовательских полей (без множественных)
+Маски:
+- `'*'` — все поля, кроме пользовательских и множественных
+- `'UF_*'` — все пользовательские поля, включая множественные
 
-Маски для выборки множественных полей нет. Для выборки множественных полей укажите нужные в списке выбора (`PHONE`, `EMAIL` и так далее).
+Для выборки множественных контактных данных укажите нужные поля в списке выбора (`PHONE`, `EMAIL` и так далее).
 
 Список доступных полей для выборки можно узнать с помощью метода [`crm.contact.fields`](crm-contact-fields.md).
 
-По умолчанию берутся все поля — `'*'` + Пользовательские поля — `'UF_*'`
+По умолчанию возвращаются стандартные поля. Чтобы получить пользовательские поля, укажите их или маску `UF_*`
 ||
 || **filter**
 [`object`](../../data-types.md) | Объект формата:
 
-```
+```text
 {
     field_1: value_1,
     field_2: value_2,
@@ -54,7 +56,7 @@
 ```
 
 где:
-- `field_n` — название поля, по которому будет отфильтрована выборка элементов
+- `field_n` — название поля, по которому фильтруются контакты
 - `value_n` — значение фильтра
 
 К ключам `field_n` можно добавить префикс, уточняющий работу фильтра.
@@ -65,7 +67,7 @@
 - `<` — меньше
 - `@` — IN, в качестве значения передается массив
 - `!@` — NOT IN, в качестве значения передается массив
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Подстрока ищется в любой позиции строки
 - `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
     - `"мол%"` — ищет значения, начинающиеся с «мол»
     - `"%мол"` — ищет значения, заканчивающиеся на «мол»
@@ -75,18 +77,18 @@
 - `!=` — не равно
 - `!` — не равно
 
-Поля Телефон(`PHONE`), Почта(`EMAIL`), Сайт(`WEB`), Мессенджеры(`IM`), Ссылки(`LINK`) — множественные. По ним фильтры работают только на точное совпадение.
+Фильтр по множественным полям `PHONE`, `EMAIL`, `WEB`, `IM` без префикса ищет значения, начинающиеся с переданной строки. Фильтр по `LINK` игнорируется.
 
 Также фильтр `LIKE` не работает с полями типа `crm_status`, `crm_contact`, `crm_company` — например, Тип контакта (`TYPE_ID`), Обращение (`HONORIFIC`) и так далее.
 
 Список доступных полей для фильтрации можно узнать с помощью метода [`crm.contact.fields`](crm-contact-fields.md).
 
-Ключ `logic` в фильтре не поддерживается. Для использования сложной логики в фильтре используйте метод [crm.item.list](../universal/crm-item-list.md)
+Ключ `logic` в фильтре не поддерживается. Для фильтра со сложной логикой используйте метод [crm.item.list](../universal/crm-item-list.md)
 ||
 || **order**
 [`object`](../../data-types.md) | Объект формата:
 
-```
+```text
 {
     field_1: value_1,
     field_2: value_2,
@@ -95,17 +97,19 @@
 }
 ```
 где:
-- `field_n` — название поля, по которому будет произведена сортировка выборки контактов
+- `field_n` — название поля, по которому сортируются контакты
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
+
+Множественные контактные данные, например `EMAIL` и `PHONE`, для сортировки не поддерживаются.
 
 Список доступных полей для сортировки можно узнать с помощью метода [`crm.contact.fields`](crm-contact-fields.md)
 ||
 || **start**
 [`integer`](../../data-types.md) | Параметр для управления постраничной навигацией.
 
-Размер страницы результатов всегда статичный — 50 записей.
+Размер страницы фиксирован — 50 записей.
 
 Чтобы выбрать вторую страницу результатов, передайте значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
 
@@ -122,24 +126,24 @@
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
 Получить список контактов, у которых:
-1. источником является CRM-Форма
+1. источник — CRM-форма
 2. имя и фамилия не пустые
-3. имя или фамилия начинается на "И"
-4. участвуют в экспорте
-5. e-mail равен 'special-for@example.com'
-6. идентификатор ответственного или 1, или 6
-7. создан менее 6 месяцев назад
+3. имя и фамилия начинаются на «И»
+4. признак экспорта — `Y`
+5. e-mail начинается с `special-for@example.com`
+6. ответственный — пользователь 1 или 6
+7. дата создания — не раньше чем шесть месяцев назад
 
-Задать  порядок сортировки выборки: имя и фамилия в порядке возрастания.
+Отсортировать по фамилии и имени по возрастанию.
 
 Для наглядности выбрать только необходимые поля:
-- Идентификатор контакта
-- Имя
-- Фамилия
-- E-mail
-- Участвует ли в экспорте
-- Ответственный
-- Дата создания
+- идентификатор контакта
+- имя
+- фамилия
+- e-mail
+- участвует ли в экспорте
+- ответственный
+- дата создания
 
 {% list tabs %}
 
@@ -149,7 +153,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"]}' \
+    -d '{"FILTER":{"SOURCE_ID":"WEBFORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"EXPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"]}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.list
     ```
 
@@ -159,7 +163,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FILTER":{"SOURCE_ID":"CRM_FORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"IMPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"],"auth":"**put_access_token_here**"}' \
+    -d '{"FILTER":{"SOURCE_ID":"WEBFORM","!=NAME":"","!=LAST_NAME":"","=%NAME":"И%","=%LAST_NAME":"И%","EMAIL":"special-for@example.com","@ASSIGNED_BY_ID":[1,6],"EXPORT":"Y",">=DATE_CREATE":"**put_six_month_ago_date_here**"},"ORDER":{"LAST_NAME":"ASC","NAME":"ASC"},"SELECT":["ID","NAME","LAST_NAME","EMAIL","EXPORT","ASSIGNED_BY_ID","DATE_CREATE"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.contact.list
     ```
 
@@ -204,14 +208,14 @@
         method: 'crm.contact.list',
         params: {
           filter: {
-            SOURCE_ID: 'CRM_FORM',
+            SOURCE_ID: 'WEBFORM',
             '!=NAME': '',
             '!=LAST_NAME': '',
             '=%NAME': 'И%',
             '=%LAST_NAME': 'И%',
             EMAIL: 'special-for@example.com',
             '@ASSIGNED_BY_ID': [1, 6],
-            IMPORT: 'Y',
+            EXPORT: 'Y',
             '>=DATE_CREATE': sixMonthAgo.toISOString(),
           },
           order: {
@@ -268,14 +272,14 @@
             method: 'crm.contact.list',
             params: {
               filter: {
-                SOURCE_ID: 'CRM_FORM',
+                SOURCE_ID: 'WEBFORM',
                 '!=NAME': '',
                 '!=LAST_NAME': '',
                 '=%NAME': 'И%',
                 '=%LAST_NAME': 'И%',
                 EMAIL: 'special-for@example.com',
                 '@ASSIGNED_BY_ID': [1, 6],
-                IMPORT: 'Y',
+                EXPORT: 'Y',
                 '>=DATE_CREATE': sixMonthAgo.toISOString(),
               },
               order: {
@@ -319,7 +323,7 @@
     ```php
     try {
         $sixMonthAgo = new DateTime();
-        $sixMonthAgo->setDate((new DateTime())->getMonth() - 6);
+        $sixMonthAgo->modify('-6 months');
     
         $response = $b24Service
             ->core
@@ -327,14 +331,14 @@
                 'crm.contact.list',
                 [
                     'filter' => [
-                        'SOURCE_ID'      => 'CRM_FORM',
+                        'SOURCE_ID'      => 'WEBFORM',
                         '!=NAME'         => '',
                         '!=LAST_NAME'    => '',
                         '=%NAME'         => 'И%',
                         '=%LAST_NAME'    => 'И%',
                         'EMAIL'          => 'special-for@example.com',
                         '@ASSIGNED_BY_ID' => [1, 6],
-                        'IMPORT'         => 'Y',
+                        'EXPORT'         => 'Y',
                         '>=DATE_CREATE'  => $sixMonthAgo->format('Y-m-d\TH:i:s'),
                     ],
                     'order'  => [
@@ -378,14 +382,14 @@
         'crm.contact.list',
         {
             filter: {
-                "SOURCE_ID": "CRM_FORM",
+                "SOURCE_ID": "WEBFORM",
                 "!=NAME": "",
                 "!=LAST_NAME": "",
                 "=%NAME": "И%",
                 "=%LAST_NAME": "И%",
                 "EMAIL": "special-for@example.com",
                 "@ASSIGNED_BY_ID": [1, 6],
-                "IMPORT": "Y",
+                "EXPORT": "Y",
                 ">=DATE_CREATE": sixMonthAgo.toISOString(),
             },
             order: {
@@ -423,14 +427,14 @@
         'crm.contact.list',
         [
             'FILTER' => [
-                'SOURCE_ID' => 'CRM_FORM',
+                'SOURCE_ID' => 'WEBFORM',
                 '!=NAME' => '',
                 '!=LAST_NAME' => '',
                 '=%NAME' => 'И%',
                 '=%LAST_NAME' => 'И%',
                 'EMAIL' => 'special-for@example.com',
                 '@ASSIGNED_BY_ID' => [1, 6],
-                'IMPORT' => 'Y',
+                'EXPORT' => 'Y',
                 '>=DATE_CREATE' => $sixMonthAgo->format(DateTime::ATOM),
             ],
             'ORDER' => [
@@ -460,14 +464,14 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.contact.list", b24.Params{
     	"filter": b24.Params{
-    		"SOURCE_ID":       "CRM_FORM",
+    		"SOURCE_ID":       "WEBFORM",
     		"!=NAME":          "",
     		"!=LAST_NAME":     "",
     		"=%NAME":          "И%",
     		"=%LAST_NAME":     "И%",
     		"EMAIL":           "special-for@example.com",
     		"@ASSIGNED_BY_ID": []int{1, 6},
-    		"IMPORT":          "Y",
+    		"EXPORT":          "Y",
     		">=DATE_CREATE":   "**put_six_month_ago_date_here**",
     	},
     	"order": b24.Params{
@@ -506,101 +510,39 @@
 
 ## Обработка ответа
 
+Пример ответа на запрос от 16 августа 2024 года: нижняя граница `DATE_CREATE` — 16 февраля 2024 года.
+
 HTTP-статус: **200**
 
 ```json
 {
-	"result": [
-		{
-			"ID": "75",
-			"NAME": "Анастасия",
-			"LAST_NAME": "Ильина",
-			"EXPORT": "Y",
-			"ASSIGNED_BY_ID": "6",
-			"DATE_CREATE": "2024-02-26T00:00:00+02:00",
-			"EMAIL": [
-				{
-					"ID": "215",
-					"VALUE_TYPE": "WORK",
-					"VALUE": "special-for@example.com",
-					"TYPE_ID": "EMAIL"
-				}
-			]
-		},
-		{
-			"ID": "74",
-			"NAME": "Артем",
-			"LAST_NAME": "Исаев",
-			"EXPORT": "Y",
-			"ASSIGNED_BY_ID": "1",
-			"DATE_CREATE": "2024-08-15T00:00:00+02:00",
-			"EMAIL": [
-				{
-					"ID": "214",
-					"VALUE_TYPE": "WORK",
-					"VALUE": "special-for@example.com",
-					"TYPE_ID": "EMAIL"
-				}
-			]
-		},
-		{
-			"ID": "78",
-			"NAME": "Артем",
-			"LAST_NAME": "Исаев",
-			"EXPORT": "Y",
-			"ASSIGNED_BY_ID": "1",
-			"DATE_CREATE": "2024-08-15T00:00:00+02:00",
-			"EMAIL": [
-				{
-					"ID": "218",
-					"VALUE_TYPE": "WORK",
-					"VALUE": "special-for@example.com",
-					"TYPE_ID": "EMAIL"
-				}
-			]
-		},
-		{
-			"ID": "77",
-			"NAME": "Инна",
-			"LAST_NAME": "Кузнецова",
-			"EXPORT": "Y",
-			"ASSIGNED_BY_ID": "6",
-			"DATE_CREATE": "2024-07-01T00:00:00+02:00",
-			"EMAIL": [
-				{
-					"ID": "217",
-					"VALUE_TYPE": "WORK",
-					"VALUE": "special-for@example.com",
-					"TYPE_ID": "EMAIL"
-				}
-			]
-		},
-		{
-			"ID": "73",
-			"NAME": "Иван",
-			"LAST_NAME": "Петров",
-			"EXPORT": "Y",
-			"ASSIGNED_BY_ID": "1",
-			"DATE_CREATE": "2024-02-20T00:00:00+02:00",
-			"EMAIL": [
-				{
-					"ID": "213",
-					"VALUE_TYPE": "WORK",
-					"VALUE": "special-for@example.com",
-					"TYPE_ID": "EMAIL"
-				}
-			]
-		}
-	],
-	"total": 5,
-	"time": {
-		"start": 1723807142.916445,
-		"finish": 1723807143.44846,
-		"duration": 0.5320150852203369,
-		"processing": 0.1967020034790039,
-		"date_start": "2024-08-16T13:19:02+02:00",
-		"date_finish": "2024-08-16T13:19:03+02:00"
-	}
+    "result": [
+        {
+            "ID": "78",
+            "NAME": "Иван",
+            "LAST_NAME": "Исаев",
+            "EXPORT": "Y",
+            "ASSIGNED_BY_ID": "1",
+            "DATE_CREATE": "2024-08-15T00:00:00+02:00",
+            "EMAIL": [
+                {
+                    "ID": "218",
+                    "VALUE_TYPE": "WORK",
+                    "VALUE": "special-for@example.com",
+                    "TYPE_ID": "EMAIL"
+                }
+            ]
+        }
+    ],
+    "total": 1,
+    "time": {
+        "start": 1723807142.916445,
+        "finish": 1723807143.44846,
+        "duration": 0.5320150852203369,
+        "processing": 0.1967020034790039,
+        "date_start": "2024-08-16T13:19:02+02:00",
+        "date_finish": "2024-08-16T13:19:03+02:00"
+    }
 }
 ```
 
@@ -612,13 +554,11 @@ HTTP-статус: **200**
 || **result**
 [`contact[]`](./crm-contact-get.md#contact) | Корневой элемент ответа. Массив, содержащий информацию о найденных контактах.
 
-Поля отдельно взятого контакта конфигурируются параметром `select` ||
+Состав полей контакта задает параметр `select` ||
 || **total**
 [`integer`](../../data-types.md) | Общее количество найденных контактов по заданным условиям ||
 || **next**
-[`integer`](../../data-types.md) | Содержит значение, которое нужно передать в следующий запрос в параметр `start`, чтобы получить следующую порцию данных.
-
-Параметр `next` появляется в ответе, если количество элементов, соответствующих вашему запросу, превышает значение `50` ||
+[`integer`](../../data-types.md) | Значение для `start` в следующем запросе, чтобы получить очередную страницу. Поле `next` возвращается, если после текущей страницы есть еще записи ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -639,11 +579,11 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `Access denied` | У пользователя нет прав на «Чтение» контактов ||
-|| Пустое значение | `Parameter 'order' must be array` | В параметр `order` передан не массив ||
-|| Пустое значение | `Parameter 'filter' must be array` | В параметр `filter` передан не массив ||
-|| Пустое значение | `Failed to get list. General error` | Произошла неизвестная ошибка ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет прав на «Чтение» контактов ||
+|| `400` | Пустое значение | `Parameter 'order' must be array.` | В параметр `order` передан не массив ||
+|| `400` | Пустое значение | `Parameter 'filter' must be array.` | В параметр `filter` передан не массив ||
+|| `400` | Пустое значение | `Failed to get list. General error.` | Произошла неизвестная ошибка ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

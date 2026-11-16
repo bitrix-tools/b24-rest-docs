@@ -7,7 +7,7 @@ items:
     href: crm-contact-add.md
   - name: Изменить контакт
     href: crm-contact-update.md
-  - name: Получить контакт по Id
+  - name: Получить контакт по идентификатору
     href: crm-contact-get.md
   - name: Получить список контактов
     href: crm-contact-list.md

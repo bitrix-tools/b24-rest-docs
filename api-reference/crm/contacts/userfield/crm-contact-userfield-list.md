@@ -21,9 +21,11 @@
 
 Метод `crm.contact.userfield.list` возвращает список пользовательских полей контактов по фильтру.
 
-Выводится и информация об этих полях, но без названия, которое присвоил полю пользователь, только внутренний идентификатор. Если нужно пользовательское название поля, воспользуйтесь методом [crm.contact.list](../crm-contact-list.md), который выводит как стандартные поля, так и пользовательские.
-
 ## Параметры метода
+
+Параметры `filter` и `order` необязательные. Если `filter` не передан, метод возвращает все пользовательские поля контактов.
+
+Метод возвращает все найденные поля одним ответом. Параметр `start` не влияет на результат.
 
 #|
 || **Название**
@@ -44,7 +46,11 @@
 - `field_n` — название поля, по которому будет отфильтрована выборка пользовательских полей
 - `value_n` — значение фильтра (доступно лишь точное соответствие)
 
-Все условия по отдельным полям соединяются с помощью `AND`. Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
+Все условия по отдельным полям соединяются с помощью `AND`.
+
+Ключи с префиксами, например `>ID` или `%FIELD_NAME`, ключи не из списка, пустые строки и массивы в значениях метод пропускает без ошибки: условие не применяется, и в ответ попадают поля без этого ограничения.
+
+Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
 || **order**
 [`object`](../../../data-types.md) | Объект формата:
 
@@ -58,7 +64,7 @@
 ```
 
 где:
-- `field_n` — название поля, по которому будет произведена сортировка выборки элементов
+- `field_n` — название поля, по которому сортируются поля
 - `value_n` — значение типа `string`, равное:
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
@@ -89,7 +95,7 @@
 || **ID**
 [`integer`](../../../data-types.md) | Идентификатор пользовательского поля ||
 || **FIELD_NAME**
-[`string`](../../../data-types.md) | Код пользовательского поля ||
+[`string`](../../../data-types.md) | Полное имя поля с префиксом `UF_CRM_`, например `UF_CRM_MANAGER_NOTE`. Код без префикса, переданный при создании, поле не найдет ||
 || **USER_TYPE_ID**
 [`string`](../../../data-types.md) | Тип пользовательского поля. Возможные значения:
 - `string` — строка
@@ -115,9 +121,13 @@
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
 || **MULTIPLE**
-[`boolean`](../../../data-types.md) | Является ли пользовательское поле множественным (`Y` — да / `N` — нет) ||
+[`char`](../../../data-types.md) | Является ли пользовательское поле множественным. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 || **MANDATORY**
-[`boolean`](../../../data-types.md) | Является ли пользовательское поле обязательным (`Y` — да/ `N` — нет) ||
+[`char`](../../../data-types.md) | Является ли пользовательское поле обязательным. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 || **SHOW_FILTER**
 [`char`](../../../data-types.md) | Показывать ли в фильтре списка. Возможные значения:
 - `N` — не показывать
@@ -126,19 +136,22 @@
 - `S` — подстрока
 ||
 || **SHOW_IN_LIST**
-[`boolean`](../../../data-types.md) | Показывать ли в списке (`Y` — да/ `N` — нет).
-
-Данный параметр ни на что не влияет в рамках `crm`
-||
+[`char`](../../../data-types.md) | Показывать ли в списке. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 || **EDIT_IN_LIST**
-[`boolean`](../../../data-types.md) | Разрешать ли редактирование пользователем (`Y` — да/ `N` — нет) ||
+[`char`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
+- `Y` — да
+- `N` — нет ||
 || **IS_SEARCHABLE**
-[`boolean`](../../../data-types.md) | Участвуют ли значения поля в поиске (`Y` — да/ `N` — нет)
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске. Возможные значения:
+- `Y` — да
+- `N` — нет
 
-Данный параметр ни на что не влияет в рамках `crm`
+Параметр ни на что не влияет в рамках `crm`
 ||
 || **LANG**
-[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). При фильтрации по данному параметру будет предоставлен набор полей со значениями на переданном языке:
+[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). Если передать `LANG`, метод вернет подписи поля на этом языке:
 - `EDIT_FORM_LABEL` — подпись в форме редактирования
 - `LIST_COLUMN_LABEL` — заголовок в списке
 - `LIST_FILTER_LABEL` — подпись фильтра в списке
@@ -156,7 +169,7 @@
 2. являются обязательными
 3. имеют подписи пользовательского поля на русском языке
 
-Задать следующий порядок сортировки у данной выборки: тип поля и индекс сортировки по возрастанию.
+Отсортировать результат по типу поля и индексу сортировки по возрастанию.
 
 {% list tabs %}
 
@@ -200,16 +213,11 @@
       SORT: string
       MULTIPLE: string
       MANDATORY: string
-      EDIT_FORM_LABEL: string
-      LIST_COLUMN_LABEL: string
+      EDIT_FORM_LABEL: string | null
+      LIST_COLUMN_LABEL: string | null
     }
 
     try {
-      // crm.contact.userfield.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<CrmContactUserfieldListItem[]>({
         method: 'crm.contact.userfield.list',
         params: {
@@ -222,7 +230,6 @@
             USER_TYPE_ID: 'ASC',
             SORT: 'ASC',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -251,11 +258,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.contact.userfield.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.contact.userfield.list',
             params: {
@@ -268,7 +270,6 @@
                 USER_TYPE_ID: 'ASC',
                 SORT: 'ASC',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -339,38 +340,6 @@
                 "ID": "ASC",
             },
         ).as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.contact.userfield.list(
-            filter={
-                "MULTIPLE": "Y",
-                "MANDATORY": "Y",
-                "LANG": "ru",
-            },
-            order={
-                "ID": "DESC",
-            },
-        ).as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:
             print(item)
@@ -503,8 +472,6 @@
     	fmt.Println(it.ID, it.EntityID)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
     if res.Total != nil {
     	fmt.Println("всего:", *res.Total)
     }
@@ -563,9 +530,9 @@ HTTP-статус: **200**
             "DYNAMIC_1278": "Y",
             "LEAD": null
         },
-        "EDIT_FORM_LABEL": "Пользовательское поле (Привязка к элементам CRM))",
-        "LIST_COLUMN_LABEL": "Пользовательское поле (Привязка к элементам CRM))",
-        "LIST_FILTER_LABEL": "Пользовательское поле (Привязка к элементам CRM))",
+        "EDIT_FORM_LABEL": "Пользовательское поле (Привязка к элементам CRM)",
+        "LIST_COLUMN_LABEL": "Пользовательское поле (Привязка к элементам CRM)",
+        "LIST_FILTER_LABEL": "Пользовательское поле (Привязка к элементам CRM)",
         "ERROR_MESSAGE": null,
         "HELP_MESSAGE": null
         },
@@ -690,7 +657,7 @@ HTTP-статус: **200**
 || **result**
 [`userfield[]`](crm-contact-userfield-get.md#userfield) | Корневой элемент ответа, содержит список пользовательских полей.
 
-Структура отдельно взятого пользовательского поля идентична [`userfield`](./crm-contact-userfield-get.md#userfield) за исключением того, что поля: `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE` отдаются либо в виде `string` при передаче `filter.LANG`, либо не отдаются вовсе ||
+Подписи `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL`, `ERROR_MESSAGE` и `HELP_MESSAGE` приходят только при непустом `filter.LANG` — строкой на этом языке или `null`. Без `filter.LANG` их в ответе нет. Для поля типа `enumeration` элементы `LIST` дополнительно содержат `XML_ID` ||
 || **total**
 [`integer`](../../../data-types.md) | Количество найденных пользовательских полей ||
 || **time**
@@ -713,10 +680,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `Parameter 'order' must be array` | Переданный `order` не является объектом ||
-|| Пустое значение | `Parameter 'filter' must be array` | Переданный `filter` не является объектом ||
-|| Пустое значение | `Access denied` | У пользователя нет административных прав ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Parameter 'order' must be array.` | Переданный `order` не является объектом ||
+|| `400` | Пустое значение | `Parameter 'filter' must be array.` | Переданный `filter` не является объектом ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права чтения контактов ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом чтения хотя бы одного типа объектов CRM или смарт-процесса в цифровом рабочем месте
 
 {% note warning "DEPRECATED" %}
 
@@ -19,7 +19,9 @@
 
 {% endnote %}
 
-Метод возвращает описание полей контакта, в том числе пользовательских.
+Метод `crm.contact.fields` возвращает описание полей контакта, в том числе пользовательских.
+
+## Параметры метода
 
 Без параметров.
 
@@ -38,7 +40,7 @@
     -d '{}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.fields
     ```
-  
+
 
 - cURL (OAuth)
 
@@ -206,458 +208,516 @@
 
 ## Обработка ответа
 
+Пример сокращен; набор полей и их характеристики зависят от настроек Битрикс24.
+
 HTTP-статус: **200**
 
 ```json
 {
     "result": {
         "ID": {
-        "type": "integer",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "ID"
+            "type": "integer",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "ID"
         },
         "HONORIFIC": {
-        "type": "crm_status",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "statusType": "HONORIFIC",
-        "title": "Обращение"
+            "type": "crm_status",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "statusType": "HONORIFIC",
+            "title": "Обращение"
         },
         "NAME": {
-        "type": "string",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Имя"
+            "type": "string",
+            "isRequired": true,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Имя"
         },
         "SECOND_NAME": {
-        "type": "string",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Отчество"
+            "type": "string",
+            "isRequired": true,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Отчество"
         },
         "LAST_NAME": {
-        "type": "string",
-        "isRequired": true,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Фамилия"
+            "type": "string",
+            "isRequired": true,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Фамилия"
         },
         "PHOTO": {
-        "type": "file",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Фотография"
+            "type": "file",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Фотография"
         },
         "BIRTHDATE": {
-        "type": "date",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Дата рождения"
+            "type": "date",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата рождения"
         },
         "TYPE_ID": {
-        "type": "crm_status",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "statusType": "CONTACT_TYPE",
-        "title": "Тип контакта"
+            "type": "crm_status",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "statusType": "CONTACT_TYPE",
+            "title": "Тип контакта"
         },
         "SOURCE_ID": {
-        "type": "crm_status",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "statusType": "SOURCE",
-        "title": "Источник"
+            "type": "crm_status",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "statusType": "SOURCE",
+            "title": "Источник"
         },
         "SOURCE_DESCRIPTION": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Дополнительно об источнике"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дополнительно об источнике"
         },
         "POST": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Должность"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Должность"
         },
         "ADDRESS": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Адрес"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Адрес"
         },
         "ADDRESS_2": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Адрес (стр. 2)"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Адрес (стр. 2)"
         },
         "ADDRESS_CITY": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Город"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Город"
         },
         "ADDRESS_POSTAL_CODE": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Почтовый индекс"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Почтовый индекс"
         },
         "ADDRESS_REGION": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Район"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Район"
         },
         "ADDRESS_PROVINCE": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Область"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Область"
         },
         "ADDRESS_COUNTRY": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Страна"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Страна"
         },
         "ADDRESS_COUNTRY_CODE": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Код страны"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Код страны"
         },
         "ADDRESS_LOC_ADDR_ID": {
-        "type": "integer",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Идентификатор адреса местоположения"
+            "type": "integer",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Идентификатор адреса местоположения"
         },
         "COMMENTS": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Комментарий"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Комментарий"
         },
         "OPENED": {
-        "type": "char",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Доступен для всех"
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Доступен для всех"
         },
         "EXPORT": {
-        "type": "char",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Участвует в экспорте контактов"
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Участвует ли контакт в экспорте"
         },
         "HAS_PHONE": {
-        "type": "char",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Задан телефон"
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Задан телефон"
         },
         "HAS_EMAIL": {
-        "type": "char",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Задан e-mail"
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Задан e-mail"
         },
         "HAS_IMOL": {
-        "type": "char",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Задана открытая линия"
+            "type": "char",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Задана ли открытая линия"
         },
         "ASSIGNED_BY_ID": {
-        "type": "user",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Ответственный"
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Ответственный"
         },
         "CREATED_BY_ID": {
-        "type": "user",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Кем создан"
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Кем создан"
         },
         "MODIFY_BY_ID": {
-        "type": "user",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Кем изменен"
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Кем изменен"
         },
         "DATE_CREATE": {
-        "type": "datetime",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Дата создания"
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата создания"
         },
         "DATE_MODIFY": {
-        "type": "datetime",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Дата изменения"
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Дата изменения"
         },
         "COMPANY_ID": {
-        "type": "crm_company",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "isDeprecated": true,
-        "title": "Компания"
+            "type": "crm_company",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "isDeprecated": true,
+            "title": "Компания"
         },
         "COMPANY_IDS": {
-        "type": "crm_company",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true,
-        "isDynamic": false,
-        "title": "COMPANY_IDS"
+            "type": "crm_company",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "COMPANY_IDS"
         },
         "LEAD_ID": {
-        "type": "crm_lead",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Лид",
-        "settings": {
-            "parentEntityTypeId": 1
-        }
+            "type": "crm_lead",
+            "isRequired": false,
+            "isReadOnly": true,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Лид",
+            "settings": {
+                "parentEntityTypeId": 1
+            }
         },
         "ORIGINATOR_ID": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Внешний источник"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Внешний источник"
         },
         "ORIGIN_ID": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Идентификатор элемента во внешнем источнике"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Идентификатор элемента во внешнем источнике"
         },
         "ORIGIN_VERSION": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Версия оригинала"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Версия оригинала"
         },
         "UTM_SOURCE": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Рекламная система"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Рекламная система"
         },
         "UTM_MEDIUM": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Тип трафика"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Тип трафика"
         },
         "UTM_CAMPAIGN": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Обозначение рекламной кампании"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Обозначение рекламной кампании"
         },
         "UTM_CONTENT": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Содержание кампании"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Содержание кампании"
         },
         "UTM_TERM": {
-        "type": "string",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Условие поиска кампании"
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Условие поиска кампании"
         },
         "LAST_ACTIVITY_TIME": {
-        "type": "datetime",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Последняя активность"
+            "type": "datetime",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Последняя активность"
         },
         "LAST_ACTIVITY_BY": {
-        "type": "user",
-        "isRequired": false,
-        "isReadOnly": true,
-        "isImmutable": false,
-        "isMultiple": false,
-        "isDynamic": false,
-        "title": "Кем осуществлена последняя активность в таймлайне"
+            "type": "user",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": false,
+            "title": "Автор последней активности в таймлайне"
         },
         "PHONE": {
-        "type": "crm_multifield",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true,
-        "isDynamic": false,
-        "title": "Телефон"
+            "type": "crm_multifield",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "Телефон"
         },
         "EMAIL": {
-        "type": "crm_multifield",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true,
-        "isDynamic": false,
-        "title": "E-mail"
+            "type": "crm_multifield",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "E-mail"
         },
         "WEB": {
-        "type": "crm_multifield",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true,
-        "isDynamic": false,
-        "title": "Сайт"
+            "type": "crm_multifield",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "Сайт"
         },
         "IM": {
-        "type": "crm_multifield",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true,
-        "isDynamic": false,
-        "title": "Мессенджер"
+            "type": "crm_multifield",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "Мессенджер"
         },
         "LINK": {
-        "type": "crm_multifield",
-        "isRequired": false,
-        "isReadOnly": false,
-        "isImmutable": false,
-        "isMultiple": true,
-        "isDynamic": false,
-        "title": "LINK"
+            "type": "crm_multifield",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": true,
+            "isDynamic": false,
+            "title": "LINK"
+        },
+        "UF_CRM_64A29A1CC5CCF": {
+            "type": "string",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": true,
+            "title": "UF_CRM_64A29A1CC5CCF",
+            "listLabel": "Новое поле",
+            "formLabel": "Новое поле",
+            "filterLabel": "Новое поле",
+            "settings": {
+                "SIZE": 20,
+                "ROWS": 1,
+                "REGEXP": "",
+                "MIN_LENGTH": 0,
+                "MAX_LENGTH": 0,
+                "DEFAULT_VALUE": ""
+            }
+        },
+        "UF_CRM_1689930044129": {
+            "type": "enumeration",
+            "isRequired": false,
+            "isReadOnly": false,
+            "isImmutable": false,
+            "isMultiple": false,
+            "isDynamic": true,
+            "items": [
+                {
+                    "ID": "3211",
+                    "VALUE": "Африка"
+                },
+                {
+                    "ID": "3213",
+                    "VALUE": "Европа"
+                },
+                {
+                    "ID": "3215",
+                    "VALUE": "Юг"
+                },
+                {
+                    "ID": "3217",
+                    "VALUE": "Восток"
+                }
+            ],
+            "title": "UF_CRM_1689930044129",
+            "listLabel": "Список",
+            "formLabel": "Список",
+            "filterLabel": "Список",
+            "settings": {
+                "DISPLAY": "UI",
+                "LIST_HEIGHT": 1,
+                "CAPTION_NO_VALUE": "",
+                "SHOW_NO_VALUE": "Y"
+            }
         }
     },
     "time": {
@@ -673,6 +733,52 @@ HTTP-статус: **200**
 ```
 
 ### Возвращаемые данные
+
+В `result` возвращается объект: ключ — код поля контакта, значение — его описание.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Описания полей контакта ||
+|| **time**
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Описание поля
+
+У признаков `is...` значение `false` означает, что признак выключен.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../data-types.md) | Тип поля. Подробнее — в справочниках [общих типов](../../data-types.md) и [типов CRM](../data-types.md) ||
+|| **isRequired**
+[`boolean`](../../data-types.md) | `true` — поле обязательное ||
+|| **isReadOnly**
+[`boolean`](../../data-types.md) | `true` — поле доступно только для чтения ||
+|| **isImmutable**
+[`boolean`](../../data-types.md) | `true` — значение можно задать только при создании ||
+|| **isMultiple**
+[`boolean`](../../data-types.md) | `true` — поле множественное ||
+|| **isDynamic**
+[`boolean`](../../data-types.md) | `true` — пользовательское поле ||
+|| **title**
+[`string`](../../data-types.md) | Название поля ||
+|| **statusType**
+[`string`](../../data-types.md) | Идентификатор справочника для типа `crm_status` ||
+|| **items**
+[`object[]`](../../data-types.md) | Варианты списка для типа `enumeration`: `ID` — идентификатор, `VALUE` — название ||
+|| **settings**
+[`object`](../../data-types.md) | Настройки поля, если заданы. Состав зависит от поля и его типа ||
+|| **listLabel**, **formLabel**, **filterLabel**
+[`string`](../../data-types.md) | Подписи пользовательского поля для списка, формы и фильтра, если заданы ||
+|| **isDeprecated**
+[`boolean`](../../data-types.md) | `true` — поле устарело. Возвращается только для устаревших полей ||
+|#
+
+#### Поля контакта
 
 #|
 || **Название**
@@ -714,7 +820,7 @@ HTTP-статус: **200**
 
 Учитывается в работе прав доступа для ролей с уровнем доступа «Все открытые» ||
 ||**EXPORT**
-[`char`](../../data-types.md) | Участвует в экспорте контактов. Возможные значения:
+[`char`](../../data-types.md) | Участвует ли контакт в экспорте. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 ||**HAS_PHONE**
@@ -730,7 +836,7 @@ HTTP-статус: **200**
 
 Только для чтения  ||
 ||**HAS_IMOL**
-[`char`](../../data-types.md) | Задана открытая линия. Возможные значения:
+[`char`](../../data-types.md) | Задана ли открытая линия. Возможные значения:
 - `Y` — да
 - `N` — нет
 
@@ -746,21 +852,19 @@ HTTP-статус: **200**
 ||**DATE_MODIFY**
 [`datetime`](../../data-types.md) | Дата изменения. Только для чтения ||
 ||**COMPANY_ID**
-[`crm_company`](../data-types.md) | Основная компания контакта ||
+[`crm_company`](../data-types.md) | Основная компания контакта. Устаревшее поле, в описании приходит с `isDeprecated: true`. Для привязки к нескольким компаниям используйте `COMPANY_IDS` ||
 ||**COMPANY_IDS**
 [`crm_company`](../data-types.md) | Привязка контакта к компаниям. Множественное. 
 
-В методах [`crm.contact.update`](./crm-contact-update.md) и [`crm.contact.add`](./crm-contact-add.md) используется для подачи массива компаний. 
+В методах [`crm.contact.update`](./crm-contact-update.md) и [`crm.contact.add`](./crm-contact-add.md) принимает массив идентификаторов компаний.
 
-В методах [`crm.contact.list`](./crm-contact-list.md) и [`crm.contact.get`](./crm-contact-get.md) поля нет и необходимо использовать [`crm.contact.company.items.get`](./company/crm-contact-company-items-get.md) для получения списка компаний  ||
+В методах [`crm.contact.list`](./crm-contact-list.md) и [`crm.contact.get`](./crm-contact-get.md) поля нет: список компаний возвращает метод [`crm.contact.company.items.get`](./company/crm-contact-company-items-get.md)  ||
 ||**LEAD_ID**
 [`crm_lead`](../data-types.md) | Идентификатор лида, связанного с контактом. Только для чтения ||
 ||**UTM_SOURCE**
 [`string`](../../data-types.md) | Рекламная система (Yandex-Direct, Google-Adwords и другие) ||
 ||**UTM_MEDIUM**
-[`string`](../../data-types.md) | Тип трафика. Возможные значения:
-- `CPC` — объявления 
-- `CPM` — баннеры  ||
+[`string`](../../data-types.md) | Тип трафика. Например, `CPC` — объявления, `CPM` — баннеры ||
 ||**UTM_CAMPAIGN**
 [`string`](../../data-types.md) | Обозначение рекламной кампании ||
 ||**UTM_CONTENT**
@@ -768,9 +872,11 @@ HTTP-статус: **200**
 ||**UTM_TERM**
 [`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
 ||**LAST_ACTIVITY_TIME**
-[`datetime`](../../data-types.md) | Дата последней активности в таймлайне. Только для чтения ||
+[`datetime`](../../data-types.md) | Дата последней активности в таймлайне ||
 ||**LAST_ACTIVITY_BY**
-[`user`](../../data-types.md) | Автор последней активности в таймлайне. Только для чтения ||
+[`user`](../../data-types.md) | Автор последней активности в таймлайне ||
+||**LAST_COMMUNICATION_TIME**
+[`string`](../../data-types.md) | Дата и время последней коммуникации с контактом. Приходит строкой в формате даты Битрикс24, а не ISO 8601, например `09/23/2026 06:27:48 pm`. Только для чтения ||
 ||**PHONE**
 [`crm_multifield`](../data-types.md) | Телефоны. Множественное ||
 ||**EMAIL**
@@ -780,25 +886,22 @@ HTTP-статус: **200**
 ||**IM**
 [`crm_multifield`](../data-types.md) | Мессенджеры. Множественное ||
 ||**LINK**
-[`crm_multifield`](../data-types.md) | Ссылки. Множественное. Служебное. ||
-||**UF_...**  | Пользовательские поля. Например, `UF_CRM_25534736`. 
+[`crm_multifield`](../data-types.md) | Ссылки. Множественное. Служебное ||
+||**UF_...**
+[`any`](../../data-types.md) | Пользовательские поля. Например, `UF_CRM_25534736`.
 
-В зависимости от настроек портала у контактов может быть набор пользовательских полей определенных типов. 
+В зависимости от настроек Битрикс24 у контактов может быть набор пользовательских полей определенных типов.
 
 Добавить пользовательское поле в контакт можно с помощью метода [crm.contact.userfield.add](./userfield/crm-contact-userfield-add.md)  ||
-||**PARENT_ID_...** | Поля связей. 
+||**PARENT_ID_...**
+[`crm_entity`](../data-types.md) | Поля связей.
 
-Если на портале есть смарт-процессы, связанные с контактами, для каждого такого смарт-процесса существует поле, хранящее связь между этим смарт-процессом и контактом. Само поле хранит идентификатор элемента такого смарт-процесса. 
-
-Например, поле `PARENT_ID_153` — связь со смарт-процессом `entityTypeId=153`. Оно хранит идентификатор элемента этого смарт-процесса, связанного с текущим контактом ||
+Если смарт-процесс связан с контактами как родительский, поле `PARENT_ID_...` хранит идентификатор его элемента. Например, `PARENT_ID_153` — идентификатор элемента родительского смарт-процесса с `entityTypeId=153` ||
 |#
 
 **Поля связи с внешними источниками данных**
 
-Если контакт создан внешней системой, то:
-- поле `ORIGINATOR_ID` хранит строковый идентификатор этой системы
-- поле `ORIGIN_ID` хранит строковый идентификатор контакта в этой внешней системе
-- поле `ORIGIN_VERSION` хранит версию данных контакта в этой внешней системе
+Поля заполняются, если контакт создан внешней системой.
 
 #|
 || **Название**
@@ -808,16 +911,14 @@ HTTP-статус: **200**
 ||**ORIGIN_ID**
 [`string`](../../data-types.md) | Идентификатор контакта во внешней системе ||
 ||**ORIGIN_VERSION**
-[`string`](../../data-types.md) | Версия данных о контакте во внешней системе. 
+[`string`](../../data-types.md) | Версия данных контакта во внешней системе. 
 
-Используется для защиты данных от случайного перетирания внешней системой. 
-
-Если данные были импортированы и не изменялись во внешней системе, то такие данные могут быть отредактированы в CRM без опасения, что следующая выгрузка приведет к перетиранию данных ||
+Защищает от случайной перезаписи: если контакт импортирован и во внешней системе не менялся, его можно редактировать в CRM, следующая выгрузка не перезапишет изменения ||
 |#
 
 **Устаревшие поля**
 
-Поля адреса в контакте являются устаревшими и используются только в режиме совместимости. Для работы с адресом используйте [реквизиты](../requisites/index.md).
+Поля адреса в контакте устарели и работают только в режиме совместимости. Для работы с адресом используйте [реквизиты](../requisites/index.md).
 
 #|
 || **Название**
@@ -839,10 +940,30 @@ HTTP-статус: **200**
 ||**ADDRESS_COUNTRY_CODE**
 [`string`](../../data-types.md) | Код страны ||
 ||**ADDRESS_LOC_ADDR_ID**
-[`location`](../data-types.md) | Идентификатор адреса местоположения ||
+[`integer`](../../data-types.md) | Идентификатор адреса местоположения ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+Пример ошибки, если у пользователя нет права чтения ни одного типа объектов CRM и смарт-процессов цифровых рабочих мест:
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | Нет права чтения ни одного типа объектов CRM и смарт-процессов цифровых рабочих мест ||
+|#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
 
@@ -853,8 +974,3 @@ HTTP-статус: **200**
 - [{#T}](./crm-contact-get.md)
 - [{#T}](./crm-contact-list.md)
 - [{#T}](./crm-contact-delete.md)
-
-
-
-
-

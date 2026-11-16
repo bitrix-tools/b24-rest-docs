@@ -1,4 +1,4 @@
-# Получить контакт по Id crm.contact.get
+# Получить контакт по идентификатору crm.contact.get
 
 {% note tip "" %}
 
@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «чтения» контактов
+> Кто может выполнять метод: пользователь с правом на чтение контактов
 
 {% note warning "DEPRECATED" %}
 
@@ -20,6 +20,8 @@
 {% endnote %}
 
 Метод `crm.contact.get` возвращает контакт по его идентификатору.
+
+Метод возвращает только контакты из общего направления. Контакт из другого направления, например «Контакты поставщика», метод не находит и возвращает ошибку `Not found`. Такие контакты получайте методом [crm.item.get](../universal/crm-item-get.md) с `entityTypeId=3`.
 
 Чтобы получить список компаний, привязанных к контакту, используйте метод [`crm.contact.company.items.get`](company/crm-contact-company-items-get.md).
 
@@ -48,7 +50,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":23}' \
+    -d '{"id":23}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.contact.get
     ```
 
@@ -58,7 +60,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":23,"auth":"**put_access_token_here**"}' \
+    -d '{"id":23,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.contact.get
     ```
 
@@ -76,13 +78,13 @@
     type CrmContactResult = {
       ID: string
       NAME: string
-      LAST_NAME: string
+      LAST_NAME: string | null
       TYPE_ID: string
       SOURCE_ID: string
-      COMPANY_ID: string
+      COMPANY_ID: string | null
       ASSIGNED_BY_ID: string
       OPENED: string
-      BIRTHDATE: ISODate | null
+      BIRTHDATE: ISODate | '' | null
       DATE_CREATE: ISODate | null
       DATE_MODIFY: ISODate | null
       LAST_ACTIVITY_TIME: ISODate | null
@@ -151,7 +153,7 @@
 
     ```php        
     try {
-        $contactId = 123; // Example contact ID
+        $contactId = 23; // Example contact ID
         $contactResult = $serviceBuilder
             ->getCRMScope()
             ->contact()
@@ -192,7 +194,7 @@
     $result = CRest::call(
         'crm.contact.get',
         [
-            'ID' => 23
+            'id' => 23
         ]
     );
 
@@ -235,7 +237,7 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "ID": "43",
+        "ID": "23",
         "POST": "Администратор",
         "COMMENTS": "\nПример комментария внутри контакта\n\n[B]Жирный текст[\/B]\n[I]Курсив[\/I]\n[U]Подчеркнутый[\/U]\n[S]Зачеркнутый[\/S]\n[B][I][U][S]Микс[\/S][\/U][\/I][\/B]\n\n[LIST]\n[*]Элемент списка #1\n[*]Элемент списка #2\n[*]Элемент списка #3\n[\/LIST]\n\n[LIST=1]\n[*]Нумерованный элемент списка #1\n[*]Нумерованный элемент списка #2\n[*]Нумерованный элемент списка #3\n[\/LIST]\n",
         "HONORIFIC": "HNR_RU_1",
@@ -262,7 +264,6 @@ HTTP-статус: **200**
         "ORIGINATOR_ID": null,
         "ORIGIN_ID": null,
         "ORIGIN_VERSION": null,
-        "FACE_ID": null,
         "LAST_ACTIVITY_TIME": "2024-08-15T10:38:21+02:00",
         "ADDRESS": null,
         "ADDRESS_2": null,
@@ -328,10 +329,10 @@ HTTP-статус: **200**
 || **result**
 [`contact`](#contact) | Корневой элемент ответа. Содержит информацию о полях контакта. Структура описана [ниже](#contact) ||
 || **time**
-[`time`](../../data-types.md) | Объект, содержащий в себе информацию о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
-### contact
+#### Объект contact {#contact}
 
 #|
 || **Название**
@@ -351,7 +352,7 @@ HTTP-статус: **200**
 || **LAST_NAME**
 [`string`](../../data-types.md) | Фамилия ||
 || **PHOTO**
-[`file`](../../data-types.md) | Фотография ||
+[`file`](../../data-types.md) | Фотография. Объект с полями `id` — идентификатор файла, `showUrl` — ссылка для просмотра, `downloadUrl` — ссылка для скачивания. Если фото нет — `null` ||
 || **LEAD_ID**
 [`crm_lead`](../data-types.md) | Идентификатор лида, на основе которого был создан контакт ||
 || **TYPE_ID**
@@ -361,24 +362,24 @@ HTTP-статус: **200**
 || **SOURCE_DESCRIPTION**
 [`text`](../../data-types.md) | Дополнительно об источнике ||
 || **COMPANY_ID**
-[`crm_company`](../data-types.md) | Идентификатор основной компании ||
+[`crm_company`](../data-types.md) | Идентификатор основной компании. Устаревшее поле: контакт может быть привязан к нескольким компаниям, их список возвращает метод [crm.contact.company.items.get](./company/crm-contact-company-items-get.md) ||
 || **BIRTHDATE**
-[`date`](../../data-types.md) | Дата рождения ||
+[`date`](../../data-types.md) | Дата рождения. Возвращается строкой с датой, временем и часовым поясом, например `2001-11-11T03:00:00+03:00`. Если дата не задана — пустая строка ||
 || **EXPORT**
-[`boolean`](../../data-types.md) | Участвует ли в экспорте контактов. Возможные значения:
+[`char`](../../data-types.md) | Участвует ли в экспорте контактов. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **HAS_PHONE**
-[`boolean`](../../data-types.md) | Задан ли телефон. Возможные значения:
+[`char`](../../data-types.md) | Задан ли телефон. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **HAS_EMAIL**
-[`boolean`](../../data-types.md) | Задан ли e-mail. Возможные значения:
+[`char`](../../data-types.md) | Задан ли e-mail. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **HAS_IMOL**
-[`boolean`](../../data-types.md) | Задана ли открытая линия. Возможные значения:
+[`char`](../../data-types.md) | Задана ли открытая линия. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **DATE_CREATE**
@@ -392,21 +393,19 @@ HTTP-статус: **200**
 || **MODIFY_BY_ID**
 [`user`](../../data-types.md) | Кем изменен ||
 || **OPENED**
-[`boolean`](../../data-types.md) | Доступно ли для всех. Возможные значения:
+[`char`](../../data-types.md) | Доступен ли контакт для всех. Возможные значения:
 - `Y` — да
 - `N` — нет ||
-|| **FACE_ID**
-[`integer`](../../data-types.md) | Привязка к лицам из модуля `faceid` ||
 || **LAST_ACTIVITY_TIME**
 [`datetime`](../../data-types.md) | Последняя активность ||
 || **LAST_ACTIVITY_BY**
-[`user`](../../data-types.md) | Кем осуществлена последняя активность в таймлайне ||
+[`user`](../../data-types.md) | Автор последней активности в таймлайне ||
+|| **LAST_COMMUNICATION_TIME**
+[`string`](../../data-types.md) | Дата и время последней коммуникации с контактом. Приходит строкой в формате даты Битрикс24, а не ISO 8601, например `09/23/2026 06:27:48 pm`. Если коммуникаций не было — `null` ||
 || **UTM_SOURCE**
 [`string`](../../data-types.md) | Рекламная система (Yandex-Direct, Google-Adwords и другие) ||
 || **UTM_MEDIUM**
-[`string`](../../data-types.md) | Тип трафика. Возможные значения:
-- `CPC` — объявления
-- `CPM` — баннеры ||
+[`string`](../../data-types.md) | Тип трафика. Например, `CPC` — объявления, `CPM` — баннеры ||
 || **UTM_CAMPAIGN**
 [`string`](../../data-types.md) | Обозначение рекламной кампании ||
 || **UTM_CONTENT**
@@ -427,20 +426,19 @@ HTTP-статус: **200**
 
 **Поля связи с внешними источниками данных**
 
-Если контакт создан внешней системой, то:
-- поле `ORIGINATOR_ID` хранит строковый идентификатор этой системы
-- поле `ORIGIN_ID` хранит строковый идентификатор контакта в этой внешней системе
-- поле `ORIGIN_VERSION` хранит версию данных контакта в этой внешней системе
+Поля заполняются, если контакт создан внешней системой.
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **ORIGINATOR_ID**
-[`string`](../../data-types.md) | Внешний источник ||
+[`string`](../../data-types.md) | Идентификатор внешней системы ||
 || **ORIGIN_ID**
-[`string`](../../data-types.md) | Идентификатор элемента во внешнем источнике ||
+[`string`](../../data-types.md) | Идентификатор контакта во внешней системе ||
 || **ORIGIN_VERSION**
-[`string`](../../data-types.md) | Версия оригинала ||
+[`string`](../../data-types.md) | Версия данных контакта во внешней системе ||
+|| **PARENT_ID_...**
+[`crm_entity`](../data-types.md) | Идентификатор элемента родительского смарт-процесса. Например, `PARENT_ID_153` — элемент смарт-процесса с `entityTypeId=153`. Поле приходит, если смарт-процесс связан с контактами как родительский ||
 |#
 
 **Устаревшие поля**
@@ -468,9 +466,26 @@ HTTP-статус: **200**
 [`integer`](../../data-types.md) | Идентификатор адреса местоположения ||
 |#
 
+Ответ может содержать пользовательские поля контакта, например `UF_CRM_1720697698689`. Их состав зависит от настроек Битрикс24. Получить описание доступных полей можно методом [crm.contact.fields](crm-contact-fields.md).
+
+#### Элемент crm_multifield {#crm_multifield}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор значения множественного поля ||
+|| **VALUE_TYPE**
+[`string`](../../data-types.md) | Вид значения, например `WORK` — рабочий ||
+|| **VALUE**
+[`string`](../../data-types.md) | Значение: телефон, e-mail, адрес сайта или мессенджера ||
+|| **TYPE_ID**
+[`string`](../../data-types.md) | Тип поля: `PHONE`, `EMAIL`, `WEB`, `IM` или `LINK` ||
+|#
+
 {% note tip "Поля типа `crm_multifield`" %}
 
-Поля типа `crm_multifield` (`PHONE`, `EMAIL`, `WEB`, `IM`, `LINK`) явно отдаются данным методом только в случае, если значения данного поля не равны `null`.
+Поля `PHONE`, `EMAIL`, `WEB`, `IM` и `LINK` присутствуют в ответе, если для соответствующего типа есть значения.
 
 {% endnote %}
 
@@ -490,10 +505,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Описание** | **Значение** ||
-|| `ID is not defined or invalid` | Параметр `id` не передан либо переданное значение не является целым числом больше 0 ||
-|| `Access denied` | У пользователя нет прав на «Чтение» контакта ||
-|| `Not found` | Контакт с переданным `id` не найден ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | Параметр `id` не передан или после приведения к целому числу его значение не больше 0 ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет прав на «Чтение» контакта ||
+|| `400` | Пустое значение | `Not found` | Контакт с переданным `id` не найден или относится не к общему направлению ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
