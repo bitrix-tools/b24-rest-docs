@@ -134,15 +134,15 @@
         createdBy: number
         modifiedBy: number
         currency: string
-        status: string
+        status: boolean
         dateStatus: ISODate
         dateDocument: ISODate | null
-        statusBy: number
-        total: number
-        commentary: string
+        statusBy: number | null
+        total: number | null
+        commentary: string | null
         title: string
-        docNumber: string
-        contractorId: number
+        docNumber: string | null
+        contractorId: number | null
       }
     }
 
@@ -358,7 +358,7 @@
     	ID       int     `json:"id"`
     	DocType  string  `json:"docType"`
     	Title    string  `json:"title"`
-    	Status   string  `json:"status"`
+    	Status   bool    `json:"status"`
     	Total    float64 `json:"total"`
     	Currency string  `json:"currency"`
     }
@@ -387,15 +387,15 @@ HTTP-статус: **200**
             "createdBy": 1269,
             "modifiedBy": 1269,
             "currency": "RUB",
-            "status": "",
+            "status": false,
             "dateStatus": "2026-11-05T15:59:36+03:00",
             "dateDocument": null,
-            "statusBy": 0,
-            "total": 0,
+            "statusBy": null,
+            "total": null,
             "commentary": "Поставка по счету 15",
             "title": "Приход от поставщика",
             "docNumber": "IN-0015",
-            "contractorId": 0
+            "contractorId": null
         }
     },
     "time": {
@@ -448,23 +448,23 @@ HTTP-статус: **200**
 || **currency**
 [`string`](../../data-types.md) | Код валюты документа, например `RUB` ||
 || **status**
-[`string`](../../data-types.md) | Статус проведения: `"1"` — документ проведен, пустая строка — не проведен ||
+[`boolean`](../../data-types.md) | Статус проведения: `true` — документ проведен, `false` — не проведен ||
 || **dateStatus**
 [`datetime`](../../data-types.md) | Дата и время последнего изменения статуса ||
 || **dateDocument**
 [`datetime`](../../data-types.md) или `null` | Дата документа. `null`, если дата не задана ||
 || **statusBy**
-[`integer`](../../data-types.md) | Идентификатор пользователя, который последним изменил статус. `0`, если статус не менялся ||
+[`integer`](../../data-types.md) или `null` | Идентификатор пользователя, который последним изменил статус. `null`, если статус не менялся ||
 || **total**
-[`double`](../../data-types.md) | Сумма документа. `0`, если сумма не задана ||
+[`double`](../../data-types.md) или `null` | Сумма документа. `null`, если сумма не задана ||
 || **commentary**
-[`string`](../../data-types.md) | Комментарий. Пустая строка, если комментарий не задан ||
+[`string`](../../data-types.md) или `null` | Комментарий. `null`, если комментарий не задан ||
 || **title**
 [`string`](../../data-types.md) | Название документа ||
 || **docNumber**
-[`string`](../../data-types.md) | Номер входящего документа. Пустая строка, если номер не задан ||
+[`string`](../../data-types.md) или `null` | Номер входящего документа. `null`, если номер не задан ||
 || **contractorId**
-[`integer`](../../data-types.md) | Идентификатор поставщика из справочника каталога. `0`, если поставщик не указан или поставщики ведутся в CRM ||
+[`integer`](../../data-types.md) или `null` | Идентификатор поставщика из справочника каталога. `null`, если поставщик не указан или поставщики ведутся в CRM ||
 |#
 
 ## Обработка ошибок
@@ -512,7 +512,7 @@ HTTP-статус: **400**
 || `responsibleId` | В поле `responsibleId` требуется тип данных `int` для такого запроса | Передайте целое число ||
 || `dateDocument` | В поле `dateDocument` требуется тип данных `DateTime` для такого запроса | Передайте дату с временем в формате ISO 8601, например `2026-10-22T10:00:00+03:00` ||
 || `total` | В поле `total` требуется тип данных `float` для такого запроса | Передайте сумму числом. Такая же ошибка с типом `int` приходит для `contractorId`, `statusBy`, `modifiedBy` ||
-|| `status` | В поле `status` требуется тип данных `string` для такого запроса | Уберите `status` из `fields`: статус меняют методы [catalog.document.conduct](./catalog-document-conduct-rest-v3.md) и [catalog.document.cancel](./catalog-document-cancel-rest-v3.md) ||
+|| `status` | В поле `status` требуется тип данных `bool` для такого запроса | Уберите `status` из `fields`: статус меняют методы [catalog.document.conduct](./catalog-document-conduct-rest-v3.md) и [catalog.document.cancel](./catalog-document-cancel-rest-v3.md) ||
 || `-` | DOC_TYPE isn't available | Передайте в `docType` один из типов `A`, `S`, `M`, `R`, `D` в верхнем регистре ||
 || `-` | Складской учет недоступен на вашем тарифе | Метод работает только на тарифах со складским учетом ||
 |#

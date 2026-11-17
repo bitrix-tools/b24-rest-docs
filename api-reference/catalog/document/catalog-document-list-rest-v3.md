@@ -58,13 +58,13 @@
 || **filter**
 [`array`](../../data-types.md) | Фильтр списка в формате REST 3.0: массив условий вида `["поле", "оператор", "значение"]`, например `[["docType", "=", "A"]]`. Синтаксис фильтра описан в [обзоре REST 3.0](../../rest-v3.md#filter).
 
-Фильтровать можно по полям `id`, `docType`, `siteId`, `responsibleId`, `dateModify`, `dateCreate`, `createdBy`, `modifiedBy`, `currency`, `status`, `dateStatus`, `dateDocument`, `statusBy`, `total`, `title`, `docNumber`, `contractorId`.
+Фильтровать можно по всем полям из описания параметра `select`.
 
-Поддерживаемые операторы: `=`, `!=`, `>`, `>=`, `<`, `<=`, `in`, `between`. Оператор `like` не поддерживается. По полю `commentary` фильтровать нельзя.
+Поддерживаемые операторы: `=`, `!=`, `>`, `>=`, `<`, `<=`, `in`, `between`. Оператор `like` не поддерживается.
 
-Статус проведения `status` в фильтре передавайте строкой: `Y` — проведен, `N` — не проведен. Значения `true` и `false` вызывают ошибку.
+Статус проведения `status` в фильтре передавайте логическим значением: `true` — проведен, `false` — не проведен. Строки `Y` и `N` вызывают ошибку.
 
-Условие `["total", "=", 0]` не находит документы без суммы, хотя в ответе у них `total` равно `0`. То же для `contractorId`. Если поставщики ведутся в CRM, фильтр по `contractorId` всегда возвращает пустой список — используйте метод [catalog.document.contractor.list](../documentcontractor/catalog-documentcontractor-list-rest-v3.md).
+Если поставщики ведутся в CRM, фильтр по `contractorId` вызывает ошибку — используйте метод [catalog.document.contractor.list](../documentcontractor/catalog-documentcontractor-list-rest-v3.md).
 
 Метод возвращает только документы тех типов, на которые у пользователя есть право «Просмотр» ||
 || **order**
@@ -75,7 +75,7 @@
 - `asc` — по возрастанию
 - `desc` — по убыванию
 
-Сортировать можно по полям `id`, `docType`, `responsibleId`, `dateModify`, `dateCreate`, `createdBy`, `modifiedBy`, `status`, `dateStatus`, `dateDocument`, `total`, `title`, `docNumber`, `contractorId` ||
+Сортировать можно по всем полям из описания параметра `select` ||
 || **pagination**
 [`object`](../../data-types.md) | Постраничная навигация. [Описание параметра](#pagination) ||
 |#
@@ -115,7 +115,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","docType","title","status","total"],"filter":[["docType","=","A"],["status","=","N"]],"order":{"id":"desc"},"pagination":{"limit":2}}' \
+    -d '{"select":["id","docType","title","status","total"],"filter":[["docType","=","A"],["status","=",false]],"order":{"id":"desc"},"pagination":{"limit":2}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.document.list
     ```
 
@@ -125,7 +125,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","docType","title","status","total"],"filter":[["docType","=","A"],["status","=","N"]],"order":{"id":"desc"},"pagination":{"limit":2},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","docType","title","status","total"],"filter":[["docType","=","A"],["status","=",false]],"order":{"id":"desc"},"pagination":{"limit":2},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.document.list
     ```
 
@@ -141,7 +141,7 @@
       items: Array<{
         id: number
         docType: string
-        status: string
+        status: boolean
         total: number
         title: string
       }>
@@ -154,7 +154,7 @@
           select: ['id', 'docType', 'title', 'status', 'total'],
           filter: [
             ['docType', '=', 'A'],
-            ['status', '=', 'N'],
+            ['status', '=', false],
           ],
           order: {
             id: 'desc',
@@ -193,7 +193,7 @@
               select: ['id', 'docType', 'title', 'status', 'total'],
               filter: [
                 ['docType', '=', 'A'],
-                ['status', '=', 'N'],
+                ['status', '=', false],
               ],
               order: {
                 id: 'desc',
@@ -232,7 +232,7 @@
             select=["id", "docType", "title", "status", "total"],
             filter=[
                 ["docType", "=", "A"],
-                ["status", "=", "N"],
+                ["status", "=", False],
             ],
             order={
                 "id": "desc",
@@ -270,7 +270,7 @@
                     'select' => ['id', 'docType', 'title', 'status', 'total'],
                     'filter' => [
                         ['docType', '=', 'A'],
-                        ['status', '=', 'N'],
+                        ['status', '=', false],
                     ],
                     'order' => [
                         'id' => 'desc',
@@ -302,7 +302,7 @@
             select: ['id', 'docType', 'title', 'status', 'total'],
             filter: [
                 ['docType', '=', 'A'],
-                ['status', '=', 'N'],
+                ['status', '=', false],
             ],
             order: {
                 id: 'desc',
@@ -333,7 +333,7 @@
             'select' => ['id', 'docType', 'title', 'status', 'total'],
             'filter' => [
                 ['docType', '=', 'A'],
-                ['status', '=', 'N'],
+                ['status', '=', false],
             ],
             'order' => [
                 'id' => 'desc',
@@ -357,7 +357,7 @@
     	"select":     []string{"id", "docType", "title", "status", "total"},
     	"filter":     []any{
     		[]string{"docType", "=", "A"},
-    		[]string{"status", "=", "N"},
+    		[]any{"status", "=", false},
     	},
     	"order":      b24.Params{
     		"id": "desc",
@@ -375,7 +375,7 @@
     		ID      int     `json:"id"`
     		DocType string  `json:"docType"`
     		Title   string  `json:"title"`
-    		Status  string  `json:"status"`
+    		Status  bool    `json:"status"`
     		Total   float64 `json:"total"`
     	} `json:"items"`
     }
@@ -400,14 +400,14 @@ HTTP-статус: **200**
             {
                 "id": 343,
                 "docType": "A",
-                "status": "",
+                "status": false,
                 "total": 15000,
                 "title": "Приход от поставщика ООО Альфа"
             },
             {
                 "id": 319,
                 "docType": "A",
-                "status": "",
+                "status": false,
                 "total": 8200,
                 "title": "Приход от поставщика ООО Бета"
             }
@@ -463,23 +463,23 @@ HTTP-статус: **200**
 || **currency**
 [`string`](../../data-types.md) | Код валюты документа, например `RUB` ||
 || **status**
-[`string`](../../data-types.md) | Статус проведения: `"1"` — документ проведен, пустая строка — не проведен ||
+[`boolean`](../../data-types.md) | Статус проведения: `true` — документ проведен, `false` — не проведен ||
 || **dateStatus**
 [`datetime`](../../data-types.md) | Дата и время последнего изменения статуса ||
 || **dateDocument**
 [`datetime`](../../data-types.md) или `null` | Дата документа. `null`, если дата не задана ||
 || **statusBy**
-[`integer`](../../data-types.md) | Идентификатор пользователя, который последним изменил статус. `0`, если статус не менялся ||
+[`integer`](../../data-types.md) или `null` | Идентификатор пользователя, который последним изменил статус. `null`, если статус не менялся ||
 || **total**
 [`double`](../../data-types.md) | Сумма документа. `0`, если сумма не задана ||
 || **commentary**
-[`string`](../../data-types.md) | Комментарий. Пустая строка, если комментарий не задан ||
+[`string`](../../data-types.md) или `null` | Комментарий. `null`, если комментарий не задан ||
 || **title**
 [`string`](../../data-types.md) | Название документа ||
 || **docNumber**
-[`string`](../../data-types.md) | Номер входящего документа. Пустая строка, если номер не задан ||
+[`string`](../../data-types.md) или `null` | Номер входящего документа. `null` или пустая строка, если номер не задан ||
 || **contractorId**
-[`integer`](../../data-types.md) | Идентификатор поставщика из справочника каталога. `0`, если поставщик не указан или поставщики ведутся в CRM ||
+[`integer`](../../data-types.md) или `null` | Идентификатор поставщика из справочника каталога. `null`, если поставщик не указан или поставщики ведутся в CRM ||
 |#
 
 ## Обработка ошибок
@@ -493,8 +493,8 @@ HTTP-статус: **400**
         "message": "Ошибка при валидации объекта запроса",
         "validation": [
             {
-                "message": "В DTO `DocumentDto` в поле `commentary` требуется наличие атрибута `Filterable` для такого запроса",
-                "field": "commentary"
+                "message": "В поле `status` требуется тип данных `bool` для такого запроса",
+                "field": "status"
             }
         ]
     }
@@ -511,9 +511,8 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `commentary` | В DTO `DocumentDto` в поле `commentary` требуется наличие атрибута `Filterable` для такого запроса | По полю `commentary` фильтровать нельзя. Уберите его из `filter` ||
-|| `siteId` | В DTO `DocumentDto` в поле `siteId` требуется наличие атрибута `Sortable` для такого запроса | Уберите из `order` поле, по которому нельзя сортировать. Нельзя сортировать по `siteId`, `currency`, `statusBy`, `commentary` ||
-|| `status` | В поле `status` требуется тип данных `string` для такого запроса | Передайте статус строкой `Y` или `N`. Такая же ошибка с другим типом приходит, если значение условия не подходит полю, например строка `"abc"` для `id` ||
+|| `status` | В поле `status` требуется тип данных `bool` для такого запроса | Передайте статус значением `true` или `false`. Такая же ошибка с другим типом приходит, если значение условия не подходит полю, например строка `"abc"` для `id` ||
+|| — | Field contractorId is unavailable while a contractor provider is active; use catalog.document.contractor.list | Поставщики ведутся в CRM, фильтр по `contractorId` недоступен. Используйте метод [catalog.document.contractor.list](../documentcontractor/catalog-documentcontractor-list-rest-v3.md) ||
 |#
 
 #### Ошибка формата фильтра

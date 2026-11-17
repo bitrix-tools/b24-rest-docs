@@ -27,8 +27,9 @@
 
 Обязательные поля для создания шаблона:
 - `TITLE` — название шаблона задачи
-- `CREATED_BY` — идентификатор постановщика
 - `RESPONSIBLE_ID` — идентификатор исполнителя
+
+Постановщиком шаблона становится пользователь, который вызывает метод. Значение `CREATED_BY` в `fields` не учитывается
 
 ||
 |#
@@ -51,7 +52,6 @@
         "TITLE": "Подготовка еженедельного статуса по проекту",
         "DESCRIPTION": "Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем",
         "PRIORITY": 2,
-        "CREATED_BY": 101,
         "RESPONSIBLE_ID": 102,
         "REPLICATE": "Y",
         "START_DATE_PLAN_AFTER": "32400",
@@ -82,7 +82,6 @@
         "TITLE": "Подготовка еженедельного статуса по проекту",
         "DESCRIPTION": "Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем",
         "PRIORITY": 2,
-        "CREATED_BY": 101,
         "RESPONSIBLE_ID": 102,
         "REPLICATE": "Y",
         "START_DATE_PLAN_AFTER": "32400",
@@ -125,7 +124,6 @@
             TITLE: 'Weekly project status preparation',
             DESCRIPTION: 'Task template for preparing and approving weekly project status with the team and manager',
             PRIORITY: 2,
-            CREATED_BY: 101,
             RESPONSIBLE_ID: 102,
             REPLICATE: 'Y',
             START_DATE_PLAN_AFTER: '32400',
@@ -176,7 +174,6 @@
                 TITLE: 'Weekly project status preparation',
                 DESCRIPTION: 'Task template for preparing and approving weekly project status with the team and manager',
                 PRIORITY: 2,
-                CREATED_BY: 101,
                 RESPONSIBLE_ID: 102,
                 REPLICATE: 'Y',
                 START_DATE_PLAN_AFTER: '32400',
@@ -223,7 +220,6 @@
         "TITLE": "Подготовка еженедельного статуса по проекту",
         "DESCRIPTION": "Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем",
         "PRIORITY": 2,
-        "CREATED_BY": 101,
         "RESPONSIBLE_ID": 102,
         "REPLICATE": "Y",
         "START_DATE_PLAN_AFTER": "32400",
@@ -275,7 +271,6 @@
                         'TITLE' => 'Подготовка еженедельного статуса по проекту',
                         'DESCRIPTION' => 'Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем',
                         'PRIORITY' => 2,
-                        'CREATED_BY' => 101,
                         'RESPONSIBLE_ID' => 102,
                         'REPLICATE' => 'Y',
                         'START_DATE_PLAN_AFTER' => '32400',
@@ -315,7 +310,6 @@
                 TITLE: 'Подготовка еженедельного статуса по проекту',
                 DESCRIPTION: 'Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем',
                 PRIORITY: 2,
-                CREATED_BY: 101,
                 RESPONSIBLE_ID: 102,
                 REPLICATE: 'Y',
                 START_DATE_PLAN_AFTER: '32400',
@@ -358,7 +352,6 @@
                 'TITLE' => 'Подготовка еженедельного статуса по проекту',
                 'DESCRIPTION' => 'Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем',
                 'PRIORITY' => 2,
-                'CREATED_BY' => 101,
                 'RESPONSIBLE_ID' => 102,
                 'REPLICATE' => 'Y',
                 'START_DATE_PLAN_AFTER' => '32400',
@@ -389,7 +382,6 @@
     		"TITLE":                 "Подготовка еженедельного статуса по проекту",
     		"DESCRIPTION":           "Шаблон задачи для подготовки и согласования еженедельного статуса по проекту с командой и руководителем",
     		"PRIORITY":              2,
-    		"CREATED_BY":            101,
     		"RESPONSIBLE_ID":        102,
     		"REPLICATE":             "Y",
     		"START_DATE_PLAN_AFTER": "32400",
@@ -446,7 +438,7 @@ HTTP-статус: **200**
 || **result**
 [`integer`](../../data-types.md) | Идентификатор созданного шаблона задачи.
 
-Метод не создаст шаблон и вернет `"result": 0`, если в `fields` не указаны все обязательные поля: `TITLE`, `CREATED_BY`, `RESPONSIBLE_ID`  ||
+Метод не создаст шаблон и вернет `"result": 0`, если в `fields` не указаны все обязательные поля: `TITLE`, `RESPONSIBLE_ID` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

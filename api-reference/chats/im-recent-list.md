@@ -69,7 +69,9 @@
 
 Возможные значения:
 - `Y` — да
-- `N` — нет ||
+- `N` — нет
+
+Если передать `Y`, параметры `SKIP_OPENLINES`, `SKIP_DIALOG`, `SKIP_CHAT`, `ONLY_COPILOT` и `ONLY_CHANNEL` не учитываются ||
 || **ONLY_COPILOT**
 [`string`](../data-types.md) | Возвращать только чаты BitrixGPT.
 

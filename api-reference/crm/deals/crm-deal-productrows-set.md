@@ -122,6 +122,12 @@
 
 По умолчанию - `0`
 ||
+|| **STORE_ID**
+[`integer`](../../data-types.md) | Идентификатор склада, на котором резервируется товар. Получить список складов можно методом [catalog.store.list](../../catalog/store/catalog-store-list.md).
+
+Если склада с таким идентификатором нет, метод вернет ошибку и не изменит товарные позиции ||
+|| **RESERVE_QUANTITY**
+[`double`](../../data-types.md) | Количество единиц товара, которое резервируется на складе `STORE_ID` ||
 |#
 
 
@@ -530,6 +536,7 @@ HTTP-статус: **400**
 || Discount Rate (`DISCOUNT_RATE`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined | Было передано `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_RATE` ||
 || Discount Sum (`DISCOUNT_SUM`) is required if Percentage Discount Type (`DISCOUNT_TYPE_ID`) is defined and Discount Rate (`DISCOUNT_RATE`) is 100% | Было передано `DISCOUNT_RATE = 100` и `DISCOUNT_TYPE_ID = 2` и не передано `DISCOUNT_SUM` ||
 || Discount Sum (`DISCOUNT_SUM`) is required if Monetary Discount Type (`DISCOUNT_TYPE_ID`) is defined | Было передано `DISCOUNT_TYPE_ID = 1` и не передано `DISCOUNT_SUM` ||
+|| Не удалось зарезервировать товар Test product: такого склада нет, выберите другой | В `STORE_ID` передан идентификатор несуществующего склада. В тексте ошибки перечислены названия товаров. Если товаров несколько, текст начинается со слов «Не удалось зарезервировать товары» ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
