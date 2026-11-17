@@ -72,6 +72,10 @@
 `тип` | **Описание** ||
 || **NAME***
 [`string`](../../data-types.md) | Название элемента ||
+|| **PREVIEW_PICTURE**
+[`array`](../../data-types.md) | Изображение для анонса, если поле добавлено в список. Передайте массив из имени файла и его содержимого в [base64](../../files/how-to-upload-files.md), например `["image.png", "iVBORw0KGgo..."]`. Идентификатор файла метод не принимает и возвращает ошибку `ERROR_ELEMENT_FIELD_VALUE` ||
+|| **DETAIL_PICTURE**
+[`array`](../../data-types.md) | Детальное изображение, если поле добавлено в список. Передается так же, как `PREVIEW_PICTURE` ||
 || **PROPERTY_PropertyId** | Пользовательские свойства.
 
 Любое свойство элемента можно настроить как множественное. Для множественных свойств передавайте массив, даже если значение только одно. 
@@ -401,7 +405,7 @@ HTTP-статус: **400**
 || `ERROR_IBLOCK_NOT_FOUND` | Iblock not found | Инфоблок не найден ||
 || `ERROR_ELEMENT_ALREADY_EXISTS` | Element already exists | Элемент с таким `CODE` уже существует ||
 || `ERROR_ADD_ELEMENT` | — | Ошибка при добавлении элемента ||
-|| `ERROR_ELEMENT_FIELD_VALUE` | Writing file values by ID is not supported | Ошибка валидации значения поля ||
+|| `ERROR_ELEMENT_FIELD_VALUE` | Writing file values by ID is not supported | В `PREVIEW_PICTURE`, `DETAIL_PICTURE` или свойство типа Файл передан идентификатор файла. Передайте файл массивом из имени и содержимого в base64 ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для добавления элемента ||
 |#
 

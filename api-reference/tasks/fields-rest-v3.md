@@ -69,7 +69,9 @@
 || **group**
 [`object`](#group) | Группа/проект. Объект типа [группа](#group). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **stageId**
-[`integer`](../data-types.md) | Идентификатор стадии. Используйте, если задача находится в группе/проекте. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `stage` ||
+[`integer`](../data-types.md) | Идентификатор стадии. Используйте, если задача находится в группе/проекте. Поле возвращает [tasks.task.list](./tasks-task-list-rest-v3.md), в ответе [tasks.task.get](./tasks-task-get-rest-v3.md) вместо него запрашивайте объект `stage`.
+
+При изменении задачи стадия должна существовать и относиться к группе задачи, иначе [tasks.task.update](./tasks-task-update-rest-v3.md) вернет ошибку `TASKS_STAGE_NOT_FOUND` или `TASKS_STAGE_DIFFERENT_STAGES` ||
 || **stage**
 [`object`](#stage) | Стадия. Объект типа [стадия](#stage). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
 || **epicId**
@@ -476,7 +478,12 @@
 || **startDate**
 [`string`](../data-types.md) | Дата начала повторения ||
 || **repeatTill**
-[`string`](../data-types.md) | До какой даты повторять ||
+[`string`](../data-types.md) | Когда закончить повторение:
+- `endless` — без даты окончания
+- `date` — до даты из `endDate`
+- `times` — после числа повторов из `times`
+
+Для старых шаблонов без значения приходит `date` или `endless` ||
 || **endDate**
 [`string`](../data-types.md) | Дата окончания повторения ||
 || **times**
@@ -494,6 +501,12 @@
 [`integer`](../data-types.md) | ID задачи ||
 || **mailboxId**
 [`integer`](../data-types.md) | ID почтового ящика ||
+|| **sourceType**
+[`string`](../data-types.md) | Тип источника письма:
+- `mail_message` — письмо из Почты
+- `crm_activity` — письмо из дела CRM ||
+|| **sourceId**
+[`integer`](../data-types.md) | ID источника: письма в Почте или дела CRM, в зависимости от `sourceType` ||
 || **title**
 [`string`](../data-types.md) | Название письма ||
 || **body**
