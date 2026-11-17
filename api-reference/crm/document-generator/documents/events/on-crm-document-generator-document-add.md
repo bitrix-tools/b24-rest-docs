@@ -13,7 +13,7 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `ONCRMDOCUMENTGENERATORDOCUMENTADD` сработает при создании нового документа: по шаблону методом [crm.documentgenerator.document.add](../crm-document-generator-document-add.md) и при загрузке готового файла методом [crm.documentgenerator.document.upload](../crm-document-generator-document-upload.md).
+Событие `ONCRMDOCUMENTGENERATORDOCUMENTADD` сработает при создании документа, связанного с объектом CRM: при генерации по шаблону вручную в интерфейсе Битрикс24 или методом [crm.documentgenerator.document.add](../crm-document-generator-document-add.md) и при загрузке готового файла методом [crm.documentgenerator.document.upload](../crm-document-generator-document-upload.md).
 
 {% note info "" %}
 
@@ -40,7 +40,7 @@
     "auth": {
         "access_token": "s6p6eclrvim6da22ft9ch94ekreb52lv",
         "expires_in": "3600",
-        "scope": "crm, documentgenerator",
+        "scope": "crm",
         "domain": "some-domain.bitrix24.com",
         "server_endpoint": "https://oauth.bitrix24.tech/rest/",
         "status": "L",
@@ -72,7 +72,7 @@
 || **ts**
 [`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, на котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#

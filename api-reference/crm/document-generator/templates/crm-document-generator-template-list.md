@@ -33,17 +33,15 @@
 - `entityTypeId` — массив привязок шаблона к CRM-объектам
 - `users` — массив кодов прав доступа
 
-Основные поля для `select`: `id`, `name`, `region`, `code`, `active`, `moduleId`, `numeratorId`, `withStamps`, `isDeleted`, `sort`, `createTime`, `updateTime`
-
 Список полей шаблона смотрите в разделе [`Тип template`](#template). По умолчанию используется `["*"]` ||
 || **filter**
 [`object`](../../../data-types.md) | Объект формата:
 
-```
-{
+```js
+const filter = {
     field_1: value_1,
     field_2: value_2,
-    ...,
+    // ...
     field_n: value_n
 }
 ```
@@ -62,8 +60,10 @@
 - `=` — равно (по умолчанию)
 - `!=` или `!` — не равно
 
+Для `entityTypeId` используйте ключ `entityTypeId` или `=entityTypeId`.
+
 Особенности:
-- если `isDeleted` не передан, применяется фильтр `isDeleted = "N"`
+- по умолчанию добавляется условие `isDeleted: "N"`, если не передан ни один из ключей `isDeleted`, `@isDeleted` или `!isDeleted`
 - фильтр `moduleId` принудительно ограничивается значением `crm`
 - можно фильтровать по `entityTypeId`, например `["2","2_category_37"]`
 
@@ -71,11 +71,11 @@
 || **order**
 [`object`](../../../data-types.md) | Объект формата:
 
-```
-{
+```js
+const order = {
     field_1: value_1,
     field_2: value_2,
-    ...,
+    // ...
     field_n: value_n
 }
 ```
@@ -152,7 +152,7 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type TemplatesResult = {
-      templates: Record<string, Template>
+      templates: Record<string, Template> | []
     }
 
     try {
@@ -322,9 +322,6 @@
                 "entityTypeId",
                 "users",
             ],
-            order={
-                "id": "desc",
-            },
             filter={
                 "region": "ru",
                 "active": "Y",
@@ -385,6 +382,7 @@
             select: ['id', 'name', 'region', 'entityTypeId', 'users'],
             order: { id: 'desc' },
             filter: { region: 'ru', active: 'Y' },
+            start: 0,
         },
         (result) => {
             if (result.error()) {
@@ -489,7 +487,7 @@ HTTP-статус: **200**
             }
         }
     },
-    "total": 20,
+    "total": 2,
     "time": {
         "start": 1773845479,
         "finish": 1773845479.829607,
@@ -518,7 +516,7 @@ HTTP-статус: **200**
 
 #### Объект templates {#templates}
 
-[`object`](../../../data-types.md), где ключ — строковый идентификатор шаблона, а значение — объект [`template`](#template)
+Если шаблоны найдены, `templates` — объект, где ключ — строковый идентификатор шаблона, а значение — объект [`template`](#template). Если шаблонов нет, `templates` — пустой массив `[]`.
 
 #### Тип template {#template}
 
@@ -546,13 +544,13 @@ HTTP-статус: **200**
 || **moduleId**
 [`string`](../../../data-types.md) | Идентификатор модуля владельца шаблона ||
 || **numeratorId**
-[`integer`](../../../data-types.md) | Идентификатор нумератора ||
+[`string`](../../../data-types.md) | Идентификатор нумератора ||
 || **withStamps**
 [`char`](../../../data-types.md) | Признак использования печатей (`Y`/`N`) ||
 || **isDeleted**
 [`char`](../../../data-types.md) | Признак удаления (`Y`/`N`) ||
 || **sort**
-[`integer`](../../../data-types.md) | Индекс сортировки ||
+[`string`](../../../data-types.md) | Индекс сортировки ||
 || **createTime**
 [`datetime`](../../../data-types.md) | Время создания шаблона ||
 || **updateTime**
@@ -565,8 +563,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "DOCGEN_ACCESS_ERROR",
-    "error_description": "Access denied"
+    "error": "INVALID_ARG_VALUE",
+    "error_description": "Invalid filter: field 'unknownField' is not allowed in filter"
 }
 ```
 
@@ -575,10 +573,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к шаблонам ||
-|| `Пустое значение` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `INVALID_ARG_VALUE` | Invalid filter: field 'unknownField' is not allowed in filter | В фильтре указано недопустимое поле. Проверьте имя поля ||
+|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

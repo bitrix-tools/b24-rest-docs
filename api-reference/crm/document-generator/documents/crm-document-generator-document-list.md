@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "просмотра" документов генератора документов
+> Кто может выполнять метод: пользователь с правом просмотра документов генератора документов и правом чтения CRM-объектов. При фильтре по `entityTypeId` требуется право чтения объектов этого типа; без него — право чтения хотя бы одного типа CRM-объектов
 
 Метод `crm.documentgenerator.document.list` возвращает список документов по фильтру.
 
@@ -29,13 +29,13 @@
 - `'*'` — для выборки всех стандартных полей документа
 - явный список полей, например `['id','title','number','entityId','createTime']`
 
-Список полей смотрите в разделе [Тип document](#document).
+Список полей смотрите в разделе [Тип document](#document). Ссылки на файлы и `stampsEnabled` нельзя выбрать явно. Поля `provider` и `value` также можно указать в `select`. В ответе они возвращаются как `entityTypeId` и `entityId` соответственно. Чтобы получить эти поля, можно сразу указать в `select` имена `entityTypeId` и `entityId`.
 
 По умолчанию используется `['*']` ||
 || **filter**
 [`object`](../../../data-types.md) | Объект формата:
 
-```
+```text
 {
     field_1: value_1,
     field_2: value_2,
@@ -58,11 +58,13 @@
 - `=` — равно (по умолчанию)
 - `!=` или `!` — не равно
 
-Список доступных полей для фильтрации смотрите в разделе [Тип document](#document). ||
+Для `filter` доступны `id`, `title`, `number`, `templateId`, `provider`, `value`, `fileId`, `imageId`, `pdfId`, `createTime`, `updateTime`, `createdBy`, `updatedBy`, `entityTypeId` и `entityId`. Поле `values` и ссылки на файлы нельзя использовать для фильтрации или сортировки.
+
+Для `entityTypeId` и `entityId` используйте ключ без префикса или с префиксом `=`. Другие префиксы для этих двух полей не применяются. Значение `entityTypeId` должно быть числом. ||
 || **order**
 [`object`](../../../data-types.md) | Объект формата:
 
-```
+```text
 {
     field_1: value_1,
     field_2: value_2,
@@ -75,7 +77,7 @@
 - `field_n` — название поля сортировки
 - `value_n` — направление сортировки: `ASC` или `DESC`
 
-Список полей для сортировки смотрите в разделе [Тип document](#document).
+Для `order` доступны те же поля, что для `filter`, кроме `entityTypeId` и `entityId`.
 
 Пример: `{"id":"DESC","createTime":"ASC"}` ||
 || **start**
@@ -107,7 +109,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","title","number","entityId","createTime"],"order":{"id":"desc"},"filter":{"entityTypeId":2,"entityId":101},"start":0}' \
+    -d '{"select":["id","title","number","entityId","createTime"],"order":{"id":"DESC"},"filter":{"entityTypeId":2,"entityId":101},"start":0}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.documentgenerator.document.list
     ```
 
@@ -117,7 +119,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","title","number","entityId","createTime"],"order":{"id":"desc"},"filter":{"entityTypeId":2,"entityId":101},"start":0,"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","title","number","entityId","createTime"],"order":{"id":"DESC"},"filter":{"entityTypeId":2,"entityId":101},"start":0,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.documentgenerator.document.list
     ```
 
@@ -135,16 +137,8 @@
       id: string
       title: string
       number: string
-      templateId: string
-      entityTypeId: string
       entityId: string
-      fileId: string
-      imageId: string
-      pdfId: string
       createTime: ISODate
-      updateTime: ISODate
-      createdBy: string | null
-      updatedBy: string | null
       values: Record<string, unknown> | null
       downloadUrl: string
       imageUrl: string
@@ -170,7 +164,7 @@
         method: 'crm.documentgenerator.document.list',
         params: {
           select: ['id', 'title', 'number', 'entityId', 'createTime'],
-          order: { id: 'desc' },
+          order: { id: 'DESC' },
           filter: { entityTypeId: 2, entityId: 101 },
           start: 0,
         },
@@ -210,7 +204,7 @@
             method: 'crm.documentgenerator.document.list',
             params: {
               select: ['id', 'title', 'number', 'entityId', 'createTime'],
-              order: { id: 'desc' },
+              order: { id: 'DESC' },
               filter: { entityTypeId: 2, entityId: 101 },
               start: 0,
             },
@@ -250,7 +244,7 @@
                 "createTime",
             ],
             order={
-                "id": "desc",
+                "id": "DESC",
             },
             filter={
                 "entityTypeId": 2,
@@ -288,7 +282,7 @@
                 "createTime",
             ],
             order={
-                "id": "desc",
+                "id": "DESC",
             },
             filter={
                 "entityTypeId": 2,
@@ -326,7 +320,7 @@
                 "createTime",
             ],
             order={
-                "id": "desc",
+                "id": "DESC",
             },
             filter={
                 "entityTypeId": 2,
@@ -359,7 +353,7 @@
                 'crm.documentgenerator.document.list',
                 [
                     'select' => ['id', 'title', 'number', 'entityId', 'createTime'],
-                    'order' => ['id' => 'desc'],
+                    'order' => ['id' => 'DESC'],
                     'filter' => ['entityTypeId' => 2, 'entityId' => 101],
                     'start' => 0,
                 ]
@@ -386,8 +380,9 @@
         'crm.documentgenerator.document.list',
         {
             select: ['id', 'title', 'number', 'entityId', 'createTime'],
-            order: { id: 'desc' },
+            order: { id: 'DESC' },
             filter: { entityTypeId: 2, entityId: 101 },
+            start: 0,
         },
         (result) => {
             if (result.error()) {
@@ -413,7 +408,7 @@
         'crm.documentgenerator.document.list',
         [
             'select' => ['id', 'title', 'number', 'entityId', 'createTime'],
-            'order' => ['id' => 'desc'],
+            'order' => ['id' => 'DESC'],
             'filter' => ['entityTypeId' => 2, 'entityId' => 101],
             'start' => 0,
         ]
@@ -431,7 +426,7 @@
     res, err := client.Core().Call(ctx, "crm.documentgenerator.document.list", b24.Params{
     	"select": []string{"id", "title", "number", "entityId", "createTime"},
     	"order": b24.Params{
-    		"id": "desc",
+            "id": "DESC",
     	},
     	"filter": b24.Params{
     		"entityTypeId": 2,
@@ -453,9 +448,6 @@
     	ID         b24.ID `json:"id"`
     	Title      string `json:"title"`
     	Number     string `json:"number"`
-    	TemplateID b24.ID `json:"templateId"`
-    	FileID     b24.ID `json:"fileId"`
-    	ImageID    b24.ID `json:"imageId"`
     }
     if err := json.Unmarshal(raw, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -479,24 +471,13 @@ HTTP-статус: **200**
                 "id": "61",
                 "title": "Демонстрационная реализация товара 2026-001",
                 "number": "2026-002",
-                "templateId": "39",
-                "fileId": "283",
-                "imageId": "285",
-                "pdfId": "287",
                 "createTime": "2026-03-20T13:51:45+03:00",
-                "updateTime": "2026-03-20T14:42:38+03:00",
-                "values": {
-                    "_creationMethod": "rest",
-                    "stampsEnabled": true
-                },
-                "createdBy": "577",
-                "updatedBy": "577",
+                "values": null,
                 "downloadUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.download&SITE_ID=s1&id=61",
                 "pdfUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getPdf&SITE_ID=s1&id=61",
                 "imageUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getImage&SITE_ID=s1&id=61",
-                "stampsEnabled": true,
+                "stampsEnabled": false,
                 "entityId": "101",
-                "entityTypeId": "2",
                 "downloadUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.download.json?auth=***&token=***",
                 "pdfUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getPdf.json?auth=***&token=***",
                 "imageUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getImage.json?auth=***&token=***"
@@ -505,31 +486,20 @@ HTTP-статус: **200**
                 "id": "59",
                 "title": "Демонстрационная реализация товара 2026-001",
                 "number": "2026-001",
-                "templateId": "39",
-                "fileId": "271",
-                "imageId": "273",
-                "pdfId": "275",
                 "createTime": "2026-03-20T13:28:26+03:00",
-                "updateTime": "2026-03-20T13:28:26+03:00",
-                "values": {
-                    "_creationMethod": "rest",
-                    "stampsEnabled": true
-                },
-                "createdBy": "577",
-                "updatedBy": null,
+                "values": null,
                 "downloadUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.download&SITE_ID=s1&id=59",
                 "pdfUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getPdf&SITE_ID=s1&id=59",
                 "imageUrl": "https://bitrix.bitrix24.ru/bitrix/services/main/ajax.php?action=crm.documentgenerator.document.getImage&SITE_ID=s1&id=59",
-                "stampsEnabled": true,
+                "stampsEnabled": false,
                 "entityId": "101",
-                "entityTypeId": "2",
                 "downloadUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.download.json?auth=***&token=***",
                 "pdfUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getPdf.json?auth=***&token=***",
                 "imageUrlMachine": "https://bitrix.bitrix24.ru/rest/crm.documentgenerator.document.getImage.json?auth=***&token=***"
             }
         ]
     },
-    "total": 4,
+    "total": 2,
     "time": {
         "start": 1774009414,
         "finish": 1774009414.09833,
@@ -569,7 +539,7 @@ HTTP-статус: **200**
 
 #### Тип document {#document}
 
-Состав полей зависит от параметра `select`.
+Состав полей зависит от `select`. Метод также формирует ссылки на файлы, `values` и `stampsEnabled`. Если `values` не выбрано, оно равно `null`, а `stampsEnabled` — `false`.
 
 #|
 || **Название**
@@ -581,27 +551,27 @@ HTTP-статус: **200**
 || **number**
 [`string`](../../../data-types.md) | Номер документа ||
 || **templateId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор шаблона документа ||
+```integer | string``` | Идентификатор шаблона документа ||
 || **entityTypeId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
+```integer | string``` | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор CRM-объекта ||
+```integer | string``` | Идентификатор CRM-объекта ||
 || **fileId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор DOCX-файла документа ||
+```integer | string``` | Идентификатор DOCX-файла документа ||
 || **imageId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор изображения документа ||
+```integer | string``` | Идентификатор изображения документа ||
 || **pdfId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор PDF-файла документа ||
+```integer | string``` | Идентификатор PDF-файла документа ||
 || **createTime**
 [`datetime`](../../../data-types.md) | Дата создания документа ||
 || **updateTime**
 [`datetime`](../../../data-types.md) | Дата обновления документа ||
 || **createdBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
+```integer | string | null``` | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+```integer | string | null``` | Идентификатор пользователя, обновившего документ ||
 || **values**
-[`object`](../../../data-types.md) \| [`null`](../../../data-types.md) | Значения полей документа ||
+```object | null``` | Значения полей документа ||
 || **downloadUrl**
 [`string`](../../../data-types.md) | Ссылка на скачивание документа ||
 || **imageUrl**
@@ -635,10 +605,14 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `100` | Unknown field definition ENTITY_TYPE_ID (ENTITY_TYPE_ID) for \Bitrix\DocumentGenerator\Model\Document Entity | В параметр `select` передано поле `entityTypeId`, которое не является прямым полем модели документа. Используйте `select: ['*']` ||
+|| `INVALID_ARG_VALUE` | Invalid filter: field 'entityTypeId' should either be not set or have a numeric value | В `filter` передано нечисловое значение `entityTypeId` ||
+|| `INVALID_ARG_VALUE` | Invalid filter: field '{field}' is not allowed in filter | Недопустимое поле фильтра ||
+|| `INVALID_ARG_VALUE` | Invalid filter: field '{field}' has invalid value | Недопустимое значение поля фильтра ||
+|| `INVALID_ARG_VALUE` | Invalid order: field '{field}' is not allowed in order | Недопустимое поле сортировки ||
+|| `INVALID_ARG_VALUE` | Invalid order: allowed sort directions are ASC, DESC. But got '{direction}' for field '{field}' | Недопустимое направление сортировки ||
 || `ACCESS_DENIED` | Access denied | Недостаточно прав для чтения документов по выбранному фильтру CRM-объектов ||
-|| `Пустое значение` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора документов ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `0` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора документов ||
+|| `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -646,8 +620,8 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-document-generator-document-add.md)
-- [{#T}](./crm-document-generator-document-get.md)
-- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](./crm-document-generator-document-update.md)
+- [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-delete.md)
+- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

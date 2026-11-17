@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
+> Кто может выполнять метод: пользователь с правами на просмотр и изменение документов генератора документов и доступом к документу
 
 Метод `crm.documentgenerator.document.delete` удаляет документ.
+
+Удаление документа необратимо. Публичная ссылка перестает работать. Для связанных DOCX-, PDF-файлов и изображения, не используемых другими документами или шаблонами, выполняется попытка удаления из хранилища, в том числе с Диска.
 
 ## Параметры метода
 
@@ -23,7 +25,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**^*^
-[`integer`](../../../data-types.md) | Идентификатор документа ||
+[`integer`](../../../data-types.md) | Идентификатор документа. Получить идентификатор можно методом [crm.documentgenerator.document.list](./crm-document-generator-document-list.md) ||
 |#
 
 ## Примеры кода
@@ -263,7 +265,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "100",
-    "error_description": "Bitrix\\DocumentGenerator\\Document constructor must be is public"
+    "error_description": "Could not find value for parameter {id}"
 }
 ```
 
@@ -272,12 +274,14 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `100` | Bitrix\\DocumentGenerator\\Document constructor must be is public | Не передан обязательный параметр `id` ||
-|| `0` | Документ не найден | Документ с указанным `id` не найден ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
-|| `Пустое значение` | Document not found | Документ не относится к модулю `crm` ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `0` | You do not have permissions to view documents | Нет права на просмотр документов ||
+|| `400` | `0` | You do not have permissions to modify this document | Нет права на изменение документа ||
+|| `400` | `0` | Документ не найден | Документ с указанным `id` не найден ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
+|| `400` | `0` | Document not found | Шаблон документа относится к модулю, отличному от `crm` ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -288,4 +292,5 @@ HTTP-статус: **400**
 - [{#T}](./crm-document-generator-document-update.md)
 - [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-list.md)
+- [{#T}](./events/on-crm-document-generator-document-delete.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

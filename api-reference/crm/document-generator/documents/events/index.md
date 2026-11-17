@@ -19,11 +19,28 @@
 
 Все три события передают один и тот же набор полей в `data.FIELDS`:
 
-- `ID` — идентификатор документа, по нему можно запросить данные методом [crm.documentgenerator.document.get](../crm-document-generator-document-get.md)
+- `ID` — идентификатор документа
 - `ENTITY_TYPE_ID` — идентификатор типа CRM-объекта, к которому привязан документ, например `1` — лид
 - `ENTITY_ID` — идентификатор самого CRM-объекта
 
-Файл документа и ссылки на него в событие не передаются. Чтобы получить `pdfUrl`, `imageUrl` или публичную ссылку, вызовите [crm.documentgenerator.document.get](../crm-document-generator-document-get.md) по полученному `ID`.
+Файл документа и ссылки на него в событие не передаются. Для созданного или обновленного документа его данные, включая доступные ссылки на файлы, можно запросить методом [crm.documentgenerator.document.get](../crm-document-generator-document-get.md) по `ID`. Для вызова нужно право просмотра документов генератора и доступ к документу. Подписка на событие сама по себе этих прав не дает. После успешного удаления документ получить нельзя; сохраните необходимые данные заранее.
+
+Пример фрагмента тела события создания в формате JSON:
+
+```json
+{
+    "event": "ONCRMDOCUMENTGENERATORDOCUMENTADD",
+    "data": {
+        "FIELDS": {
+            "ID": "1042",
+            "ENTITY_TYPE_ID": "2",
+            "ENTITY_ID": "123"
+        }
+    }
+}
+```
+
+Полный состав запроса приведен на страницах отдельных событий ниже.
 
 ## Как получать события
 
@@ -31,6 +48,8 @@
 
 - [исходящий вебхук](../../../../../local-integrations/local-webhooks.md)
 - [приложение](../../../../../settings/app-installation/index.md) и метод [event.bind](../../../../events/event-bind.md)
+
+События не отправляются в приложение, пока его установка не завершена. [Проверьте установку приложения](../../../../../settings/app-installation/installation-finish.md).
 
 Пример кода обработчика для события описан в статье [Как проверить свой обработчик для обработки событий Битрикс24](../../../../events/test-handler.md).
 
@@ -46,7 +65,7 @@
 
 #|
 || **Событие** | **Вызывается** ||
-|| [onCrmDocumentGeneratorDocumentAdd](./on-crm-document-generator-document-add.md) | При генерации документа вручную или методами [crm.documentgenerator.document.add](../crm-document-generator-document-add.md) и [crm.documentgenerator.document.upload](../crm-document-generator-document-upload.md) ||
+|| [onCrmDocumentGeneratorDocumentAdd](./on-crm-document-generator-document-add.md) | При создании документа вручную или методом [crm.documentgenerator.document.add](../crm-document-generator-document-add.md), а также при загрузке готового документа методом [crm.documentgenerator.document.upload](../crm-document-generator-document-upload.md) ||
 || [onCrmDocumentGeneratorDocumentUpdate](./on-crm-document-generator-document-update.md) | При изменении документа вручную или методом [crm.documentgenerator.document.update](../crm-document-generator-document-update.md) ||
-|| [onCrmDocumentGeneratorDocumentDelete](./on-crm-document-generator-document-delete.md) | При удалении документа вручную или методом [crm.documentgenerator.document.delete](../crm-document-generator-document-delete.md) ||
+|| [onCrmDocumentGeneratorDocumentDelete](./on-crm-document-generator-document-delete.md) | При попытке удаления документа вручную или методом [crm.documentgenerator.document.delete](../crm-document-generator-document-delete.md). Событие формируется до завершения удаления ||
 |#

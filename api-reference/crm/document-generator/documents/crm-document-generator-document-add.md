@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
+> Кто может выполнять метод: пользователь с правами просмотра и создания документов генератора документов и доступом к CRM-объекту, по данным которого создается документ
 
 Метод `crm.documentgenerator.document.add` создает документ по шаблону для CRM-объекта.
 
@@ -25,18 +25,7 @@
 || **templateId**^*^
 [`integer`](../../../data-types.md) | Идентификатор шаблона документа ||
 || **entityTypeId**^*^
-[`integer`](../../../data-types.md) | Идентификатор типа CRM-объекта, для которого создается документ.
-
-Типичные значения:
-- `1` — лид
-- `2` — сделка
-- `3` — контакт
-- `4` — компания
-- `5` — счет (старая версия)
-- `7` — коммерческое предложение
-- `31` — счет
-
-Для смарт-процессов передается их `entityTypeId`, например `177` ||
+[`integer`](../../../data-types.md) | Идентификатор [типа CRM-объекта](../../data-types.md#object_type), для которого создается документ ||
 || **entityId**^*^
 [`integer`](../../../data-types.md) | Идентификатор CRM-объекта, по данным которого создается документ ||
 || **values**
@@ -55,7 +44,7 @@
 - `field_n` — код поля документа
 - `value_n` — значение поля
 
-Набор ключей зависит от конкретного шаблона и провайдера данных. Посмотреть доступные поля можно методом [crm.documentgenerator.document.getfields](./crm-document-generator-document-get-fields.md) ||
+Набор ключей зависит от шаблона и провайдера данных. Посмотреть доступные поля шаблона можно методом [crm.documentgenerator.template.getfields](../templates/crm-document-generator-template-get-fields.md) ||
 || **stampsEnabled**
 [`integer`](../../../data-types.md) | Подставлять печать и подпись:
 - `1` — подставлять
@@ -63,37 +52,7 @@
 
 По умолчанию `0` ||
 || **fields**
-[`object`](../../../data-types.md) | Дополнительные описания полей документа для генерации.
-
-Параметр `fields` используется для более точечной настройки полей. В большинстве сценариев достаточно параметра `values`.
-
-В `fields` передается объект-описание поля (descriptor). Пример:
-
-```json
-{
-    "DocumentTitle": {
-        "title": "Название документа",
-        "value": "Демонстрационная реализация товара 1",
-        "required": "Y",
-        "default": "Демонстрационная реализация товара 1",
-        "chain": [
-            {},
-            "getTitle"
-        ],
-        "VALUE": "Тест через fields"
-    }
-}
-```
-
-Список ключей `fields` не фиксированный и зависит от шаблона.
-
-Как получить доступные параметры:
-- до создания документа — [crm.documentgenerator.template.getfields](../templates/crm-document-generator-template-get-fields.md), поле `templateFields`
-- для созданного документа — [crm.documentgenerator.document.getfields](./crm-document-generator-document-get-fields.md), поле `documentFields`
-
-Служебные поля `SOURCE` и `DOCUMENT` игнорируются.
-
-Некоторые вычисляемые поля могут не переопределяться через `fields` ||
+[`object`](../../../data-types.md) | Дополнительные описания полей документа. Доступные поля можно получить методами [crm.documentgenerator.template.getfields](../templates/crm-document-generator-template-get-fields.md) и [crm.documentgenerator.document.getfields](./crm-document-generator-document-get-fields.md). Поля `SOURCE` и `DOCUMENT` игнорируются ||
 |#
 
 {% note info "Особенность метода" %}
@@ -111,7 +70,6 @@
 - `entityTypeId` — `2` (сделка)
 - `entityId` — `101`
 - номер документа подставляется через `values.DocumentNumber`
-- для `fields.DocumentTitle` передается descriptor-объект поля
 
 {% list tabs %}
 
@@ -121,7 +79,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"templateId":39,"entityTypeId":2,"entityId":101,"values":{"DocumentNumber":"2026-001"},"fields":{"DocumentTitle":{"title":"Название документа","value":"Демонстрационная реализация товара 1","required":"Y","default":"Демонстрационная реализация товара 1","chain":[{},"getTitle"],"VALUE":"Тест через fields"}},"stampsEnabled":1}' \
+    -d '{"templateId":39,"entityTypeId":2,"entityId":101,"values":{"DocumentNumber":"2026-001"},"stampsEnabled":1}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.documentgenerator.document.add
     ```
 
@@ -131,7 +89,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"templateId":39,"entityTypeId":2,"entityId":101,"values":{"DocumentNumber":"2026-001"},"fields":{"DocumentTitle":{"title":"Название документа","value":"Демонстрационная реализация товара 1","required":"Y","default":"Демонстрационная реализация товара 1","chain":[{},"getTitle"],"VALUE":"Тест через fields"}},"stampsEnabled":1,"auth":"**put_access_token_here**"}' \
+    -d '{"templateId":39,"entityTypeId":2,"entityId":101,"values":{"DocumentNumber":"2026-001"},"stampsEnabled":1,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.documentgenerator.document.add
     ```
 
@@ -148,7 +106,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type DocumentAddResult = {
       document: {
-        id: number
+        id: number | string
         title: string
         number: string
         createTime: ISODate
@@ -156,30 +114,30 @@
         createdBy: number
         updatedBy: number | null
         changeStampsEnabled: boolean
-        changeStampsDisabledReason: string
+        changeStampsDisabledReason?: string
         changeQrCodeEnabled: boolean
         qrCodeEnabled: boolean
-        changeQrCodeDisabledReason: string
-        products: {
-          currencyId: string
-          totalSum: string
-          totalRows: number
+        changeQrCodeDisabledReason?: string
+        products?: {
+          currencyId: string | null
+          totalSum: string | number | null
+          totalRows: string | number | null
         }
         stampsEnabled: boolean
         downloadUrl: string
         downloadUrlMachine: string
         publicUrl: string | null
         isTransformationError: boolean
-        transformationErrorMessage: string
-        transformationErrorCode: string
-        templateId: string
-        pullTag: string
+        transformationErrorMessage?: string
+        transformationErrorCode?: number | string
+        templateId: number | string
+        pullTag?: string
         emailDiskFile: number
-        entityTypeId: string
-        entityId: string
+        entityTypeId: number | string
+        entityId: number | string
         values: Record<string, unknown>
-        imageUrl: string
-        pdfUrl: string
+        imageUrl?: string
+        pdfUrl?: string
       }
     }
 
@@ -192,16 +150,6 @@
           entityId: 101,
           values: {
             DocumentNumber: '2026-001',
-          },
-          fields: {
-            DocumentTitle: {
-              title: 'Document title',
-              value: 'Demo product delivery 1',
-              required: 'Y',
-              default: 'Demo product delivery 1',
-              chain: [{}, 'getTitle'],
-              VALUE: 'Test via fields',
-            },
           },
           stampsEnabled: 1,
         },
@@ -241,16 +189,6 @@
               values: {
                 DocumentNumber: '2026-001',
               },
-              fields: {
-                DocumentTitle: {
-                  title: 'Document title',
-                  value: 'Demo product delivery 1',
-                  required: 'Y',
-                  default: 'Demo product delivery 1',
-                  chain: [{}, 'getTitle'],
-                  VALUE: 'Test via fields',
-                },
-              },
               stampsEnabled: 1,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -287,19 +225,6 @@
             values={
                 "DocumentNumber": "2026-001",
             },
-            fields={
-                "DocumentTitle": {
-                    "title": "Название документа",
-                    "value": "Демонстрационная реализация товара 1",
-                    "required": "Y",
-                    "default": "Демонстрационная реализация товара 1",
-                    "chain": [
-                        {},
-                        "getTitle",
-                    ],
-                    "VALUE": "Тест через fields",
-                },
-            },
             stamps_enabled=1,
         ).response
         result = bitrix_response.result
@@ -332,19 +257,6 @@
                     'values' => [
                         'DocumentNumber' => '2026-001',
                     ],
-                    'fields' => [
-                        'DocumentTitle' => [
-                            'title' => 'Название документа',
-                            'value' => 'Демонстрационная реализация товара 1',
-                            'required' => 'Y',
-                            'default' => 'Демонстрационная реализация товара 1',
-                            'chain' => [
-                                [],
-                                'getTitle',
-                            ],
-                            'VALUE' => 'Тест через fields',
-                        ],
-                    ],
                     'stampsEnabled' => 1,
                 ]
             );
@@ -375,16 +287,6 @@
             values: {
                 DocumentNumber: '2026-001',
             },
-            fields: {
-                DocumentTitle: {
-                    title: 'Название документа',
-                    value: 'Демонстрационная реализация товара 1',
-                    required: 'Y',
-                    default: 'Демонстрационная реализация товара 1',
-                    chain: [{}, 'getTitle'],
-                    VALUE: 'Тест через fields',
-                }
-            },
             stampsEnabled: 1,
         },
         (result) => {
@@ -410,19 +312,6 @@
             'values' => [
                 'DocumentNumber' => '2026-001',
             ],
-            'fields' => [
-                'DocumentTitle' => [
-                    'title' => 'Название документа',
-                    'value' => 'Демонстрационная реализация товара 1',
-                    'required' => 'Y',
-                    'default' => 'Демонстрационная реализация товара 1',
-                    'chain' => [
-                        [],
-                        'getTitle',
-                    ],
-                    'VALUE' => 'Тест через fields',
-                ],
-            ],
             'stampsEnabled' => 1,
         ]
     );
@@ -442,19 +331,6 @@
     	"entityId":     101,
     	"values": b24.Params{
     		"DocumentNumber": "2026-001",
-    	},
-    	"fields": b24.Params{
-    		"DocumentTitle": b24.Params{
-    			"title":    "Название документа",
-    			"value":    "Демонстрационная реализация товара 1",
-    			"required": "Y",
-    			"default":  "Демонстрационная реализация товара 1",
-    			"chain": []any{
-    				b24.Params{},
-    				"getTitle",
-    			},
-    			"VALUE": "Тест через fields",
-    		},
     	},
     	"stampsEnabled": 1,
     })
@@ -568,7 +444,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) | Идентификатор документа ||
+```integer | string``` | Идентификатор документа ||
 || **title**
 [`string`](../../../data-types.md) | Название документа ||
 || **number**
@@ -580,19 +456,19 @@ HTTP-статус: **200**
 || **createdBy**
 [`integer`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+```integer | null``` | Идентификатор пользователя, обновившего документ ||
 || **changeStampsEnabled**
 [`boolean`](../../../data-types.md) | Можно ли изменить признак подстановки печати и подписи ||
 || **changeStampsDisabledReason**
-[`string`](../../../data-types.md) | Причина, почему нельзя изменить признак подстановки печати и подписи ||
+[`string`](../../../data-types.md) | Причина, почему нельзя изменить признак подстановки печати и подписи. Поле может отсутствовать ||
 || **changeQrCodeEnabled**
 [`boolean`](../../../data-types.md) | Можно ли включить или выключить QR-код ||
 || **qrCodeEnabled**
 [`boolean`](../../../data-types.md) | Текущее состояние QR-кода ||
 || **changeQrCodeDisabledReason**
-[`string`](../../../data-types.md) | Причина, почему нельзя изменить QR-код ||
+[`string`](../../../data-types.md) | Причина, почему нельзя изменить QR-код. Поле может отсутствовать ||
 || **products**
-[`object`](../../../data-types.md) | Сводная информация по товарам документа (`currencyId`, `totalSum`, `totalRows`) ||
+[`object`](../../../data-types.md) | Сводная информация по товарам документа: `currencyId` — код валюты, строка или `null`; `totalSum` — сумма, число, числовая строка или `null`; `totalRows` — количество строк, число, числовая строка или `null`. Поле может отсутствовать ||
 || **stampsEnabled**
 [`boolean`](../../../data-types.md) | Признак подстановки печати и подписи ||
 || **downloadUrl**
@@ -600,25 +476,25 @@ HTTP-статус: **200**
 || **downloadUrlMachine**
 [`string`](../../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
 || **publicUrl**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ ||
+```string | null``` | Публичная ссылка на документ ||
 || **isTransformationError**
 [`boolean`](../../../data-types.md) | Признак ошибки конвертации документа ||
 || **transformationErrorMessage**
 [`string`](../../../data-types.md) | Текст ошибки конвертации, если `isTransformationError = true` ||
 || **transformationErrorCode**
-[`string`](../../../data-types.md) | Код ошибки конвертации, если `isTransformationError = true` ||
+```integer | string``` | Код ошибки конвертации, если `isTransformationError = true` ||
 || **templateId**
-[`integer`](../../../data-types.md) | Идентификатор шаблона ||
+```integer | string``` | Идентификатор шаблона ||
 || **pullTag**
-[`string`](../../../data-types.md) | Тег события трансформации документа ||
+[`string`](../../../data-types.md) | Тег события трансформации документа. Поле может отсутствовать ||
 || **emailDiskFile**
 [`integer`](../../../data-types.md) | Идентификатор файла в Диске для отправки по email ||
 || **entityTypeId**
-[`integer`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
+```integer | string``` | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../../data-types.md) | Идентификатор CRM-объекта ||
+```integer | string``` | Идентификатор CRM-объекта ||
 || **values**
-[`object`](../../../data-types.md) | Значения полей документа, переданные при создании ||
+[`object`](../../../data-types.md) | Значения полей документа, включая переданные при создании и служебные значения ||
 || **imageUrl**
 [`string`](../../../data-types.md) | Ссылка на изображение документа, если уже создано ||
 || **pdfUrl**
@@ -641,27 +517,27 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | No provider for entityTypeId | Не найден провайдер данных для переданного `entityTypeId` ||
-|| `0` | Empty required parameter "value" | Не передан или передан пустой `entityId` ||
-|| `0` | Cannot create document on deleted template | Нельзя создать документ по удаленному шаблону ||
-|| `0` | Cannot create document | Ошибка при создании документа по шаблону ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к созданию документа ||
-|| `DOCGEN_LIMIT_ERROR` | Maximum count of documents has been reached | Превышен лимит количества документов в тарифе ||
-|| `0` | Error getting next number | Не удалось получить следующий номер документа из нумератора ||
-|| `100` | Bitrix\\DocumentGenerator\\Template constructor must be is public | Низкоуровневая ошибка при вызове без корректного `templateId` ||
-|| `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
-|| `0` | Шаблон не найден | Шаблон с указанным `templateId` не найден или недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | No provider for entityTypeId | Не найден провайдер данных для переданного `entityTypeId` ||
+|| `400` | `0` | Empty required parameter "value" | Не передан или передан пустой `entityId` ||
+|| `400` | `0` | Cannot create document on deleted template | Нельзя создать документ по удаленному шаблону ||
+|| `400` | `0` | Cannot create document | Ошибка при создании документа по шаблону ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к созданию документа ||
+|| `400` | `DOCGEN_LIMIT_ERROR` | Maximum count of documents has been reached | Превышен лимит количества документов в тарифе ||
+|| `400` | `0` | Error getting next number | Не удалось получить следующий номер документа из нумератора ||
+|| `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `400` | `0` | Шаблон не найден | Шаблон с указанным `templateId` не найден ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-update.md)
-- [{#T}](./crm-document-generator-document-get-fields.md)
+- [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-list.md)
 - [{#T}](./crm-document-generator-document-delete.md)
+- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](../templates/crm-document-generator-template-get-fields.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

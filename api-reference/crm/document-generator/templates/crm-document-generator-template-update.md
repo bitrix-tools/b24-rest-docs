@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
+> Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов и правом на изменение указанного шаблона
 
 Метод `crm.documentgenerator.template.update` обновляет существующий шаблон документа.
 
@@ -30,6 +30,8 @@
 
 ### Параметр fields {#fields}
 
+Непереданные поля сохраняют свои значения. Для `entityTypeId` и `users` список заменяет существующие привязки, если после преобразования идентификаторов или фильтрации кодов доступа он непустой. Неизвестные идентификаторы `entityTypeId` игнорируются; пустой массив и список, ставший пустым после обработки, привязки не очищают.
+
 #|
 || **Название**
 `тип` | **Описание** ||
@@ -42,16 +44,9 @@
 || **region**
 [`string`](../../../data-types.md) | Регион шаблона, например `ru` ||
 || **entityTypeId**
-[`array`](../../../data-types.md) | Массив идентификаторов CRM-объектов, для которых доступен шаблон.
+[`array`](../../../data-types.md) | Массив идентификаторов типов CRM-объектов, для которых доступен шаблон.
 
-Типичные значения:
-- `1` — лид
-- `2` — сделка
-- `3` — контакт
-- `4` — компания
-- `5` — счет (старая версия)
-- `7` — коммерческое предложение
-- `31` — счет
+Значения стандартных типов приведены в таблице [Тип объекта CRM](../../data-types.md#object_type).
 
 Для объектов с воронками добавляется суффикс воронки, например:
 - `2_category_0` — сделка, воронка `0`
@@ -81,6 +76,10 @@
 [`char`](../../../data-types.md) | Подставлять печать и подпись: `Y` или `N` ||
 || **sort**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
+|| **timezone**
+```string | null``` | Часовой пояс шаблона: канонический идентификатор IANA, например `Europe/Moscow`. Пустая строка или `null` сбрасывает значение. Учитывается при включенной поддержке часовых поясов ||
+|| **titlePattern**
+```string | null``` | Шаблон названия документа. Пустая строка или `null` сбрасывает значение. Учитывается при включенной поддержке шаблона названия ||
 |#
 
 ## Примеры кода
@@ -92,7 +91,7 @@
 - новое название — `Шаблон из файла (обновлен)`
 - идентификатор нумератора — `49`
 - регион шаблона — `ru`
-- идентификатор CRM-элемента — `2`
+- идентификатор типа CRM-объекта — `2` (сделка)
 - код прав доступа — `UA`
 
 {% list tabs %}
@@ -136,11 +135,13 @@
         code: string | null
         download: string
         downloadMachine: string
+        timezone?: string | null
+        titlePattern?: string | null
         active: 'Y' | 'N'
         moduleId: string
         numeratorId: string
         withStamps: 'Y' | 'N'
-        users: Record<string, string>
+        users: Record<string, string> | []
         isDeleted: 'Y' | 'N'
         sort: string
         entityTypeId: string[]
@@ -155,7 +156,7 @@
         params: {
           id: 41,
           fields: {
-            name: 'Template from file (updated)',
+            name: 'Шаблон из файла (обновлен)',
             file: ['template-updated.docx', '**base64_encoded_content**'],
             numeratorId: 49,
             region: 'ru',
@@ -198,7 +199,7 @@
             params: {
               id: 41,
               fields: {
-                name: 'Template from file (updated)',
+                name: 'Шаблон из файла (обновлен)',
                 file: ['template-updated.docx', '**base64_encoded_content**'],
                 numeratorId: 49,
                 region: 'ru',
@@ -482,11 +483,11 @@ HTTP-статус: **200**
 || **region**
 [`string`](../../../data-types.md) | Регион шаблона ||
 || **code**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Символьный код шаблона ||
+```string | null``` | Символьный код шаблона ||
 || **download**
 [`string`](../../../data-types.md) | Ссылка на скачивание файла шаблона ||
 || **downloadMachine**
-[`string`](../../../data-types.md) | Ссылка на скачивание файла шаблона для приложения ||
+[`string`](../../../data-types.md) | Ссылка на скачивание файла шаблона через REST API ||
 || **active**
 [`char`](../../../data-types.md) | Активность шаблона: `Y` или `N` ||
 || **moduleId**
@@ -496,17 +497,21 @@ HTTP-статус: **200**
 || **withStamps**
 [`char`](../../../data-types.md) | Подставлять печать и подпись: `Y` или `N` ||
 || **users**
-[`object`](../../../data-types.md) | Объект кодов прав доступа в формате `{"UA":"UA"}` ||
+```object | array``` | Объект кодов прав доступа в формате `{"UA":"UA"}`; при отсутствии кодов — пустой массив `[]` ||
 || **isDeleted**
 [`char`](../../../data-types.md) | Признак удаления шаблона: `Y` или `N` ||
 || **sort**
 [`string`](../../../data-types.md) | Индекс сортировки ||
 || **entityTypeId**
-[`array`](../../../data-types.md) | Массив идентификаторов CRM-элементов, для которых доступен шаблон ||
+[`array`](../../../data-types.md) | Массив идентификаторов типов CRM-объектов, для которых доступен шаблон. Значение может содержать уточнение, например `2_category_0` ||
 || **createTime**
 [`datetime`](../../../data-types.md) | Дата и время создания шаблона ||
 || **updateTime**
 [`datetime`](../../../data-types.md) | Дата и время последнего обновления шаблона ||
+|| **timezone**
+```string | null``` | Часовой пояс шаблона. Возвращается при включенной поддержке часовых поясов ||
+|| **titlePattern**
+```string | null``` | Шаблон названия документа. Возвращается при включенной поддержке шаблона названия ||
 |#
 
 ## Обработка ошибок
@@ -525,14 +530,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
-|| `100` | Invalid value {...} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не как объект ||
-|| `0` | Шаблон не найден | Шаблон с указанным `id` не найден или недоступен ||
-|| `0` | Could not save file | Не удалось сохранить файл шаблона ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к шаблону ||
-|| `Пустое значение` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `TITLE_PATTERN_INVALID` | Title pattern must be a string | В `titlePattern` передано значение, которое не является строкой ||
+|| `400` | `TITLE_PATTERN_INVALID` | Некорректный шаблон названия. Проверьте подстановки и длину — максимум 255 символов | Значение `titlePattern` не прошло проверку подстановок или длины ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `100` | Invalid value {...} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не как объект ||
+|| `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
+|| `400` | `0` | Could not save file | Не удалось сохранить файл шаблона ||
+|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `400` | `0` | You do not have permissions to modify this template | Недостаточно прав для изменения указанного шаблона ||
+|| `400` | `TIMEZONE_INVALID` | Timezone must be a canonical IANA identifier. | В `timezone` передан некорректный идентификатор часового пояса ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
