@@ -46,11 +46,11 @@
 || **storeFrom**
 [`integer`](../../../data-types.md) | Идентификатор склада, с которого списывается товар. Используется в документах перемещения и списания.
 
-Идентификатор можно получить методом [catalog.store.list](../../store/catalog-store-list.md) ||
+Идентификатор можно получить методом [catalog.store.list](../../store/catalog-store-list-rest-v3.md) ||
 || **storeTo**
 [`integer`](../../../data-types.md) | Идентификатор склада, на который поступает товар. Используется в документах прихода, оприходования, перемещения и возврата.
 
-Идентификатор можно получить методом [catalog.store.list](../../store/catalog-store-list.md) ||
+Идентификатор можно получить методом [catalog.store.list](../../store/catalog-store-list-rest-v3.md) ||
 || **amount**
 [`double`](../../../data-types.md) | Количество товара ||
 || **purchasingPrice**

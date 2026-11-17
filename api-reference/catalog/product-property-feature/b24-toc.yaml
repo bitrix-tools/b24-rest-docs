@@ -5,13 +5,31 @@ items:
     href: index.md
   - name: Добавить параметры свойств
     href: catalog-product-property-feature-add.md
+  - name: Добавить параметр свойства товаров или вариаций v 3.0
+    href: catalog-product-property-feature-add-rest-v3.md
   - name: Изменить значения параметров
     href: catalog-product-property-feature-update.md
+  - name: Изменить параметр свойства товаров или вариаций v 3.0
+    href: catalog-product-property-feature-update-rest-v3.md
   - name: Получить значения параметров свойств
     href: catalog-product-property-feature-get.md
+  - name: Получить параметр свойства товаров или вариаций v 3.0
+    href: catalog-product-property-feature-get-rest-v3.md
   - name: Получить список параметров
     href: catalog-product-property-feature-list.md
+  - name: Получить список параметров свойств товаров или вариаций v 3.0
+    href: catalog-product-property-feature-list-rest-v3.md
   - name: Получить доступные параметры
     href: catalog-product-property-feature-get-available-features-by-property.md
+  - name: Получить доступные параметры свойства v 3.0
+    href: catalog-product-property-feature-available-list.md
   - name: Получить поля параметров
     href: catalog-product-property-feature-get-fields.md
+  - name: Получить список полей параметра свойства v 3.0
+    href: catalog-product-property-feature-field-list.md
+  - name: Получить поле параметра свойства
+    href: catalog-product-property-feature-field-get.md
+  - name: Получить список полей доступного параметра свойства
+    href: catalog-product-property-feature-available-field-list.md
+  - name: Получить поле доступного параметра свойства
+    href: catalog-product-property-feature-available-field-get.md

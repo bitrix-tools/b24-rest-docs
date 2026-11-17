@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор перевода.
 
-Идентификатор возвращает метод [catalog.pricetype.lang.add](./catalog-price-type-lang-add-rest-v3.md). В REST 3.0 нет метода получения списка переводов, идентификаторы существующих переводов возвращает метод [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) прежней версии API ||
+Идентификатор возвращает метод [catalog.pricetype.lang.add](./catalog-price-type-lang-add-rest-v3.md). Идентификаторы существующих переводов возвращает метод [catalog.pricetype.lang.list](./catalog-price-type-lang-list-rest-v3.md) ||
 || **fields***
 [`object`](../../../data-types.md) | Объект с полями перевода, которые нужно изменить. Передавайте только изменяемые поля. [Описание полей](#fields)
 
@@ -424,7 +424,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Перевода с таким идентификатором нет. Проверьте идентификатор методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) ||
+|| `id` | Запись с ID = `#ID#` не найдена | Перевода с таким идентификатором нет. Проверьте идентификатор методом [catalog.pricetype.lang.list](./catalog-price-type-lang-list-rest-v3.md) ||
 |#
 
 #### Ошибка неизвестного поля
@@ -461,6 +461,8 @@ HTTP-статус: **500**
 ## Продолжите изучение
 
 - [{#T}](./catalog-price-type-lang-add-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-get-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-list-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-delete-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-get-languages-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-field-list.md)

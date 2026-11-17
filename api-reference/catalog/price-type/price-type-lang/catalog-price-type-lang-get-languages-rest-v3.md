@@ -362,3 +362,4 @@ HTTP-статус: **404**
 - [{#T}](./catalog-price-type-lang-add-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-update-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-delete-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-list-rest-v3.md)

@@ -9,12 +9,20 @@ items:
     href: catalog-product-property-add-rest-v3.md
   - name: Изменить свойство
     href: catalog-product-property-update.md
+  - name: Изменить свойство товара или вариации v 3.0
+    href: catalog-product-property-update-rest-v3.md
   - name: Получить значения полей свойства
     href: catalog-product-property-get.md
+  - name: Получить значения полей свойства товара или вариации v 3.0
+    href: catalog-product-property-get-rest-v3.md
   - name: Получить список свойств
     href: catalog-product-property-list.md
+  - name: Получить список свойств товаров или вариаций v 3.0
+    href: catalog-product-property-list-rest-v3.md
   - name: Удалить свойство
     href: catalog-product-property-delete.md
+  - name: Удалить свойство товара или вариации v 3.0
+    href: catalog-product-property-delete-rest-v3.md
   - name: Получить поля свойства
     href: catalog-product-property-get-fields.md
   - name: Получить список полей свойства товара v 3.0

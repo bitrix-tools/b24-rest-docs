@@ -5,7 +5,17 @@ items:
     href: index.md
   - name: Установить секционные настройки свойств
     href: catalog-product-property-section-set.md
+  - name: Установить секционные настройки свойства v 3.0
+    href: catalog-product-property-section-set-rest-v3.md
   - name: Получить значения секционных настроек свойств
     href: catalog-product-property-section-get.md
+  - name: Получить секционные настройки свойства v 3.0
+    href: catalog-product-property-section-get-rest-v3.md
   - name: Получить список секционных настроек свойств
     href: catalog-product-property-section-list.md
+  - name: Получить список секционных настроек свойств v 3.0
+    href: catalog-product-property-section-list-rest-v3.md
+  - name: Получить список полей секционных настроек свойства
+    href: catalog-product-property-section-field-list.md
+  - name: Получить поле секционных настроек свойства
+    href: catalog-product-property-section-field-get.md

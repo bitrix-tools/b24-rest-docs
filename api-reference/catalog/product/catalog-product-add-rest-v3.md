@@ -181,7 +181,7 @@
 
 Значение одиночного свойства передайте строкой или числом, множественного — массивом значений.
 
-Идентификаторы свойств можно получить методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md). Свойства типа «Файл» сейчас не сохраняются ||
+Идентификаторы свойств можно получить методом [catalog.product.property.list](../product-property/catalog-product-property-list-rest-v3.md). Свойства типа «Файл» сейчас не сохраняются ||
 |#
 
 Поля `id`, `type`, `available`, `bundle`, `dateCreate` и `timestampX` заполняются автоматически. Если передать их в `fields`, метод вернет ошибку.

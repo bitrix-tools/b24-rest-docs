@@ -337,7 +337,7 @@ HTTP-статус: **200**
             },
             {
                 "name": "access",
-                "type": "string",
+                "type": "bool",
                 "requiredGroups": [
                     "add"
                 ],
@@ -383,7 +383,7 @@ HTTP-статус: **200**
 || **name**
 [`string`](../../../data-types.md) | Имя поля: `id`, `catalogGroupId`, `groupId`, `access` ||
 || **type**
-[`string`](../../../data-types.md) | Тип в метаданных: `int` или `string` ||
+[`string`](../../../data-types.md) | Тип в метаданных: `int` или `bool` ||
 || **title**
 [`string`](../../../data-types.md) | Заголовок поля. Совпадает с `name` ||
 || **description**
@@ -445,4 +445,5 @@ HTTP-статус: **400**
 
 - [{#T}](./catalog-price-type-group-add-rest-v3.md)
 - [{#T}](./catalog-price-type-group-delete-rest-v3.md)
+- [{#T}](./catalog-price-type-group-list-rest-v3.md)
 - [{#T}](./catalog-price-type-group-field-get.md)

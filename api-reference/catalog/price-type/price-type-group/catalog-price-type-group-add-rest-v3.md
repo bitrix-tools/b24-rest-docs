@@ -48,23 +48,17 @@
 
 При создании типа цены Битрикс24 сам добавляет для него привязки к группе администраторов с идентификатором `1` с обоими типами доступа ||
 || **access***
-[`string`](../../../data-types.md) | Тип доступа к цене.
+[`boolean`](../../../data-types.md) | Тип доступа к цене.
 
 Возможные значения:
 
-- `Y` — право на покупку по этому типу цены
-- `N` — право на просмотр этого типа цены
+- `true` — право на покупку по этому типу цены
+- `false` — право на просмотр этого типа цены
 
-Значения в другом регистре, например `y`, вызывают ошибку валидации ||
+Строки `Y` и `N` из прежней версии API вызывают ошибку валидации ||
 |#
 
 Сочетание `catalogGroupId`, `groupId` и `access` должно быть уникальным. Поле `id` заполняется автоматически, если передать его в `fields`, метод вернет ошибку.
-
-{% note warning "" %}
-
-В ответе метода поле `access` приходит в другом формате: `"1"` для `Y` и пустая строка для `N`. Значение в формате `Y` или `N` возвращает метод [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md) прежней версии API.
-
-{% endnote %}
 
 ## Примеры кода
 
@@ -86,7 +80,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"catalogGroupId":21,"groupId":2,"access":"Y"}}' \
+    -d '{"fields":{"catalogGroupId":21,"groupId":2,"access":true}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.pricetype.group.add
     ```
 
@@ -96,7 +90,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"catalogGroupId":21,"groupId":2,"access":"Y"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"catalogGroupId":21,"groupId":2,"access":true},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.pricetype.group.add
     ```
 
@@ -113,7 +107,7 @@
         id: number
         catalogGroupId: number
         groupId: number
-        access: string
+        access: boolean
       }
     }
 
@@ -124,7 +118,7 @@
           fields: {
             catalogGroupId: 21,
             groupId: 2,
-            access: 'Y',
+            access: true,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -157,7 +151,7 @@
               fields: {
                 catalogGroupId: 21,
                 groupId: 2,
-                access: 'Y',
+                access: true,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -182,24 +176,36 @@
 
 - Python
 
+    В `b24pysdk` нет обертки для этого метода, и SDK отправляет в REST 3.0 только методы из списка `Config().api_v3_methods`. Добавьте метод в этот список и вызовите его через `call_method` токена клиента с `prefer_version=3`.
+
     ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    from b24pysdk import Config
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    method = "catalog.pricetype.group.add"
+    Config().configure(api_v3_methods=Config().api_v3_methods | {method})
+    bitrix_token = client.get_token()
 
     try:
-        bitrix_response = client.catalog.pricetype.group.add(
-            fields={
-                "catalogGroupId": 21,
-                "groupId": 2,
-                "access": "Y",
+        response = bitrix_token.call_method(
+            api_method=method,
+            params={
+                "fields": {
+                    "catalogGroupId": 21,
+                    "groupId": 2,
+                    "access": True,
+                },
             },
-        ).response
-        result = bitrix_response.result
+            prefer_version=3,
+        )
+        result = response["result"]
         print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
             sep="\n",
         )
     except BitrixSDKException as error:
@@ -222,7 +228,7 @@
                     'fields' => [
                         'catalogGroupId' => 21,
                         'groupId' => 2,
-                        'access' => 'Y',
+                        'access' => true,
                     ],
                 ]
             );
@@ -248,7 +254,7 @@
             fields: {
                 catalogGroupId: 21,
                 groupId: 2,
-                access: 'Y',
+                access: true,
             },
         },
         result => {
@@ -273,7 +279,7 @@
             'fields' => [
                 'catalogGroupId' => 21,
                 'groupId' => 2,
-                'access' => 'Y',
+                'access' => true,
             ],
         ]
     );
@@ -291,7 +297,7 @@
     	"fields": b24.Params{
     		"catalogGroupId": 21,
     		"groupId":        2,
-    		"access":         "Y",
+    		"access":         true,
     	},
     })
     if err != nil {
@@ -308,7 +314,7 @@
     	ID             int    `json:"id"`
     	CatalogGroupID int    `json:"catalogGroupId"`
     	GroupID        int    `json:"groupId"`
-    	Access         string `json:"access"`
+    	Access         bool   `json:"access"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -329,7 +335,7 @@ HTTP-статус: **200**
             "id": 169,
             "catalogGroupId": 21,
             "groupId": 2,
-            "access": "1"
+            "access": true
         }
     },
     "time": {
@@ -370,9 +376,9 @@ HTTP-статус: **200**
 || **groupId**
 [`integer`](../../../data-types.md) | Идентификатор группы пользователей ||
 || **access**
-[`string`](../../../data-types.md) | Тип доступа:
-- `"1"` — покупка, в запросе `Y`
-- пустая строка — просмотр, в запросе `N` ||
+[`boolean`](../../../data-types.md) | Тип доступа:
+- `true` — покупка
+- `false` — просмотр ||
 |#
 
 ## Обработка ошибок
@@ -405,10 +411,9 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` ||
 || `catalogGroupId` | В поле `catalogGroupId` требуется тип данных `int` для такого запроса | Передайте число ||
-|| `access` | В поле `access` требуется тип данных `string` для такого запроса | Передайте строку `Y` или `N` ||
+|| `access` | В поле `access` требуется тип данных `bool` для такого запроса | Передайте `true` или `false` вместо `Y` или `N` ||
 || `-` | The specified price type does not exist | Проверьте идентификатор типа цены методом [catalog.pricetype.list](../catalog-price-type-list-rest-v3.md) ||
 || `-` | The specified group does not exist | Передайте идентификатор существующей группы пользователей ||
-|| `-` | Invalid access type provided. The available values are: Y, N | Передайте в `access` значение `Y` или `N` в верхнем регистре ||
 || `-` | The specified access type for this group already exists | Такая привязка уже есть. Привязки к группе `1` создаются вместе с типом цены ||
 |#
 
@@ -449,6 +454,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./catalog-price-type-group-delete-rest-v3.md)
+- [{#T}](./catalog-price-type-group-list-rest-v3.md)
 - [{#T}](./catalog-price-type-group-field-list.md)
 - [{#T}](./catalog-price-type-group-field-get.md)
 - [{#T}](../catalog-price-type-add-rest-v3.md)

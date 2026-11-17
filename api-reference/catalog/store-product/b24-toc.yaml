@@ -3,9 +3,17 @@ href: index.md
 items:
   - name: Обзор методов
     href: index.md
-  - name: Получить параметры остатков по складам
+  - name: Получить остатки товара на складе по идентификатору
     href: catalog-store-product-get.md
-  - name: Получить список остатков по складам
+  - name: Получить остатки товара на складе по идентификатору v 3.0
+    href: catalog-store-product-get-rest-v3.md
+  - name: Получить список остатков по складам по фильтру
     href: catalog-store-product-list.md
+  - name: Получить список остатков по складам по фильтру v 3.0
+    href: catalog-store-product-list-rest-v3.md
   - name: Получить поля остатков по складам
     href: catalog-store-product-get-fields.md
+  - name: Получить список полей остатков по складам v 3.0
+    href: catalog-store-product-field-list.md
+  - name: Получить поле остатков по складам
+    href: catalog-store-product-field-get.md

@@ -2,6 +2,13 @@
 
 ## 2026
 
+### 17 ноября, 2026
+
+- Добавили методы складов и остатков Торгового каталога в REST 3.0: [catalog.store.*](./api-reference/catalog/store/index.md) и [catalog.store.product.*](./api-reference/catalog/store-product/index.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили методы свойств товаров Торгового каталога в REST 3.0: [catalog.product.property.get](./api-reference/catalog/product-property/catalog-product-property-get-rest-v3.md), [catalog.product.property.list](./api-reference/catalog/product-property/catalog-product-property-list-rest-v3.md), [catalog.product.property.update](./api-reference/catalog/product-property/catalog-product-property-update-rest-v3.md) и [catalog.product.property.delete](./api-reference/catalog/product-property/catalog-product-property-delete-rest-v3.md), значения списочных свойств [catalog.product.property.enum.*](./api-reference/catalog/product-property-enum/index.md), параметры свойств [catalog.product.property.feature.*](./api-reference/catalog/product-property-feature/index.md) и секционные настройки свойств [catalog.product.property.section.*](./api-reference/catalog/product-property-section/index.md), включая методы получения схемы полей `field.list` и `field.get`
+- Добавили методы [catalog.pricetype.group.list](./api-reference/catalog/price-type/price-type-group/catalog-price-type-group-list-rest-v3.md), [catalog.pricetype.lang.get](./api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-get-rest-v3.md) и [catalog.pricetype.lang.list](./api-reference/catalog/price-type/price-type-lang/catalog-price-type-lang-list-rest-v3.md) в REST 3.0
+- Обновили [catalog.product.property.add](./api-reference/catalog/product-property/catalog-product-property-add-rest-v3.md) в REST 3.0: метод создает свойства всех типов, флаги принимает значениями `true` и `false` и возвращает все поля свойства. В [catalog.pricetype.group.add](./api-reference/catalog/price-type/price-type-group/catalog-price-type-group-add-rest-v3.md) поле `access` теперь принимает `true` и `false` вместо `Y` и `N`
+
 ### 12 ноября, 2026
 
 - Добавили метод [voximplant.user.deactivatePhone](./api-reference/telephony/voximplant/users/voximplant-user-deactivate-phone.md): снимает у сотрудника признак наличия SIP-аппарата

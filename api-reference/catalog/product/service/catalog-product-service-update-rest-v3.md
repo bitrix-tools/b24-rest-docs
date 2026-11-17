@@ -243,7 +243,7 @@
 
 Значение одиночного свойства передавайте объектом `{"VALUE": "..."}`, например `{"PROPERTY_301": {"VALUE": "SRV-002"}}`: строку без объекта метод пропускает без ошибки. Для множественного свойства передайте массив значений, например `["лен", "хлопок"]`, — он заменит прежние значения.
 
-Идентификаторы свойств можно получить методом [catalog.productProperty.list](../../product-property/catalog-product-property-list.md) ||
+Идентификаторы свойств можно получить методом [catalog.product.property.list](../../product-property/catalog-product-property-list-rest-v3.md) ||
 |#
 
 Поле `iblockId` изменить нельзя. Поля `id`, `dateCreate`, `timestampX`, `type`, `available` и `bundle` только для чтения, их передача вызывает ошибку.

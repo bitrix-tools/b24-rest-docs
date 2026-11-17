@@ -34,12 +34,29 @@
 Доступные поля:
 
 - `id` — идентификатор свойства
-- `iblockId` — идентификатор инфоблока
-- `name` — название свойства
+- `timestampX` — дата и время последнего изменения
+- `iblockId` — идентификатор торгового каталога
+- `name` — название
+- `active` — активность
 - `sort` — сортировка
 - `code` — символьный код
-- `multiple` — признак множественного свойства
-- `isRequired` — признак обязательного свойства
+- `defaultValue` — значение по умолчанию
+- `propertyType` — базовый тип
+- `userType` — пользовательский тип
+- `userTypeSettings` — настройки пользовательского типа
+- `rowCount` — число строк поля ввода
+- `colCount` — число колонок поля ввода
+- `listType` — внешний вид списка
+- `multiple` — множественное свойство
+- `multipleCnt` — число полей для множественных значений
+- `xmlId` — внешний идентификатор
+- `fileType` — расширения файлов
+- `linkIblockId` — связанный инфоблок
+- `withDescription` — описание у значения
+- `searchable` — участие в поиске
+- `filtrable` — участие в фильтрации
+- `isRequired` — обязательность
+- `hint` — подсказка
 - `controlId` — имя поля свойства в формах инфоблока ||
 || **select**
 [`array`](../../data-types.md) | Массив строк с именами свойств описания, которые нужно вернуть в ответе.
@@ -360,7 +377,7 @@ HTTP-статус: **200**
 || **name**
 [`string`](../../data-types.md) | Имя поля ||
 || **type**
-[`string`](../../data-types.md) | Тип в метаданных: `int` или `string`. У `multiple` и `isRequired` — `string`: значения передаются строками `Y` и `N` ||
+[`string`](../../data-types.md) | Тип в метаданных: `int`, `string`, `bool`, `array` или `object`. У `timestampX` — `object`: методы get и list возвращают дату строкой в формате ISO 8601 ||
 || **title**
 [`string`](../../data-types.md) | Заголовок поля. Совпадает с `name` ||
 || **description**
@@ -368,15 +385,15 @@ HTTP-статус: **200**
 || **validationRules**
 [`array`](../../data-types.md) | Правила валидации. Для полей свойства — пустой массив ||
 || **requiredGroups**
-[`array`](../../data-types.md) или `null` | Операции, в которых поле обязательно. Для `iblockId` и `name` — `["add"]`, для остальных полей — `null` ||
+[`array`](../../data-types.md) или `null` | Операции, в которых поле обязательно. Для `iblockId`, `name` и `propertyType` — `["add"]`, для остальных полей — `null` ||
 || **filterable**
-[`boolean`](../../data-types.md) | `true` — поле доступно для фильтрации. Для всех полей — `false` ||
+[`boolean`](../../data-types.md) | `true` — по полю можно фильтровать в [catalog.product.property.list](./catalog-product-property-list-rest-v3.md) ||
 || **sortable**
-[`boolean`](../../data-types.md) | `true` — поле доступно для сортировки. Для всех полей — `false` ||
+[`boolean`](../../data-types.md) | `true` — по полю можно сортировать в [catalog.product.property.list](./catalog-product-property-list-rest-v3.md) ||
 || **editable**
-[`boolean`](../../data-types.md) | `true` — поле можно передавать в операциях из `editableGroups`. Для `id` и `controlId` — `false` ||
+[`boolean`](../../data-types.md) | `true` — поле можно передавать в операциях из `editableGroups`. Для `id`, `timestampX` и `controlId` — `false` ||
 || **editableGroups**
-[`array`](../../data-types.md) или `null` | Операции, в которых поле можно задавать. Для `iblockId`, `name`, `sort`, `code`, `multiple` и `isRequired` — `["add"]`, для `id` и `controlId` — `null` ||
+[`array`](../../data-types.md) или `null` | Операции, в которых поле можно задавать. Для `iblockId` — `["add"]`: каталог свойства после создания изменить нельзя. Для `id`, `timestampX` и `controlId` — `null`, для остальных полей — `["add","update"]` ||
 || **multiple**
 [`boolean`](../../data-types.md) | Признак множественного значения. Для всех полей — `false` ||
 || **elementType**

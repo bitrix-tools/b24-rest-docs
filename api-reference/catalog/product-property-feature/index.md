@@ -54,6 +54,18 @@
 
 **Свойство товара или вариации.** Параметр связан со свойством через `propertyId`. Свойствами товара или вариации управляйте методами [catalog.productProperty.*](../product-property/index.md).
 
+## Параметры в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) у параметров свойств свои методы. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`. Описание полей возвращают два метода: [catalog.product.property.feature.field.list](./catalog-product-property-feature-field-list.md) — всех полей, аналог [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md), и [catalog.product.property.feature.field.get](./catalog-product-property-feature-field-get.md) — одного поля по имени.
+
+Особенности методов новой версии:
+
+- метод [catalog.product.property.feature.update](./catalog-product-property-feature-update-rest-v3.md) находит параметр по `id` и меняет только `isEnabled`. Поля `propertyId`, `moduleId` и `featureId` изменить нельзя
+- признак `isEnabled` передается и возвращается как `true` или `false`, а не `Y` или `N`
+- если параметр у свойства уже есть, метод [catalog.product.property.feature.add](./catalog-product-property-feature-add-rest-v3.md) вернет ошибку `The feature is already assigned to the property`
+- метод [catalog.product.property.feature.available.list](./catalog-product-property-feature-available-list.md) с фильтром по `propertyId` возвращает параметры, доступные свойству. Описание его полей возвращают методы [catalog.product.property.feature.available.field.list](./catalog-product-property-feature-available-field-list.md) и [catalog.product.property.feature.available.field.get](./catalog-product-property-feature-available-field-get.md)
+- метода удаления параметра нет и в новой версии. Чтобы параметр перестал действовать, выключите его: `isEnabled: false`
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
@@ -61,13 +73,23 @@
 > Кто может выполнять методы:
 > - пользователь с правом «Просмотр каталога товаров» — для получения параметров, доступных параметров и описания полей
 > - пользователь с правом «Просмотр каталога товаров» и правом на изменение инфоблока свойства — для добавления и изменения
+> - любой пользователь — для описания полей в REST 3.0: `catalog.product.property.feature.field.*` и `catalog.product.property.feature.available.field.*`
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.productPropertyFeature.add](./catalog-product-property-feature-add.md) | Добавляет параметр свойства товара или вариации ||
+|| [catalog.product.property.feature.add](./catalog-product-property-feature-add-rest-v3.md) | Добавляет параметр свойства товара или вариации v 3.0 ||
 || [catalog.productPropertyFeature.update](./catalog-product-property-feature-update.md) | Изменяет параметр свойства товара или вариации ||
+|| [catalog.product.property.feature.update](./catalog-product-property-feature-update-rest-v3.md) | Изменяет параметр свойства товара или вариации v 3.0 ||
 || [catalog.productPropertyFeature.get](./catalog-product-property-feature-get.md) | Возвращает параметр свойства по идентификатору ||
+|| [catalog.product.property.feature.get](./catalog-product-property-feature-get-rest-v3.md) | Возвращает параметр свойства по идентификатору v 3.0 ||
 || [catalog.productPropertyFeature.list](./catalog-product-property-feature-list.md) | Возвращает список параметров свойств товаров и вариаций ||
+|| [catalog.product.property.feature.list](./catalog-product-property-feature-list-rest-v3.md) | Возвращает список параметров свойств товаров и вариаций v 3.0 ||
 || [catalog.productPropertyFeature.getAvailableFeaturesByProperty](./catalog-product-property-feature-get-available-features-by-property.md) | Возвращает доступные параметры для указанного свойства ||
+|| [catalog.product.property.feature.available.list](./catalog-product-property-feature-available-list.md) | Возвращает доступные параметры для указанного свойства v 3.0 ||
 || [catalog.productPropertyFeature.getFields](./catalog-product-property-feature-get-fields.md) | Возвращает описание полей параметра свойства ||
+|| [catalog.product.property.feature.field.list](./catalog-product-property-feature-field-list.md) | Возвращает описание полей параметра свойства v 3.0 ||
+|| [catalog.product.property.feature.field.get](./catalog-product-property-feature-field-get.md) | Возвращает описание поля параметра свойства ||
+|| [catalog.product.property.feature.available.field.list](./catalog-product-property-feature-available-field-list.md) | Возвращает описание полей доступного параметра свойства ||
+|| [catalog.product.property.feature.available.field.get](./catalog-product-property-feature-available-field-get.md) | Возвращает описание поля доступного параметра свойства ||
 |#

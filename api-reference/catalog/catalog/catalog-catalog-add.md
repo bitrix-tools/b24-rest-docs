@@ -84,7 +84,7 @@
 
 Передавайте вместе с `productIblockId`.
 
-Идентификатор можно получить методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md).
+Идентификатор можно получить методом [catalog.product.property.list](../product-property/catalog-product-property-list-rest-v3.md).
 
 По умолчанию: `0` ||
 |#

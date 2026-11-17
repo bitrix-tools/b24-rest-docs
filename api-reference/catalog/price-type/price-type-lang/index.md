@@ -35,12 +35,11 @@
 
 ## Переводы в REST 3.0
 
-В [REST 3.0](../../../rest-v3.md) для переводов есть методы добавления, изменения, удаления, получения доступных языков и методы получения схемы полей `catalog.pricetype.lang.field.list` и `catalog.pricetype.lang.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+В [REST 3.0](../../../rest-v3.md) переводы можно добавить, изменить, получить по одному и списком, удалить. Доступные языки возвращает метод [catalog.pricetype.lang.getlanguages](./catalog-price-type-lang-get-languages-rest-v3.md). Описание полей перевода возвращают методы [catalog.pricetype.lang.field.list](./catalog-price-type-lang-field-list.md) и [catalog.pricetype.lang.field.get](./catalog-price-type-lang-field-get.md). Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
 
 Особенности методов новой версии:
 
-- методов получения перевода и списка переводов в новой версии нет. Идентификатор перевода возвращает метод [catalog.pricetype.lang.add](./catalog-price-type-lang-add-rest-v3.md) или метод прежней версии [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md)
-- второй перевод на тот же язык и смена `lang` на язык, для которого перевод уже есть, возвращают ошибку сервера с HTTP-статусом `500`. Перед добавлением проверьте переводы типа цены методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md)
+- второй перевод на тот же язык и смена `lang` на язык, для которого перевод уже есть, возвращают ошибку сервера с HTTP-статусом `500`. Перед добавлением проверьте переводы типа цены методом [catalog.pricetype.lang.list](./catalog-price-type-lang-list-rest-v3.md)
 - имена методов пишутся в нижнем регистре: `catalog.pricetype.lang.getlanguages`
 
 ## Связь переводов с другими объектами
@@ -64,7 +63,9 @@
 || [catalog.priceTypeLang.update](./catalog-price-type-lang-update.md) | Обновляет перевод названия типа цены ||
 || [catalog.pricetype.lang.update](./catalog-price-type-lang-update-rest-v3.md) | Обновляет перевод названия типа цены v 3.0 ||
 || [catalog.priceTypeLang.get](./catalog-price-type-lang-get.md) | Возвращает значения полей перевода названия типа цены ||
+|| [catalog.pricetype.lang.get](./catalog-price-type-lang-get-rest-v3.md) | Возвращает перевод названия типа цены v 3.0 ||
 || [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) | Возвращает список переводов названий типов цен по фильтру ||
+|| [catalog.pricetype.lang.list](./catalog-price-type-lang-list-rest-v3.md) | Возвращает список переводов названий типов цен по фильтру v 3.0 ||
 || [catalog.priceTypeLang.delete](./catalog-price-type-lang-delete.md) | Удаляет перевод названия типа цены ||
 || [catalog.pricetype.lang.delete](./catalog-price-type-lang-delete-rest-v3.md) | Удаляет перевод названия типа цены v 3.0 ||
 || [catalog.priceTypeLang.getLanguages](./catalog-price-type-lang-get-languages.md) | Возвращает доступные для перевода языки ||

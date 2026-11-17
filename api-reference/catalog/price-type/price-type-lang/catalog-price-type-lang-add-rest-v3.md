@@ -57,7 +57,7 @@
 
 {% note warning "" %}
 
-Если у типа цены уже есть перевод на этот язык, метод возвращает HTTP-статус **500** с ошибкой `INTERNAL_SERVER_ERROR`. Проверьте существующие переводы методом [catalog.priceTypeLang.list](./catalog-price-type-lang-list.md) прежней версии API.
+Если у типа цены уже есть перевод на этот язык, метод возвращает HTTP-статус **500** с ошибкой `INTERNAL_SERVER_ERROR`. Проверьте существующие переводы методом [catalog.pricetype.lang.list](./catalog-price-type-lang-list-rest-v3.md).
 
 {% endnote %}
 
@@ -455,6 +455,8 @@ HTTP-статус: **500**
 ## Продолжите изучение
 
 - [{#T}](./catalog-price-type-lang-update-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-get-rest-v3.md)
+- [{#T}](./catalog-price-type-lang-list-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-delete-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-get-languages-rest-v3.md)
 - [{#T}](./catalog-price-type-lang-field-list.md)

@@ -5,13 +5,27 @@ items:
     href: index.md
   - name: Добавить значения списочных свойств
     href: catalog-product-property-enum-add.md
+  - name: Добавить значение списочного свойства v 3.0
+    href: catalog-product-property-enum-add-rest-v3.md
   - name: Изменить значения списочных свойств
     href: catalog-product-property-enum-update.md
+  - name: Изменить значение списочного свойства v 3.0
+    href: catalog-product-property-enum-update-rest-v3.md
   - name: Получить значение списочного свойства
     href: catalog-product-property-enum-get.md
+  - name: Получить значение списочного свойства v 3.0
+    href: catalog-product-property-enum-get-rest-v3.md
   - name: Получить список значений списочных свойств
     href: catalog-product-property-enum-list.md
+  - name: Получить список значений списочных свойств v 3.0
+    href: catalog-product-property-enum-list-rest-v3.md
   - name: Удалить значения списочных свойств
     href: catalog-product-property-enum-delete.md
+  - name: Удалить значение списочного свойства v 3.0
+    href: catalog-product-property-enum-delete-rest-v3.md
   - name: Получить поля значений списочных свойств
     href: catalog-product-property-enum-get-fields.md
+  - name: Получить список полей значения списочного свойства v 3.0
+    href: catalog-product-property-enum-field-list.md
+  - name: Получить поле значения списочного свойства
+    href: catalog-product-property-enum-field-get.md

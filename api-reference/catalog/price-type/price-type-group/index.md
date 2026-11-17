@@ -25,11 +25,11 @@
 
 ## Привязки в REST 3.0
 
-В [REST 3.0](../../../rest-v3.md) для привязок есть методы добавления, удаления и методы получения схемы полей `catalog.pricetype.group.field.list` и `catalog.pricetype.group.field.get`. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
+В [REST 3.0](../../../rest-v3.md) привязки можно добавить, получить списком и удалить. Описание полей привязки возвращают методы [catalog.pricetype.group.field.list](./catalog-price-type-group-field-list.md) и [catalog.pricetype.group.field.get](./catalog-price-type-group-field-get.md). Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
 
 Особенности методов новой версии:
 
-- метода получения списка привязок в новой версии нет. Идентификатор привязки возвращает метод [catalog.pricetype.group.add](./catalog-price-type-group-add-rest-v3.md) или метод прежней версии [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md)
+- получить одну привязку по идентификатору в новой версии нельзя. Найдите ее методом [catalog.pricetype.group.list](./catalog-price-type-group-list-rest-v3.md) с фильтром по `id`, например `[["id","=",85]]`
 - привязку нельзя изменить. Чтобы поменять группу или тип доступа, удалите привязку и создайте новую
 - при создании типа цены Битрикс24 сам добавляет две привязки к группе `1`: на просмотр и на покупку. Повторная такая привязка вернет ошибку
 - имена методов пишутся в нижнем регистре: `catalog.pricetype.group.add`
@@ -38,14 +38,12 @@
 
 **Тип цены.** Привязка создается для конкретного типа цены в поле `catalogGroupId`. Получить идентификатор типа цены можно методами [catalog.priceType.list](../catalog-price-type-list.md) и [catalog.priceType.get](../catalog-price-type-get.md).
 
-**Группа покупателей.** Привязка создается для конкретной группы покупателей в поле `groupId`. Для существующих привязок `groupId` можно получить через метод [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md).
+**Группа покупателей.** Привязка создается для конкретной группы покупателей в поле `groupId`. Для существующих привязок `groupId` можно получить методом [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md) или [catalog.pricetype.group.list](./catalog-price-type-group-list-rest-v3.md).
 
-**Тип доступа.** Поле `access` задает права группы на тип цены.
+**Тип доступа.** Поле `access` задает права группы на тип цены. В прежней версии API это строка `Y` или `N`, в REST 3.0 — `true` или `false`:
 
-Доступные значения:
-
-- `Y` — группа может покупать по типу цены
-- `N` — группа может только просматривать тип цены
+- `Y` или `true` — группа может покупать по типу цены
+- `N` или `false` — группа может только просматривать тип цены
 
 ## Обзор методов {#all-methods}
 
@@ -60,6 +58,7 @@
 || [catalog.priceTypeGroup.add](./catalog-price-type-group-add.md) | Добавляет привязку типа цены к группе покупателей ||
 || [catalog.pricetype.group.add](./catalog-price-type-group-add-rest-v3.md) | Добавляет привязку типа цены к группе покупателей v 3.0 ||
 || [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md) | Возвращает список привязок типов цен к группам покупателей ||
+|| [catalog.pricetype.group.list](./catalog-price-type-group-list-rest-v3.md) | Возвращает список привязок типов цен к группам покупателей v 3.0 ||
 || [catalog.priceTypeGroup.delete](./catalog-price-type-group-delete.md) | Удаляет привязку типа цены к группе покупателей ||
 || [catalog.pricetype.group.delete](./catalog-price-type-group-delete-rest-v3.md) | Удаляет привязку типа цены к группе покупателей v 3.0 ||
 || [catalog.priceTypeGroup.getFields](./catalog-price-type-group-get-fields.md) | Возвращает поля привязки типов цен к группам покупателей ||

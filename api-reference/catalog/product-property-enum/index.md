@@ -45,6 +45,17 @@
 
 **Карточка товара.** Если у товара или вариации есть свойство типа `Список`, в поле этого свойства передается `id` нужного значения.
 
+## Значения в REST 3.0
+
+В [REST 3.0](../../rest-v3.md) у значений списочных свойств свои методы. Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`. Описание полей возвращают два метода: [catalog.product.property.enum.field.list](./catalog-product-property-enum-field-list.md) — всех полей, аналог [catalog.productPropertyEnum.getFields](./catalog-product-property-enum-get-fields.md), и [catalog.product.property.enum.field.get](./catalog-product-property-enum-field-get.md) — одного поля по имени.
+
+Особенности методов новой версии:
+
+- метод [catalog.product.property.enum.update](./catalog-product-property-enum-update-rest-v3.md) меняет только переданные поля: `value` и `xmlId` при каждом вызове передавать не нужно. Перенести значение в другое свойство нельзя: если передать `propertyId`, метод вернет ошибку
+- признак `def` передается как `true` или `false`, а не `Y` или `N`. Методы не снимают признак с других значений свойства, поэтому значений по умолчанию может оказаться несколько
+- внешний код `xmlId` должен быть уникальным среди значений всех списочных свойств Битрикс24, а не только одного свойства
+- метод [catalog.product.property.enum.list](./catalog-product-property-enum-list-rest-v3.md) не принимает в фильтре отрицание по `propertyId` и не сортирует по `def`
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
@@ -52,13 +63,21 @@
 > Кто может выполнять методы:
 > - пользователь с правом «Просмотр каталога товаров» — для получения значений и описания полей
 > - пользователь с правом «Просмотр каталога товаров» и правом на изменение инфоблока свойства — для добавления, изменения и удаления
+> - любой пользователь — для описания полей в REST 3.0, методов `catalog.product.property.enum.field.*`
 
 #|
 || **Метод** | **Описание** ||
 || [catalog.productPropertyEnum.add](./catalog-product-property-enum-add.md) | Добавляет значение списочного свойства ||
+|| [catalog.product.property.enum.add](./catalog-product-property-enum-add-rest-v3.md) | Добавляет значение списочного свойства v 3.0 ||
 || [catalog.productPropertyEnum.update](./catalog-product-property-enum-update.md) | Изменяет значение списочного свойства ||
+|| [catalog.product.property.enum.update](./catalog-product-property-enum-update-rest-v3.md) | Изменяет значение списочного свойства v 3.0 ||
 || [catalog.productPropertyEnum.get](./catalog-product-property-enum-get.md) | Возвращает значение списочного свойства по идентификатору ||
+|| [catalog.product.property.enum.get](./catalog-product-property-enum-get-rest-v3.md) | Возвращает значение списочного свойства по идентификатору v 3.0 ||
 || [catalog.productPropertyEnum.list](./catalog-product-property-enum-list.md) | Возвращает список значений списочных свойств по фильтру ||
+|| [catalog.product.property.enum.list](./catalog-product-property-enum-list-rest-v3.md) | Возвращает список значений списочных свойств по фильтру v 3.0 ||
 || [catalog.productPropertyEnum.delete](./catalog-product-property-enum-delete.md) | Удаляет значение списочного свойства ||
+|| [catalog.product.property.enum.delete](./catalog-product-property-enum-delete-rest-v3.md) | Удаляет значение списочного свойства v 3.0 ||
 || [catalog.productPropertyEnum.getFields](./catalog-product-property-enum-get-fields.md) | Возвращает описание полей значения списочного свойства ||
+|| [catalog.product.property.enum.field.list](./catalog-product-property-enum-field-list.md) | Возвращает описание полей значения списочного свойства v 3.0 ||
+|| [catalog.product.property.enum.field.get](./catalog-product-property-enum-field-get.md) | Возвращает описание поля значения списочного свойства ||
 |#

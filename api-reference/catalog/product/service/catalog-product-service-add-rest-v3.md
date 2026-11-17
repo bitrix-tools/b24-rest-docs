@@ -247,7 +247,7 @@
 || **properties**
 [`object`](../../../data-types.md) | Значения свойств услуги. Ключи — `PROPERTY_{id}`, где `{id}` — идентификатор свойства, например `{"PROPERTY_301": "SRV-001"}`. Для множественного свойства передайте массив значений.
 
-Идентификаторы свойств можно получить методом [catalog.productProperty.list](../../product-property/catalog-product-property-list.md) или [catalog.product.fields.getbyfilter](../catalog-product-fields-get-by-filter.md) ||
+Идентификаторы свойств можно получить методом [catalog.product.property.list](../../product-property/catalog-product-property-list-rest-v3.md) или [catalog.product.fields.getbyfilter](../catalog-product-fields-get-by-filter.md) ||
 |#
 
 Тип услуги `type` Битрикс24 задает сам. Поля `id`, `dateCreate`, `timestampX`, `type`, `available` и `bundle` только для чтения, их передача вызывает ошибку. Цену услуги задайте методом [catalog.price.add](../../price/catalog-price-add-rest-v3.md).

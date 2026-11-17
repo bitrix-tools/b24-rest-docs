@@ -31,7 +31,7 @@
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор привязки.
 
-Идентификатор возвращает метод [catalog.pricetype.group.add](./catalog-price-type-group-add-rest-v3.md). В REST 3.0 нет метода получения списка привязок, идентификаторы существующих привязок возвращает метод [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md) прежней версии API ||
+Идентификатор возвращает метод [catalog.pricetype.group.add](./catalog-price-type-group-add-rest-v3.md). Идентификаторы существующих привязок возвращает метод [catalog.pricetype.group.list](./catalog-price-type-group-list-rest-v3.md) ||
 |#
 
 ## Примеры кода
@@ -321,7 +321,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с ID = `#ID#` не найдена | Привязки с таким идентификатором нет. Проверьте идентификатор методом [catalog.priceTypeGroup.list](./catalog-price-type-group-list.md) ||
+|| `id` | Запись с ID = `#ID#` не найдена | Привязки с таким идентификатором нет. Проверьте идентификатор методом [catalog.pricetype.group.list](./catalog-price-type-group-list-rest-v3.md) ||
 |#
 
 #### Ошибка доступа
@@ -338,5 +338,6 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./catalog-price-type-group-add-rest-v3.md)
+- [{#T}](./catalog-price-type-group-list-rest-v3.md)
 - [{#T}](./catalog-price-type-group-field-list.md)
 - [{#T}](./catalog-price-type-group-field-get.md)

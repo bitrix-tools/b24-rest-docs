@@ -74,7 +74,7 @@
 
 Передавайте вместе с `productIblockId`.
 
-Идентификатор можно получить методом [catalog.productProperty.list](../product-property/catalog-product-property-list.md) ||
+Идентификатор можно получить методом [catalog.product.property.list](../product-property/catalog-product-property-list-rest-v3.md) ||
 |#
 
 Поле `iblockId` после создания каталога изменить нельзя. Поля `id`, `iblockTypeId`, `lid` и `name` только для чтения.

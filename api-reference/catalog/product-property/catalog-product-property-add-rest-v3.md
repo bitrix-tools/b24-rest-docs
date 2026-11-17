@@ -19,13 +19,7 @@
 
 {% endnote %}
 
-Метод `catalog.product.property.add` добавляет строковое свойство товара или вариации в торговый каталог.
-
-{% note warning "" %}
-
-В ответе заполнены только `id` и `controlId`, остальные поля приходят со значением `null`. Сохраненные значения свойства можно получить методом [catalog.productProperty.get](./catalog-product-property-get.md).
-
-{% endnote %}
+Метод `catalog.product.property.add` добавляет свойство товаров или вариаций в торговый каталог и возвращает поля нового свойства.
 
 ## Параметры метода
 
@@ -35,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Объект с полями нового свойства. [Описание полей](#fields) ||
+[`object`](../../data-types.md) | Объект с полями нового свойства. Обязательные поля — `iblockId`, `name` и `propertyType`. [Описание полей](#fields) ||
 |#
 
 ### Параметр fields {#fields}
@@ -44,42 +38,143 @@
 || **Название**
 `тип` | **Описание** ||
 || **iblockId***
-[`integer`](../../data-types.md) | Идентификатор торгового каталога, в который нужно добавить свойство. Для свойства товара передайте каталог товаров, для свойства вариации — каталог вариаций.
+[`integer`](../../data-types.md) | Идентификатор торгового каталога. У товаров и вариаций разные каталоги: для свойства товаров передайте идентификатор каталога товаров, для свойства вариаций — идентификатор каталога вариаций.
 
-Идентификатор можно получить методом [catalog.catalog.list](../catalog/catalog-catalog-list-rest-v3.md).
+Оба идентификатора можно получить методом [catalog.catalog.list](../catalog/catalog-catalog-list-rest-v3.md). У каталога вариаций в ответе заполнено поле `productIblockId`.
 
-Метод не проверяет, что инфоблок является торговым каталогом, и добавит свойство в любой существующий инфоблок ||
+После создания свойства каталог изменить нельзя ||
 || **name***
-[`string`](../../data-types.md) | Название свойства. Пустая строка вызывает ошибку валидации ||
-|| **code**
-[`string`](../../data-types.md) | Символьный код свойства, например `MATERIAL`. Метод не проверяет уникальность кода ||
+[`string`](../../data-types.md) | Название свойства. Пустая строка вызывает ошибку ||
+|| **propertyType***
+[`string`](../../data-types.md) | Базовый тип свойства.
+
+Возможные значения:
+
+- `N` — число
+- `S` — строка
+- `L` — список
+- `F` — файл
+- `E` — привязка к элементам
+- `G` — привязка к разделам
+
+Сочетания `propertyType` и `userType`, которые поддерживает карточка товара, возвращает метод [catalog.product.property.type.list](./catalog-product-property-type-list.md) ||
+|| **userType**
+[`string`](../../data-types.md) | Пользовательский тип свойства. Он уточняет базовый тип `propertyType` и передается вместе с ним. Например, свойство с датой и временем — это `propertyType` = `S` и `userType` = `DateTime`.
+
+Основные значения и базовый тип `propertyType`, с которым их нужно передавать:
+
+- `DateTime` — дата и время, `S`
+- `Money` — деньги с валютой, `S`
+- `HTML` — текст в формате HTML, `S`
+- `employee` — привязка к сотруднику, `S`
+- `ECrm` — привязка к элементам CRM, `S`
+- `directory` — привязка к справочнику, `S`
+- `SKU` — привязка к вариациям, `E`
+- `EList` — привязка к элементам в виде списка, `E`
+- `SectionAuto` — привязка к разделам с автозаполнением, `G`
+- `BoolEnum` — флажок, `L`
+
+`BoolEnum` создает свойство-флажок: список с одним значением `Y` в виде флажка. В ответе тип `BoolEnum` не виден: `userType` равно `null`, а `listType` — `C`. Задать `BoolEnum` можно только при добавлении свойства.
+
+Если `userType` не подходит к `propertyType` или такого типа нет, метод вернет ошибку ||
+|| **userTypeSettings**
+[`object`](../../data-types.md) | Настройки пользовательского типа. Передавайте только вместе с `userType`, иначе метод вернет ошибку.
+
+Значения могут быть строками, числами, логическими значениями или вложенными объектами с такими значениями. Ключи, которых нет у типа, метод отбрасывает без ошибки: например, у `HTML` сохранится `height`, а неизвестный ключ — нет. Сохраненные настройки возвращаются в ответе в `userTypeSettings` ||
+|| **active**
+[`boolean`](../../data-types.md) | Активность свойства.
+
+Возможные значения:
+
+- `true` — свойство активно
+- `false` — свойство неактивно
+
+По умолчанию: `true` ||
 || **sort**
 [`integer`](../../data-types.md) | Сортировка.
 
 По умолчанию: `100` ||
+|| **code**
+[`string`](../../data-types.md) | Символьный код свойства, например `LINING_MATERIAL`. Код может состоять из латинских букв, цифр и знака подчеркивания и не может начинаться с цифры.
+
+Метод не проверяет, что код уникален: два свойства могут получить один код. Свободен ли код, можно проверить методом [catalog.product.property.list](./catalog-product-property-list-rest-v3.md) с фильтром по `code` ||
+|| **defaultValue**
+[`string`](../../data-types.md) | Значение свойства по умолчанию ||
+|| **rowCount**
+[`integer`](../../data-types.md) | Число строк поля ввода.
+
+По умолчанию: `1` ||
+|| **colCount**
+[`integer`](../../data-types.md) | Число колонок поля ввода.
+
+По умолчанию: `30` ||
+|| **listType**
+[`string`](../../data-types.md) | Внешний вид свойства типа `L`.
+
+Возможные значения:
+
+- `L` — выпадающий список
+- `C` — флажки
+
+По умолчанию: `L` ||
 || **multiple**
-[`string`](../../data-types.md) | Множественное свойство.
+[`boolean`](../../data-types.md) | Множественное свойство.
 
 Возможные значения:
 
-- `Y` — свойство множественное
-- `N` — свойство одиночное
+- `true` — свойство хранит несколько значений
+- `false` — одно значение
 
-Любое другое строковое значение сохраняется как `N`.
+По умолчанию: `false` ||
+|| **multipleCnt**
+[`integer`](../../data-types.md) | Число полей для ввода множественных значений ||
+|| **xmlId**
+[`string`](../../data-types.md) | Внешний идентификатор свойства ||
+|| **fileType**
+[`string`](../../data-types.md) | Список расширений файлов для свойства типа `F`, например `jpg, png` ||
+|| **linkIblockId**
+[`integer`](../../data-types.md) | Для свойств типа `E` и `G` — идентификатор инфоблока, к элементам или разделам которого привязано свойство ||
+|| **withDescription**
+[`boolean`](../../data-types.md) | К значению свойства можно добавить описание.
 
-По умолчанию: `N` ||
+Возможные значения:
+
+- `true` — да
+- `false` — нет
+
+По умолчанию: `false` ||
+|| **searchable**
+[`boolean`](../../data-types.md) | Значения свойства участвуют в поиске.
+
+Возможные значения:
+
+- `true` — да
+- `false` — нет
+
+По умолчанию: `false` ||
+|| **filtrable**
+[`boolean`](../../data-types.md) | Свойство участвует в фильтрации товаров.
+
+Возможные значения:
+
+- `true` — да
+- `false` — нет
+
+По умолчанию: `false` ||
 || **isRequired**
-[`string`](../../data-types.md) | Обязательное свойство.
+[`boolean`](../../data-types.md) | Свойство обязательно для заполнения в карточке товара.
 
 Возможные значения:
 
-- `Y` — свойство обязательно для заполнения в карточке товара
-- `N` — свойство необязательно
+- `true` — да
+- `false` — нет
 
-По умолчанию: `N` ||
+По умолчанию: `false` ||
+|| **hint**
+[`string`](../../data-types.md) | Подсказка к полю свойства ||
 |#
 
-Тип свойства задать нельзя: метод всегда создает строковое свойство.
+Флаги `active`, `multiple`, `withDescription`, `searchable`, `filtrable` и `isRequired` передаются значениями `true` или `false`. Строки `Y` и `N` вызывают ошибку.
 
 ## Примеры кода
 
@@ -101,7 +196,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":25,"name":"Материал","code":"MATERIAL","sort":500,"multiple":"N","isRequired":"N"}}' \
+    -d '{"fields":{"iblockId":25,"name":"Материал подкладки","propertyType":"S","code":"LINING_MATERIAL","sort":500,"filtrable":true,"hint":"Из чего сделана подкладка"}}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/catalog.product.property.add
     ```
 
@@ -111,7 +206,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"iblockId":25,"name":"Материал","code":"MATERIAL","sort":500,"multiple":"N","isRequired":"N"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"iblockId":25,"name":"Материал подкладки","propertyType":"S","code":"LINING_MATERIAL","sort":500,"filtrable":true,"hint":"Из чего сделана подкладка"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/catalog.product.property.add
     ```
 
@@ -126,12 +221,15 @@
     type ProductPropertyAddResult = {
       item: {
         id: number
-        iblockId: number | null
-        name: string | null
-        sort: number | null
+        iblockId: number
+        name: string
+        propertyType: string
+        userType: string | null
         code: string | null
-        multiple: string | null
-        isRequired: string | null
+        sort: number
+        active: boolean
+        multiple: boolean
+        isRequired: boolean
         controlId: string
       }
     }
@@ -142,11 +240,12 @@
         params: {
           fields: {
             iblockId: 25,
-            name: 'Материал',
-            code: 'MATERIAL',
+            name: 'Материал подкладки',
+            propertyType: 'S',
+            code: 'LINING_MATERIAL',
             sort: 500,
-            multiple: 'N',
-            isRequired: 'N',
+            filtrable: true,
+            hint: 'Из чего сделана подкладка',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -178,11 +277,12 @@
             params: {
               fields: {
                 iblockId: 25,
-                name: 'Материал',
-                code: 'MATERIAL',
+                name: 'Материал подкладки',
+                propertyType: 'S',
+                code: 'LINING_MATERIAL',
                 sort: 500,
-                multiple: 'N',
-                isRequired: 'N',
+                filtrable: true,
+                hint: 'Из чего сделана подкладка',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -207,27 +307,40 @@
 
 - Python
 
+    У методов `catalog.product.property.*` REST 3.0 нет готовых оберток в `b24pysdk`, и SDK отправляет в REST 3.0 только методы из списка `Config().api_v3_methods`. Добавьте метод в этот список и вызовите его через `call_method` токена клиента с `prefer_version=3`.
+
     ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
+    from b24pysdk import Config
+    from b24pysdk.errors import BitrixSDKException
+    from b24pysdk.errors.v3 import BitrixAPIError
+
+    method = "catalog.product.property.add"
+    Config().configure(api_v3_methods=Config().api_v3_methods | {method})
+    bitrix_token = client.get_token()
 
     try:
-        bitrix_response = client.catalog.product.property.add(
-            fields={
-                "iblockId": 25,
-                "name": "Материал",
-                "code": "MATERIAL",
-                "sort": 500,
-                "multiple": "N",
-                "isRequired": "N",
+        response = bitrix_token.call_method(
+            api_method=method,
+            params={
+                "fields": {
+                    "iblockId": 25,
+                    "name": "Материал подкладки",
+                    "propertyType": "S",
+                    "code": "LINING_MATERIAL",
+                    "sort": 500,
+                    "filtrable": True,
+                    "hint": "Из чего сделана подкладка",
+                },
             },
-        ).response
-        result = bitrix_response.result
+            prefer_version=3,
+        )
+        result = response["result"]
         print(result)
     except BitrixAPIError as error:
         print(
             "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
+            f"code: {error.code}",
+            f"message: {error.error.message}",
             sep="\n",
         )
     except BitrixSDKException as error:
@@ -249,11 +362,12 @@
                 [
                     'fields' => [
                         'iblockId' => 25,
-                        'name' => 'Материал',
-                        'code' => 'MATERIAL',
+                        'name' => 'Материал подкладки',
+                        'propertyType' => 'S',
+                        'code' => 'LINING_MATERIAL',
                         'sort' => 500,
-                        'multiple' => 'N',
-                        'isRequired' => 'N',
+                        'filtrable' => true,
+                        'hint' => 'Из чего сделана подкладка',
                     ],
                 ]
             );
@@ -278,11 +392,12 @@
         {
             fields: {
                 iblockId: 25,
-                name: 'Материал',
-                code: 'MATERIAL',
+                name: 'Материал подкладки',
+                propertyType: 'S',
+                code: 'LINING_MATERIAL',
                 sort: 500,
-                multiple: 'N',
-                isRequired: 'N',
+                filtrable: true,
+                hint: 'Из чего сделана подкладка',
             },
         },
         result => {
@@ -306,11 +421,12 @@
         [
             'fields' => [
                 'iblockId' => 25,
-                'name' => 'Материал',
-                'code' => 'MATERIAL',
+                'name' => 'Материал подкладки',
+                'propertyType' => 'S',
+                'code' => 'LINING_MATERIAL',
                 'sort' => 500,
-                'multiple' => 'N',
-                'isRequired' => 'N',
+                'filtrable' => true,
+                'hint' => 'Из чего сделана подкладка',
             ],
         ]
     );
@@ -326,32 +442,31 @@
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "catalog.product.property.add", b24.Params{
     	"fields": b24.Params{
-    		"iblockId":   25,
-    		"name":       "Материал",
-    		"code":       "MATERIAL",
-    		"sort":       500,
-    		"multiple":   "N",
-    		"isRequired": "N",
+    		"iblockId":     25,
+    		"name":         "Материал подкладки",
+    		"propertyType": "S",
+    		"code":         "LINING_MATERIAL",
+    		"sort":         500,
+    		"filtrable":    true,
+    		"hint":         "Из чего сделана подкладка",
     	},
     })
     if err != nil {
     	return fmt.Errorf("catalog.product.property.add: %w", err)
     }
 
-    // Метод заворачивает ответ в объект с ключом "item".
-    raw, ok := b24.Unwrap(res.Result, "item")
-    if !ok {
-    	return fmt.Errorf("в ответе нет ключа item")
+    var result struct {
+    	Item struct {
+    		ID           int    `json:"id"`
+    		Name         string `json:"name"`
+    		PropertyType string `json:"propertyType"`
+    		ControlID    string `json:"controlId"`
+    	} `json:"item"`
     }
-
-    var item struct {
-    	ID        int    `json:"id"`
-    	ControlID string `json:"controlId"`
-    }
-    if err := json.Unmarshal(raw, &item); err != nil {
+    if err := json.Unmarshal(res.Result, &result); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.ID, item.ControlID)
+    fmt.Println(result.Item.ID, result.Item.Name, result.Item.PropertyType, result.Item.ControlID)
     ```
 
 {% endlist %}
@@ -364,24 +479,41 @@ HTTP-статус: **200**
 {
     "result": {
         "item": {
-            "id": 1231,
-            "iblockId": null,
-            "name": null,
-            "sort": null,
-            "code": null,
-            "multiple": null,
-            "isRequired": null,
-            "controlId": "PROPERTY_1231"
+            "id": 1291,
+            "timestampX": "2026-11-17T16:40:30+03:00",
+            "iblockId": 25,
+            "name": "Материал подкладки",
+            "active": true,
+            "sort": 500,
+            "code": "LINING_MATERIAL",
+            "defaultValue": null,
+            "propertyType": "S",
+            "userType": null,
+            "userTypeSettings": [],
+            "rowCount": 1,
+            "colCount": 30,
+            "listType": "L",
+            "multiple": false,
+            "multipleCnt": null,
+            "xmlId": null,
+            "fileType": null,
+            "linkIblockId": null,
+            "withDescription": false,
+            "searchable": false,
+            "filtrable": true,
+            "isRequired": false,
+            "hint": "Из чего сделана подкладка",
+            "controlId": "PROPERTY_1291"
         }
     },
     "time": {
-        "start": 1792660313,
-        "finish": 1792660313.118533,
-        "duration": 0.11853289604187012,
+        "start": 1794922830,
+        "finish": 1794922830.333162,
+        "duration": 0.3331620693206787,
         "processing": 0,
-        "date_start": "2026-10-22T12:11:53+03:00",
-        "date_finish": "2026-10-22T12:11:53+03:00",
-        "operating_reset_at": 1792660860,
+        "date_start": "2026-11-17T16:40:30+03:00",
+        "date_finish": "2026-11-17T16:40:30+03:00",
+        "operating_reset_at": 1794923400,
         "operating": 0
     }
 }
@@ -406,21 +538,67 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../data-types.md) | Идентификатор созданного свойства ||
+[`integer`](../../data-types.md) | Идентификатор свойства ||
+|| **timestampX**
+[`datetime`](../../data-types.md) | Дата и время последнего изменения свойства ||
 || **iblockId**
-`null` | Идентификатор инфоблока. В ответе метода всегда `null` ||
+[`integer`](../../data-types.md) | Идентификатор торгового каталога, к которому относится свойство ||
 || **name**
-`null` | Название свойства. В ответе метода всегда `null` ||
+[`string`](../../data-types.md) | Название свойства ||
+|| **active**
+[`boolean`](../../data-types.md) | Активность свойства:
+- `true` — свойство активно
+- `false` — свойство неактивно ||
 || **sort**
-`null` | Сортировка. В ответе метода всегда `null` ||
+[`integer`](../../data-types.md) | Сортировка ||
 || **code**
-`null` | Символьный код. В ответе метода всегда `null` ||
+[`string`](../../data-types.md) или `null` | Символьный код свойства ||
+|| **defaultValue**
+[`string`](../../data-types.md) или `null` | Значение по умолчанию ||
+|| **propertyType**
+[`string`](../../data-types.md) | Базовый тип свойства:
+- `N` — число
+- `S` — строка
+- `L` — список
+- `F` — файл
+- `E` — привязка к элементам
+- `G` — привязка к разделам ||
+|| **userType**
+[`string`](../../data-types.md) или `null` | Пользовательский тип свойства, например `Money` или `DateTime`. У свойства без пользовательского типа и у свойства-флажка — `null` ||
+|| **userTypeSettings**
+[`object`](../../data-types.md) или [`array`](../../data-types.md) | Настройки пользовательского типа. Если настроек нет — пустой массив `[]` ||
+|| **rowCount**
+[`integer`](../../data-types.md) | Число строк поля ввода ||
+|| **colCount**
+[`integer`](../../data-types.md) | Число колонок поля ввода ||
+|| **listType**
+[`string`](../../data-types.md) | Внешний вид списка:
+- `L` — выпадающий список
+- `C` — флажки ||
 || **multiple**
-`null` | Признак множественного свойства. В ответе метода всегда `null` ||
+[`boolean`](../../data-types.md) | Множественное свойство:
+- `true` — свойство хранит несколько значений
+- `false` — одно значение ||
+|| **multipleCnt**
+[`integer`](../../data-types.md) или `null` | Число полей для ввода множественных значений ||
+|| **xmlId**
+[`string`](../../data-types.md) или `null` | Внешний идентификатор свойства ||
+|| **fileType**
+[`string`](../../data-types.md) или `null` | Расширения файлов для свойства типа `F` ||
+|| **linkIblockId**
+[`integer`](../../data-types.md) или `null` | Для свойств типа `E` и `G` — идентификатор инфоблока, к элементам или разделам которого привязано свойство ||
+|| **withDescription**
+[`boolean`](../../data-types.md) | `true` — к значению свойства можно добавить описание ||
+|| **searchable**
+[`boolean`](../../data-types.md) | `true` — значения свойства участвуют в поиске ||
+|| **filtrable**
+[`boolean`](../../data-types.md) | `true` — свойство участвует в фильтрации товаров ||
 || **isRequired**
-`null` | Признак обязательного свойства. В ответе метода всегда `null` ||
+[`boolean`](../../data-types.md) | `true` — свойство обязательно для заполнения в карточке товара ||
+|| **hint**
+[`string`](../../data-types.md) или `null` | Подсказка к полю свойства ||
 || **controlId**
-[`string`](../../data-types.md) | Имя поля свойства в формах инфоблока в формате `PROPERTY_<id>`, например `PROPERTY_1231` ||
+[`string`](../../data-types.md) | Имя поля свойства в формах инфоблока в формате `PROPERTY_<id>`, например `PROPERTY_1291` ||
 |#
 
 ## Обработка ошибок
@@ -434,8 +612,8 @@ HTTP-статус: **400**
         "message": "Ошибка при валидации объекта",
         "validation": [
             {
-                "message": "Не заполнено обязательное поле \"name\"",
-                "field": "name"
+                "message": "Не заполнено обязательное поле \"propertyType\"",
+                "field": "propertyType"
             }
         ]
     }
@@ -454,8 +632,8 @@ HTTP-статус: **400**
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `iblockId` | Не заполнено обязательное поле "iblockId" | Передайте `iblockId` в `fields` ||
 || `name` | Не заполнено обязательное поле "name" | Передайте `name` в `fields` ||
-|| `id` | Поле "id" не доступно к заполнению | Уберите `id` из `fields` ||
-|| `controlId` | Поле "controlId" не доступно к заполнению | Уберите `controlId` из `fields` ||
+|| `propertyType` | Не заполнено обязательное поле "propertyType" | Передайте `propertyType` в `fields` ||
+|| `#FIELD#` | Поле "#FIELD#" не доступно к заполнению | Уберите из `fields` поля `id`, `timestampX` и `controlId`: их заполняет система ||
 |#
 
 #### Ошибки валидации запроса
@@ -465,12 +643,14 @@ HTTP-статус: **400**
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `fields` | Обязательное поле `fields` не указано | Передайте объект `fields` ||
-|| `iblockId` | В поле `iblockId` требуется тип данных `int` для такого запроса | Передайте число ||
-|| `sort` | В поле `sort` требуется тип данных `int` для такого запроса | Передайте целое число ||
-|| `multiple` | В поле `multiple` требуется тип данных `string` для такого запроса | Передайте строку `Y` или `N`, а не `true` или `false` ||
-|| `isRequired` | В поле `isRequired` требуется тип данных `string` для такого запроса | Передайте строку `Y` или `N`, а не `true` или `false` ||
-|| `-` | Не введено название.`<br>` | Передайте непустую строку в `name` ||
-|| `200040300000` | Iblock Not Found | Инфоблок не найден. Проверьте идентификатор методом [catalog.catalog.list](../catalog/catalog-catalog-list-rest-v3.md) ||
+|| `-` | Required fields: iblockId | Передайте в `iblockId` идентификатор больше `0` ||
+|| `-` | The specified iblock is not a product catalog | Инфоблок не найден или не является торговым каталогом. Проверьте идентификатор методом [catalog.catalog.list](../catalog/catalog-catalog-list-rest-v3.md) ||
+|| `#FIELD#` | В поле `#FIELD#` требуется тип данных `#TYPE#` для такого запроса | Передайте значение нужного типа. Флаги передавайте значениями `true` или `false`, а не строками `Y` и `N` ||
+|| `-` | Не введено название. | Передайте непустую строку в `name` ||
+|| `-` | Invalid property type specified | Передайте `propertyType` из списка возможных значений, а `userType` — подходящий к нему. Сочетания типов возвращает метод [catalog.product.property.type.list](./catalog-product-property-type-list.md) ||
+|| `-` | Custom property type settings are not supported for this property type | Уберите `userTypeSettings` или передайте вместе с ними `userType` ||
+|| `-` | Invalid custom property type settings specified | Передайте в `userTypeSettings` объект, значения которого — строки, числа, логические значения или вложенные объекты с такими значениями ||
+|| `-` | Код свойства не может начинаться с цифры.: `#CODE#` | Начните `code` с латинской буквы или знака подчеркивания ||
 |#
 
 #### Ошибка неизвестного поля
@@ -479,7 +659,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductPropertyDto` | Передайте в `fields` только `iblockId`, `name`, `code`, `sort`, `multiple`, `isRequired`. Поле `propertyType` метод не принимает ||
+|| `-` | Неизвестное поле `#FIELD#` для сущности `ProductPropertyDto` | Передайте в `fields` только поля из описания параметра `fields` ||
 |#
 
 #### Ошибка доступа
@@ -495,7 +675,9 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./catalog-product-property-get.md)
-- [{#T}](./catalog-product-property-list.md)
+- [{#T}](./catalog-product-property-update-rest-v3.md)
+- [{#T}](./catalog-product-property-get-rest-v3.md)
+- [{#T}](./catalog-product-property-list-rest-v3.md)
+- [{#T}](./catalog-product-property-delete-rest-v3.md)
 - [{#T}](./catalog-product-property-field-list.md)
 - [{#T}](./catalog-product-property-type-list.md)

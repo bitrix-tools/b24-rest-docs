@@ -32,7 +32,7 @@
 - поле `base` принимает `true` или `false`. Значение `true` у другого типа снимает признак с прежнего базового типа, а `false` у базового типа оставляет Битрикс24 без базового типа цены
 - новый тип цены открыт для просмотра и покупки только группе администраторов. Доступ другим группам открывают методы `catalog.pricetype.group.*`
 - метод [catalog.pricetype.delete](./catalog-price-type-delete-rest-v3.md) удаляет вместе с типом цены цены этого типа, привязки к группам покупателей, переводы названия и правила округления. Базовый тип удалить нельзя
-- методов получения привязок и переводов в новой версии нет. Используйте методы [catalog.priceTypeGroup.list](./price-type-group/catalog-price-type-group-list.md) и [catalog.priceTypeLang.list](./price-type-lang/catalog-price-type-lang-list.md)
+- у привязок к группам покупателей нет методов `get` и `update`. Привязки получают методом [catalog.pricetype.group.list](./price-type-group/catalog-price-type-group-list-rest-v3.md), а чтобы изменить привязку, ее удаляют и создают заново. Поле `access` принимает `true` или `false`
 
 ## Связь с другими объектами
 

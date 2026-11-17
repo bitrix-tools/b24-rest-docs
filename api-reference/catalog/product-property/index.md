@@ -50,7 +50,7 @@
 ## Как начать работу
 
 1. Получите идентификатор торгового каталога методом [catalog.catalog.list](../catalog/catalog-catalog-list.md)
-2. Создайте свойство методом [catalog.productProperty.add](./catalog-product-property-add.md)
+2. Создайте свойство методом [catalog.productProperty.add](./catalog-product-property-add.md) или [catalog.product.property.add](./catalog-product-property-add-rest-v3.md)
 3. Если свойство должно быть доступно только в определенных разделах, настройте привязку методами [catalog.productPropertySection.*](../product-property-section/index.md)
 4. Если свойство имеет тип Список, добавьте значения методами [catalog.productPropertyEnum.*](../product-property-enum/index.md)
 5. Используйте код свойства в методах товаров, услуг, головных товаров или вариаций
@@ -58,27 +58,28 @@
 ## Ограничения и особенности
 
 - Свойства создаются только в торговом каталоге. Если передать инфоблок, который не является каталогом, метод `catalog.productProperty.add` вернет ошибку, а `catalog.productProperty.list` — пустой список
-- В `catalog.productProperty.update` поле `iblockId` обязательно, даже если меняется только название
+- В `catalog.productProperty.update` поле `iblockId` обязательно, даже если меняется только название. В `catalog.product.property.update` его передавать нельзя
 - Удаление свойства удаляет его значения у всех товаров и вариаций. Отменить удаление нельзя
-- Флаги свойства передаются строками `Y` или `N`
+- В методах `catalog.productProperty.*` флаги свойства передаются строками `Y` или `N`, в методах REST 3.0 — значениями `true` или `false`
 
 ## Свойства в REST 3.0
 
-В [REST 3.0](../../rest-v3.md) для свойств есть метод добавления [catalog.product.property.add](./catalog-product-property-add-rest-v3.md), методы получения схемы полей `catalog.product.property.field.list` и `catalog.product.property.field.get` и справочник типов свойств [catalog.product.property.type.list](./catalog-product-property-type-list.md). Получить, изменить и удалить свойство можно методами прежней версии API.
+В [REST 3.0](../../rest-v3.md) свойства добавляют, изменяют, получают и удаляют методы [catalog.product.property.add](./catalog-product-property-add-rest-v3.md), [catalog.product.property.update](./catalog-product-property-update-rest-v3.md), [catalog.product.property.get](./catalog-product-property-get-rest-v3.md), [catalog.product.property.list](./catalog-product-property-list-rest-v3.md) и [catalog.product.property.delete](./catalog-product-property-delete-rest-v3.md). Описание полей свойства возвращают методы `catalog.product.property.field.list` и `catalog.product.property.field.get`, а список типов свойств — метод [catalog.product.property.type.list](./catalog-product-property-type-list.md). Методы, которые есть в обеих версиях API, помечены в таблице как `v 3.0`.
 
-Особенности метода добавления:
+Методы REST 3.0 отличаются от прежних:
 
-- метод создает строковое свойство, тип свойства передать нельзя
-- флаги `multiple` и `isRequired` тоже передаются строками `Y` или `N`, а не `true` или `false`
-- в ответе заполнены только `id` и `controlId`. Значения полей нового свойства можно получить методом [catalog.productProperty.get](./catalog-product-property-get.md)
+- флаги `active`, `multiple`, `searchable`, `filtrable`, `isRequired` и `withDescription` передаются и возвращаются значениями `true` или `false`, а не строками `Y` и `N`
+- методы добавления и изменения возвращают все поля свойства
+- метод `catalog.product.property.update` не принимает `iblockId`: каталог свойства после создания изменить нельзя, метод ответит ошибкой
+- тип `BoolEnum` для свойства-флажка можно задать только при создании свойства
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`catalog`](../../scopes/permissions.md)
 >
 > Кто может выполнять методы:
-> - пользователь с правом на просмотр каталога — для `catalog.productProperty.get`, `catalog.productProperty.list` и `catalog.productProperty.getFields`
-> - пользователь с правом на просмотр каталога и правом на изменение инфоблока каталога — для добавления, изменения и удаления свойств, в том числе `catalog.product.property.add`
+> - пользователь с правом на просмотр каталога — для `catalog.productProperty.get`, `catalog.productProperty.list`, `catalog.productProperty.getFields`, `catalog.product.property.get` и `catalog.product.property.list`
+> - пользователь с правом на просмотр каталога и правом на изменение инфоблока каталога — для добавления, изменения и удаления свойств
 > - любой пользователь — для `catalog.product.property.field.*`, `catalog.product.property.type.list` и `catalog.product.property.type.field.*`
 
 #|
@@ -86,9 +87,13 @@
 || [catalog.productProperty.add](./catalog-product-property-add.md) | Добавляет свойство товаров или вариаций ||
 || [catalog.product.property.add](./catalog-product-property-add-rest-v3.md) | Добавляет свойство товаров или вариаций v 3.0 ||
 || [catalog.productProperty.update](./catalog-product-property-update.md) | Обновляет поля свойства товаров или вариаций ||
+|| [catalog.product.property.update](./catalog-product-property-update-rest-v3.md) | Обновляет поля свойства товаров или вариаций v 3.0 ||
 || [catalog.productProperty.get](./catalog-product-property-get.md) | Возвращает значения полей свойства товаров или вариаций ||
+|| [catalog.product.property.get](./catalog-product-property-get-rest-v3.md) | Возвращает значения полей свойства товаров или вариаций v 3.0 ||
 || [catalog.productProperty.list](./catalog-product-property-list.md) | Возвращает список свойств товаров или вариаций ||
+|| [catalog.product.property.list](./catalog-product-property-list-rest-v3.md) | Возвращает список свойств товаров или вариаций v 3.0 ||
 || [catalog.productProperty.delete](./catalog-product-property-delete.md) | Удаляет свойство товаров или вариаций ||
+|| [catalog.product.property.delete](./catalog-product-property-delete-rest-v3.md) | Удаляет свойство товаров или вариаций v 3.0 ||
 || [catalog.productProperty.getFields](./catalog-product-property-get-fields.md) | Возвращает поля свойства товаров или вариаций ||
 || [catalog.product.property.field.list](./catalog-product-property-field-list.md) | Возвращает список полей свойства товара v 3.0 ||
 || [catalog.product.property.field.get](./catalog-product-property-field-get.md) | Возвращает описание поля свойства товара ||
