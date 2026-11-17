@@ -1,8 +1,8 @@
 # Документы: обзор методов
 
-Документ — файл, который [генератор документов](../index.md) собрал по шаблону `.docx` и данным CRM-объекта. Готовый документ хранится в Битрикс24 в трех форматах: исходный DOCX, PDF и картинка для предпросмотра.
+Документ в CRM можно создать по шаблону `.docx` и данным CRM-объекта или загрузить как готовый файл. Для документа также могут быть доступны PDF и изображение для предпросмотра.
 
-Документ всегда привязан к конкретному объекту CRM — сделке, лиду, контакту, компании, счету, коммерческому предложению или элементу смарт-процесса. Привязку задают пары `entityTypeId` и `entityId`.
+Документ привязан к конкретному объекту CRM, например сделке, лиду, контакту, компании, счету, коммерческому предложению или элементу смарт-процесса. Привязку задают пары `entityTypeId` и `entityId`.
 
 Например, по шаблону счета можно сгенерировать документ для сделки № 1042 и включить для него публичную ссылку, чтобы отправить клиенту.
 
@@ -21,10 +21,9 @@
 
 ## Как создать документ
 
-1. Получите `templateId` — идентификатор шаблона из раздела [Шаблоны документов](../templates/index.md)
-2. Определите `entityTypeId` и `entityId` CRM-объекта, для которого нужен документ
-3. Создайте документ методом [crm.documentgenerator.document.add](./crm-document-generator-document-add.md). Если файл уже готов вне Битрикс24, загрузите его методом [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md)
-4. Заберите из ответа `id` документа и ссылки на файлы
+Чтобы создать документ по шаблону, получите `templateId` в разделе [Шаблоны документов](../templates/index.md), определите `entityTypeId` и `entityId` CRM-объекта и вызовите [crm.documentgenerator.document.add](./crm-document-generator-document-add.md).
+
+Если файл уже готов, используйте [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md) и передайте параметры загрузки в `fields`. Идентификатор созданного документа находится в `result.document.id`.
 
 Чтобы подставить в документ собственные значения, передайте их в параметре `values` метода `crm.documentgenerator.document.add`. Список допустимых ключей для конкретного документа возвращает [crm.documentgenerator.document.getfields](./crm-document-generator-document-get-fields.md).
 
@@ -41,16 +40,17 @@
 ## Что важно учитывать
 
 - Ссылки `pdfUrl` и `imageUrl` могут отсутствовать сразу после создания или обновления документа, так как конвертация выполняется асинхронно. Если ссылки нужны сразу, повторите запрос методом [crm.documentgenerator.document.get](./crm-document-generator-document-get.md) через 30-40 секунд
-- Права проверяются по действию: для чтения и списка нужен доступ на просмотр документов, для [crm.documentgenerator.document.add](./crm-document-generator-document-add.md) — на создание, для изменения и удаления — на изменение. Дополнительно проверяется доступ к самому документу
+- Для методов документов нужно право на просмотр документов. Для `add` дополнительно проверяется право на создание документа по шаблону; для `update`, `delete`, `getfields` и `enablepublicurl` — право на изменение конкретного документа. Для методов, принимающих документ, также проверяется доступ к нему
+- При загрузке готового файла метод `upload` возвращает ошибку, начинающуюся с `Empty required fields:`, если пропущены обязательные поля, или `Wrong "entityTypeId" field value`, если тип CRM-объекта некорректен. Подробнее — в [описании метода](./crm-document-generator-document-upload.md)
 - Методы `crm.documentgenerator.document.*` работают с документами CRM. Если документ не связан с объектом CRM, используйте методы раздела [Генератор документов](../../../document-generator/index.md)
 
 ## Связь с другими объектами
 
-**Шаблоны документов.** Для создания документа по шаблону передают `templateId` в метод [crm.documentgenerator.document.add](./crm-document-generator-document-add.md). Возьмите `templateId` из ответа [crm.documentgenerator.template.add](../templates/crm-document-generator-template-add.md) или получите из списка методом [crm.documentgenerator.template.list](../templates/crm-document-generator-template-list.md).
+**Шаблоны документов.** Получите идентификатор шаблона методом [crm.documentgenerator.template.list](../templates/crm-document-generator-template-list.md).
 
-**CRM-объекты.** Для создания или загрузки документа передают `entityTypeId` и `entityId`. Значения `entityTypeId` для стандартных объектов приведены в таблице [Тип объекта CRM](../../data-types.md#object_type). Для смарт-процессов `entityTypeId` можно получить методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Идентификатор нужного объекта `entityId` получают универсальным методом [crm.item.list](../../universal/crm-item-list.md).
+**CRM-объекты.** Для создания или загрузки документа передают `entityTypeId` и `entityId`. Значения `entityTypeId` для стандартных объектов приведены в таблице [Тип объекта CRM](../../data-types.md#object_type). Для смарт-процессов `entityTypeId` можно получить методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Идентификатор нужного объекта `entityId` можно получить методом [crm.item.list](../../universal/crm-item-list.md) для поддерживаемых им типов объектов; для счетов старого типа используйте [crm.invoice.list](../../outdated/invoice/crm-invoice-list.md).
 
-**Нумераторы.** При создании документа номер обычно формируется по нумератору, который привязан к шаблону. Если создаете новый нумератор, возьмите `id` из ответа [crm.documentgenerator.numerator.add](../numerator/crm-document-generator-numerator-add.md). Если используете существующий, получите `id` методом [crm.documentgenerator.numerator.list](../numerator/crm-document-generator-numerator-list.md).
+**Нумераторы.** Номер документа формируется с учетом нумератора, привязанного к шаблону. Подробнее о настройке — в разделе [Нумераторы](../numerator/index.md).
 
 **Файлы.** В метод [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md) передают содержимое файла в Base64. Формат загрузки описан в статье [Как загружать файлы](../../../files/how-to-upload-files.md).
 
@@ -80,9 +80,11 @@
 
     #|
     || **Событие** | **Вызывается** ||
-    || [onCrmDocumentGeneratorDocumentAdd](./events/on-crm-document-generator-document-add.md) | При генерации документа вручную или методами [crm.documentgenerator.document.add](./crm-document-generator-document-add.md) и [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md) ||
+    || [onCrmDocumentGeneratorDocumentAdd](./events/on-crm-document-generator-document-add.md) | При создании документа вручную или методом [crm.documentgenerator.document.add](./crm-document-generator-document-add.md), а также при загрузке готового документа методом [crm.documentgenerator.document.upload](./crm-document-generator-document-upload.md) ||
     || [onCrmDocumentGeneratorDocumentUpdate](./events/on-crm-document-generator-document-update.md) | При изменении документа вручную или методом [crm.documentgenerator.document.update](./crm-document-generator-document-update.md) ||
-    || [onCrmDocumentGeneratorDocumentDelete](./events/on-crm-document-generator-document-delete.md) | При удалении документа вручную или методом [crm.documentgenerator.document.delete](./crm-document-generator-document-delete.md) ||
+    || [onCrmDocumentGeneratorDocumentDelete](./events/on-crm-document-generator-document-delete.md) | При попытке удаления документа вручную или методом [crm.documentgenerator.document.delete](./crm-document-generator-document-delete.md). Событие формируется до завершения удаления ||
     |#
 
 {% endlist %}
+
+Подписка и данные уведомлений описаны в [обзоре событий документов](./events/index.md).

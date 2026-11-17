@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
+> Кто может выполнять метод: пользователь с правами на просмотр и изменение документов генератора документов и доступом к указанному документу
 
 Метод `crm.documentgenerator.document.getfields` возвращает карточку полей уже созданного документа: какие поля доступны, их текущие значения, значения по умолчанию и служебные признаки.
 
@@ -25,9 +25,9 @@
 || **id**^*^
 [`integer`](../../../data-types.md) | Идентификатор документа ||
 || **values**
-[`object`](../../../data-types.md) | Объект формата:
+[`object`](../../../data-types.md) | Объект формата [(подробное описание)](#parameter-values-fields):
 
-```
+```text
 {
     field_1: value_1,
     field_2: value_2,
@@ -42,7 +42,7 @@
 
 `values` — это временные подстановки поверх текущих значений документа. Метод берет данные документа, накладывает `values` и пересчитывает поля.
 
-Это позволяет проверить результат без изменения самого документа. Например, если передать `values.DocumentNumber = "2026-001"`, в ответе поле `DocumentNumber` вернется со значением `2026-001`. Если не передавать `values`, для того же поля вернется текущее значение документа, например `1`.
+Это позволяет проверить результат без изменения самого документа.
 
 Если `values` не передавать, метод вернет карточку полей на основе текущих данных документа и логики шаблона ||
 |#
@@ -65,9 +65,9 @@
 || **ClientEmail**
 [`string`](../../../data-types.md) | Email клиента ||
 || **ProductsProductName**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Название товара ||
+```array | string``` | Название товара ||
 || **ProductsProductQuantity**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Количество ||
+```array | string``` | Количество ||
 || **TotalSum**
 [`string`](../../../data-types.md) | Общая сумма ||
 |#
@@ -119,7 +119,7 @@
       required?: string
       type?: string
       group?: string[]
-      chain?: string | string[]
+      chain?: string | unknown[]
       format?: Record<string, unknown>
       options?: Record<string, unknown>
       hideRow?: string
@@ -408,9 +408,9 @@ HTTP-статус: **200**
 || **title**
 [`string`](../../../data-types.md) | Название поля ||
 || **value**
-[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) \| [`null`](../../../data-types.md) | Текущее значение поля ||
+```string | array | null``` | Значение поля с учетом переданных в `values` подстановок. Для поля-списка — массив элементов [`listItem`](#listitem) ||
 || **default**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Значение поля по умолчанию ||
+```string | null``` | Значение поля по умолчанию ||
 || **required**
 [`char`](../../../data-types.md) | Признак обязательности поля: `Y` или `N` ||
 || **type**
@@ -418,13 +418,26 @@ HTTP-статус: **200**
 || **group**
 [`array`](../../../data-types.md) | Группы, к которым относится поле ||
 || **chain**
-[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) | Путь поля в провайдере данных, например `this.SOURCE.MY_COMPANY.UF_LOGO` ||
+```string | array``` | Служебное представление источника значения поля: строка или массив. Состав массива зависит от источника значения ||
 || **format**
 [`object`](../../../data-types.md) | Параметры форматирования поля, например `{"currencyId":"RUB","withZeros":true}` ||
 || **options**
 [`object`](../../../data-types.md) | Дополнительные параметры поля, например `{"isArray":true}` ||
 || **hideRow**
 [`char`](../../../data-types.md) | Служебный признак скрытия строки: `Y` или `N` ||
+|#
+
+#### Тип listItem {#listitem}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **value**
+[`string`](../../../data-types.md) | Значение элемента ||
+|| **title**
+[`string`](../../../data-types.md) | Название элемента ||
+|| **selected**
+[`boolean`](../../../data-types.md) | Выбран ли элемент ||
 |#
 
 ## Обработка ошибок
@@ -443,12 +456,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `100` | Bitrix\\DocumentGenerator\\Document constructor must be is public | Не передан обязательный параметр `id` ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу или недостаточно прав для работы с документами генератора ||
-|| `0` | Документ не найден | Документ с указанным `id` не найден или недоступен ||
-|| `Пустое значение` | You do not have permissions to modify documents | Недостаточно прав для изменения документов генератора ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
+|| `400` | `0` | Документ не найден | Документ с указанным `id` не найден ||
+|| `400` | `0` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора ||
+|| `400` | `0` | You do not have permissions to modify this document | Недостаточно прав для изменения документов генератора ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

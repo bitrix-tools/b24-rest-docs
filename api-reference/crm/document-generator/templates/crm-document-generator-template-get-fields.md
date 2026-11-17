@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" шаблонов генератора документов
+> Кто может выполнять метод: пользователь с правом на изменение шаблонов генератора документов, правом на изменение указанного шаблона и доступом к данным указанного CRM-элемента
 
 Метод `crm.documentgenerator.template.getfields` возвращает карточку полей шаблона: какие поля доступны, их текущие значения, значения по умолчанию и служебные признаки.
 
@@ -27,99 +27,16 @@
 || **entityTypeId**^*^
 [`integer`](../../../data-types.md) | Идентификатор типа CRM-элемента. Нужен для выбора провайдера данных ||
 || **entityId**
-[`integer`](../../../data-types.md) | Идентификатор CRM-элемента, данные которого будут использованы для вычисления значений полей ||
+[`integer`](../../../data-types.md) | Идентификатор CRM-элемента, данные которого будут использованы для вычисления значений полей. Если параметр не передан, используется `null` ||
 || **values**
-[`object`](../../../data-types.md) | Объект формата:
-
-```
-{
-    field_1: value_1,
-    field_2: value_2,
-    ...,
-    field_n: value_n,
-}
-```
-
-где:
-- `field_n` — название поля
-- `value_n` — значение поля
-
-`values` — это временные подстановки поверх данных CRM. Метод берет данные по `entityTypeId` и `entityId`, затем накладывает значения из `values` и пересчитывает поля шаблона.
-
-Это позволяет проверить результат без изменения данных в CRM. Например, если передать `values.DocumentNumber = "2026-001"`, в ответе поле `DocumentNumber` вернется уже с этим значением.
-
-Если `values` не передавать, метод вернет карточку полей на основе исходных данных CRM и логики шаблона
-||
+[`object`](../../../data-types.md) | Дополнительные значения для вычисления полей без изменения данных CRM [(подробное описание)](#parameter-values-fields). Влияние значения зависит от поля и логики провайдера. По умолчанию — пустой объект ||
 |#
 
 ### Параметр values {#parameter-values-fields}
 
-Состав ключей `values` определяется шаблоном, провайдером данных и контекстом (`entityTypeId`, `entityId`), поэтому в разных сценариях может отличаться.
+Ключи `values` — коды полей шаблона, а значения — дополнительные данные для вычисления этих полей. Состав полей зависит от шаблона и выбранного CRM-элемента. Например: `{"DocumentNumber": "2026-001"}`.
 
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **MyCompanyRequisiteRqCompanyName**
-[`string`](../../../data-types.md) | Сокращенное наименование организации ||
-|| **MyCompanyRequisiteRegisteredAddressText**
-[`string`](../../../data-types.md) | Полный адрес ||
-|| **MyCompanyPhone**
-[`string`](../../../data-types.md) | Телефон ||
-|| **MyCompanyEmail**
-[`string`](../../../data-types.md) | E-mail ||
-|| **MyCompanyWeb**
-[`string`](../../../data-types.md) | Сайт ||
-|| **MyCompanyUfLogo**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Логотип ||
-|| **RequisiteRqCompanyName**
-[`string`](../../../data-types.md) | Сокращенное наименование организации ||
-|| **RequisiteRegisteredAddressText**
-[`string`](../../../data-types.md) | Полный адрес ||
-|| **ClientPhone**
-[`string`](../../../data-types.md) | Телефон ||
-|| **ClientEmail**
-[`string`](../../../data-types.md) | Email ||
-|| **ClientWeb**
-[`string`](../../../data-types.md) | Сайт ||
-|| **DocumentNumber**
-[`string`](../../../data-types.md) | Номер ||
-|| **DocumentCreateTime**
-[`string`](../../../data-types.md) | Дата генерации ||
-|| **ProductsIndex**
-[`string`](../../../data-types.md) | Текущий номер ||
-|| **ProductsProductName**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Название ||
-|| **ProductsProductQuantity**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Количество ||
-|| **ProductsProductMeasureName**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Единицы измерения ||
-|| **ProductsProductPriceRaw**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Исходная цена ||
-|| **ProductsProductPriceRawSum**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Сумма исходной цены ||
-|| **TotalRaw**
-[`string`](../../../data-types.md) | Сумма исходных цен ||
-|| **TaxesTaxTitle**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Заголовок ||
-|| **TaxesTaxRate**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Ставка ||
-|| **TaxesTaxValue**
-[`array`](../../../data-types.md) \| [`string`](../../../data-types.md) | Сумма ||
-|| **TotalSum**
-[`string`](../../../data-types.md) | Общая сумма ||
-|| **MyCompanyAssignedName**
-[`string`](../../../data-types.md) | Имя ||
-|| **MyCompanyAssignedLastName**
-[`string`](../../../data-types.md) | Фамилия ||
-|| **MyCompanyAssignedPersonalPhone**
-[`string`](../../../data-types.md) | Телефон ||
-|| **MyCompanyAssignedEmail**
-[`string`](../../../data-types.md) | E-Mail ||
-|| **DocumentTitle**
-[`string`](../../../data-types.md) | Название документа ||
-|| **MY_COMPANY**
-[`array`](../../../data-types.md) | Моя компания ||
-|#
+Метод берет данные по `entityTypeId` и `entityId` и вычисляет поля шаблона с учетом `values` и логики провайдера. Если `values` не передан, используются исходные данные CRM и логика шаблона.
 
 ## Примеры кода
 
@@ -169,12 +86,12 @@
     }
 
     type TemplateField = {
-      title: string
-      value: string | string[] | null
+      title?: string
+      value: string | string[] | Array<{ value: string; title: string; selected: boolean }> | null
       default?: string | null
       required?: string
       type?: string
-      group: string[]
+      group?: string[]
       chain?: string
     }
 
@@ -383,6 +300,8 @@
 
 HTTP-статус: **200**
 
+Пример ответа сокращен: состав и количество полей зависят от шаблона.
+
 ```json
 {
     "result": {
@@ -448,7 +367,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`templateFields`](#templatefield) ||
+[`object`](../../../data-types.md) | Корневой элемент ответа. Содержит объект [`templateFields`](#result) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -464,15 +383,17 @@ HTTP-статус: **200**
 
 #### Тип templateField {#templatefield}
 
+Набор свойств зависит от поля. Например, `title` и `group` могут отсутствовать.
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **title**
 [`string`](../../../data-types.md) | Название поля ||
 || **value**
-[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) | Текущее значение поля ||
+```string | array | null``` | Текущее значение поля. Для поля выбора массив может содержать [объекты вариантов значения](#choice-value) ||
 || **default**
-[`string`](../../../data-types.md) | Значение поля по умолчанию ||
+```string | null``` | Значение поля по умолчанию ||
 || **required**
 [`char`](../../../data-types.md) | Признак обязательности поля: `Y` или `N` ||
 || **type**
@@ -481,6 +402,19 @@ HTTP-статус: **200**
 [`array`](../../../data-types.md) | Группы, к которым относится поле ||
 || **chain**
 [`string`](../../../data-types.md) | Путь поля в провайдере данных, например `this.SOURCE.MY_COMPANY.UF_LOGO` ||
+|#
+
+#### Вариант значения поля выбора {#choice-value}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **value**
+[`string`](../../../data-types.md) | Значение варианта ||
+|| **title**
+[`string`](../../../data-types.md) | Название варианта ||
+|| **selected**
+[`boolean`](../../../data-types.md) | Выбран ли вариант ||
 |#
 
 ## Обработка ошибок
@@ -499,13 +433,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к шаблону или недостаточно прав для работы с шаблонами генератора документов ||
-|| `0` | Шаблон не найден | Шаблон с указанным `id` не найден или недоступен ||
-|| `100` | Bitrix\\DocumentGenerator\\Template constructor must be is public | Не передан обязательный параметр ||
-|| `Пустое значение` | Cannot get fields from deleted template | Нельзя получить поля удаленного шаблона ||
-|| `Пустое значение` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {entityTypeId} | Не передан идентификатор типа CRM-элемента ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к данным CRM-элемента ||
+|| `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
+|| `400` | `100` | Could not find value for parameter {templateId} | Не передан идентификатор шаблона ||
+|| `400` | `0` | Cannot get fields from deleted template | Нельзя получить поля удаленного шаблона ||
+|| `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `400` | `0` | You do not have permissions to modify this template | Недостаточно прав для изменения указанного шаблона ||
+|| `400` | `0` | No provider for entityTypeId | Для указанного `entityTypeId` не найден провайдер данных ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

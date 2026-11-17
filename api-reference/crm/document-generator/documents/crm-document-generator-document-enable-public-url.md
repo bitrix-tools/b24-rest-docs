@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
+> Кто может выполнять метод: пользователь с правами просмотра документов генератора, изменения указанного документа и доступом к нему
 
-Метод `crm.documentgenerator.document.enablepublicurl` включает или выключает публичную ссылку на документ.
+Метод `crm.documentgenerator.document.enablepublicurl` включает или выключает публичную ссылку на документ. По публичной ссылке документ доступен без авторизации в Битрикс24.
 
 ## Параметры метода
 
@@ -272,6 +272,26 @@ HTTP-статус: **200**
 }
 ```
 
+При `status = 0` ссылка отключается:
+
+```json
+{
+    "result": {
+        "publicUrl": null
+    },
+    "time": {
+        "start": 1774011939,
+        "finish": 1774011939.899233,
+        "duration": 0.8992331027984619,
+        "processing": 0,
+        "date_start": "2026-03-20T16:05:39+03:00",
+        "date_finish": "2026-03-20T16:05:39+03:00",
+        "operating_reset_at": 1774012539,
+        "operating": 0.3236720561981201
+    }
+}
+```
+
 ### Возвращаемые данные
 
 #|
@@ -289,7 +309,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **publicUrl**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ. При `status = 0` возвращается `null` ||
+```string | null``` | Публичная ссылка на документ. При `status = 0` возвращается `null` ||
 |#
 
 ## Обработка ошибок
@@ -309,21 +329,22 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение** ||
-|| `100` | Bitrix\\DocumentGenerator\\Document constructor must be is public | Не передан обязательный параметр `id` ||
+|| `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
 || `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
 || `0` | Документ не найден | Документ с указанным `id` не найден ||
-|| `Пустое значение` | Document not found | Документ не относится к модулю `crm` ||
-|| `Пустое значение` | You do not have permissions to modify this document | Недостаточно прав для изменения документа ||
-|| `Пустое значение` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `0` | Document not found | Документ не относится к модулю `crm` ||
+|| `0` | You do not have permissions to modify this document | Недостаточно прав для изменения документа ||
+|| `0` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора ||
+|| `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./crm-document-generator-document-get.md)
+- [{#T}](./crm-document-generator-document-add.md)
 - [{#T}](./crm-document-generator-document-update.md)
-- [{#T}](./crm-document-generator-document-delete.md)
+- [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-list.md)
+- [{#T}](./crm-document-generator-document-delete.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "просмотра" документов генератора документов
+> Кто может выполнять метод: пользователь с правом просмотра документов генератора документов и доступом к указанному документу
 
 Метод `crm.documentgenerator.document.get` возвращает данные документа по его идентификатору.
 
@@ -23,12 +23,14 @@
 || **Название**
 `тип` | **Описание** ||
 || **id**^*^
-[`integer`](../../../data-types.md) | Идентификатор документа ||
+[`integer`](../../../data-types.md) | Идентификатор документа. Можно получить методом [crm.documentgenerator.document.list](./crm-document-generator-document-list.md) ||
 |#
 
 {% note info "Особенность метода" %}
 
-`pdfUrl` и `imageUrl` могут отсутствовать сразу после создания или обновления документа, так как конвертация выполняется асинхронно. Если ссылки нужны сразу, повторите запрос через 30-40 секунд.
+Если PDF или изображение еще не сформированы, метод может запустить конвертацию документа.
+
+Конвертация выполняется асинхронно. Если ссылки нужны сразу, повторите запрос через 30–40 секунд после создания или обновления документа.
 
 {% endnote %}
 
@@ -81,26 +83,26 @@
         createdBy: string
         updatedBy: string | null
         changeStampsEnabled: boolean
-        changeStampsDisabledReason: string
+        changeStampsDisabledReason?: string
         changeQrCodeEnabled: boolean
         qrCodeEnabled: boolean
-        changeQrCodeDisabledReason: string
-        products: {
-          currencyId: string
-          totalSum: string
-          totalRows: number
+        changeQrCodeDisabledReason?: string
+        products?: {
+          currencyId: string | null
+          totalSum: number | string | null
+          totalRows: number | string | null
         }
         stampsEnabled: boolean
         downloadUrl: string
         downloadUrlMachine: string
-        imageUrl: string
+        imageUrl?: string
         imageUrlMachine: string
-        pdfUrl: string
+        pdfUrl?: string
         pdfUrlMachine: string
         publicUrl: string | null
         isTransformationError: boolean
-        templateId: string
-        pullTag: string
+        templateId?: string
+        pullTag?: string
         emailDiskFile: number
         entityTypeId: string
         entityId: string
@@ -368,7 +370,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор документа ||
+```integer | string``` | Идентификатор документа ||
 || **title**
 [`string`](../../../data-types.md) | Название документа ||
 || **number**
@@ -378,9 +380,9 @@ HTTP-статус: **200**
 || **updateTime**
 [`datetime`](../../../data-types.md) | Дата обновления документа ||
 || **createdBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
+```integer | string``` | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+```integer | string | null``` | Идентификатор пользователя, обновившего документ ||
 || **changeStampsEnabled**
 [`boolean`](../../../data-types.md) | Можно ли изменить признак подстановки печати и подписи ||
 || **changeStampsDisabledReason**
@@ -392,7 +394,7 @@ HTTP-статус: **200**
 || **changeQrCodeDisabledReason**
 [`string`](../../../data-types.md) | Причина, почему нельзя изменить QR-код ||
 || **products**
-[`object`](../../../data-types.md) | Сводная информация по товарам документа (`currencyId`, `totalSum`, `totalRows`) ||
+[`object`](../../../data-types.md) | Сводная информация по товарам документа [(подробное описание)](#products). Поле присутствует, если есть данные хотя бы по одному из показателей ||
 || **stampsEnabled**
 [`boolean`](../../../data-types.md) | Признак подстановки печати и подписи ||
 || **downloadUrl**
@@ -400,33 +402,46 @@ HTTP-статус: **200**
 || **downloadUrlMachine**
 [`string`](../../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
 || **imageUrl**
-[`string`](../../../data-types.md) | Ссылка на изображение документа. Может быть пустой строкой сразу после создания или обновления ||
+[`string`](../../../data-types.md) | Ссылка на изображение документа. Поле присутствует, когда изображение сформировано ||
 || **imageUrlMachine**
 [`string`](../../../data-types.md) | Ссылка на изображение документа для машинного доступа ||
 || **pdfUrl**
-[`string`](../../../data-types.md) | Ссылка на PDF-документ. Может быть пустой строкой сразу после создания или обновления ||
+[`string`](../../../data-types.md) | Ссылка на PDF-документ. Поле присутствует, когда PDF сформирован ||
 || **pdfUrlMachine**
 [`string`](../../../data-types.md) | Ссылка на PDF-документ для машинного доступа ||
 || **publicUrl**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ ||
+```string | null``` | Публичная ссылка на документ ||
+|| **publicUrlView**
+[`object`](../../../data-types.md) | Информация о просмотре публичной ссылки. Поле присутствует при наличии публичной ссылки; содержит поле `time` — дату и время просмотра ||
 || **isTransformationError**
-[`boolean`](../../../data-types.md) | Признак ошибки конвертации документа ||
-|| **transformationErrorMessage**
-[`string`](../../../data-types.md) | Текст ошибки конвертации, если `isTransformationError = true` ||
-|| **transformationErrorCode**
-[`string`](../../../data-types.md) | Код ошибки конвертации, если `isTransformationError = true` ||
+[`boolean`](../../../data-types.md) | В успешном ответе — `false` ||
+|| **transformationCancelReason**
+[`object`](../../../data-types.md) | Причина отмены конвертации с полями `message`, `code` и `customData`. Поле присутствует, если причина задана ||
 || **templateId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор шаблона документа ||
+```integer | string``` | Идентификатор шаблона документа. Поле присутствует, если шаблон найден ||
 || **pullTag**
-[`string`](../../../data-types.md) | Тег события трансформации документа ||
+[`string`](../../../data-types.md) | Тег события трансформации документа. Поле присутствует, если тег задан ||
 || **emailDiskFile**
-[`integer`](../../../data-types.md) | Идентификатор файла на Диске для отправки по email ||
+[`integer`](../../../data-types.md) | Идентификатор файла на Диске для отправки по email. Если подходящий файл на Диске не найден, возвращается `0` ||
 || **entityTypeId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
+```integer | string``` | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор CRM-объекта ||
+```integer | string``` | Идентификатор CRM-объекта ||
 || **values**
 [`object`](../../../data-types.md) | Значения полей документа ||
+|#
+
+#### Тип products {#products}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **currencyId**
+```string | null``` | Код валюты ||
+|| **totalSum**
+```number | string | null``` | Общая сумма товаров ||
+|| **totalRows**
+```number | string | null``` | Количество товарных позиций ||
 |#
 
 ## Обработка ошибок
@@ -447,11 +462,11 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
-|| `0` | Документ не найден | Документ с указанным `id` не найден или недоступен ||
-|| `Пустое значение` | Document not found | Документ не относится к модулю `crm` ||
-|| `100` | Bitrix\\DocumentGenerator\\Document constructor must be is public | Не передан обязательный параметр `id` ||
-|| `Пустое значение` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `0` | Документ не найден | Документ с указанным `id` не найден ||
+|| `0` | Document not found | Документ не относится к модулю `crm` ||
+|| `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `0` | You do not have permissions to view documents | Недостаточно прав для просмотра документов генератора ||
+|| `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -460,7 +475,7 @@ HTTP-статус: **400**
 
 - [{#T}](./crm-document-generator-document-add.md)
 - [{#T}](./crm-document-generator-document-update.md)
-- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](./crm-document-generator-document-list.md)
 - [{#T}](./crm-document-generator-document-delete.md)
+- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](../templates/crm-document-generator-template-get.md)

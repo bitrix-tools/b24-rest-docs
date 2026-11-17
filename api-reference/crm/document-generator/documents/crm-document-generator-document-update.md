@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
+> Кто может выполнять метод: пользователь с правами на просмотр и изменение документов генератора документов и доступом к документу. Если шаблон документа существует и не удален, нужен доступ к нему; для администратора действует исключение согласно настройкам генератора документов
 
 Метод `crm.documentgenerator.document.update` обновляет существующий документ.
 
@@ -25,7 +25,7 @@
 || **id**^*^
 [`integer`](../../../data-types.md) | Идентификатор документа ||
 || **values**
-[`object`](../../../data-types.md) | Объект со значениями полей документа.
+[`object`](../../../data-types.md) | Объект со значениями полей документа. Переданные значения заменяют сохраненные значения соответствующих полей. Для непереданных полей сохраняются ранее заданные значения.
 
 Формат:
 
@@ -39,6 +39,8 @@
 где:
 - `field_n` — код поля документа
 - `value_n` — значение поля
+
+Значение `stampsEnabled` внутри `values` игнорируется. Чтобы управлять подстановкой печати и подписи, передайте отдельный параметр `stampsEnabled`.
 
 Список доступных полей зависит от шаблона и документа.
 
@@ -109,14 +111,14 @@
         createdBy: string | null
         updatedBy: number | null
         changeStampsEnabled: boolean
-        changeStampsDisabledReason: string
+        changeStampsDisabledReason?: string
         changeQrCodeEnabled: boolean
         qrCodeEnabled: boolean
-        changeQrCodeDisabledReason: string
-        products: {
-          currencyId: string
-          totalSum: string
-          totalRows: number
+        changeQrCodeDisabledReason?: string
+        products?: {
+          currencyId: string | null
+          totalSum: string | number | null
+          totalRows: string | number | null
         }
         stampsEnabled: boolean
         downloadUrl: string
@@ -129,8 +131,8 @@
         entityTypeId: string
         entityId: string
         values: Record<string, unknown>
-        imageUrl: string
-        pdfUrl: string
+        imageUrl?: string
+        pdfUrl?: string
       }
     }
 
@@ -364,7 +366,7 @@ HTTP-статус: **200**
             "id": "61",
             "createTime": "2026-03-20T14:42:39+03:00",
             "createdBy": null,
-            "updateTime": "2026-03-20T14:42:38+03:00",
+            "updateTime": "2026-03-20T14:42:40+03:00",
             "updatedBy": 577,
             "stampsEnabled": true,
             "isTransformationError": false,
@@ -423,7 +425,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор документа ||
+```integer | string``` | Идентификатор документа ||
 || **title**
 [`string`](../../../data-types.md) | Название документа ||
 || **number**
@@ -433,9 +435,9 @@ HTTP-статус: **200**
 || **updateTime**
 [`datetime`](../../../data-types.md) | Дата обновления ||
 || **createdBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
+```integer | string | null``` | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+```integer | string | null``` | Идентификатор пользователя, обновившего документ ||
 || **changeStampsEnabled**
 [`boolean`](../../../data-types.md) | Можно ли изменить признак подстановки печати и подписи ||
 || **changeStampsDisabledReason**
@@ -447,7 +449,7 @@ HTTP-статус: **200**
 || **changeQrCodeDisabledReason**
 [`string`](../../../data-types.md) | Причина, почему нельзя изменить QR-код ||
 || **products**
-[`object`](../../../data-types.md) | Сводная информация по товарам документа (`currencyId`, `totalSum`, `totalRows`) ||
+[`object`](../../../data-types.md) | Сводная информация по товарам документа: `currencyId` — код валюты, строка или `null`; `totalSum` — сумма, число, числовая строка или `null`; `totalRows` — количество строк, число, числовая строка или `null` ||
 || **stampsEnabled**
 [`boolean`](../../../data-types.md) | Признак подстановки печати и подписи ||
 || **downloadUrl**
@@ -455,23 +457,23 @@ HTTP-статус: **200**
 || **downloadUrlMachine**
 [`string`](../../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
 || **publicUrl**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ ||
+```string | null``` | Публичная ссылка на документ ||
 || **isTransformationError**
 [`boolean`](../../../data-types.md) | Признак ошибки конвертации документа ||
 || **transformationErrorMessage**
 [`string`](../../../data-types.md) | Текст ошибки конвертации, если `isTransformationError = true` ||
 || **transformationErrorCode**
-[`string`](../../../data-types.md) | Код ошибки конвертации, если `isTransformationError = true` ||
+```integer | string``` | Код ошибки конвертации, если `isTransformationError = true` ||
 || **templateId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор шаблона ||
+```integer | string``` | Идентификатор шаблона ||
 || **pullTag**
 [`string`](../../../data-types.md) | Тег события трансформации документа ||
 || **emailDiskFile**
 [`integer`](../../../data-types.md) | Идентификатор файла в Диске для отправки по email ||
 || **entityTypeId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
+```integer | string``` | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор CRM-объекта ||
+```integer | string``` | Идентификатор CRM-объекта ||
 || **values**
 [`object`](../../../data-types.md) | Значения полей документа после обновления ||
 || **imageUrl**
@@ -496,15 +498,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `100` | Bitrix\\DocumentGenerator\\Document constructor must be is public | Не передан обязательный параметр `id` ||
-|| `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
-|| `0` | Документ не найден | Документ с указанным `id` не найден или недоступен ||
-|| `0` | Document not found | Документ не относится к модулю CRM ||
-|| `0` | You do not have permissions to modify this document | Недостаточно прав для изменения документа ||
-|| `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
-|| `0` | Cant update not saved document | Попытка обновить несохраненный документ ||
-|| `0` | DOCUMENT_FILE_NOT_PROCESSABLE_ERROR | Файл шаблона поврежден или имеет неверную структуру ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id` ||
+|| `400` | `DOCGEN_ACCESS_ERROR` | Access denied | Нет доступа к документу ||
+|| `400` | `0` | Документ не найден | Документ с указанным `id` не найден или недоступен ||
+|| `400` | `0` | Document not found | Документ не относится к модулю CRM ||
+|| `400` | `0` | You do not have permissions to modify this document | Недостаточно прав для изменения документа ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| `400` | `0` | Cant update not saved document | Попытка обновить несохраненный документ ||
+|| `400` | `0` | Невозможно сгенерировать документ, файл шаблона поврежден или имеет неверную структуру | Файл шаблона поврежден или имеет неверную структуру ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -513,8 +515,8 @@ HTTP-статус: **400**
 
 - [{#T}](./crm-document-generator-document-add.md)
 - [{#T}](./crm-document-generator-document-get.md)
-- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](./crm-document-generator-document-list.md)
 - [{#T}](./crm-document-generator-document-delete.md)
+- [{#T}](./crm-document-generator-document-get-fields.md)
 - [{#T}](../templates/crm-document-generator-template-get-fields.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)

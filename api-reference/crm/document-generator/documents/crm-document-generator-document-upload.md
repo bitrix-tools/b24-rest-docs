@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом "изменения" документов генератора документов
+> Кто может выполнять метод: пользователь с правом просмотра документов генератора документов
 
 Метод `crm.documentgenerator.document.upload` загружает готовый документ и прикрепляет его к CRM-объекту.
 
@@ -34,16 +34,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId**^*^
-[`integer`](../../../data-types.md) | Идентификатор типа CRM-объекта.
-
-Типичные значения:
-- `1` — лид
-- `2` — сделка
-- `3` — контакт
-- `4` — компания
-- `7` — коммерческое предложение
-
-Для смарт-процессов передается их `entityTypeId`, например `177` ||
+[`integer`](../../../data-types.md) | Идентификатор [типа CRM-объекта](../../data-types.md#object_type) ||
 || **entityId**^*^
 [`integer`](../../../data-types.md) | Идентификатор CRM-объекта, к которому прикрепляется документ ||
 || **fileContent**^*^
@@ -51,7 +42,7 @@
 
 Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 || **region**^*^
-[`string`](../../../data-types.md) | Код региона шаблона, например `ru` ||
+[`string`](../../../data-types.md) | Код региона шаблона, например `ru`. Список регионов можно получить методом [documentgenerator.region.list](../../../document-generator/region/document-generator-region-list.md) ||
 || **title**^*^
 [`string`](../../../data-types.md) | Название документа ||
 || **number**^*^
@@ -65,6 +56,8 @@
 
 Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 |#
+
+Обязательные поля должны содержать значения, отличные от пустой строки и строки `0`. Значение `entityId` должно быть больше нуля.
 
 {% note info "Особенности метода" %}
 
@@ -91,7 +84,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"entityTypeId":2,"entityId":101,"fileContent":"**base64_docx_content**","region":"ru","title":"Демонстрационная реализация товара","number":"2026-001","pdfContent":"**base64_pdf_content**","imageContent":"**base64_image_content**"}}' \
+    -d '{"fields":{"entityTypeId":2,"entityId":101,"fileContent":"**base64_docx_content**","region":"ru","title":"Демонстрационная реализация товара","number":"2026-001"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.documentgenerator.document.upload
     ```
 
@@ -101,7 +94,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"entityTypeId":2,"entityId":101,"fileContent":"**base64_docx_content**","region":"ru","title":"Демонстрационная реализация товара","number":"2026-001","pdfContent":"**base64_pdf_content**","imageContent":"**base64_image_content**"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"entityTypeId":2,"entityId":101,"fileContent":"**base64_docx_content**","region":"ru","title":"Демонстрационная реализация товара","number":"2026-001"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.documentgenerator.document.upload
     ```
 
@@ -131,9 +124,9 @@
         qrCodeEnabled: boolean
         changeQrCodeDisabledReason: string
         products: {
-          currencyId: string
-          totalSum: string
-          totalRows: number
+          currencyId: string | null
+          totalSum: string | number | null
+          totalRows: string | number | null
         }
         stampsEnabled: boolean
         isTransformationError: boolean
@@ -158,10 +151,8 @@
             entityId: 101,
             fileContent: '**base64_docx_content**',
             region: 'ru',
-            title: 'Demo Sales Document',
+            title: 'Демонстрационная реализация товара',
             number: '2026-001',
-            pdfContent: '**base64_pdf_content**',
-            imageContent: '**base64_image_content**',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -199,10 +190,8 @@
                 entityId: 101,
                 fileContent: '**base64_docx_content**',
                 region: 'ru',
-                title: 'Demo Sales Document',
+                title: 'Демонстрационная реализация товара',
                 number: '2026-001',
-                pdfContent: '**base64_pdf_content**',
-                imageContent: '**base64_image_content**',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -240,8 +229,6 @@
                 "region": "ru",
                 "title": "Демонстрационная реализация товара",
                 "number": "2026-001",
-                "pdfContent": "**base64_pdf_content**",
-                "imageContent": "**base64_image_content**",
             },
         ).response
         result = bitrix_response.result
@@ -275,8 +262,6 @@
                         'region' => 'ru',
                         'title' => 'Демонстрационная реализация товара',
                         'number' => '2026-001',
-                        'pdfContent' => '**base64_pdf_content**',
-                        'imageContent' => '**base64_image_content**',
                     ],
                 ]
             );
@@ -308,8 +293,6 @@
                 region: 'ru',
                 title: 'Демонстрационная реализация товара',
                 number: '2026-001',
-                pdfContent: '**base64_pdf_content**',
-                imageContent: '**base64_image_content**',
             },
         },
         (result) => {
@@ -336,8 +319,6 @@
                 'region' => 'ru',
                 'title' => 'Демонстрационная реализация товара',
                 'number' => '2026-001',
-                'pdfContent' => '**base64_pdf_content**',
-                'imageContent' => '**base64_image_content**',
             ],
         ]
     );
@@ -359,8 +340,6 @@
     		"region":       "ru",
     		"title":        "Демонстрационная реализация товара",
     		"number":       "2026-001",
-    		"pdfContent":   "**base64_pdf_content**",
-    		"imageContent": "**base64_image_content**",
     	},
     })
     if err != nil {
@@ -469,7 +448,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор документа ||
+```integer | string``` | Идентификатор документа ||
 || **title**
 [`string`](../../../data-types.md) | Название документа ||
 || **number**
@@ -479,9 +458,9 @@ HTTP-статус: **200**
 || **updateTime**
 [`datetime`](../../../data-types.md) | Дата обновления ||
 || **createdBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор пользователя, создавшего документ ||
+```integer | string``` | Идентификатор пользователя, создавшего документ ||
 || **updatedBy**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Идентификатор пользователя, обновившего документ ||
+```integer | string | null``` | Идентификатор пользователя, обновившего документ ||
 || **changeStampsEnabled**
 [`boolean`](../../../data-types.md) | Можно ли изменить признак подстановки печати и подписи ||
 || **changeStampsDisabledReason**
@@ -493,7 +472,7 @@ HTTP-статус: **200**
 || **changeQrCodeDisabledReason**
 [`string`](../../../data-types.md) | Причина, почему нельзя изменить QR-код ||
 || **products**
-[`object`](../../../data-types.md) | Сводная информация по товарам документа (`currencyId`, `totalSum`, `totalRows`) ||
+[`object`](../../../data-types.md) | Сводная информация по товарам документа: `currencyId` — код валюты, строка или `null`; `totalSum` — сумма, число, числовая строка или `null`; `totalRows` — количество строк, число, числовая строка или `null` ||
 || **stampsEnabled**
 [`boolean`](../../../data-types.md) | Признак подстановки печати и подписи ||
 || **downloadUrl**
@@ -501,7 +480,7 @@ HTTP-статус: **200**
 || **downloadUrlMachine**
 [`string`](../../../data-types.md) | Ссылка на скачивание документа для машинного доступа ||
 || **publicUrl**
-[`string`](../../../data-types.md) \| [`null`](../../../data-types.md) | Публичная ссылка на документ ||
+```string | null``` | Публичная ссылка на документ ||
 || **isTransformationError**
 [`boolean`](../../../data-types.md) | Признак ошибки конвертации документа ||
 || **transformationErrorMessage**
@@ -509,17 +488,17 @@ HTTP-статус: **200**
 || **transformationErrorCode**
 [`string`](../../../data-types.md) | Код ошибки конвертации, если `isTransformationError = true` ||
 || **templateId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор шаблона ||
+```integer | string``` | Идентификатор шаблона ||
 || **pullTag**
 [`string`](../../../data-types.md) | Тег события трансформации документа ||
 || **emailDiskFile**
 [`integer`](../../../data-types.md) | Идентификатор файла в Диске для отправки по email ||
 || **entityTypeId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор типа CRM-объекта ||
+```integer | string``` | Идентификатор типа CRM-объекта ||
 || **entityId**
-[`integer`](../../../data-types.md) \| [`string`](../../../data-types.md) | Идентификатор CRM-объекта ||
+```integer | string``` | Идентификатор CRM-объекта ||
 || **values**
-[`object`](../../../data-types.md) \| [`null`](../../../data-types.md) | Значения полей документа ||
+```object | null``` | Значения полей документа ||
 || **imageUrl**
 [`string`](../../../data-types.md) | Ссылка на изображение документа, если уже создано ||
 || **pdfUrl**
@@ -536,8 +515,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "100",
-    "error_description": "Invalid value {} to match with parameter {fields}. Should be value of type array."
+    "error": "0",
+    "error_description": "Empty required fields: entityTypeId, fileContent, region, entityId, title, number"
 }
 ```
 
@@ -546,23 +525,21 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
-|| `100` | Invalid value {} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не в формате объекта ||
-|| `0` | Empty required fields: entityTypeId, fileContent, region, entityId | Не переданы обязательные поля в `fields` ||
-|| `0` | Empty required fields: fileContent | Не передано обязательное поле `fields.fileContent` ||
-|| `0` | Wrong "entityTypeId" field value | Передан некорректный `fields.entityTypeId` ||
-|| `0` | No provider for entityTypeId | Для `fields.entityTypeId` не найден подходящий CRM-провайдер ||
-|| `0` | Wrong "entityId" field value | Передан некорректный `fields.entityId` ||
-|| `0` | Missing file content | Не передан или не прочитан `fields.fileContent` ||
-|| `0` | Could not save file | Не удалось сохранить загруженный файл ||
-|| `0` | Module crm is not installed | Модуль `crm` недоступен на этапе DG-обработки ||
-|| `0` | Wrong provider ... | Некорректно определен провайдер документа ||
-|| `0` | Application not found | Не удалось определить текущее REST-приложение ||
-|| `0` | Error generating file for template | Не удалось создать служебный файл для скрытого шаблона ||
-|| `0` | Error getting template | Не удалось получить или создать скрытый шаблон для загрузки ||
-|| `Пустое значение` | You do not have permissions to view documents | Недостаточно прав на просмотр документов ||
-|| `Пустое значение` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
+|| `400` | `0` | Empty required fields: entityTypeId, fileContent, region, entityId, title, number | В пустом объекте `fields` отсутствуют обязательные поля ||
+|| `400` | `0` | Empty required fields: fileContent | Не передано обязательное поле `fields.fileContent` ||
+|| `400` | `0` | Wrong "entityTypeId" field value | Передан некорректный `fields.entityTypeId` ||
+|| `400` | `0` | No provider for entityTypeId | Для `fields.entityTypeId` не найден подходящий CRM-провайдер ||
+|| `400` | `0` | Wrong "entityId" field value | Передан некорректный `fields.entityId` ||
+|| `400` | `0` | Could not save file | Не удалось сохранить загруженный файл ||
+|| `400` | `0` | Module crm is not installed | Модуль `crm` недоступен на этапе DG-обработки ||
+|| `400` | `0` | Wrong provider ... | Некорректно определен провайдер документа ||
+|| `400` | `0` | Application not found | Не удалось определить текущее REST-приложение ||
+|| `400` | `0` | Error generating file for template | Не удалось создать служебный файл для скрытого шаблона ||
+|| `400` | `0` | Error getting template | Не удалось получить или создать скрытый шаблон для загрузки ||
+|| `400` | `0` | You do not have permissions to view documents | Недостаточно прав на просмотр документов ||
+|| `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -570,7 +547,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-document-generator-document-add.md)
-- [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-update.md)
+- [{#T}](./crm-document-generator-document-get.md)
 - [{#T}](./crm-document-generator-document-list.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-generate-documents.md)
