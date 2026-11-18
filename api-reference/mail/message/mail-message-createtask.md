@@ -11,7 +11,7 @@
 
 > Scope: [`mail`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находится письмо
+> Кто может выполнять метод: пользователь с доступом к письму
 
 {% note info "" %}
 
@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `mail.message.createtask` создает задачу из письма.
+Метод `mail.message.createtask` создает задачу на основе письма и привязывает к ней письмо.
 
 ## Параметры метода
 
@@ -35,14 +35,18 @@
 || **title**
 [`string`](../../data-types.md) | Название задачи.
 
-Если не передано, используется тема письма ||
+Если не передано, используется тема письма. Если у письма нет темы — `Task from email #<ID письма>` ||
 || **responsibleId**
 [`integer`](../../data-types.md) | Идентификатор ответственного.
 
-Если не передан, используется текущий пользователь ||
+Идентификатор можно получить методом [user.get](../../user/user-get.md).
+
+Если не передан, ответственным становится пользователь, который вызывает метод ||
 || **description**
 [`string`](../../data-types.md) | Описание задачи ||
 |#
+
+Постановщиком задачи становится пользователь, который вызывает метод. Участники задачи получают доступ к привязанному письму.
 
 ## Примеры кода
 
@@ -50,7 +54,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.createtask`
 
@@ -100,7 +104,7 @@
         method: 'mail.message.createtask',
         params: {
           messageId: 15,
-          title: 'Prepare the contract',
+          title: 'Подготовить договор',
           responsibleId: 7,
         },
         requestId: Text.getUuidRfc4122()
@@ -111,7 +115,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Task created:', result.taskId, 'from message:', result.messageId)
+        console.info('Создана задача:', result.taskId, 'из письма:', result.messageId)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -134,7 +138,7 @@
             method: 'mail.message.createtask',
             params: {
               messageId: 15,
-              title: 'Prepare the contract',
+              title: 'Подготовить договор',
               responsibleId: 7,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -147,7 +151,7 @@
           }
 
           const result = response.getData().result
-          console.info('Task created:', result.taskId, 'from message:', result.messageId)
+          console.info('Создана задача:', result.taskId, 'из письма:', result.messageId)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -185,7 +189,7 @@
     ```
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -214,7 +218,7 @@
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -233,7 +237,7 @@
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -310,7 +314,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с результатом выполнения операции ||
 || **success**
-[`boolean`](../../data-types.md) | Признак успешного выполнения операции ||
+[`boolean`](../../data-types.md) | Признак успешного выполнения. При успешном ответе всегда `true` ||
 || **taskId**
 [`integer`](../../data-types.md) | Идентификатор созданной задачи ||
 || **messageId**
@@ -330,8 +334,8 @@ HTTP-статус: **400**
         "message": "Ошибка при валидации объекта запроса",
         "validation": [
             {
-                "message": "Обязательное поле `messageId` не указано",
-                "field": "messageId"
+                "message": "Parameter \"messageId\" is required.",
+                "field": "MISSING_MESSAGE_ID"
             }
         ]
     }
@@ -346,21 +350,14 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
 
-#|
-|| **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `messageId` | Обязательное поле `messageId` не указано или передано некорректное значение | Передайте `messageId` как положительное целое число больше `0` ||
-|| `-` | Module tasks is not installed. | Установите и настройте модуль задач ||
-|| `messageId` | Сообщение удалено или перемещено в другую папку | Проверьте, что письмо существует и доступно текущему пользователю ||
-|| `-` | Не удалось создать задачу | Проверьте права доступа к задачам и корректность параметров ||
-|#
-
-#### Ошибки доступа
-
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+В колонке «Поле» — значение `field` из элемента `validation`. Метод передает в нем код причины, а не имя параметра. У ошибок без кода `field` в ответе нет.
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| `MISSING_MESSAGE_ID` | Parameter "messageId" is required. | `messageId` не передан, не является числом или меньше `1`. Передайте идентификатор письма — положительное целое число ||
+|| `-` | Сообщение удалено или перемещено в другую папку | Письма с таким `messageId` нет или у пользователя нет к нему доступа. Проверьте идентификатор методом [mail.message.list](./mail-message-list.md) ||
+|| `-` | Module tasks is not installed. | В Битрикс24 не установлен модуль задач ||
+|| `-` | Текст ошибки модуля задач | Задача не создана, например ответственный не найден или у пользователя нет права создавать задачи. Проверьте `responsibleId` и права пользователя ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

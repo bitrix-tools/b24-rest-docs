@@ -19,7 +19,7 @@ items:
     href: mail-message-movetofolder.md
   - name: Создать дело CRM из письма
     href: mail-message-createcrmactivity.md
-  - name: Удалить связь письма с делом CRM
+  - name: Удалить из CRM дела письма
     href: mail-message-removecrmactivity.md
   - name: Создать задачу из письма
     href: mail-message-createtask.md

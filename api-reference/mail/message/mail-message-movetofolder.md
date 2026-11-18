@@ -11,7 +11,7 @@
 
 > Scope: [`mail`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находятся письма
+> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находятся письма. Для `action: "delete"` дополнительно нужно право на удаление писем
 
 {% note info "" %}
 
@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `mail.message.movetofolder` перемещает письма в папку, спам или корзину.
+Метод `mail.message.movetofolder` перемещает письма в папку, спам или корзину почтового ящика.
 
 ## Параметры метода
 
@@ -29,21 +29,25 @@
 || **Название**
 `тип` | **Описание** ||
 || **messageIds***
-[`array`](../../data-types.md) | Массив идентификаторов писем.
+[`array`](../../data-types.md) | Непустой массив идентификаторов писем, не больше 100 элементов.
 
-Идентификаторы можно получить методом [mail.message.list](./mail-message-list.md).
+Все письма в запросе должны лежать в одной папке. Для `action: "move"` письма также должны быть из одного почтового ящика.
 
-Передавайте в одном запросе письма только из одной папки и одного почтового ящика ||
+Идентификаторы можно получить методом [mail.message.list](./mail-message-list.md) ||
 || **action***
-[`string`](../../data-types.md) | Действие для писем:
+[`string`](../../data-types.md) | Действие с письмами. Регистр важен.
 
-- `move` — переместить в папку, указанную в `folder`
-- `spam` — переместить в спам
-- `delete` — переместить в корзину ||
+Возможные значения:
+
+- `move` — переместить в папку из `folder`
+- `spam` — переместить в папку спама ящика
+- `delete` — переместить в корзину ящика. Если письма уже в корзине, метод удаляет их безвозвратно ||
 || **folder**
-[`string`](../../data-types.md) | Имя или путь существующей папки в этом почтовом ящике.
+[`string`](../../data-types.md) | Папка, в которую нужно переместить письма. Обязателен, если `action` равно `move`.
 
-Обязательно для действия `move` ||
+Передайте имя папки или полный путь к ней на почтовом сервере, например `INBOX/Archive`. Регистр не важен.
+
+Если указана папка спама или корзины, метод работает как `action: "spam"` или `action: "delete"`. Если указана папка входящих, метод возвращает письма из спама во входящие ||
 |#
 
 ## Примеры кода
@@ -52,7 +56,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.movetofolder`
 
@@ -112,7 +116,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Moved count:', result.movedCount, 'Action:', result.action, 'Success:', result.success)
+        console.info('Обработано писем:', result.movedCount, 'Действие:', result.action)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -147,7 +151,7 @@
           }
 
           const result = response.getData().result
-          console.info('Moved count:', result.movedCount, 'Action:', result.action, 'Success:', result.success)
+          console.info('Обработано писем:', result.movedCount, 'Действие:', result.action)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -185,9 +189,10 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -205,16 +210,15 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'Success: ' . print_r($result, true);
+        print_r($result);
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -223,16 +227,18 @@
             messageIds: [15, 16],
             action: 'spam'
         },
-        function(result){
-            console.info(result.data());
-            console.log(result);
+        result => {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
     );
     ```
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -305,20 +311,20 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом перемещения ||
+[`object`](../../data-types.md) | Объект с результатом операции ||
 || **success**
-[`boolean`](../../data-types.md) | Признак успешного выполнения операции ||
+[`boolean`](../../data-types.md) | Результат операции. В успешном ответе всегда `true`: если письма не перемещены, метод возвращает ошибку ||
 || **movedCount**
-[`integer`](../../data-types.md) | Количество обработанных писем ||
+[`integer`](../../data-types.md) | Количество обработанных писем. В счет входят только письма, к которым у пользователя есть доступ: недоступные и несуществующие идентификаторы метод пропускает ||
 || **action**
-[`string`](../../data-types.md) | Выполненное действие ||
+[`string`](../../data-types.md) | Выполненное действие: `move`, `spam` или `delete` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -327,8 +333,8 @@ HTTP-статус: **400**
         "message": "Ошибка при валидации объекта запроса",
         "validation": [
             {
-                "message": "Обязательное поле не указано",
-                "field": "messageIds"
+                "message": "Parameter \"action\" must be \"move\", \"spam\", or \"delete\".",
+                "field": "INVALID_ACTION"
             }
         ]
     }
@@ -341,25 +347,43 @@ HTTP-статус: **400**
 
 #### Ошибки валидации запроса
 
+HTTP-статус: **400**
+
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
 
+В ответе с этим кодом поле `field` содержит не имя параметра, а код причины ошибки. У части ошибок поля `field` нет. Тексты ошибок, которые возвращает почтовый модуль, приходят на языке Битрикс24.
+
 #|
-|| **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `messageIds` | Обязательное поле не указано | Передайте `messageIds` в теле запроса ||
-|| `messageIds` | Выберите письма из одной папки | Передавайте в одном запросе письма только из одной папки ||
-|| `folder` | Параметр `folder` обязателен при `action=move` | Передайте `folder` или используйте `action=spam` / `action=delete` ||
-|| `action` | Параметр `action` должен быть `move`, `spam` или `delete` | Передайте одно из допустимых значений ||
-|| `messageIds` | No accessible messages found | Передайте существующие идентификаторы писем, к которым у пользователя есть доступ ||
-|| `messageIds` | All messages must belong to the same mailbox | Передавайте в запросе письма только из одного почтового ящика ||
+|| **Значение field** | **Описание ошибки** | **Как исправить** ||
+|| `MISSING_MESSAGEIDS` | Parameter "messageIds" is required and must be a non-empty array. | Передайте `messageIds` непустым массивом. Число или строка вместо массива тоже вызывают эту ошибку ||
+|| `MISSING_ACTION` | Parameter "action" is required. | Передайте `action` ||
+|| `INVALID_ACTION` | Parameter "action" must be "move", "spam", or "delete". | Передайте `move`, `spam` или `delete` в нижнем регистре ||
+|| `MISSING_FOLDER` | Parameter "folder" is required when action is "move". | Передайте `folder` или используйте `action: "spam"`, `action: "delete"` ||
+|| нет | No accessible messages found. | Ни одно письмо из `messageIds` не найдено или у пользователя нет доступа к их почтовым ящикам. Проверьте идентификаторы методом [mail.message.list](./mail-message-list.md) ||
+|| нет | All messages must belong to the same mailbox. | Для `action: "move"` переданы письма из разных почтовых ящиков. Разделите запрос по ящикам ||
+|| `MAIL_CLIENT_MESSAGES_MULTIPLE_FOLDERS` | Выберите письма из одной папки | Письма лежат в разных папках. Разделите запрос по папкам ||
+|| `MAIL_CLIENT_MOVE_TO_SELF_FOLDER` | Письмо уже находится в указанной папке | Письма уже лежат в папке `folder`. Исключите их из запроса ||
+|| `MAIL_CLIENT_MAILBOX_NOT_FOUND` | Ящик не найден | Папка `folder` не найдена в почтовом ящике. Проверьте имя или путь папки ||
+|| `MAIL_CLIENT_FOLDER_IS_DISABLED` | Archive не является папкой | Папка `folder` отключена для синхронизации. Выберите другую папку ||
+|| `MAIL_CLIENT_SPAM_FOLDER_NOT_SELECTED_ERROR` | Не указано, в какую папку перемещать спам | В настройках почтового ящика не выбрана папка спама. Выберите ее в настройках ящика ||
+|| `MAIL_CLIENT_TRASH_FOLDER_NOT_SELECTED_ERROR` | Не указано, в какую папку перемещать удаленные письма | В настройках почтового ящика не выбрана папка корзины. Выберите ее в настройках ящика ||
+|| `MAIL_CLIENT_MESSAGES_NOT_FOUND` | Письма синхронизируются. Попробуйте выполнить это действие позже. | Письма еще синхронизируются с почтовым сервером. Так бывает с письмами, которые только что отправлены методами `mail.message.send`, `mail.message.reply` и `mail.message.forward`. Повторите запрос позже ||
+|| `MAIL_CLIENT_SYNC_ERROR` | Ошибка при синхронизации данных | Почтовый сервер не выполнил операцию. Повторите запрос позже ||
+|| `MAILBOX_MIGRATION_ACTION_BLOCKED` | The mailbox action is unavailable while its migration is active | Почтовый ящик переносится. Повторите запрос после завершения переноса ||
+|| `MAILBOX_MIGRATION_STATUS_UNAVAILABLE` | The mailbox migration status is temporarily unavailable | Статус переноса ящика временно недоступен. Повторите запрос позже ||
 |#
 
-#### Ошибки доступа
+Если в `messageIds` больше 100 элементов, Битрикс24 возвращает HTTP-статус **500** и ошибку `INTERNAL_SERVER_ERROR`. Разделите письма на несколько запросов.
+
+#### Ошибка доступа
+
+HTTP-статус: **403**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| `-` | Доступ запрещен | Для `action: "delete"` или перемещения в папку корзины у пользователя нет права на удаление писем. Попросите администратора выдать право в настройках прав почты ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

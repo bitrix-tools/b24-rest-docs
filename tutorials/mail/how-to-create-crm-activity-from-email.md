@@ -483,7 +483,7 @@
 - `mail.message.createcrmactivity` не возвращает `messageId` или идентификатор созданного дела CRM. Сохраните `messageId` в своей системе, если позже потребуется получить исходное письмо
 - целевой объект CRM нельзя передать параметром: у `mail.message.createcrmactivity` нет полей для идентификатора лида, сделки, контакта или компании
 - повторный вызов `mail.message.createcrmactivity` для того же письма может вернуть ошибку или не изменить уже созданную связь, проверяйте `bindings` перед повтором
-- связь можно удалить методом [mail.message.removecrmactivity](../../api-reference/mail/message/mail-message-removecrmactivity.md)
+- дела CRM, созданные по письму, удаляет метод [mail.message.removecrmactivity](../../api-reference/mail/message/mail-message-removecrmactivity.md)
 
 ## Пример кода
 
@@ -667,4 +667,4 @@
 - [Получить список писем mail.message.list](../../api-reference/mail/message/mail-message-list.md)
 - [Создать дело CRM из письма mail.message.createcrmactivity](../../api-reference/mail/message/mail-message-createcrmactivity.md)
 - [Получить письмо mail.message.get](../../api-reference/mail/message/mail-message-get.md)
-- [Удалить связь письма с делом CRM mail.message.removecrmactivity](../../api-reference/mail/message/mail-message-removecrmactivity.md)
+- [Удалить из CRM дела письма mail.message.removecrmactivity](../../api-reference/mail/message/mail-message-removecrmactivity.md)

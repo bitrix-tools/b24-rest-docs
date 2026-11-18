@@ -48,16 +48,9 @@
     declare const $b24: B24Frame
 
     try {
-      // messageservice.sender.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<string[]>({
         method: 'messageservice.sender.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -85,16 +78,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // messageservice.sender.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'messageservice.sender.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -243,7 +229,7 @@ HTTP-статус: **200**
 || **result**
 [`array`](../data-types.md) | Массив кодов провайдеров, зарегистрированных текущим приложением.
 
-Пустой массив означает, что у текущего приложения нет зарегистрированных провайдеров ||
+Метод возвращает все коды одним массивом, без постраничной навигации. Пустой массив означает, что у текущего приложения нет зарегистрированных провайдеров ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -264,9 +250,9 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
-|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | `Access denied! Application context required` | Метод вызван вне контекста приложения ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
 |#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}

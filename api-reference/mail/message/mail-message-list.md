@@ -11,7 +11,7 @@
 
 > Scope: [`mail`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: любой пользователь. Метод ищет письма только в почтовых ящиках, к которым у пользователя есть доступ
 
 {% note info "" %}
 
@@ -19,7 +19,9 @@
 
 {% endnote %}
 
-Метод `mail.message.list` возвращает список писем по заданным условиям.
+Метод `mail.message.list` возвращает список писем по заданным условиям. Письма отсортированы от новых к старым.
+
+Условия поиска передаются отдельными параметрами в корне запроса. Стандартные параметры REST 3.0 `filter` и `order` метод не поддерживает.
 
 ## Параметры метода
 
@@ -29,15 +31,21 @@
 || **Название**
 `тип` | **Описание** ||
 || **mailboxId**
-[`integer`](../../data-types.md) | Идентификатор почтового ящика.
+[`integer`](../../data-types.md) | Идентификатор почтового ящика. Положительное целое число.
+
+Если параметр не передан, метод ищет письма во всех почтовых ящиках пользователя.
 
 Идентификатор можно получить методом [mail.mailbox.list](../mailbox/mail-mailbox-list.md) ||
 || **searchQuery**
-[`string`](../../data-types.md) | Строка для поиска писем по содержимому и метаданным письма ||
+[`string`](../../data-types.md) | Строка для поиска писем по содержимому и метаданным письма. Пустая строка не учитывается ||
 || **dateFrom**
-[`string`](../../data-types.md) | Начало периода выборки писем в формате ISO 8601, например `2026-01-01T00:00:00+03:00` ||
+[`string`](../../data-types.md) | Начало периода выборки писем. Возможные форматы:
+- дата `YYYY-MM-DD`, например `2026-01-01`. Метод берет начало дня, `00:00:00`
+- дата и время с часовым поясом, например `2026-01-01T10:00:00+03:00`, `2026-01-01T10:00:00Z` или `2026-01-01T10:00:00.123+03:00`
+
+Дата и время без часового пояса, например `2026-01-01T10:00:00`, вызывают ошибку. Значение `dateFrom` должно быть не позже `dateTo` ||
 || **dateTo**
-[`string`](../../data-types.md) | Конец периода выборки писем в формате ISO 8601, например `2026-01-31T23:59:59+03:00` ||
+[`string`](../../data-types.md) | Конец периода выборки писем. Форматы те же, что у `dateFrom`. Если передана только дата, например `2026-01-31`, метод берет конец дня, `23:59:59` ||
 || **isSeen**
 [`boolean`](../../data-types.md) | Фильтр по признаку прочтения письма.
 
@@ -53,12 +61,16 @@
 - `true` — только письма с вложениями
 - `false` — только письма без вложений ||
 || **folder**
-[`string`](../../data-types.md) | Имя или путь почтовой папки ||
+[`string`](../../data-types.md) | Имя или путь почтовой папки, например `INBOX` ||
+|| **select**
+[`array`](../../data-types.md) | Список полей письма. Метод проверяет имена полей и возвращает ошибку на неизвестное поле, но сейчас в ответе всегда приходят все поля письма.
+
+Доступные поля: `id`, `mailboxId`, `mailboxEmail`, `subject`, `from`, `to`, `cc`, `date`, `isSeen`, `hasAttachments`, `url`, `bindings`, `body`. Описание полей — в разделе [Возвращаемые данные](#returned-data) ||
 || **pagination**
 [`object`](../../data-types.md) | Параметры постраничной навигации:
 - `page` — номер страницы
-- `limit` — количество записей на страницу, по умолчанию `25`, максимум `200`
-- `offset` — смещение записей. Если переданы `page` и `limit`, смещение вычисляется автоматически ||
+- `limit` — количество записей на страницу, по умолчанию `25`. Значение больше `200` метод уменьшает до `200`, значение `0` вызывает ошибку
+- `offset` — смещение записей, неотрицательное число. Если переданы `page` и `limit`, смещение вычисляется автоматически ||
 |#
 
 ## Примеры кода
@@ -67,7 +79,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.list`
 
@@ -101,13 +113,19 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type MailMessageListResult = {
       items: MailMessageItem[]
+    }
+
+    type MailMessageBinding = {
+      type: 'crm' | 'task' | 'chat' | 'calendarEvent' | 'blogPost'
+      entityTypeId?: number
+      entityId: number
     }
 
     type MailMessageItem = {
@@ -117,13 +135,13 @@
       subject: string
       from: string
       to: string
-      cc: string
-      date: ISODate | null
+      cc: string | null
+      date: string
       isSeen: boolean
       hasAttachments: boolean
       url: string
-      bindings: unknown[]
-      body: string
+      bindings: MailMessageBinding[]
+      body: string | null
     }
 
     try {
@@ -136,7 +154,7 @@
         method: 'mail.message.list',
         params: {
           mailboxId: 1,
-          searchQuery: 'contract',
+          searchQuery: 'договор',
           hasAttachments: true,
           pagination: {
             page: 1,
@@ -152,7 +170,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Messages fetched:', result.items.length, result.items[0])
+        console.info('Получено писем:', result.items.length, result.items[0])
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -180,7 +198,7 @@
             method: 'mail.message.list',
             params: {
               mailboxId: 1,
-              searchQuery: 'contract',
+              searchQuery: 'договор',
               hasAttachments: true,
               pagination: {
                 page: 1,
@@ -198,7 +216,7 @@
           }
 
           const result = response.getData().result
-          console.info('Messages fetched:', result.items.length, result.items[0])
+          console.info('Получено писем:', result.items.length, result.items[0])
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -382,13 +400,19 @@ HTTP-статус: **200**
                 "subject": "Договор",
                 "from": "client@example.com",
                 "to": "user@example.com",
-                "cc": "",
-                "date": "2026-05-25T10:00:00+03:00",
+                "cc": null,
+                "date": "2026-05-25 10:00:00",
                 "isSeen": true,
                 "hasAttachments": true,
-                "url": "https://example.bitrix24.ru/mail/message/15/",
-                "bindings": [],
-                "body": "Текст письма"
+                "url": "https://example.bitrix24.ru/mail/message/15",
+                "bindings": [
+                    {
+                        "type": "crm",
+                        "entityTypeId": 3,
+                        "entityId": 27
+                    }
+                ],
+                "body": null
             }
         ]
     },
@@ -405,7 +429,7 @@ HTTP-статус: **200**
 }
 ```
 
-### Возвращаемые данные
+### Возвращаемые данные {#returned-data}
 
 #|
 || **Название**
@@ -413,15 +437,15 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов писем ||
+[`array`](../../data-types.md) | Массив объектов писем. Если писем нет, приходит пустой массив `[]` ||
 || **items[]**
-[`object`](../../data-types.md) | Объект письма ||
+[`object`](../../data-types.md) | Объект письма. Приходят все поля независимо от `select` ||
 || **id**
 [`integer`](../../data-types.md) | Идентификатор письма ||
 || **mailboxId**
 [`integer`](../../data-types.md) | Идентификатор почтового ящика ||
 || **mailboxEmail**
-[`string`](../../data-types.md) | Email почтового ящика ||
+[`string`](../../data-types.md) | Адрес почтового ящика ||
 || **subject**
 [`string`](../../data-types.md) | Тема письма ||
 || **from**
@@ -429,19 +453,22 @@ HTTP-статус: **200**
 || **to**
 [`string`](../../data-types.md) | Получатели письма ||
 || **cc**
-[`string`](../../data-types.md) | Копия письма ||
+[`string`](../../data-types.md) | Получатели копии. В списке не заполняется и приходит со значением `null`, получите его методом [mail.message.get](./mail-message-get.md) ||
 || **date**
-[`string`](../../data-types.md) | Дата и время письма ||
+[`string`](../../data-types.md) | Дата и время получения письма в формате `YYYY-MM-DD HH:MM:SS`, без часового пояса ||
 || **isSeen**
-[`boolean`](../../data-types.md) | Признак прочтения письма ||
+[`boolean`](../../data-types.md) | Признак прочтения письма: `true` — прочитано, `false` — не прочитано ||
 || **hasAttachments**
 [`boolean`](../../data-types.md) | Признак наличия вложений ||
 || **url**
-[`string`](../../data-types.md) | Ссылка на письмо ||
+[`string`](../../data-types.md) | Полная ссылка на письмо в Битрикс24 ||
 || **bindings**
-[`array`](../../data-types.md) | Связи письма с объектами ||
+[`array`](../../data-types.md) | Связи письма с объектами Битрикс24. Если связей нет, приходит пустой массив `[]`. Каждый элемент содержит:
+- `type` — тип объекта: `crm` — дело CRM, `task` — задача, `chat` — чат, `calendarEvent` — событие календаря, `blogPost` — пост в Ленте новостей
+- `entityTypeId` — [идентификатор типа объекта CRM](../../crm/data-types.md#object_type), к которому привязано дело. Есть только у связи `crm`
+- `entityId` — идентификатор объекта. Для связи `crm` — идентификатор объекта CRM, к которому привязано дело ||
 || **body**
-[`string`](../../data-types.md) | Тело письма ||
+[`string`](../../data-types.md) | Текст письма. В списке не заполняется и приходит со значением `null`, получите его методом [mail.message.get](./mail-message-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -453,8 +480,14 @@ HTTP-статус: **400**
 ```json
 {
     "error": {
-        "code": "BITRIX_REST_V3_EXCEPTION_INVALIDPAGINATIONEXCEPTION",
-        "message": "Не удается распознать параметр пагинации `{\"limit\":\"abc\"}`"
+        "code": "BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION",
+        "message": "Ошибка при валидации объекта запроса",
+        "validation": [
+            {
+                "message": "The selected mailbox is not available to the current user.",
+                "field": "MESSAGE_LIST_FAILED"
+            }
+        ]
     }
 }
 ```
@@ -463,13 +496,46 @@ HTTP-статус: **400**
 
 ### Возможные коды ошибок
 
-#### Ошибки доступа
+#### Ошибки валидации запроса
 
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
+
+Ошибки в параметрах поиска приходят в массиве `validation` со значением `field`, равным `MESSAGE_LIST_FAILED`. Какой параметр передан неверно, видно из текста ошибки.
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| `MESSAGE_LIST_FAILED` | mailboxId must be a positive integer. | Передайте в `mailboxId` положительное целое число ||
+|| `MESSAGE_LIST_FAILED` | The selected mailbox is not available to the current user. | Почтовый ящик не найден или у пользователя нет к нему доступа. Получите доступные ящики методом [mail.mailbox.list](../mailbox/mail-mailbox-list.md) ||
+|| `MESSAGE_LIST_FAILED` | Invalid dateFrom. Use an ISO 8601 date like 'YYYY-MM-DD' or a full date-time. | Передайте в `dateFrom` дату `YYYY-MM-DD` или дату и время с часовым поясом ||
+|| `MESSAGE_LIST_FAILED` | Invalid dateTo. Use an ISO 8601 date like 'YYYY-MM-DD' or a full date-time. | Передайте в `dateTo` дату `YYYY-MM-DD` или дату и время с часовым поясом ||
+|| `MESSAGE_LIST_FAILED` | dateFrom must be earlier than or equal to dateTo. | Передайте в `dateFrom` значение не позже `dateTo` ||
+|| `id` | В DTO `MessageDto` в поле `id` требуется наличие атрибута `Filterable` для такого запроса | Метод не поддерживает параметр `filter`. Передайте условия поиска отдельными параметрами: `mailboxId`, `searchQuery`, `dateFrom` и другими ||
+|| `id` | В DTO `MessageDto` в поле `id` требуется наличие атрибута `Sortable` для такого запроса | Метод не поддерживает параметр `order`. Уберите его из запроса: письма всегда отсортированы от новых к старым ||
+|#
+
+#### Ошибки в параметре filter
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDFILTEREXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `filter` | Не удается распознать выражение фильтра `Unknown filter condition` | Метод не поддерживает параметр `filter`. Передайте условия поиска отдельными параметрами в корне запроса ||
+|#
+
+#### Ошибки в параметре select
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Неизвестное поле `foo` для сущности `MessageDto` | Передайте только поля из списка параметра `select` ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Не удается распознать выражение select `["id"]` | Передайте `select` как массив строк, например `["id","subject"]` ||
 |#
 
 #### Ошибки пагинации
@@ -478,19 +544,18 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `limit`
-`offset`
-`page` | Не удается распознать параметр пагинации `#PAGE#` | Передайте числовые значения. `limit` не должен быть равен `0` ||
+|| `pagination` | Не удается распознать параметр пагинации `{"limit":"abc"}` | Передайте в `limit`, `page` и `offset` числа ||
+|| `pagination` | Не удается распознать параметр пагинации `{"limit":0}` | Передайте `limit` больше `0` ||
+|| `pagination` | Не удается распознать параметр пагинации `{"offset":-5}` | Передайте `offset` больше или равный `0` ||
 |#
 
-#### Ошибки валидации запроса
+#### Ошибки доступа
 
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `dateFrom` | Параметр `dateFrom` должен быть в формате ISO 8601 (DATE_ATOM), например `2026-01-01T00:00:00+00:00` | Передайте дату в формате ISO 8601 ||
-|| `dateTo` | Параметр `dateTo` должен быть в формате ISO 8601 (DATE_ATOM), например `2026-01-01T00:00:00+00:00` | Передайте дату в формате ISO 8601 ||
+|| `-` | Доступ запрещен | Проверьте, что у приложения или вебхука есть scope `mail` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

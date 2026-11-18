@@ -11,7 +11,7 @@
 
 > Scope: [`mail`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находится письмо
+> Кто может выполнять метод: пользователь с доступом к письму
 
 {% note info "" %}
 
@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `mail.message.createfeedpost` создает сообщение Ленты новостей из письма.
+Метод `mail.message.createfeedpost` публикует в Ленте новостей сообщение со ссылкой на письмо.
 
 ## Параметры метода
 
@@ -35,8 +35,14 @@
 || **title**
 [`string`](../../data-types.md) | Заголовок сообщения.
 
-Если не передан, используется тема письма ||
+Если не передан, используется тема письма. Если у письма нет темы — `Post from email #<ID письма>` ||
 |#
+
+{% note warning "" %}
+
+Сообщение видят все сотрудники. Текст сообщения — ссылка на письмо в виде `Email: <ссылка>`, содержимое письма в Ленту новостей не копируется.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -44,7 +50,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.createfeedpost`
 
@@ -94,7 +100,7 @@
         method: 'mail.message.createfeedpost',
         params: {
           messageId: 15,
-          title: 'Discussion of the contract',
+          title: 'Обсуждение договора',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -104,7 +110,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Feed post created:', result.postId, '| success:', result.success)
+        console.info('Создано сообщение Ленты новостей:', result.postId)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -127,7 +133,7 @@
             method: 'mail.message.createfeedpost',
             params: {
               messageId: 15,
-              title: 'Discussion of the contract',
+              title: 'Обсуждение договора',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -139,7 +145,7 @@
           }
 
           const result = response.getData().result
-          console.info('Feed post created:', result.postId, '| success:', result.success)
+          console.info('Создано сообщение Ленты новостей:', result.postId)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -176,7 +182,7 @@
     ```
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -204,7 +210,7 @@
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -222,7 +228,7 @@
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -297,7 +303,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с результатом выполнения операции ||
 || **success**
-[`boolean`](../../data-types.md) | Признак успешного выполнения операции ||
+[`boolean`](../../data-types.md) | Признак успешного выполнения. При успешном ответе всегда `true` ||
 || **postId**
 [`integer`](../../data-types.md) | Идентификатор созданного сообщения Ленты новостей ||
 || **messageId**
@@ -317,8 +323,8 @@ HTTP-статус: **400**
         "message": "Ошибка при валидации объекта запроса",
         "validation": [
             {
-                "message": "Обязательное поле `messageId` не указано",
-                "field": "messageId"
+                "message": "Parameter \"messageId\" is required.",
+                "field": "MISSING_MESSAGE_ID"
             }
         ]
     }
@@ -333,22 +339,15 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
 
-#|
-|| **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `messageId` | Обязательное поле `messageId` не указано или передано некорректное значение | Передайте `messageId` как положительное целое число больше `0` ||
-|| `-` | Modules blog/socialnetwork are not installed | Установите и настройте модули blog и socialnetwork ||
-|| `messageId` | Сообщение удалено или перемещено в другую папку | Проверьте, что письмо существует и доступно текущему пользователю ||
-|| `-` | User blog not found | Проверьте настройки профиля и блога пользователя ||
-|| `-` | Failed to create blog post | Проверьте права доступа и корректность параметров ||
-|#
-
-#### Ошибки доступа
-
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+В колонке «Поле» — значение `field` из элемента `validation`. Метод передает в нем код причины, а не имя параметра. У ошибок без кода `field` в ответе нет.
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| `MISSING_MESSAGE_ID` | Parameter "messageId" is required. | `messageId` не передан, не является числом или меньше `1`. Передайте идентификатор письма — положительное целое число ||
+|| `-` | Сообщение удалено или перемещено в другую папку | Письма с таким `messageId` нет или у пользователя нет к нему доступа. Проверьте идентификатор методом [mail.message.list](./mail-message-list.md) ||
+|| `-` | Modules blog/socialnetwork are not installed. | В Битрикс24 не установлен модуль блогов или модуль социальной сети ||
+|| `-` | User blog not found. | У пользователя нет блога, в котором публикуются его сообщения Ленты новостей ||
+|| `-` | Failed to create blog post. | Сообщение не опубликовано. Проверьте права пользователя на публикацию в Ленте новостей ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

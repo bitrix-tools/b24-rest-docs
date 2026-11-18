@@ -269,12 +269,12 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender code!` | Не передан обязательный параметр `CODE` ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Wrong sender code!` | `CODE` содержит недопустимые символы ||
-|| `ERROR_SENDER_NOT_FOUND` | `Sender not found!` | Провайдер с переданным `CODE` не найден ||
-|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
-|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender code!` | Не передан обязательный параметр `CODE` ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Wrong sender code!` | `CODE` содержит недопустимые символы ||
+|| `400` | `ERROR_SENDER_NOT_FOUND` | `Sender not found!` | Провайдер с переданным `CODE` не найден среди провайдеров текущего приложения ||
+|| `403` | `ACCESS_DENIED` | `Access denied! Application context required` | Метод вызван вне контекста приложения ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
 |#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}

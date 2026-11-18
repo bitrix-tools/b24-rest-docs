@@ -11,7 +11,7 @@
 
 > Scope: [`mail`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находится письмо
+> Кто может выполнять метод: пользователь с доступом к почтовому ящику, где находится письмо, если ему доступен адрес отправителя из `from`
 
 {% note info "" %}
 
@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `mail.message.forward` пересылает письмо.
+Метод `mail.message.forward` пересылает письмо новым получателям.
 
 ## Параметры метода
 
@@ -33,20 +33,60 @@
 
 Идентификатор можно получить методом [mail.message.list](./mail-message-list.md) ||
 || **from***
-[`string`](../../data-types.md) | E-mail отправителя.
+[`string`](../../data-types.md) | Адрес отправителя. Адрес должен быть в списке доступных пользователю отправителей.
 
-Доступные адреса можно получить методом [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md) ||
+Можно передать адрес в формате `Имя <email>`: метод учитывает только адрес.
+
+Доступные адреса можно получить методом [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md), поле `email` ||
 || **to***
-[`array`](../../data-types.md) | Массив email-адресов получателей ||
+[`array`](../../data-types.md) | Непустой массив получателей. Элемент массива — e-mail или имя получателя.
+
+Имя метод ищет сначала в адресной книге почты пользователя, затем среди сотрудников. Если найдено несколько совпадений или ни одного, метод вернет ошибку `RESOLVE_RECIPIENTS_ERROR`. Чтобы не зависеть от поиска, передавайте e-mail.
+
+Адреса из адресной книги можно получить методом [mail.recipient.listContacts](../recipient/mail-recipient-listcontacts.md), адреса сотрудников — методом [mail.recipient.listEmployees](../recipient/mail-recipient-listemployees.md) ||
 || **subject***
-[`string`](../../data-types.md) | Тема письма ||
+[`string`](../../data-types.md) | Тема письма. Пустая строка не допускается ||
 || **body***
-[`string`](../../data-types.md) | Текст письма: обычный текст или базовый HTML ||
+[`string`](../../data-types.md) | Текст письма. Пустая строка не допускается.
+
+Можно передать обычный текст или HTML. Письмо отправляется в формате HTML ||
 || **cc**
-[`array`](../../data-types.md) | Массив email-адресов получателей копии ||
+[`array`](../../data-types.md) | Массив получателей копии. Формат элементов такой же, как у `to`.
+
+Передавайте массив, даже для одного адреса ||
 || **bcc**
-[`array`](../../data-types.md) | Массив email-адресов получателей скрытой копии ||
+[`array`](../../data-types.md) | Массив получателей скрытой копии. Формат элементов такой же, как у `to`.
+
+Передавайте массив, даже для одного адреса ||
+|| **mailboxId**
+[`integer`](../../data-types.md) | Идентификатор почтового ящика, через который нужно отправить письмо. Нужен, если адрес `from` доступен пользователю через несколько ящиков или отправителей. Если переданы `mailboxId` и `senderId`, метод учитывает `mailboxId`.
+
+Значение должно быть положительным числом и соответствовать адресу `from`.
+
+Идентификатор можно получить методом [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md), поле `mailboxId` ||
+|| **senderId**
+[`integer`](../../data-types.md) | Идентификатор отправителя. Используйте, если адрес `from` доступен пользователю через несколько отправителей.
+
+Значение должно быть положительным числом и соответствовать адресу `from`.
+
+Идентификатор можно получить методом [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md), поле `senderId` ||
 |#
+
+Под текстом из `body` метод цитирует исходное письмо и прикладывает все его вложения. Префикс `Fwd:` в тему метод не добавляет.
+
+Если адрес `from` принадлежит подключенному почтовому ящику пользователя, письмо уходит через этот ящик и сохраняется в его папке отправленных. Если адрес принадлежит отдельному отправителю без ящика, письмо уходит через почтовый сервис Битрикс24.
+
+{% note warning "" %}
+
+Перед отправкой метод проверяет лимиты Битрикс24:
+
+- общее количество получателей в `to`, `cc` и `bcc` ограничено тарифом. Если лимит не задан, допускается до 10 получателей
+- на демо-тарифе и тарифах без синхронизации почты в каждом из массивов `to`, `cc` и `bcc` может быть только один получатель
+- действуют дневной лимит отправителя, дневной и месячный лимиты писем Битрикс24
+
+Если лимит превышен, письмо не отправляется, а метод возвращает ошибку с описанием лимита.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -54,7 +94,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.forward`
 
@@ -105,8 +145,8 @@
           forwardMessageId: 15,
           from: 'user@example.com',
           to: ['manager@example.com'],
-          subject: 'Fwd: Contract',
-          body: 'Forwarding the message.',
+          subject: 'Fwd: Договор',
+          body: 'Пересылаю письмо.',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -116,7 +156,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Forwarded successfully:', result.success, 'To:', result.to)
+        console.info('Письмо переслано:', result.success, 'Получатели:', result.to)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -141,8 +181,8 @@
               forwardMessageId: 15,
               from: 'user@example.com',
               to: ['manager@example.com'],
-              subject: 'Fwd: Contract',
-              body: 'Forwarding the message.',
+              subject: 'Fwd: Договор',
+              body: 'Пересылаю письмо.',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -154,7 +194,7 @@
           }
 
           const result = response.getData().result
-          console.info('Forwarded successfully:', result.success, 'To:', result.to)
+          console.info('Письмо переслано:', result.success, 'Получатели:', result.to)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -196,9 +236,10 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     try {
@@ -219,17 +260,16 @@
             ->getResponseData()
             ->getResult();
 
-        echo 'Success: ' . print_r($result, true);
+        print_r($result);
 
     } catch (Throwable $e) {
-        error_log($e->getMessage());
-        echo 'Error: ' . $e->getMessage();
+        echo $e->getMessage();
     }
     ```
 
 - BX24.js
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```js
     BX24.callMethod(
@@ -241,16 +281,18 @@
             subject: 'Fwd: Договор',
             body: 'Пересылаю письмо.'
         },
-        function(result){
-            console.info(result.data());
-            console.log(result);
+        result => {
+            if (result.error())
+                console.error(result.error());
+            else
+                console.dir(result.data());
         }
     );
     ```
 
 - PHP CRest
 
-    SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
+    SDK пока не поддерживает вызовы по адресу `/rest/api/`. Используйте прямой HTTP-запрос, например через cURL или fetch.
 
     ```php
     require_once('crest.php');
@@ -287,12 +329,13 @@
     }
 
     var item struct {
-    	Success bool `json:"success"`
+    	Success bool     `json:"success"`
+    	To      []string `json:"to"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Success)
+    fmt.Println(item.Success, item.To)
     ```
 
 {% endlist %}
@@ -330,9 +373,9 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с результатом отправки ||
 || **success**
-[`boolean`](../../data-types.md) | Признак успешной отправки ||
+[`boolean`](../../data-types.md) | Результат отправки. В успешном ответе всегда `true`: если письмо не отправлено, метод возвращает ошибку ||
 || **to**
-[`array`](../../data-types.md) | Получатели, которым отправлено письмо ||
+[`array`](../../data-types.md) | Адреса получателей из `to`, на которые отправлено письмо. Имена получателей в этом массиве заменены найденными e-mail. Получатели копии и скрытой копии в массив не входят ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -348,8 +391,8 @@ HTTP-статус: **400**
         "message": "Ошибка при валидации объекта запроса",
         "validation": [
             {
-                "message": "Обязательное поле `forwardMessageId` не указано",
-                "field": "forwardMessageId"
+                "message": "Original message not found or access denied.",
+                "field": "MESSAGE_FORWARD_FAILED"
             }
         ]
     }
@@ -364,26 +407,33 @@ HTTP-статус: **400**
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_VALIDATION_REQUESTVALIDATIONEXCEPTION`
 
-#|
-|| **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `forwardMessageId` | Обязательное поле `forwardMessageId` не указано | Передайте `forwardMessageId` в теле запроса ||
-|| `from` | Обязательное поле `from` не указано | Передайте `from` в теле запроса ||
-|| `to` | Обязательное поле `to` не указано | Передайте `to` в теле запроса ||
-|| `subject` | Обязательное поле `subject` не указано | Передайте `subject` в теле запроса ||
-|| `body` | Обязательное поле `body` не указано | Передайте `body` в теле запроса ||
-|| `forwardMessageId` | MESSAGE_FORWARD_FAILED | Проверьте существование письма и доступ к нему, затем повторите запрос ||
-|| `to` | NO_RECIPIENTS | Проверьте, что массив `to` содержит корректные адреса получателей ||
-|| `to`, `cc`, `bcc` | RESOLVE_RECIPIENTS_ERROR | Проверьте формат значений и доступность получателей в в `to`, `cc`, `bcc` ||
-|#
-
-#### Ошибки доступа
-
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+В ответе с этим кодом поле `field` содержит не имя параметра, а код причины ошибки. Метод проверяет параметры по очереди и возвращает первую найденную ошибку.
 
 #|
-|| **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| **Значение field** | **Описание ошибки** | **Как исправить** ||
+|| `MISSING_FORWARDMESSAGEID` | Parameter "forwardMessageId" is required. | Передайте `forwardMessageId` в теле запроса ||
+|| `MISSING_FROM` | Parameter "from" is required. | Передайте `from` непустой строкой ||
+|| `MISSING_SUBJECT` | Parameter "subject" is required. | Передайте `subject` непустой строкой ||
+|| `MISSING_BODY` | Parameter "body" is required. | Передайте `body` непустой строкой ||
+|| `MISSING_TO` | Parameter "to" is required and must be a non-empty array. | Передайте `to` непустым массивом. Строка вместо массива тоже вызывает эту ошибку ||
+|| `RESOLVE_RECIPIENTS_ERROR` | Recipient "zzqxnotexist987" not found in address book or among employees. | Получатель из `to`, `cc` или `bcc` не найден по имени. Передайте e-mail. Значение без `@` и e-mail в неверном формате метод считает именем ||
+|| `RESOLVE_RECIPIENTS_ERROR` | Ambiguous recipient "Ivan". Found multiple matches: Ivan Petrov &lt;ivan@example.com&gt;, Ivan Smirnov &lt;smirnov@example.com&gt;. Please specify the exact email address. | По имени найдено несколько получателей. Передайте e-mail из списка в тексте ошибки ||
+|| `NO_RECIPIENTS` | No valid recipients provided. | В `to` только пустые строки или пробелы. Передайте хотя бы один адрес ||
+|| `MESSAGE_FORWARD_FAILED` | Original message not found or access denied. | Письмо `forwardMessageId` не найдено, у пользователя нет доступа к его почтовому ящику или не удалось прочитать вложения письма. Проверьте идентификатор методом [mail.message.get](./mail-message-get.md) и повторите запрос позже, если письмо только что пришло ||
+|| `MAILBOX_MIGRATION_ACTION_BLOCKED`, `MAILBOX_MIGRATION_STATUS_UNAVAILABLE` | The mailbox action is unavailable while its migration status is active or unavailable. | Почтовый ящик переносится или статус переноса недоступен. Повторите запрос после завершения переноса ||
+|| `MESSAGE_FORWARD_FAILED` | Sender identifiers must be positive integers. | `mailboxId` или `senderId` меньше 1. Передайте значения из ответа [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md) ||
+|| `MESSAGE_FORWARD_FAILED` | Sender email is not available for this user. | Адреса `from` нет среди доступных пользователю отправителей. Проверьте адрес методом [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md) ||
+|| `MESSAGE_FORWARD_FAILED` | Sender is not available for this user. | Переданные `mailboxId` или `senderId` не соответствуют адресу `from`. Возьмите связанные значения из одной записи ответа [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md) ||
+|| `MESSAGE_FORWARD_FAILED` | Total number of recipients (to + cc + bcc) is 12, must not exceed 10. | Получателей больше лимита тарифа. Разделите отправку на несколько писем ||
+|| `MESSAGE_FORWARD_FAILED` | Tariff restriction: each of to, cc, bcc must contain at most 1 recipient(s). | На тарифе Битрикс24 в каждом массиве может быть только один получатель ||
+|| `MESSAGE_FORWARD_FAILED` | Daily sender email limit reached. | Исчерпан дневной лимит отправителя. Повторите отправку на следующий день или используйте другой адрес ||
+|| `MESSAGE_FORWARD_FAILED` | Daily portal mail limit reached. | Исчерпан дневной лимит писем Битрикс24. Повторите отправку на следующий день ||
+|| `MESSAGE_FORWARD_FAILED` | Monthly portal mail limit reached. | Исчерпан месячный лимит писем Битрикс24 ||
+|| `MESSAGE_FORWARD_FAILED` | Mailbox authentication failed. | Почтовый ящик отправителя не прошел авторизацию на почтовом сервере. Проверьте настройки подключения ящика ||
+|| `MESSAGE_FORWARD_FAILED` | Failed to send email. | Письмо не удалось отправить. Повторите запрос позже ||
 |#
+
+Если в `cc` или `bcc` передать строку вместо массива, Битрикс24 возвращает HTTP-статус **500** и ошибку `INTERNAL_SERVER_ERROR`. Передавайте эти параметры массивом.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

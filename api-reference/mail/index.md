@@ -55,7 +55,7 @@
 
 **Получатель.** Методы [mail.recipient.*](./recipient/index.md) помогают подобрать адресатов письма. Контакты можно найти методом [mail.recipient.listcontacts](./recipient/mail-recipient-listcontacts.md), сотрудников — методом [mail.recipient.listemployees](./recipient/mail-recipient-listemployees.md).
 
-**CRM.** Письмо можно связать с делом CRM методом [mail.message.createcrmactivity](./message/mail-message-createcrmactivity.md). Связь можно удалить методом [mail.message.removecrmactivity](./message/mail-message-removecrmactivity.md).
+**CRM.** Письмо можно связать с делом CRM методом [mail.message.createcrmactivity](./message/mail-message-createcrmactivity.md). Дела CRM, созданные по письму, удаляет метод [mail.message.removecrmactivity](./message/mail-message-removecrmactivity.md).
 
 **Задача.** Письмо можно преобразовать в задачу методом [mail.message.createtask](./message/mail-message-createtask.md)
 
@@ -94,7 +94,7 @@
 || [mail.message.forward](./message/mail-message-forward.md) | Пересылает письмо ||
 || [mail.message.movetofolder](./message/mail-message-movetofolder.md) | Перемещает письма в папку, спам или корзину ||
 || [mail.message.createcrmactivity](./message/mail-message-createcrmactivity.md) | Создает дело CRM из письма ||
-|| [mail.message.removecrmactivity](./message/mail-message-removecrmactivity.md) | Удаляет связь письма с делом CRM ||
+|| [mail.message.removecrmactivity](./message/mail-message-removecrmactivity.md) | Удаляет дела CRM, созданные по письму ||
 || [mail.message.createtask](./message/mail-message-createtask.md) | Создает задачу из письма ||
 || [mail.message.createcalendarevent](./message/mail-message-createcalendarevent.md) | Создает событие календаря из письма ||
 || [mail.message.createchat](./message/mail-message-createchat.md) | Создает чат из письма ||

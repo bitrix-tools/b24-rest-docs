@@ -28,54 +28,28 @@
 
 {% endnote %}
 
-## Когда использовать каждый метод
-
-Используйте [mail.message.list](./mail-message-list.md), когда нужно найти письма в ящиках текущего пользователя по условиям фильтра.
-
-Используйте [mail.message.get](./mail-message-get.md), когда нужно получить письмо по его `id`.
-
-Используйте [mail.message.thread](./mail-message-thread.md), когда нужно получить цепочку писем по `id` одного письма.
-
-Используйте [mail.message.send](./mail-message-send.md), [mail.message.reply](./mail-message-reply.md) и [mail.message.forward](./mail-message-forward.md), когда нужно отправить новое письмо, ответ или пересылку.
-
-Используйте [mail.message.movetofolder](./mail-message-movetofolder.md), когда нужно переместить письма в папку, спам или корзину.
-
-Используйте [mail.message.createcrmactivity](./mail-message-createcrmactivity.md) и [mail.message.removecrmactivity](./mail-message-removecrmactivity.md), когда нужно создать или удалить связь письма с делом CRM.
-
-Используйте [mail.message.createtask](./mail-message-createtask.md), [mail.message.createcalendarevent](./mail-message-createcalendarevent.md), [mail.message.createchat](./mail-message-createchat.md) и [mail.message.createfeedpost](./mail-message-createfeedpost.md), когда нужно передать содержание письма в задачу, календарь, чат или Ленту новостей.
-
-Используйте [mail.message.field.list](./mail-message-field-list.md) и [mail.message.field.get](./mail-message-field-get.md), когда нужно:
-- узнать доступные поля письма
-- получить типы и метаданные конкретного поля
-
 ## Порядок работы с письмами
 
-1. Получите список писем через [mail.message.list](./mail-message-list.md)
-2. Получите полные данные письма через [mail.message.get](./mail-message-get.md) или цепочку через [mail.message.thread](./mail-message-thread.md)
-3. Выполните целевое действие: отправьте новое письмо, ответ или пересылку через [mail.message.send](./mail-message-send.md), [mail.message.reply](./mail-message-reply.md), [mail.message.forward](./mail-message-forward.md)
-4. При необходимости переместите письма в другую папку через [mail.message.movetofolder](./mail-message-movetofolder.md) или создайте связанные объекты в CRM, задачах, календаре, чате и Ленте новостей
-5. Уточните структуру полей через `*.field.list` и `*.field.get`
+1. Получите идентификатор ящика методом [mail.mailbox.list](../mailbox/mail-mailbox-list.md), если нужно искать письма в одном ящике
+2. Найдите письма методом [mail.message.list](./mail-message-list.md)
+3. Получите текст и копию письма методом [mail.message.get](./mail-message-get.md) или ветку переписки методом [mail.message.thread](./mail-message-thread.md)
+4. Отправьте новое письмо, ответ или пересылку методами [mail.message.send](./mail-message-send.md), [mail.message.reply](./mail-message-reply.md) и [mail.message.forward](./mail-message-forward.md)
+5. Переместите письма в папку, спам или корзину методом [mail.message.movetofolder](./mail-message-movetofolder.md) или создайте по письму объект в другом инструменте Битрикс24
 
-## Ограничения раздела
+## Особенности методов
 
-- Текущий пользователь может работать только с письмами из ящиков, к которым у него есть доступ
-- Для большинства операций нужен корректный `id` письма из `mail.message.list` или `mail.message.get`
+- Имена методов передаются в нижнем регистре: `mail.message.createtask`, а не `mail.message.createTask`. Имя в другом регистре Битрикс24 не находит
+- Пользователь работает только с письмами из ящиков, к которым у него есть доступ. Если у пользователя нет ящиков, `mail.message.list` возвращает пустой список
+- Методы `create*` и `removecrmactivity` принимают идентификатор письма `messageId`. Его возвращают `mail.message.list` и `mail.message.get`
+- Получить список папок ящика через REST нельзя. Имя или путь папки для `mail.message.movetofolder` нужно знать заранее
 
 ## Связь с другими объектами
 
-**Почтовый ящик.** Методы раздела работают с письмами в почтовых ящиках пользователя. Идентификатор ящика можно получить методами [mail.mailbox.*](../mailbox/index.md).
+**Почтовый ящик.** Письмо принадлежит ящику, его идентификатор приходит в поле `mailboxId`. Чтобы искать письма в одном ящике, передайте `mailboxId` в [mail.message.list](./mail-message-list.md). Список ящиков возвращает [mail.mailbox.list](../mailbox/mail-mailbox-list.md).
 
-**Получатель.** Для подбора адресатов используйте методы [mail.recipient.*](../recipient/index.md).
+**Отправитель и получатели.** Адрес отправителя в `from` должен быть доступен пользователю. Список доступных адресов и их `senderId` возвращает [mail.mailbox.senders](../mailbox/mail-mailbox-senders.md). Адреса получателей можно подобрать методами раздела [Получатели](../recipient/index.md).
 
-**CRM.** Письмо можно связать с делом CRM и удалить эту связь через методы [mail.message.createcrmactivity](./mail-message-createcrmactivity.md) и [mail.message.removecrmactivity](./mail-message-removecrmactivity.md).
-
-**Задача.** Письмо можно преобразовать в задачу методом [mail.message.createtask](./mail-message-createtask.md)
-
-**Календарь.** Из письма можно создать событие календаря методом [mail.message.createcalendarevent](./mail-message-createcalendarevent.md)
-
-**Чат.** Текст письма можно обсудить в чате методом [mail.message.createchat](./mail-message-createchat.md)
-
-**Лента новостей.** Письмо можно опубликовать как сообщение в Ленту новостей методом [mail.message.createfeedpost](./mail-message-createfeedpost.md)
+**Объекты Битрикс24.** Из письма можно создать дело CRM, задачу, событие календаря, чат или сообщение Ленты новостей. Созданные связи приходят в поле `bindings` ответа [mail.message.list](./mail-message-list.md) и [mail.message.get](./mail-message-get.md). Методы для каждого объекта перечислены в [таблице](#all-methods). Дела CRM, созданные по письму, удаляет метод [mail.message.removecrmactivity](./mail-message-removecrmactivity.md).
 
 ## Обзор методов {#all-methods}
 
@@ -85,15 +59,15 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [mail.message.list](./mail-message-list.md) | Ищет письма в почтовых ящиках текущего пользователя ||
+|| [mail.message.list](./mail-message-list.md) | Возвращает список писем из почтовых ящиков текущего пользователя ||
 || [mail.message.get](./mail-message-get.md) | Возвращает письмо по идентификатору ||
-|| [mail.message.thread](./mail-message-thread.md) | Возвращает цепочку писем по идентификатору одного письма ||
+|| [mail.message.thread](./mail-message-thread.md) | Возвращает ветку переписки по идентификатору одного письма ||
 || [mail.message.send](./mail-message-send.md) | Отправляет новое письмо ||
 || [mail.message.reply](./mail-message-reply.md) | Отправляет ответ на письмо ||
 || [mail.message.forward](./mail-message-forward.md) | Пересылает письмо ||
 || [mail.message.movetofolder](./mail-message-movetofolder.md) | Перемещает письма в папку, спам или корзину ||
 || [mail.message.createcrmactivity](./mail-message-createcrmactivity.md) | Создает дело CRM из письма ||
-|| [mail.message.removecrmactivity](./mail-message-removecrmactivity.md) | Удаляет связь письма с делом CRM ||
+|| [mail.message.removecrmactivity](./mail-message-removecrmactivity.md) | Удаляет дела CRM, созданные по письму ||
 || [mail.message.createtask](./mail-message-createtask.md) | Создает задачу из письма ||
 || [mail.message.createcalendarevent](./mail-message-createcalendarevent.md) | Создает событие календаря из письма ||
 || [mail.message.createchat](./mail-message-createchat.md) | Создает чат из письма ||

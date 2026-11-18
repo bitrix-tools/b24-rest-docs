@@ -29,7 +29,9 @@
 
 Код провайдера можно получить методом [messageservice.sender.list](./messageservice-sender-list.md) ||
 || **HANDLER**
-[`string`](../data-types.md) | Новый URL обработчика приложения ||
+[`string`](../data-types.md) | Новый URL обработчика приложения.
+
+Адрес должен начинаться с `http://` или `https://`, а домен — содержать точку ||
 || **NAME**
 [`string` \| `object`](../data-types.md) | Новое название провайдера.
 
@@ -60,7 +62,7 @@
 
 {% note info "" %}
 
-В запросе должен быть передан `CODE` и хотя бы один из параметров `HANDLER`, `NAME`, `DESCRIPTION`
+В запросе должен быть передан `CODE` и хотя бы один из параметров `HANDLER`, `NAME`, `DESCRIPTION`. Тип провайдера `TYPE` изменить нельзя: метод его игнорирует
 
 {% endnote %}
 
@@ -324,13 +326,15 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_SENDER_CODE_REQUIRED` | `CODE is required!` | Не передан обязательный параметр `CODE` ||
-|| `ERROR_SENDER_OTHER_PARAMS_REQUIRED` | `At least one other parameter is required!` | Не передан ни один параметр для обновления (`HANDLER`, `NAME`, `DESCRIPTION`) ||
-|| `ERROR_SENDER_NOT_FOUND` | `Sender not found!` | Провайдер с переданным `CODE` не найден ||
-|| `ERROR_SENDER_UPDATE_FAILURE` | `Sender update error!` | Ошибка обновления провайдера ||
-|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
-|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_SENDER_CODE_REQUIRED` | `CODE is required!` | Не передан обязательный параметр `CODE` ||
+|| `400` | `ERROR_SENDER_OTHER_PARAMS_REQUIRED` | `At least one other parameter is required!` | Не передан ни один параметр для обновления (`HANDLER`, `NAME`, `DESCRIPTION`) ||
+|| `400` | `ERROR_WRONG_HANDLER_URL` | `Wrong handler URL` | В `HANDLER` не адрес или в домене нет точки, например `http://localhost/handler` ||
+|| `400` | `ERROR_UNSUPPORTED_PROTOCOL` | `Unsupported handler protocol` | Адрес в `HANDLER` начинается не с `http://` или `https://` ||
+|| `400` | `ERROR_SENDER_NOT_FOUND` | `Sender not found!` | Провайдер с переданным `CODE` не найден среди провайдеров текущего приложения ||
+|| `400` | `ERROR_SENDER_UPDATE_FAILURE` | `Sender update error!` | Ошибка обновления провайдера ||
+|| `403` | `ACCESS_DENIED` | `Access denied! Application context required` | Метод вызван вне контекста приложения ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
 |#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}

@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `mail.message.get` возвращает письмо по идентификатору.
+Метод `mail.message.get` возвращает письмо по идентификатору. В отличие от [mail.message.list](./mail-message-list.md), метод возвращает получателей копии `cc` и текст письма `body`.
 
 ## Параметры метода
 
@@ -33,7 +33,7 @@
 
 Идентификатор можно получить методом [mail.message.list](./mail-message-list.md) ||
 || **select**
-[`array`](../../data-types.md) | Список полей письма, которые нужно вернуть.
+[`array`](../../data-types.md) | Список полей письма. Метод проверяет имена полей и возвращает ошибку на неизвестное поле, но сейчас в ответе всегда приходят все поля письма.
 
 Доступные поля:
 - `id` — идентификатор письма
@@ -57,7 +57,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.get`
 
@@ -91,7 +91,7 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
@@ -104,12 +104,16 @@
         subject: string
         from: string
         to: string
-        cc: string | null
-        date: ISODate | null
+        cc: string
+        date: string
         isSeen: boolean
         hasAttachments: boolean
         url: string
-        bindings: unknown[]
+        bindings: Array<{
+          type: 'crm' | 'task' | 'chat' | 'calendarEvent' | 'blogPost'
+          entityTypeId?: number
+          entityId: number
+        }>
         body: string
       }
     }
@@ -143,7 +147,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Message:', result.item.id, result.item.subject, result.item.from)
+        console.info('Письмо:', result.item.id, result.item.subject, result.item.from)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -192,7 +196,7 @@
           }
 
           const result = response.getData().result
-          console.info('Message:', result.item.id, result.item.subject, result.item.from)
+          console.info('Письмо:', result.item.id, result.item.subject, result.item.from)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -399,13 +403,13 @@ HTTP-статус: **200**
             "subject": "Тема письма",
             "from": "client@example.com",
             "to": "user@example.com",
-            "cc": null,
-            "date": "2026-05-25T10:00:00+03:00",
+            "cc": "",
+            "date": "2026-05-25 10:00:00",
             "isSeen": true,
             "hasAttachments": false,
-            "url": "/mail/message/15",
+            "url": "https://example.bitrix24.ru/mail/message/15",
             "bindings": [],
-            "body": "Текст письма"
+            "body": "Добрый день! Направляю проект договора."
         }
     },
     "time": {
@@ -429,7 +433,33 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **item**
-[`object`](../../data-types.md) | Объект письма. Структура ответа зависит от `select` ||
+[`object`](../../data-types.md) | Объект письма. Приходят все поля независимо от `select` ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор письма ||
+|| **mailboxId**
+[`integer`](../../data-types.md) | Идентификатор почтового ящика ||
+|| **mailboxEmail**
+[`string`](../../data-types.md) | Адрес почтового ящика ||
+|| **subject**
+[`string`](../../data-types.md) | Тема письма ||
+|| **from**
+[`string`](../../data-types.md) | Отправитель письма ||
+|| **to**
+[`string`](../../data-types.md) | Получатели письма ||
+|| **cc**
+[`string`](../../data-types.md) | Получатели копии. Если копии нет, приходит пустая строка ||
+|| **date**
+[`string`](../../data-types.md) | Дата и время получения письма в формате `YYYY-MM-DD HH:MM:SS`, без часового пояса ||
+|| **isSeen**
+[`boolean`](../../data-types.md) | Признак прочтения письма: `true` — прочитано, `false` — не прочитано ||
+|| **hasAttachments**
+[`boolean`](../../data-types.md) | Признак наличия вложений ||
+|| **url**
+[`string`](../../data-types.md) | Полная ссылка на письмо в Битрикс24 ||
+|| **bindings**
+[`array`](../../data-types.md) | Связи письма с объектами Битрикс24. Если связей нет, приходит пустой массив `[]`. Формат элементов описан на странице метода [mail.message.list](./mail-message-list.md#returned-data) ||
+|| **body**
+[`string`](../../data-types.md) | Текст письма без HTML-разметки. Строки разделены `\r\n`. Служебные символы приходят HTML-кодами, например `&lt;` вместо `<`. В ответах и пересылках, отправленных из Битрикс24, текст включает цитату исходного письма ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -460,22 +490,38 @@ HTTP-статус: **400**
 || `id` | Обязательное поле `id` не указано | Добавьте `id` в тело запроса ||
 |#
 
-#### Ошибки доступа
-
-Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
-
-#|
-|| **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
-|#
-
 #### Ошибки нахождения данных
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_ENTITYNOTFOUNDEXCEPTION`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `id` | Запись с указанным идентификатором не найдена | Укажите идентификатор существующего объекта ||
+|| `id` | Запись с ID = `15` не найдена | Письмо не существует, у пользователя нет доступа к почтовому ящику письма или ящик отключен. Нечисловое значение `id`, например `abc`, метод считает равным `0` и возвращает эту же ошибку с ID = `0`. Получите идентификатор методом [mail.message.list](./mail-message-list.md) ||
+|#
+
+#### Ошибки в параметре select
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Неизвестное поле `foo` для сущности `MessageDto` | Передайте только поля из списка параметра `select` ||
+|#
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `select` | Не удается распознать выражение select `["id"]` | Передайте `select` как массив строк, например `["id","subject"]` ||
+|#
+
+#### Ошибки доступа
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_ACCESSDENIEDEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `-` | Доступ запрещен | Проверьте, что у приложения или вебхука есть scope `mail` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

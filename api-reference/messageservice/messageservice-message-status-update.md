@@ -38,7 +38,9 @@
 - `sent` — сообщение отправлено провайдером
 - `delivered` — сообщение успешно доставлено получателю
 - `undelivered` — сообщение не доставлено получателю
-- `failed` — ошибка отправки или обработки сообщения у провайдера ||
+- `failed` — ошибка отправки или обработки сообщения у провайдера
+
+Метод не проверяет порядок статусов и устанавливает любой из них ||
 |#
 
 ## Примеры кода
@@ -273,7 +275,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | `true`, если статус сообщения успешно обновлен ||
+[`boolean`](../data-types.md) | `true`, если запрос обработан. Если переданный статус совпадает с текущим, метод тоже возвращает `true` ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -294,13 +296,13 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender code!` | Не передан обязательный параметр `CODE` ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Wrong sender code!` | `CODE` содержит недопустимые символы ||
-|| `ERROR_MESSAGE_NOT_FOUND` | `Message not found!` | Сообщение с указанным `MESSAGE_ID` не найдено ||
-|| `ERROR_MESSAGE_STATUS_INCORRECT` | `Message status incorrect!` | Передан неподдерживаемый `STATUS` ||
-|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
-|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender code!` | Не передан обязательный параметр `CODE` ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Wrong sender code!` | `CODE` содержит недопустимые символы ||
+|| `400` | `ERROR_MESSAGE_NOT_FOUND` | `Message not found!` | `MESSAGE_ID` не передан или сообщение не найдено среди сообщений провайдера `CODE` текущего приложения ||
+|| `400` | `ERROR_MESSAGE_STATUS_INCORRECT` | `Message status incorrect!` | Передан неподдерживаемый `STATUS` ||
+|| `403` | `ACCESS_DENIED` | `Access denied! Application context required` | Метод вызван вне контекста приложения ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Сообщение отправил другой сотрудник, а метод запустил не администратор ||
 |#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}

@@ -33,7 +33,7 @@
 
 Поддерживаемое значение: `SMS` ||
 || **HANDLER***
-[`string`](../data-types.md) | URL обработчика приложения, который вызывается при отправке сообщения.
+[`string`](../data-types.md) | URL обработчика приложения, который вызывается при отправке сообщения. Адрес должен начинаться с `http://` или `https://`, а домен — содержать точку.
 
 Данные, которые приходят в обработчик, описаны [ниже](#handler) ||
 || **NAME***
@@ -64,7 +64,11 @@
 ||
 |#
 
+Провайдер принадлежит приложению, которое его зарегистрировало. Когда приложение удаляют или обновляют до новой версии, Битрикс24 удаляет все его провайдеры. После обновления зарегистрируйте провайдеры заново, например в обработчике события [ONAPPUPDATE](../common/events/on-app-update.md).
+
 ## Что приходит в обработчик {#handler}
+
+Битрикс24 отправляет данные POST-запросом на адрес из `HANDLER`. В PHP значения доступны в `$_POST`. Ответ обработчика Битрикс24 не читает: сообщение сразу получает статус `sent`, а дальнейшие статусы передавайте методом [messageservice.message.status.update](./messageservice-message-status-update.md).
 
 #|
 || **Название**
@@ -110,7 +114,9 @@
 || **ts**
 [`integer`](../data-types.md) | Время отправки запроса в формате Unix Timestamp ||
 || **auth**
-[`object`](../data-types.md) | Данные авторизации приложения ||
+[`object`](../data-types.md) | Данные авторизации приложения.
+
+Параметр приходит, если у сообщения есть автор — сотрудник Битрикс24 ||
 |#
 
 ### Объект properties {#properties}
@@ -391,17 +397,19 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Empty data!` | Пустой набор параметров ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender code!` | Не передан обязательный параметр `CODE` ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Wrong sender code!` | `CODE` содержит недопустимые символы ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender NAME!` | Не передан обязательный параметр `NAME` ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender message TYPE!` | Не передан обязательный параметр `TYPE` ||
-|| `ERROR_SENDER_VALIDATION_FAILURE` | `Unknown sender message TYPE!` | Передан неподдерживаемый `TYPE` (допустимо только `SMS`) ||
-|| `ERROR_SENDER_ALREADY_INSTALLED` | `Sender already installed!` | Провайдер с таким `CODE` уже зарегистрирован для текущего приложения ||
-|| `ERROR_SENDER_ADD_FAILURE` | `Sender save error!` | Ошибка сохранения провайдера ||
-|| `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
-|| `ACCESS_DENIED` | `Application context required` | Метод вызван вне контекста приложения ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Empty data!` | Пустой набор параметров ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender code!` | Не передан обязательный параметр `CODE` ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Wrong sender code!` | `CODE` содержит недопустимые символы ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender NAME!` | Не передан обязательный параметр `NAME` ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Empty sender message TYPE!` | Не передан обязательный параметр `TYPE` ||
+|| `400` | `ERROR_SENDER_VALIDATION_FAILURE` | `Unknown sender message TYPE!` | Передан неподдерживаемый `TYPE` (допустимо только `SMS`) ||
+|| `400` | `ERROR_WRONG_HANDLER_URL` | `Wrong handler URL` | В `HANDLER` не адрес или в домене нет точки, например `http://localhost/handler` ||
+|| `400` | `ERROR_UNSUPPORTED_PROTOCOL` | `Unsupported handler protocol` | Адрес в `HANDLER` начинается не с `http://` или `https://` ||
+|| `400` | `ERROR_SENDER_ALREADY_INSTALLED` | `Sender already installed!` | Провайдер с таким `CODE` уже зарегистрирован для текущего приложения ||
+|| `400` | `ERROR_SENDER_ADD_FAILURE` | `Sender save error!` | Ошибка сохранения провайдера ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Метод запустил не администратор ||
+|| `403` | `ACCESS_DENIED` | `Access denied! Application context required` | Метод вызван вне контекста приложения ||
 |#
 
 {% include [Системные ошибки](../../_includes/system-errors.md) %}

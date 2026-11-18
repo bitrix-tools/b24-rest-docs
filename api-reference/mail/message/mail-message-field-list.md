@@ -21,6 +21,8 @@
 
 Метод `mail.message.field.list` возвращает список доступных полей письма.
 
+Все поля письма доступны только для чтения: у каждого поля `filterable`, `sortable` и `editable` равны `false`. Поэтому в [mail.message.list](./mail-message-list.md) письма отбираются отдельными параметрами поиска, а не через `filter`.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -42,8 +44,11 @@
 - `filterable` — признак доступности в фильтре
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
+- `editableGroups` — группы редактируемости
 - `multiple` — признак множественного значения
-- `elementType` — тип элемента для составных полей ||
+- `elementType` — тип элемента для составных полей
+
+Если параметр не передан, метод возвращает все поля описания ||
 |#
 
 ## Примеры кода
@@ -52,7 +57,7 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
 `https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/mail.message.field.list`
 
@@ -121,7 +126,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Field count:', result.items.length)
+        console.info('Количество полей:', result.items.length)
         console.info(result.items)
       }
     } catch (error) {
@@ -162,7 +167,7 @@
           }
 
           const result = response.getData().result
-          console.info('Field count:', result.items.length)
+          console.info('Количество полей:', result.items.length)
           console.info(result.items)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -442,7 +447,9 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Массив объектов с описанием полей письма. Метод возвращает 13 полей: `id`, `mailboxId`, `mailboxEmail`, `subject`, `from`, `to`, `cc`, `date`, `isSeen`, `hasAttachments`, `url`, `bindings`, `body` ||
+|| **items[]**
+[`object`](../../data-types.md) | Описание поля. Состав ключей зависит от `select`, их значения описаны на странице метода [mail.message.field.get](./mail-message-field-get.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -455,7 +462,7 @@ HTTP-статус: **400**
 {
     "error": {
         "code": "BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION",
-        "message": "Неизвестное поле `unknownField` для сущности `DtoFieldDto`"
+        "message": "Неизвестное поле `foo` для сущности `DtoFieldDto`"
     }
 }
 ```
@@ -470,7 +477,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Доступ запрещен | Проверьте права пользователя и scope `mail` ||
+|| `-` | Доступ запрещен | Проверьте, что у приложения или вебхука есть scope `mail` ||
 |#
 
 #### Ошибки в параметре `select`
@@ -479,14 +486,14 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для сущности `DtoFieldDto` | Передайте только поля из списка: `name`, `type`, `title`, `description`, `validationRules`, `requiredGroups`, `filterable`, `sortable`, `editable`, `multiple`, `elementType` ||
+|| `select` | Неизвестное поле `foo` для сущности `DtoFieldDto` | Передайте только поля из списка параметра `select` ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Не удается распознать выражение select `#SELECT#` | Передайте `select` как массив строк, например `["name","type"]` ||
+|| `select` | Не удается распознать выражение select `["name"]` | Передайте `select` как массив строк, например `["name","type"]` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
