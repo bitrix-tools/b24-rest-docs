@@ -11,11 +11,13 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
 Метод `sale.payment.list` получает список оплат.
 
 ## Параметры метода
+
+Все параметры необязательные.
 
 #|
 || **Название**
@@ -30,25 +32,26 @@
 || **filter**
 [`object`](../../data-types.md) | Объект для фильтрации выбранных оплат в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют полям объекта [sale_order_payment](../data-types.md#sale_order_payment).
+Возможные значения для `field` соответствуют полям объекта [sale_order_payment](../data-types.md#sale_order_payment). Условие с неизвестным полем метод пропускает без ошибки, поэтому опечатка в имени поля расширит выборку.
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 - `=` — равно (работает и с массивами)
-- `%` — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
+- `@` — входит в список значений (IN), значение фильтра — массив
+- `%` — LIKE, поиск подстроки в любой позиции строки. Символ % в значении фильтра передавать не нужно
 - `>` — больше
 - `<` — меньше
 - `!=` — не равно
-- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обеих сторон
 - `>=` — больше либо равно
 - `<=` — меньше либо равно
 - `=%` — LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры: 
-    - `"мол%"` — ищем значения начинающиеся с «мол»
-    - `"%мол"` — ищем значения заканчивающиеся на «мол»
+    - `"мол%"` — ищем значения, начинающиеся с «мол»
+    - `"%мол"` — ищем значения, заканчивающиеся на «мол»
     - `"%мол%"` — ищем значения, где «мол» может быть в любой позиции
 - `%=` — LIKE (смотрите описание выше)
 - `!=%` — NOT LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры:
-    - `"мол%"` — ищем значения не начинающиеся с «мол»
-    - `"%мол"` — ищем значения не заканчивающиеся на «мол»
+    - `"мол%"` — ищем значения, не начинающиеся с «мол»
+    - `"%мол"` — ищем значения, не заканчивающиеся на «мол»
     - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (смотрите описание выше)
 
@@ -62,17 +65,21 @@
 
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
+
+По умолчанию оплаты сортируются по `id` по возрастанию
  ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
  
 Размер страницы результатов всегда статичный: 50 записей.
  
-Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
+Чтобы выбрать вторую страницу результатов, передайте значение `50`. Для третьей страницы передайте `100` и так далее.
  
 Формула расчета значения параметра `start`:
  
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+ 
+Если передать `-1`, метод вернет первые 50 записей без подсчета общего количества: поля `total` и `next` в ответе не придут. Так запрос выполняется быстрее на больших выборках ||
 |#
 
 ## Примеры кода
@@ -87,7 +94,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["paySystemXmlId","paySystemIsCash","accountNumber","id","orderId","paid","datePaid","empPaidId","paySystemId","psStatus","psStatusCode","psStatusDescription","psStatusMessage","psSum","psCurrency","psResponseDate","payVoucherNum","payVoucherDate","datePayBefore","dateBill","xmlId","sum","currency","paySystemName","companyId","payReturnNum","priceCod","payReturnDate","empReturnId","payReturnComment","responsibleId","empResponsibleId","dateResponsibleId","isReturn","comments","updated1c","id1c","version1c","externalPayment","psInvoiceId","marked","reasonMarked","dateMarked","empMarkedId"],"filter":{"<id":10,"@personTypeId":[3,4],"payed":"N"},"order":{"id":"desc"}}' \
+    -d '{"select":["paySystemXmlId","paySystemIsCash","accountNumber","id","orderId","paid","datePaid","empPaidId","paySystemId","psStatus","psStatusCode","psStatusDescription","psStatusMessage","psSum","psCurrency","psResponseDate","payVoucherNum","payVoucherDate","datePayBefore","dateBill","xmlId","sum","currency","paySystemName","companyId","payReturnNum","priceCod","payReturnDate","empReturnId","payReturnComment","responsibleId","empResponsibleId","dateResponsibleId","isReturn","comments","updated1c","id1c","version1c","externalPayment","psInvoiceId","marked","reasonMarked","dateMarked","empMarkedId"],"filter":{"<id":10,"paid":"N"},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.payment.list
     ```
 
@@ -97,7 +104,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["paySystemXmlId","paySystemIsCash","accountNumber","id","orderId","paid","datePaid","empPaidId","paySystemId","psStatus","psStatusCode","psStatusDescription","psStatusMessage","psSum","psCurrency","psResponseDate","payVoucherNum","payVoucherDate","datePayBefore","dateBill","xmlId","sum","currency","paySystemName","companyId","payReturnNum","priceCod","payReturnDate","empReturnId","payReturnComment","responsibleId","empResponsibleId","dateResponsibleId","isReturn","comments","updated1c","id1c","version1c","externalPayment","psInvoiceId","marked","reasonMarked","dateMarked","empMarkedId"],"filter":{"<id":10,"@personTypeId":[3,4],"payed":"N"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["paySystemXmlId","paySystemIsCash","accountNumber","id","orderId","paid","datePaid","empPaidId","paySystemId","psStatus","psStatusCode","psStatusDescription","psStatusMessage","psSum","psCurrency","psResponseDate","payVoucherNum","payVoucherDate","datePayBefore","dateBill","xmlId","sum","currency","paySystemName","companyId","payReturnNum","priceCod","payReturnDate","empReturnId","payReturnComment","responsibleId","empResponsibleId","dateResponsibleId","isReturn","comments","updated1c","id1c","version1c","externalPayment","psInvoiceId","marked","reasonMarked","dateMarked","empMarkedId"],"filter":{"<id":10,"paid":"N"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.payment.list
     ```
 
@@ -125,7 +132,7 @@
         dateResponsibleId: ISODate | null
         empMarkedId: number | null
         empPaidId: number | null
-        empResponsibleId: number
+        empResponsibleId: number | null
         empReturnId: number | null
         externalPayment: string
         id: number
@@ -143,9 +150,9 @@
         paySystemXmlId: string
         payVoucherDate: ISODate | null
         payVoucherNum: string
-        priceCod: string
+        priceCod: number | null
         psCurrency: string
-        psInvoiceId: number | null
+        psInvoiceId: string
         psResponseDate: ISODate | null
         psStatus: string
         psStatusCode: string
@@ -153,7 +160,7 @@
         psStatusMessage: string
         psSum: number | null
         reasonMarked: string
-        responsibleId: number
+        responsibleId: number | null
         sum: number
         updated1c: string
         version1c: string
@@ -218,13 +225,11 @@
           ],
           filter: {
             '<id': 10,
-            '@personTypeId': [3, 4],
-            payed: 'N',
+            paid: 'N',
           },
           order: {
             id: 'desc',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -309,13 +314,11 @@
               ],
               filter: {
                 '<id': 10,
-                '@personTypeId': [3, 4],
-                payed: 'N',
+                paid: 'N',
               },
               order: {
                 id: 'desc',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -393,16 +396,11 @@
             ],
             filter={
                 "<id": 10,
-                "@personTypeId": [
-                    3,
-                    4,
-                ],
-                "payed": "N",
+                "paid": "N",
             },
             order={
                 "id": "desc",
             },
-            start='1713451909.778956',
         ).response
         result = bitrix_response.result
         print(result)
@@ -477,8 +475,7 @@
                     ],
                     'filter' => [
                         '<id'           => 10,
-                        '@personTypeId' => [3, 4],
-                        'payed'         => 'N',
+                        'paid'         => 'N',
                     ],
                     'order' => [
                         'id' => 'desc',
@@ -552,8 +549,7 @@
             ],
             "filter": {
                 "<id": 10,
-                "@personTypeId": [3, 4],
-                "payed": "N",
+                "paid": "N",
             },
             "order": {
                 "id": "desc",
@@ -625,8 +621,7 @@
             ],
             'filter' => [
                 "<id" => 10,
-                "@personTypeId" => [3, 4],
-                "payed" => "N",
+                "paid" => "N",
             ],
             'order' => [
                 "id" => "desc",
@@ -647,8 +642,7 @@
     	"select": []string{"paySystemXmlId", "paySystemIsCash", "accountNumber", "id", "orderId", "paid", "datePaid", "empPaidId", "paySystemId", "psStatus", "psStatusCode", "psStatusDescription", "psStatusMessage", "psSum", "psCurrency", "psResponseDate", "payVoucherNum", "payVoucherDate", "datePayBefore", "dateBill", "xmlId", "sum", "currency", "paySystemName", "companyId", "payReturnNum", "priceCod", "payReturnDate", "empReturnId", "payReturnComment", "responsibleId", "empResponsibleId", "dateResponsibleId", "isReturn", "comments", "updated1c", "id1c", "version1c", "externalPayment", "psInvoiceId", "marked", "reasonMarked", "dateMarked", "empMarkedId"},
     	"filter": b24.Params{
     		"<id":           10,
-    		"@personTypeId": []int{3, 4},
-    		"payed":         "N",
+        "paid":          "N",
     	},
     	"order": b24.Params{
     		"id": "desc",
@@ -703,9 +697,9 @@ HTTP-статус: **200**
                 "paySystemXmlId": "bx_64134ba550ffa",
                 "payVoucherDate": null,
                 "payVoucherNum": "",
-                "priceCod": "0.000000",
+                "priceCod": 0,
                 "psCurrency": "",
-                "psInvoiceId": null,
+                "psInvoiceId": "",
                 "psResponseDate": null,
                 "psStatus": "",
                 "psStatusCode": "",
@@ -718,7 +712,7 @@ HTTP-статус: **200**
                 "updated1c": "N",
                 "version1c": "",
                 "xmlId": "bx_634989d809dc8"
-            },
+            }
         ]
     },
     "total": 1,
@@ -741,9 +735,11 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **payments**
-[`sale_order_payment[]`](../data-types.md) | Массив объектов с информацией о выбранных оплатах ||
+[`sale_order_payment[]`](../data-types.md#sale_order_payment) | Массив выбранных оплат внутри `result`. Состав полей задает `select`. Если ничего не найдено, массив пустой ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество найденных записей. Не возвращается при `start` = `-1` ||
+|| **next**
+[`integer`](../../data-types.md) | Значение для передачи в `start`, чтобы получить следующую страницу. Возвращается, если есть следующая страница ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -754,8 +750,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error":"200040300010",
+    "error_description":"Access Denied"
 }
 ```
 
@@ -765,7 +761,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения оплат ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения оплат ||
+|| `100` | `Invalid order "<VALUE>"`
+
+В `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `100` | `Order must be a string`
+
+Направление сортировки в `order` передано не строкой ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 

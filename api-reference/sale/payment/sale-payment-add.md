@@ -23,52 +23,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md)| Значения полей (подробное описание приведено [ниже](#parametr-fields)) для создания оплаты в виде структуры:
-
-```js
-fields: {
-    orderId: "значение",
-    paySystemId: "значение",
-    paid: "значение",
-    datePaid: "значение",
-    empPaidId: "значение",
-    psStatus: "значение",
-    psStatusCode: "значение",
-    psStatusDescription: "значение",
-    psStatusMessage: "значение",
-    psSum: "значение",
-    psCurrency: "значение",
-    psResponseDate: "значение",
-    payVoucherNum: "значение",
-    payVoucherDate: "значение",
-    datePayBefore: "значение",
-    dateBill: "значение",
-    xmlId: "значение",
-    sum: "значение",
-    companyId: "значение",
-    payReturnNum: "значение",
-    priceCod: "значение",
-    payReturnDate: "значение",
-    empReturnId: "значение",
-    payReturnComment: "значение",
-    responsibleId: "значение",
-    empResponsibleId: "значение",
-    isReturn: "значение",
-    comments: "значение",
-    updated1c: "значение",
-    id1c: "значение",
-    version1c: "значение",
-    externalPayment: "значение",
-    psInvoiceId: "значение",
-    marked: "значение",
-    reasonMarked: "значение",
-    empMarkedId: "значение",
-}
-```
- ||
+[`object`](../../data-types.md) | Поля для создания оплаты [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -76,11 +34,11 @@ fields: {
 || **Название**
 `тип` | **Описание** ||
 || **orderId***
-[`sale_order.id`](../data-types.md) | Идентификатор заказа ||
+[`sale_order.id`](../data-types.md#sale_order) | Идентификатор заказа ||
 || **paySystemId***
-[`sale_paysystem.id`](../data-types.md) | Идентификатор платежной системы ||
+[`sale_paysystem.id`](../data-types.md#sale_paysystem) | Идентификатор платежной системы ||
 || **paid**
-[`string`](../../data-types.md) | Оплата оплачена:
+[`string`](../../data-types.md) | Признак оплаты:
 
 - `Y` — да
 - `N` — нет
@@ -89,16 +47,14 @@ fields: {
 || **datePaid**
 [`datetime`](../../data-types.md) | Дата оплаты ||
 || **empPaidId**
-[`user.id`](../../data-types.md) | Идентификатор пользователя, который оплатил оплату ||
+[`user.id`](../../data-types.md) | Идентификатор пользователя, который отметил оплату как оплаченную. Если передан `paid` = `Y`, поле заполняется идентификатором текущего пользователя ||
 || **psStatus**
-[`string`](../../data-types.md) | Флаг статуса платежной системы — успешно ли оплачена оплата. Варианты:
+[`string`](../../data-types.md) | Признак успешной оплаты по данным платежной системы. Варианты:
 
 - `Y` — да
-- `N` — нет
-
-По умолчанию устанавливается `null` ||
+- `N` — нет ||
 || **psStatusCode**
-[`string`](../../data-types.md) | Код статуса платёжной системы ||
+[`string`](../../data-types.md) | Код статуса платежной системы ||
 || **psStatusDescription**
 [`string`](../../data-types.md) | Описание результата работы платежной системы ||
 || **psStatusMessage**
@@ -114,23 +70,19 @@ fields: {
 || **payVoucherDate**
 [`datetime`](../../data-types.md) | Дата платежного документа ||
 || **datePayBefore**
-[`datetime`](../../data-types.md) | Устаревший.
-Дата, по которой необходимо оплатить счет ||
+[`datetime`](../../data-types.md) | Дата, до которой необходимо оплатить счет ||
 || **dateBill**
-[`datetime`](../../data-types.md) | Дата выставления счета ||
+[`datetime`](../../data-types.md) | Дата выставления счета. По умолчанию — текущая дата и время ||
 || **xmlId**
-[`string`](../../data-types.md) | Внешний идентификатор ||
+[`string`](../../data-types.md) | Внешний идентификатор. Если не передан, генерируется автоматически ||
 || **sum**
-[`double`](../../data-types.md) | Сумма оплаты ||
+[`double`](../../data-types.md) | Сумма оплаты в валюте заказа. По умолчанию — `0` ||
 || **companyId**
-[`integer`](../../data-types.md) | Идентификатор компании, которая будет принимать оплату
-
-В настоящий момент не используется ||
+[`integer`](../../data-types.md) | Идентификатор компании, которая будет принимать оплату. Если не передан или равен `0`, берется из заказа ||
 || **payReturnNum**
 [`string`](../../data-types.md) | Номер документа возврата ||
 || **priceCod**
-[`double`](../../data-types.md) | Актуально только для коробочной версии
-Стоимость оплаты при доставке. Используется для наложенного платежа ||
+[`double`](../../data-types.md) | Стоимость оплаты при доставке. Используется для наложенного платежа ||
 || **payReturnDate**
 [`date`](../../data-types.md) | Дата документа возврата ||
 || **empReturnId**
@@ -142,38 +94,34 @@ fields: {
 || **empResponsibleId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, назначившего ответственного ||
 || **isReturn**
-[`string`](../../data-types.md) | Выполнялся ли возврат:
+[`string`](../../data-types.md) | Тип возврата:
 
-- `Y` — да
-- `N` — нет
+- `Y` — на внутренний счет покупателя
+- `P` — через платежную систему
+- `N` — без возврата
 
-По умолчанию устанавливается N ||
+По умолчанию устанавливается `N` ||
 || **comments**
 [`string`](../../data-types.md) | Комментарии к оплате ||
 || **updated1c**
 [`string`](../../data-types.md) | Оплата обновлена через 1С:
 
 - `Y` — да
-- `N` — нет
-
-По умолчанию устанавливается `N` ||
+- `N` — нет ||
 || **id1c**
 [`string`](../../data-types.md) | Идентификатор в 1С ||
 || **version1c**
 [`string`](../../data-types.md) | Версия документа оплаты от 1С ||
 || **externalPayment**
-[`string`](../../data-types.md) | Актуально только для коробочной версии
-Внешняя оплата или нет. Используется для импорта из 1С через XML
+[`string`](../../data-types.md) | Внешняя оплата или нет. Используется для импорта из 1С через XML
 
 - `Y` — да
 - `F` — да, загружена вместе с заказом
-- `N` — нет
-
-По умолчанию устанавливается `N` ||
+- `N` — нет ||
 || **psInvoiceId**
 [`string`](../../data-types.md) | Идентификатор оплаты в платежной системе ||
 || **marked**
-[`string`](../../data-types.md) | Флаг маркировки. Признак того, является ли оплата отмеченной как проблемная:
+[`string`](../../data-types.md) | Признак того, отмечена ли оплата как проблемная:
 
 - `Y` — да
 - `N` — нет
@@ -184,7 +132,6 @@ fields: {
 || **empMarkedId**
 [`user.id`](../../data-types.md) | Идентификатор пользователя, промаркировавшего оплату ||
 |#
-
 
 ## Примеры кода
 
@@ -198,7 +145,7 @@ fields: {
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"orderId":200,"paySystemId":1,"paid":"Y","datePaid":"2024-04-10T10:00:00","empPaidId":1,"psStatus":"Y","psStatusCode":"","psStatusDescription":"","psStatusMessage":"","psSum":100,"psCurrency":"RUB","psResponseDate":"2024-04-10T10:00:00","payVoucherNum":"","payVoucherDate":"2024-04-10T10:00:00","datePayBefore":"2024-04-10T10:00:00","dateBill":"2024-04-10T10:00:00","xmlId":"","sum":100,"companyId":1,"payReturnNum":"","priceCod":100,"payReturnDate":"2024-04-10T10:00:00","empReturnId":1,"payReturnComment":"","responsibleId":1,"empResponsibleId":1,"isReturn":"N","comments":"","updated1c":"N","id1c":"","version1c":"","externalPayment":"N","psInvoiceId":1,"marked":"N","reasonMarked":"","empMarkedId":1}}' \
+    -d '{"fields":{"orderId":200,"paySystemId":1,"paid":"Y","datePaid":"2024-04-10T10:00:00","empPaidId":1,"psStatus":"Y","psStatusCode":"","psStatusDescription":"","psStatusMessage":"","psSum":100,"psCurrency":"RUB","psResponseDate":"2024-04-10T10:00:00","payVoucherNum":"","payVoucherDate":"2024-04-10T10:00:00","datePayBefore":"2024-04-10T10:00:00","dateBill":"2024-04-10T10:00:00","xmlId":"","sum":100,"companyId":1,"payReturnNum":"","priceCod":100,"payReturnDate":"2024-04-10","empReturnId":1,"payReturnComment":"","responsibleId":1,"empResponsibleId":1,"isReturn":"N","comments":"","updated1c":"N","id1c":"","version1c":"","externalPayment":"N","psInvoiceId":"1","marked":"N","reasonMarked":"","empMarkedId":1}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.payment.add
     ```
 
@@ -208,7 +155,7 @@ fields: {
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"orderId":200,"paySystemId":1,"paid":"Y","datePaid":"2024-04-10T10:00:00","empPaidId":1,"psStatus":"Y","psStatusCode":"","psStatusDescription":"","psStatusMessage":"","psSum":100,"psCurrency":"RUB","psResponseDate":"2024-04-10T10:00:00","payVoucherNum":"","payVoucherDate":"2024-04-10T10:00:00","datePayBefore":"2024-04-10T10:00:00","dateBill":"2024-04-10T10:00:00","xmlId":"","sum":100,"companyId":1,"payReturnNum":"","priceCod":100,"payReturnDate":"2024-04-10T10:00:00","empReturnId":1,"payReturnComment":"","responsibleId":1,"empResponsibleId":1,"isReturn":"N","comments":"","updated1c":"N","id1c":"","version1c":"","externalPayment":"N","psInvoiceId":1,"marked":"N","reasonMarked":"","empMarkedId":1},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"orderId":200,"paySystemId":1,"paid":"Y","datePaid":"2024-04-10T10:00:00","empPaidId":1,"psStatus":"Y","psStatusCode":"","psStatusDescription":"","psStatusMessage":"","psSum":100,"psCurrency":"RUB","psResponseDate":"2024-04-10T10:00:00","payVoucherNum":"","payVoucherDate":"2024-04-10T10:00:00","datePayBefore":"2024-04-10T10:00:00","dateBill":"2024-04-10T10:00:00","xmlId":"","sum":100,"companyId":1,"payReturnNum":"","priceCod":100,"payReturnDate":"2024-04-10","empReturnId":1,"payReturnComment":"","responsibleId":1,"empResponsibleId":1,"isReturn":"N","comments":"","updated1c":"N","id1c":"","version1c":"","externalPayment":"N","psInvoiceId":"1","marked":"N","reasonMarked":"","empMarkedId":1},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.payment.add
     ```
 
@@ -227,17 +174,17 @@ fields: {
       payment: {
         accountNumber: string
         comments: string
-        companyId: number
+        companyId: number | null
         currency: string
         dateBill: ISODate | null
         dateMarked: ISODate | null
         datePaid: ISODate | null
         datePayBefore: ISODate | null
         dateResponsibleId: ISODate | null
-        empMarkedId: number
-        empPaidId: number
-        empResponsibleId: number
-        empReturnId: number
+        empMarkedId: number | null
+        empPaidId: number | null
+        empResponsibleId: number | null
+        empReturnId: number | null
         externalPayment: string
         id: number
         id1c: string
@@ -254,17 +201,17 @@ fields: {
         paySystemXmlId: string
         payVoucherDate: ISODate | null
         payVoucherNum: string
-        priceCod: string
+        priceCod: number
         psCurrency: string
-        psInvoiceId: number
+        psInvoiceId: string
         psResponseDate: ISODate | null
         psStatus: string
         psStatusCode: string
         psStatusDescription: string
         psStatusMessage: string
-        psSum: number
+        psSum: number | null
         reasonMarked: string
-        responsibleId: number
+        responsibleId: number | null
         sum: number
         updated1c: string
         version1c: string
@@ -298,7 +245,7 @@ fields: {
             companyId: 1,
             payReturnNum: '',
             priceCod: 100,
-            payReturnDate: '2024-04-10T10:00:00',
+            payReturnDate: '2024-04-10',
             empReturnId: 1,
             payReturnComment: '',
             responsibleId: 1,
@@ -309,7 +256,7 @@ fields: {
             id1c: '',
             version1c: '',
             externalPayment: 'N',
-            psInvoiceId: 1,
+            psInvoiceId: '1',
             marked: 'N',
             reasonMarked: '',
             empMarkedId: 1,
@@ -367,7 +314,7 @@ fields: {
                 companyId: 1,
                 payReturnNum: '',
                 priceCod: 100,
-                payReturnDate: '2024-04-10T10:00:00',
+                payReturnDate: '2024-04-10',
                 empReturnId: 1,
                 payReturnComment: '',
                 responsibleId: 1,
@@ -378,7 +325,7 @@ fields: {
                 id1c: '',
                 version1c: '',
                 externalPayment: 'N',
-                psInvoiceId: 1,
+                psInvoiceId: '1',
                 marked: 'N',
                 reasonMarked: '',
                 empMarkedId: 1,
@@ -432,7 +379,7 @@ fields: {
         "companyId": 1,
         "payReturnNum": "",
         "priceCod": 100,
-        "payReturnDate": "2024-04-10T10:00:00",
+        "payReturnDate": "2024-04-10",
         "empReturnId": 1,
         "payReturnComment": "",
         "responsibleId": 1,
@@ -443,7 +390,7 @@ fields: {
         "id1c": "",
         "version1c": "",
         "externalPayment": "N",
-        "psInvoiceId": 1,
+        "psInvoiceId": "1",
         "marked": "N",
         "reasonMarked": "",
         "empMarkedId": 1,
@@ -499,7 +446,7 @@ fields: {
                         'companyId'          => 1,
                         'payReturnNum'       => '',
                         'priceCod'           => 100,
-                        'payReturnDate'      => '2024-04-10T10:00:00',
+                        'payReturnDate'      => '2024-04-10',
                         'empReturnId'        => 1,
                         'payReturnComment'   => '',
                         'responsibleId'      => 1,
@@ -510,7 +457,7 @@ fields: {
                         'id1c'               => '',
                         'version1c'          => '',
                         'externalPayment'    => 'N',
-                        'psInvoiceId'        => 1,
+                        'psInvoiceId'        => '1',
                         'marked'             => 'N',
                         'reasonMarked'       => '',
                         'empMarkedId'        => 1,
@@ -558,7 +505,7 @@ fields: {
                 companyId: 1,
                 payReturnNum: '',
                 priceCod: 100,
-                payReturnDate: '2024-04-10T10:00:00',
+                payReturnDate: '2024-04-10',
                 empReturnId: 1,
                 payReturnComment: '',
                 responsibleId: 1,
@@ -569,7 +516,7 @@ fields: {
                 id1c: '',
                 version1c: '',
                 externalPayment: 'N',
-                psInvoiceId: 1,
+                psInvoiceId: '1',
                 marked: 'N',
                 reasonMarked: '',
                 empMarkedId: 1,
@@ -615,7 +562,7 @@ fields: {
                 'companyId' => 1,
                 'payReturnNum' => '',
                 'priceCod' => 100,
-                'payReturnDate' => '2024-04-10T10:00:00',
+                'payReturnDate' => '2024-04-10',
                 'empReturnId' => 1,
                 'payReturnComment' => '',
                 'responsibleId' => 1,
@@ -626,7 +573,7 @@ fields: {
                 'id1c' => '',
                 'version1c' => '',
                 'externalPayment' => 'N',
-                'psInvoiceId' => 1,
+                'psInvoiceId' => '1',
                 'marked' => 'N',
                 'reasonMarked' => '',
                 'empMarkedId' => 1,
@@ -644,65 +591,65 @@ fields: {
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "sale.payment.add", b24.Params{
-    	"fields": b24.Params{
-    		"orderId":             200,
-    		"paySystemId":         1,
-    		"paid":                "Y",
-    		"datePaid":            "2024-04-10T10:00:00",
-    		"empPaidId":           1,
-    		"psStatus":            "Y",
-    		"psStatusCode":        "",
-    		"psStatusDescription": "",
-    		"psStatusMessage":     "",
-    		"psSum":               100,
-    		"psCurrency":          "RUB",
-    		"psResponseDate":      "2024-04-10T10:00:00",
-    		"payVoucherNum":       "",
-    		"payVoucherDate":      "2024-04-10T10:00:00",
-    		"datePayBefore":       "2024-04-10T10:00:00",
-    		"dateBill":            "2024-04-10T10:00:00",
-    		"xmlId":               "",
-    		"sum":                 100,
-    		"companyId":           1,
-    		"payReturnNum":        "",
-    		"priceCod":            100,
-    		"payReturnDate":       "2024-04-10T10:00:00",
-    		"empReturnId":         1,
-    		"payReturnComment":    "",
-    		"responsibleId":       1,
-    		"empResponsibleId":    1,
-    		"isReturn":            "N",
-    		"comments":            "",
-    		"updated1c":           "N",
-    		"id1c":                "",
-    		"version1c":           "",
-    		"externalPayment":     "N",
-    		"psInvoiceId":         1,
-    		"marked":              "N",
-    		"reasonMarked":        "",
-    		"empMarkedId":         1,
-    	},
+        "fields": b24.Params{
+            "orderId":             200,
+            "paySystemId":         1,
+            "paid":                "Y",
+            "datePaid":            "2024-04-10T10:00:00",
+            "empPaidId":           1,
+            "psStatus":            "Y",
+            "psStatusCode":        "",
+            "psStatusDescription": "",
+            "psStatusMessage":     "",
+            "psSum":               100,
+            "psCurrency":          "RUB",
+            "psResponseDate":      "2024-04-10T10:00:00",
+            "payVoucherNum":       "",
+            "payVoucherDate":      "2024-04-10T10:00:00",
+            "datePayBefore":       "2024-04-10T10:00:00",
+            "dateBill":            "2024-04-10T10:00:00",
+            "xmlId":               "",
+            "sum":                 100,
+            "companyId":           1,
+            "payReturnNum":        "",
+            "priceCod":            100,
+            "payReturnDate":       "2024-04-10",
+            "empReturnId":         1,
+            "payReturnComment":    "",
+            "responsibleId":       1,
+            "empResponsibleId":    1,
+            "isReturn":            "N",
+            "comments":            "",
+            "updated1c":           "N",
+            "id1c":                "",
+            "version1c":           "",
+            "externalPayment":     "N",
+            "psInvoiceId":         "1",
+            "marked":              "N",
+            "reasonMarked":        "",
+            "empMarkedId":         1,
+        },
     })
     if err != nil {
-    	return fmt.Errorf("sale.payment.add: %w", err)
+        return fmt.Errorf("sale.payment.add: %w", err)
     }
 
     // Метод заворачивает ответ в объект с ключом "payment".
     raw, ok := b24.Unwrap(res.Result, "payment")
     if !ok {
-    	return fmt.Errorf("в ответе нет ключа payment")
+        return fmt.Errorf("в ответе нет ключа payment")
     }
 
     var item struct {
-    	AccountNumber string `json:"accountNumber"`
-    	Comments      string `json:"comments"`
-    	CompanyID     b24.ID `json:"companyId"`
-    	Currency      string `json:"currency"`
-    	DateBill      string `json:"dateBill"`
-    	DateMarked    string `json:"dateMarked"`
+        AccountNumber string `json:"accountNumber"`
+        Comments      string `json:"comments"`
+        CompanyID     b24.ID `json:"companyId"`
+        Currency      string `json:"currency"`
+        DateBill      string `json:"dateBill"`
+        DateMarked    string `json:"dateMarked"`
     }
     if err := json.Unmarshal(raw, &item); err != nil {
-    	return fmt.Errorf("разбор ответа: %w", err)
+        return fmt.Errorf("разбор ответа: %w", err)
     }
     fmt.Println(item.AccountNumber, item.Comments)
     ```
@@ -746,9 +693,9 @@ HTTP-статус: **200**
             "paySystemXmlId": "",
             "payVoucherDate": "2024-04-10T09:00:00+03:00",
             "payVoucherNum": "",
-            "priceCod": "100",
+            "priceCod": 100,
             "psCurrency": "RUB",
-            "psInvoiceId": 1,
+            "psInvoiceId": "1",
             "psResponseDate": "2024-04-10T09:00:00+03:00",
             "psStatus": "Y",
             "psStatusCode": "",
@@ -782,9 +729,34 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **payment**
-[`sale_order_payment`](../data-types.md) | Объект с информацией о добавленной оплате ||
+[`sale_order_payment`](../data-types.md#sale_order_payment) | Добавленная оплата в `result.payment`. Полное описание полей — в справочнике типа; дополнительные поля ответа перечислены [ниже](#payment-response) ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Дополнительные поля payment {#payment-response}
+
+Остальные поля соответствуют [параметру fields](#fields). Поля ниже доступны только для чтения.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор созданной оплаты ||
+|| **accountNumber**
+[`string`](../../data-types.md) | Системный номер оплаты ||
+|| **currency**
+[`string`](../../data-types.md) | Валюта заказа ||
+|| **paySystemName**
+[`string`](../../data-types.md) | Название платежной системы ||
+|| **paySystemXmlId**
+[`string`](../../data-types.md) | Внешний идентификатор платежной системы ||
+|| **paySystemIsCash**
+[`string`](../../data-types.md) | Тип оплаты платежной системы — поле `IS_CASH` в [sale_paysystem](../data-types.md#sale_paysystem) ||
+|| **dateMarked**
+[`datetime`](../../data-types.md) | Дата изменения отметки о проблеме ||
+|| **dateResponsibleId**
+[`datetime`](../../data-types.md) | Дата изменения ответственного ||
 |#
 
 ## Обработка ошибок
@@ -793,7 +765,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200040300020,
+    "error": "200040300020",
     "error_description":"Access Denied"
 }
 ```
@@ -804,15 +776,27 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300020` | Недостаточно прав для добавления оплаты ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля ||
+|| `200040300020` | `Access Denied`
+
+Недостаточно прав для добавления оплаты ||
+|| `100` | `Could not find value for parameter {fields}`
+
+Не указан параметр `fields` ||
+|| `0` | `Required fields: orderId, paySystemId`
+
+Не переданы обязательные поля в `fields`. В сообщении перечислены отсутствующие поля ||
+|| `0` | `Не удается загрузить заказ`
+
+Заказ с указанным `orderId` не найден ||
+|| `SALE_PAYMENT_WRONG_PAYMENT_SERVICE` | `Указана неверная платежная система`
+
+В `paySystemId` передан положительный идентификатор несуществующей платежной системы ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-payment-update.md)

@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: любой пользователь
 
-Метод `sale.payment.getFields` получает доступные поля оплаты.
+Метод `sale.payment.getFields` возвращает описание полей оплаты: тип, обязательность и доступность для записи.
 
 ## Параметры метода
 
@@ -358,7 +358,7 @@ HTTP-статус: **200**
                 "isImmutable": false,
                 "isReadOnly": false,
                 "isRequired": false,
-                "type": "datetime"
+                "type": "date"
             },
             "payReturnNum": {
                 "isImmutable": false,
@@ -513,30 +513,25 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **payment**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [sale_order_payment](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Объект, ключи которого — идентификаторы полей объекта [`sale_order_payment`](../data-types.md#sale_order_payment), а значения — объекты типа [`rest_field_description`](../data-types.md#rest_field_description) ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **401**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the access token"
 }
 ```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
-|#
+Своих ошибок у метода нет. Возможны только общие ошибки REST, например `insufficient_scope`, если у приложения или вебхука нет scope `sale`.
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

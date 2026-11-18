@@ -1,4 +1,4 @@
-# Получить оплату по Id sale.payment.get
+# Получить оплату по идентификатору sale.payment.get
 
 {% note tip "" %}
 
@@ -11,7 +11,7 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
 Метод `sale.payment.get` получает значения всех полей оплаты по идентификатору.
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_payment.id`](../data-types.md) | Идентификатор оплаты ||
+[`sale_order_payment.id`](../data-types.md#sale_order_payment) | Идентификатор оплаты. Можно получить методом [sale.payment.list](./sale-payment-list.md) ||
 |#
 
 ## Примеры кода
@@ -94,9 +94,9 @@
         paySystemXmlId: string
         payVoucherDate: ISODate | null
         payVoucherNum: string
-        priceCod: string
+        priceCod: number | null
         psCurrency: string
-        psInvoiceId: number | null
+        psInvoiceId: string
         psResponseDate: ISODate | null
         psStatus: string
         psStatusCode: string
@@ -324,9 +324,9 @@ HTTP-статус: **200**
             "paySystemXmlId": "bx_64134ba550ffa",
             "payVoucherDate": null,
             "payVoucherNum": "",
-            "priceCod": "0",
+            "priceCod": 0,
             "psCurrency": "",
-            "psInvoiceId": null,
+            "psInvoiceId": "",
             "psResponseDate": null,
             "psStatus": "",
             "psStatusCode": "",
@@ -360,7 +360,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **payment**
-[`sale_order_payment`](../data-types.md) | Информация об оплате ||
+[`sale_order_payment`](../data-types.md#sale_order_payment) | Объект оплаты внутри `result`: `orderId` — идентификатор заказа, `sum` — сумма, `currency` — валюта, `paid` — признак оплаты (`Y` — оплачена, `N` — не оплачена), `paySystemId` — идентификатор платежной системы. Полный состав полей приведен в описании типа ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -371,7 +371,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":200640400001,
+    "error": "200640400001",
     "error_description":"payment is not exists"
 }
 ```
@@ -382,15 +382,19 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200640400001` | Оплата не найдена ||
-|| `200040300010` | Недостаточно прав для чтения оплаты ||
+|| `200640400001` | `payment is not exists`
+
+Оплата с указанным `id` не найдена ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения оплаты ||
 || `100` | Не указан параметр `id` ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./sale-payment-add.md)
