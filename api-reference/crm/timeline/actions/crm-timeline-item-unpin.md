@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на изменение CRM-элемента
+> Кто может выполнять метод: пользователь с правом на изменение элемента CRM
 
-Метод `crm.timeline.item.unpin` открепляет запись в таймлайне.
+Метод `crm.timeline.item.unpin` открепляет запись в таймлайне элемента CRM.
 
 ## Параметры метода
 
@@ -23,11 +23,11 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор записи таймлайна, например `999`. Получить id можно методом [crm.timeline.comment.list](../comments/crm-timeline-comment-list.md) ||
+[`integer`](../../../data-types.md) | Идентификатор записи таймлайна, например `999`. Это не идентификатор дела. Получить `id` можно методами [crm.timeline.comment.list](../comments/crm-timeline-comment-list.md) и [crm.timeline.logmessage.list](../logmessage/crm-timeline-logmessage-list.md) или из ответа [crm.timeline.comment.add](../comments/crm-timeline-comment-add.md) и [crm.timeline.logmessage.add](../logmessage/crm-timeline-logmessage-add.md) ||
 || **ownerTypeId***
-[`integer`](../../data-types.md#object_type) | [Идентификатор типа объекта CRM](../../data-types.md#object_type), к которому привязана запись, например `2` для сделки ||
+[`integer`](../../../data-types.md) | [Идентификатор типа объекта CRM](../../data-types.md#object_type), к которому привязана запись, например `2` для сделки ||
 || **ownerId***
-[`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязана запись, например `10` ||
+[`integer`](../../../data-types.md) | Идентификатор элемента CRM, к которому привязана запись, например `10`. Если запись привязана к нескольким элементам, она открепляется только в этом элементе ||
 |#
 
 ## Примеры кода
@@ -157,7 +157,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -252,7 +251,7 @@ HTTP-статус: **200**
         "processing": 0.032338857650756836,
         "date_start": "2024-04-03T10:26:32+02:00",
         "date_finish": "2024-04-03T10:26:33+02:00",
-        "operating_reset_at": 1705765533,
+        "operating_reset_at": 1712133392,
         "operating": 3.3076241016387939
     }
 }
@@ -264,7 +263,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`null`](../../../data-types.md) | Результат операции. Всегда возвращает `null` ||
+[`null`](../../../data-types.md) | Результат операции. Всегда возвращает `null`, в том числе если запись не была закреплена ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -276,7 +275,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "NOT_FOUND",
-    "error_description": "Not found."
+    "error_description": "Элемент не найден"
 }
 ```
 
@@ -285,12 +284,13 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `100` | Не переданы обязательные поля ||
-|| `ACCESS_DENIED` | Недостаточно прав для выполнения операции ||
-|| `NOT_FOUND` | Элемент не найден ||
-|| `OWNER_NOT_FOUND` | Владелец элемента не найден ||
-|| `CAN_NOT_CHANGE_PINNED` | Невозможно выполнить операцию ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан обязательный параметр `id`, `ownerTypeId` или `ownerId`. В тексте ошибки подставляется имя параметра ||
+|| `400` | `100` | Invalid value {abc} to match with parameter {id}. Should be value of type int. | Значение параметра не является числом ||
+|| `400` | `OWNER_NOT_FOUND` | Owner was not found | Передан неизвестный `ownerTypeId` или значение `ownerId` меньше или равно `0` ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет права на изменение элемента CRM ||
+|| `400` | `NOT_FOUND` | Элемент не найден | Записи с переданным `id` нет или она не привязана к элементу CRM, переданному в `ownerTypeId` и `ownerId` ||
+|| `400` | `CAN_NOT_CHANGE_PINNED` | Текст ошибки базы данных | Не удалось сохранить открепление в базе данных ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -298,3 +298,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-timeline-item-pin.md)
+- [{#T}](../comments/crm-timeline-comment-list.md)
+- [{#T}](../logmessage/crm-timeline-logmessage-list.md)
