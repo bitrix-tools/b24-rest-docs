@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод удаляет адрес.
+Метод `crm.address.delete` удаляет адрес по типу адреса, типу и идентификатору владельца.
 
 ## Параметры метода
 
@@ -29,10 +29,10 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Набор полей — объект вида `{"поле": "значение"[, ...]}` для удаления адреса ||
+[`object`](../../../data-types.md) | Поля, которые определяют удаляемый адрес [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -42,26 +42,24 @@
 || **TYPE_ID***
 [`integer`](../../../data-types.md) | Идентификатор типа адреса. Элемент перечисления «Тип адреса».
 
-Элементы перечисления «Тип адреса» можно получить с помощью метода [crm.enum.addresstype](../../auxiliary/enum/crm-enum-address-type.md) 
+Элементы перечисления «Тип адреса» можно получить с помощью метода [crm.enum.addresstype](../../auxiliary/enum/crm-enum-address-type.md)
 ||
 || **ENTITY_TYPE_ID***
 [`integer`](../../../data-types.md) | Идентификатор типа родительского объекта.
 
 Идентификаторы типов объектов можно получить с помощью метода [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md).
 
-Адреса могут быть привязаны только к Реквизитам (а реквизиты уже к компаниям либо контактам) или Лидам. 
-
-Для обратной совместимости оставлена возможность связывать Адреса с Контактами или Компаниями. Но эта связь возможна только на некоторых старых порталах, где специально техподдержкой был включен старый режим работы с адресами
+Адреса связаны с реквизитами (`8`) компаний или контактов либо с лидами (`1`). Чтобы удалить адрес компании или контакта, передайте `8` и идентификатор реквизита
 ||
 || **ENTITY_ID***
-[`string`](../../../data-types.md) | Идентификатор родительского объекта ([реквизит](../universal/index.md) или [лид](../../leads/index.md)) ||
+[`integer`](../../../data-types.md) | Идентификатор родительского объекта: [реквизита](../universal/index.md) или [лида](../../leads/index.md). Значения `TYPE_ID`, `ENTITY_TYPE_ID` и `ENTITY_ID` существующего адреса можно получить методом [crm.address.list](./crm-address-list.md) ||
 |#
 
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Поиск адресов по привязке к типу Реквизит:
+Удалить адрес реквизита:
 
 {% list tabs %}
 
@@ -71,7 +69,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":3,"ENTITY_ID":1}}' \
+    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":8,"ENTITY_ID":7335}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.address.delete
     ```
 
@@ -81,7 +79,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":3,"ENTITY_ID":1},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":8,"ENTITY_ID":7335},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.address.delete
     ```
 
@@ -101,8 +99,8 @@
         params: {
           fields: {
             TYPE_ID: 1,
-            ENTITY_TYPE_ID: 3,
-            ENTITY_ID: 1,
+            ENTITY_TYPE_ID: 8,
+            ENTITY_ID: 7335,
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -137,8 +135,8 @@
             params: {
               fields: {
                 TYPE_ID: 1,
-                ENTITY_TYPE_ID: 3,
-                ENTITY_ID: 1,
+                ENTITY_TYPE_ID: 8,
+                ENTITY_ID: 7335,
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -202,12 +200,12 @@
                 [
                     'fields' => [
                         'TYPE_ID'       => 1,
-                        'ENTITY_TYPE_ID' => 3,
-                        'ENTITY_ID'     => 1,
+                        'ENTITY_TYPE_ID' => 8,
+                        'ENTITY_ID'     => 7335,
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -227,8 +225,8 @@
             fields:
             {
                 "TYPE_ID": 1,
-                "ENTITY_TYPE_ID": 3,
-                "ENTITY_ID": 1
+                "ENTITY_TYPE_ID": 8,
+                "ENTITY_ID": 7335
             }
         },
         function(result)
@@ -251,8 +249,8 @@
         [
             'fields' => [
                 'TYPE_ID' => 1,
-                'ENTITY_TYPE_ID' => 3,
-                'ENTITY_ID' => 1
+                'ENTITY_TYPE_ID' => 8,
+                'ENTITY_ID' => 7335
             ]
         ]
     );
@@ -269,8 +267,8 @@
     res, err := client.Core().Call(ctx, "crm.address.delete", b24.Params{
     	"fields": b24.Params{
     		"TYPE_ID":        1,
-    		"ENTITY_TYPE_ID": 3,
-    		"ENTITY_ID":      1,
+    		"ENTITY_TYPE_ID": 8,
+    		"ENTITY_ID":      7335,
     	},
     })
     if err != nil {
@@ -310,17 +308,14 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат удаления адреса:
-- `true` — удален
-- `false` — не удален
-||
+[`boolean`](../../../data-types.md) | Результат выполнения запроса: `true` ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **40x**, **50x**
+HTTP-статус: **400**
 
 ```json
 {
@@ -333,13 +328,13 @@ HTTP-статус: **40x**, **50x**
 
 ### Возможные коды ошибок
 
-#|  
-|| **Код** | **Описание** ||
-|| `TYPE_ID is not defined or invalid` | Идентификатор типа адреса не указан или имеет недопустимое значение ||
-|| `ENTITY_TYPE_ID is not defined or invalid` | Идентификатор типа родительского объекта не указан или имеет недопустимое значение ||
-|| `ENTITY_ID is not defined or invalid` | Идентификатор родительского объекта не указан или имеет недопустимое значение ||
-|| `TypeAddress not found` | Адрес для удаления не найден ||
-|| `Access denied` | Недостаточно прав доступа для удаления адреса ||
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | TYPE_ID is not defined or invalid. | Идентификатор типа адреса не указан или имеет недопустимое значение ||
+|| `400` | Пустое значение | ENTITY_TYPE_ID is not defined or invalid. | Идентификатор типа родительского объекта не указан или имеет недопустимое значение ||
+|| `400` | Пустое значение | ENTITY_ID is not defined or invalid. | Идентификатор родительского объекта не указан или имеет недопустимое значение ||
+|| `400` | Пустое значение | TypeAddress not found. | Адрес для удаления не найден ||
+|| `400` | Пустое значение | Access denied. | Недостаточно прав доступа для удаления адреса ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
