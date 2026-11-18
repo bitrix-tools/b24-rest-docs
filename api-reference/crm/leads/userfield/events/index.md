@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, обновлении или удалении пользовательских полей лидов.
+События дают возможность приложениям получать уведомления об изменении настроек пользовательских полей лидов: добавлении, изменении и удалении поля, а также установке значений для поля списочного типа.
 
 Подробно работа с событиями описана в статье [Концепция и преимущества обработки событий](../../../../events/index.md).
 
@@ -43,6 +43,10 @@
 
 Состав `FIELDS` одинаковый у всех четырех событий. Тип поля, его настройки и список значений в событии не передаются — запросите их методом [crm.lead.userfield.get](../crm-lead-userfield-get.md) по пришедшему `ID`. После события `onCrmLeadUserFieldDelete` этот метод вернет ошибку `ERROR_NOT_FOUND`: поля в Битрикс24 уже нет.
 
+При создании списочного поля методом [crm.lead.userfield.add](../crm-lead-userfield-add.md) сначала вызывается `onCrmLeadUserFieldAdd`, затем — `onCrmLeadUserFieldSetEnumValues`. Это происходит и без параметра `LIST`: метод устанавливает пустой список.
+
+При успешном вызове [crm.lead.userfield.update](../crm-lead-userfield-update.md) с параметром `LIST` для списочного поля сначала вызывается `onCrmLeadUserFieldUpdate`, затем — `onCrmLeadUserFieldSetEnumValues`. Второе событие вызывается, даже если набор значений не изменился.
+
 ## Доступность серверов для отправки и получения событий
 
 {% include notitle [Доступность серверов для отправки и получения событий](../../../../../_includes/events-index.md) %}
@@ -58,5 +62,5 @@
 || [onCrmLeadUserFieldAdd](./on-crm-lead-user-field-add.md) | При добавлении пользовательского поля вручную или методом [crm.lead.userfield.add](../crm-lead-userfield-add.md) ||
 || [onCrmLeadUserFieldUpdate](./on-crm-lead-user-field-update.md) | При изменении пользовательского поля вручную или методом [crm.lead.userfield.update](../crm-lead-userfield-update.md) ||
 || [onCrmLeadUserFieldDelete](./on-crm-lead-user-field-delete.md) | При удалении пользовательского поля вручную или методом [crm.lead.userfield.delete](../crm-lead-userfield-delete.md) ||
-|| [onCrmLeadUserFieldSetEnumValues](./on-crm-lead-user-field-set-enum-values.md) | При изменении набора значений для пользовательского поля списочного типа вручную или методом [crm.lead.userfield.update](../crm-lead-userfield-update.md) ||
+|| [onCrmLeadUserFieldSetEnumValues](./on-crm-lead-user-field-set-enum-values.md) | При установке значений для пользовательского поля списочного типа вручную, при создании списочного поля методом [crm.lead.userfield.add](../crm-lead-userfield-add.md) или при вызове [crm.lead.userfield.update](../crm-lead-userfield-update.md) с параметром `LIST` ||
 |#

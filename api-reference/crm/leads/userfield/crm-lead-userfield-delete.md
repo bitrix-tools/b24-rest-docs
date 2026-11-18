@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор CRM
+> Кто может выполнять метод: пользователь с правом «Разрешить изменять настройки» в CRM
 
 {% note warning "DEPRECATED" %}
 
@@ -21,6 +21,8 @@
 
 Метод `crm.lead.userfield.delete` удаляет пользовательское поле лидов.
 
+При удалении поля удаляются и его значения в лидах.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
@@ -29,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../../data-types.md) | Идентификатор пользовательского поля, привязанного к лиду.
+[`integer`](../../../data-types.md) | Идентификатор пользовательского поля лидов, а не идентификатор лида.
 
 Идентификатор можно получить с помощью методов [crm.lead.userfield.add](./crm-lead-userfield-add.md) или [crm.lead.userfield.list](./crm-lead-userfield-list.md) ||
 |#
@@ -136,7 +138,7 @@
 
     try:
         bitrix_response = client.crm.lead.userfield.delete(
-            bitrix_id=410,
+            bitrix_id=432,
         ).response
         result = bitrix_response.result
         print(result)
@@ -157,9 +159,10 @@
 
     ```php
     try {
-        $userfieldId = 123; // Replace with the actual userfield ID you want to delete
+        $userfieldId = 432; // Replace with the actual userfield ID you want to delete
         $result = $serviceBuilder
-            ->getCRMScope()`r`n            ->leadUserfield()
+            ->getCRMScope()
+            ->leadUserfield()
             ->delete($userfieldId);
 
         if ($result->isSuccess()) {
@@ -272,25 +275,18 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400` | ID is not defined or invalid | Переданный `id` либо меньше или равен нулю, либо же не передан вовсе ||
-|| `403` | Access denied | Возникает в случаях, когда:
-- у пользователя нет административных прав
-- пользователь пытается удалить пользовательское поле, не привязанное к лидам ||
-|| `ERROR_NOT_FOUND` | The entity with ID 'id' is not found | Пользовательское поле с переданным `id` не существует ||
-|| `400` | Ошибка удаления FIELD_NAME для объекта ENTITY_ID | Неизвестная ошибка при удалении ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | ID is not defined or invalid. | `id` не передан или после приведения к целому числу меньше либо равен нулю ||
+|| `400` | Пустое значение | Access denied. | Нет права «Разрешить изменять настройки» в CRM или поле относится к другому объекту, а не к лидам ||
+|| `400` | `ERROR_NOT_FOUND` | The entity with ID 'id' is not found. | Пользовательское поле с переданным `id` не существует ||
+|| `400` | `ERROR_CORE` | Fail to delete user field. | Ошибка удаления поля. Вместо этого текста может вернуться сообщение ядра ||
 |#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
 - [{#T}](./crm-lead-userfield-add.md)
+- [{#T}](./crm-lead-userfield-update.md)
 - [{#T}](./crm-lead-userfield-get.md)
 - [{#T}](./crm-lead-userfield-list.md)
-- [{#T}](./crm-lead-userfield-update.md)
-
-
-
-
-
-

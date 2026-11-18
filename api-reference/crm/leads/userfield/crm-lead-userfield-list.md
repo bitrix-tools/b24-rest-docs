@@ -21,7 +21,13 @@
 
 Метод `crm.lead.userfield.list` возвращает список пользовательских полей лидов по фильтру.
 
+Метод возвращает все поля, подходящие под фильтр, одним ответом без постраничности. Параметр `start` игнорируется, `next` не возвращается.
+
 ## Параметры метода
+
+Все параметры необязательные. Без `filter` метод возвращает все пользовательские поля лидов.
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
@@ -40,7 +46,7 @@
 - `field_n` — название поля, по которому будет отфильтрована выборка пользовательских полей
 - `value_n` — значение фильтра
 
-Все условия по отдельным полям соединяются с помощью `AND`. Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
+Поддерживается только точное равенство. Условия соединяются с помощью `AND`. Ключи с префиксами `>`, `!`, `%`, неизвестные ключи, значения-массивы и пустые строки игнорируются. Смотрите ниже [список доступных полей для фильтрации](#filterable) ||
 || **order**
 [`object`](../../../data-types.md) | Объект формата:
 ```
@@ -57,14 +63,17 @@
     - `ASC` — сортировка по возрастанию
     - `DESC` — сортировка по убыванию
 
+Направление сравнивается без учета регистра. Если передано значение, отличное от `ASC`, используется `DESC`.
+
 Список доступных полей для сортировки:
 - `ID` — идентификатор пользовательского поля
+- `ENTITY_ID` — объект поля: `CRM_LEAD`
 - `FIELD_NAME` — код пользовательского поля
 - `USER_TYPE_ID` — тип пользовательского поля
 - `XML_ID` — внешний код
 - `SORT` — индекс сортировки
 
-По умолчанию:
+Если `order` не задан или не содержит доступных полей сортировки, используется порядок:
 ```
 {
     "SORT": "ASC",
@@ -84,36 +93,18 @@
 || **FIELD_NAME**
 [`string`](../../../data-types.md) | Код пользовательского поля ||
 || **USER_TYPE_ID**
-[`string`](../../../data-types.md) | Тип пользовательского поля. Возможные значения:
-- `string` — строка
-- `integer` — целое число
-- `double` — число
-- `boolean` — да/нет
-- `datetime` — дата/время
-- `date` — дата
-- `money` — деньги
-- `url` — ссылка
-- `address` — адрес
-- `enumeration` — список
-- `file` — файл
-- `employee` — привязка к сотруднику
-- `crm_status` — привязка к справочнику CRM
-- `iblock_section` — привязка к разделам информационных блоков
-- `iblock_element` — привязка к элементам информационных блоков
-- `crm` — привязка к элементам CRM
-- [пользовательские типы полей](../../universal/user-defined-fields/userfield-type.md)
-||
+[`string`](../../../data-types.md) | Идентификатор типа поля. Доступные типы возвращает [crm.userfield.types](../../universal/user-defined-fields/crm-userfield-types.md) ||
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний код ||
 || **SORT**
 [`integer`](../../../data-types.md) | Индекс сортировки ||
 || **MULTIPLE**
-[`boolean`](../../../data-types.md) | Является ли пользовательское поле множественным.
+[`char`](../../../data-types.md) | Является ли пользовательское поле множественным.
 Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **MANDATORY**
-[`boolean`](../../../data-types.md) | Является ли пользовательское поле обязательным. Возможные значения:
+[`char`](../../../data-types.md) | Является ли пользовательское поле обязательным. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **SHOW_FILTER**
@@ -123,21 +114,21 @@
 - `E` — маска
 - `S` — подстрока ||
 || **SHOW_IN_LIST**
-[`boolean`](../../../data-types.md) | Показывать ли в списке. Возможные значения:
+[`char`](../../../data-types.md) | Показывать ли в списке. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **EDIT_IN_LIST**
-[`boolean`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
+[`char`](../../../data-types.md) | Разрешать ли редактирование пользователем. Возможные значения:
 - `Y` — да
 - `N` — нет ||
 || **IS_SEARCHABLE**
-[`boolean`](../../../data-types.md) | Участвуют ли значения поля в поиске. Возможные значения:
+[`char`](../../../data-types.md) | Участвуют ли значения поля в поиске. Возможные значения:
 - `Y` — да
 - `N` — нет
 ||
 || **LANG**
-[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). При фильтрации по данному параметру будет предоставлен набор полей со значениями на переданном языке:
+[`string`](../../../data-types.md) | [Языковой идентификатор](../../data-types.md#lang-ids). Выбирает язык подписей, не отбирает поля по наличию перевода. При передаче `LANG` ответ дополнительно содержит подписи на указанном языке (строки или `null`):
 - `EDIT_FORM_LABEL` — подпись в форме редактирования
 - `LIST_COLUMN_LABEL` — заголовок в списке
 - `LIST_FILTER_LABEL` — подпись фильтра в списке
@@ -149,10 +140,7 @@
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-Получить список пользовательских полей, которые:
-- являются множественными,
-- являются обязательными,
-- имеют подписи пользовательского поля на русском языке. Благодаря фильтру по параметру `LANG` дополнительно получим в ответе названия полей.
+Получить множественные обязательные поля с подписями на русском языке. Отсортировать по типу и индексу сортировки.
 
 {% list tabs %}
 
@@ -186,7 +174,7 @@
 
     declare const $b24: B24Frame
 
-    // Shape of each user field returned in result[] (with filter.LANG the label fields are strings)
+    // Shape of each user field returned in result[] (filter.LANG adds translated labels)
     type CrmLeadUserFieldListItem = {
       ID: string
       ENTITY_ID: string
@@ -197,16 +185,11 @@
       MULTIPLE: string
       MANDATORY: string
       SHOW_IN_LIST: string
-      EDIT_FORM_LABEL: string
-      LIST_COLUMN_LABEL: string
+      EDIT_FORM_LABEL: string | null
+      LIST_COLUMN_LABEL: string | null
     }
 
     try {
-      // crm.lead.userfield.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<CrmLeadUserFieldListItem[]>({
         method: 'crm.lead.userfield.list',
         params: {
@@ -219,7 +202,6 @@
             USER_TYPE_ID: 'ASC',
             SORT: 'ASC',
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -229,7 +211,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('User fields on this page:', result.length, result)
+        console.info('User fields:', result.length, result)
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -248,11 +230,6 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.lead.userfield.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.lead.userfield.list',
             params: {
@@ -265,7 +242,6 @@
                 USER_TYPE_ID: 'ASC',
                 SORT: 'ASC',
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -277,7 +253,7 @@
           }
 
           const result = response.getData().result
-          console.info('User fields on this page:', result.length, result)
+          console.info('User fields:', result.length, result)
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -290,20 +266,16 @@
 
 - Python
 
-    Пример
-
     ```python
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
     try:
         bitrix_response = client.crm.lead.userfield.list(filter={
-            "MANDATORY": "N",
-            "SHOW_IN_LIST": "Y",
+            "MANDATORY": "Y",
             "MULTIPLE": "Y",
             "LANG": "ru",
         }, order={
-            "SORT": "ASC",
-            "ID": "DESC",
             "USER_TYPE_ID": "ASC",
+            "SORT": "ASC",
         }).response
         result = bitrix_response.result
         print(result)
@@ -315,65 +287,6 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.lead.userfield.list(
-            filter={
-                "SHOW_IN_LIST": "Y",
-            },
-            order={
-                "SORT": "ASC",
-            },
-        ).as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.lead.userfield.list(
-            filter={
-                "SHOW_IN_LIST": "Y",
-            },
-            order={
-                "ID": "DESC",
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
 
 - PHP
 
@@ -441,7 +354,7 @@
         [
             'filter' => [
                 'MULTIPLE' => "Y",
-                'MANDATORY' => "N",
+                'MANDATORY' => "Y",
                 'LANG' => "ru",
             ],
             'order' => [
@@ -490,8 +403,6 @@
     	fmt.Println(it.ID, it.EntityID)
     }
 
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
     if res.Total != nil {
     	fmt.Println("всего:", *res.Total)
     }
@@ -507,28 +418,6 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "ID": "5815",
-            "ENTITY_ID": "CRM_LEAD",
-            "FIELD_NAME": "UF_CRM_1713790573",
-            "USER_TYPE_ID": "crm_status",
-            "XML_ID": null,
-            "SORT": "100",
-            "MULTIPLE": "Y",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "I",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "ENTITY_TYPE": "INDUSTRY"
-            },
-            "EDIT_FORM_LABEL": "Справочник",
-            "LIST_COLUMN_LABEL": "Справочник",
-            "LIST_FILTER_LABEL": "Справочник",
-            "ERROR_MESSAGE": null,
-            "HELP_MESSAGE": null
-        },
-        {
             "ID": "6799",
             "ENTITY_ID": "CRM_LEAD",
             "FIELD_NAME": "UF_CRM_1724077760",
@@ -536,7 +425,7 @@ HTTP-статус: **200**
             "XML_ID": null,
             "SORT": "150",
             "MULTIPLE": "Y",
-            "MANDATORY": "N",
+            "MANDATORY": "Y",
             "SHOW_FILTER": "E",
             "SHOW_IN_LIST": "Y",
             "EDIT_IN_LIST": "Y",
@@ -566,168 +455,11 @@ HTTP-статус: **200**
                     "VALUE": "Радио Шансон",
                     "DEF": "N",
                     "XML_ID": "d3ffd89a825f218f5efd79dffd38fbbf"
-                },
-                {
-                    "ID": "3161",
-                    "SORT": "30",
-                    "VALUE": "Love Радио",
-                    "DEF": "N",
-                    "XML_ID": "dff769fa19d7d7ce8d0677341d221161"
-                },
-                {
-                    "ID": "3163",
-                    "SORT": "40",
-                    "VALUE": "Радио Монте-Карло",
-                    "DEF": "N",
-                    "XML_ID": "1f22e5c818ce336a42bd0ec94eb69b9e"
-                },
-                {
-                    "ID": "3181",
-                    "SORT": "130",
-                    "VALUE": "DFM Юрьев-Польский",
-                    "DEF": "N",
-                    "XML_ID": "fc1c5e6b4a9fd20b4749240b8dbac41a"
                 }
             ]
-        },
-        {
-            "ID": "6791",
-            "ENTITY_ID": "CRM_LEAD",
-            "FIELD_NAME": "UF_CRM_1722578010",
-            "USER_TYPE_ID": "file",
-            "XML_ID": null,
-            "SORT": "150",
-            "MULTIPLE": "Y",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "E",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "SIZE": 20,
-                "LIST_WIDTH": 0,
-                "LIST_HEIGHT": 0,
-                "MAX_SHOW_SIZE": 0,
-                "MAX_ALLOWED_SIZE": 0,
-                "EXTENSIONS": [],
-                "TARGET_BLANK": "Y"
-            },
-            "EDIT_FORM_LABEL": "КП (файлы)",
-            "LIST_COLUMN_LABEL": "КП (файлы)",
-            "LIST_FILTER_LABEL": "КП (файлы)",
-            "ERROR_MESSAGE": null,
-            "HELP_MESSAGE": null
-        },
-        {
-            "ID": "5567",
-            "ENTITY_ID": "CRM_LEAD",
-            "FIELD_NAME": "UF_CRM_1709565075",
-            "USER_TYPE_ID": "resourcebooking",
-            "XML_ID": null,
-            "SORT": "1",
-            "MULTIPLE": "Y",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "N",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "Y",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "USE_USERS": "N",
-                "USE_RESOURCES": "Y",
-                "RESOURCES": {
-                    "resource": {
-                        "XML_ID": "resource",
-                        "NAME": "resource",
-                        "SECTIONS": [
-                            {
-                                "ID": "7",
-                                "CAL_TYPE": "resource",
-                                "NAME": "Зал музея"
-                            },
-                            {
-                                "ID": "49",
-                                "CAL_TYPE": "resource",
-                                "NAME": "ресурс 1"
-                            },
-                            {
-                                "ID": "51",
-                                "CAL_TYPE": "resource",
-                                "NAME": "ресурс 2"
-                            },
-                            {
-                                "ID": "53",
-                                "CAL_TYPE": "resource",
-                                "NAME": "1"
-                            },
-                            {
-                                "ID": "57",
-                                "CAL_TYPE": "resource",
-                                "NAME": "Ресурс"
-                            },
-                            {
-                                "ID": "59",
-                                "CAL_TYPE": "resource",
-                                "NAME": "Ресурс 2"
-                            }
-                        ]
-                    }
-                },
-                "SELECTED_RESOURCES": [
-                    {
-                        "type": "resource",
-                        "id": "7",
-                        "title": "Зал музея"
-                    }
-                ],
-                "SELECTED_USERS": [],
-                "FULL_DAY": "N",
-                "ALLOW_OVERBOOKING": "Y",
-                "USE_SERVICES": "N",
-                "SERVICE_LIST": [
-                    {
-                        "name": "",
-                        "duration": "60"
-                    }
-                ],
-                "RESOURCE_LIMIT": -1,
-                "TIMEZONE": "Europe/Kaliningrad",
-                "USE_USER_TIMEZONE": "N"
-            },
-            "EDIT_FORM_LABEL": "БРОНИРОВАНИЕ ПЕРЕГОВОРОК",
-            "LIST_COLUMN_LABEL": "БРОНИРОВАНИЕ ПЕРЕГОВОРОК",
-            "LIST_FILTER_LABEL": "БРОНИРОВАНИЕ ПЕРЕГОВОРОК",
-            "ERROR_MESSAGE": null,
-            "HELP_MESSAGE": null
-        },
-        {
-            "ID": "6997",
-            "ENTITY_ID": "CRM_LEAD",
-            "FIELD_NAME": "UF_CRM_HELLO_WORLD",
-            "USER_TYPE_ID": "string",
-            "XML_ID": null,
-            "SORT": "2000",
-            "MULTIPLE": "Y",
-            "MANDATORY": "N",
-            "SHOW_FILTER": "N",
-            "SHOW_IN_LIST": "Y",
-            "EDIT_IN_LIST": "N",
-            "IS_SEARCHABLE": "N",
-            "SETTINGS": {
-                "SIZE": 20,
-                "ROWS": 10,
-                "REGEXP": "",
-                "MIN_LENGTH": 0,
-                "MAX_LENGTH": 0,
-                "DEFAULT_VALUE": "Привет, мир! Значение по умолчанию (изменено)"
-            },
-            "EDIT_FORM_LABEL": "Привет, мир! Редактировать (изменено)",
-            "LIST_COLUMN_LABEL": "Привет, мир! Колонка (изменено)",
-            "LIST_FILTER_LABEL": "Привет, мир! Фильтр (изменено)",
-            "ERROR_MESSAGE": "Привет, мир! Ошибка (изменено)",
-            "HELP_MESSAGE": "Привет, мир! Помощь (изменено)"
         }
     ],
-    "total": 5,
+    "total": 1,
     "time": {
         "start": 1753793143.219832,
         "finish": 1753793143.529472,
@@ -747,9 +479,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержит список пользовательских полей.
-
-Структура отдельно взятого пользовательского поля зависит от его типа. Поля `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL`, `ERROR_MESSAGE`, `HELP_MESSAGE` возвращаются в виде `string` при передаче `filter.LANG` ||
+[`object[]`](../../../data-types.md) | Массив описаний полей. Основные характеристики перечислены в [таблице ответа crm.lead.userfield.get](./crm-lead-userfield-get.md#result). Без `filter.LANG` языковые подписи отсутствуют, с `filter.LANG` это строки или `null`, а не объекты. Для типа `enumeration` элементы `LIST` дополнительно содержат `XML_ID` — внешний код варианта ||
 || **total**
 [`integer`](../../../data-types.md) | Количество найденных пользовательских полей ||
 || **time**
@@ -772,10 +502,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `400`     | Parameter 'order' must be array | Переданный `order` не является объектом ||
-|| `400`     | Parameter 'filter' must be array | Переданный `filter` не является объектом ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Parameter 'order' must be array. | Переданный `order` не является объектом или массивом ||
+|| `400` | Пустое значение | Parameter 'filter' must be array. | Переданный `filter` не является объектом или массивом ||
+|| `400` | Пустое значение | Access denied. | Нет права чтения лидов ||
 |#
+
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
@@ -784,8 +516,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-lead-userfield-update.md)
 - [{#T}](./crm-lead-userfield-get.md)
 - [{#T}](./crm-lead-userfield-delete.md)
-
-
-
-
-
