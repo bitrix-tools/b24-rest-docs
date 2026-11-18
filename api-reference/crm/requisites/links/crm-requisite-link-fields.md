@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом чтения хотя бы одного элемента CRM или смарт-процесса в цифровом рабочем месте
 
 {% note warning "DEPRECATED" %}
 
@@ -20,6 +20,8 @@
 {% endnote %}
 
 Метод возвращает формальное описание полей связи реквизитов.
+
+## Параметры метода
 
 Без параметров.
 
@@ -234,7 +236,7 @@ HTTP-статус: **200**
             "isImmutable": true,
             "isMultiple": false,
             "isDynamic": false,
-            "title": "ID типа объекта"
+            "title": "ID типа сущности"
         },
         "ENTITY_ID": {
             "type": "integer",
@@ -243,7 +245,7 @@ HTTP-статус: **200**
             "isImmutable": true,
             "isMultiple": false,
             "isDynamic": false,
-            "title": "ID объекта"
+            "title": "ID сущности"
         },
         "REQUISITE_ID": {
             "type": "integer",
@@ -318,7 +320,7 @@ HTTP-статус: **200**
 - старый счет (значение `5`)
 - предложение (значение `7`)
 - новый счет (значение `31`)
-- другие динамические объекты (для получения возможных значений смотрите метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md)).
+- другие динамические объекты (для получения возможных значений смотрите метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md))
 
 Идентификаторы типов объектов CRM можно получить с помощью метода [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) 
 ||
@@ -367,7 +369,7 @@ HTTP-статус: **200**
 - false — нет
 ||
 || **isMultiple**
-[`boolean`](../../../data-types.md) | Атрибут «неизменяемое». Возможные значения:
+[`boolean`](../../../data-types.md) | Атрибут «множественное». Возможные значения:
 - true — да
 - false — нет
 ||
@@ -377,10 +379,28 @@ HTTP-статус: **200**
 - false — нет
 ||
 || **title**
-[`string`](../../../data-types.md) | Идентификатор поля ||
+[`string`](../../../data-types.md) | Название поля ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": "",
+    "error_description": "Access denied."
+}
+```
+
+{% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права чтения ни одного элемента CRM или смарт-процесса в цифровых рабочих местах ||
+|#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
@@ -390,3 +410,4 @@ HTTP-статус: **200**
 - [{#T}](./crm-requisite-link-get.md)
 - [{#T}](./crm-requisite-link-list.md)
 - [{#T}](./crm-requisite-link-unregister.md)
+- [{#T}](./index.md)

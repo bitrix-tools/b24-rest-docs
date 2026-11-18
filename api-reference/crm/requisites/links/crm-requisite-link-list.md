@@ -11,11 +11,13 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом на чтение объектов CRM
+> Кто может выполнять метод: пользователь с правом на чтение объекта CRM. При фильтрации по типу без конкретного объекта проверяется право чтения объектов этого типа; без указания типа и объекта — право чтения хотя бы одного доступного типа
 
-Метод возвращает список связей реквизитов по фильтру.
+Метод `crm.requisite.link.list` возвращает список связей реквизитов по фильтру.
 
 ## Параметры метода
+
+Все параметры необязательные.
 
 #|
 || **Название**
@@ -27,27 +29,15 @@
 || **filter**
 [`object`](../../../data-types.md) | Объект для фильтрации выбранных связей реквизитов в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
 
-Возможные значения для `field` соответствуют [полям связи реквизита](#fields).
+Возможные значения для `field` соответствуют [полям связи реквизита](#fields). Неизвестные поля фильтра игнорируются без ошибки, поэтому проверяйте их имена. Для проверки прав учитываются только точные ключи `ENTITY_TYPE_ID` и `ENTITY_ID`, в том числе с префиксом `=`.
 
-Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
+Ключу можно задать дополнительный префикс, уточняющий поведение фильтра. Для числовых полей используйте префиксы:
 - `>=` — больше либо равно
 - `>` — больше
 - `<=` — меньше либо равно
 - `<` — меньше
 - `@` — IN, в качестве значения передается массив
 - `!@` — NOT IN, в качестве значения передается массив
-- `%` — LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
-- `=%` — LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, начинающиеся с «мол»
-    - `"%мол"` — ищет значения, заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где «мол» может быть в любой позиции
-- `%=` — LIKE (аналогично `=%`)
-- `!%` — NOT LIKE, поиск по подстроке. Символ `%` в значении фильтра передавать не нужно. Поиск идет с обеих сторон
-- `!=%` — NOT LIKE, поиск по подстроке. Символ `%` нужно передавать в значении. Примеры:
-    - `"мол%"` — ищет значения, не начинающиеся с «мол»
-    - `"%мол"` — ищет значения, не заканчивающиеся на «мол»
-    - `"%мол%"` — ищет значения, где подстроки «мол» нет в любой позиции
-- `!%=` — NOT LIKE (аналогично `!=%`)
 - `=` — равно, точное совпадение (используется по умолчанию)
 - `!=` — не равно
 - `!` — не равно 
@@ -66,11 +56,13 @@
 
 Размер страницы результатов всегда статичный: 50 записей.
 
-Чтобы выбрать вторую страницу результатов, необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
+Чтобы выбрать вторую страницу результатов, передайте значение `50`, для третьей — `100` и так далее.
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+`start = (N-1) * 50`, где `N` — номер нужной страницы.
+
+При отрицательном значении `start` метод возвращает первую страницу без подсчета общего количества записей
 ||
 |#
 
@@ -87,7 +79,7 @@
 - старый счет (значение `5`)
 - предложение (значение `7`)
 - новый счет (значение `31`)
-- другие динамические объекты (для получения возможных значений смотрите метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md)).
+- другие динамические объекты (для получения возможных значений смотрите метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md))
 
 Идентификаторы типов объектов CRM можно получить с помощью метода [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md) 
 ||
@@ -125,7 +117,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"order":{"ENTITY_ID":"ASC"},"filter":{"@ENTITY_TYPE_ID":[1,2,7,31]}}' \
+    -d '{"order":{"ENTITY_ID":"ASC"},"filter":{"@ENTITY_TYPE_ID":[2,7,31]}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.requisite.link.list
     ```
 
@@ -135,7 +127,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"order":{"ENTITY_ID":"ASC"},"filter":{"@ENTITY_TYPE_ID":[1,2,7,31]},"auth":"**put_access_token_here**"}' \
+    -d '{"order":{"ENTITY_ID":"ASC"},"filter":{"@ENTITY_TYPE_ID":[2,7,31]},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.requisite.link.list
     ```
 
@@ -169,7 +161,7 @@
         method: 'crm.requisite.link.list',
         params: {
           order: { ENTITY_ID: 'ASC' },
-          filter: { '@ENTITY_TYPE_ID': [1, 2, 7, 31] }, // Leads, deals, quotes, invoices
+          filter: { '@ENTITY_TYPE_ID': [2, 7, 31] }, // Deals, quotes, invoices
           start: 0,
         },
         requestId: Text.getUuidRfc4122()
@@ -208,7 +200,7 @@
             method: 'crm.requisite.link.list',
             params: {
               order: { ENTITY_ID: 'ASC' },
-              filter: { '@ENTITY_TYPE_ID': [1, 2, 7, 31] }, // Leads, deals, quotes, invoices
+              filter: { '@ENTITY_TYPE_ID': [2, 7, 31] }, // Deals, quotes, invoices
               start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -246,7 +238,6 @@
             },
             filter={
                 "@ENTITY_TYPE_ID": [
-                    1,
                     2,
                     7,
                     31,
@@ -281,7 +272,6 @@
             },
             filter={
                 "@ENTITY_TYPE_ID": [
-                    1,
                     2,
                     7,
                     31,
@@ -304,43 +294,7 @@
         print(f"Непредвиденная ошибка: {error}")
     ```
 
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.requisite.link.list(
-            order={
-                "ENTITY_ID": "ASC",
-            },
-            filter={
-                "@ENTITY_TYPE_ID": [
-                    1,
-                    2,
-                    7,
-                    31,
-                ],
-            },
-        ).as_list_fast(descending=True).response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
 - PHP
-
 
     ```php
     try {
@@ -350,7 +304,7 @@
                 'crm.requisite.link.list',
                 [
                     'order' => ['ENTITY_ID' => 'ASC'],
-                    'filter' => ['@ENTITY_TYPE_ID' => [1, 2, 7, 31]],
+                    'filter' => ['@ENTITY_TYPE_ID' => [2, 7, 31]],
                 ]
             );
     
@@ -372,7 +326,7 @@
     BX24.callMethod(
         "crm.requisite.link.list", {
             order: {"ENTITY_ID": "ASC"},
-            filter: {"@ENTITY_TYPE_ID": [1, 2, 7, 31]}    // Лиды, сделки, предложения, счёта.
+            filter: {"@ENTITY_TYPE_ID": [2, 7, 31]}    // Сделки, предложения, счета.
         },
         function (result)
         {
@@ -399,7 +353,7 @@
         'crm.requisite.link.list',
         [
             'order' => ['ENTITY_ID' => 'ASC'],
-            'filter' => ['@ENTITY_TYPE_ID' => [1, 2, 7, 31]]
+            'filter' => ['@ENTITY_TYPE_ID' => [2, 7, 31]]
         ]
     );
 
@@ -417,7 +371,7 @@
     		"ENTITY_ID": "ASC",
     	},
     	"filter": b24.Params{
-    		"@ENTITY_TYPE_ID": []int{1, 2, 7, 31},
+    		"@ENTITY_TYPE_ID": []int{2, 7, 31},
     	},
     }, b24.WithIdempotent())
     if err != nil {
@@ -541,18 +495,20 @@ HTTP-статус: **200**
 || **result**
 [`array`](../../../data-types.md)| Массив объектов с информацией из выбранных связей реквизитов. Каждый элемент содержит выбранные [поля связи реквизита](#fields) ||
 || **total**
-[`integer`](../../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../../data-types.md) | Общее количество найденных записей. Не возвращается при отрицательном `start` ||
+|| **next**
+[`integer`](../../../data-types.md) | Значение `start` для получения следующей страницы. Возвращается, если есть следующая страница и `start` неотрицательный ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **40x**, **50x**
+HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
+    "error": "",
     "error_description": "Access denied."
 }
 ```
@@ -561,9 +517,10 @@ HTTP-статус: **40x**, **50x**
 
 ### Возможные коды ошибок
 
-#|  
-|| **Код** | **Описание** ||
-|| `Access denied` | Недостаточно прав доступа для получения списка связей реквизитов ||
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Access denied. | Недостаточно прав для чтения объекта CRM или объектов соответствующего типа ||
+|| `400` | `100` | Unknown field definition ... | В `select` или `order` указано неизвестное поле связи ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -574,3 +531,4 @@ HTTP-статус: **40x**, **50x**
 - [{#T}](./crm-requisite-link-get.md)
 - [{#T}](./crm-requisite-link-unregister.md)
 - [{#T}](./crm-requisite-link-fields.md)
+- [{#T}](./index.md)
