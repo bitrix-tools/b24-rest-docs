@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод изменяет адрес для реквизита или лида.
+Метод `crm.address.update` изменяет существующий адрес реквизита или лида и не создает новый.
 
 ## Параметры метода
 
@@ -29,12 +29,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../../data-types.md) | Набор полей — объект вида `{"поле": "значение"[, ...]}` для изменения адреса. 
+[`object`](../../../data-types.md) | Набор полей для изменения адреса [(подробное описание)](#fields).
 
-Обязательно нужно указывать значения полей **TYPE_ID**, **ENTITY_TYPE_ID**, **ENTITY_ID**, так как они идентифицируют изменяемый адрес. Другие поля указываются, если их значения нужно изменить ||
+Обязательно передайте `TYPE_ID`, `ENTITY_TYPE_ID` и `ENTITY_ID`: они определяют адрес. Передайте также все текстовые поля адреса, значения которых нужно сохранить или изменить. Если передать только часть текстовых полей, остальные будут очищены. Если не передать ни одно из полей `ADDRESS_1`, `ADDRESS_2`, `CITY`, `POSTAL_CODE`, `REGION`, `PROVINCE` и `COUNTRY`, значения могут быть заполнены из указанного или ранее связанного адреса `location`. Поле `COUNTRY_CODE` само по себе не предотвращает такое заполнение ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -51,12 +51,10 @@
 
 Идентификаторы типов объектов можно получить с помощью метода [crm.enum.ownertype](../../auxiliary/enum/crm-enum-owner-type.md).
 
-Адреса могут быть привязаны только к Реквизитам (а реквизиты уже к компаниям либо контактам) или Лидам. 
-
-Для обратной совместимости оставлена возможность связывать Адреса с Контактами или Компаниями. Но эта связь возможна только на некоторых старых порталах, где специально техподдержкой был включен старый режим работы с адресами
+Укажите реквизит (`8`) или лид (`1`). Для адреса реквизита компании или контакта передавайте тип `8` и идентификатор самого реквизита: метод ищет адрес по указанным `ENTITY_TYPE_ID` и `ENTITY_ID`
 ||
 || **ENTITY_ID***
-[`string`](../../../data-types.md) | Идентификатор родительского объекта ||
+[`integer`](../../../data-types.md) | Идентификатор владельца адреса: реквизита или лида ||
 || **ADDRESS_1**
 [`string`](../../../data-types.md) | Улица, дом, корпус, строение ||
 || **ADDRESS_2**
@@ -72,23 +70,21 @@
 || **COUNTRY**
 [`string`](../../../data-types.md) | Страна ||
 || **COUNTRY_CODE**
-[`string`](../../../data-types.md) | Код страны.
-
-Не используется, оставлено для обратной совместимости. В качестве значения можно указать пустую строку
+[`string`](../../../data-types.md) | Код страны из справочника местоположений модуля `sale`. Если код не найден, не соответствует названию страны в `COUNTRY` или итоговое значение `COUNTRY` пустое, код страны очищается
 ||
 || **LOC_ADDR_ID**
-[`integer`](../../../data-types.md) | 
-Идентификатор адреса местоположения.
+[`integer`](../../../data-types.md) |
+Идентификатор адреса в модуле `location`, связанного с адресом CRM. Позволяет использовать данные местоположения, которых нет в текстовых полях CRM.
 
-Это поле содержит идентификатор объекта адреса в модуле `Location`, связанного с объектов адреса CRM. Каждому адресу CRM соответствует объект адреса в модуле `location`. Это можно использовать для копирования существующего адреса в CRM с информацией о местоположении, которой нет в полях адреса CRM.
+Условие заполнения полей из `location` описано в параметре [fields](#fields). При передаче адресных полей в `location` обновляются только соответствующие переданные поля. Если указанный объект `location` связан с другим адресом, создается его копия.
 
-Если при создании адреса указан идентификатор адреса модуля `location`, то создается копия адреса `location` и привязывается к созданному адресу CRM. Если в таком случае не указаны значения для строковых полей адреса, то они будут заполнены из location-адреса.
-
-Если же было указано хоть одно строковое поле, то в адресе CRM будут сохранены только указанные поля, и их значения перезапишут соответствующие значения в объекте location-адреса. Такое же поведение будет и при обновлении адреса
+Очищенные при частичном обновлении поля CRM могут вернуться из `location` при следующем вызове без перечисленных в `fields` адресных полей; чтобы очистить их и в `location`, передайте пустые строки
 ||
 |#
 
 ## Примеры кода
+
+В примерах изменяются улица и город адреса реквизита.
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
@@ -100,7 +96,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":3,"ENTITY_ID":1,"ADDRESS_1":"Московский проспект, 261","CITY":"Калининград"}}' \
+    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":8,"ENTITY_ID":1,"ADDRESS_1":"Московский проспект, 261","CITY":"Калининград"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.address.update
     ```
 
@@ -110,7 +106,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":3,"ENTITY_ID":1,"ADDRESS_1":"Московский проспект, 261","CITY":"Калининград"},"auth":"**put_access_token_here**"}' \
+    -d '{"fields":{"TYPE_ID":1,"ENTITY_TYPE_ID":8,"ENTITY_ID":1,"ADDRESS_1":"Московский проспект, 261","CITY":"Калининград"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.address.update
     ```
 
@@ -129,11 +125,11 @@
         method: 'crm.address.update',
         params: {
           fields: {
-            TYPE_ID: 1,           // identifies the address
-            ENTITY_TYPE_ID: 3,    // identifies the address
-            ENTITY_ID: 1,         // identifies the address
-            ADDRESS_1: 'Moskovskiy prospect, 261', // field to update
-            CITY: 'Kaliningrad',                   // field to update
+            TYPE_ID: 1,
+            ENTITY_TYPE_ID: 8,
+            ENTITY_ID: 1,
+            ADDRESS_1: 'Московский проспект, 261',
+            CITY: 'Калининград',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -167,11 +163,11 @@
             method: 'crm.address.update',
             params: {
               fields: {
-                TYPE_ID: 1,           // identifies the address
-                ENTITY_TYPE_ID: 3,    // identifies the address
-                ENTITY_ID: 1,         // identifies the address
-                ADDRESS_1: 'Moskovskiy prospect, 261', // field to update
-                CITY: 'Kaliningrad',                   // field to update
+                TYPE_ID: 1,
+                ENTITY_TYPE_ID: 8,
+                ENTITY_ID: 1,
+                ADDRESS_1: 'Московский проспект, 261',
+                CITY: 'Калининград',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -205,15 +201,9 @@
             fields={
                 "TYPE_ID": 1,
                 "ENTITY_TYPE_ID": 8,
-                "ENTITY_ID": 7335,
-                "ADDRESS_1": "25 Market Street",
-                "ADDRESS_2": "Floor 5",
-                "CITY": "Boston",
-                "POSTAL_CODE": "02109",
-                "REGION": "Suffolk County",
-                "PROVINCE": "Massachusetts",
-                "COUNTRY": "United States",
-                "COUNTRY_CODE": "US",
+                "ENTITY_ID": 1,
+                "ADDRESS_1": "Московский проспект, 261",
+                "CITY": "Калининград",
             },
         ).response
         result = bitrix_response.result
@@ -243,18 +233,18 @@
                 [
                     'fields' => [
                         'TYPE_ID'        => 1,
-                        'ENTITY_TYPE_ID' => 3,
+                        'ENTITY_TYPE_ID' => 8,
                         'ENTITY_ID'      => 1,
                         'ADDRESS_1'      => 'Московский проспект, 261',
                         'CITY'           => 'Калининград',
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating address: ' . $e->getMessage();
@@ -269,11 +259,11 @@
         {
             fields:
             {
-                "TYPE_ID": 1,           //
-                "ENTITY_TYPE_ID": 3,    // - Идентифицирующие поля.
-                "ENTITY_ID": 1,         //
-                "ADDRESS_1": "Московский проспект, 261", // - Поля, значения которых меняются.
-                "CITY": "Калининград"                    //
+                "TYPE_ID": 1,
+                "ENTITY_TYPE_ID": 8,
+                "ENTITY_ID": 1,
+                "ADDRESS_1": "Московский проспект, 261",
+                "CITY": "Калининград"
             }
         },
         function(result)
@@ -294,7 +284,7 @@
         [
             'fields' => [
                 'TYPE_ID' => 1,
-                'ENTITY_TYPE_ID' => 3,
+                'ENTITY_TYPE_ID' => 8,
                 'ENTITY_ID' => 1,
                 'ADDRESS_1' => 'Московский проспект, 261',
                 'CITY' => 'Калининград'
@@ -314,7 +304,7 @@
     res, err := client.Core().Call(ctx, "crm.address.update", b24.Params{
     	"fields": b24.Params{
     		"TYPE_ID":        1,
-    		"ENTITY_TYPE_ID": 3,
+    		"ENTITY_TYPE_ID": 8,
     		"ENTITY_ID":      1,
     		"ADDRESS_1":      "Московский проспект, 261",
     		"CITY":           "Калининград",
@@ -357,9 +347,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат изменения адреса:
-- `true` — изменен
-- `false` — не изменен 
+[`boolean`](../../../data-types.md) | `true` — запрос на изменение адреса выполнен
 ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
@@ -367,7 +355,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **40x**, **50x**
+HTTP-статус: **400**
 
 ```json
 {
@@ -380,13 +368,13 @@ HTTP-статус: **40x**, **50x**
 
 ### Возможные коды ошибок
 
-#|  
-|| **Код** | **Описание** ||
-|| `TYPE_ID is not defined or invalid` | Идентификатор типа адреса не указан или имеет недопустимое значение ||
-|| `ENTITY_TYPE_ID is not defined or invalid` | Идентификатор типа родительского объекта не указан или имеет недопустимое значение. ||
-|| `ENTITY_ID is not defined or invalid` | Идентификатор родительского объекта не указан или имеет недопустимое значение. ||
-|| `TypeAddress not found` | Адрес не найден ||
-|| `Access denied` | Недостаточно прав доступа для изменения адреса ||
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | TYPE_ID is not defined or invalid. | Идентификатор типа адреса не указан или имеет недопустимое значение ||
+|| `400` | Пустое значение | ENTITY_TYPE_ID is not defined or invalid. | Идентификатор типа владельца адреса не указан или имеет недопустимое значение ||
+|| `400` | Пустое значение | ENTITY_ID is not defined or invalid. | Идентификатор владельца адреса не указан или имеет недопустимое значение ||
+|| `400` | Пустое значение | TypeAddress not found. | Адрес с указанными `TYPE_ID`, `ENTITY_TYPE_ID` и `ENTITY_ID` не найден ||
+|| `400` | Пустое значение | Access denied. | Нет права на изменение владельца адреса ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -397,3 +385,4 @@ HTTP-статус: **40x**, **50x**
 - [{#T}](./crm-address-list.md)
 - [{#T}](./crm-address-delete.md)
 - [{#T}](./crm-address-fields.md)
+- [{#T}](./index.md)
