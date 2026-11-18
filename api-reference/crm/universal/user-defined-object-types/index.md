@@ -27,28 +27,33 @@
 
 ## Связь с другими объектами
 
-**Объекты CRM.** Смарт-процесс можно [связать](./crm-type-add.md#relations) с лидами, сделками и другими объектами CRM. Связанный объект будет доступен через поле `parentId{ID}`, где `{ID}` — числовой идентификатор объекта CRM.
+**Объекты CRM.** Смарт-процесс можно [связать](./crm-type-add.md#relations) с лидами, сделками и другими объектами CRM. Связями между элементами управляйте методами [crm.item.*](../index.md).
 
-**Клиент.** Поле в карточке смарт-процесса, которое состоит из связанных с ним компании и контактов. Компания в поле одна, изменяйте связанную компанию через поле `companyId`. Контактов в поле «Клиент» может быть несколько. Взаимодействие с контактами ведется через поле `contactIds` — передавайте в поле массив с ID контактов. Включите поле опцией `isClientEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+**Клиент.** Элемент смарт-процесса можно связать с одной компанией и несколькими контактами. Управляйте клиентом методами [crm.item.*](../index.md).
 
-**Реквизиты вашей компании.** Укажите ID вашей компании в поле `mycompanyId`, чтобы ее реквизиты автоматически использовались в документах. Получить ID вашей компании можно методом [crm.item.list](../crm-item-list.md) для объекта компаний с фильтром по полю `isMyCompany`. Включите поле опцией `isMycompanyEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+**Реквизиты вашей компании.** Свяжите элемент с вашей компанией, чтобы использовать ее реквизиты в документах. Найти компанию можно методом [crm.item.list](../crm-item-list.md) для компаний с фильтром по полю `isMyCompany`.
 
-**Товары.** Чтобы добавить, изменить или удалить товарные позиции в смарт-процессе используйте методы [crm.item.productrow.*](../product-rows/index.md). Включите вкладку с товарами и поле «Сумма и валюта» опцией `isLinkWithProductsEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+**Товары.** Чтобы добавить, изменить или удалить товарные позиции в смарт-процессе, используйте методы [crm.item.productrow.*](../product-rows/index.md).
 
-**Пользователи.** Смарт-процесс имеет привязку к пользователям по числовым идентификаторам в полях:
-- `createdBy` — кем создан,
-- `updatedBy` — кем обновлен,
-- `movedBy` — кто изменил стадию,
-- `assignedById` — ответственный за элемент,
-- `observers` — наблюдатели. Включите поле опцией `isObserversEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+**Пользователи.** В элементе хранятся ссылки на создателя, автора изменений, ответственного и наблюдателей. Поля описаны в [crm.item.fields](../crm-item-fields.md), идентификаторы и данные пользователей можно получить методом [user.get](../../../user/user-get.md).
 
-Получить идентификатор и данные пользователя можно с помощью метода [user.get](../../../user/user-get.md).
+**Документы.** Чтобы создать документ по шаблону, загрузить новый шаблон для смарт-процесса или настроить нумератор для документов, используйте методы [crm.documentgenerator.*](../../document-generator/index.md).
 
-**Документы.** Чтобы создать документ по шаблону, загрузить новый шаблон для смарт-процесса или настроить нумератор для документов, используйте методы [crm.documentgenerator.*](../../document-generator/index.md). Включите работу с документами в смарт-процессе опцией `isDocumentsEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+**Задачи.** Элементы смарт-процесса можно привязывать к задачам. Для работы с задачами используйте методы [tasks.task.*](../../../tasks/index.md).
 
-**Задачи.** Элементы смарт-процесса можно привязывать к задачам. Для работы с задачами используйте методы [tasks.task.*](../../../tasks/index.md). Чтобы возможность связи была доступна, включите и настройте опцию `isUseInUserfieldEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+**События календаря.** Элементы смарт-процесса можно привязывать к событиям календаря. Для работы с календарем используйте методы [calendar.event.*](../../../calendar/calendar-event/index.md).
 
-**События календаря.** Элементы смарт-процесса можно привязывать к событиям календаря. Для работы с календарем используйте методы [calendar.event.*](../../../calendar/calendar-event/index.md). Чтобы возможность связи была доступна, включите и настройте опцию `isUseInUserfieldEnabled` в методе [crm.type.add](./crm-type-add.md) или [crm.type.update](./crm-type-update.md).
+Возможности включаются опциями в методах [crm.type.add](./crm-type-add.md) и [crm.type.update](./crm-type-update.md).
+
+#|
+|| **Возможность** | **Опция в crm.type.add / crm.type.update** | **Методы** ||
+|| Клиент: компания и контакты | `isClientEnabled` | [crm.item.*](../index.md) ||
+|| Реквизиты вашей компании | `isMycompanyEnabled` | [crm.item.*](../index.md) ||
+|| Товары, сумма и валюта | `isLinkWithProductsEnabled` | [crm.item.productrow.*](../product-rows/index.md), [crm.item.*](../index.md) ||
+|| Наблюдатели | `isObserversEnabled` | [crm.item.*](../index.md) ||
+|| Документы | `isDocumentsEnabled` | [crm.documentgenerator.*](../../document-generator/index.md) ||
+|| Привязка к задачам и событиям календаря | `isUseInUserfieldEnabled` и настройка [linkedUserFields](./crm-type-add.md#linkedUserFields) | [tasks.task.*](../../../tasks/index.md), [calendar.event.*](../../../calendar/calendar-event/index.md) ||
+|#
 
 {% note tip "Пользовательская документация" %}
 
@@ -90,7 +95,7 @@
 
 ### Места встраивания смарт-процессов
 
-Вместо `XXX` укажите числовой идентификатор конкретного смарт-процесса, например `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON`.
+Вместо `XXX` укажите `entityTypeId` смарт-процесса, например `CRM_DYNAMIC_183_DOCUMENTGENERATOR_BUTTON`.
 
 - [`CRM_DYNAMIC_XXX_DETAIL_TAB`](../../../widgets/crm/detail-tab.md) — вкладка в детальной карточке элемента CRM
 
@@ -131,13 +136,13 @@
 
 {% note warning "" %}
 
-`id` и `entityTypeId` — разные значения, и одно не вычисляется из другого. В формуле `CRM_{id}` для пользовательских полей используйте `id`, а в параметре `entityTypeId` — `entityTypeId`. Оба значения возвращает метод [crm.type.list](./crm-type-list.md).
+`id` и `entityTypeId` — разные значения, и одно не вычисляется из другого.
 
 {% endnote %}
 
 ## Обзор методов и событий {#all-methods}
 
-> Scope: [`crm`](../../../scopes/permissions.md)
+> Scope: [`crm`](../../../scopes/permissions.md); для методов `userfieldconfig.*` — [`userfieldconfig`](../../../scopes/permissions.md)
 >
 > Кто может выполнять метод: в зависимости от метода
 

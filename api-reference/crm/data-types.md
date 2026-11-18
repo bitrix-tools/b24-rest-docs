@@ -374,6 +374,8 @@
 [`boolean`](../data-types.md#standart-types) | Включено ли поле **Регулярность** ||
 || **isMultifieldsEnabled**
 [`boolean`](../data-types.md#standart-types) | Включены ли поля коммуникаций: телефон, email и другие ||
+|| **isPersonEnabled**
+[`boolean`](../data-types.md#standart-types) | Включен ли учет людей. Включить можно только у смарт-процессов с готовой схемой данных ||
 || **isStartCatalogEnabled**
 [`boolean`](../data-types.md#standart-types) | Включен ли каталог запуска процессов ||
 || **isCreateByFormEnabled**
@@ -383,9 +385,9 @@
 || **daysBeforeClose**
 [`integer`](../data-types.md#standart-types) | Сколько дней с момента создания отводится элементу до завершения. Если срок не задан — `null` ||
 || **isPaymentsEnabled**  
-[`boolean`](../data-types.md#standart-types)  | Включена ли возможность оплаты. Только для чтения ||
+[`boolean`](../data-types.md#standart-types)  | Включен ли прием платежей ||
 || **isCountersEnabled**  
-[`boolean`](../data-types.md#standart-types)  | Включены ли счетчики. Только для чтения ||
+[`boolean`](../data-types.md#standart-types)  | Включены ли режим просмотра «Дела» и счетчики ||
 || **isInitialized**
 [`boolean`](../data-types.md#standart-types) | Завершено ли создание смарт-процесса. Значение `N` бывает только в первые секунды создания и во время удаления. Только для чтения ||
 || **createdTime** 

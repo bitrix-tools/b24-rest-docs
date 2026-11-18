@@ -11,32 +11,36 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с административным доступом к разделу CRM
+> Кто может выполнять метод: администратор CRM или пользователь с правом «Управление смарт-процессами» в настройках прав CRM. Для смарт-процессов цифрового рабочего места — администратор этого рабочего места или пользователь с таким же правом в нем
 
-Метод получает список настроек смарт-процессов.
+Метод `crm.type.list` получает список настроек смарт-процессов.
 
 ## Параметры метода
+
+{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **order**
 [`object`](../../../data-types.md)  | Объект формата: `{ field_1: value_1, field_2: value_2, ..., field_n: value_n }`, где
-* `field_n`: название поля по которому будет произведена сортировка выборки смарт-процессов
+* `field_n`: название поля, по которому будет произведена сортировка выборки смарт-процессов
 * `value_n`: значение типа `string`, равное: 
   * `ASC` — сортировка по возрастанию
   * `DESC` — сортировка по убыванию
 
-Возможные значения для `field` соответствуют полям объекта [type](../../data-types.md#type)
+Доступные поля можно получить методом [crm.type.fields](./crm-type-fields.md). Описание полей приведено в разделе [type](../../data-types.md#type)
  ||
 || **filter**
 [`object`](../../../data-types.md)  | Объект формата: `{ field_1: value_1, field_2: value_2, ..., field_n: value_n }`, где
-* `field_n`: название поля по которому будет отфильтрована выборка смарт-процессов
+* `field_n`: название поля, по которому будет отфильтрована выборка смарт-процессов
 * `value_n`: значение фильтра
 
-Возможные значения для `field` соответствуют полям объекта [type](../../data-types.md#type)
+Доступные поля можно получить методом [crm.type.fields](./crm-type-fields.md). Описание полей приведено в разделе [type](../../data-types.md#type)
 
-Фильтр может иметь неограниченную вложенность и количество условий.
+Для выборки из цифрового рабочего места передайте его положительный идентификатор в `filter.customSectionId` без префикса и не задавайте `logic` в корне фильтра.
+
+Фильтр поддерживает вложенные группы условий.
 По умолчанию все условия соединяются друг с другом как `AND` (логическое И). Если нужно использовать `OR` (Логическое ИЛИ), то можно передать специальный ключ `logic` со значением `OR`.
 
 К ключам `field_n` можно добавить префикс, уточняющий работу фильтра.
@@ -67,22 +71,18 @@
 || **start**
 [`integer`](../../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
-Размер страницы результатов всегда статичный — 50 записей.
-
-Чтобы выбрать вторую страницу результатов, передайте значение `50`. Чтобы выбрать третью страницу результатов — значение `100` и так далее.
+Размер страницы результатов всегда статичный — 50 записей. По умолчанию `start = 0`.
 
 Формула расчета значения параметра `start`:
 
-`start = (N-1) * 50`, где `N` — номер нужной страницы ||
+`start = (N-1) * 50`, где `N` — номер нужной страницы. Можно передать значение `next` из предыдущего ответа ||
 |#
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
-## Примеры
+## Примеры кода
 
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
-1. Получить список всех смарт-процессов, у которых `title` содержит или `5`, или `0`. Полученный список отсортировать по убыванию `id`
+1. Получить страницу списка смарт-процессов, у которых `title` содержит `5` или `0`, и отсортировать результат по убыванию `id`
 
     {% list tabs %}
 
@@ -92,7 +92,7 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"filter":[{"logic":"OR",{"%title":"5"},{"%title":"0"}]},"order":{"id":"DESC"}}' \
+        -d '{"filter":[{"logic":"OR","0":{"%title":"5"},"1":{"%title":"0"}}],"order":{"id":"DESC"}}' \
         https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.type.list
         ```
 
@@ -102,7 +102,7 @@
         curl -X POST \
         -H "Content-Type: application/json" \
         -H "Accept: application/json" \
-        -d '{"filter":[{"logic":"OR",{"%title":"5"},{"%title":"0"}]},"order":{"id":"DESC"},"auth":"**put_access_token_here**"}' \
+        -d '{"filter":[{"logic":"OR","0":{"%title":"5"},"1":{"%title":"0"}}],"order":{"id":"DESC"},"auth":"**put_access_token_here**"}' \
         https://**put_your_bitrix24_address**/rest/crm.type.list
         ```
 
@@ -253,12 +253,8 @@
 
         try:
             bitrix_response = client.crm.type.list(
-                filter={
-                    "isAutomationEnabled": "Y",
-                    "isBizProcEnabled": "Y",
-                    "isCategoriesEnabled": "Y",
-                    "isClientEnabled": "Y",
-                },
+                filter={"0": {"logic": "OR", "0": {"%title": "5"}, "1": {"%title": "0"}}},
+                order={"id": "DESC"},
             ).response
             result = bitrix_response.result
             print(result)
@@ -283,15 +279,8 @@
 
         try:
             bitrix_response = client.crm.type.list(
-                filter={
-                    "isAutomationEnabled": "Y",
-                    "isBizProcEnabled": "Y",
-                    "isCategoriesEnabled": "Y",
-                    "isClientEnabled": "Y",
-                },
-                order={
-                    "id": "ASC",
-                },
+                filter={"0": {"logic": "OR", "0": {"%title": "5"}, "1": {"%title": "0"}}},
+                order={"id": "DESC"},
             ).as_list().response
             result = bitrix_response.result
             for item in result:
@@ -316,15 +305,7 @@
 
         try:
             bitrix_response = client.crm.type.list(
-                filter={
-                    "isAutomationEnabled": "Y",
-                    "isBizProcEnabled": "Y",
-                    "isCategoriesEnabled": "Y",
-                    "isClientEnabled": "Y",
-                },
-                order={
-                    "id": "ASC",
-                },
+                filter={"0": {"logic": "OR", "0": {"%title": "5"}, "1": {"%title": "0"}}},
             ).as_list_fast(descending=True).response
             result = bitrix_response.result
             for item in result:
@@ -376,9 +357,9 @@
 
 2. Получить список смарт-процессов, у которых:
    - Включены роботы и триггеры (`isAutomationEnabled`)
-   - Включен дизайнер бизнес процессов (`isBizProcEnabled`)
+   - Включен дизайнер бизнес-процессов (`isBizProcEnabled`)
    - Включены свои воронки и туннели продаж (`isCategoriesEnabled`)
-   - Включены свои стадии и канбан (`isClientEnabled`)
+   - Включена привязка клиентов (`isClientEnabled`)
 
     {% list tabs %}
 
@@ -816,12 +797,14 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../../data-types.md) | Корневой элемент ответа. Содержит единственный ключ `types` ||
-|| **types**
-[`type[]`](../../data-types.md#type) | Список смарт-процессов, каждый из которых соответствует структуре объекта [type](../../data-types.md#type) ||
+|| **result.types**
+[`type[]`](../../data-types.md#type) | Список настроек смарт-процессов без полей `relations` и `linkedUserFields`. Чтобы получить настройки отдельного смарт-процесса, используйте [crm.type.get](./crm-type-get.md) ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+|| **next**
+[`integer`](../../../data-types.md) | Смещение следующей страницы. Возвращается, если есть следующая страница и `start` не равен `-1`; передайте его в `start` ||
 || **total**
-[`integer`](../../../data-types.md)| Общее количество найденных записей || 
+[`integer`](../../../data-types.md)| Общее количество найденных записей. Не возвращается при `start = -1` ||
 |#
 
 ## Обработка ошибок
@@ -838,21 +821,21 @@ HTTP-статус: **400**
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
+
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `allowed_only_intranet_user` | Действие разрешено только интранет-пользователям | Возникает, если пользователь не является интранет-пользователем ||
-|| `400` | `ACCESS_DENIED` | Доступ запрещен | Возникает, если у пользователя нет административных прав CRM ||
-|| `400` | `INVALID_ARG_VALUE` | Invalid filter: field `'field_n'` is not allowed in filter | Возникает, при передаче отсутствующего в смарт-процессе поля `field_n` в параметр `filter` ||
-|| `400` | `INVALID_ARG_VALUE` | Invalid filter: field `'field_n'` has invalid value | Возникает, при передаче некорректного `value_n` для поля `field_n` в параметр `filter` ||
-|| `400` | `INVALID_ARG_VALUE` | Invalid order: field `'field_n'` is not allowed in order | Возникает, при передаче отсутствующего в смарт-процессе поля `field_n` в параметр `order` ||
-|| `400` | `INVALID_ARG_VALUE` | Invalid order: allowed sort directions are `ASC, DESC`. But got `'invalid_value'` for field `'field_n'` | Возникает, при передаче некорректного `value_n` для поля `field_n` в параметр `order` ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет прав, перечисленных в блоке «Кто может выполнять метод» ||
+|| `400` | `INVALID_ARG_VALUE` | Invalid filter: field 'field_n' is not allowed in filter | Возникает при передаче недопустимого поля `field_n` в параметр `filter` ||
+|| `400` | `INVALID_ARG_VALUE` | Invalid filter: field 'field_n' has invalid value | Возникает при передаче некорректного `value_n` для поля `field_n` в параметр `filter` ||
+|| `400` | `INVALID_ARG_VALUE` | Invalid order: field 'field_n' is not allowed in order | Возникает при передаче недопустимого поля `field_n` в параметр `order` ||
+|| `400` | `INVALID_ARG_VALUE` | Invalid order: allowed sort directions are ASC, DESC. But got 'invalid_value' for field 'field_n' | Возникает при передаче некорректного `value_n` для поля `field_n` в параметр `order` ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)
@@ -861,3 +844,4 @@ HTTP-статус: **400**
 - [{#T}](./crm-type-fields.md)
 - [{#T}](../../../../tutorials/field-types/how-to-add-user-field-to-spa.md)
 - [{#T}](../../../../tutorials/crm/how-to-add-crm-objects/how-to-add-category-to-spa.md)
+- [{#T}](./index.md)

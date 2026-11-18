@@ -11,9 +11,11 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с административным доступом к смарт-процессу, либо пользователь с правом на чтение смарт-процесса
+> Кто может выполнять метод: администратор CRM или пользователь с правом «Управление смарт-процессами» в настройках прав CRM. Для смарт-процессов цифрового рабочего места — администратор этого рабочего места или пользователь с таким же правом в нем. Также метод доступен пользователю с правом на чтение элементов этого смарт-процесса
 
-Метод получает информацию о смарт-процессе с идентификатором типа смарт-процесса `entityTypeId`.
+Метод `crm.type.getByEntityTypeId` получает информацию о смарт-процессе по идентификатору его типа `entityTypeId`.
+
+`entityTypeId` — идентификатор типа объекта CRM, а `id` — идентификатор записи настроек смарт-процесса: если известен `id`, используйте [`crm.type.get`](./crm-type-get.md). Оба идентификатора можно получить методом [`crm.type.list`](./crm-type-list.md).
 
 ## Параметры метода
 
@@ -23,7 +25,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **entityTypeId***
-[`integer`](../../../data-types.md) | Идентификатор типа смарт-процесса. ||
+[`integer`](../../../data-types.md) | Идентификатор типа смарт-процесса ||
 |#
 
 ## Примеры кода
@@ -105,7 +107,7 @@
           }>
         }
         linkedUserFields: Record<string, string>
-        customSections: unknown[]
+        customSections?: unknown[]
       }
     }
 
@@ -175,7 +177,7 @@
 
     try:
         bitrix_response = client.crm.type.get_by_entity_type_id(
-            entity_type_id=1222,
+            entity_type_id=2024,
         ).response
         result = bitrix_response.result
         print(result)
@@ -311,15 +313,23 @@ HTTP-статус: **200**
             "isDocumentsEnabled": "Y",
             "isSourceEnabled": "Y",
             "isObserversEnabled": "Y",
+            "isRecurringEnabled": "N",
             "isRecyclebinEnabled": "Y",
             "isAutomationEnabled": "Y",
             "isBizProcEnabled": "Y",
             "isSetOpenPermissions": "Y",
             "isPaymentsEnabled": "N",
             "isCountersEnabled": "N",
+            "isMultifieldsEnabled": "N",
+            "isPersonEnabled": "N",
             "createdTime": "2024-07-08T14:46:54+02:00",
             "updatedTime": "2024-07-08T14:46:54+02:00",
             "updatedBy": 1,
+            "isInitialized": "Y",
+            "daysBeforeClose": null,
+            "isStartCatalogEnabled": "N",
+            "startCatalogFormId": null,
+            "isCreateByFormEnabled": "N",
             "relations": {
                 "parent": [
                     {
@@ -366,7 +376,8 @@ HTTP-статус: **200**
                 "TASKS_TASK|UF_CRM_TASK": "Y",
                 "TASKS_TASK_TEMPLATE|UF_CRM_TASK": "N"
             },
-            "customSections": []
+            "customSections": [],
+            "additionalCustomSectionIds": []
         }
     },
     "time": {
@@ -387,9 +398,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержащий объект [`type`](../../data-types.md#type) с информацией о смарт-процессе ||
+[`object`](../../../data-types.md) | Объект с информацией о смарт-процессе. Структура описана [ниже](#result) ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`object`](../../../data-types.md) | Информация о смарт-процессе. Структура объекта — [`type`](../../data-types.md#type), описание полей — [`crm.type.fields`](./crm-type-fields.md) ||
 |#
 
 ## Обработка ошибок
@@ -398,7 +418,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
+    "error": "0",
     "error_description": "Смарт-процесс не найден"
 }
 ```
@@ -406,10 +426,12 @@ HTTP-статус: **400**
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
+
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `403` | `allowed_only_intranet_user` | Действие разрешено только интранет-пользователям | Возникает, если пользователь не является интранет-пользователем ||
-|| `400` | `ACCESS_DENIED` | Доступ запрещен | Возникает, если у пользователя нет административных прав CRM или нет прав на чтение смарт-процесса ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет прав, перечисленных в блоке «Кто может выполнять метод» ||
+|| `400` | `100` | `Could not find value for parameter {entityTypeId}` | Не передан обязательный параметр `entityTypeId` ||
 || `400` | `0` | Смарт-процесс не найден | Смарт-процесс с переданным `entityTypeId` не найден ||
 |#
 
@@ -417,10 +439,10 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
+- [{#T}](./index.md)

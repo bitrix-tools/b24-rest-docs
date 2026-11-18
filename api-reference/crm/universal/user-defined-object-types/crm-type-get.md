@@ -11,9 +11,9 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с административным доступом к смарт-процессу, либо пользователь с правом на чтение смарт-процесса
+> Кто может выполнять метод: администратор CRM или пользователь с правом «Управление смарт-процессами» в настройках прав CRM. Для смарт-процессов цифрового рабочего места — администратор этого рабочего места или пользователь с таким же правом в нем. Также метод доступен пользователю с правом на чтение элементов этого смарт-процесса
 
-Метод получает информацию о смарт-процессе с идентификатором `id`.
+Метод `crm.type.get` получает информацию о смарт-процессе по идентификатору `id`.
 
 ## Параметры метода
 
@@ -97,7 +97,7 @@
           child: { entityTypeId: number; isChildrenListEnabled: 'Y' | 'N'; isPredefined: 'Y' | 'N' }[]
         }
         linkedUserFields: Record<string, 'Y' | 'N'>
-        customSections: unknown[]
+        customSections?: unknown[]
       }
     }
 
@@ -167,7 +167,7 @@
 
     try:
         bitrix_response = client.crm.type.get(
-            bitrix_id=20,
+            bitrix_id=16,
         ).response
         result = bitrix_response.result
         print(result)
@@ -309,6 +309,15 @@ HTTP-статус: **200**
             "isSetOpenPermissions": "Y",
             "isPaymentsEnabled": "N",
             "isCountersEnabled": "N",
+            "isRecurringEnabled": "N",
+            "isMultifieldsEnabled": "N",
+            "isInitialized": "Y",
+            "daysBeforeClose": null,
+            "isStartCatalogEnabled": "N",
+            "startCatalogFormId": null,
+            "isCreateByFormEnabled": "N",
+            "isPersonEnabled": "N",
+            "additionalCustomSectionIds": [],
             "createdTime": "2024-07-08T14:46:54+02:00",
             "updatedTime": "2024-07-08T14:46:54+02:00",
             "updatedBy": 1,
@@ -341,6 +350,11 @@ HTTP-статус: **200**
                     }
                 ],
                 "child": [
+                    {
+                        "entityTypeId": 39,
+                        "isChildrenListEnabled": "Y",
+                        "isPredefined": "Y"
+                    },
                     {
                         "entityTypeId": 3,
                         "isChildrenListEnabled": "Y",
@@ -379,9 +393,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа, содержащий объект [`type`](../../data-types.md#type) с информацией о смарт-процессе ||
+[`object`](../../../data-types.md) | Объект с информацией о смарт-процессе. Структура описана [ниже](#result) ||
 || **time**
 [`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`object`](../../../data-types.md) | Информация о смарт-процессе. Структура объекта — [`type`](../../data-types.md#type), описание полей — [`crm.type.fields`](./crm-type-fields.md) ||
 |#
 
 ## Обработка ошибок
@@ -390,7 +413,7 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
+    "error": "0",
     "error_description": "Смарт-процесс не найден"
 }
 ```
@@ -398,21 +421,23 @@ HTTP-статус: **400**
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
+
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
-|| `403` | `allowed_only_intranet_user` | Действие разрешено только интранет-пользователям | Возникает, если пользователь не является интранет-пользователем ||
-|| `400` | `ACCESS_DENIED` | Доступ запрещен | Возникает, если у пользователя нет административных прав CRM или нет прав на чтение смарт-процесса ||
-|| `400` | `0` | Смарт-процесс не найден | Смарт-процесс с переданным `id` не найден ||
+|| `400` | `100` | `Could not find value for parameter {id}` | Не передан обязательный параметр `id` ||
+|| `403` | `allowed_only_intranet_user` | Действие разрешено только интранет-пользователям | При установленном модуле `intranet` пользователь не является ни интранет-пользователем, ни администратором Битрикс24 ||
+|| `400` | `ACCESS_DENIED` | Доступ запрещен | У пользователя нет прав, перечисленных в блоке «Кто может выполнять метод» ||
+|| `400` | `0` | Смарт-процесс не найден | Смарт-процесс с переданным `id` не найден или относится к системным типам на основе смарт-процессов ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./index.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get-by-entity-type-id.md)
 - [{#T}](./crm-type-list.md)
 - [{#T}](./crm-type-delete.md)
 - [{#T}](./crm-type-fields.md)
+- [{#T}](./index.md)
