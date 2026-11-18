@@ -25,7 +25,7 @@
 || **templateId***
 [`integer`](../../data-types.md) | Идентификатор шаблона задачи.
 
-Идентификатор шаблона задачи можно получить при [создании нового шаблона](./tasks-template-add.md) ||
+Идентификатор шаблона задачи можно получить при [создании нового шаблона](./tasks-template-add.md) или методом [получения списка шаблонов](./tasks-template-list.md) ||
 |#
 
 ## Примеры кода
@@ -295,4 +295,5 @@ HTTP-статус: **400**
 - [{#T}](./tasks-template-add.md)
 - [{#T}](./tasks-template-update.md)
 - [{#T}](./tasks-template-get.md)
+- [{#T}](./tasks-template-list.md)
 - [{#T}](./tasks-template-fields.md)

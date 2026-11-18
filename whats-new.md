@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 18 ноября, 2026
+
+- Добавили метод [tasks.template.list](./api-reference/tasks/template/tasks-template-list.md): возвращает список шаблонов задач, доступных пользователю, с фильтром, сортировкой и выбором полей
+
 ### 17 ноября, 2026
 
 - Добавили методы складов и остатков Торгового каталога в REST 3.0: [catalog.store.*](./api-reference/catalog/store/index.md) и [catalog.store.product.*](./api-reference/catalog/store-product/index.md), включая методы получения схемы полей `field.list` и `field.get`

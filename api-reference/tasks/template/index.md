@@ -21,7 +21,7 @@
 2. Если шаблон должен создавать повторяющиеся задачи, настройте поля `REPLICATE` и `REPLICATE_PARAMS`
 3. Получите идентификаторы пользователей, групп и объектов CRM, если привязки к перечисленным объектам нужны в шаблоне
 4. Создайте шаблон методом [tasks.template.add](./tasks-template-add.md)
-5. Получите шаблон методом [tasks.template.get](./tasks-template-get.md), если нужно проверить сохраненные значения
+5. Получите шаблон методом [tasks.template.get](./tasks-template-get.md), если нужно проверить сохраненные значения. Список доступных шаблонов возвращает метод [tasks.template.list](./tasks-template-list.md)
 6. Измените шаблон методом [tasks.template.update](./tasks-template-update.md), если нужно скорректировать параметры
 7. Добавьте пункты чек-листа методами [tasks.template.checklist.add](./checklist/tasks-template-checklist-add.md), [tasks.template.checklist.update](./checklist/tasks-template-checklist-update.md) и [tasks.template.checklist.list](./checklist/tasks-template-checklist-list.md), если задача состоит из повторяющихся шагов
 8. Удалите шаблон методом [tasks.template.delete](./tasks-template-delete.md), если он больше не нужен
@@ -61,6 +61,7 @@
 || [tasks.template.add](./tasks-template-add.md) | Добавляет шаблон задачи ||
 || [tasks.template.update](./tasks-template-update.md) | Изменяет шаблон задачи ||
 || [tasks.template.get](./tasks-template-get.md) | Получает шаблон задачи по `id` ||
+|| [tasks.template.list](./tasks-template-list.md) | Получает список шаблонов задач ||
 || [tasks.template.delete](./tasks-template-delete.md) | Удаляет шаблон задачи ||
 || [tasks.template.fields](./tasks-template-fields.md) | Получает описание полей шаблона задачи ||
 |#

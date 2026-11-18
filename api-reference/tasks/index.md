@@ -414,6 +414,7 @@
 || [tasks.template.add](./template/tasks-template-add.md) | Добавляет шаблон задачи ||
 || [tasks.template.update](./template/tasks-template-update.md) | Изменяет шаблон задачи ||
 || [tasks.template.get](./template/tasks-template-get.md) | Получает шаблон задачи по `id` ||
+|| [tasks.template.list](./template/tasks-template-list.md) | Получает список шаблонов задач ||
 || [tasks.template.delete](./template/tasks-template-delete.md) | Удаляет шаблон задачи ||
 || [tasks.template.fields](./template/tasks-template-fields.md) | Получает описание полей шаблона задачи ||
 |#

@@ -11,6 +11,8 @@ items:
     href: tasks-template-update.md
   - name: Получить шаблон задачи
     href: tasks-template-get.md
+  - name: Получить список шаблонов задач
+    href: tasks-template-list.md
   - name: Удалить шаблон задачи
     href: tasks-template-delete.md
   - name: Получить поля шаблона задачи
