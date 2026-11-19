@@ -19,7 +19,7 @@
 
 {% endnote %}
 
-Метод `call.followup.field.list` возвращает список доступных полей Follow-up.
+Метод `call.followup.field.list` возвращает описание каждого поля Follow-up, например имя и тип. Имена полей можно передать в `select` методов [call.followup.list](./call-followup-list.md) и [call.followup.get](./call-followup-get.md).
 
 ## Параметры метода
 
@@ -43,7 +43,9 @@
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
 - `multiple` — признак множественного значения
-- `elementType` — тип элемента для составных полей ||
+- `elementType` — тип элемента для составных полей
+
+Если параметр не передан, метод возвращает все поля описания ||
 |#
 
 ## Примеры кода
@@ -265,7 +267,12 @@ HTTP-статус: **200**
             {
                 "name": "callId",
                 "type": "int",
-                "description": "Bitrix24 call identifier (b_call.ID). Always present."
+                "description": "Identifier of the follow-up: b_call.ID of a Bitrix24 call, or 10000000000 + id of a Sync meeting page (see source). Always present."
+            },
+            {
+                "name": "source",
+                "type": "string",
+                "description": "Origin of the follow-up: `call` — a Bitrix24 call, `sync` — a Sync meeting. Opt-in."
             },
             {
                 "name": "callType",
@@ -295,7 +302,7 @@ HTTP-статус: **200**
             {
                 "name": "durationSeconds",
                 "type": "int",
-                "description": "Total call duration in seconds (endDate - startDate)."
+                "description": "Total call duration in seconds (endDate − startDate)."
             },
             {
                 "name": "uuid",
@@ -305,22 +312,22 @@ HTTP-статус: **200**
             {
                 "name": "language",
                 "type": "string",
-                "description": "Detected transcription language (BCP-47 / ISO 639-1, for example ru or en). Null when there is no transcription."
+                "description": "Detected transcription language (BCP-47 / ISO 639-1, e.g. \"ru\", \"en\"). Null when there is no transcription."
             },
             {
                 "name": "version",
                 "type": "int",
-                "description": "Maximum schema version across all stored outcome blocks for this call."
+                "description": "Maximum schema version across all stored outcome blocks (transcription, overview, summary, insights, evaluation)."
             },
             {
                 "name": "participants",
                 "type": "array",
-                "description": "Call participants, enriched with display data from user profiles."
+                "description": "Call participants, enriched with display data from Util::getUsers (name, avatar, work position). Opt-in via `select`."
             },
             {
                 "name": "outcomes",
                 "type": "array",
-                "description": "Names of outcome blocks present for this call: transcription, overview, summary, insights, evaluation."
+                "description": "Names of outcome blocks present for this call: any subset of [transcription, overview, summary, insights, evaluation]."
             },
             {
                 "name": "createdAt",
@@ -350,7 +357,7 @@ HTTP-статус: **200**
             {
                 "name": "insights",
                 "type": "object",
-                "description": "AI insights: per-speaker analysis (CIS only), meeting strengths/weaknesses, recommendations."
+                "description": "AI insights: per-speaker analysis with region-gated evaluation, meeting strengths/weaknesses, recommendations."
             },
             {
                 "name": "evaluation",
@@ -380,7 +387,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Массив объектов с описанием полей. Состав каждого объекта зависит от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

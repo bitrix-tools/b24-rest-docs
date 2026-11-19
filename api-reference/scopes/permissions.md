@@ -83,6 +83,7 @@
 || **salescenter** | [CRM. Оплата](../crm/universal/payment/index.md) | Продажи в чате ||
 || **sign.b2e** | [КЭДО + Госключ](../sign/index.md) | КЭДО ||
 || **[sonet_group](*ключ_sonet)** | [Рабочие группы соцсети](../sonet-group/sonet-group-create.md) | Рабочие группы соцсети ||
+|| **syncconnector** | [Follow-up звонков Битрикс24 Синк](../telephony/follow-up/index.md#sync) | Битрикс24 Синк ||
 || **[task](*ключ_task)** | [Задачи](../tasks/index.md) | Задачи ||
 || **telephony** | [Телефония](../telephony/index.md) | Телефония ||
 || **timeman** | [Учет рабочего времени](../timeman/index.md) | Учет рабочего времени ||

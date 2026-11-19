@@ -2,6 +2,11 @@
 
 ## 2026
 
+### 19 ноября, 2026
+
+- Добавили методы [syncconnector.followup.*](./api-reference/telephony/follow-up/index.md#sync) в REST 3.0: получают Follow-up звонков Битрикс24 Синк — список за период и итоги одной страницы подробного разбора, включая методы получения схемы полей `field.list` и `field.get`
+- Обновили методы [call.followup.*](./api-reference/telephony/follow-up/index.md): теперь они возвращают Follow-up звонков Битрикс24 Синк вместе с Follow-up звонков Битрикс24, а новое поле `source` показывает источник: `call` или `sync`
+
 ### 18 ноября, 2026
 
 - Добавили метод [tasks.template.list](./api-reference/tasks/template/tasks-template-list.md): возвращает список шаблонов задач, доступных пользователю, с фильтром, сортировкой и выбором полей

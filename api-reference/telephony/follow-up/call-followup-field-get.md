@@ -29,9 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **name***
-[`string`](../../data-types.md) | Имя поля Follow-up, описание которого нужно получить.
+[`string`](../../data-types.md) | Имя поля Follow-up, например `callId`.
 
-Доступные поля можно получить методом [call.followup.field.list](./call-followup-field-list.md) ||
+Все имена вернет метод [call.followup.field.list](./call-followup-field-list.md) ||
 || **select**
 [`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе.
 
@@ -47,7 +47,9 @@
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
 - `multiple` — признак множественного значения
-- `elementType` — тип элемента для составных полей ||
+- `elementType` — тип элемента для составных полей
+
+Если параметр не передан, метод возвращает все поля описания ||
 |#
 
 ## Примеры кода
@@ -278,7 +280,7 @@ HTTP-статус: **200**
             "name": "callId",
             "type": "int",
             "title": "callId",
-            "description": "Bitrix24 call identifier (b_call.ID). Always present.",
+            "description": "Identifier of the follow-up: b_call.ID of a Bitrix24 call, or 10000000000 + id of a Sync meeting page (see source). Always present.",
             "filterable": false,
             "sortable": false,
             "multiple": false
@@ -305,7 +307,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **item**
-[`object`](../../data-types.md) | Объект с описанием поля. Структура ответа зависит от `select` ||
+[`object`](../../data-types.md) | Объект с описанием поля. Состав объекта зависит от `select` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#

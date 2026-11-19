@@ -13,3 +13,13 @@ items:
     href: call-followup-field-list.md
   - name: Получить описание поля Follow-up
     href: call-followup-field-get.md
+  - name: Follow-up звонков Битрикс24 Синк
+    items:
+      - name: Получить список Follow-up
+        href: syncconnector-followup-list.md
+      - name: Получить Follow-up по странице подробного разбора
+        href: syncconnector-followup-get.md
+      - name: Получить список полей Follow-up
+        href: syncconnector-followup-field-list.md
+      - name: Получить описание поля Follow-up
+        href: syncconnector-followup-field-get.md
