@@ -31,6 +31,8 @@
 - [disk.storage.getchildren](../../disk/storage/disk-storage-get-children.md) — если файл находится в корне хранилища
 - [disk.folder.getchildren](../../disk/folder/disk-folder-get-children.md) — если файл находится в папке
 
+В чате BitrixGPT проверяются количество, размер и формат файлов: не более 10 файлов в сообщении, размер каждого — до 5 МиБ, формат должен поддерживаться BitrixGPT. Для голосового файла допустим размер до 25 МиБ.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -61,6 +63,8 @@
 Обязателен, если не передан `FILE_ID` ||
 || **MESSAGE**
 [`string`](../../data-types.md) | Текст сообщения с файлом ||
+|| **COPILOT**
+[`array`](../../data-types.md) | Массив параметров запроса к BitrixGPT, например `promptCode` — код промпта ||
 || **SILENT_MODE**
 [`string`](../../data-types.md) | Параметр для чата Открытых линий
 
@@ -662,6 +666,10 @@ HTTP-статус: **400**
 - передан пустым `FILE_ID` или `UPLOAD_ID`
 - переданы несуществующие идентификаторы файлов ||
 || `400` | `DISK_QUOTA_EXCEEDED` | Disk quota exceeded | На Диске не хватает места, чтобы скопировать файлы из `FILE_ID` в папку чата. В ответе дополнительно приходит поле `infoHelperCode` ||
+|| `400` | `INVALID_FILE_FORMAT` | — | Формат файла не поддерживается в чате BitrixGPT ||
+|| `400` | `FILE_TOO_LARGE` | — | Превышен допустимый размер файла в чате BitrixGPT: 5 МиБ для обычного файла или 25 МиБ для голосового ||
+|| `400` | `TOO_MANY_FILES` | — | В сообщение чата BitrixGPT добавлено больше 10 файлов ||
+|| `400` | `FILE_METADATA_UNAVAILABLE` | — | Не удалось получить данные файла для проверки в чате BitrixGPT ||
 || `403` | `ACCESS_ERROR` | You do not have access to the specified dialog | Недостаточно прав на просмотр диалога или передан несуществующий диалог ||
 |#
 

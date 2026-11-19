@@ -24,6 +24,8 @@ Https required | Методы вызываются только по прото�
 REST API is blocked due to overload | REST API заблокирован из-за перегрузки. Это ручная индивидуальная блокировка. Чтобы ее снять, обратитесь в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `401` | `ACCESS_DENIED`
 REST is available only on commercial plans | REST API доступен только на коммерческих тарифах. У [вебхука](/local-integrations/local-webhooks.html) текст ошибки другой — `REST is available only by subscription` ||
+|| `403` | `FEATURE_NOT_AVAILABLE_ON_CURRENT_PLAN`
+Функция недоступна на текущем тарифе. | Приложение Маркетплейса заблокировано, потому что число установленных приложений превышает лимит тарифа. События такому приложению не доставляются. Приложения, освобожденные от лимита, не блокируются ||
 || `401` | `INVALID_CREDENTIALS`
 Invalid request credentials | Не найден активный [вебхук](/local-integrations/local-webhooks.html) с указанным идентификатором пользователя и секретным кодом ||
 || `404` | `ERROR_METHOD_NOT_FOUND`
