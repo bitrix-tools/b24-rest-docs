@@ -169,10 +169,12 @@
 || **outlookVersion**
 [`integer`](../data-types.md) | Версия синхронизации с Outlook ||
 || **mark**
-[`string`](../data-types.md) | Оценка задачи. Возможные значения:
-- `positive` — положительная
-- `negative` — отрицательная
-- `none` — без оценки ||
+[```string | null```](../data-types.md) | Оценка задачи. При записи принимает:
+- `P` или `positive` — положительная
+- `N` или `negative` — отрицательная
+- `none` или `null` — без оценки
+
+При чтении `P` возвращается как `positive`, `N` — как `negative`, `null` — как `none` ||
 || **allowsChangeDeadline**
 [`boolean`](../data-types.md) | Исполнителю разрешено менять крайний срок ||
 || **allowsTimeTracking**

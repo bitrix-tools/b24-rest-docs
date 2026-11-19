@@ -23,7 +23,9 @@
 
 {% note warning "" %}
 
-Передавайте параметры в запросе в соответствии с порядком в таблице. Если нарушить порядок, запрос вернет ошибку или изменит другой пункт.
+Передавайте параметры в запросе в соответствии с порядком в таблице: `TASKID`, `ITEMID`, `FIELDS`. Значения разбираются по позиции, имена параметров не меняют порядок. Если нарушить порядок, запрос вернет ошибку или изменит другой пункт.
+
+Если массив `FIELDS` передан на месте `TASKID` или `ITEMID`, метод возвращает `ERROR_CORE` с `TASKS_ERROR_EXCEPTION_#256` о неверном типе соответствующего параметра. При перестановке двух идентификаторов результат зависит от доступности задачи и наличия пункта в ней.
 
 {% endnote %}
 
@@ -437,13 +439,15 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение**  ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#4; Нет доступа к редактированию задачи; 4/TE/ACTION_NOT_ALLOWED<br> | У пункта есть участники `MEMBERS`, а у пользователя нет права изменять задачу, чтобы добавить их в нее. Изменения пункта при этом уже сохранены ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, Подготовить отчет]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Пункта с идентификатором `ITEMID` нет или параметры переданы не по порядку ||
+|| `ERROR_CORE` | `TASKS_ERROR_EXCEPTION_#512`; Check listitem not found or not accessible | Пункт с идентификатором `ITEMID` не найден или недоступен при первоначальной проверке. Такая ошибка возможна и при перестановке `TASKID` и `ITEMID`, если задача, определенная по первому параметру, доступна, но в ней нет пункта с идентификатором из второго параметра ||
+|| `ERROR_CORE` | `TASKS_ERROR_EXCEPTION_#8`; Checklist item not found or not accessible | Пункт исчез между чтением и сохранением ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::update(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::update() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `TASKID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::update(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `ITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) for method ctaskchecklistitem::update() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения для `ITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFields) expected by method ctaskchecklistitem::update(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `FIELDS` ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFields) for method ctaskchecklistitem::update() expected to be of type "array", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Третий параметр должен быть массивом `FIELDS`. Передан неверный тип, в том числе из-за нарушения порядка параметров ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Bitrix\Tasks\CheckList\Internals\CheckListTree::canAttach: Невозможно создать зацикленную связь [261, 267]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `PARENT_ID` передан подпункт изменяемого пункта ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Bitrix\Tasks\CheckList\Internals\CheckListTree::canAttach: Невозможно привязать узел к себе [261, 261]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | В `PARENT_ID` передан идентификатор самого пункта ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (arFields) for method ctaskchecklistitem::update() must not contain key "ID".; 256/TE/WRONG_ARGUMENTS<br> | В `FIELDS` передано поле, которое нельзя изменить. Изменять можно только поля из таблицы [параметра FIELDS](#fields) ||
