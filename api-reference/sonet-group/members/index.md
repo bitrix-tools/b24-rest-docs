@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Участники групп и проектов — это пользователи, которые входят в состав рабочих групп и проектов. Они могут иметь разные роли и права.
+Методы управления участниками позволяют получать список участников группы или проекта, добавлять и приглашать пользователей, отправлять запросы на вступление и изменять роли.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -19,32 +19,44 @@
 
 **Пользователи.** Входят в состав рабочих групп и проектов. Чтобы получить ID пользователя, используйте метод [user.get](./../../user/user-get.md).
 
-**Группы и проекты.** Чтобы получить ID группы или проекта, используйте метод [sonet_group.get](../sonet-group-get.md). Список участников группы можно получить через [sonet_group.user.get](./sonet-group-user-get.md).
+**Группы и проекты.** Чтобы получить ID группы или проекта, используйте метод [sonet_group.get](../sonet-group-get.md). Список участников группы можно получить через [sonet_group.user.get](./sonet-group-user-get.md). Чтобы получить группы и проекты текущего пользователя, используйте [sonet_group.user.groups](../sonet-group-user-groups.md).
 
-**Роли участников группы.** Участники рабочих групп и проектов могут иметь разные роли: администратор, модератор, участник. От ролей зависят права доступа к функционалу. Чтобы изменить роль участника, используйте метод [sonet_group.user.update](./sonet-group-user-update.md).
+**Роли участников группы.** Участники группы или проекта могут быть владельцем, модераторами или участниками. Чтобы изменить роль участника, используйте [sonet_group.user.update](./sonet-group-user-update.md).
 
-**Задачи.** Участников групп и проектов можно назначать исполнителями задач. При создании задачи добавьте участников с помощью метода [tasks.task.add](./../../tasks/tasks-task-add.md). Укажите параметры `CREATED_BY` — постановщик задачи, `RESPONSIBLE_ID` — основной исполнитель, `ACCOMPLICES` — соисполнители, `AUDITORS` — наблюдатели. При изменении задачи вы можете добавить участников через метод [tasks.task.update](./../../tasks/tasks-task-update.md). Для этого передайте обновленные параметры `RESPONSIBLE_ID`, `ACCOMPLICES`, `AUDITORS`.
+Коды ролей в поле `ROLE` ответа [sonet_group.user.get](./sonet-group-user-get.md):
+
+#|
+|| **Код** | **Роль** ||
+|| `A` | Владелец ||
+|| `E` | Модератор ||
+|| `K` | Участник ||
+|#
+
+Метод `sonet_group.user.update` принимает в параметре `ROLE` только `E` и `K`. Для смены владельца используйте [sonet_group.setowner](../sonet-group-setowner.md).
+
+**Задачи.** Участников группы можно назначать исполнителями и наблюдателями задач. Используйте методы [tasks.task.add](../../tasks/tasks-task-add.md) и [tasks.task.update](../../tasks/tasks-task-update.md).
 
 ## Как начать работу
 
 1. Получите ID пользователя методом [user.get](./../../user/user-get.md).
 2. Получите ID группы или проекта методом [sonet_group.get](../sonet-group-get.md) или [socialnetwork.api.workgroup.list](../socialnetwork-api-workgroup-list.md).
-3. Добавьте участника методом [sonet_group.user.add](./sonet-group-user-add.md) или отправьте приглашение методом [sonet_group.user.invite](./sonet-group-user-invite.md).
-4. Проверьте список участников методом [sonet_group.user.get](./sonet-group-user-get.md).
-5. При необходимости измените роль участника методом [sonet_group.user.update](./sonet-group-user-update.md).
+3. Чтобы добавить пользователя без приглашения, используйте [sonet_group.user.add](./sonet-group-user-add.md). Чтобы отправить приглашение, используйте [sonet_group.user.invite](./sonet-group-user-invite.md).
+4. Если текущий пользователь хочет вступить в группу сам, отправьте запрос методом [sonet_group.user.request](./sonet-group-user-request.md).
+5. Проверьте список участников методом [sonet_group.user.get](./sonet-group-user-get.md). Приглашенный пользователь появится в списке после принятия приглашения, а отправивший запрос в закрытую группу — после подтверждения запроса.
+6. При необходимости измените роль участника методом [sonet_group.user.update](./sonet-group-user-update.md).
 
 ## Обзор методов {#all-methods}
 
-> Scope: [`sonet`](./../../scopes/permissions.md)
+> Scope: [`sonet_group`](./../../scopes/permissions.md)
 >
-> Кто может выполнять методы: любой пользователь
+> Кто может выполнять методы: зависит от метода и прав пользователя. Требования указаны на страницах методов
 
 #|
 || **Метод** | **Описание** ||
-|| [sonet_group.user.add](./sonet-group-user-add.md)  | Добавляет участника в рабочую группу ||
-|| [sonet_group.user.invite](./sonet-group-user-invite.md) | Приглашает участника в группу ||
-|| [sonet_group.user.request](./sonet-group-user-request.md) | Отправляет запрос на вступление в группу ||
-|| [sonet_group.user.delete](./sonet-group-user-delete.md) | Удаляет участника из группы ||
-|| [sonet_group.user.get](./sonet-group-user-get.md) | Получает список участников группы ||
+|| [sonet_group.user.add](./sonet-group-user-add.md) | Добавляет участника в рабочую группу ||
 || [sonet_group.user.update](./sonet-group-user-update.md) | Изменяет роль участника в группе ||
+|| [sonet_group.user.get](./sonet-group-user-get.md) | Получает список участников группы ||
+|| [sonet_group.user.delete](./sonet-group-user-delete.md) | Удаляет участника из группы ||
+|| [sonet_group.user.invite](./sonet-group-user-invite.md) | Приглашает участника в группу ||
+|| [sonet_group.user.request](./sonet-group-user-request.md) | Отправляет запрос текущего пользователя на вступление в группу ||
 |#

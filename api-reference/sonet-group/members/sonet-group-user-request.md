@@ -9,11 +9,13 @@
 
 {% endnote %}
 
-> Scope: [`sonet`](../../scopes/permissions.md)
+> Scope: [`sonet_group`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с доступом к группе или проекту
 
-Метод `sonet_group.user.request` отправляет запрос текущего пользователя на вступление в рабочую группу или проект.
+Метод `sonet_group.user.request` отправляет запрос текущего пользователя на вступление в рабочую группу или проект. Если группа или проект открыты для вступления, пользователь сразу становится участником.
+
+Для закрытой группы или проекта запрос подтверждает в уведомлении Битрикс24 пользователь с правом приглашать участников.
 
 ## Параметры метода
 
@@ -71,7 +73,7 @@
         method: 'sonet_group.user.request',
         params: {
           GROUP_ID: 69,
-          MESSAGE: 'Please add me to the project',
+          MESSAGE: 'Прошу добавить меня в проект',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -104,7 +106,7 @@
             method: 'sonet_group.user.request',
             params: {
               GROUP_ID: 69,
-              MESSAGE: 'Please add me to the project',
+              MESSAGE: 'Прошу добавить меня в проект',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -135,7 +137,7 @@
     try:
         bitrix_response = client.sonet_group.user.request(
             group_id=69,
-            message="Please add me to the project",
+            message="Прошу добавить меня в проект",
         ).response
         result = bitrix_response.result
         print(result)
@@ -169,7 +171,6 @@
             ->getResult();
 
         echo 'Success: ' . print_r($result, true);
-        processData($result);
 
     } catch (Throwable $e) {
         error_log($e->getMessage());
@@ -265,7 +266,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | `true`, если запрос на вступление успешно отправлен ||
+[`boolean`](../../data-types.md) | `true`, если запрос на вступление успешно отправлен или пользователь вступил в открытую группу либо проект ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -286,15 +287,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| — | `Wrong group ID` | Передан некорректный `GROUP_ID` ||
-|| — | `Socialnetwork group not found` | Группа или проект не найдены или недоступны текущему пользователю ||
-|| — | `Cannot request to join group` | Не удалось отправить запрос на вступление ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Wrong group ID` | Передан некорректный `GROUP_ID` ||
+|| `400` | Пустое значение | `Socialnetwork group not found` | Группа или проект не найдены или недоступны текущему пользователю ||
+|| `400` | Пустое значение | `Cannot request to join group` | Группа или проект неактивны, пользователь не прошел проверку возможности вступления либо не удалось сохранить связь пользователя с группой ||
 |#
 
 {% include [Системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
+
+- [{#T}](./index.md)
 
 - [{#T}](./sonet-group-user-invite.md)
 - [{#T}](./sonet-group-user-add.md)
