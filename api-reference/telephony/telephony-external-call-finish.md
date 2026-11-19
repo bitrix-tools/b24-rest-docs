@@ -88,7 +88,9 @@
 || **RECORD_URL**
 [`string`](../data-types.md) | URL записи звонка.
 
-Параметр устарел и оставлен для обратной совместимости. Рекомендуется использовать [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md) ||
+Параметр устарел и оставлен для обратной совместимости. Рекомендуется использовать [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md).
+
+Если параметр передан, Битрикс24 скачивает и прикрепляет запись в этом же запросе, поэтому ответ метода возвращается после загрузки файла ||
 || **VOTE**
 [`integer`](../data-types.md) | Оценка звонка.
 
