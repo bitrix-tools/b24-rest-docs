@@ -11,66 +11,71 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
 Метод `sale.property.list` получает список свойств заказа.
 
 ## Параметры метода
 
+Все параметры необязательные.
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [sale_order_property](../data-types.md)).
+[`array`](../../data-types.md) | Массив, содержащий список полей, которые необходимо выбрать (смотрите поля объекта [sale_order_property](../data-types.md#sale_order_property)).
  
-Если не передан или передан пустой массив, то будут выбраны все доступные поля свойств
+Если не передан или передан пустой массив, то будут выбраны все доступные поля свойств. Поле `isLocation4tax` в `select` игнорируется
 ||
 || **filter**
-[`object`](../../data-types.md) | Объект для фильтрации выбранных привязок оплат к отгрузкам в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
+[`object`](../../data-types.md) | Объект для фильтрации свойств заказа в формате `{"field_1": "value_1", ... "field_N": "value_N"}`.
  
-Возможные значения для `field` соответствуют полям объекта [sale_order_property](../data-types.md).
+Возможные значения для `field` соответствуют полям объекта [sale_order_property](../data-types.md#sale_order_property). Условие с неизвестным полем метод пропускает без ошибки, поэтому опечатка в имени поля расширит выборку.
 
 Ключу может быть задан дополнительный префикс, уточняющий поведение фильтра. Возможные значения префикса:
 
 - `=` — равно (работает и с массивами)
+- `@` — входит в список значений (IN), значение фильтра — массив
 - `%` — LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск ищет подстроку в любой позиции строки
 - `>` — больше
 - `<` — меньше
 - `!=` — не равно
-- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обоих сторон.
+- `!%` — NOT LIKE, поиск по подстроке. Символ % в значении фильтра передавать не нужно. Поиск идет с обеих сторон
 - `>=` — больше либо равно
 - `<=` — меньше либо равно
 - `=%` — LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры: 
-    - `"мол%"` — ищем значения начинающиеся с «мол»
-    - `"%мол"` — ищем значения заканчивающиеся на «мол»
+    - `"мол%"` — ищем значения, начинающиеся с «мол»
+    - `"%мол"` — ищем значения, заканчивающиеся на «мол»
     - `"%мол%"` — ищем значения, где «мол» может быть в любой позиции
 - `%=` — LIKE (смотрите описание выше)
 - `!=%` — NOT LIKE, поиск по подстроке. Символ % нужно передавать в значении. Примеры:
-    - `"мол%"` — ищем значения не начинающиеся с «мол»
-    - `"%мол"` — ищем значения не заканчивающиеся на «мол»
+    - `"мол%"` — ищем значения, не начинающиеся с «мол»
+    - `"%мол"` — ищем значения, не заканчивающиеся на «мол»
     - `"%мол%"` — ищем значения, где подстроки «мол» нет в любой позиции
 - `!%=` — NOT LIKE (смотрите описание выше)
 ||
 || **order**
-[`object`](../../data-types.md) | Объект для сортировки выбранных элементов табличной части отгрузки в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
+[`object`](../../data-types.md) | Объект для сортировки свойств заказа в формате `{"field_1": "order_1", ... "field_N": "order_N"}`.
  
-Возможные значения для `field` соответствуют полям объекта [sale_order_property](../data-types.md).
+Возможные значения для `field` соответствуют полям объекта [sale_order_property](../data-types.md#sale_order_property).
  
 Возможные значения для `order`:
 
 - `asc` — в порядке возрастания
 - `desc` — в порядке убывания
+
+По умолчанию свойства сортируются по `id` по возрастанию
  ||
 || **start**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
  
 Размер страницы результатов всегда статичный: 50 записей.
  
-Чтобы выбрать вторую страницу результатов необходимо передавать значение `50`. Чтобы выбрать третью страницу результатов значение — `100` и так далее.
- 
 Формула расчета значения параметра `start`:
  
-`start = (N-1) * 50`, где `N` — номер нужной страницы
+`start = (N-1) * 50`, где `N` — номер нужной страницы. По умолчанию `start` = `0`.
+
+Для следующей страницы передайте значение `next` из ответа
  ||
 |#
 
@@ -82,21 +87,21 @@
 
 - cURL (Webhook)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isLocation4tax","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"@type":"STRING","%code":"EMAIL"},"order":{"id":"desc"}}' \
+    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"@type":["STRING"],"%code":"EMAIL"},"order":{"id":"desc"}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.property.list
     ```
 
 - cURL (OAuth)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isLocation4tax","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"@type":"STRING","%code":"EMAIL"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
+    -d '{"select":["id","active","code","defaultValue","description","inputFieldLocation","isAddress","isAddressFrom","isAddressTo","isEmail","isFiltered","isLocation","isPayer","isPhone","isProfileName","isZip","multiple","name","personTypeId","propsGroupId","required","settings","sort","type","userProps","util","xmlId"],"filter":{"@type":["STRING"],"%code":"EMAIL"},"order":{"id":"desc"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.property.list
     ```
 
@@ -116,7 +121,7 @@
         id: number
         active: string
         code: string
-        defaultValue: string
+        defaultValue: unknown
         description: string
         inputFieldLocation: string
         isAddress: string
@@ -165,7 +170,6 @@
             'isEmail',
             'isFiltered',
             'isLocation',
-            'isLocation4tax',
             'isPayer',
             'isPhone',
             'isProfileName',
@@ -183,7 +187,7 @@
             'xmlId',
           ],
           filter: {
-            '@type': 'STRING',
+            '@type': ['STRING'],
             '%code': 'EMAIL',
           },
           order: {
@@ -239,7 +243,6 @@
                 'isEmail',
                 'isFiltered',
                 'isLocation',
-                'isLocation4tax',
                 'isPayer',
                 'isPhone',
                 'isProfileName',
@@ -257,7 +260,7 @@
                 'xmlId',
               ],
               filter: {
-                '@type': 'STRING',
+                '@type': ['STRING'],
                 '%code': 'EMAIL',
               },
               order: {
@@ -306,7 +309,6 @@
                 "isEmail",
                 "isFiltered",
                 "isLocation",
-                "isLocation4tax",
                 "isPayer",
                 "isPhone",
                 "isProfileName",
@@ -324,13 +326,13 @@
                 "xmlId",
             ],
             filter={
-                "@type": "STRING",
+                "@type": ["STRING"],
                 "%code": "EMAIL",
             },
             order={
                 "id": "desc",
             },
-            start='1712818881.719586',
+            start=0,
         ).response
         result = bitrix_response.result
         print(result)
@@ -370,7 +372,6 @@
                         'isEmail',
                         'isFiltered',
                         'isLocation',
-                        'isLocation4tax',
                         'isPayer',
                         'isPhone',
                         'isProfileName',
@@ -388,7 +389,7 @@
                         'xmlId',
                     ],
                     'filter' => [
-                        '@type' => 'STRING',
+                        '@type' => ['STRING'],
                         '%code' => 'EMAIL',
                     ],
                     'order' => [
@@ -427,7 +428,6 @@
                 "isEmail",
                 "isFiltered",
                 "isLocation",
-                "isLocation4tax",
                 "isPayer",
                 "isPhone",
                 "isProfileName",
@@ -445,7 +445,7 @@
                 "xmlId",
             ],
             "filter": {
-                "@type": "STRING",
+                "@type": ["STRING"],
                 "%code": "EMAIL",
             },
             "order": {
@@ -483,7 +483,6 @@
                 "isEmail",
                 "isFiltered",
                 "isLocation",
-                "isLocation4tax",
                 "isPayer",
                 "isPhone",
                 "isProfileName",
@@ -501,7 +500,7 @@
                 "xmlId",
             ],
             'filter' => [
-                "@type" => "STRING",
+                "@type" => ["STRING"],
                 "%code" => "EMAIL",
             ],
             'order' => [
@@ -520,9 +519,9 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "sale.property.list", b24.Params{
-    	"select": []string{"id", "active", "code", "defaultValue", "description", "inputFieldLocation", "isAddress", "isAddressFrom", "isAddressTo", "isEmail", "isFiltered", "isLocation", "isLocation4tax", "isPayer", "isPhone", "isProfileName", "isZip", "multiple", "name", "personTypeId", "propsGroupId", "required", "settings", "sort", "type", "userProps", "util", "xmlId"},
+    	"select": []string{"id", "active", "code", "defaultValue", "description", "inputFieldLocation", "isAddress", "isAddressFrom", "isAddressTo", "isEmail", "isFiltered", "isLocation", "isPayer", "isPhone", "isProfileName", "isZip", "multiple", "name", "personTypeId", "propsGroupId", "required", "settings", "sort", "type", "userProps", "util", "xmlId"},
     	"filter": b24.Params{
-    		"@type": "STRING",
+    		"@type": []string{"STRING"},
     		"%code": "EMAIL",
     	},
     	"order": b24.Params{
@@ -542,7 +541,7 @@
     var items []struct {
     	Active             string `json:"active"`
     	Code               string `json:"code"`
-    	DefaultValue       string `json:"defaultValue"`
+    	DefaultValue       json.RawMessage `json:"defaultValue"`
     	Description        string `json:"description"`
     	ID                 b24.ID `json:"id"`
     	InputFieldLocation string `json:"inputFieldLocation"`
@@ -680,9 +679,11 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **properties**
-[`sale_order_property[]`](../data-types.md) | Массив объектов с информацией о выбранных свойствах ||
+[`sale_order_property[]`](../data-types.md#sale_order_property) | Массив выбранных свойств заказа внутри `result`. Состав полей задает `select`. Если ничего не найдено, массив пустой ||
 || **total**
-[`integer`](../../data-types.md) | Общее количество найденных записей ||
+[`integer`](../../data-types.md) | Общее количество найденных записей. Не возвращается при `start` = `-1` ||
+|| **next**
+[`integer`](../../data-types.md) | Значение для передачи в `start`, чтобы получить следующую страницу. Возвращается, если есть следующая страница и `start` не равен `-1` ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -693,8 +694,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"error"
+   "error":"200040300010",
+   "error_description":"Access Denied"
 }
 ```
 
@@ -704,7 +705,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения свойств заказа ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения свойств заказа ||
+|| `100` | `Invalid order "<VALUE>"`
+
+В `order` передано направление сортировки, отличное от `asc` и `desc` ||
+|| `100` | `Order must be a string`
+
+Направление сортировки в `order` передано не строкой ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 

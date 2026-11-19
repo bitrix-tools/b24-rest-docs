@@ -11,7 +11,7 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
 Метод `sale.property.get` получает свойство заказа.
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_property.id`](../data-types.md) | Идентификатор свойства заказа ||
+[`sale_order_property.id`](../data-types.md#sale_order_property) | Идентификатор свойства заказа. Можно получить методом [sale.property.list](./sale-property-list.md) ||
 |#
 
 ## Примеры кода
@@ -34,7 +34,7 @@
 
 - cURL (Webhook)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -44,7 +44,7 @@
 
 - cURL (OAuth)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -67,7 +67,7 @@
       property: {
         active: string
         code: string
-        defaultValue: string
+        defaultValue: unknown
         description: string
         id: number
         inputFieldLocation: string
@@ -87,7 +87,7 @@
         personTypeId: number
         propsGroupId: number
         required: string
-        settings: unknown[]
+        settings: Record<string, unknown> | unknown[]
         sort: number
         type: string
         userProps: string
@@ -257,7 +257,7 @@
     var item struct {
     	Active             string `json:"active"`
     	Code               string `json:"code"`
-    	DefaultValue       string `json:"defaultValue"`
+    	DefaultValue       json.RawMessage `json:"defaultValue"`
     	Description        string `json:"description"`
     	ID                 b24.ID `json:"id"`
     	InputFieldLocation string `json:"inputFieldLocation"`
@@ -327,7 +327,7 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **property**
-[`sale_order_property`](../data-types.md) | Информация о свойстве заказа ||
+[`sale_order_property`](../data-types.md#sale_order_property) | Информация о свойстве заказа в объекте `result.property` ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
@@ -338,7 +338,7 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":200840400001,
+   "error":"200840400001",
    "error_description":"property is not exists"
 }
 ```
@@ -349,8 +349,12 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200840400001` | Свойство заказа не найдено ||
-|| `200040300010` | Недостаточно прав для чтения свойства заказа ||
+|| `200840400001` | `property is not exists`
+
+Свойство заказа с указанным `id` не найдено ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения свойства заказа ||
 || `100` | Не указан параметр `id` ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#

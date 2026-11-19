@@ -11,9 +11,9 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: администратор
+> Кто может выполнять метод: менеджер магазина
 
-Метод `sale.property.getfieldsbytype` получает доступные поля свойств заказа по типу свойств.
+Метод `sale.property.getfieldsbytype` возвращает описания полей и настроек свойства заказа для указанного типа.
 
 ## Параметры метода
 
@@ -32,7 +32,9 @@
 - `FILE`
 - `DATE`
 - `LOCATION`
-- `ADDRESS`
+- `ADDRESS` — доступен при подключенном модуле `location`
+- `PRODUCT_CATEGORIES`
+- `CONCRETE_PRODUCT`
  ||
 |#
 
@@ -44,7 +46,7 @@
 
 - cURL (Webhook)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -54,7 +56,7 @@
 
 - cURL (OAuth)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -77,6 +79,7 @@
       isReadOnly: boolean
       isRequired: boolean
       type: string
+      fields?: Record<string, FieldDescriptor> | []
     }
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
@@ -402,10 +405,12 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **property**
-[`sale_order_property`](../data-types.md#sale_order_property) | Описание полей и настроек свойства заказа для выбранного типа ||
+[`object`](../../data-types.md) | Объект в `result`: ключи — имена полей [`sale_order_property`](../data-types.md#sale_order_property), значения — объекты [`rest_field_description`](../data-types.md#rest_field_description) с типом и признаками обязательности и изменяемости ||
 || **time**
 [`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
+
+В `property.settings.fields` находятся описания настроек выбранного типа в том же формате `rest_field_description`. Если настроек нет, возвращается пустой массив `[]`.
 
 ## Обработка ошибок
 
@@ -413,8 +418,8 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":0,
-   "error_description":"error"
+   "error":"200850000008",
+   "error_description":"type is out of range"
 }
 ```
 
@@ -424,7 +429,15 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения доступных полей свойств заказа ||
+|| `200850000008` | `type is out of range`
+
+Передан недопустимый тип свойства в параметре `type` ||
+|| `100` | `Could not find value for parameter {type}`
+
+Не передан параметр `type` ||
+|| `200040300010` | `Access Denied`
+
+Недостаточно прав для чтения доступных полей свойств заказа ||
 || `0` | Другие ошибки (например, фатальные ошибки) ||
 |#
 

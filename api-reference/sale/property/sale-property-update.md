@@ -23,14 +23,20 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_order_property.id`](../data-types.md) | Идентификатор свойства заказа ||
+[`sale_order_property.id`](../data-types.md#sale_order_property) | Идентификатор свойства заказа. Можно получить методом [sale.property.list](./sale-property-list.md) ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания свойства заказа ||
+[`object`](../../data-types.md) | Значения полей для обновления свойства заказа [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
-Общие параметры, актуальные для свойств заказа любого типа:
+Поля `type`, `personTypeId` и `propsGroupId` изменить нельзя. Передавайте обязательное поле `name` при каждом обновлении.
+
+Пропущенные флаги `Y/N` получают значения по умолчанию, указанные ниже, а `settings` формируется заново из переданных настроек. Чтобы сохранить эти значения, передайте их явно.
+
+При обновлении удаляются привязки свойства к платежным системам и службам доставки. Восстановите нужные привязки методами [sale.propertyRelation.*](../property-relation/index.md).
+
+Общие параметры для свойств заказа любого типа:
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
@@ -54,8 +60,7 @@
 - `Y` — да
 - `N` — нет
 
-Если не передано, то по умолчанию значение `N`
- ||
+Если не передано, то по умолчанию значение `N` ||
 || **userProps**
 [`string`](../../data-types.md) | Индикатор, входит ли свойство заказа в профиль покупателя.
 Возможные значения:
@@ -71,7 +76,7 @@
 
 Если не передано, то по умолчанию значение `N` ||
 || **sort**
-[`integer`](../../data-types.md) | Сортировка ||
+[`integer`](../../data-types.md) | Порядок сортировки. По умолчанию — `100` ||
 || **description**
 [`string`](../../data-types.md) | Описание свойства заказа ||
 || **required**
@@ -91,20 +96,21 @@
 || **xmlId**
 [`string`](../../data-types.md) | Внешний идентификатор свойства заказа ||
 || **defaultValue**
-[`any`](../../data-types.md) | Дефолтное значение свойства заказа.
+[`any`](../../data-types.md) | Значение свойства заказа по умолчанию.
 
-Для свойств типа `file` нужно передать объект в формате `{"fileData": ["value1", "value2"]}`:
-- `value1` — название файла с расширением,
-- `value2` — файл в формате [base64](../../files/how-to-upload-files.md).
+Для свойств типа `FILE` нужно передать объект в формате `{"fileData": ["value1", "value2"]}`:
+- `value1` — название файла с расширением
+- `value2` — файл в формате [base64](../../files/how-to-upload-files.md)
 
 Для удаления файла используется объект в формате `{"remove": "Y"}`.
 
-Для множественных свойств заказа (multiple) поддерживается передача массива значений
-Для удаления значения нужно передать `null`, либо не передавать параметр ||
+Для множественных свойств (`multiple: "Y"`) передается массив значений; для типа `FILE` из него сохраняется только первый успешно загруженный файл.
+
+Если передать `null` или пропустить `defaultValue`, значение по умолчанию будет очищено ||
 || **settings**
 [`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}` для передачи дополнительных настроек свойства заказа.
 
-Список поддерживаемых ключей этого объекта зависит от типа свойства. Для некоторых типов свойств (например, Y/N) дополнительные свойства не предусмотрены. Описание параметра **settings** для разных типов свойств приведено в описании метода [`sale.property.add`](sale-property-add.md) ||
+Список поддерживаемых ключей этого объекта зависит от типа свойства. Для некоторых типов свойств (например, Y/N) дополнительные свойства не предусмотрены. Описание параметра **settings** для разных типов свойств приведено в описании метода [`sale.property.add`](sale-property-add.md#settings) ||
 |#
 
 Параметры, актуальные для свойств заказа типа `STRING`
@@ -156,7 +162,7 @@
 Если не передано, то по умолчанию выставляется в значение `N`||
 |#
 
-Параметры, актуальные для свойств заказа типа `LOCATION`			
+Параметры, актуальные для свойств заказа типа `LOCATION`
 
 #|
 || **Название**
@@ -176,7 +182,7 @@
 
 Если не передано, то по умолчанию выставляется в значение `N` ||
 || **inputFieldLocation**
-[`string`](../../data-types.md) | Устаревшее поле. Не используется. ||
+[`string`](../../data-types.md) | Идентификатор активного свойства типа `STRING` того же типа плательщика для альтернативного ввода местоположения. Используется при `isLocation: "Y"` и `multiple: "N"`; по умолчанию — `0` ||
 |#
 
 Параметры, актуальные для свойств заказа типа `ADDRESS`
@@ -208,22 +214,22 @@
 
 - cURL (Webhook)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":93,"fields":{"personTypeId":3,"propsGroupId":6,"name":"Телефон (для связи с курьером)","type":"STRING","code":"PHONE","active":"Y","util":"N","userProps":"Y","isFiltered":"N","sort":500,"description":"описание свойства","required":"Y","multiple":"N","settings":{"multiline":"Y","maxlength":100},"xmlId":"","defaultValue":"","isProfileName":"Y","isPayer":"Y","isEmail":"N","isPhone":"N","isZip":"N","isAddress":"N"},"auth":"**put_access_token_here**"}' \
-    https://**put_your_bitrix24_address**/rest/sale.property.update
+    -d '{"id":93,"fields":{"name":"Телефон (для связи с курьером)","code":"PHONE","active":"Y","util":"N","userProps":"Y","isFiltered":"N","sort":500,"description":"описание свойства","required":"Y","multiple":"N","settings":{"multiline":"Y","maxlength":100},"xmlId":"","defaultValue":"","isProfileName":"Y","isPayer":"Y","isEmail":"N","isPhone":"N","isZip":"N","isAddress":"N"}}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.property.update
     ```
 
 - cURL (OAuth)
 
-    ```http
+    ```bash
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":93,"fields":{"personTypeId":3,"propsGroupId":6,"name":"Телефон (для связи с курьером)","type":"STRING","code":"PHONE","active":"Y","util":"N","userProps":"Y","isFiltered":"N","sort":500,"description":"описание свойства","required":"Y","multiple":"N","settings":{"multiline":"Y","maxlength":100},"xmlId":"","defaultValue":"","isProfileName":"Y","isPayer":"Y","isEmail":"N","isPhone":"N","isZip":"N","isAddress":"N"}}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.property.update
+    -d '{"id":93,"fields":{"name":"Телефон (для связи с курьером)","code":"PHONE","active":"Y","util":"N","userProps":"Y","isFiltered":"N","sort":500,"description":"описание свойства","required":"Y","multiple":"N","settings":{"multiline":"Y","maxlength":100},"xmlId":"","defaultValue":"","isProfileName":"Y","isPayer":"Y","isEmail":"N","isPhone":"N","isZip":"N","isAddress":"N"},"auth":"**put_access_token_here**"}' \
+    https://**put_your_bitrix24_address**/rest/sale.property.update
     ```
 
 - JS (TS)
@@ -261,7 +267,7 @@
         personTypeId: number
         propsGroupId: number
         required: string
-        settings: Record<string, string>
+        settings: Record<string, unknown>
         sort: number
         type: string
         userProps: string
@@ -276,17 +282,14 @@
         params: {
           id: 93,
           fields: {
-            personTypeId: 3,
-            propsGroupId: 6,
-            name: 'Phone (courier contact)',
-            type: 'STRING',
+            name: 'Телефон (для связи с курьером)',
             code: 'PHONE',
             active: 'Y',
             util: 'N',
             userProps: 'Y',
             isFiltered: 'N',
             sort: 500,
-            description: 'property description',
+            description: 'описание свойства',
             required: 'Y',
             multiple: 'N',
             settings: {
@@ -335,17 +338,14 @@
             params: {
               id: 93,
               fields: {
-                personTypeId: 3,
-                propsGroupId: 6,
-                name: 'Phone (courier contact)',
-                type: 'STRING',
+                name: 'Телефон (для связи с курьером)',
                 code: 'PHONE',
                 active: 'Y',
                 util: 'N',
                 userProps: 'Y',
                 isFiltered: 'N',
                 sort: 500,
-                description: 'property description',
+                description: 'описание свойства',
                 required: 'Y',
                 multiple: 'N',
                 settings: {
@@ -389,10 +389,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     fields = {
-        "personTypeId": 3,
-        "propsGroupId": 6,
         "name": "Телефон (для связи с курьером)",
-        "type": "STRING",
         "code": "PHONE",
         "active": "Y",
         "util": "N",
@@ -447,10 +444,7 @@
                 [
                     'id' => 93,
                     'fields' => [
-                        'personTypeId'  => 3,
-                        'propsGroupId'  => 6,
                         'name'          => 'Телефон (для связи с курьером)',
-                        'type'          => 'STRING',
                         'code'          => 'PHONE',
                         'active'        => 'Y',
                         'util'          => 'N',
@@ -495,10 +489,7 @@
         'sale.property.update', {
             id: 93,
             fields: {
-                personTypeId: 3,
-                propsGroupId: 6,
                 name: 'Телефон (для связи с курьером)',
-                type: 'STRING',
                 code: 'PHONE',
                 active: 'Y',
                 util: 'N',
@@ -542,10 +533,7 @@
         [
             'id' => 93,
             'fields' => [
-                'personTypeId' => 3,
-                'propsGroupId' => 6,
                 'name' => 'Телефон (для связи с курьером)',
-                'type' => 'STRING',
                 'code' => 'PHONE',
                 'active' => 'Y',
                 'util' => 'N',
@@ -583,10 +571,7 @@
     res, err := client.Core().Call(ctx, "sale.property.update", b24.Params{
     	"id": 93,
     	"fields": b24.Params{
-    		"personTypeId": 3,
-    		"propsGroupId": 6,
     		"name":         "Телефон (для связи с курьером)",
-    		"type":         "STRING",
     		"code":         "PHONE",
     		"active":       "Y",
     		"util":         "N",
@@ -623,7 +608,7 @@
     var item struct {
     	Active             string `json:"active"`
     	Code               string `json:"code"`
-    	DefaultValue       string `json:"defaultValue"`
+    	DefaultValue       json.RawMessage `json:"defaultValue"`
     	Description        string `json:"description"`
     	ID                 b24.ID `json:"id"`
     	InputFieldLocation string `json:"inputFieldLocation"`
@@ -648,7 +633,7 @@ HTTP-статус: **200**
          "code":"PHONE",
          "defaultValue":"",
          "description":"описание свойства",
-         "id":96,
+         "id":93,
          "inputFieldLocation":"0",
          "isAddress":"N",
          "isAddressFrom":"N",
@@ -667,7 +652,7 @@ HTTP-статус: **200**
          "propsGroupId":6,
          "required":"Y",
          "settings":{
-            "maxlength":"100",
+            "maxlength":100,
             "multiline":"Y"
          },
          "sort":500,
@@ -695,10 +680,10 @@ HTTP-статус: **200**
 `тип` | **Описание** ||
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **property**
-[`sale_order_property`](../data-types.md) | Объект с информацией об обновленном свойстве заказа ||
+|| **result.property**
+[`sale_order_property`](../data-types.md#sale_order_property) | Обновленное свойство заказа. Помимо входных полей содержит `id`, `type`, `personTypeId` и `propsGroupId` ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -707,7 +692,7 @@ HTTP-статус: **400**
 
 ```json
 {
-   "error":200840400001,
+   "error":"200840400001",
    "error_description":"property is not exists"
 }
 ```
@@ -718,29 +703,44 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `200840400001` | Обновляемое свойство заказа не найдено ||
-|| `200850000003` | Внутренняя ошибка обновления свойства ||
-|| `200850000009` | Ошибка возникает при попытке обновить свойство заказа со значением параметра `multiple`, выставленным в `Y`, в том случае, если не передан параметр `isFiltered`.
-Фильтрация по множественным свойствам заказов не поддерживается ||
-|| `200850000010` | Ошибка возникает при попытке обновить свойство заказа со значением параметра `multiple`, выставленным в `Y`, в том случае, если значение параметра `isFiltered` не равно `N`.
-Фильтрация по множественным свойствам заказов не поддерживается ||
-|| `200850000011` | Ошибка возникает при попытке обновить свойство заказа с типом `LOCATION` и значением параметра `isLocation`, выставленным в `Y`, в том случае, если значение параметра `multiple` не указано.
-Не поддерживается множественность у свойств заказа отмеченных индикатором `isLocation` ||
-|| `200850000012` | Ошибка возникает при попытке обновить свойство заказа с типом `LOCATION` и значением параметра `isLocation`, выставленным в `Y`, в том случае, если значение параметра `multiple` не равно`N`.
-Не поддерживается множественность у свойств заказа отмеченных индикатором `isLocation` ||
-|| `200850000013` | Ошибка возникает при попытке обновить свойство заказа с типом `LOCATION` и значением параметра `isLocation4tax`, выставленным в `Y`, в том случае, если значение параметра `multiple` не указано.
-Не поддерживается множественность у свойств заказа отмеченных индикатором `isLocation4tax` ||
-|| `200850000014` | Ошибка возникает при попытке обновить свойство заказа с типом `LOCATION` и значением параметра `isLocation4tax`, выставленным в `Y`, в том случае, если значение параметра `multiple` не равно `N`.
-Не поддерживается множественность у свойств заказа отмеченных индикатором `isLocation4tax` ||
-|| `200850000015` | Ошибка возникает при попытке обновить свойство заказа с типом `STRING` и значением параметра `isProfileName`, выставленным в `Y`, в том случае, если значение параметра `required` не указано.
-Название профиля обязательно и не может быть пустым ||
-|| `200850000016` | Ошибка возникает при попытке обновить свойство заказа с типом `STRING` и значением параметра `isProfileName`, выставленным в `Y`, в том случае, если значение параметра `required` не равно `Y`.
-Название профиля обязательно и не может быть пустым ||
-|| `200040300020` | Недостаточно прав для обновления свойства заказа ||
-|| `100` | Не указан параметр `id` ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля ||
-|| `0` |Другие ошибки (например, фатальные ошибки) ||
+|| `200840400001` | `property is not exists`
+
+Обновляемое свойство заказа не найдено ||
+|| `200850000003` | Ошибка проверки или сохранения свойства заказа. Причина указана в `error_description` ||
+|| `200850000009` | `Require fields: isFiltered.`
+
+При `multiple: "Y"` не передан `isFiltered` ||
+|| `200850000010` | `Allowed values: isFiltered - [N]`
+
+При `multiple: "Y"` значение `isFiltered` должно быть `N` ||
+|| `200850000011` | `Require fields: multiple.`
+
+Для типа `LOCATION` при `isLocation: "Y"` не передан `multiple` ||
+|| `200850000012` | `Allowed values: multiple - [N]`
+
+Для типа `LOCATION` при `isLocation: "Y"` значение `multiple` должно быть `N` ||
+|| `200850000013` | `Require fields: multiple.`
+
+Для типа `LOCATION` при `isLocation4tax: "Y"` не передан `multiple` ||
+|| `200850000014` | `Allowed values: multiple - [N]`
+
+Для типа `LOCATION` при `isLocation4tax: "Y"` значение `multiple` должно быть `N` ||
+|| `200850000015` | `Require fields: require.`
+
+Для типа `STRING` при `isProfileName: "Y"` не передан `required` ||
+|| `200850000016` | `Allowed values: require - [Y]`
+
+Для типа `STRING` при `isProfileName: "Y"` значение `required` должно быть `Y` ||
+|| `200850000017` | ``Wrong format of field `defaultValue` ``
+
+Неверный формат `defaultValue` для типа `FILE` ||
+|| `200040300020` | `Access Denied`
+
+Недостаточно прав для обновления свойства заказа ||
+|| `100` | Не указан параметр `id` или `fields` ||
+|| `0` | `Required fields: name`
+
+В `fields` не передано поле `name`, в том числе при пустом объекте `fields` ||
 |#
 
 {% include notitle [системные ошибки](../../../_includes/system-errors.md) %}
