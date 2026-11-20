@@ -455,7 +455,8 @@ HTTP-статус: **400**
 || `FILE_INVALID_CONTENT` | Invalid base64 content | Содержимое файла — не строка Base64 ||
 || `CHAT_NOT_FOUND` | CHAT_NOT_FOUND | Чат из `dialogId` не найден ||
 || `FILE_FOLDER_ERROR` | Could not get chat folder | Не удалось получить папку чата ||
-|| `FILE_UPLOAD_FAILED` | File upload failed | Не удалось сохранить файл на Диске ||
+|| `STORAGE_QUOTA_EXCEEDED` | Not enough space on the Drive | Недостаточно места на Диске Битрикс24 ||
+|| `FILE_UPLOAD_FAILED` | File upload failed | Не удалось сохранить файл на Диске по другой причине ||
 || `FILE_SEND_FAILED` | Failed to send file message | Файл сохранен, но сообщение с ним не отправлено ||
 || `FILE_TOO_LARGE` | File size exceeds maximum allowed | Размер файла превышает 100 МБ ||
 || `ACCESS_DENIED` | ACCESS_DENIED | Пользователь не состоит в чате или не может отправлять в него сообщения ||

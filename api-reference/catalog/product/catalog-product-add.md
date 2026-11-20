@@ -709,6 +709,7 @@ HTTP-статус: **400**
 || `400` | `0` | `VAT vatId is not exists` | Ставка НДС из `fields.vatId` не найдена ||
 || `400` | `0` | `Currency purchasingCurrency is not exists` | Валюта закупочной цены не найдена ||
 || `400` | `0` | `User createdBy is not exists` или `User modifiedBy is not exists` | Пользователь из `createdBy` или `modifiedBy` не найден ||
+|| `400` | `0` | ``Wrong format value of field `propertyN`.`` | Значение свойства типа «Файл» передано не в формате `fileData`. Идентификатор существующего файла метод не принимает: передайте имя файла и его содержимое в Base64 ||
 || `400` | `0` | `Internal error adding product. Try adding again.` | Внутренняя ошибка при сохранении товара ||
 |#
 

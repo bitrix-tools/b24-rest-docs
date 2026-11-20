@@ -22,6 +22,12 @@
 >
 > Кто может выполнять метод: любой пользователь
 
+{% note warning "" %}
+
+Если старые счета в Битрикс24 переведены в режим «только выгрузка», любой метод `crm.invoice.*`, включая `crm.invoice.recurring.*`, `crm.invoice.status.*` и `crm.invoice.userfield.*`, возвращает ошибку `CRM_OLD_INVOICE_DISABLED` с текстом `Old invoices are no longer available.` и HTTP-статусом **403**.
+
+{% endnote %}
+
 ## Методы
 
 #|

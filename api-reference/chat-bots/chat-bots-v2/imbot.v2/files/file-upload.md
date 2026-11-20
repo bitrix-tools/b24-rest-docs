@@ -329,7 +329,8 @@ HTTP-статус: **400**, **403**
 || `FILE_EMPTY` | File name or content is empty | Не указано имя или содержимое файла ||
 || `FILE_INVALID_CONTENT` | Invalid base64 content | Невалидный Base64 ||
 || `FILE_FOLDER_ERROR` | Failed to get chat folder | Не удалось получить папку чата ||
-|| `FILE_UPLOAD_FAILED` | File upload failed | Ошибка загрузки файла ||
+|| `STORAGE_QUOTA_EXCEEDED` | Not enough space on the Drive | Недостаточно места на Диске Битрикс24 ||
+|| `FILE_UPLOAD_FAILED` | File upload failed | Ошибка загрузки файла по другой причине ||
 || `FILE_SEND_FAILED` | Failed to send message | Ошибка отправки сообщения ||
 || `FILE_TOO_LARGE` | File is too large | Размер файла превышает 100 МБ ||
 |#

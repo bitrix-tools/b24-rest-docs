@@ -66,6 +66,8 @@
 
 Если поставщики ведутся в CRM, фильтр по `contractorId` вызывает ошибку — используйте метод [catalog.document.contractor.list](../documentcontractor/catalog-documentcontractor-list-rest-v3.md).
 
+Без провайдера CRM для `contractorId` поддерживаются только операторы `=`, `in`, `!=`; другие операторы и несуществующий идентификатор поставщика вызывают ошибку.
+
 Метод возвращает только документы тех типов, на которые у пользователя есть право «Просмотр» ||
 || **order**
 [`object`](../../data-types.md) | Сортировка в формате `{"поле": "направление"}`, например `{"id": "desc"}`.
@@ -75,7 +77,7 @@
 - `asc` — по возрастанию
 - `desc` — по убыванию
 
-Сортировать можно по всем полям из описания параметра `select` ||
+Сортировать можно по всем полям из описания параметра `select`, кроме `contractorId`, если поставщики ведутся в CRM ||
 || **pagination**
 [`object`](../../data-types.md) | Постраничная навигация. [Описание параметра](#pagination) ||
 |#
@@ -512,7 +514,9 @@ HTTP-статус: **400**
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `status` | В поле `status` требуется тип данных `bool` для такого запроса | Передайте статус значением `true` или `false`. Такая же ошибка с другим типом приходит, если значение условия не подходит полю, например строка `"abc"` для `id` ||
-|| — | Field contractorId is unavailable while a contractor provider is active; use catalog.document.contractor.list | Поставщики ведутся в CRM, фильтр по `contractorId` недоступен. Используйте метод [catalog.document.contractor.list](../documentcontractor/catalog-documentcontractor-list-rest-v3.md) ||
+|| — | Field contractorId is unavailable while a contractor provider is active; use catalog.document.contractor.list | Поставщики ведутся в CRM, фильтр и сортировка по `contractorId` недоступны. Используйте метод [catalog.document.contractor.list](../documentcontractor/catalog-documentcontractor-list-rest-v3.md) ||
+|| — | Operator "…" is not supported for field contractorId | Без провайдера CRM используйте для `contractorId` только операторы `=`, `in`, `!=` ||
+|| — | Contractor not found: … | Укажите существующий идентификатор поставщика ||
 |#
 
 #### Ошибка формата фильтра
