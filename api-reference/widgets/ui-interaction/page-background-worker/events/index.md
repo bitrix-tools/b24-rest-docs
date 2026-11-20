@@ -51,11 +51,51 @@ BX24.ready(function () {
 || Приложение получило доступ к созданной карточке звонка | [BackgroundCallCard::initialized](initialized.md) | Стартовые данные звонка и привязки к CRM ||
 || Оператор нажимает кнопки управления звонком | [BackgroundCallCard::muteButtonClick](mute-button-click.md), [BackgroundCallCard::holdButtonClick](hold-button-click.md), [BackgroundCallCard::hangupButtonClick](hang-up-button-click.md), [BackgroundCallCard::answerButtonClick](answer-button-click.md) | Данные конкретного действия в интерфейсе ||
 || Оператор работает с переводом звонка | [BackgroundCallCard::transferButtonClick](transfer-button-click.md), [BackgroundCallCard::cancelTransferButtonClick](cancel-transfer-button-click.md), [BackgroundCallCard::completeTransferButtonClick](complete-transfer-button-click.md) | Данные по сценарию перевода ||
-|| Карточка загрузила данные клиента из CRM, клиента опознали или в обзвоне сменился текущий клиент | [BackgroundCallCard::entityChanged](entity-changed.md) | Номер клиента и текущая CRM-привязка ||
-|| Нужны дополнительные действия из интерфейса карточки, например сохранить комментарий или ввести цифру на клавиатуре | [BackgroundCallCard::addCommentButtonClick](add-comment-button-click.md), [BackgroundCallCard::dialpadButtonClick](dialpad-button-click.md), [BackgroundCallCard::notifyAdminButtonClick](notify-admin-button-click.md), [BackgroundCallCard::nextButtonClick](next-button-click.md), [BackgroundCallCard::skipButtonClick](skip-button-click.md), [BackgroundCallCard::makeCallButtonClick](make-call-button-click.md), [BackgroundCallCard::closeButtonClick](close-button-click.md) | Значение, выбранное пользователем, или параметры действия ||
+|| Карточка начала загружать данные клиента из CRM или звонок привязали к другому объекту CRM | [BackgroundCallCard::entityChanged](entity-changed.md) | Номер клиента и текущая CRM-привязка ||
+|| Нужны дополнительные действия из интерфейса карточки, например сохранить комментарий или ввести цифру на клавиатуре | [BackgroundCallCard::addCommentButtonClick](add-comment-button-click.md), [BackgroundCallCard::dialpadButtonClick](dialpad-button-click.md), [BackgroundCallCard::notifyAdminButtonClick](notify-admin-button-click.md), [BackgroundCallCard::skipButtonClick](skip-button-click.md), [BackgroundCallCard::makeCallButtonClick](make-call-button-click.md), [BackgroundCallCard::closeButtonClick](close-button-click.md) | Значение, выбранное пользователем, или параметры действия ||
 |#
 
 Какие кнопки видит оператор в каждом состоянии карточки и какое событие они вызывают, показано на странице [{#T}](../card.md).
+
+## Пример данных в обработчике
+
+Большинство событий передают в обработчик одно значение: `true` или `false` у кнопок микрофона и удержания, пустой массив у кнопок «Позвонить» и «Завершить». Объект с данными звонка приходит в двух событиях — `entityChanged` и `initialized`. Когда карточка открывается и загружает данные CRM, первым приходит `entityChanged`. Данные перевода — номер и цель — приходят объектом в `transferButtonClick`.
+
+Так выглядят данные входящего звонка от клиента, который есть в CRM как контакт.
+
+[BackgroundCallCard::entityChanged](entity-changed.md):
+
+```json
+{
+    "CRM_ENTITY_TYPE": "CONTACT",
+    "CRM_ENTITY_ID": 2571,
+    "PHONE_NUMBER": "+74012001001"
+}
+```
+
+[BackgroundCallCard::initialized](initialized.md):
+
+```json
+{
+    "CALL_ID": "externalCall.6e8971b8a2b0776df9df03d1e8e57b34.1795094129",
+    "PHONE_NUMBER": "+74012001001",
+    "LINE_NUMBER": "",
+    "LINE_NAME": "",
+    "CRM_ENTITY_TYPE": "CONTACT",
+    "CRM_ENTITY_ID": 2571,
+    "CRM_BINDINGS": [
+        {
+            "ENTITY_TYPE": "CONTACT",
+            "ENTITY_ID": 2571
+        }
+    ],
+    "CALL_DIRECTION": "incoming",
+    "CALL_STATE": "idle",
+    "CALL_LIST_MODE": false
+}
+```
+
+Если звонок не привязан к CRM, `CRM_ENTITY_TYPE` приходит пустой строкой, `CRM_ENTITY_ID` — `0`, `CRM_BINDINGS` — пустым массивом. Поля каждого события описаны на его странице.
 
 ## Обзор событий {#all-events}
 
@@ -67,14 +107,14 @@ BX24.ready(function () {
 || **Событие** | **Вызывается** | **Данные в обработчике** ||
 || [BackgroundCallCard::initialized](initialized.md) | После создания карточки звонка | Объект с данными звонка ||
 || [BackgroundCallCard::addCommentButtonClick](add-comment-button-click.md) | При сохранении комментария в карточке звонка | Строка с текстом комментария ||
-|| [BackgroundCallCard::muteButtonClick](mute-button-click.md) | При нажатии на кнопку выключения микрофона | `boolean` — состояние микрофона ||
+|| [BackgroundCallCard::muteButtonClick](mute-button-click.md) | При нажатии на кнопку микрофона | `boolean` — состояние микрофона ||
 || [BackgroundCallCard::holdButtonClick](hold-button-click.md) | При нажатии на кнопку удержания звонка | `boolean` — состояние удержания ||
 || [BackgroundCallCard::closeButtonClick](close-button-click.md) | При нажатии на кнопку закрытия карточки звонка | Нет данных ||
 || [BackgroundCallCard::transferButtonClick](transfer-button-click.md) | При выборе оператора для перевода звонка | Объект с номером и целью перевода ||
 || [BackgroundCallCard::cancelTransferButtonClick](cancel-transfer-button-click.md) | При нажатии на кнопку «вернуться к звонку» | Нет данных ||
 || [BackgroundCallCard::completeTransferButtonClick](complete-transfer-button-click.md) | При нажатии на кнопку «перенаправить» | Нет данных ||
 || [BackgroundCallCard::hangupButtonClick](hang-up-button-click.md) | При нажатии на кнопку «завершить» | Нет данных ||
-|| [BackgroundCallCard::nextButtonClick](next-button-click.md) | При нажатии на кнопку «следующий» | Нет данных ||
+|| [BackgroundCallCard::nextButtonClick](next-button-click.md) | При нажатии на кнопку «следующий». В текущей версии приложению не приходит | Нет данных ||
 || [BackgroundCallCard::skipButtonClick](skip-button-click.md) | При нажатии на кнопку «пропустить» | Нет данных ||
 || [BackgroundCallCard::answerButtonClick](answer-button-click.md) | При нажатии на кнопку «ответить» | Нет данных ||
 || [BackgroundCallCard::entityChanged](entity-changed.md) | При загрузке или смене связанного со звонком объекта CRM | Объект с номером и привязкой к CRM ||

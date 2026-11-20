@@ -80,7 +80,7 @@ Array
 || **CONNECTION_STATUS**
 [`boolean`](../data-types.md) | Соединение с внешним сервисом подтверждено ||
 || **REGISTER_STATUS**
-[`boolean`](../data-types.md) | Канал во внешнем сервисе зарегистрирован. Оба признака приложение поднимает методом [imconnector.connector.data.set](../imopenlines/imconnector/imconnector-connector-data-set.md), когда сохраняет настройки канала ||
+[`boolean`](../data-types.md) | Канал во внешнем сервисе зарегистрирован. `CONNECTION_STATUS` и `REGISTER_STATUS` выставляет метод [imconnector.activate](../imopenlines/imconnector/imconnector-activate.md) с `ACTIVE: 1`, когда коннектор включают на линии ||
 || **ERROR_STATUS**
 [`boolean`](../data-types.md) | У коннектора есть ошибка. Признак выставляет метод `imconnector.set.error` ||
 || **STATUS**
@@ -95,7 +95,33 @@ Array
 
 - в `PLACEMENT_HANDLER` метода [imconnector.register](../imopenlines/imconnector/imconnector-register.md) укажите адрес страницы настройки
 - Битрикс24 создаст привязку к точке `SETTING_CONNECTOR` и свяжет ее с коннектором
-- чтобы поменять адрес, вызовите `imconnector.register` повторно с тем же `ID`
+
+Метод `imconnector.register` вызывают только из приложения: вебхук получит ошибку `WRONG_AUTH_TYPE`. Кроме `PLACEMENT_HANDLER` обязательны `ID`, `NAME` и иконка `ICON[DATA_IMAGE]`. `ID` не должен содержать точку.
+
+{% include [Сноска о примерах](../../_includes/examples.md) %}
+
+```js
+BX24.callMethod(
+    'imconnector.register',
+    {
+        ID: 'my_connector',
+        NAME: 'Мой мессенджер',
+        ICON: {
+            DATA_IMAGE: 'data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2070%2071%22%3E%3Ccircle%20cx%3D%2235%22%20cy%3D%2235%22%20r%3D%2230%22%20fill%3D%22%230C99BA%22%2F%3E%3C%2Fsvg%3E'
+        },
+        PLACEMENT_HANDLER: 'https://your-domain.com/connector/settings.php'
+    },
+    function (result) {
+        if (result.error()) {
+            console.error(result.error());
+        } else {
+            console.log(result.data()); // {result: true}
+        }
+    }
+);
+```
+
+Повторный вызов `imconnector.register` с тем же `ID` и новым адресом не заменяет привязку, а добавляет вторую. Чтобы сменить адрес, удалите старую привязку методом [placement.unbind](./placement-unbind.md) с `PLACEMENT: 'SETTING_CONNECTOR'` и старым адресом в `HANDLER`, затем зарегистрируйте коннектор заново. Метод [imconnector.unregister](../imopenlines/imconnector/imconnector-unregister.md) удаляет коннектор вместе с его привязкой.
 
 Параметры `OPTIONS` точка не поддерживает: способа передать их при регистрации коннектора нет.
 

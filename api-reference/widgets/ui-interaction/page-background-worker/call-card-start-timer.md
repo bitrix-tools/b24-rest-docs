@@ -11,9 +11,11 @@
 
 > Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — регистрация звонка, поднимающего карточку
 >
-> Кто может выполнять команду: любой пользователь
+> Кто может выполнять команду: сотрудник, которому Битрикс24 показал карточку, если у него есть доступ к приложению
 
 Команда `CallCardStartTimer` показывает таймер в карточке звонка и запускает отсчет времени разговора.
+
+Команда управляет только карточкой внешнего звонка — ее показывает метод [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md). Для звонков самого Битрикс24 команда в браузере вернет ошибку `Call card is undefined`. Вызывайте команду после события [BackgroundCallCard::initialized](./events/initialized.md): до него и после закрытия карточки придет та же ошибка.
 
 {% note info "" %}
 
@@ -23,7 +25,9 @@
 
 Команда нужна, когда приложение ведет отсчет разговора само. При переходе карточки в состояние `connected` таймер запускается автоматически — отключить автозапуск можно параметром `disableAutoStartTimer` команды [CallCardSetUiState](./call-card-set-ui-state.md).
 
-Отсчет ведется от момента первого запуска, а не от вызова команды. Если таймер уже идет, команда ничего не меняет; после [CallCardStopTimer](./call-card-stop-timer.md) она продолжит отсчет с прежней точки, а не с нуля. Обнулить его можно только переводом карточки в `connected` с `disableAutoStartTimer`.
+Отсчет ведется от момента первого запуска, а не от вызова команды. Если таймер уже идет, команда ничего не меняет. Если таймер остановлен командой [CallCardStopTimer](./call-card-stop-timer.md), `CallCardStartTimer` запустит его снова и покажет все время от первого запуска, включая время, пока таймер стоял.
+
+Чтобы начать отсчет с нуля, остановите таймер и переведите карточку в любое состояние, кроме `connected`. Таймер скроется и обнулится. При следующем переходе в `connected` отсчет начнется заново. Если автозапуск не нужен, переведите карточку в `connected` с `disableAutoStartTimer: true` и вызовите `CallCardStartTimer`.
 
 ## Как вызвать команду
 
@@ -38,7 +42,7 @@ BX24.placement.call('CallCardStartTimer', {}, function (result) {
 
 ## Параметры команды
 
-Команда не принимает параметров. Вторым аргументом передайте пустой объект `{}`.
+Команда не принимает параметров. В BX24.js вторым аргументом передайте пустой объект `{}`, в B24JsSDK второй аргумент можно не указывать.
 
 ## Примеры кода
 
@@ -46,7 +50,7 @@ BX24.placement.call('CallCardStartTimer', {}, function (result) {
 
 {% note info "" %}
 
-Рекомендуется вызывать команду после события [BackgroundCallCard::initialized](./events/initialized.md)
+Примеры показывают сам вызов команды. В приложении его обычно помещают в обработчик события [BackgroundCallCard::initialized](./events/initialized.md).
 
 {% endnote %}
 
@@ -72,7 +76,7 @@ BX24.placement.call('CallCardStartTimer', {}, function (result) {
 
     declare const $b24: B24Frame
 
-    // в браузере промис не резолвится при успехе — не ожидайте результат
+    // при успехе команда не присылает ответ — не ждите его
     $b24.placement.call('CallCardStartTimer')
     ```
 
@@ -85,7 +89,7 @@ BX24.placement.call('CallCardStartTimer', {}, function (result) {
       document.addEventListener('DOMContentLoaded', async () => {
         const $b24 = await B24Js.initializeB24Frame()
 
-        // в браузере промис не резолвится при успехе — не ожидайте результат
+        // при успехе команда не присылает ответ — не ждите его
         $b24.placement.call('CallCardStartTimer')
       })
     </script>

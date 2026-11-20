@@ -11,9 +11,9 @@
 
 > Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — регистрация звонка, поднимающего карточку
 >
-> Кто может выполнять команду: любой пользователь
+> Кто может выполнять команду: сотрудник с доступом к приложению
 
-Команда `CallCardGetListUiStates` возвращает список доступных состояний интерфейса карточки звонка.
+Команда `CallCardGetListUiStates` возвращает список состояний интерфейса карточки звонка, которые можно передать в параметр `uiState` команды [CallCardSetUiState](./call-card-set-ui-state.md). По этому списку приложение может проверить, что нужное состояние поддерживается, прежде чем переключить карточку.
 
 {% note info "" %}
 
@@ -33,7 +33,7 @@ BX24.placement.call('CallCardGetListUiStates', {}, function (result) {
 
 ## Параметры команды
 
-Команда не принимает параметров. Вторым аргументом передайте пустой объект `{}`.
+Команда не принимает параметров. В BX24.js вторым аргументом передайте пустой объект `{}`, в B24JsSDK второй аргумент можно не указывать.
 
 ## Примеры кода
 
@@ -41,7 +41,7 @@ BX24.placement.call('CallCardGetListUiStates', {}, function (result) {
 
 {% note info "" %}
 
-Рекомендуется вызывать команду после события [BackgroundCallCard::initialized](./events/initialized.md)
+Команде не нужна открытая карточка звонка: ее можно вызвать и до события [BackgroundCallCard::initialized](./events/initialized.md), и после закрытия карточки.
 
 {% endnote %}
 
@@ -127,6 +127,8 @@ BX24.placement.call('CallCardGetListUiStates', {}, function (result) {
 - `error` — ошибка звонка
 - `moneyError` — ошибка из-за недостатка средств
 - `redial` — повторный набор
+
+В списке нет служебных состояний `idle`, `externalCard` и `sipPhoneError`, хотя `CallCardSetUiState` принимает и их. В состоянии `externalCard` Битрикс24 показывает карточку внешнего звонка: внизу у нее только кнопка «Закрыть».
 
 ## Ошибки
 

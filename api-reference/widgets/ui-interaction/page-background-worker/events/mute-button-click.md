@@ -1,4 +1,4 @@
-# При нажатии на кнопку выключения микрофона BackgroundCallCard::muteButtonClick
+# При нажатии на кнопку микрофона BackgroundCallCard::muteButtonClick
 
 {% note tip "" %}
 
@@ -13,7 +13,9 @@
 >
 > Кто может подписаться: любой пользователь
 
-Событие `BackgroundCallCard::muteButtonClick` возникает при нажатии оператором на кнопку управления микрофоном.
+Событие `BackgroundCallCard::muteButtonClick` возникает, когда оператор нажимает кнопку микрофона в карточке звонка.
+
+Кнопка есть в состоянии `connected`. Событие только сообщает о нажатии: приложение выключает или включает микрофон в своем WebRTC-клиенте по значению `eventData`. Если приложение само переключает кнопку командой [CallCardSetMute](../call-card-set-mute.md), событие не возникает.
 
 {% note info "" %}
 
@@ -37,7 +39,7 @@ callback(true);
 || **Параметр**
 `тип` | **Описание** ||
 || **eventData***
-[`boolean`](../../../../data-types.md) | Текущее состояние микрофона после нажатия кнопки.
+[`boolean`](../../../../data-types.md) | Состояние кнопки микрофона в карточке после нажатия.
 
 Возможные значения:
 
@@ -121,6 +123,9 @@ callback(true);
 
 ## Продолжите изучение
 
+- [{#T}](../../bx24-placement-bind-event.md)
+- [{#T}](../call-card-set-mute.md)
+- [{#T}](./hold-button-click.md)
 - [{#T}](./index.md)
 - [{#T}](../card.md)
 - [{#T}](../index.md)

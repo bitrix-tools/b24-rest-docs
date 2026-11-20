@@ -7,7 +7,7 @@ items:
     href: initialized.md
   - name: При сохранении комментария в карточке звонка
     href: add-comment-button-click.md
-  - name: При нажатии на кнопку выключения микрофона
+  - name: При нажатии на кнопку микрофона
     href: mute-button-click.md
   - name: При нажатии на кнопку удержания звонка
     href: hold-button-click.md

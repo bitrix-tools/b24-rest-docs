@@ -23,14 +23,14 @@
 
 ## Как начать работу с PAGE_BACKGROUND_WORKER
 
-1. Зарегистрируйте точку встраивания `PAGE_BACKGROUND_WORKER` методом [placement.bind](../../placement-bind.md). Метод доступен только администратору и только из контекста приложения: вебхуком точку не привязать
-2. При регистрации передайте обязательный параметр `OPTIONS[errorHandlerUrl]`. Обработчик у приложения может быть только один, плюс отдельный персональный для конкретного пользователя — подробности в статье [{#T}](../../universal/background-worker.md)
+1. Зарегистрируйте точку встраивания `PAGE_BACKGROUND_WORKER` методом [placement.bind](../../placement-bind.md). Метод работает только из контекста приложения: вебхуком точку не привязать. Кто может регистрировать виджеты, указано на странице метода
+2. При регистрации передайте обязательный параметр `OPTIONS[errorHandlerUrl]`. Обработчик этой точки у приложения может быть только один. Если общий обработчик уже есть, метод не зарегистрирует персональный обработчик для отдельного пользователя и вернет ошибку `ERROR_PLACEMENT_MAX_COUNT`. Подробности — в статье [{#T}](../../universal/background-worker.md)
 3. Проверьте сценарий регистрации и требования к обработчику на странице [{#T}](./webrtc-scenario.md)
-4. Зарегистрируйте звонок методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md) — он же поднимает карточку звонка
-5. Дождитесь события [BackgroundCallCard::initialized](./events/initialized.md). До него карточки нет, и любая команда вернет ошибку `Call card is undefined`
+4. Зарегистрируйте звонок методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md) — он же показывает карточку звонка. Подпишитесь на события карточки заранее, в коде фонового обработчика: события, отправленные до подписки, обработчик не получит
+5. Дождитесь события [BackgroundCallCard::initialized](./events/initialized.md). До него карточки нет, и команды управления карточкой вернут ошибку `Call card is undefined`. Без карточки работает только [CallCardGetListUiStates](./call-card-get-list-ui-states.md)
 6. Управляйте карточкой командами через [BX24.placement.call](../bx24-placement-call.md) и подписывайтесь на действия оператора через [BX24.placement.bindEvent](../bx24-placement-bind-event.md)
 
-Четвертый шаг обязателен. Команды и события работают только с карточкой внешнего звонка, поднятой самим приложением. При обычном звонке Битрикс24 карточка выглядит так же, но события `BackgroundCallCard::*` не приходят, а команды отвечают ошибкой `Call card is undefined`.
+Четвертый шаг обязателен. Команды и события работают только с карточкой внешнего звонка, которую показал метод `telephony.externalCall.register`. При обычном звонке Битрикс24 карточка выглядит так же, но события `BackgroundCallCard::*` не приходят, а команды отвечают ошибкой `Call card is undefined`.
 
 Минимальный рабочий цикл: приложение ждет создания карточки, переводит ее в нужное состояние и слушает кнопки оператора.
 
@@ -53,7 +53,7 @@ BX24.ready(function () {
 
 ## Как устроен вызов команды точки встраивания
 
-Команду вызывают по имени: первым аргументом [BX24.placement.call](../bx24-placement-call.md) передают имя команды, вторым — объект параметров, третьим — функцию обратного вызова.
+Команду вызывают по имени: первым аргументом [BX24.placement.call](../bx24-placement-call.md) передают имя команды, вторым — объект параметров, третьим — функцию обратного вызова. Если у команды нет параметров, вторым аргументом передают пустой объект `{}`. Какие параметры принимает каждая команда, показано в таблице [обзора команд](#all-methods).
 
 Результат зависит от команды.
 
@@ -73,23 +73,23 @@ BX24.ready(function () {
 
 > Scope: [`placement`](../../../scopes/permissions.md) — регистрация точки встраивания, [`telephony`](../../../scopes/permissions.md) — регистрация звонка, поднимающего карточку
 >
-> Кто может выполнять команды: любой пользователь
+> Кто может выполнять команды: сотрудник, которому Битрикс24 показал карточку, если у него есть доступ к приложению
 
 {% list tabs %}
 
 - Команды
 
     #|
-    || **Команда** | **Описание** ||
-    || [CallCardSetMute](./call-card-set-mute.md) | Выключает или включает микрофон оператора ||
-    || [CallCardSetHold](./call-card-set-hold.md) | Ставит звонок на удержание или снимает с удержания ||
-    || [CallCardSetUiState](./call-card-set-ui-state.md) | Меняет состояние интерфейса карточки звонка ||
-    || [CallCardGetListUiStates](./call-card-get-list-ui-states.md) | Возвращает доступные состояния интерфейса карточки ||
-    || [CallCardSetCardTitle](./call-card-set-card-title.md) | Меняет заголовок карточки звонка ||
-    || [CallCardSetStatusText](./call-card-set-status-text.md) | Меняет текст в центральной части карточки ||
-    || [CallCardStartTimer](./call-card-start-timer.md) | Показывает таймер и запускает отсчет времени разговора ||
-    || [CallCardStopTimer](./call-card-stop-timer.md) | Останавливает отсчет времени разговора ||
-    || [CallCardClose](./call-card-close.md) | Закрывает карточку звонка ||
+    || **Команда** | **Описание** | **Параметры** ||
+    || [CallCardSetMute](./call-card-set-mute.md) | Переключает кнопку микрофона в карточке | `muted` ||
+    || [CallCardSetHold](./call-card-set-hold.md) | Переключает кнопку удержания в карточке | `held` ||
+    || [CallCardSetUiState](./call-card-set-ui-state.md) | Меняет состояние интерфейса карточки звонка | `uiState`, необязательный `disableAutoStartTimer` ||
+    || [CallCardGetListUiStates](./call-card-get-list-ui-states.md) | Возвращает доступные состояния интерфейса карточки | нет ||
+    || [CallCardSetCardTitle](./call-card-set-card-title.md) | Меняет заголовок карточки звонка | `title` ||
+    || [CallCardSetStatusText](./call-card-set-status-text.md) | Меняет текст статуса под данными клиента | `statusText` ||
+    || [CallCardStartTimer](./call-card-start-timer.md) | Показывает таймер и запускает отсчет времени разговора | нет ||
+    || [CallCardStopTimer](./call-card-stop-timer.md) | Останавливает отсчет времени разговора | нет ||
+    || [CallCardClose](./call-card-close.md) | Закрывает карточку звонка | нет ||
     |#
 
 - События
@@ -98,14 +98,14 @@ BX24.ready(function () {
     || **Событие** | **Вызывается** ||
     || [BackgroundCallCard::initialized](./events/initialized.md) | После создания карточки звонка ||
     || [BackgroundCallCard::addCommentButtonClick](./events/add-comment-button-click.md) | При сохранении комментария в карточке звонка ||
-    || [BackgroundCallCard::muteButtonClick](./events/mute-button-click.md) | При нажатии на кнопку выключения микрофона ||
+    || [BackgroundCallCard::muteButtonClick](./events/mute-button-click.md) | При нажатии на кнопку микрофона ||
     || [BackgroundCallCard::holdButtonClick](./events/hold-button-click.md) | При нажатии на кнопку удержания звонка ||
     || [BackgroundCallCard::closeButtonClick](./events/close-button-click.md) | При нажатии на кнопку закрытия карточки звонка ||
     || [BackgroundCallCard::transferButtonClick](./events/transfer-button-click.md) | При выборе оператора для перевода звонка ||
     || [BackgroundCallCard::cancelTransferButtonClick](./events/cancel-transfer-button-click.md) | При нажатии на кнопку «вернуться к звонку» ||
     || [BackgroundCallCard::completeTransferButtonClick](./events/complete-transfer-button-click.md) | При нажатии на кнопку «перенаправить» ||
     || [BackgroundCallCard::hangupButtonClick](./events/hang-up-button-click.md) | При нажатии на кнопку «завершить» ||
-    || [BackgroundCallCard::nextButtonClick](./events/next-button-click.md) | При нажатии на кнопку «следующий» ||
+    || [BackgroundCallCard::nextButtonClick](./events/next-button-click.md) | При нажатии на кнопку «следующий». В текущей версии приложению не приходит ||
     || [BackgroundCallCard::skipButtonClick](./events/skip-button-click.md) | При нажатии на кнопку «пропустить» ||
     || [BackgroundCallCard::answerButtonClick](./events/answer-button-click.md) | При нажатии на кнопку «ответить» ||
     || [BackgroundCallCard::entityChanged](./events/entity-changed.md) | При загрузке или смене связанного со звонком объекта CRM ||
