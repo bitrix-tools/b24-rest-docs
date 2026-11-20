@@ -13,8 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «просмотр» сайтов
 
-Метод `landing.block.getlist` возвращает список блоков выбранной страницы.
-
+Метод `landing.block.getlist` возвращает все блоки выбранной страницы за один вызов: постраничная навигация не применяется.
 
 ## Параметры метода
 
@@ -77,7 +76,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -d '{
-        "lid": 4858,
+        "lid": 2215,
         "params": {
           "edit_mode": true,
           "get_content": true
@@ -92,7 +91,7 @@
     curl -X POST \
       -H "Content-Type: application/json" \
       -d '{
-        "lid": 4858,
+        "lid": 2215,
         "params": {
           "edit_mode": true,
           "get_content": true
@@ -131,7 +130,7 @@
       const response = await $b24.actions.v2.call.make<LandingBlock[]>({
         method: 'landing.block.getlist',
         params: {
-          lid: 4858,
+          lid: 2215,
           params: {
             edit_mode: true,
             get_content: true,
@@ -169,7 +168,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'landing.block.getlist',
             params: {
-              lid: 4858,
+              lid: 2215,
               params: {
                 edit_mode: true,
                 get_content: true,
@@ -203,7 +202,7 @@
 
     try:
         bitrix_response = client.landing.block.getlist(
-            lid=4858,
+            lid=2215,
             params={
                 "edit_mode": True,
                 "get_content": True,
@@ -223,7 +222,9 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
+
     ```php
     try {
         $response = $b24Service
@@ -231,7 +232,7 @@
             ->call(
                 'landing.block.getlist',
                 [
-                    'lid' => 4858,
+                    'lid' => 2215,
                     'params' => [
                         'edit_mode' => true,
                         'get_content' => true,
@@ -256,7 +257,7 @@
     BX24.callMethod(
         'landing.block.getlist',
         {
-            lid: 4858,
+            lid: 2215,
             params: {
                 edit_mode: true,
                 get_content: true
@@ -284,7 +285,7 @@
     $result = CRest::call(
         'landing.block.getlist',
         [
-            'lid' => 4858,
+            'lid' => 2215,
             'params' => [
                 'edit_mode' => true,
                 'get_content' => true,
@@ -309,7 +310,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "landing.block.getlist", b24.Params{
-    	"lid": 4858,
+    	"lid": 2215,
     	"params": b24.Params{
     		"edit_mode":   true,
     		"get_content": true,
@@ -364,7 +365,7 @@ HTTP-статус: **200**
                 "XML_ID": "",
                 "DESIGNER_MODE": ""
             },
-            "content": "<div id=\"b2884\" class=\"block-wrapper block-0-menu-02\"><header class=\"landing-block u-header u-header--float u-header--sticky\">...</header></div>",
+            "content": "<div id=\"b28181\" class=\"block-wrapper block-0-menu-02\"><header class=\"landing-block u-header u-header--float u-header--sticky\">...</header></div>",
             "css": [],
             "js": []
         }
@@ -390,11 +391,11 @@ HTTP-статус: **200**
 || **result**
 [`object[]`](../../../data-types.md) | Список блоков [(подробное описание)](#block).
 
-Метод может вернуть `result: []` без ошибки в трех случаях.
+Метод может вернуть `result: []` без ошибки, например, если:
 
-- На странице нет блоков для выбранного режима чтения.
-- Страница еще не публиковалась и `params.edit_mode` не включен.
-- Фильтр `deleted` не нашел подходящих блоков ||
+- на странице нет блоков для выбранного режима чтения
+- страница еще не публиковалась и `params.edit_mode` не включен
+- фильтр `deleted` не нашел подходящих блоков ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -444,6 +445,8 @@ HTTP-статус: **200**
 [`string`](../../../data-types.md) | Идентификатор страницы блока в строковом виде.
 
 Дублирует верхнеуровневое поле `lid` ||
+|| **FAVORITE_META**
+[`string`](../../../data-types.md) | Служебное поле для блоков, сохраненных в «Мои блоки». В ответе приходит строкой `Array` ||
 || **CREATED_BY_ID**
 [`string`](../../../data-types.md) | Идентификатор пользователя, который создал блок ||
 || **DATE_CREATE**
@@ -459,9 +462,7 @@ HTTP-статус: **200**
 || **SITE_TYPE**
 [`string`](../../../data-types.md) | Тип сайта, которому принадлежит страница, например `PAGE` или `STORE` ||
 || **LANDING_TITLE**
-[`string`](../../../data-types.md) | Название страницы, которой принадлежит блок.
-
-Если название не заполнено, вернется пустая строка ||
+[`string`](../../../data-types.md) | Служебное поле. Метод не заполняет его и возвращает пустую строку, даже если у страницы есть название. Название страницы возвращает метод [landing.landing.getList](../../page/methods/landing-landing-get-list.md) в поле `TITLE` ||
 || **LANDING_TPL_CODE**
 [`string`](../../../data-types.md) | Код шаблона страницы ||
 || **SITE_TPL_CODE**
@@ -470,6 +471,8 @@ HTTP-статус: **200**
 [`string`](../../../data-types.md) | Внешний идентификатор блока.
 
 Если он не задан, вернется пустая строка ||
+|| **DESIGNER_MODE**
+[`string`](../../../data-types.md) | Служебное поле режима дизайнера. Этот метод всегда возвращает в нем пустую строку ||
 |#
 
 ## Обработка ошибок

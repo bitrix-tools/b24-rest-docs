@@ -11,8 +11,6 @@
 
 Методы группы `landing` создают и настраивают сайты, магазины, страницы и блоки. С их помощью управляют публикацией, шаблонами, правами доступа и местами встраивания приложений.
 
-Порядок вызовов похож на работу в редакторе сайтов: сначала создают или выбирают сайт, затем страницу, добавляют блоки, настраивают содержимое и публикуют результат.
-
 > Быстрый переход: [все разделы и методы](#all-methods)
 >
 > Пользовательская документация: [Как создать и настроить сайт в Битрикс24](https://helpdesk.bitrix24.ru/open/25309314/)
@@ -55,7 +53,7 @@
 || Изменить порядок, видимость или состояние блока на странице | Методы [работы с блоками на странице](./page/block-methods/index.md) ||
 || Изменить текст, изображения, ссылки, карточки или стили блока | Методы [landing.block.*](./block/index.md) ||
 || Получить код стандартного или пользовательского блока до добавления | [landing.block.getrepository](./block/methods/landing-block-get-repository.md) ||
-|| Получить идентификатор уже размещенного блока | [landing.block.getList](./block/methods/landing-block-get-list.md) с `params.edit_mode = true` ||
+|| Получить идентификатор уже размещенного блока | [landing.block.getlist](./block/methods/landing-block-get-list.md) с `params.edit_mode = true` ||
 |#
 
 ## Дополнительные сценарии
@@ -71,15 +69,11 @@
 
 ## Места встраивания
 
-Места встраивания позволяют добавить приложение в интерфейс сайтов и страниц. Приложение может открываться из настроек сайта или страницы и из действий редактирования блока.
+Места встраивания выводят пункт приложения в интерфейсе сайтов. [LANDING_SETTINGS](./embedding/settings.md) добавляет его в меню настроек сайта или страницы, [LANDING_BLOCK_*](./embedding/block.md) — в меню действий блока. Регистрирует места встраивания только приложение.
 
-**Настройки сайта или страницы.** Место встраивания [LANDING_SETTINGS](./embedding/settings.md) добавляет пункт приложения в меню настроек сайта или страницы. В обработчик передаются идентификаторы сайта и страницы в `PLACEMENT_OPTIONS`.
+`LANDING_SETTINGS` регистрируют методом [landing.repo.bind](./embedding/landing-repo-bind.md) или [placement.bind](../widgets/placement-bind.md), `LANDING_BLOCK_*` — только методом [landing.repo.bind](./embedding/landing-repo-bind.md). С кодом `LANDING_BLOCK_*` метод [placement.bind](../widgets/placement-bind.md) вернет ошибку `ERROR_PLACEMENT_NOT_FOUND`.
 
-**Действия с блоком.** Место встраивания [LANDING_BLOCK_*](./embedding/block.md) добавляет пункт приложения в меню действий блока. В обработчик передаются идентификатор блока, код блока и идентификатор страницы.
-
-**База знаний.** Привязка Базы знаний к меню или группе описана в подразделе [Встраивание Базы знаний](./embedding/knowledge-base/index.md). Этими привязками управляют методы `landing.site.*`, потому что База знаний представлена как отдельный сайт.
-
-В модуле `landing` места встраивания регистрируют внутренним методом [landing.repo.bind](./embedding/landing-repo-bind.md). Для `LANDING_SETTINGS` также подходит [placement.bind](../widgets/placement-bind.md), для `LANDING_BLOCK_*` — только `landing.repo.bind`. Удалить место встраивания текущего приложения можно методом [landing.repo.unbind](./embedding/landing-repo-unbind.md), а привязку через `placement.bind` — методом [placement.unbind](../widgets/placement-unbind.md).
+Место встраивания снимают тем же способом, каким регистрировали: методом [landing.repo.unbind](./embedding/landing-repo-unbind.md) или [placement.unbind](../widgets/placement-unbind.md).
 
 ## Типы сайтов и scope
 
@@ -90,13 +84,29 @@
 ## Ключевые идентификаторы
 
 #|
-|| **Идентификатор** | **Где используется** | **Как получить** ||
-|| `SITE_ID` или `siteId` | Методы страниц, папок, прав, шаблонов, публикации сайта и привязок Базы знаний | Из результата [landing.site.add](./site/landing-site-add.md) или [landing.site.getList](./site/landing-site-get-list.md) ||
-|| `LID` или `lid` | Методы страниц, блоков, публикации страницы и места встраивания `LANDING_SETTINGS` | Из результата [landing.landing.add](./page/methods/landing-landing-add.md), [landing.landing.addByTemplate](./page/methods/landing-landing-add-by-template.md), [landing.landing.copy](./page/methods/landing-landing-copy.md) или [landing.landing.getList](./page/methods/landing-landing-get-list.md) ||
-|| `FOLDER_ID`, `PARENT_ID` или `ID` папки | Размещение страниц в папках и управление структурой сайта | Из результата [landing.site.addFolder](./site/landing-site-add-folder.md) или [landing.site.getFolders](./site/landing-site-get-folders.md) ||
-|| `ID` блока | Изменение, перемещение, копирование, скрытие и удаление блока на странице | Из результата [landing.landing.addblock](./page/block-methods/landing-landing-add-block.md) или [landing.block.getlist](./block/methods/landing-block-get-list.md) с `params.edit_mode = true`, если нужен блок из черновика ||
-|| `CODE` блока | Добавление стандартного или пользовательского блока на страницу | Из [landing.block.getrepository](./block/methods/landing-block-get-repository.md) или после регистрации блока методом [landing.repo.register](./user-blocks/landing-repo-register.md) ||
+|| **Идентификатор** | **Что обозначает** | **Где взять** ||
+|| `SITE_ID`, `siteId` или `id` | Идентификатор сайта, например `253` | `result` метода [landing.site.add](./site/landing-site-add.md) или `result[].ID` метода [landing.site.getList](./site/landing-site-get-list.md) ||
+|| `LID` или `lid` | Идентификатор страницы, например `2227` | `result` методов [landing.landing.add](./page/methods/landing-landing-add.md), [landing.landing.addByTemplate](./page/methods/landing-landing-add-by-template.md) и [landing.landing.copy](./page/methods/landing-landing-copy.md) или `result[].ID` метода [landing.landing.getList](./page/methods/landing-landing-get-list.md) ||
+|| `FOLDER_ID`, `PARENT_ID`, `folderId` или `id` | Идентификатор папки, например `89` | `result` метода [landing.site.addFolder](./site/landing-site-add-folder.md) или `result[].ID` метода [landing.site.getFolders](./site/landing-site-get-folders.md) ||
+|| `ID` блока | Идентификатор блока на странице, например `28597` | `result` метода [landing.landing.addblock](./page/block-methods/landing-landing-add-block.md) или `result[].id` метода [landing.block.getlist](./block/methods/landing-block-get-list.md) с `params.edit_mode = true`, если нужен блок из черновика ||
+|| `CODE` блока | Код блока в репозитории, например `02.three_cols_big_1` или `repo_385` | Ключ блока в списке `items` нужного раздела в ответе метода [landing.block.getrepository](./block/methods/landing-block-get-repository.md). Пользовательский блок получает код `repo_<ID>`, где `<ID>` — `result` метода [landing.repo.register](./user-blocks/landing-repo-register.md) ||
 |#
+
+Идентификатор сайта в разных методах называется по-разному:
+
+- `id` — в методах объекта [Сайты](./site/index.md), например [landing.site.update](./site/landing-site-update.md)
+- `siteId` — в методах папок, например [landing.site.addFolder](./site/landing-site-add-folder.md), и в [landing.landing.addByTemplate](./page/methods/landing-landing-add-by-template.md)
+- `fields.SITE_ID` — в [landing.landing.add](./page/methods/landing-landing-add.md)
+- `params.filter.SITE_ID` — в фильтре [landing.landing.getList](./page/methods/landing-landing-get-list.md)
+
+Точное имя параметра указано на странице каждого метода.
+
+## Ограничения и особенности {#restrictions}
+
+- Метод [landing.landing.addblock](./page/block-methods/landing-landing-add-block.md) по умолчанию возвращает идентификатор созданного блока числом, например `28597`. Если передать `fields.RETURN_CONTENT = "Y"`, метод вернет объект блока, а идентификатор будет в поле `result.id`
+- Метод [landing.repo.unbind](./embedding/landing-repo-unbind.md) снимает и место встраивания, зарегистрированное через [placement.bind](../widgets/placement-bind.md), но отвечает ошибкой `PLACEMENT_NO_EXIST`: успехом он считает только снятие места, зарегистрированного через [landing.repo.bind](./embedding/landing-repo-bind.md)
+- Все методы раздела, кроме [landing.repo.bind](./embedding/landing-repo-bind.md) и [landing.repo.unbind](./embedding/landing-repo-unbind.md), можно вызывать и через вебхук. Пользовательские блоки через вебхук регистрирует и удаляет только администратор портала или сайтов. Способ авторизации поможет выбрать статья [Авторизация](../../settings/how-to-call-rest-api/authorization.md)
+- Общие ограничения REST API, включая время выполнения запроса и интенсивность запросов, описаны в статье [Лимиты REST API](../../limits.md)
 
 ## Обзор разделов и методов {#all-methods}
 
