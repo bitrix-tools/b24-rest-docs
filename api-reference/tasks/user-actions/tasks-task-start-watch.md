@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь с доступом к задаче на чтение
 
-Метод `tasks.task.startwatch` включает наблюдение за задачей.
+Метод `tasks.task.startwatch` добавляет текущего пользователя в наблюдатели задачи. Если пользователь уже наблюдатель, метод не возвращает ошибку. Прекратить наблюдение можно методом [tasks.task.stopwatch](./tasks-task-stop-watch.md).
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **taskId***
-[`integer`](../../data-types.md) | Идентификатор задачи. 
+[`integer`](../../data-types.md) | Идентификатор задачи. Метод принимает его и под именем `id`.
 
 Идентификатор задачи можно получить при [создании новой задачи](../tasks-task-add.md) или методом [получения списка задач](../tasks-task-list.md) ||
 |#
@@ -248,210 +248,92 @@ HTTP-статус: **200**
     "result": {
         "task": {
             "id": "8017",
-            "parentId": "7817",
+            "parentId": null,
             "title": "Пример задачи",
-            "description": "Описание задачи с [B]форматированием[/B]",
-            "mark": "P",
-            "priority": "2",
+            "description": "",
+            "mark": null,
+            "priority": "1",
             "multitask": "N",
             "notViewed": "N",
-            "replicate": "Y",
-            "stageId": "395",
+            "replicate": "N",
+            "stageId": "0",
             "sprintId": null,
             "backlogId": null,
             "createdBy": "503",
-            "createdDate": "2025-06-04T16:15:55+03:00",
-            "responsibleId": "503",
+            "createdDate": "2026-11-20T09:28:51+03:00",
+            "responsibleId": "547",
             "changedBy": "503",
-            "changedDate": "2025-09-10T17:22:12+03:00",
-            "statusChangedBy": "503",
-            "closedBy": "0",
+            "changedDate": "2026-11-20T09:28:56+03:00",
+            "statusChangedBy": null,
+            "closedBy": null,
             "closedDate": null,
-            "activityDate": "2025-09-10T17:22:13+03:00",
-            "dateStart": "2025-09-10T15:22:12+03:00",
-            "deadline": "2025-09-11T08:00:00+03:00",
+            "activityDate": "2026-11-20T09:28:57+03:00",
+            "dateStart": null,
+            "deadline": "2026-11-27T22:00:00+03:00",
             "startDatePlan": null,
             "endDatePlan": null,
-            "guid": "{21e7b78d-498e-4c84-a896-2dbeb26861b8}",
+            "guid": "{7b740fda-1af7-457f-adf2-552a48079233}",
             "xmlId": null,
-            "commentsCount": "44",
-            "serviceCommentsCount": "28",
-            "allowChangeDeadline": "Y",
-            "allowTimeTracking": "Y",
+            "commentsCount": null,
+            "serviceCommentsCount": null,
+            "allowChangeDeadline": "N",
+            "allowTimeTracking": "N",
             "taskControl": "N",
             "addInReport": "N",
             "forkedByTemplateId": null,
-            "timeEstimate": "101580",
-            "timeSpentInLogs": "69963",
-            "matchWorkTime": "Y",
-            "forumTopicId": "1273",
-            "forumId": "11",
+            "timeEstimate": "0",
+            "timeSpentInLogs": null,
+            "matchWorkTime": "N",
+            "forumTopicId": null,
+            "forumId": null,
             "siteId": "s1",
-            "subordinate": "Y",
+            "subordinate": "N",
             "exchangeModified": null,
             "exchangeId": null,
-            "outlookVersion": "52",
-            "viewedDate": "2025-09-10T17:22:13+03:00",
+            "outlookVersion": "2",
+            "viewedDate": null,
             "sorting": null,
-            "durationFact": "1166",
+            "durationFact": null,
             "isMuted": "N",
             "isPinned": "N",
             "isPinnedInGroup": "N",
-            "flowId": "19",
+            "flowId": null,
+            "chatId": 5963,
             "descriptionInBbcode": "Y",
-            "status": "3",
-            "statusChangedDate": "2025-09-10T15:22:12+03:00",
-            "durationPlan": "0",
+            "status": "2",
+            "statusChangedDate": "2026-11-20T09:28:56+03:00",
+            "durationPlan": null,
             "durationType": "days",
-            "favorite": "Y",
-            "groupId": "129",
+            "favorite": "N",
+            "groupId": "0",
             "auditors": [
-                "61",
-                "103",
-                "503",
-                "547"
+                "503"
             ],
-            "accomplices": [
-                "3",
-                "11"
-            ],
-            "checklist": {
-                "433": {
-                    "id": "433",
-                    "taskId": "8017",
-                    "createdBy": "503",
-                    "parentId": "431",
-                    "title": "Первый",
-                    "sortIndex": "0",
-                    "isComplete": "N",
-                    "isImportant": "N",
-                    "toggledBy": null,
-                    "toggledDate": null,
-                    "ufChecklistFiles": false,
-                    "members": [],
-                    "attachments": [],
-                    "entityId": "8017",
-                    "action": {
-                        "modify": true,
-                        "remove": true,
-                        "toggle": true,
-                        "add": true,
-                        "addAccomplice": true
-                    }
-                },
-                "431": {
-                    "id": "431",
-                    "taskId": "8017",
-                    "createdBy": "503",
-                    "parentId": 0,
-                    "title": "Чек-лист 1",
-                    "sortIndex": "0",
-                    "isComplete": "N",
-                    "isImportant": "N",
-                    "toggledBy": null,
-                    "toggledDate": null,
-                    "ufChecklistFiles": false,
-                    "members": [],
-                    "attachments": [],
-                    "entityId": "8017",
-                    "action": {
-                        "modify": true,
-                        "remove": true,
-                        "toggle": true,
-                        "add": true,
-                        "addAccomplice": true
-                    }
-                },
-                "435": {
-                    "id": "435",
-                    "taskId": "8017",
-                    "createdBy": "503",
-                    "parentId": "431",
-                    "title": "Второй",
-                    "sortIndex": "1",
-                    "isComplete": "N",
-                    "isImportant": "N",
-                    "toggledBy": null,
-                    "toggledDate": null,
-                    "ufChecklistFiles": false,
-                    "members": [],
-                    "attachments": [],
-                    "entityId": "8017",
-                    "action": {
-                        "modify": true,
-                        "remove": true,
-                        "toggle": true,
-                        "add": true,
-                        "addAccomplice": true
-                    }
-                }
-            },
-            "group": {
-                "id": "129",
-                "name": "Рабочая группа",
-                "opened": false,
-                "membersCount": 1,
-                "image": "\/bitrix\/images\/socialnetwork\/workgroup\/folder.png",
-                "additionalData": []
-            },
+            "accomplices": [],
+            "checklist": [],
+            "group": [],
             "creator": {
                 "id": "503",
                 "name": "Мария Иванова",
-                "link": "\/company\/personal\/user\/503\/",
-                "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/45749\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/c89\/c89c6b7301880958ea704b5a8470635c\/4R5A1256.png",
-                "workPosition": "Администратор"
+                "link": "/company/personal/user/503/",
+                "icon": "/bitrix/images/tasks/default_avatar.png",
+                "workPosition": null
             },
             "responsible": {
-                "id": "503",
-                "name": "Мария Иванова",
-                "link": "\/company\/personal\/user\/503\/",
-                "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/45749\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/c89\/c89c6b7301880958ea704b5a8470635c\/4R5A1256.png",
-                "workPosition": "Администратор"
+                "id": "547",
+                "name": "Андрей Карпов",
+                "link": "/company/personal/user/547/",
+                "icon": "/bitrix/images/tasks/default_avatar.png",
+                "workPosition": "Менеджер по продажам"
             },
-            "accomplicesData": {
-                "3": {
-                    "id": "3",
-                    "name": "Андрей Карпов",
-                    "link": "\/company\/personal\/user\/3\/",
-                    "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/249\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/cd526b0644e7ff4d794ea41cb36bc423\/odmin.png",
-                    "workPosition": "Системный администратор"
-                },
-                "11": {
-                    "id": "11",
-                    "name": "Андрей Сергеев",
-                    "link": "\/company\/personal\/user\/11\/",
-                    "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/231\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/026bf59e161a0bd50f401d3796800651\/66b.jpg",
-                    "workPosition": "Специалист"
-                }
-            },
+            "accomplicesData": [],
             "auditorsData": {
-                "61": {
-                    "id": "61",
-                    "name": "Иван Петров",
-                    "link": "\/company\/personal\/user\/61\/",
-                    "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/8674\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/7b5\/7b52e4c2304ec0520dab3d4261e9ca1f\/sp.jpg",
-                    "workPosition": "Маркетолог"
-                },
-                "103": {
-                    "id": "103",
-                    "name": "Светлана Иванова",
-                    "link": "\/company\/personal\/user\/103\/",
-                    "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/8644\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/45f\/45fff10d17d398a5583184c8350cd197\/buh.jpg",
-                    "workPosition": "Бухгалтер"
-                },
                 "503": {
                     "id": "503",
                     "name": "Мария Иванова",
-                    "link": "\/company\/personal\/user\/503\/",
-                    "icon": "https:\/\/mysite.ru\/b17053\/resize_cache\/45749\/c0120a8d7c10d63c83e32398d1ec4d9e\/main\/c89\/c89c6b7301880958ea704b5a8470635c\/4R5A1256.png",
-                    "workPosition": "Администратор"
-                },
-                "547": {
-                    "id": "547",
-                    "name": "Мария",
-                    "link": "\/company\/personal\/user\/547\/",
-                    "icon": "\/bitrix\/images\/tasks\/default_avatar.png",
-                    "workPosition": "Тестировщик"
+                    "link": "/company/personal/user/503/",
+                    "icon": "/bitrix/images/tasks/default_avatar.png",
+                    "workPosition": null
                 }
             },
             "newCommentsCount": 0,
@@ -461,28 +343,28 @@ HTTP-статус: **200**
                 "complete": true,
                 "approve": false,
                 "disapprove": false,
-                "start": false,
-                "pause": true,
+                "start": true,
+                "pause": false,
                 "delegate": true,
                 "remove": true,
                 "edit": true,
-                "defer": false,
+                "defer": true,
                 "renew": false,
                 "create": true,
                 "changeDeadline": true,
                 "checklistAddItems": true,
-                "addFavorite": false,
-                "deleteFavorite": true,
+                "addFavorite": true,
+                "deleteFavorite": false,
                 "rate": true,
                 "take": false,
                 "edit.originator": false,
                 "checklist.reorder": true,
                 "elapsedtime.add": true,
-                "dayplan.timer.toggle": true,
+                "dayplan.timer.toggle": false,
                 "edit.plan": true,
                 "checklist.add": true,
-                "favorite.add": false,
-                "favorite.delete": true
+                "favorite.add": true,
+                "favorite.delete": false
             },
             "checkListTree": {
                 "nodeId": 0,
@@ -504,106 +386,20 @@ HTTP-статус: **200**
                     "nodeId": null
                 },
                 "action": [],
-                "descendants": [
-                    {
-                        "nodeId": 1,
-                        "fields": {
-                            "id": 431,
-                            "copiedId": null,
-                            "entityId": 8017,
-                            "userId": 503,
-                            "createdBy": 503,
-                            "parentId": 0,
-                            "title": "Чек-лист 1",
-                            "sortIndex": 0,
-                            "displaySortIndex": "",
-                            "isComplete": false,
-                            "isImportant": false,
-                            "completedCount": 0,
-                            "members": [],
-                            "attachments": [],
-                            "nodeId": null
-                        },
-                        "action": {
-                            "modify": true,
-                            "remove": true,
-                            "toggle": true,
-                            "add": true,
-                            "addAccomplice": true
-                        },
-                        "descendants": [
-                            {
-                                "nodeId": 2,
-                                "fields": {
-                                    "id": 433,
-                                    "copiedId": null,
-                                    "entityId": 8017,
-                                    "userId": 503,
-                                    "createdBy": 503,
-                                    "parentId": 431,
-                                    "title": "Первый",
-                                    "sortIndex": 0,
-                                    "displaySortIndex": "1",
-                                    "isComplete": false,
-                                    "isImportant": false,
-                                    "completedCount": 0,
-                                    "members": [],
-                                    "attachments": [],
-                                    "nodeId": null
-                                },
-                                "action": {
-                                    "modify": true,
-                                    "remove": true,
-                                    "toggle": true,
-                                    "add": true,
-                                    "addAccomplice": true
-                                },
-                                "descendants": []
-                            },
-                            {
-                                "nodeId": 3,
-                                "fields": {
-                                    "id": 435,
-                                    "copiedId": null,
-                                    "entityId": 8017,
-                                    "userId": 503,
-                                    "createdBy": 503,
-                                    "parentId": 431,
-                                    "title": "Второй",
-                                    "sortIndex": 1,
-                                    "displaySortIndex": "2",
-                                    "isComplete": false,
-                                    "isImportant": false,
-                                    "completedCount": 0,
-                                    "members": [],
-                                    "attachments": [],
-                                    "nodeId": null
-                                },
-                                "action": {
-                                    "modify": true,
-                                    "remove": true,
-                                    "toggle": true,
-                                    "add": true,
-                                    "addAccomplice": true
-                                },
-                                "descendants": []
-                            }
-                        ]
-                    }
-                ]
+                "descendants": []
             },
             "checkListCanAdd": true
-        },
-        "time": {
-            "start": 1757514132.671783,
-            "finish": 1757514133.47723,
-            "duration": 0.8054471015930176,
-            "processing": 0.7846410274505615,
-            "date_start": "2025-09-10T17:22:12+03:00",
-            "date_finish": "2025-09-10T17:22:13+03:00",
-            "operating_reset_at": 1757514732,
-            "operating": 0.7846250534057617
         }
+    },
+    "time": {
+        "start": 1795156136,
+        "finish": 1795156137.093113,
+        "duration": 1.0931129455566406,
+        "processing": 1,
+        "date_start": "2026-11-20T09:28:56+03:00",
+        "date_finish": "2026-11-20T09:28:57+03:00",
+        "operating_reset_at": 1795156680,
+        "operating": 0.2282271385192871
     }
 }
 ```
@@ -614,9 +410,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с данными ответа ||
+[`object`](../../data-types.md) | Объект с данными ответа. ||
 || **task**
-[`object`](../../data-types.md) | Объект с [описанием задачи](../fields.md) после выполнения операции ||
+[`object`](../../data-types.md) | Объект с [описанием задачи](../fields.md) после выполнения операции. Текущий пользователь есть в массиве `auditors` ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -637,16 +433,16 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
-|| `1048584` | a:0:{} | Ошибка возвращается в случаях:
-- задача с указанным `ID` не существует
-- нет доступа к задаче ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for {taskId} | Не передан параметр `taskId` ||
+|| `400` | `0` | wrong task id | В `taskId` передано не число, например `abc` ||
+|| `400` | `1048584` | a:1:{i:0;s:0:"";} | Задача не найдена или у пользователя нет к ней доступа на чтение. Текст ошибки — служебная строка без описания причины ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./tasks-task-stop-watch.md)
+- [{#T}](../tasks-task-get.md)

@@ -298,12 +298,12 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {templateId} | Не передан обязательный параметр `templateId` ||
-|| `400` | `100` | Invalid value {} to match with parameter {templateId}. Should be value of type int. | Передан пустым или с неверным типом параметр `templateId` ||
+|| `400` | `100` | Invalid value {`значение`} to match with parameter {templateId}. Should be value of type int. | В `templateId` передано не число или пустая строка ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжить изучение
+## Продолжите изучение
 
 - [{#T}](./tasks-template-add.md)
 - [{#T}](./tasks-template-update.md)

@@ -509,7 +509,7 @@ HTTP-статус: **400**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжить изучение
+## Продолжите изучение
 
 - [{#T}](./tasks-template-add.md)
 - [{#T}](./tasks-template-update.md)

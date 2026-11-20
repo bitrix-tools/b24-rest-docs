@@ -379,6 +379,11 @@ HTTP-статус: **200**
             "type": "integer",
             "default": 0
         },
+        "REPLICATE_TYPE": {
+            "title": "Тип регулярности",
+            "type": "integer",
+            "default": null
+        },
         "REPLICATE_PARAMS": {
             "title": "Параметры постановки задач",
             "type": "string"
@@ -444,7 +449,7 @@ HTTP-статус: **200**
 || **type**
 [`string`](../../data-types.md) | Тип значения поля ||
 || **required**
-[`boolean`](../../data-types.md) | Признак обязательного поля. Возвращается не для всех поле ||
+[`boolean`](../../data-types.md) | Признак обязательного поля. Возвращается не для всех полей ||
 || **default**
 [`string`](../../data-types.md) | Значение по умолчанию. Может быть строкой, числом или `null` ||
 || **values**
@@ -459,7 +464,7 @@ HTTP-статус: **200**
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжить изучение
+## Продолжите изучение
 
 - [{#T}](./tasks-template-add.md)
 - [{#T}](./tasks-template-update.md)

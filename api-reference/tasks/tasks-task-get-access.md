@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `tasks.task.getaccess` проверяет доступные действия пользователей над задачей.
+Метод `tasks.task.getaccess` возвращает, какие действия над задачей доступны каждому из указанных пользователей.
 
 ## Параметры метода
 
@@ -29,7 +29,7 @@
 || **users**
 [`array`](../data-types.md) | Массив идентификаторов пользователей, для которых нужно проверить доступ.
 
-По умолчанию используется текущий пользователь.
+По умолчанию и при пустом массиве проверяется текущий пользователь.
 
 Идентификатор пользователя можно получить методом [получения списка пользователей](../user/user-get.md) ||
 |#
@@ -256,54 +256,45 @@ HTTP-статус: **200**
 {
     "result": {
         "allowedActions": {
-            "503": {
+            "1269": {
                 "ACCEPT": false,
                 "DECLINE": false,
                 "COMPLETE": true,
                 "APPROVE": false,
                 "DISAPPROVE": false,
-                "START": false,
-                "PAUSE": true,
+                "START": true,
+                "PAUSE": false,
                 "DELEGATE": true,
                 "REMOVE": true,
                 "EDIT": true,
-                "DEFER": false,
+                "DEFER": true,
                 "RENEW": false,
                 "CREATE": true,
                 "CHANGE_DEADLINE": true,
                 "CHECKLIST_ADD_ITEMS": true,
-                "ADD_FAVORITE": false,
-                "DELETE_FAVORITE": true,
+                "ADD_FAVORITE": true,
+                "DELETE_FAVORITE": false,
                 "RATE": true,
                 "TAKE": false,
                 "EDIT.ORIGINATOR": false,
                 "CHECKLIST.REORDER": true,
                 "ELAPSEDTIME.ADD": true,
-                "DAYPLAN.TIMER.TOGGLE": true,
+                "DAYPLAN.TIMER.TOGGLE": false,
                 "EDIT.PLAN": true,
                 "CHECKLIST.ADD": true,
-                "FAVORITE.ADD": false,
-                "FAVORITE.DELETE": true
-            },
-            "547": {
-                "ACCEPT": false,
-                "DECLINE": false,
-                "COMPLETE": false,
-                "APPROVE": false,
-                "DISAPPROVE": false,
-                // ...
+                "FAVORITE.ADD": true,
                 "FAVORITE.DELETE": false
             }
         }
     },
     "time": {
-        "start": 1758177122.815386,
-        "finish": 1758177122.911002,
-        "duration": 0.09561586380004883,
-        "processing": 0.054609060287475586,
-        "date_start": "2025-09-18T09:32:02+03:00",
-        "date_finish": "2025-09-18T09:32:02+03:00",
-        "operating_reset_at": 1758177722,
+        "start": 1795106839,
+        "finish": 1795106839.631999,
+        "duration": 0.6319990158081055,
+        "processing": 0,
+        "date_start": "2026-11-19T19:47:19+03:00",
+        "date_finish": "2026-11-19T19:47:19+03:00",
+        "operating_reset_at": 1795107420,
         "operating": 0
     }
 }
@@ -315,24 +306,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа.
-
-Содержит объект c описанием доступных действий для каждого пользователя ||
+[`object`](../data-types.md) | Корневой элемент ответа ||
 || **allowedActions**
-[`object`](../data-types.md) | Объект, в котором ключ — `ID` пользователя, значение — объект с [описанием доступных действий](./fields.md#action) над задачей.
+[`object`](../data-types.md) \| [`array`](../data-types.md) | Объект, в котором ключ — идентификатор пользователя, а значение — объект с [доступными действиями](./fields.md#action) над задачей. В ответе ключи действий приходят в верхнем регистре: например, `CHANGE_DEADLINE` соответствует полю `changeDeadline` в описании.
 
-Если у пользователя, выполняющего метод, нет доступа к задаче, вернется пустой массив `"allowedActions":[]`.
-
-{% note info "" %}
-
-Для несушествующих пользователей из параметра `users` метод вернет ответ со значением `false` для всех действий
-
-{% endnote %}
-
- ||
+Если задача не найдена или у пользователя, который вызывает метод, нет к ней доступа, метод возвращает пустой массив `"allowedActions": []` ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
+
+Действия `ACCEPT` и `DECLINE` устарели и всегда равны `false`.
+
+Для несуществующего пользователя из `users` метод не возвращает ошибку: все действия, кроме `CREATE`, равны `false`.
 
 ## Обработка ошибок
 
@@ -340,8 +325,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":"100",
-    "error_description":"Invalid value {} to match with parameter {users}. Should be value of type array."
+    "error": "100",
+    "error_description": "Invalid value {1269} to match with parameter {users}. Should be value of type array."
 }
 ```
 
@@ -350,14 +335,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `0` | wrong task id | В параметре `taskId` указано значение неверного типа ||
-|| `100` | Invalid value {} to match with parameter {users}. Should be value of type array. | Указано неверное значение в параметре `users` ||
-|| `100` | CTaskItem All parameters in the constructor must have real class type | Не указан обязательный параметр `taskId` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `100` | Could not find value for {taskId} | Не передан обязательный параметр `taskId` ||
+|| `400` | `0` | wrong task id | В `taskId` передано не число, например `abc` ||
+|| `400` | `100` | Invalid value {`значение`} to match with parameter {users}. Should be value of type array. | В `users` передан не массив, например строка ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
+- [{#T}](./tasks-task-get.md)
+- [{#T}](./tasks-task-list.md)
+- [{#T}](./fields.md)

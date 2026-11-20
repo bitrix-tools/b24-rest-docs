@@ -23,18 +23,30 @@
 4. Создайте шаблон методом [tasks.template.add](./tasks-template-add.md)
 5. Получите шаблон методом [tasks.template.get](./tasks-template-get.md), если нужно проверить сохраненные значения. Список доступных шаблонов возвращает метод [tasks.template.list](./tasks-template-list.md)
 6. Измените шаблон методом [tasks.template.update](./tasks-template-update.md), если нужно скорректировать параметры
-7. Добавьте пункты чек-листа методами [tasks.template.checklist.add](./checklist/tasks-template-checklist-add.md), [tasks.template.checklist.update](./checklist/tasks-template-checklist-update.md) и [tasks.template.checklist.list](./checklist/tasks-template-checklist-list.md), если задача состоит из повторяющихся шагов
+7. Если задача состоит из повторяющихся шагов, добавьте в шаблон чек-лист методами раздела [Чек-листы шаблонов задач](./checklist/index.md)
 8. Удалите шаблон методом [tasks.template.delete](./tasks-template-delete.md), если он больше не нужен
 
 ## Права доступа
 
-Права на работу с шаблонами задачи зависят от настроек доступа в задачах.
+Права на работу с шаблонами задачи зависят от настроек доступа в задачах:
+
+- создавать шаблоны может пользователь с правом создания шаблонов
+- получать, изменять и удалять шаблон может пользователь с соответствующим правом на этот шаблон
+- метод [tasks.template.list](./tasks-template-list.md) возвращает только шаблоны, доступные пользователю
 
 {% note tip "Пользовательская документация" %}
 
 - [Как настроить права доступа в задачах Битрикс24](https://helpdesk.bitrix24.ru/open/27846332/)
 
 {% endnote %}
+
+## Особенности методов
+
+- При создании обязательны поля `TITLE` и `RESPONSIBLE_ID`. Если метод вызывает пользователь без прав администратора, постановщиком становится он сам, а `CREATED_BY` игнорируется
+- Метод [tasks.template.list](./tasks-template-list.md) отдает до 50 шаблонов за запрос. Следующую страницу запрашивайте параметром `start`
+- В `select` метода [tasks.template.list](./tasks-template-list.md) можно передать только поля из списка на странице метода. Значение `*` не поддерживается. Пользовательские поля `UF_*` и чек-лист метод возвращает, только если `select` не передан
+- Список шаблонов приходит в `task_templates`: пустая страница — массивом `[]`, непустая — объектом с идентификаторами шаблонов в ключах
+- Успешный ответ содержит `result` и `time`, ошибки возвращаются в `error` и `error_description`. Коды ошибок описаны на страницах методов
 
 ## Связь с другими объектами
 
@@ -46,7 +58,7 @@
 
 **CRM.** В шаблоне можно заранее сохранить привязку к объектам CRM. В поле `UF_CRM_TASK` укажите идентификаторы объектов CRM c префиксом, например `L_15` для лида или `D_27` для сделки. Идентификаторы существующих элементов можно получить методом [crm.item.list](../../crm/universal/crm-item-list.md). Если объект нужно сначала создать, используйте [crm.item.add](../../crm/universal/crm-item-add.md).
 
-**Чек-листы.** Если типовая задача состоит из повторяющихся шагов, добавьте их в шаблон методами [tasks.template.checklist.add](./checklist/tasks-template-checklist-add.md), [tasks.template.checklist.update](./checklist/tasks-template-checklist-update.md) и [tasks.template.checklist.delete](./checklist/tasks-template-checklist-delete.md).
+**Чек-листы.** Если типовая задача состоит из повторяющихся шагов, добавьте их в шаблон. Пункты чек-листа создаются, меняются и удаляются методами раздела [Чек-листы шаблонов задач](./checklist/index.md).
 
 ## Обзор методов {#all-methods}
 
@@ -54,32 +66,14 @@
 >
 > Кто может выполнять метод: в зависимости от метода
 
-### Основные методы
-
 #|
 || **Метод** | **Описание** ||
-|| [tasks.template.add](./tasks-template-add.md) | Добавляет шаблон задачи ||
-|| [tasks.template.update](./tasks-template-update.md) | Изменяет шаблон задачи ||
-|| [tasks.template.get](./tasks-template-get.md) | Получает шаблон задачи по `id` ||
-|| [tasks.template.list](./tasks-template-list.md) | Получает список шаблонов задач ||
+|| [tasks.template.add](./tasks-template-add.md) | Создает шаблон задачи и возвращает его идентификатор ||
+|| [tasks.template.update](./tasks-template-update.md) | Изменяет поля существующего шаблона ||
+|| [tasks.template.get](./tasks-template-get.md) | Возвращает шаблон по идентификатору. По умолчанию — со всеми полями, включая пользовательские ||
+|| [tasks.template.list](./tasks-template-list.md) | Возвращает доступные пользователю шаблоны с фильтром, сортировкой и выборкой по 50 записей ||
 || [tasks.template.delete](./tasks-template-delete.md) | Удаляет шаблон задачи ||
-|| [tasks.template.fields](./tasks-template-fields.md) | Получает описание полей шаблона задачи ||
+|| [tasks.template.fields](./tasks-template-fields.md) | Возвращает описание полей шаблона: название, тип, обязательность, значение по умолчанию и допустимые значения ||
 |#
 
-### Чек-листы шаблонов задач
-
-#|
-|| **Метод** | **Описание** ||
-|| [tasks.template.checklist.add](./checklist/tasks-template-checklist-add.md) | Добавляет пункт чек-листа ||
-|| [tasks.template.checklist.update](./checklist/tasks-template-checklist-update.md) | Обновляет пункт чек-листа ||
-|| [tasks.template.checklist.get](./checklist/tasks-template-checklist-get.md) | Получает пункт чек-листа по `id` ||
-|| [tasks.template.checklist.list](./checklist/tasks-template-checklist-list.md) | Получает список пунктов чек-листа ||
-|| [tasks.template.checklist.delete](./checklist/tasks-template-checklist-delete.md) | Удаляет пункт чек-листа ||
-|| [tasks.template.checklist.moveAfter](./checklist/tasks-template-checklist-move-after.md) | Перемещает пункт после указанного ||
-|| [tasks.template.checklist.moveBefore](./checklist/tasks-template-checklist-move-before.md) | Перемещает пункт перед указанным ||
-|| [tasks.template.checklist.complete](./checklist/tasks-template-checklist-complete.md) | Отмечает пункт как выполненный ||
-|| [tasks.template.checklist.renew](./checklist/tasks-template-checklist-renew.md) | Возвращает пункт в невыполненное состояние ||
-|| [tasks.template.checklist.addAttachmentByContent](./checklist/tasks-template-checklist-add-attachment-by-content.md) | Добавляет вложение из содержимого ||
-|| [tasks.template.checklist.addAttachmentsFromDisk](./checklist/tasks-template-checklist-add-attachments-from-disk.md) | Добавляет вложения из Диска ||
-|| [tasks.template.checklist.removeAttachments](./checklist/tasks-template-checklist-remove-attachments.md) | Удаляет вложения пункта чек-листа ||
-|#
+Пункты чек-листа шаблона, их порядок, отметки о выполнении и вложения описаны в разделе [Чек-листы шаблонов задач](./checklist/index.md).
