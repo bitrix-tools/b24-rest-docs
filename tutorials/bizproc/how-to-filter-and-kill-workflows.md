@@ -24,11 +24,11 @@
 
 ## Что нужно до начала
 
-- входящий вебхук администратора или приложение со scope `bizproc`
+- входящий вебхук администратора со scope `bizproc`: примеры инициализируют SDK через вебхук
 - дата, до которой нужно найти запущенные процессы. В примерах используется `2025-01-01T00:00:00Z`
-- решение, что делать с найденными процессами: удалить методом `bizproc.workflow.kill` или остановить методом `bizproc.workflow.terminate`
+- если нужно остановить процессы, а не удалить, замените в примерах `bizproc.workflow.kill` на `bizproc.workflow.terminate`. В PHP типизированный вызов `workflow()->kill(...)` замените на `$b24->core->call('bizproc.workflow.terminate', ['ID' => ...])`: в шаге 2 с `$workflowIds[0]`, в полном примере с `$workflowId`
 
-Перед удалением обязательно проверьте найденные `ID`. Повторный запуск с тем же фильтром может найти другие процессы, если за это время появились новые запуски с подходящей датой.
+Перед удалением обязательно проверьте найденные `ID`. Полный пример выводит список и спрашивает подтверждение в том же запуске: удаляются только `ID` из показанного списка, новый поиск перед удалением не выполняется.
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
@@ -39,6 +39,8 @@
 - `filter[<STARTED]` — дата запуска. Префикс `<` отбирает процессы, запущенные до указанного времени
 - `select` — поля, которые нужны в сценарии. Достаточно получить `ID` и `STARTED`
 
+Если меняете фильтр, проверьте имя поля и префикс операции: неизвестное поле или операцию метод пропускает без ошибки, и запрос вернет процессы без ограничения по дате. Примеры шага получают первую страницу — до 50 процессов. Для массовой обработки используйте [полный пример](#full-example).
+
 {% list tabs %}
 
 - JS
@@ -46,8 +48,8 @@
     ```js
     import { B24Hook } from '@bitrix24/b24jssdk'
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
-    // B24_HOOK = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_WEBHOOK_URL)
+    // B24_WEBHOOK_URL = 'https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/'
 
     const response = await $b24.actions.v2.call.make({
         method: 'bizproc.workflow.instances',
@@ -68,7 +70,7 @@
     from b24pysdk import BitrixWebhook, Client
 
     token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
+        domain="your-domain.bitrix24.ru",
         webhook_token="user_id/webhook_key",
     )
     client = Client(token)
@@ -168,27 +170,26 @@
 
 - `ID` — идентификатор процесса из ответа [шага 1](#workflow-id). Передавайте строку вида `660e559f34af10.95144732`
 
+Примеры ниже удаляют первый процесс из списка без запроса подтверждения. Сначала проверьте его `ID` и дату запуска. Чтобы проверить и подтвердить весь список, используйте [полный пример](#full-example).
+
 {% list tabs %}
 
 - JS
 
     ```js
-    const response = await $b24.actions.v2.call.make({
+    const killResponse = await $b24.actions.v2.call.make({
         method: 'bizproc.workflow.kill',
         params: { ID: workflowIds[0] },
         requestId: 'workflow-kill',
     })
 
-    const isKilled = response.getData().result
+    const isKilled = killResponse.getData().result
     ```
 
 - Python
 
     ```python
-    token.call_method(
-        "bizproc.workflow.kill",
-        {"ID": workflow_ids[0]},
-    )
+    is_killed = client.bizproc.workflow.kill(workflow_ids[0]).response.result
     ```
 
 - PHP
@@ -202,15 +203,15 @@
 - Go
 
     ```go
-    res, err := core.Call(ctx, "bizproc.workflow.kill", b24.Params{
+    killRes, killErr := core.Call(ctx, "bizproc.workflow.kill", b24.Params{
         "ID": workflowIDs[0],
     })
-    if err != nil {
-        log.Fatal(err)
+    if killErr != nil {
+        log.Fatal(killErr)
     }
 
     var isKilled bool
-    if err := json.Unmarshal(res.Result, &isKilled); err != nil {
+    if err := json.Unmarshal(killRes.Result, &isKilled); err != nil {
         log.Fatal(err)
     }
     log.Println(isKilled)
@@ -218,7 +219,7 @@
 
 {% endlist %}
 
-Успешный ответ содержит `true`.
+Успешный ответ содержит `true`. Значение `false` метод не возвращает: если процесс удалить не удалось, придет ошибка. Как ее разобрать — в разделе [Ошибки и диагностика](#errors).
 
 ```json
 {
@@ -226,37 +227,54 @@
 }
 ```
 
-## Пример кода
+## Пример кода {#full-example}
 
-В примере все найденные процессы сначала выводятся для проверки. Чтобы удалить процессы, запустите пример с аргументом `--confirm`. При большом объеме данных учитывайте лимиты REST и рекомендации по [производительности](../../settings/performance/index.md).
+Во время постраничного поиска работающие процессы могут завершаться, поэтому в список могут попасть не все подходящие процессы. После обработки повторите поиск для нового списка. В примере все найденные процессы сначала выводятся для проверки вместе с датой запуска. Проверьте идентификаторы и даты и подтверждайте удаление, только если все процессы из списка можно удалить. Чтобы удалить их, введите `yes` в ответ на запрос подтверждения, любой другой ответ отменяет удаление.
+
+Установите SDK для выбранного языка: `npm install @bitrix24/b24jssdk`, `pip install b24pysdk`, `composer require bitrix24/b24phpsdk:"^3.0"` или `go get github.com/bitrix24/b24gosdk`. Сохраните пример в файл и передайте адрес вебхука через переменные окружения, а не в коде: `B24_WEBHOOK_URL` для JS, PHP и Go, `B24_DOMAIN` и `B24_WEBHOOK_TOKEN` для Python. JS-пример запускается как ES-модуль, например `node kill.mjs 01.01.2025`, и принимает дату аргументом, как и Go. Python и PHP запрашивают дату при запуске. Граница задается как 00:00 UTC указанной даты. При большом объеме данных учитывайте лимиты REST и рекомендации по [производительности](../../settings/performance/index.md).
 
 {% list tabs %}
 
 - JS
 
     ```js
+    import readline from 'node:readline/promises'
     import { B24Hook } from '@bitrix24/b24jssdk'
 
-    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_HOOK)
+    const $b24 = B24Hook.fromWebhookUrl(process.env.B24_WEBHOOK_URL)
 
     const [day, month, year] = (process.argv[2] || '').split('.')
-    if (!day || !month || !year) {
-        throw new Error('Передайте дату в формате дд.мм.гггг')
+    const isoDate = `${year}-${month}-${day}T00:00:00Z`
+    const parsed = new Date(isoDate)
+    if (Number.isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== isoDate.slice(0, 10)) {
+        throw new Error('Введите существующую дату в формате дд.мм.гггг')
     }
 
-    const isoDate = `${year}-${month}-${day}T00:00:00Z`
-    const confirmed = process.argv.includes('--confirm')
+    // ID процесса строковый, поэтому страницы обходим через start, а не callList
+    const instances = []
+    for (let start = 0; ; start += 50) {
+        const pageResponse = await $b24.actions.v2.call.make({
+            method: 'bizproc.workflow.instances',
+            params: {
+                select: ['ID', 'STARTED'],
+                filter: { '<STARTED': isoDate },
+                order: { ID: 'ASC' },
+                start,
+            },
+            requestId: `workflow-instances-${start}`,
+        })
 
-    const listResponse = await $b24.actions.v2.callList.make({
-        method: 'bizproc.workflow.instances',
-        params: {
-            select: ['ID', 'STARTED'],
-            filter: { '<STARTED': isoDate },
-        },
-        requestId: 'workflow-instances',
-    })
+        if (!pageResponse.isSuccess) {
+            throw new Error(pageResponse.getErrorMessages().join('; '))
+        }
 
-    const instances = listResponse.getData()
+        const page = pageResponse.getData().result
+        instances.push(...page)
+        if (page.length < 50) {
+            break
+        }
+    }
+
     const workflowIds = instances.map((instance) => instance.ID)
 
     if (!workflowIds.length) {
@@ -266,26 +284,34 @@
     }
 
     console.log(`Найдено процессов: ${workflowIds.length}`)
-    for (const workflowId of workflowIds) {
-        console.log(`Процесс к удалению: ${workflowId}`)
+    for (const instance of instances) {
+        console.log(`Процесс к удалению: ${instance.ID}, запущен: ${instance.STARTED}`)
     }
 
-    if (!confirmed) {
-        console.log('Проверьте список и запустите пример с аргументом --confirm для удаления')
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+    const answer = await rl.question(`Удалить процессы из списка (${workflowIds.length})? Введите yes: `)
+    rl.close()
+
+    if (answer.trim() !== 'yes') {
+        console.log('Удаление отменено')
         $b24.destroy()
         process.exit(0)
     }
 
     for (const workflowId of workflowIds) {
-        const killResponse = await $b24.actions.v2.call.make({
-            method: 'bizproc.workflow.kill',
-            params: { ID: workflowId },
-            requestId: `workflow-kill-${workflowId}`,
-        })
+        try {
+            const killResponse = await $b24.actions.v2.call.make({
+                method: 'bizproc.workflow.kill',
+                params: { ID: workflowId },
+                requestId: `workflow-kill-${workflowId}`,
+            })
 
-        console.log(killResponse.isSuccess
-            ? `Процесс ${workflowId} удален`
-            : `Ошибка при удалении ${workflowId}: ${killResponse.getErrorMessages().join('; ')}`)
+            console.log(killResponse.isSuccess
+                ? `Процесс ${workflowId} удален`
+                : `Ошибка при удалении ${workflowId}: ${killResponse.getErrorMessages().join('; ')}`)
+        } catch (error) {
+            console.log(`Ошибка при удалении ${workflowId}: ${error.message}`)
+        }
     }
 
     $b24.destroy()
@@ -294,38 +320,43 @@
 - Python
 
     ```python
-    import re
+    import os
     import sys
+    from datetime import datetime
 
     from b24pysdk import BitrixWebhook, Client
     from b24pysdk.errors import BitrixAPIError
 
     user_date_input = input("Введите дату в формате дд.мм.гггг: ")
-    if not re.match(r"^\d{2}\.\d{2}\.\d{4}$", user_date_input):
-        raise ValueError("Введите дату в формате дд.мм.гггг")
+    try:
+        date = datetime.strptime(user_date_input, "%d.%m.%Y")
+    except ValueError:
+        raise SystemExit("Введите существующую дату в формате дд.мм.гггг")
 
-    day, month, year = user_date_input.split(".")
-    iso_date = f"{year}-{month}-{day}T00:00:00Z"
-    confirmed = "--confirm" in sys.argv
+    iso_date = date.strftime("%Y-%m-%dT00:00:00Z")
 
     token = BitrixWebhook(
-        domain="your-domain.bitrix24.com",
-        webhook_token="user_id/webhook_key",
+        domain=os.environ["B24_DOMAIN"],  # your-domain.bitrix24.ru
+        webhook_token=os.environ["B24_WEBHOOK_TOKEN"],  # user_id/webhook_key
     )
     client = Client(token)
 
     start = None
     workflow_ids = []
+    started = {}
     while True:
         params = {
             "select": ["ID", "STARTED"],
             "filter": {"<STARTED": iso_date},
+            "order": {"ID": "ASC"},
         }
         if start is not None:
             params["start"] = start
 
         response = client.bizproc.workflow.instances(**params).response
-        workflow_ids.extend(instance["ID"] for instance in response.result or [])
+        for instance in response.result or []:
+            workflow_ids.append(instance["ID"])
+            started[instance["ID"]] = instance["STARTED"]
 
         if response.next is None:
             break
@@ -337,15 +368,16 @@
 
     print(f"Найдено процессов: {len(workflow_ids)}")
     for workflow_id in workflow_ids:
-        print(f"Процесс к удалению: {workflow_id}")
+        print(f"Процесс к удалению: {workflow_id}, запущен: {started[workflow_id]}")
 
-    if not confirmed:
-        print("Проверьте список и запустите пример с аргументом --confirm для удаления")
+    answer = input(f"Удалить процессы из списка ({len(workflow_ids)})? Введите yes: ")
+    if answer.strip() != "yes":
+        print("Удаление отменено")
         sys.exit(0)
 
     for workflow_id in workflow_ids:
         try:
-            token.call_method("bizproc.workflow.kill", {"ID": workflow_id})
+            client.bizproc.workflow.kill(workflow_id).response
         except BitrixAPIError as error:
             print(f"Ошибка при удалении процесса {workflow_id}: {error}")
         else:
@@ -358,33 +390,36 @@
     // composer require bitrix24/b24phpsdk:"^3.0"
     require_once 'vendor/autoload.php';
 
+    use Bitrix24\SDK\Core\Exceptions\BaseException;
     use Bitrix24\SDK\Services\ServiceBuilderFactory;
     use Symfony\Component\EventDispatcher\EventDispatcher;
     use Psr\Log\NullLogger;
 
     $b24 = (new ServiceBuilderFactory(new EventDispatcher(), new NullLogger()))
-        ->initFromWebhook('https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/');
+        ->initFromWebhook(getenv('B24_WEBHOOK_URL'));
 
-    $userDateInput = readline('Введите дату в формате дд.мм.гггг: ');
-    if (!preg_match('/^\d{2}\.\d{2}\.\d{4}$/', $userDateInput)) {
-        throw new InvalidArgumentException('Введите дату в формате дд.мм.гггг');
+    $userDateInput = (string)readline('Введите дату в формате дд.мм.гггг: ');
+    $date = DateTimeImmutable::createFromFormat('!d.m.Y', $userDateInput);
+    if ($date === false || $date->format('d.m.Y') !== $userDateInput) {
+        throw new InvalidArgumentException('Введите существующую дату в формате дд.мм.гггг');
     }
 
-    [$day, $month, $year] = explode('.', $userDateInput);
-    $isoDate = "{$year}-{$month}-{$day}T00:00:00Z";
-    $confirmed = in_array('--confirm', $argv, true);
+    $isoDate = $date->format('Y-m-d') . 'T00:00:00Z';
     $workflowIds = [];
+    $started = [];
     $start = 0;
 
     do {
         $response = $b24->core->call('bizproc.workflow.instances', [
             'select' => ['ID', 'STARTED'],
             'filter' => ['<STARTED' => $isoDate],
+            'order' => ['ID' => 'ASC'],
             'start' => $start,
         ]);
 
         foreach ($response->getResponseData()->getResult() as $instance) {
             $workflowIds[] = $instance['ID'];
+            $started[$instance['ID']] = $instance['STARTED'];
         }
 
         $start = $response->getResponseData()->getPagination()->getNextItem();
@@ -397,19 +432,22 @@
 
     echo "Найдено процессов: " . count($workflowIds) . "\n";
     foreach ($workflowIds as $workflowId) {
-        echo "Процесс к удалению: {$workflowId}\n";
+        echo "Процесс к удалению: {$workflowId}, запущен: {$started[$workflowId]}\n";
     }
 
-    if (!$confirmed) {
-        echo "Проверьте список и запустите пример с аргументом --confirm для удаления\n";
+    $answer = readline('Удалить процессы из списка (' . count($workflowIds) . ')? Введите yes: ');
+    if (trim((string)$answer) !== 'yes') {
+        echo "Удаление отменено\n";
         exit;
     }
 
     foreach ($workflowIds as $workflowId) {
-        $isKilled = $b24->getBizProcScope()->workflow()->kill($workflowId)->isSuccess();
-        echo $isKilled
-            ? "Процесс {$workflowId} удален\n"
-            : "Ошибка при удалении процесса {$workflowId}\n";
+        try {
+            $b24->getBizProcScope()->workflow()->kill($workflowId);
+            echo "Процесс {$workflowId} удален\n";
+        } catch (BaseException $e) {
+            echo "Ошибка при удалении процесса {$workflowId}: {$e->getMessage()}\n";
+        }
     }
     ```
 
@@ -421,16 +459,17 @@
     //
     // Запуск:
     //  B24_WEBHOOK_URL="https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/" go run main.go 01.01.2025
-    //  B24_WEBHOOK_URL="https://your-domain.bitrix24.ru/rest/USER_ID/TOKEN/" go run main.go 01.01.2025 --confirm
 
     package main
 
     import (
+        "bufio"
         "context"
         "encoding/json"
         "fmt"
         "os"
         "strings"
+        "time"
 
         b24 "github.com/bitrix24/b24gosdk"
     )
@@ -452,25 +491,23 @@
             return fmt.Errorf("передайте дату в формате дд.мм.гггг")
         }
 
-        parts := strings.Split(os.Args[1], ".")
-        if len(parts) != 3 || len(parts[0]) != 2 || len(parts[1]) != 2 || len(parts[2]) != 4 {
-            return fmt.Errorf("передайте дату в формате дд.мм.гггг")
+        date, err := time.Parse("02.01.2006", os.Args[1])
+        if err != nil {
+            return fmt.Errorf("введите существующую дату в формате дд.мм.гггг")
         }
 
-        isoDate := fmt.Sprintf("%s-%s-%sT00:00:00Z", parts[2], parts[1], parts[0])
-        confirmed := false
-        for _, arg := range os.Args[2:] {
-            if arg == "--confirm" {
-                confirmed = true
-            }
-        }
-
+        isoDate := date.Format("2006-01-02") + "T00:00:00Z"
         ctx := context.Background()
         core := b24.NewClient(os.Getenv("B24_WEBHOOK_URL")).Core()
 
-        workflowIDs, err := getWorkflowIDs(ctx, core, isoDate)
+        workflows, err := getWorkflows(ctx, core, isoDate)
         if err != nil {
             return err
+        }
+
+        workflowIDs := make([]string, 0, len(workflows))
+        for _, workflow := range workflows {
+            workflowIDs = append(workflowIDs, workflow.ID)
         }
 
         if len(workflowIDs) == 0 {
@@ -479,12 +516,14 @@
         }
 
         fmt.Printf("Найдено процессов: %d\n", len(workflowIDs))
-        for _, workflowID := range workflowIDs {
-            fmt.Printf("Процесс к удалению: %s\n", workflowID)
+        for _, workflow := range workflows {
+            fmt.Printf("Процесс к удалению: %s, запущен: %s\n", workflow.ID, workflow.Started)
         }
 
-        if !confirmed {
-            fmt.Println("Проверьте список и запустите пример с аргументом --confirm для удаления")
+        fmt.Printf("Удалить процессы из списка (%d)? Введите yes: ", len(workflowIDs))
+        answer, _ := bufio.NewReader(os.Stdin).ReadString('\n')
+        if strings.TrimSpace(answer) != "yes" {
+            fmt.Println("Удаление отменено")
             return nil
         }
 
@@ -500,13 +539,14 @@
         return nil
     }
 
-    func getWorkflowIDs(ctx context.Context, core *b24.Core, isoDate string) ([]string, error) {
-        workflowIDs := []string{}
+    func getWorkflows(ctx context.Context, core *b24.Core, isoDate string) ([]workflowInstance, error) {
+        workflows := []workflowInstance{}
 
         for start := 0; ; start += 50 {
             res, err := core.Call(ctx, "bizproc.workflow.instances", b24.Params{
                 "select": []string{"ID", "STARTED"},
                 "filter": b24.Params{"<STARTED": isoDate},
+                "order":  b24.Params{"ID": "ASC"},
                 "start":  start,
             }, b24.WithIdempotent())
             if err != nil {
@@ -518,16 +558,14 @@
                 return nil, fmt.Errorf("decode bizproc.workflow.instances: %w", err)
             }
 
-            for _, instance := range instances {
-                workflowIDs = append(workflowIDs, instance.ID)
-            }
+            workflows = append(workflows, instances...)
 
             if len(instances) < 50 {
                 break
             }
         }
 
-        return workflowIDs, nil
+        return workflows, nil
     }
 
     func killWorkflow(ctx context.Context, core *b24.Core, workflowID string) error {
@@ -548,7 +586,7 @@
 
 Через интерфейс проверьте список запущенных бизнес-процессов: удаленных процессов в нем быть не должно.
 
-Через REST повторите запрос [bizproc.workflow.instances](../../api-reference/bizproc/bizproc-workflow-instances.md) с тем же фильтром и проверьте, что в ответе нет удаленных `ID`.
+Через REST повторите запрос [bizproc.workflow.instances](../../api-reference/bizproc/bizproc-workflow-instances.md) с тем же фильтром и проверьте, что в ответе нет удаленных `ID`. Запрос ниже проверяет первую страницу, для всех страниц используйте полный пример и откажитесь от удаления.
 
 {% list tabs %}
 
@@ -594,50 +632,50 @@
 - Go
 
     ```go
-    res, err := core.Call(ctx, "bizproc.workflow.instances", b24.Params{
+    checkRes, checkErr := core.Call(ctx, "bizproc.workflow.instances", b24.Params{
         "select": []string{"ID"},
         "filter": b24.Params{"<STARTED": "2025-01-01T00:00:00Z"},
     }, b24.WithIdempotent())
-    if err != nil {
-        log.Fatal(err)
+    if checkErr != nil {
+        log.Fatal(checkErr)
     }
 
-    var instances []struct {
+    var checkInstances []struct {
         ID string `json:"ID"`
     }
-    if err := json.Unmarshal(res.Result, &instances); err != nil {
+    if err := json.Unmarshal(checkRes.Result, &checkInstances); err != nil {
         log.Fatal(err)
     }
 
-    for _, instance := range instances {
+    for _, instance := range checkInstances {
         log.Println(instance.ID)
     }
     ```
 
 {% endlist %}
 
-Сценарий выполнен, если в ответе нет `ID`, которые были переданы в `bizproc.workflow.kill`.
+Сценарий выполнен, если среди результатов на всех страницах нет `ID`, которые были переданы в `bizproc.workflow.kill`.
 
-## Ошибки и диагностика
+## Ошибки и диагностика {#errors}
 
 Если метод вернул ошибку, проверьте данные запроса.
 
 #|
 || **Код или текст ошибки** | **Причина и действие** ||
-|| `ACCESS_DENIED` | Метод вызвал не администратор или у вебхука нет scope `bizproc` ||
+|| `ACCESS_DENIED` | Метод вызвал пользователь без прав администратора. Создайте вебхук от имени администратора и повторите запрос ||
+|| `insufficient_scope` | У вебхука или приложения нет scope `bizproc`. Добавьте scope в настройках вебхука или приложения ||
 || `ERROR_WRONG_WORKFLOW_ID` | В `ID` передано пустое значение или значение не строкового типа ||
+|| Пустой код ошибки и `Бизнес-процесс не найден` | Процесса с таким `ID` нет: его уже удалили, например при повторном запуске сценария, или `ID` скопирован с ошибкой. Пропустите этот `ID` и продолжайте обработку остальных ||
 || Пустой массив `result` в шаге 1 | Нет запущенных процессов, которые подходят под фильтр `<STARTED` ||
-|| Ошибки при большом объеме данных | Проверьте постраничную выборку и рекомендации по [производительности](../../settings/performance/index.md) ||
 |#
+
+Если запрос не выполнен из-за ошибки соединения или авторизации, проверьте доступность Битрикс24 и адрес вебхука, затем повторите поиск и заново проверьте список перед подтверждением.
 
 Повторяйте сценарий с шага, на котором произошла ошибка. Если ошибка возникла при удалении одного процесса, проверьте его `ID` и продолжайте обработку остальных процессов.
 
 ## Что важно учитывать
 
-- `bizproc.workflow.kill` удаляет процесс вместе с данными процесса
-- `bizproc.workflow.terminate` останавливает процесс и сохраняет запись о его запуске
-- `ID` бизнес-процесса — строка вида `660e559f34af10.95144732`; не преобразуйте его в число
-- `bizproc.workflow.instances` возвращает по 50 записей за запрос, поэтому для массовой обработки нужна постраничная выборка
+- `bizproc.workflow.instances` возвращает по 50 записей за запрос, поэтому для массовой обработки нужна постраничная выборка. По умолчанию список отсортирован по `MODIFIED`, а у работающих процессов это поле меняется, поэтому в примерах задана сортировка по `ID`. Метод `callList.make()` из b24jssdk для этого списка не подходит: он приводит `ID` к числу, а `ID` процесса строковый
 
 ## Продолжите изучение
 
