@@ -35,7 +35,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.delete`, например `crm.smartprocess1038.delete` ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`.
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.delete`, а не `crm.smartInvoice.delete`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -357,13 +357,14 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.delete`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.delete`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](../recyclebin/crm-recyclebin-restore-rest-v3.md)
 - [{#T}](./index.md)
 - [{#T}](./crm-entity-add-rest-v3.md)
 - [{#T}](./crm-entity-update-rest-v3.md)

@@ -62,7 +62,7 @@
 || `crm.requisite.list` | Без типа, реквизиты всех контактов и компаний ||
 |#
 
-Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`.
+Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 ## Поля реквизита {#fields}
 

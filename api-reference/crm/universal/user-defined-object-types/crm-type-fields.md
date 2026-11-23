@@ -528,6 +528,7 @@ HTTP-статус: **400**, **403**
 
 ## Продолжите изучение
 
+- [{#T}](../../rest-v3/smart-process-types/crm-smart-process-field-list-rest-v3.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)

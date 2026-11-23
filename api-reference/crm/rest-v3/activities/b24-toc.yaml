@@ -15,6 +15,18 @@ items:
         href: crm-entity-activity-complete-rest-v3.md
       - name: Вернуть дело в работу
         href: crm-entity-activity-uncomplete-rest-v3.md
+  - name: Звонки элемента
+    items:
+      - name: Получить звонок
+        href: crm-entity-activity-call-get-rest-v3.md
+      - name: Получить список звонков элемента
+        href: crm-entity-activity-call-list-rest-v3.md
+  - name: Чаты открытых линий элемента
+    items:
+      - name: Получить чат открытой линии
+        href: crm-entity-activity-openline-get-rest-v3.md
+      - name: Получить список чатов открытых линий элемента
+        href: crm-entity-activity-openline-list-rest-v3.md
   - name: Дела без типа объекта
     items:
       - name: Получить дело

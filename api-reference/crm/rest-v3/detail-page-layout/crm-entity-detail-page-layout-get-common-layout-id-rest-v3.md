@@ -38,7 +38,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.detailpagelayout.getcommonlayoutid`, например `crm.smartprocess1038.detailpagelayout.getcommonlayoutid` ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов можно получить методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Методы видов карточки есть у смарт-процесса при любых настройках типа. У моей компании этих методов нет.
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов можно получить методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Методы видов карточки есть у смарт-процесса при любых настройках типа. У моей компании этих методов нет.
 
 Имя метода пишется в нижнем регистре: `crm.deal.detailpagelayout.getcommonlayoutid`, а не `crm.deal.detailPageLayout.getCommonLayoutId`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -378,7 +378,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.detailpagelayout.getcommonlayoutid`. У моей компании методов видов карточки нет. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.detailpagelayout.getcommonlayoutid`. У моей компании методов видов карточки нет. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

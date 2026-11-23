@@ -5,6 +5,8 @@ items:
     href: index.md
   - name: Создать элемент
     href: crm-entity-add-rest-v3.md
+  - name: Скопировать элемент
+    href: crm-entity-copy-rest-v3.md
   - name: Изменить элемент
     href: crm-entity-update-rest-v3.md
   - name: Получить элемент по идентификатору

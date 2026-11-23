@@ -9,6 +9,10 @@ items:
     include:
       path: rest-v3/items/b24-toc.yaml
       mode: link
+  - name: Типы смарт-процессов
+    include:
+      path: rest-v3/smart-process-types/b24-toc.yaml
+      mode: link
   - name: Управление полями
     include:
       path: rest-v3/fields/b24-toc.yaml
@@ -36,6 +40,14 @@ items:
   - name: Дела
     include:
       path: rest-v3/activities/b24-toc.yaml
+      mode: link
+  - name: История изменений
+    include:
+      path: rest-v3/history/b24-toc.yaml
+      mode: link
+  - name: Корзина CRM
+    include:
+      path: rest-v3/recyclebin/b24-toc.yaml
       mode: link
   - name: Справочники
     include:

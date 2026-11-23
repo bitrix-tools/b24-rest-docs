@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 23 ноября, 2026
+
+- Добавили методы CRM в REST 3.0: [типы смарт-процессов](./api-reference/crm/rest-v3/smart-process-types/index.md) `crm.smartprocess.*`, [историю изменений и историю стадий](./api-reference/crm/rest-v3/history/index.md) элементов, [корзину CRM](./api-reference/crm/rest-v3/recyclebin/index.md), копирование элемента [crm.<тип>.copy](./api-reference/crm/rest-v3/items/crm-entity-copy-rest-v3.md), [звонки](./api-reference/crm/rest-v3/activities/crm-entity-activity-call-list-rest-v3.md) и [чаты открытых линий](./api-reference/crm/rest-v3/activities/crm-entity-activity-openline-list-rest-v3.md) элемента, справочник типов пользовательских полей [customfieldtype](./api-reference/crm/rest-v3/dictionaries/crm-dictionary-list-rest-v3.md#custom-field-types)
+
 ### 19 ноября, 2026
 
 - Добавили методы [syncconnector.followup.*](./api-reference/telephony/follow-up/index.md#sync) в REST 3.0: получают Follow-up звонков Битрикс24 Синк — список за период и итоги одной страницы подробного разбора, включая методы получения схемы полей `field.list` и `field.get`

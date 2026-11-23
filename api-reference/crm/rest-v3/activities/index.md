@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-Дела — звонки, встречи, письма, задачи и другие действия, которые сотрудники выполняют с клиентом. Дело привязано к одному или нескольким элементам CRM и показывается в их карточках. Методы REST 3.0 читают дела, завершают их и возвращают в работу, удаляют, меняют привязки к элементам и работают с письмами CRM: читают текст, цепочку и отправляют ответ.
+Дела — звонки, встречи, письма, задачи и другие действия, которые сотрудники выполняют с клиентом. Дело привязано к одному или нескольким элементам CRM и показывается в их карточках. Методы REST 3.0 читают дела, завершают их и возвращают в работу, удаляют, меняют привязки к элементам и работают с письмами CRM: читают текст, цепочку и отправляют ответ. Отдельные методы читают звонки телефонии и чаты открытых линий элемента вместе с данными звонка и сессии.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -45,17 +45,21 @@
 || Смарт-процесс | `smartprocess<entityTypeId>`, например `smartprocess1038` ||
 |#
 
-У моей компании и документов КЭДО методов дел нет. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`. Имена методов пишутся в нижнем регистре: `crm.deal.activity.get`. Исключение — методы писем `crm.activity.mail.getContent` и `crm.activity.mail.getThread`: их имена пишутся с заглавными буквами, как в таблице методов.
+У моей компании и документов КЭДО методов дел нет. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Имена методов пишутся в нижнем регистре: `crm.deal.activity.get`. Исключение — методы писем `crm.activity.mail.getContent` и `crm.activity.mail.getThread`: их имена пишутся с заглавными буквами, как в таблице методов.
 
 ## Связь с другими объектами
 
-Дело связано с элементами CRM, сотрудниками и почтой.
+Дело связано с элементами CRM, сотрудниками, почтой, телефонией и открытыми линиями.
 
 **Элементы CRM.** Дело привязано к одному или нескольким элементам: привязки приходят в поле `bindings` парами `entityTypeId` и `entityId`. Право на дело следует из прав на элементы, к которым оно привязано. Привязки меняют методы [crm.activity.binding.bind](./crm-activity-binding-bind-rest-v3.md), [unbind](./crm-activity-binding-unbind-rest-v3.md) и [move](./crm-activity-binding-move-rest-v3.md). Последнюю привязку снять нельзя, ее можно только перенести на другой элемент. Идентификаторы типов объектов возвращает метод [crm.dictionary.entitytype.list](../dictionaries/crm-dictionary-list-rest-v3.md).
 
 **Сотрудники.** В `assignedById` — ответственный, в `authorId` — автор, в `editorId` — последний, кто изменял дело. Данные сотрудников можно получить методом [user.get](../../../user/user-get.md).
 
 **Почта.** Письма CRM — дела с `providerId` равным `CRM_EMAIL`. Текст письма возвращает [crm.activity.mail.getContent](./crm-activity-mail-get-content-rest-v3.md), всю переписку — [crm.activity.mail.getThread](./crm-activity-mail-get-thread-rest-v3.md), ответ отправляет [crm.activity.mail.reply](./crm-activity-mail-reply-rest-v3.md).
+
+**Телефония.** Звонки — дела с `providerId` равным `VOXIMPLANT_CALL`. Кроме полей дела, методы [crm.<тип>.activity.call.get](./crm-entity-activity-call-get-rest-v3.md) и [crm.<тип>.activity.call.list](./crm-entity-activity-call-list-rest-v3.md) возвращают направление, длительность, исход звонка, запись, комментарий, оценку, линию и номер. Методы работают только на чтение. У моей компании и документов КЭДО их нет.
+
+**Открытые линии.** Чаты открытых линий — дела с `providerId` равным `IMOPENLINES_SESSION`. Методы [crm.<тип>.activity.openline.get](./crm-entity-activity-openline-get-rest-v3.md) и [crm.<тип>.activity.openline.list](./crm-entity-activity-openline-list-rest-v3.md) дополнительно возвращают открытую линию, канал, сессию, `chatId` и оценку клиента. Методы работают только на чтение. У моей компании и документов КЭДО их нет. Имя пишется в нижнем регистре: `openline`, а не `openLine`.
 
 ## Поля дела {#fields}
 
@@ -146,6 +150,16 @@
 || [crm.<тип>.activity.uncomplete](./crm-entity-activity-uncomplete-rest-v3.md) | Возвращает дело в работу ||
 || `crm.<тип>.activity.field.list` | Возвращает описание полей дела ||
 || `crm.<тип>.activity.field.get` | Возвращает описание поля дела по имени ||
+|#
+
+### Звонки и чаты открытых линий элемента
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.<тип>.activity.call.get](./crm-entity-activity-call-get-rest-v3.md) | Возвращает звонок элемента с данными телефонии ||
+|| [crm.<тип>.activity.call.list](./crm-entity-activity-call-list-rest-v3.md) | Возвращает звонки одного элемента ||
+|| [crm.<тип>.activity.openline.get](./crm-entity-activity-openline-get-rest-v3.md) | Возвращает чат открытой линии элемента с данными сессии ||
+|| [crm.<тип>.activity.openline.list](./crm-entity-activity-openline-list-rest-v3.md) | Возвращает чаты открытых линий одного элемента ||
 |#
 
 ### Дела без типа объекта

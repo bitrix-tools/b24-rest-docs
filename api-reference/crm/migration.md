@@ -100,6 +100,8 @@ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_y
 || `crm.address.*` | Адреса контактов, компаний и лидов — [crm.company.address.*](./rest-v3/addresses/index.md), адреса реквизитов — [crm.company.requisite.address.*](./rest-v3/requisites/index.md) ||
 || `crm.activity.binding.add`, `delete` | [crm.activity.binding.bind](./rest-v3/activities/crm-activity-binding-bind-rest-v3.md), [crm.activity.binding.unbind](./rest-v3/activities/crm-activity-binding-unbind-rest-v3.md) ||
 || `crm.enum.addresstype` | [crm.dictionary.addresstype.list](./rest-v3/dictionaries/crm-dictionary-list-rest-v3.md) ||
+|| `crm.type.add`, `update`, `get`, `list`, `fields` | [crm.smartprocess.add](./rest-v3/smart-process-types/crm-smart-process-add-rest-v3.md), [update](./rest-v3/smart-process-types/crm-smart-process-update-rest-v3.md), [get](./rest-v3/smart-process-types/crm-smart-process-get-rest-v3.md), [list](./rest-v3/smart-process-types/crm-smart-process-list-rest-v3.md), [field.list](./rest-v3/smart-process-types/crm-smart-process-field-list-rest-v3.md). Тип находят по `entityTypeId`, а не по `id` ||
+|| `crm.stagehistory.list` | [crm.deal.stagehistory.list](./rest-v3/history/crm-entity-stage-history-list-rest-v3.md) ||
 |#
 
 ## Чего пока нет в REST 3.0 {#previous-only}
@@ -121,7 +123,7 @@ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_y
 || Сбросить вид карточки к настройкам по умолчанию | `crm.deal.details.configuration.reset`, `crm.lead.details.configuration.reset`, `crm.contact.details.configuration.reset`, `crm.company.details.configuration.reset`, `crm.item.details.configuration.reset` ||
 || Получить короткие коды типов объектов `D`, `L`, `C` | [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md) ||
 || Узнать режим работы CRM без прав администратора | [crm.settings.mode.get](./crm-settings-mode-get.md) ||
-|| Создать или настроить тип смарт-процесса | [crm.type.*](./universal/user-defined-object-types/index.md) ||
+|| Удалить тип смарт-процесса или получить его внутренний `id` | [crm.type.delete](./universal/user-defined-object-types/crm-type-delete.md), [crm.type.list](./universal/user-defined-object-types/crm-type-list.md) ||
 || Работать с таймлайном, генератором документов, автоматизацией, валютами, списками обзвона, дубликатами, сквозной аналитикой, цифровыми рабочими местами, оплатами и доставками | Методы этих разделов в [обзоре CRM](./index.md#all-methods) ||
 |#
 

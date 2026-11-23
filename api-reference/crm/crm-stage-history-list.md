@@ -785,5 +785,6 @@ HTTP-статус: **401**, **400**
 
 ## Продолжите изучение
 
+- [{#T}](./rest-v3/history/crm-entity-stage-history-list-rest-v3.md)
 - [{#T}](./index.md)
 - [{#T}](./main-entities-fields.md)

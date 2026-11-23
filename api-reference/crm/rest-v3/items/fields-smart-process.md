@@ -15,7 +15,7 @@
 
 {% endnote %}
 
-Поля элемента смарт-процесса возвращают методы [`crm.smartprocess<entityTypeId>.get`](./crm-entity-get-rest-v3.md) и [`crm.smartprocess<entityTypeId>.list`](./crm-entity-list-rest-v3.md), а принимают методы [`crm.smartprocess<entityTypeId>.add`](./crm-entity-add-rest-v3.md) и [`crm.smartprocess<entityTypeId>.update`](./crm-entity-update-rest-v3.md). В имя метода подставляется идентификатор типа смарт-процесса `entityTypeId`, например `crm.smartprocess1038.get`. Идентификаторы и настройки типов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md).
+Поля элемента смарт-процесса возвращают методы [`crm.smartprocess<entityTypeId>.get`](./crm-entity-get-rest-v3.md) и [`crm.smartprocess<entityTypeId>.list`](./crm-entity-list-rest-v3.md), а принимают методы [`crm.smartprocess<entityTypeId>.add`](./crm-entity-add-rest-v3.md) и [`crm.smartprocess<entityTypeId>.update`](./crm-entity-update-rest-v3.md). В имя метода подставляется идентификатор типа смарт-процесса `entityTypeId`, например `crm.smartprocess1038.get`. Идентификаторы и настройки типов возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 Состав полей зависит от настроек типа смарт-процесса: без воронок у элемента нет `categoryId`, без стадий — `stageId` и других полей стадии. У таких полей в таблице [Объект смарт-процесса](#item) указано, какая настройка типа нужна. Список полей конкретного типа возвращает метод [`crm.smartprocess<entityTypeId>.field.list`](../fields/crm-entity-field-list-rest-v3.md).
 
@@ -516,7 +516,7 @@
 
 ## Пользовательские поля {#userfields}
 
-Пользовательские поля смарт-процесса называются `UF_CRM_<id типа>_<код>`, например `UF_CRM_3_1628508893`. В имени стоит идентификатор типа `id`, а не `entityTypeId`: поле из примера принадлежит типу с `id = 3` и `entityTypeId = 174`. Оба идентификатора возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Пользовательские поля передают и запрашивают по имени так же, как стандартные поля. Список пользовательских полей типа возвращает метод [`crm.smartprocess<entityTypeId>.field.custom.list`](../fields/crm-entity-field-custom-list-rest-v3.md).
+Пользовательские поля смарт-процесса называются `UF_CRM_<id типа>_<код>`, например `UF_CRM_3_1628508893`. В имени стоит идентификатор типа `id`, а не `entityTypeId`: поле из примера принадлежит типу с `id = 3` и `entityTypeId = 174`. `entityTypeId` возвращает также метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md), а `id` — только метод прошлой версии [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Пользовательские поля передают и запрашивают по имени так же, как стандартные поля. Список пользовательских полей типа возвращает метод [`crm.smartprocess<entityTypeId>.field.custom.list`](../fields/crm-entity-field-custom-list-rest-v3.md).
 
 У каждого пользовательского поля есть парное поле `UF_CRM_…_data` — только для чтения, запрашивается в `select`. Оно содержит значение в нескольких представлениях:
 
@@ -529,6 +529,7 @@
 
 ## Продолжите изучение
 
+- [{#T}](../smart-process-types/crm-smart-process-get-rest-v3.md)
 - [{#T}](./crm-entity-add-rest-v3.md)
 - [{#T}](./crm-entity-update-rest-v3.md)
 - [{#T}](./crm-entity-get-rest-v3.md)

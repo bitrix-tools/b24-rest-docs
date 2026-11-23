@@ -1,0 +1,9 @@
+title: История изменений
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить историю изменений элемента
+    href: crm-entity-history-list-rest-v3.md
+  - name: Получить историю стадий элемента
+    href: crm-entity-stage-history-list-rest-v3.md

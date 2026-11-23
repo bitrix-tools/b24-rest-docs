@@ -34,7 +34,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.field.custom.enum.update`, например `crm.smartprocess1038.field.custom.enum.update` | [Поля смарт-процесса](../items/fields-smart-process.md) ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`. Методы вариантов полей-списков есть у смарт-процесса при любых настройках типа. У моей компании этих методов нет: на `crm.mycompany.field.custom.enum.update` Битрикс24 ответит ошибкой [«Метод не найден»](#method-not-found).
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Методы вариантов полей-списков есть у смарт-процесса при любых настройках типа. У моей компании этих методов нет: на `crm.mycompany.field.custom.enum.update` Битрикс24 ответит ошибкой [«Метод не найден»](#method-not-found).
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.field.custom.enum.update`, а не `crm.smartInvoice.field.custom.enum.update`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -487,7 +487,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.smartinvoice.field.custom.enum.update`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). У моей компании этих методов нет ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.smartinvoice.field.custom.enum.update`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). У моей компании этих методов нет ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

@@ -42,6 +42,7 @@
 || Типы объектов CRM | `crm.dictionary.entitytype.list` | Поле `entityTypeId` ||
 || Группы стадий | `crm.dictionary.stagesemantic.list` | Поле `stageSemanticId` ||
 || Провайдеры дел | `crm.dictionary.activityprovider.list` | Поле `providerId` дела ||
+|| Типы пользовательских полей | `crm.dictionary.customfieldtype.list` | Поле `userTypeId` в методе [crm.<тип>.field.custom.add](../fields/crm-entity-field-custom-add-rest-v3.md) ||
 |#
 
 Имя метода пишется в нижнем регистре: `crm.dictionary.dealtype.list`, а не `crm.dictionary.dealType.list`. На имя в другом регистре или с неизвестным справочником метод отвечает ошибкой [«Метод не найден»](#method-not-found).
@@ -128,7 +129,7 @@
 Если `order` не передан, порядок зависит от справочника:
 
 - справочники значений CRM — по возрастанию `sort`
-- группы стадий — по `id`
+- группы стадий и типы пользовательских полей — по `id`
 - остальные — в том порядке, в котором их хранит Битрикс24
 
 ### Параметр pagination {#pagination}
@@ -244,7 +245,7 @@
 
 ### Типы объектов CRM {#entity-types}
 
-Справочник `entitytype` содержит только системные типы объектов: лид, сделку, контакт, компанию, предложение, счет, документ и документ компании. Смарт-процессов в нем нет, их идентификаторы `entityTypeId` возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md).
+Справочник `entitytype` содержит только системные типы объектов: лид, сделку, контакт, компанию, предложение, счет, документ и документ компании. Смарт-процессов в нем нет, их идентификаторы `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 #|
 || **Название**
@@ -289,6 +290,25 @@
 |#
 
 Фильтровать можно только по полям `id`, `isAvailable`, `isActive` операторами `=`, `!=`, `in`. Сортировать можно только по `id`.
+
+### Типы пользовательских полей {#custom-field-types}
+
+Справочник `customfieldtype` — типы пользовательских полей, которые можно создать методом [crm.<тип>.field.custom.add](../fields/crm-entity-field-custom-add-rest-v3.md). Идентификатор типа передается в поле `userTypeId`. Справочник содержит 15 типов: `address`, `boolean`, `crm`, `crm_status`, `date`, `datetime`, `double`, `employee`, `iblock_element`, `iblock_section`, `integer`, `money`, `rich_text`, `string`, `url`. Это не все типы пользовательских полей Битрикс24: например, списка `enumeration` и файла `file` в справочнике нет, потому что метод `crm.<тип>.field.custom.add` их не создает.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`string`](../../../data-types.md) | Идентификатор типа поля в нижнем регистре, например `string` или `iblock_element` ||
+|| **name**
+[`string`](../../../data-types.md) | Название типа на языке ответа, например «Строка» или «Привязка к элементам инф. блоков» ||
+|| **supportsMultiple**
+[`boolean`](../../../data-types.md) | Можно ли создать поле этого типа множественным, с `isMultiple: true`. Сейчас у всех типов `true` ||
+|| **requiredSettings**
+[`string[]`](../../../data-types.md) | Ключи `settings`, без которых поле этого типа не создать. Сейчас у всех типов пустой массив, хотя у `iblock_section` и `iblock_element` настройка `iblockId` обязательна ||
+|#
+
+Фильтровать можно только по полям `id` и `name` операторами `=`, `!=`, `in`, без `negative` в группах условий. Сортировать можно только по `id` и `name`. Право на чтение объектов CRM для этого справочника не проверяется: его может получить любой пользователь.
 
 ## Примеры кода
 

@@ -836,6 +836,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](../../rest-v3/smart-process-types/crm-smart-process-list-rest-v3.md)
 - [{#T}](./crm-type-add.md)
 - [{#T}](./crm-type-update.md)
 - [{#T}](./crm-type-get.md)

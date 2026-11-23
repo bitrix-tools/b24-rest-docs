@@ -37,7 +37,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.productrow.getavailableforpayment`, например `crm.smartprocess1038.productrow.getavailableforpayment` ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`. Методы товарных позиций есть у смарт-процесса, только если в настройках типа включена привязка товаров каталога.
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Методы товарных позиций есть у смарт-процесса, только если в настройках типа включена привязка товаров каталога.
 
 Имя метода пишется в нижнем регистре: `crm.deal.productrow.getavailableforpayment`, а не `crm.deal.productRow.getAvailableForPayment`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -410,7 +410,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.productrow.getavailableforpayment`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) и включена ли в типе привязка товаров ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.productrow.getavailableforpayment`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) и включена ли в типе привязка товаров ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

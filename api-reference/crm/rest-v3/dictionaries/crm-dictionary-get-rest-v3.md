@@ -40,6 +40,7 @@
 || Типы объектов CRM | `crm.dictionary.entitytype.get` ||
 || Группы стадий | `crm.dictionary.stagesemantic.get` ||
 || Провайдеры дел | `crm.dictionary.activityprovider.get` ||
+|| Типы пользовательских полей | `crm.dictionary.customfieldtype.get` ||
 |#
 
 Имя метода пишется в нижнем регистре: `crm.dictionary.dealtype.get`, а не `crm.dictionary.dealType.get`. На имя в другом регистре или с неизвестным справочником метод отвечает ошибкой [«Метод не найден»](#method-not-found).
@@ -63,7 +64,9 @@
 
 У [справочников значений CRM](./crm-dictionary-list-rest-v3.md#crm-values), то есть у тех, значения которых можно менять, например `dealtype` или `source`, регистр идентификатора не важен: `sale` найдет `SALE`. У остальных справочников передавайте идентификатор в том же регистре, что в ответе метода [crm.dictionary.<справочник>.list](./crm-dictionary-list-rest-v3.md).
 
-Смарт-процессов в справочнике `entitytype` нет. На идентификатор типа смарт-процесса, например `1038`, метод `crm.dictionary.entitytype.get` отвечает ошибкой [«Значение не найдено»](#not-found). Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md).
+В справочнике [`customfieldtype`](./crm-dictionary-list-rest-v3.md#custom-field-types) идентификатор пишется в нижнем регистре: `money` найдет тип «Деньги», а `MONEY` — нет. На типы, которых нет в справочнике, например `enumeration` или `file`, метод отвечает ошибкой [«Значение не найдено»](#not-found).
+
+Смарт-процессов в справочнике `entitytype` нет. На идентификатор типа смарт-процесса, например `1038`, метод `crm.dictionary.entitytype.get` отвечает ошибкой [«Значение не найдено»](#not-found). Идентификаторы типов смарт-процессов возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 ## Примеры кода
 
