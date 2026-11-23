@@ -326,7 +326,7 @@ HTTP-статус: **400**
 || **Код** | **Описание** | **Значение**  ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #2 (afterItemId) expected by method ctaskchecklistitem::moveafteritem(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр. Номер и имя параметра в сообщении: `Param #0 (taskId)`, `Param #1 (itemId)` или `Param #2 (afterItemId)` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::moveafteritem() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
-|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Указано некорректное значение [] для поля [ENTITY_ID] в элементе [, ]; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Пункта с идентификатором `ITEMID` нет ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#512; Check listitem not found or not accessible; 512/TE/ITEM_NOT_FOUND_OR_NOT_ACCESSIBLE<br> | Пункта с идентификатором `ITEMID` или `AFTERITEMID` нет в задаче `TASKID` ||
 || `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Родительский пункт не может быть своим подпунктом; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | `AFTERITEMID` — подпункт перемещаемого пункта `ITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Перемещение элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | У пользователя нет прав доступа к задаче или не хватает прав на выполнение действия ||

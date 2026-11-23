@@ -536,6 +536,8 @@ HTTP-статус: **400**
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
 || `400` | `100` | Invalid value {...} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не как объект ||
 || `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
+|| `400` | `0` | Missing file content | В `fields.file` передан `null` ||
+|| `400` | `0` | Invalid file content | В `fields.file` передана пустая строка или массив без содержимого файла ||
 || `400` | `0` | Could not save file | Не удалось сохранить файл шаблона ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||
 || `400` | `0` | Module documentgenerator is not installed | Модуль `documentgenerator` недоступен ||

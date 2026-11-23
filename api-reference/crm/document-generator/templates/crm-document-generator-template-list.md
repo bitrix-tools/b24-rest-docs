@@ -65,6 +65,7 @@ const filter = {
 Особенности:
 - по умолчанию добавляется условие `isDeleted: "N"`, если не передан ни один из ключей `isDeleted`, `@isDeleted` или `!isDeleted`
 - фильтр `moduleId` принудительно ограничивается значением `crm`
+- переданный фильтр объединяется с ограничениями по модулю и правам доступа через `AND`. Условие `"logic": "OR"` действует только внутри переданного фильтра и не расширяет выборку за пределы доступных шаблонов
 - можно фильтровать по `entityTypeId`, например `["2","2_category_37"]`
 
 Основные поля для `filter`: `id`, `name`, `region`, `code`, `active`, `moduleId`, `numeratorId`, `withStamps`, `isDeleted`, `sort`, `createTime`, `updateTime`, `entityTypeId` ||

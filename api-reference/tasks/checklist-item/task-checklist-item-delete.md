@@ -305,6 +305,7 @@ HTTP-статус: **400**
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #1 (itemId) expected by method ctaskchecklistitem::delete(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `ITEMID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) for method ctaskchecklistitem::delete() expected to be of type "integer", but given something else.; 256/TE/WRONG_ARGUMENTS<br> | Указан неверный тип значения. Номер и имя параметра в сообщении указывают, какое значение неверно ||
 || `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` или `ITEMID` меньше или равно нулю ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Checklist item not found or not accessible; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Пункта с идентификатором `ITEMID` нет в задаче `TASKID` ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Удаление элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | У пользователя нет прав доступа к задаче или не хватает прав на выполнение действия ||
 |#
 

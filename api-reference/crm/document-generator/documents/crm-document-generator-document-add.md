@@ -518,6 +518,7 @@ HTTP-статус: **400**
 
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `INVALID_ARG_VALUE` | No provider for entityTypeId | В `entityTypeId` передано нечисловое значение, например `deal`. Числовая строка, например `"2"`, принимается ||
 || `400` | `0` | No provider for entityTypeId | Не найден провайдер данных для переданного `entityTypeId` ||
 || `400` | `0` | Empty required parameter "value" | Не передан или передан пустой `entityId` ||
 || `400` | `0` | Cannot create document on deleted template | Нельзя создать документ по удаленному шаблону ||
