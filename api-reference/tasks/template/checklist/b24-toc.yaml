@@ -5,25 +5,55 @@ items:
     href: index.md
   - name: Добавить пункт чек-листа
     href: tasks-template-checklist-add.md
+  - name: Добавить пункт чек-листа v 3.0
+    href: tasks-template-checklist-item-add-rest-v3.md
   - name: Изменить пункт чек-листа
     href: tasks-template-checklist-update.md
+  - name: Изменить пункт чек-листа v 3.0
+    href: tasks-template-checklist-item-update-rest-v3.md
   - name: Получить пункт чек-листа
     href: tasks-template-checklist-get.md
   - name: Получить список пунктов чек-листа
     href: tasks-template-checklist-list.md
+  - name: Получить чек-лист шаблона задачи v 3.0
+    href: tasks-template-checklist-get-rest-v3.md
+  - name: Сохранить чек-лист шаблона задачи целиком v 3.0
+    href: tasks-template-checklist-save-rest-v3.md
   - name: Удалить пункт чек-листа
     href: tasks-template-checklist-delete.md
+  - name: Удалить пункт чек-листа v 3.0
+    href: tasks-template-checklist-item-delete-rest-v3.md
   - name: Переместить пункт после другого
     href: tasks-template-checklist-move-after.md
   - name: Переместить пункт перед другим
     href: tasks-template-checklist-move-before.md
+  - name: Переместить пункт чек-листа v 3.0
+    href: tasks-template-checklist-item-move-rest-v3.md
   - name: Отметить пункт как выполненный
     href: tasks-template-checklist-complete.md
+  - name: Отметить пункт выполненным v 3.0
+    href: tasks-template-checklist-item-complete-rest-v3.md
   - name: Отметить пункт как невыполненный
     href: tasks-template-checklist-renew.md
+  - name: Снять отметку о выполнении с пункта v 3.0
+    href: tasks-template-checklist-item-renew-rest-v3.md
+  - name: Отметить выполненными все пункты чек-листа v 3.0
+    href: tasks-template-checklist-complete-rest-v3.md
+  - name: Снять отметку о выполнении со всех пунктов v 3.0
+    href: tasks-template-checklist-renew-rest-v3.md
+  - name: Свернуть пункт чек-листа v 3.0
+    href: tasks-template-checklist-item-collapse-rest-v3.md
+  - name: Развернуть пункт чек-листа v 3.0
+    href: tasks-template-checklist-item-expand-rest-v3.md
   - name: Добавить вложение из содержимого
     href: tasks-template-checklist-add-attachment-by-content.md
+  - name: Загрузить файл в пункт v 3.0
+    href: tasks-template-checklist-item-attachment-upload-rest-v3.md
   - name: Добавить вложения из Диска
     href: tasks-template-checklist-add-attachments-from-disk.md
+  - name: Прикрепить файлы с Диска к пункту v 3.0
+    href: tasks-template-checklist-item-attachment-attach-rest-v3.md
   - name: Удалить вложения
     href: tasks-template-checklist-remove-attachments.md
+  - name: Открепить файлы от пункта v 3.0
+    href: tasks-template-checklist-item-attachment-detach-rest-v3.md

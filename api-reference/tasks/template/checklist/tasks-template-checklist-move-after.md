@@ -397,6 +397,7 @@ HTTP-статус: **400**
 
 ## Продолжить изучение
 
+- [{#T}](./tasks-template-checklist-item-move-rest-v3.md)
 - [{#T}](./index.md)
 - [{#T}](./tasks-template-checklist-add.md)
 - [{#T}](./tasks-template-checklist-update.md)

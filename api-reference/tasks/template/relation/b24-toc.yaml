@@ -1,0 +1,23 @@
+title: Связи шаблонов задач
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Добавить дочерние шаблоны v 3.0
+    href: tasks-template-relation-child-add-rest-v3.md
+  - name: Отвязать дочерние шаблоны v 3.0
+    href: tasks-template-relation-child-delete-rest-v3.md
+  - name: Получить идентификаторы дочерних шаблонов v 3.0
+    href: tasks-template-relation-child-ids-rest-v3.md
+  - name: Получить список дочерних шаблонов v 3.0
+    href: tasks-template-relation-child-list-rest-v3.md
+  - name: Получить шаблоны с дочерними по идентификаторам v 3.0
+    href: tasks-template-relation-child-list-by-ids-rest-v3.md
+  - name: Привязать задачи к шаблону v 3.0
+    href: tasks-template-relation-related-add-rest-v3.md
+  - name: Отвязать задачи от шаблона v 3.0
+    href: tasks-template-relation-related-delete-rest-v3.md
+  - name: Получить список связанных задач шаблона v 3.0
+    href: tasks-template-relation-related-list-rest-v3.md
+  - name: Получить связанные задачи шаблона по идентификаторам v 3.0
+    href: tasks-template-relation-related-list-by-ids-rest-v3.md
