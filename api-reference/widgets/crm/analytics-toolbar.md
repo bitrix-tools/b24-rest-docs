@@ -11,7 +11,7 @@
 
 > Scope: [`placement, crm`](../../scopes/permissions.md)
 
-Виджет добавляет свою кнопку в шапку раздела CRM-аналитики.
+Виджет добавляет пункт в меню составной кнопки в шапке CRM-аналитики.
 
 Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -21,22 +21,38 @@
 
 {% endnote %}
 
-## Куда встраивается виджет
+## Как работает точка
+
+1. Приложение регистрирует обработчик методом [placement.bind](../placement-bind.md): в `PLACEMENT` передает код из [таблицы](#codes), в `HANDLER` — URL обработчика. Метод работает только от имени приложения, через вебхук точку не зарегистрировать. Зарегистрировать виджет может администратор или сотрудник с правом создавать приложения
+2. В меню составной кнопки в шапке отчета CRM-аналитики появляется пункт с названием из `TITLE`. Если название не задано, используется название приложения
+3. Пользователь выбирает пункт, и Битрикс24 открывает обработчик во фрейме. Обработчик получает POST-запрос с [данными вызова](#handler-data)
+4. Обработчик может вызывать REST от имени текущего пользователя с токеном из `AUTH_ID`
+
+## Когда использовать
+
+Точка подходит, когда нужно:
+
+- открыть настройки интеграции из CRM-аналитики
+- показать связанный отчет приложения из шапки раздела
+
+Выбирайте `CRM_ANALYTICS_TOOLBAR` для действия из шапки отчета. Чтобы добавить отчет приложения отдельным пунктом в левое меню CRM-аналитики, используйте [CRM_ANALYTICS_MENU](./analytics-menu.md).
+
+## Куда встраивается виджет {#codes}
 
 #|
 || **Код точки встраивания** | **Место** ||
-|| `CRM_ANALYTICS_TOOLBAR` | Кнопка в шапке CRM-аналитики ||
+|| `CRM_ANALYTICS_TOOLBAR` | Пункт меню составной кнопки в шапке CRM-аналитики ||
 |#
 
 ### Где находится в интерфейсе
 
-Откройте раздел *CRM-аналитика* и выберите отчет в левом меню. Кнопка приложения выводится справа в шапке раздела, рядом с настройками отчета.
+Откройте раздел *CRM-аналитика* и выберите отчет в левом меню. Справа в шапке раздела, рядом с настройками отчета, выводится составная кнопка: нажмите стрелку на ней и выберите пункт приложения. На самой кнопке показан пункт, который пользователь выбирает чаще всего, или подпись *Расширения*, — как на снимке ниже.
 
 Кнопка есть не на каждом отчете. Например, на отчете *Индивидуальная эффективность* своих настроек нет, и в шапке остается только кнопка обратной связи.
 
 ![Кнопка в шапке CRM-аналитики](./_images/CRM_ANALYTICS_TOOLBAR.png "Кнопка в шапке CRM-аналитики")
 
-## Что получает обработчик
+## Что получает обработчик {#handler-data}
 
 Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
@@ -68,9 +84,7 @@ Array
 
 ### PLACEMENT_OPTIONS
 
-Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
-
-Собственных ключей у точки нет — в контекст попадает только универсальный ключ `URI`.
+Собственных ключей у точки нет. Общий ключ `URI` описан в стандартных данных выше.
 
 ## OPTIONS при регистрации через placement.bind
 
@@ -91,13 +105,13 @@ Array
       -d '{
         "PLACEMENT": "CRM_ANALYTICS_TOOLBAR",
         "HANDLER": "https://your-domain.com/widgets/crm-analytics-toolbar-handler.php",
-        "TITLE": "Моя кнопка в CRM-аналитике",
+        "TITLE": "Мой пункт в CRM-аналитике",
         "LANG_ALL": {
           "ru": {
-            "TITLE": "Моя кнопка в CRM-аналитике"
+            "TITLE": "Мой пункт в CRM-аналитике"
           },
           "en": {
-            "TITLE": "My CRM analytics button"
+            "TITLE": "My CRM analytics item"
           }
         },
         "auth": "**put_access_token_here**"
@@ -121,13 +135,13 @@ Array
         params: {
           PLACEMENT: 'CRM_ANALYTICS_TOOLBAR',
           HANDLER: 'https://your-domain.com/widgets/crm-analytics-toolbar-handler.php',
-          TITLE: 'My CRM analytics button',
+          TITLE: 'Мой пункт в CRM-аналитике',
           LANG_ALL: {
             ru: {
-              TITLE: 'Моя кнопка в CRM-аналитике',
+              TITLE: 'Мой пункт в CRM-аналитике',
             },
             en: {
-              TITLE: 'My CRM analytics button',
+              TITLE: 'My CRM analytics item',
             },
           },
         },
@@ -163,13 +177,13 @@ Array
             params: {
               PLACEMENT: 'CRM_ANALYTICS_TOOLBAR',
               HANDLER: 'https://your-domain.com/widgets/crm-analytics-toolbar-handler.php',
-              TITLE: 'My CRM analytics button',
+              TITLE: 'Мой пункт в CRM-аналитике',
               LANG_ALL: {
                 ru: {
-                  TITLE: 'Моя кнопка в CRM-аналитике',
+                  TITLE: 'Мой пункт в CRM-аналитике',
                 },
                 en: {
-                  TITLE: 'My CRM analytics button',
+                  TITLE: 'My CRM analytics item',
                 },
               },
             },
@@ -205,13 +219,13 @@ Array
                 [
                     'PLACEMENT' => 'CRM_ANALYTICS_TOOLBAR',
                     'HANDLER' => 'https://your-domain.com/widgets/crm-analytics-toolbar-handler.php',
-                    'TITLE' => 'Моя кнопка в CRM-аналитике',
+                    'TITLE' => 'Мой пункт в CRM-аналитике',
                     'LANG_ALL' => [
                         'ru' => [
-                            'TITLE' => 'Моя кнопка в CRM-аналитике',
+                            'TITLE' => 'Мой пункт в CRM-аналитике',
                         ],
                         'en' => [
-                            'TITLE' => 'My CRM analytics button',
+                            'TITLE' => 'My CRM analytics item',
                         ],
                     ],
                 ]
@@ -233,10 +247,10 @@ Array
         {
             PLACEMENT: 'CRM_ANALYTICS_TOOLBAR',
             HANDLER: 'https://your-domain.com/widgets/crm-analytics-toolbar-handler.php',
-            TITLE: 'Моя кнопка в CRM-аналитике',
+            TITLE: 'Мой пункт в CRM-аналитике',
             LANG_ALL: {
-                ru: { TITLE: 'Моя кнопка в CRM-аналитике' },
-                en: { TITLE: 'My CRM analytics button' }
+                ru: { TITLE: 'Мой пункт в CRM-аналитике' },
+                en: { TITLE: 'My CRM analytics item' }
             }
         },
         function(result) {
@@ -259,13 +273,13 @@ Array
         [
             'PLACEMENT' => 'CRM_ANALYTICS_TOOLBAR',
             'HANDLER' => 'https://your-domain.com/widgets/crm-analytics-toolbar-handler.php',
-            'TITLE' => 'Моя кнопка в CRM-аналитике',
+            'TITLE' => 'Мой пункт в CRM-аналитике',
             'LANG_ALL' => [
                 'ru' => [
-                    'TITLE' => 'Моя кнопка в CRM-аналитике',
+                    'TITLE' => 'Мой пункт в CRM-аналитике',
                 ],
                 'en' => [
-                    'TITLE' => 'My CRM analytics button',
+                    'TITLE' => 'My CRM analytics item',
                 ],
             ],
         ]
@@ -283,13 +297,13 @@ Array
     res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
     	"PLACEMENT": "CRM_ANALYTICS_TOOLBAR",
     	"HANDLER":   "https://your-domain.com/widgets/crm-analytics-toolbar-handler.php",
-    	"TITLE":     "Моя кнопка в CRM-аналитике",
+    	"TITLE":     "Мой пункт в CRM-аналитике",
     	"LANG_ALL": b24.Params{
     		"ru": b24.Params{
-    			"TITLE": "Моя кнопка в CRM-аналитике",
+    			"TITLE": "Мой пункт в CRM-аналитике",
     		},
     		"en": b24.Params{
-    			"TITLE": "My CRM analytics button",
+    			"TITLE": "My CRM analytics item",
     		},
     	},
     })
