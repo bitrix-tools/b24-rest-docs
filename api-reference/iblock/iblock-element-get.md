@@ -117,7 +117,7 @@
       const response = await $b24.actions.v3.call.make<ElementGetResult>({
         method: 'iblock.element.get',
         params: {
-         iblockId: 14,
+          iblockId: 14,
           id: 215,
           select: ['id', 'name', 'iblockSectionId', 'properties'],
         },
@@ -148,7 +148,7 @@
           const response = await $b24.actions.v3.call.make({
             method: 'iblock.element.get',
             params: {
-             iblockId: 14,
+              iblockId: 14,
               id: 215,
               select: ['id', 'name', 'iblockSectionId', 'properties'],
             },
@@ -179,7 +179,7 @@
 
     try:
         bitrix_response = client.iblock.element.get(
-           iblockId=14,
+            iblockId=14,
             id=215,
             select=["id", "name", "iblockSectionId", "properties"],
         ).response
@@ -233,7 +233,7 @@
     BX24.callMethod(
         'iblock.element.get',
         {
-           iblockId: 14,
+            iblockId: 14,
             id: 215,
             select: ['id', 'name', 'iblockSectionId', 'properties'],
         },
