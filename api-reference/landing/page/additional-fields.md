@@ -167,7 +167,7 @@
 || **GTM_COUNTER**
 [`string`](../../data-types.md) | Идентификатор контейнера Google Tag Manager ||
 || **PIXELFB_USE**
-[`string`](../../data-types.md) | Включить пиксель Facebook: `Y` или `N` ||
+[`string`](../../data-types.md) | Включить пиксель Facebook*: `Y` или `N` ||
 || **PIXELFB_COUNTER**
 [`string`](../../data-types.md) | Идентификатор пикселя Facebook ||
 || **PIXELVK_USE**
@@ -315,6 +315,9 @@
 || **SETTINGS_AGREEMENTS**
 [`array`](../../data-types.md) | Массив соглашений в формате `{ID, CHECKED, REQUIRED}` ||
 |#
+
+\
+**Принадлежит компании Meta Platforms, Inc., которая признана экстремистской и запрещена на территории Российской Федерации.*
 
 ## Продолжите изучение
 
