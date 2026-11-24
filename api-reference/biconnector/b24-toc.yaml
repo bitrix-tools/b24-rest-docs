@@ -15,6 +15,10 @@ items:
     include:
       path: table/b24-toc.yaml
       mode: link
+  - name: Ключи доступа
+    include:
+      path: key/b24-toc.yaml
+      mode: link
   - name: Датасеты (устаревшие)
     include:
       path: dataset/b24-toc.yaml

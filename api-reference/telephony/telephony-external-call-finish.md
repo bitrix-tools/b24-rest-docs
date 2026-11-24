@@ -37,7 +37,7 @@
 
 Идентификатор можно получить методом [user.get](../user/user-get.md) ||
 || **USER_PHONE_INNER***
-[`string`](../data-types.md) | Внутренний номер пользователя.
+[`string`](../data-types.md) или [`string[]`](../data-types.md) | Внутренний номер пользователя или массив внутренних номеров. Если передан массив, пользователь ищется по любому из номеров.
 
 Внутренний номер можно получить методом [user.get](../user/user-get.md)
 
@@ -48,6 +48,8 @@
 {% endnote %} ||
 || **DURATION**
 [`integer`](../data-types.md) | Длительность звонка в секундах.
+
+Минимальное значение — `0`.
 
 По умолчанию — `0` ||
 || **COST**
@@ -512,6 +514,7 @@ HTTP-статус: **400**, **403**
 || **Код** | **Описание** | **Значение** ||
 || `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван вне контекста приложения ||
 || `INVALID_ARGUMENT` | CALL_ID must be a string | Параметр `CALL_ID` должен быть строкой ||
+|| `INVALID_ARGUMENT` | DURATION must be non-negative | Параметр `DURATION` меньше нуля ||
 || `ERROR_CORE` | USER_ID or USER_PHONE_INNER should be set | Не переданы `USER_ID` и `USER_PHONE_INNER` ||
 || `ERROR_CORE` | Call is not found (call should be registered prior to finishing | Звонок не найден, перед завершением его нужно зарегистрировать методом `telephony.externalCall.register` ||
 || `ERROR_CORE` | User is not found or is not active | Пользователь не найден или неактивен ||

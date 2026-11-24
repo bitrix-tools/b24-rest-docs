@@ -11,7 +11,7 @@
 
 > Scope: [`iblock`](../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом чтения элемента инфоблока
 
 {% note info "" %}
 
@@ -34,10 +34,10 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **iblock***
+|| **iblockId***
 [`integer`](../data-types.md) | Идентификатор инфоблока, в котором находится элемент. Значение должно быть больше `0`.
 
-Обратите внимание: параметр называется `iblock`, а не `iblockId`. В ошибках проверки инфоблока поле называется `iblockId` ||
+Метод также принимает идентификатор в параметре `iblock` — это прежнее имя параметра. Если переданы оба параметра, используется `iblockId` ||
 || **id***
 [`integer`](../data-types.md) | Идентификатор элемента.
 
@@ -76,7 +76,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"iblock":14,"id":215,"select":["id","name","iblockSectionId","properties"]}' \
+    -d '{"iblockId":14,"id":215,"select":["id","name","iblockSectionId","properties"]}' \
     https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_your_webhook_here**/iblock.element.get
     ```
 
@@ -86,7 +86,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"iblock":14,"id":215,"select":["id","name","iblockSectionId","properties"],"auth":"**put_access_token_here**"}' \
+    -d '{"iblockId":14,"id":215,"select":["id","name","iblockSectionId","properties"],"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/api/iblock.element.get
     ```
 
@@ -117,7 +117,7 @@
       const response = await $b24.actions.v3.call.make<ElementGetResult>({
         method: 'iblock.element.get',
         params: {
-          iblock: 14,
+         iblockId: 14,
           id: 215,
           select: ['id', 'name', 'iblockSectionId', 'properties'],
         },
@@ -148,7 +148,7 @@
           const response = await $b24.actions.v3.call.make({
             method: 'iblock.element.get',
             params: {
-              iblock: 14,
+             iblockId: 14,
               id: 215,
               select: ['id', 'name', 'iblockSectionId', 'properties'],
             },
@@ -179,7 +179,7 @@
 
     try:
         bitrix_response = client.iblock.element.get(
-            iblock=14,
+           iblockId=14,
             id=215,
             select=["id", "name", "iblockSectionId", "properties"],
         ).response
@@ -209,7 +209,7 @@
             ->call(
                 'iblock.element.get',
                 [
-                    'iblock' => 14,
+                    'iblockId' => 14,
                     'id' => 215,
                     'select' => ['id', 'name', 'iblockSectionId', 'properties'],
                 ]
@@ -233,7 +233,7 @@
     BX24.callMethod(
         'iblock.element.get',
         {
-            iblock: 14,
+           iblockId: 14,
             id: 215,
             select: ['id', 'name', 'iblockSectionId', 'properties'],
         },
@@ -256,7 +256,7 @@
     $result = CRest::call(
         'iblock.element.get',
         [
-            'iblock' => 14,
+            'iblockId' => 14,
             'id' => 215,
             'select' => ['id', 'name', 'iblockSectionId', 'properties'],
         ]
@@ -272,7 +272,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "iblock.element.get", b24.Params{
-    	"iblock": 14,
+    	"iblockId": 14,
     	"id":     215,
     	"select": []string{"id", "name", "iblockSectionId", "properties"},
     }, b24.WithIdempotent())
@@ -419,10 +419,10 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `iblock` | Обязательное поле `iblock` не указано | Передайте идентификатор инфоблока в параметре `iblock` ||
-|| `iblock` | Значение поля должно быть не меньше, чем 1 | Передайте положительный идентификатор инфоблока ||
+|| `iblockId` | Обязательное поле `iblockId` не указано | Передайте идентификатор инфоблока в параметре `iblockId` ||
+|| `iblockId` | iblockId must be a positive integer. | Передайте положительный идентификатор инфоблока. Если идентификатор передан в параметре `iblock`, в ошибке будет `iblock` ||
 || `id` | Обязательное поле `id` не указано | Передайте идентификатор элемента ||
-|| `iblockId` | Iblock not found. | Инфоблока с таким идентификатором нет. Проверьте значение `iblock` ||
+|| `iblockId` | Iblock not found. | Инфоблока с таким идентификатором нет. Проверьте значение `iblockId` ||
 || `iblockId` | Unable to compile iblock entity. | У инфоблока не задан символьный код API. Задайте его в административной панели. В облачном Битрикс24 это сделать нельзя ||
 || `iblockId` | Restricted iblock ID:`#ID#` (`#API_CODE#`) | У инфоблока выключен доступ через REST. Включите его в административной панели ||
 |#
@@ -433,7 +433,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Запись с ID = `#ID#` не найдена | Элемента с таким идентификатором нет в инфоблоке. Проверьте `id` и `iblock` ||
+|| `-` | Запись с ID = `#ID#` не найдена | Элемента с таким идентификатором нет в инфоблоке или у пользователя нет права на его чтение. Проверьте `id` и `iblockId` ||
 |#
 
 #### Ошибка неизвестного поля

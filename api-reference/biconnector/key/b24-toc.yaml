@@ -1,0 +1,13 @@
+title: Ключи доступа
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать ключ доступа
+    href: biconnector-key-add.md
+  - name: Изменить ключ доступа
+    href: biconnector-key-update.md
+  - name: Получить список ключей доступа
+    href: biconnector-key-list.md
+  - name: Удалить ключ доступа
+    href: biconnector-key-delete.md

@@ -376,6 +376,7 @@ HTTP-статус: **400**
 || `400` | Пустое значение | MESSAGES should be an array | Параметр `MESSAGES` передан не как массив ||
 || `400` | Пустое значение | MESSAGES[{N}] should be an array | Реплика с индексом `N` в `MESSAGES` передана не как объект ||
 || `400` | Пустое значение | MESSAGES[{N}][SIDE] should be either Client or User | Недопустимое значение `SIDE` ||
+|| `400` | Пустое значение | MESSAGES[{N}][START_TIME] should be set | Не передано `START_TIME` в реплике с индексом `N` ||
 || `400` | Пустое значение | MESSAGES[{N}][START_TIME] should be greater or equal to zero | Некорректное `START_TIME` ||
 || `400` | Пустое значение | MESSAGES[{N}][STOP_TIME] should be greater than zero | Некорректное `STOP_TIME` ||
 || `400` | Пустое значение | MESSAGES[{N}][MESSAGE] is empty | Пустой текст реплики ||

@@ -20,7 +20,7 @@ Follow-up звонка содержит метаданные звонка, уч�
 В `select` можно передать поля [корневого объекта](#root-object) и доступные вложенные пути AI-блоков:
 
 - `transcription`, `transcription.language`, `transcription.segments`
-- `overview`, `overview.topic`, `overview.detailedTakeaways`, `overview.meetingType`, `overview.agenda`, `overview.agreements`, `overview.actionItems`, `overview.meetings`
+- `overview`, `overview.topic`, `overview.detailedTakeaways`, `overview.meetingType`, `overview.agenda`, `overview.agreements`, `overview.actionItems`, `overview.meetings`, `overview.contextualSuggestions`
 - `summary`
 - `insights`, `insights.speakerEvaluationAvailable`, `insights.speakerAnalysis`, `insights.meetingStrengths`, `insights.meetingWeaknesses`, `insights.speechStyleInfluence`, `insights.engagementLevel`, `insights.areasOfResponsibility`, `insights.finalRecommendations`
 - `evaluation`, `evaluation.efficiencyValue`, `evaluation.calendar`, `evaluation.criteria`
@@ -234,13 +234,30 @@ Follow-up звонка содержит метаданные звонка, уч�
 
 - `actionItem` — действие с упоминаниями участников
 - `actionItemMentionLess` — действие без упоминаний участников
-- `quote` — цитату из звонка ||
+- `quote` — цитату из звонка
+- `quoteAuthorId` — идентификатор пользователя, который произнес цитату. Если у говорящего нет пользователя на портале — `null`
+- `quoteAuthorName` — имя говорящего
+- `quoteStart` — время начала фрагмента расшифровки с цитатой относительно начала звонка в формате `HH:MM:SS`
+
+Поля `quoteAuthorId`, `quoteAuthorName` и `quoteStart` приходят, только если цитата найдена в расшифровке звонка ||
 || **meetings**
 [`array`](../../data-types.md) | Запланированные последующие встречи. Каждый элемент может содержать:
 
 - `meeting` — описание встречи с упоминаниями участников
 - `meetingMentionLess` — описание встречи без упоминаний участников
-- `quote` — цитату из звонка ||
+- `quote` — цитату из звонка
+- `quoteAuthorId` — идентификатор пользователя, который произнес цитату. Если у говорящего нет пользователя на портале — `null`
+- `quoteAuthorName` — имя говорящего
+- `quoteStart` — время начала фрагмента расшифровки с цитатой относительно начала звонка в формате `HH:MM:SS`
+
+Поля `quoteAuthorId`, `quoteAuthorName` и `quoteStart` приходят, только если цитата найдена в расшифровке звонка ||
+|| **contextualSuggestions**
+[`array`](../../data-types.md) | Действия, которые AI предлагает выполнить после встречи. Если AI ничего не предложил — пустой массив. Каждый элемент содержит:
+
+- `text` — текст кнопки действия
+- `kind` — вид действия: `link` — открыть ссылку, `put` — вставить текст в поле ввода сообщения
+- `link` — путь на портале или внешняя ссылка, которую нужно открыть. Приходит для `kind` = `link`
+- `inputDraft` — текст для поля ввода сообщения. Приходит для `kind` = `put` ||
 |#
 
 ## Объект summary {#summary}
