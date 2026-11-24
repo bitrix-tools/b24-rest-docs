@@ -14,8 +14,12 @@ Internal server error | Возникла внутренняя ошибка се�
 Server returned an unexpected response | Сервер вернул неожиданный ответ. Повторите вызов, а если ошибка сохраняется, обратитесь к администратору сервера или в [техническую поддержку Битрикс24](/bitrix-support.html) ||
 || `503` | `QUERY_LIMIT_EXCEEDED`
 Too many requests | Превышен [лимит на интенсивность запросов](/limits.html) ||
+|| `503` | `BITRIX_REST_V3_EXCEPTION_LIMITER_QUERYTIMELIMITEXCEPTION`
+Запрос отменен из-за превышения лимита времени | SQL-запрос внутри метода выполнялся дольше [лимита времени SQL-запроса](/limits.html). В заголовке `Retry-After` приходит лимит в секундах ||
 || `429` | `OPERATION_TIME_LIMIT`
-Method is blocked due to operation time limit | Метод заблокирован из-за превышения [лимита на ресурсоемкость запросов](/limits.html). Блокировка снимается автоматически, когда накопленное время выполнения метода перестает превышать лимит ||
+Method is blocked due to operation time limit | Метод заблокирован из-за превышения [лимита на ресурсоемкость запросов](/limits.html). Блокировка длится 5 минут, после нее накопленное время выполнения метода считается заново ||
+|| `429` | `BITRIX_REST_V3_EXCEPTION_RATELIMITEXCEPTION`
+Запрос заблокирован из-за превышения лимитов | Та же блокировка в методах REST 3.0. В заголовке `Retry-After` приходит остаток блокировки в секундах ||
 || `401` | `NO_AUTH_FOUND`
 Wrong authorization data | В запросе нет авторизационных данных: не передан ни [access-токен](/settings/oauth/index.html), ни [код вебхука](/local-integrations/local-webhooks.html) ||
 || `401` | `INVALID_REQUEST`
