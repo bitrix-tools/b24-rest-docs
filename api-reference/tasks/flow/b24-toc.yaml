@@ -9,6 +9,8 @@ items:
     href: tasks-flow-flow-update.md
   - name: Получить поток
     href: tasks-flow-flow-get.md
+  - name: Получить команду потока
+    href: tasks-flow-team-list.md
   - name: Удалить поток
     href: tasks-flow-flow-delete.md
   - name: Проверить название потока на уникальность

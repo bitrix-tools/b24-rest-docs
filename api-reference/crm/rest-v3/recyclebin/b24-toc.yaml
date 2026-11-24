@@ -1,0 +1,13 @@
+title: Корзина CRM
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Получить список удаленных элементов CRM
+    href: crm-recyclebin-list-rest-v3.md
+  - name: Восстановить элемент из корзины CRM
+    href: crm-recyclebin-restore-rest-v3.md
+  - name: Получить список полей записи корзины CRM
+    href: crm-recyclebin-field-list-rest-v3.md
+  - name: Получить описание поля записи корзины CRM
+    href: crm-recyclebin-field-get-rest-v3.md

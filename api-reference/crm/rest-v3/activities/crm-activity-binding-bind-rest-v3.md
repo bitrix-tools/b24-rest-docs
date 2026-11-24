@@ -35,7 +35,7 @@
 || **parent***
 [`object`](../../../data-types.md) | Элемент CRM в формате `{"entityTypeId": 2, "entityId": 9001}`: `entityTypeId` — идентификатор типа объекта, `entityId` — идентификатор элемента. К этому элементу будет привязано дело.
 
-Идентификаторы типов объектов возвращает метод [crm.dictionary.entitytype.list](../dictionaries/crm-dictionary-list-rest-v3.md), для смарт-процесса — [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) ||
+Идентификаторы типов объектов возвращает метод [crm.dictionary.entitytype.list](../dictionaries/crm-dictionary-list-rest-v3.md), для смарт-процесса — [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) ||
 |#
 
 ## Примеры кода

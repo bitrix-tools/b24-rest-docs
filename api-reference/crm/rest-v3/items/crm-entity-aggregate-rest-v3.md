@@ -37,7 +37,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.aggregate`, например `crm.smartprocess1038.aggregate` | [Поля смарт-процесса](./fields-smart-process.md) ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`.
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.aggregate`, а не `crm.smartInvoice.aggregate`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -473,7 +473,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.smartinvoice.aggregate`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.smartinvoice.aggregate`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

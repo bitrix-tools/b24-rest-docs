@@ -37,7 +37,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.addfieldvalue`, например `crm.smartprocess1038.addfieldvalue` | [Поля смарт-процесса](./fields-smart-process.md) ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`.
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md).
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.addfieldvalue`, а не `crm.smartInvoice.addfieldvalue`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -77,7 +77,7 @@
 
 #|
 || **Поле** | **Формат значения** ||
-|| `phone`, `email`, `web`, `im` | Объект `{"valueTypeId": "WORK", "value": "+79990000000"}`. `valueTypeId` — тип значения, например `WORK` или `MOBILE`. Типы возвращают методы `crm.dictionary.phonetype.list`, `crm.dictionary.emailtype.list`, `crm.dictionary.webtype.list` и `crm.dictionary.imtype.list` — [описание методов справочников](../dictionaries/crm-dictionary-list-rest-v3.md) ||
+|| `phone`, `email`, `web`, `im` | Объект `{"valueTypeId": "WORK", "value": "+79990000000"}`. `valueTypeId` — тип значения, например `WORK` или `MOBILE`. Если его не передать, тип берется из настройки «Тип по умолчанию» поля в карточке, а если настройка не задана — `WORK`, у `im` — `OTHER`. Типы возвращают методы `crm.dictionary.phonetype.list`, `crm.dictionary.emailtype.list`, `crm.dictionary.webtype.list` и `crm.dictionary.imtype.list` — [описание методов справочников](../dictionaries/crm-dictionary-list-rest-v3.md) ||
 || `contactsId` | Идентификатор существующего контакта, число. Строка `"3213"` вызывает ошибку ||
 || `companiesId` | Идентификатор существующей компании, число ||
 || `observersId` | Идентификатор существующего пользователя, число ||
@@ -429,7 +429,7 @@ HTTP-статус: **400**
 || `CRM_FIELD_VALUE_INVALID` | The custom field value is invalid. | Значение не подходит пользовательскому полю: неверный тип или несуществующий вариант списка ||
 || `CRM_FIELD_VALUE_LIMIT_EXCEEDED` | Too many multifield values. | В поле уже максимальное количество значений ||
 || `CRM_FIELD_VALUE_LOCKED` | The field is being changed by another operation. | Поле элемента в этот момент меняет другой запрос. Повторите вызов позже ||
-|| `-` | The field value is invalid. | Значение не подходит по формату: строка вместо числа, объект телефона без `valueTypeId`, неизвестный тип значения, строка из пробелов ||
+|| `-` | The field value is invalid. | Значение не подходит по формату: строка вместо числа, `valueTypeId` не строкой, неизвестный тип значения, строка из пробелов ||
 |#
 
 #### Метод не найден {#method-not-found}
@@ -438,7 +438,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.addfieldvalue`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.addfieldvalue`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

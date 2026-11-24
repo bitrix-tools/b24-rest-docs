@@ -13,7 +13,7 @@
 
 Точки делятся на две группы. Первая работает с конкретным типом объекта, и код точки содержит имя этого типа: `CRM_DEAL_DETAIL_TAB`, `CRM_LEAD_LIST_MENU`. Вторая относится к разделу CRM целиком, и имени объекта в коде нет: `CRM_ANALYTICS_MENU`, `CRM_ANALYTICS_TOOLBAR`, `CRM_DETAIL_SEARCH`.
 
-Воронки стоят особняком: у сделок код имени объекта не содержит — `CRM_FUNNELS_TOOLBAR`, а у новых счетов и пользовательских типов объектов содержит — `CRM_SMART_INVOICE_FUNNELS_TOOLBAR` и `CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR`.
+Воронки стоят особняком: у сделок код имени объекта не содержит — `CRM_FUNNELS_TOOLBAR`, а у пользовательских типов объектов содержит — `CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR`.
 
 Для регистрации виджета используйте метод [placement.bind](../placement-bind.md) и передавайте нужный код в параметре `PLACEMENT`.
 
@@ -102,7 +102,7 @@ Array
 || [CRM_XXX_ACTIVITY_TIMELINE_MENU](./activity-timeline-menu.md) | `ENTITY_ID`, `ASSOCIATED_ENTITY_ID`, `ASSOCIATED_ENTITY_TYPE_ID`, `TYPE_ID`, `TYPE_CATEGORY_ID`, `TIMELINE_ITEM_ID` | Идентификаторы объекта и дела, на записи которого открыт виджет, и тип этой записи ||
 || [CRM_XXX_DOCUMENTGENERATOR_BUTTON](./document-generator-button.md) | `ENTITY_ID` | Идентификатор объекта, для которого формируется документ ||
 || [CRM_XXX_ROBOT_DESIGNER_TOOLBAR](./robot-designer-toolbar.md) | нет | Идентификатор воронки можно получить из пути в `URI` ||
-|| [CRM_FUNNELS_TOOLBAR, CRM_SMART_INVOICE_FUNNELS_TOOLBAR, CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR](./funnels-toolbar.md) | нет | Виджет открывается над списком воронок ||
+|| [CRM_FUNNELS_TOOLBAR, CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR](./funnels-toolbar.md) | нет | Виджет открывается над списком воронок ||
 || [CRM_ANALYTICS_MENU](./analytics-menu.md) | нет | Виджет открывается в разделе аналитики ||
 || [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md) | нет | Виджет открывается в разделе аналитики ||
 || [CRM_DETAIL_SEARCH](./detail-search.md) | `entityTypeName`, `searchQuery` | Тип клиента и поисковый запрос из карточки ||
@@ -171,7 +171,7 @@ Array
 || [CRM_XXX_ACTIVITY_TIMELINE_MENU](./activity-timeline-menu.md) | Пункт контекстного меню записи дела в таймлайне ||
 || [CRM_XXX_DOCUMENTGENERATOR_BUTTON](./document-generator-button.md) | Пункт выпадающего меню генератора документов ||
 || [CRM_XXX_ROBOT_DESIGNER_TOOLBAR](./robot-designer-toolbar.md) | Кнопка в дизайнере роботов ||
-|| [CRM_FUNNELS_TOOLBAR, CRM_SMART_INVOICE_FUNNELS_TOOLBAR, CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR](./funnels-toolbar.md) | Кнопка в воронках и туннелях сделок, новых счетов и пользовательских типов объектов ||
+|| [CRM_FUNNELS_TOOLBAR, CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR](./funnels-toolbar.md) | Кнопка в воронках и туннелях сделок и пользовательских типов объектов ||
 || [CRM_ANALYTICS_MENU](./analytics-menu.md) | Отчет приложения в левом меню CRM-аналитики ||
 || [CRM_ANALYTICS_TOOLBAR](./analytics-toolbar.md) | Кнопка в шапке CRM-аналитики ||
 || [CRM_DETAIL_SEARCH](./detail-search.md) | Поиск клиента во внешнем источнике из карточки CRM ||

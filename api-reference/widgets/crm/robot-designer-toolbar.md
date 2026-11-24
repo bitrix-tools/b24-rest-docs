@@ -11,7 +11,7 @@
 
 > Scope: [`placement, crm`](../../scopes/permissions.md)
 
-Виджет добавляет свою кнопку в дизайнер роботов, где настраивают автоматизацию объектов CRM: [лидов](../../crm/leads/index.md), [сделок](../../crm/deals/index.md), [новых счетов](../../crm/universal/invoice.md) и [пользовательских типов объектов](../../crm/universal/index.md).
+Виджет добавляет пункт в меню составной кнопки в дизайнере роботов, где настраивают автоматизацию объектов CRM: [лидов](../../crm/leads/index.md), [сделок](../../crm/deals/index.md), [новых счетов](../../crm/universal/invoice.md) и [пользовательских типов объектов](../../crm/universal/index.md).
 
 Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -21,29 +21,45 @@
 
 {% endnote %}
 
-## Куда встраивается виджет
+## Как работает точка
+
+1. Приложение регистрирует обработчик методом [placement.bind](../placement-bind.md): в `PLACEMENT` передает код из [таблицы](#codes), в `HANDLER` — URL обработчика. Метод работает только от имени приложения, через вебхук точку не зарегистрировать. Зарегистрировать виджет может администратор или сотрудник с правом создавать приложения
+2. В меню составной кнопки в шапке окна *Автоматизация продаж* появляется пункт с названием из `TITLE`. Если название не задано, используется название приложения
+3. Пользователь выбирает пункт, и Битрикс24 открывает обработчик во фрейме. Обработчик получает POST-запрос с [данными вызова](#handler-data)
+4. Обработчик может вызывать REST от имени текущего пользователя с токеном из `AUTH_ID`
+
+## Когда использовать
+
+Точка подходит, когда нужно:
+
+- открыть настройки интеграции рядом с дизайнером роботов
+- показать справку приложения по настройке автоматизации
+
+Для окна воронок и туннелей используйте [CRM_FUNNELS_TOOLBAR](./funnels-toolbar.md). Точки [`TASK_ROBOT_DESIGNER_TOOLBAR`](../task/robot-designer-toolbar.md) и [`SONET_GROUP_ROBOT_DESIGNER_TOOLBAR`](../workgroups/robot-designer-toolbar.md) относятся к автоматизации задач и требуют других скоупов.
+
+## Куда встраивается виджет {#codes}
 
 #|
 || **Код точки встраивания** | **Место** ||
-|| `CRM_LEAD_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов [лида](../../crm/leads/index.md) ||
-|| `CRM_DEAL_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов [сделки](../../crm/deals/index.md) ||
-|| `CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов [нового счета](../../crm/universal/invoice.md) ||
-|| `CRM_DYNAMIC_XXX_ROBOT_DESIGNER_TOOLBAR` | Кнопка в дизайнере роботов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_ROBOT_DESIGNER_TOOLBAR` ||
+|| `CRM_LEAD_ROBOT_DESIGNER_TOOLBAR` | Пункт меню составной кнопки в дизайнере роботов [лида](../../crm/leads/index.md) ||
+|| `CRM_DEAL_ROBOT_DESIGNER_TOOLBAR` | Пункт меню составной кнопки в дизайнере роботов [сделки](../../crm/deals/index.md) ||
+|| `CRM_SMART_INVOICE_ROBOT_DESIGNER_TOOLBAR` | Пункт меню составной кнопки в дизайнере роботов [нового счета](../../crm/universal/invoice.md). Точка доступна, если новые счета включены ||
+|| `CRM_DYNAMIC_XXX_ROBOT_DESIGNER_TOOLBAR` | Пункт меню составной кнопки в дизайнере роботов пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_ROBOT_DESIGNER_TOOLBAR` ||
 |#
 
 ### Где находится в интерфейсе
 
-Откройте список объектов CRM и нажмите *Роботы*. Кнопка приложения выводится справа в шапке окна *Автоматизация продаж*.
+Откройте список объектов CRM и нажмите *Роботы*. Справа в шапке окна *Автоматизация продаж* выводится составная кнопка: нажмите стрелку на ней и выберите пункт приложения. На самой кнопке показан пункт, который пользователь выбирает чаще всего, или подпись *Расширения*, — как на снимке ниже. У пользовательского типа объектов точка работает, если в его настройках включены роботы.
 
-Не путайте эту точку с [`TASK_ROBOT_DESIGNER_TOOLBAR`](../task/robot-designer-toolbar.md) и [`SONET_GROUP_ROBOT_DESIGNER_TOOLBAR`](../workgroups/robot-designer-toolbar.md): те относятся к автоматизации задач и требуют других скоупов.
+Для открытия дизайнера нужны права на настройку автоматизации или чтение соответствующего объекта CRM.
 
 ![Кнопка в дизайнере роботов сделок](./_images/CRM_DEAL_ROBOT_DESIGNER_TOOLBAR.png "Кнопка в дизайнере роботов сделок")
 
-## Что получает обработчик
+## Что получает обработчик {#handler-data}
 
 Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
 
-Пример показан для точки `CRM_DEAL_ROBOT_DESIGNER_TOOLBAR`. У остальных кодов состав данных такой же: меняется значение `PLACEMENT`.
+Пример показан для точки `CRM_DEAL_ROBOT_DESIGNER_TOOLBAR`. Для других кодов меняются значение `PLACEMENT` и путь в `URI`.
 
 ```php
 
@@ -67,15 +83,15 @@ Array
 
 ```
 
+`APPLICATION_SCOPE` показывает скоупы приложения из примера. Для регистрации этих точек достаточно `placement` и `crm`; `bizproc` для самой точки не требуется.
+
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 {% include notitle [описание стандартных данных](../_includes/widget_data.md) %}
 
 ### PLACEMENT_OPTIONS
 
-Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
-
-Собственных ключей у точки нет — в контекст попадает только универсальный ключ `URI`. Идентификатор воронки отдельным параметром не приходит, его можно получить из пути в `URI`. Например, для значения `/crm/deal/automation/0/` идентификатор воронки равен `0`.
+Собственных ключей у точки нет. В примере универсальный ключ `URI` содержит путь `/crm/deal/automation/0/`. Идентификатор воронки отдельным параметром не передается.
 
 ## OPTIONS при регистрации через placement.bind
 
@@ -96,13 +112,13 @@ Array
       -d '{
         "PLACEMENT": "CRM_DEAL_ROBOT_DESIGNER_TOOLBAR",
         "HANDLER": "https://your-domain.com/widgets/crm-robot-designer-handler.php",
-        "TITLE": "Моя кнопка в дизайнере роботов",
+        "TITLE": "Мой пункт в дизайнере роботов",
         "LANG_ALL": {
           "ru": {
-            "TITLE": "Моя кнопка в дизайнере роботов"
+            "TITLE": "Мой пункт в дизайнере роботов"
           },
           "en": {
-            "TITLE": "My automation designer button"
+            "TITLE": "My automation designer item"
           }
         },
         "auth": "**put_access_token_here**"
@@ -126,13 +142,13 @@ Array
         params: {
           PLACEMENT: 'CRM_DEAL_ROBOT_DESIGNER_TOOLBAR',
           HANDLER: 'https://your-domain.com/widgets/crm-robot-designer-handler.php',
-          TITLE: 'My automation designer button',
+          TITLE: 'Мой пункт в дизайнере роботов',
           LANG_ALL: {
             ru: {
-              TITLE: 'Моя кнопка в дизайнере роботов',
+              TITLE: 'Мой пункт в дизайнере роботов',
             },
             en: {
-              TITLE: 'My automation designer button',
+              TITLE: 'My automation designer item',
             },
           },
         },
@@ -168,13 +184,13 @@ Array
             params: {
               PLACEMENT: 'CRM_DEAL_ROBOT_DESIGNER_TOOLBAR',
               HANDLER: 'https://your-domain.com/widgets/crm-robot-designer-handler.php',
-              TITLE: 'My automation designer button',
+              TITLE: 'Мой пункт в дизайнере роботов',
               LANG_ALL: {
                 ru: {
-                  TITLE: 'Моя кнопка в дизайнере роботов',
+                  TITLE: 'Мой пункт в дизайнере роботов',
                 },
                 en: {
-                  TITLE: 'My automation designer button',
+                  TITLE: 'My automation designer item',
                 },
               },
             },
@@ -210,13 +226,13 @@ Array
                 [
                     'PLACEMENT' => 'CRM_DEAL_ROBOT_DESIGNER_TOOLBAR',
                     'HANDLER' => 'https://your-domain.com/widgets/crm-robot-designer-handler.php',
-                    'TITLE' => 'Моя кнопка в дизайнере роботов',
+                    'TITLE' => 'Мой пункт в дизайнере роботов',
                     'LANG_ALL' => [
                         'ru' => [
-                            'TITLE' => 'Моя кнопка в дизайнере роботов',
+                            'TITLE' => 'Мой пункт в дизайнере роботов',
                         ],
                         'en' => [
-                            'TITLE' => 'My automation designer button',
+                            'TITLE' => 'My automation designer item',
                         ],
                     ],
                 ]
@@ -238,10 +254,10 @@ Array
         {
             PLACEMENT: 'CRM_DEAL_ROBOT_DESIGNER_TOOLBAR',
             HANDLER: 'https://your-domain.com/widgets/crm-robot-designer-handler.php',
-            TITLE: 'Моя кнопка в дизайнере роботов',
+            TITLE: 'Мой пункт в дизайнере роботов',
             LANG_ALL: {
-                ru: { TITLE: 'Моя кнопка в дизайнере роботов' },
-                en: { TITLE: 'My automation designer button' }
+                ru: { TITLE: 'Мой пункт в дизайнере роботов' },
+                en: { TITLE: 'My automation designer item' }
             }
         },
         function(result) {
@@ -264,13 +280,13 @@ Array
         [
             'PLACEMENT' => 'CRM_DEAL_ROBOT_DESIGNER_TOOLBAR',
             'HANDLER' => 'https://your-domain.com/widgets/crm-robot-designer-handler.php',
-            'TITLE' => 'Моя кнопка в дизайнере роботов',
+            'TITLE' => 'Мой пункт в дизайнере роботов',
             'LANG_ALL' => [
                 'ru' => [
-                    'TITLE' => 'Моя кнопка в дизайнере роботов',
+                    'TITLE' => 'Мой пункт в дизайнере роботов',
                 ],
                 'en' => [
-                    'TITLE' => 'My automation designer button',
+                    'TITLE' => 'My automation designer item',
                 ],
             ],
         ]
@@ -288,13 +304,13 @@ Array
     res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
     	"PLACEMENT": "CRM_DEAL_ROBOT_DESIGNER_TOOLBAR",
     	"HANDLER":   "https://your-domain.com/widgets/crm-robot-designer-handler.php",
-    	"TITLE":     "Моя кнопка в дизайнере роботов",
+    	"TITLE":     "Мой пункт в дизайнере роботов",
     	"LANG_ALL": b24.Params{
     		"ru": b24.Params{
-    			"TITLE": "Моя кнопка в дизайнере роботов",
+    			"TITLE": "Мой пункт в дизайнере роботов",
     		},
     		"en": b24.Params{
-    			"TITLE": "My automation designer button",
+    			"TITLE": "My automation designer item",
     		},
     	},
     })
@@ -315,7 +331,6 @@ Array
 || **Ошибка** | **Как решить** ||
 || `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
 || `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Код собран для типа объекта, который эта точка не поддерживает, или приложению не выдан скоуп `crm`. Сверьте код с таблицей в начале страницы ||
-|| Зарегистрирован код `TASK_ROBOT_DESIGNER_TOOLBAR` или `SONET_GROUP_ROBOT_DESIGNER_TOOLBAR` | Эти точки относятся к автоматизации задач и рабочих групп и требуют других скоупов. Для CRM берите код из таблицы в начале страницы ||
 || Виджет зарегистрирован, но в интерфейсе не появляется | Завершите [установку приложения](../../../settings/app-installation/installation-finish.md) и перезагрузите страницу ||
 |#
 

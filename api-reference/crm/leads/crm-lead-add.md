@@ -141,7 +141,9 @@
 ||OTHER|Другое||
 |#
 
-Список всех возможных идентификаторов из справочника можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE` ||
+Список всех возможных идентификаторов из справочника можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром `filter[ENTITY_ID]=SOURCE`.
+
+Если параметр не передан, лид создается без источника ||
 || **STATUS_DESCRIPTION**
 [`string`](../../data-types.md) | Дополнительно о стадии ||
 || **STATUS_ID**

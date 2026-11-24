@@ -20,7 +20,7 @@
 || [tasks.task.add](./tasks-task-add-rest-v3.md) | Поля таблицы [Объект задачи](#taskdto) с идентификаторами связанных объектов: `creatorId`, `responsibleId`, `groupId`. Обязательные — `title`, `creatorId`, `responsibleId` | Объект задачи в том же составе, что [tasks.task.get](./tasks-task-get-rest-v3.md) без `select` ||
 || [tasks.task.update](./tasks-task-update-rest-v3.md) | Те же поля, что `tasks.task.add` | Признак успеха `true` ||
 || [tasks.task.get](./tasks-task-get-rest-v3.md) | `id` задачи и `select` | Без `select` — базовый набор полей без связанных объектов. Поля объекта перечислите в `select` через точку, например `["creator.name", "creator.email"]`. Идентификаторы постановщика, исполнителя, группы, стадии, потока, шаблона, письма и авторов изменений метод не отдает, даже если указать их в `select`. Такие поля отмечены в таблице ||
-|| [tasks.task.list](./tasks-task-list-rest-v3.md) | `select`, `filter`, `order`, `pagination` | Без `select` — только `id`. Идентификаторы связанных объектов возвращает, сами объекты — нет, даже если указать их поля в `select` ||
+|| [tasks.task.list](./tasks-task-list-rest-v3.md) | `select`, `filter`, `order`, `pagination` | Без `select` — только `id`. Идентификаторы связанных объектов возвращает, сами объекты — нет, даже если указать их поля в `select`. Исключение — соисполнители `accomplices` и наблюдатели `auditors`: их метод возвращает массивом объектов ||
 |#
 
 В `fields` методов `tasks.task.add` и `tasks.task.update` нельзя передать `id`, `created`, `accomplices`, `auditors`, `tags`, `userFields` и поля-объекты — `creator`, `group`, `parent` и другие. На такое поле метод вернет ошибку валидации «Поле не доступно к изменению». Поля с пометкой «изменяется автоматически» передавать не нужно: их значение вычисляет Битрикс24.
@@ -98,11 +98,11 @@
 || **statusChanged**
 [```datetime | null```](../data-types.md) | Дата изменения статуса в формате ISO 8601 ||
 || **accomplices**
-[`array<object>`](#user) | Соисполнители. Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md), например `["accomplices.id", "accomplices.name"]`.
+[`array<object>`](#user) | Соисполнители. Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) и [tasks.task.list](./tasks-task-list-rest-v3.md), например `["accomplices.id", "accomplices.name"]`.
 
 Методы [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md) поле не принимают. Чтобы назначить соисполнителей, используйте классический метод [tasks.task.update](./tasks-task-update.md) с полем `ACCOMPLICES` ||
 || **auditors**
-[`array<object>`](#user) | Наблюдатели. Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md), например `["auditors.id", "auditors.name"]`.
+[`array<object>`](#user) | Наблюдатели. Массив объектов типа [пользователь](#user). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) и [tasks.task.list](./tasks-task-list-rest-v3.md), например `["auditors.id", "auditors.name"]`.
 
 Методы [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md) поле не принимают. Чтобы назначить наблюдателей, используйте классический метод [tasks.task.update](./tasks-task-update.md) с полем `AUDITORS` ||
 || **parentId**
@@ -110,6 +110,8 @@
 Имеет значение `null`, если родительской задачи нет ||
 || **parent**
 [`object`](#taskdto) | Родительская задача. Объект типа [задача](#taskdto). Используйте для запроса данных в параметре `select` [tasks.task.get](./tasks-task-get-rest-v3.md) ||
+|| **checklistAutonumbering**
+[`boolean`](../data-types.md) | Автонумерация пунктов чек-листа. Поле принимают [tasks.task.add](./tasks-task-add-rest-v3.md) и [tasks.task.update](./tasks-task-update-rest-v3.md) ||
 || **containsChecklist**
 [`boolean`](../data-types.md) | Признак наличия чек-листа. Поле изменяется автоматически ||
 || **containsSubTasks**
@@ -200,7 +202,7 @@
 || **maxDeadlineChangeDate**
 [```datetime | null```](../data-types.md) | Дата, после которой нельзя менять крайний срок, в формате ISO 8601 ||
 || **maxDeadlineChanges**
-[```integer | null```](../data-types.md) | Максимальное количество переносов крайнего срока ||
+[```integer | null```](../data-types.md) | Максимальное количество переносов крайнего срока. Если передать в [tasks.task.update](./tasks-task-update-rest-v3.md) новое значение, счетчик уже сделанных переносов обнуляется ||
 || **requireDeadlineChangeReason**
 [`boolean`](../data-types.md) | Требовать причину при переносе крайнего срока ||
 || **tags**

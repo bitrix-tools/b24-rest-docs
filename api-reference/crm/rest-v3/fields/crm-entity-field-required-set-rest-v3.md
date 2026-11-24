@@ -34,7 +34,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.field.required.set`, например `crm.smartprocess1038.field.required.set` | [Поля смарт-процесса](../items/fields-smart-process.md) ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`. Методы обязательности полей есть у смарт-процесса при любых настройках типа. У моей компании этих методов нет: на `crm.mycompany.field.required.set` Битрикс24 ответит ошибкой [«Метод не найден»](#method-not-found).
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Методы обязательности полей есть у смарт-процесса при любых настройках типа. У моей компании этих методов нет: на `crm.mycompany.field.required.set` Битрикс24 ответит ошибкой [«Метод не найден»](#method-not-found).
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.field.required.set`, а не `crm.smartInvoice.field.required.set`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -482,7 +482,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.smartinvoice.field.required.set`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). У моей компании этих методов нет ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.smartinvoice.field.required.set`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). У моей компании этих методов нет ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

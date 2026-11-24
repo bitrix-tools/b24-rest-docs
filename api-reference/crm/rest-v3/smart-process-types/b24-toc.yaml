@@ -1,0 +1,17 @@
+title: Типы смарт-процессов
+href: index.md
+items:
+  - name: Обзор методов
+    href: index.md
+  - name: Создать тип смарт-процесса
+    href: crm-smart-process-add-rest-v3.md
+  - name: Изменить тип смарт-процесса
+    href: crm-smart-process-update-rest-v3.md
+  - name: Получить тип смарт-процесса
+    href: crm-smart-process-get-rest-v3.md
+  - name: Получить список типов смарт-процессов
+    href: crm-smart-process-list-rest-v3.md
+  - name: Получить описание поля типа смарт-процесса
+    href: crm-smart-process-field-get-rest-v3.md
+  - name: Получить описание полей типа смарт-процесса
+    href: crm-smart-process-field-list-rest-v3.md

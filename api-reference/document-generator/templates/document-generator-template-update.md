@@ -45,9 +45,7 @@
 Файл можно передать тремя способами:
 - [строкой Base64](../../files/how-to-upload-files.md#string) — имя файла в этом формате не передается
 - [массивом](../../files/how-to-upload-files.md#array) `["имя_файла.docx","base64_контент"]`
-- как файл `multipart/form-data` с именем поля `file`
-
-Параметр `fileId` метод не принимает: если передать его, значение будет проигнорировано ||
+- как файл `multipart/form-data` с именем поля `file` ||
 || **numeratorId**
 [`integer`](../../data-types.md) | Идентификатор нумератора.
 
@@ -527,6 +525,9 @@ HTTP-статус: **400**
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
 || `400` | `100` | Invalid value {abc} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не объектом. В фигурных скобках — переданное значение ||
 || `400` | `0` | Шаблон не найден | Шаблон с указанным `id` не найден ||
+|| `400` | `FILE_ID_NOT_SUPPORTED` | FILE_ID_NOT_SUPPORTED | В `fields` передан `fileId`. Файл шаблона передается только в `file` ||
+|| `400` | `0` | Missing file content | В `file` передан `null` ||
+|| `400` | `0` | Invalid file content | В `file` передана пустая строка или массив без содержимого файла ||
 || `400` | `TIMEZONE_INVALID` | Timezone must be a canonical IANA identifier. | В поле `timezone` передан не идентификатор часового пояса IANA, например смещение `+03:00` ||
 || `400` | `BX_EMPTY_REQUIRED` | Не заполнено обязательное поле "NAME" | В `name` передана пустая строка ||
 || `400` | `BX_INVALID_VALUE` | Для значения поля "NAME" превышена максимальная длина: 100. | Значение `name` длиннее 100 символов ||

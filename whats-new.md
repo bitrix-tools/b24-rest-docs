@@ -2,6 +2,12 @@
 
 ## 2026
 
+### 23 ноября, 2026
+
+- Добавили методы CRM в REST 3.0: [типы смарт-процессов](./api-reference/crm/rest-v3/smart-process-types/index.md) `crm.smartprocess.*`, [историю изменений и историю стадий](./api-reference/crm/rest-v3/history/index.md) элементов, [корзину CRM](./api-reference/crm/rest-v3/recyclebin/index.md), копирование элемента [crm.<тип>.copy](./api-reference/crm/rest-v3/items/crm-entity-copy-rest-v3.md), [звонки](./api-reference/crm/rest-v3/activities/crm-entity-activity-call-list-rest-v3.md) и [чаты открытых линий](./api-reference/crm/rest-v3/activities/crm-entity-activity-openline-list-rest-v3.md) элемента, справочник типов пользовательских полей [customfieldtype](./api-reference/crm/rest-v3/dictionaries/crm-dictionary-list-rest-v3.md#custom-field-types)
+- Добавили метод [tasks.flow.Team.list](./api-reference/tasks/flow/tasks-flow-team-list.md): возвращает сотрудников команды потока, с параметром `withNavigation` — с данными постраничной навигации
+- Добавили методы шаблонов задач в REST 3.0: шаблон [tasks.template.*](./api-reference/tasks/template/index.md#rest-v3), его файлы, история, повторение и создание задачи по шаблону, чек-лист [tasks.template.checklist.*](./api-reference/tasks/template/checklist/tasks-template-checklist-get-rest-v3.md) и связи шаблонов [tasks.template.relation.*](./api-reference/tasks/template/relation/index.md). Поля шаблона описаны на странице [Поля шаблона задачи v 3.0](./api-reference/tasks/template/fields-rest-v3.md)
+
 ### 19 ноября, 2026
 
 - Добавили методы [syncconnector.followup.*](./api-reference/telephony/follow-up/index.md#sync) в REST 3.0: получают Follow-up звонков Битрикс24 Синк — список за период и итоги одной страницы подробного разбора, включая методы получения схемы полей `field.list` и `field.get`

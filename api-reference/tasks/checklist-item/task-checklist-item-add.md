@@ -417,6 +417,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** | **Значение**  ||
+|| `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#4; ; 4/TE/ACTION_NOT_ALLOWED<br> | Нет права добавлять пункты чек-листа в задаче ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#8; Добавление элемента: действие недоступно; 8/TE/ACTION_FAILED_TO_BE_PROCESSED<br> | Нет доступа к задаче или недостаточно прав, чтобы работать с чек-листами в задаче ||
 || `ERROR_CORE` | TASKS_ERROR_EXCEPTION_#256; Param #0 (taskId) expected by method ctaskchecklistitem::add(), but not given.; 256/TE/WRONG_ARGUMENTS<br> | Не передан обязательный параметр `TASKID` ||
 || `ERROR_CORE` | TASKS_ERROR_ASSERT_EXCEPTION<br> | Значение `TASKID` меньше или равно нулю ||

@@ -35,14 +35,14 @@
 || Смарт-процесс | `smartprocess<entityTypeId>` | `crm.smartprocess1038.add` | [Поля смарт-процесса](./fields-smart-process.md) ||
 |#
 
-Идентификатор типа смарт-процесса `entityTypeId` возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Имя метода пишется в нижнем регистре: `crm.smartinvoice.add`, а не `crm.smartInvoice.add`.
+Идентификатор типа смарт-процесса `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Имя метода пишется в нижнем регистре: `crm.smartinvoice.add`, а не `crm.smartInvoice.add`.
 
 Набор методов смарт-процесса зависит от настроек его типа. Например, без привязки клиента у типа нет метода `setprimarycontact`. Какие поля зависят от настроек, описано на странице [полей смарт-процесса](./fields-smart-process.md).
 
 ## Как начать работу
 
 1. Узнайте поля типа объекта на его странице полей или методом [crm.<тип>.field.list](../fields/crm-entity-field-list-rest-v3.md). Метод показывает, какие поля можно изменять, фильтровать и сортировать
-2. Создайте элемент методом [crm.<тип>.add](./crm-entity-add-rest-v3.md). У лида, компании и моей компании обязательно поле `title`, у контакта — `name` или `lastName`
+2. Создайте элемент методом [crm.<тип>.add](./crm-entity-add-rest-v3.md). У лида, компании и моей компании обязательно поле `title`, у контакта — `name` или `lastName`. Чтобы создать элемент по образцу существующего, используйте [crm.<тип>.copy](./crm-entity-copy-rest-v3.md): метод копирует поля и товарные позиции, а в `fields` можно переопределить значения. Дела не копируются, у документов CRM метода нет
 3. Получите элемент методом [crm.<тип>.get](./crm-entity-get-rest-v3.md) или список элементов методом [crm.<тип>.list](./crm-entity-list-rest-v3.md). Без параметра `select` методы возвращают только `id`: перечислите нужные поля в `select`
 4. Измените элемент методом [crm.<тип>.update](./crm-entity-update-rest-v3.md). Чтобы добавить или удалить одно значение множественного поля, например телефон или контакт, используйте [crm.<тип>.addfieldvalue](./crm-entity-add-field-value-rest-v3.md) и [crm.<тип>.deletefieldvalue](./crm-entity-delete-field-value-rest-v3.md)
 5. Удалите элемент методом [crm.<тип>.delete](./crm-entity-delete-rest-v3.md)
@@ -55,7 +55,7 @@
 
 ## Связь с другими объектами
 
-Элемент CRM связан с воронками, пользовательскими полями, контактами и компаниями, товарами, реквизитами, делами и видом карточки.
+Элемент CRM связан с воронками, пользовательскими полями, контактами и компаниями, товарами, реквизитами, делами, историей изменений, корзиной и видом карточки.
 
 **Воронки и стадии.** Воронка элемента хранится в поле `categoryId`, стадия — в `stageId`. Значения получают методами [crm.<тип>.category.list](../categories/crm-entity-category-list-rest-v3.md) и [crm.<тип>.category.stage.list](../categories/crm-entity-category-stage-list-rest-v3.md). Воронки есть у сделок, контактов, компаний и смарт-процессов, стадии — у сделок и смарт-процессов.
 
@@ -67,7 +67,9 @@
 
 **Реквизиты и адреса.** Реквизиты и адреса контакта и компании — отдельные объекты, их методы описаны в группах [crm.<тип>.requisite.*](../requisites/crm-entity-requisite-list-rest-v3.md) и [crm.<тип>.address.*](../addresses/crm-entity-address-list-rest-v3.md).
 
-**Дела.** Дела элемента возвращает метод [crm.<тип>.activity.list](../activities/crm-entity-activity-list-rest-v3.md).
+**Дела.** Дела элемента возвращает метод [crm.<тип>.activity.list](../activities/crm-entity-activity-list-rest-v3.md), звонки — [crm.<тип>.activity.call.list](../activities/crm-entity-activity-call-list-rest-v3.md), чаты открытых линий — [crm.<тип>.activity.openline.list](../activities/crm-entity-activity-openline-list-rest-v3.md).
+
+**История и корзина.** Историю изменения полей элемента возвращает метод [crm.<тип>.history.list](../history/crm-entity-history-list-rest-v3.md), историю стадий — [crm.<тип>.stagehistory.list](../history/crm-entity-stage-history-list-rest-v3.md). Если для типа объекта включена корзина, удаленный элемент попадает в нее. Список удаленных элементов возвращает [crm.recyclebin.list](../recyclebin/crm-recyclebin-list-rest-v3.md), восстанавливает элемент [crm.recyclebin.restore](../recyclebin/crm-recyclebin-restore-rest-v3.md). Восстановленный элемент получает новый идентификатор.
 
 **Карточка элемента.** Какие поля и блоки видит пользователь в карточке, задают [виды карточки](../detail-page-layout/index.md).
 
@@ -85,6 +87,7 @@
 || [crm.<тип>.update](./crm-entity-update-rest-v3.md) | Изменяет элемент ||
 || [crm.<тип>.get](./crm-entity-get-rest-v3.md) | Возвращает элемент по идентификатору ||
 || [crm.<тип>.list](./crm-entity-list-rest-v3.md) | Возвращает список элементов с фильтром, сортировкой и постраничной навигацией ||
+|| [crm.<тип>.copy](./crm-entity-copy-rest-v3.md) | Создает копию элемента, в `fields` можно переопределить значения полей ||
 || [crm.<тип>.delete](./crm-entity-delete-rest-v3.md) | Удаляет элемент ||
 || [crm.<тип>.aggregate](./crm-entity-aggregate-rest-v3.md) | Считает элементы по фильтру ||
 |#

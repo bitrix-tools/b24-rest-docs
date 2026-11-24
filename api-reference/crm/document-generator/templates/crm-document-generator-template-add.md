@@ -532,7 +532,7 @@ HTTP-статус: **400**
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
 || `400` | `100` | Invalid value {...} to match with parameter {fields}. Should be value of type array. | Параметр `fields` передан не как объект ||
 || `400` | `0` | Empty required fields: name, numeratorId, region, entityTypeId | Не переданы обязательные поля в объекте `fields` ||
-|| `400` | `0` | Missing file content | Не передан файл шаблона в `fields.file` ||
+|| `400` | `0` | Invalid file content | Не передан файл шаблона в `fields.file` или передано пустое значение ||
 || `400` | `0` | Empty required fields: providers | Ни один идентификатор `entityTypeId` не соответствует доступному поставщику данных ||
 || `400` | `0` | Could not save file | Не удалось сохранить файл шаблона ||
 || `400` | `0` | You do not have permissions to modify templates | Недостаточно прав для изменения шаблонов генератора документов ||

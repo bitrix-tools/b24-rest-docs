@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может выполнять метод: пользователь с правом просмотра документов генератора документов
+> Кто может выполнять метод: пользователь с правом изменения документов генератора документов и доступом к CRM-объекту
 
 Метод `crm.documentgenerator.document.upload` загружает готовый документ и прикрепляет его к CRM-объекту.
 
@@ -57,7 +57,7 @@
 Подробнее: [Как загружать файлы](../../../files/how-to-upload-files.md) ||
 |#
 
-Обязательные поля должны содержать значения, отличные от пустой строки и строки `0`. Значение `entityId` должно быть больше нуля.
+Обязательные поля должны содержать значения, отличные от пустой строки и строки `0`. Значения `entityTypeId` и `entityId` должны быть целыми числами больше нуля. Если они не переданы, некорректны или у пользователя нет доступа к CRM-объекту, метод вернет ошибку `ACCESS_DENIED`.
 
 {% note info "Особенности метода" %}
 
@@ -516,7 +516,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "0",
-    "error_description": "Empty required fields: entityTypeId, fileContent, region, entityId, title, number"
+    "error_description": "Empty required fields: fileContent, region, title, number"
 }
 ```
 
@@ -527,11 +527,12 @@ HTTP-статус: **400**
 #|
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `100` | Could not find value for parameter {fields} | Не передан обязательный параметр `fields` ||
-|| `400` | `0` | Empty required fields: entityTypeId, fileContent, region, entityId, title, number | В пустом объекте `fields` отсутствуют обязательные поля ||
+|| `400` | `0` | Empty required fields: fileContent, region, title, number | В пустом объекте `fields` отсутствуют обязательные поля ||
 || `400` | `0` | Empty required fields: fileContent | Не передано обязательное поле `fields.fileContent` ||
-|| `400` | `0` | Wrong "entityTypeId" field value | Передан некорректный `fields.entityTypeId` ||
-|| `400` | `0` | No provider for entityTypeId | Для `fields.entityTypeId` не найден подходящий CRM-провайдер ||
-|| `400` | `0` | Wrong "entityId" field value | Передан некорректный `fields.entityId` ||
+|| `400` | `ACCESS_DENIED` | Access denied | Возможные причины:
+- у пользователя нет права на изменение документов генератора документов
+- `fields.entityTypeId` или `fields.entityId` не переданы или некорректны, CRM-объект не найден
+- у пользователя нет доступа к CRM-объекту ||
 || `400` | `0` | Could not save file | Не удалось сохранить загруженный файл ||
 || `400` | `0` | Module crm is not installed | Модуль `crm` недоступен на этапе DG-обработки ||
 || `400` | `0` | Wrong provider ... | Некорректно определен провайдер документа ||

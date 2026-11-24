@@ -1,4 +1,4 @@
-# Кнопка в воронках и туннелях продаж CRM_FUNNELS_TOOLBAR, CRM_XXX_FUNNELS_TOOLBAR
+# Кнопка в воронках и туннелях продаж CRM_FUNNELS_TOOLBAR, CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR
 
 {% note tip "" %}
 
@@ -11,7 +11,7 @@
 
 > Scope: [`placement, crm`](../../scopes/permissions.md)
 
-Виджет добавляет свою кнопку в окно, где настраивают воронки и туннели продаж.
+Виджет добавляет пункт в меню составной кнопки в окне настройки воронок и туннелей продаж [сделок](../../crm/deals/index.md) и [пользовательских типов объектов](../../crm/universal/index.md).
 
 Код точки встраивания указывается в параметре `PLACEMENT` метода [placement.bind](../placement-bind.md).
 
@@ -21,26 +21,43 @@
 
 {% endnote %}
 
-## Куда встраивается виджет
+## Как работает точка
+
+1. Приложение регистрирует обработчик методом [placement.bind](../placement-bind.md): в `PLACEMENT` передает код из [таблицы](#codes), в `HANDLER` — URL обработчика. Метод работает только от имени приложения, через вебхук точку не зарегистрировать. Зарегистрировать виджет может администратор или сотрудник с правом создавать приложения
+2. В меню составной кнопки в шапке окна воронок и туннелей продаж появляется пункт с названием из `TITLE`. Если название не задано, используется название приложения. Пункты с одинаковым `GROUP_NAME` объединяются в подменю
+3. Пользователь выбирает пункт, и Битрикс24 открывает обработчик во фрейме. Обработчик получает POST-запрос с [данными вызова](#handler-data)
+4. Обработчик может вызывать REST от имени текущего пользователя с токеном из `AUTH_ID`. Тип объекта CRM определяется по коду в `PLACEMENT`: `CRM_FUNNELS_TOOLBAR` — сделки, `CRM_DYNAMIC_183_FUNNELS_TOOLBAR` — пользовательский тип с `entityTypeId` 183. Идентификатор воронки в обработчик не передается, воронки типа можно получить методом [crm.category.list](../../crm/universal/category/crm-category-list.md)
+
+## Когда использовать
+
+Точка подходит, когда нужно:
+
+- открыть настройки интеграции из окна воронок и туннелей
+- показать отчет приложения по воронкам
+
+Для действий из списка объектов используйте [CRM_XXX_LIST_TOOLBAR](./list-toolbar.md), а из дизайнера роботов — [CRM_XXX_ROBOT_DESIGNER_TOOLBAR](./robot-designer-toolbar.md).
+
+## Куда встраивается виджет {#codes}
 
 #|
 || **Код точки встраивания** | **Место** ||
-|| `CRM_FUNNELS_TOOLBAR` | Кнопка в воронках и туннелях [сделок](../../crm/deals/index.md) ||
-|| `CRM_SMART_INVOICE_FUNNELS_TOOLBAR` | Кнопка в воронках и туннелях [новых счетов](../../crm/universal/invoice.md) ||
-|| `CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR` | Кнопка в воронках и туннелях пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_FUNNELS_TOOLBAR` ||
+|| `CRM_FUNNELS_TOOLBAR` | Пункт меню составной кнопки в воронках и туннелях [сделок](../../crm/deals/index.md) ||
+|| `CRM_DYNAMIC_XXX_FUNNELS_TOOLBAR` | Пункт меню составной кнопки в воронках и туннелях пользовательского типа объектов CRM. Вместо XXX необходимо указывать числовой идентификатор конкретного [пользовательского типа объектов](../../crm/universal/index.md). Например, `CRM_DYNAMIC_183_FUNNELS_TOOLBAR` ||
 |#
-
-У сделок код точки не содержит имени объекта — `CRM_FUNNELS_TOOLBAR`. У остальных типов имя объекта входит в код {.b24-info}
 
 ### Где находится в интерфейсе
 
-Откройте канбан объектов CRM, раскройте список воронок и выберите *Воронки и туннели продаж*. Кнопка приложения выводится справа в шапке окна.
+Откройте канбан объектов CRM, раскройте список воронок и выберите *Воронки и туннели продаж*. Справа в шапке окна выводится составная кнопка: нажмите стрелку на ней и выберите пункт приложения. На самой кнопке показан пункт, который пользователь выбирает чаще всего, или подпись *Расширения*. Так кнопка выглядит на снимке ниже.
 
-![Кнопка в воронках и туннелях сделок](./_images/CRM_FUNNELS_TOOLBAR.png "Кнопка в воронках и туннелях сделок")
+Для открытия окна у пользователя должно быть хотя бы одно из прав: управление воронками, стадиями или туннелями соответствующего типа CRM. У пользовательского типа объектов окно открывается, только если в настройках типа включены воронки.
 
-## Что получает обработчик
+![Пункт меню составной кнопки в воронках и туннелях сделок](./_images/CRM_FUNNELS_TOOLBAR.png "Пункт меню составной кнопки в воронках и туннелях сделок")
+
+## Что получает обработчик {#handler-data}
 
 Данные передаются POST-запросом: часть параметров — в query-строке адреса обработчика, остальные — в теле запроса {.b24-info}
+
+Пример показан для точки `CRM_FUNNELS_TOOLBAR`. У остальных кодов состав данных такой же: меняются значение `PLACEMENT` и путь в `URI`.
 
 ```php
 
@@ -70,9 +87,7 @@ Array
 
 ### PLACEMENT_OPTIONS
 
-Значение `PLACEMENT_OPTIONS` передается как JSON-строка с контекстом вызова.
-
-Собственных ключей у точки нет — в контекст попадает только универсальный ключ `URI`.
+Собственных ключей у точки нет. Общий ключ `URI` описан в стандартных данных выше.
 
 ## OPTIONS при регистрации через placement.bind
 
@@ -93,13 +108,13 @@ Array
       -d '{
         "PLACEMENT": "CRM_FUNNELS_TOOLBAR",
         "HANDLER": "https://your-domain.com/widgets/crm-funnels-toolbar-handler.php",
-        "TITLE": "Моя кнопка в туннелях продаж",
+        "TITLE": "Мой пункт в туннелях продаж",
         "LANG_ALL": {
           "ru": {
-            "TITLE": "Моя кнопка в туннелях продаж"
+            "TITLE": "Мой пункт в туннелях продаж"
           },
           "en": {
-            "TITLE": "My sales tunnels button"
+            "TITLE": "My sales tunnels item"
           }
         },
         "auth": "**put_access_token_here**"
@@ -123,13 +138,13 @@ Array
         params: {
           PLACEMENT: 'CRM_FUNNELS_TOOLBAR',
           HANDLER: 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
-          TITLE: 'My sales tunnels button',
+          TITLE: 'Мой пункт в туннелях продаж',
           LANG_ALL: {
             ru: {
-              TITLE: 'Моя кнопка в туннелях продаж',
+              TITLE: 'Мой пункт в туннелях продаж',
             },
             en: {
-              TITLE: 'My sales tunnels button',
+              TITLE: 'My sales tunnels item',
             },
           },
         },
@@ -165,13 +180,13 @@ Array
             params: {
               PLACEMENT: 'CRM_FUNNELS_TOOLBAR',
               HANDLER: 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
-              TITLE: 'My sales tunnels button',
+              TITLE: 'Мой пункт в туннелях продаж',
               LANG_ALL: {
                 ru: {
-                  TITLE: 'Моя кнопка в туннелях продаж',
+                  TITLE: 'Мой пункт в туннелях продаж',
                 },
                 en: {
-                  TITLE: 'My sales tunnels button',
+                  TITLE: 'My sales tunnels item',
                 },
               },
             },
@@ -207,13 +222,13 @@ Array
                 [
                     'PLACEMENT' => 'CRM_FUNNELS_TOOLBAR',
                     'HANDLER' => 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
-                    'TITLE' => 'Моя кнопка в туннелях продаж',
+                    'TITLE' => 'Мой пункт в туннелях продаж',
                     'LANG_ALL' => [
                         'ru' => [
-                            'TITLE' => 'Моя кнопка в туннелях продаж',
+                            'TITLE' => 'Мой пункт в туннелях продаж',
                         ],
                         'en' => [
-                            'TITLE' => 'My sales tunnels button',
+                            'TITLE' => 'My sales tunnels item',
                         ],
                     ],
                 ]
@@ -235,10 +250,10 @@ Array
         {
             PLACEMENT: 'CRM_FUNNELS_TOOLBAR',
             HANDLER: 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
-            TITLE: 'Моя кнопка в туннелях продаж',
+            TITLE: 'Мой пункт в туннелях продаж',
             LANG_ALL: {
-                ru: { TITLE: 'Моя кнопка в туннелях продаж' },
-                en: { TITLE: 'My sales tunnels button' }
+                ru: { TITLE: 'Мой пункт в туннелях продаж' },
+                en: { TITLE: 'My sales tunnels item' }
             }
         },
         function(result) {
@@ -261,13 +276,13 @@ Array
         [
             'PLACEMENT' => 'CRM_FUNNELS_TOOLBAR',
             'HANDLER' => 'https://your-domain.com/widgets/crm-funnels-toolbar-handler.php',
-            'TITLE' => 'Моя кнопка в туннелях продаж',
+            'TITLE' => 'Мой пункт в туннелях продаж',
             'LANG_ALL' => [
                 'ru' => [
-                    'TITLE' => 'Моя кнопка в туннелях продаж',
+                    'TITLE' => 'Мой пункт в туннелях продаж',
                 ],
                 'en' => [
-                    'TITLE' => 'My sales tunnels button',
+                    'TITLE' => 'My sales tunnels item',
                 ],
             ],
         ]
@@ -285,13 +300,13 @@ Array
     res, err := client.Core().Call(ctx, "placement.bind", b24.Params{
     	"PLACEMENT": "CRM_FUNNELS_TOOLBAR",
     	"HANDLER":   "https://your-domain.com/widgets/crm-funnels-toolbar-handler.php",
-    	"TITLE":     "Моя кнопка в туннелях продаж",
+    	"TITLE":     "Мой пункт в туннелях продаж",
     	"LANG_ALL": b24.Params{
     		"ru": b24.Params{
-    			"TITLE": "Моя кнопка в туннелях продаж",
+    			"TITLE": "Мой пункт в туннелях продаж",
     		},
     		"en": b24.Params{
-    			"TITLE": "My sales tunnels button",
+    			"TITLE": "My sales tunnels item",
     		},
     	},
     })
@@ -311,8 +326,8 @@ Array
 #|
 || **Ошибка** | **Как решить** ||
 || `placement.bind` возвращает `WRONG_AUTH_TYPE` с описанием `Application context required` | Регистрируйте точку от имени приложения. Вебхуком точку не привязать ||
-|| `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Код собран для типа объекта, который эта точка не поддерживает, или приложению не выдан скоуп `crm`. Сверьте код с таблицей в начале страницы ||
-|| Для сделок зарегистрирован код `CRM_DEAL_FUNNELS_TOOLBAR` | У сделок код точки не содержит имени объекта — используйте `CRM_FUNNELS_TOOLBAR` ||
+|| `placement.bind` возвращает `ERROR_PLACEMENT_NOT_FOUND` | Сверьте код с [таблицей точек](#codes) и проверьте, выдан ли приложению scope `crm` ||
+|| `placement.bind` с кодом `CRM_DEAL_FUNNELS_TOOLBAR` возвращает `ERROR_PLACEMENT_NOT_FOUND` | У сделок код точки не содержит имени объекта — используйте `CRM_FUNNELS_TOOLBAR` ||
 || Виджет зарегистрирован, но в интерфейсе не появляется | Завершите [установку приложения](../../../settings/app-installation/installation-finish.md) и перезагрузите страницу ||
 |#
 

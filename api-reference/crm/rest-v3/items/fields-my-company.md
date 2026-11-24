@@ -282,7 +282,7 @@
 || **id**
 [`integer`](../../../data-types.md) | Идентификатор значения. Назначается при записи, передавать его нельзя: метод вернет ошибку «Поле "id" не доступно к заполнению» ||
 || **valueTypeId**
-[`string`](../../../data-types.md) | Тип значения, например `WORK` или `MOBILE`. Обязательное поле при записи. Допустимые типы для каждого поля возвращают методы [crm.dictionary.phonetype.list, crm.dictionary.emailtype.list, crm.dictionary.webtype.list и crm.dictionary.imtype.list](../dictionaries/crm-dictionary-list-rest-v3.md) ||
+[`string`](../../../data-types.md) | Тип значения, например `WORK` или `MOBILE`. Если не передать при записи, тип берется из настройки «Тип по умолчанию» этого поля в карточке, а если настройка не задана — `WORK`, у `im` — `OTHER`. Допустимые типы для каждого поля возвращают методы [crm.dictionary.phonetype.list, crm.dictionary.emailtype.list, crm.dictionary.webtype.list и crm.dictionary.imtype.list](../dictionaries/crm-dictionary-list-rest-v3.md) ||
 || **valueType**
 [`object`](../../../data-types.md) | Тип значения с названием: `id`, `name` — полное название, например `Рабочий телефон`, `nameShort` — краткое, например `Рабочий`. Только чтение ||
 || **value**

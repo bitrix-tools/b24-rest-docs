@@ -33,7 +33,7 @@
 
 У смарт-процесса методы воронок есть, только если в настройках типа включены воронки, а методы стадий — если включены и воронки, и стадии. У лида, предложения, счета и моей компании методов воронок и стадий нет.
 
-Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`. Имена методов пишутся в нижнем регистре: `crm.smartprocess1038.category.list`.
+Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Имена методов пишутся в нижнем регистре: `crm.smartprocess1038.category.list`.
 
 ## Как начать работу
 

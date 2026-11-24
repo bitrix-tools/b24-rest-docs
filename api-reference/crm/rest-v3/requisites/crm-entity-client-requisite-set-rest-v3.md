@@ -32,7 +32,7 @@
 || Смарт-процесс | `crm.smartprocess<entityTypeId>.clientrequisite.set`, например `crm.smartprocess1038.clientrequisite.set` ||
 |#
 
-Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) в поле `entityTypeId`. Методы есть у смарт-процесса при любых настройках типа.
+Для смарт-процесса в имя метода подставляется идентификатор его типа `entityTypeId`. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Методы есть у смарт-процесса при любых настройках типа.
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.clientrequisite.set`, а не `crm.smartInvoice.clientRequisite.set`. На имя в другом регистре метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -427,7 +427,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.clientrequisite.set`. Для смарт-процесса проверьте `entityTypeId` методом [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) ||
+|| `-` | Метод `#METHOD#` не найден | Проверьте имя метода: оно пишется в нижнем регистре, например `crm.deal.clientrequisite.set`. Для смарт-процесса проверьте `entityTypeId` методом [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md) ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

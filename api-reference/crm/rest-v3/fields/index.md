@@ -39,7 +39,7 @@
 
 У моей компании есть только методы описания полей: [crm.mycompany.field.get](./crm-entity-field-get-rest-v3.md) и [crm.mycompany.field.list](./crm-entity-field-list-rest-v3.md). Методов пользовательских полей, вариантов полей-списков и обязательности у нее нет.
 
-Идентификатор типа своего смарт-процесса `entityTypeId` возвращает метод [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md). Методы полей есть у смарт-процесса при любых настройках типа, например если в типе выключены воронки и стадии.
+Идентификатор типа своего смарт-процесса `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Методы полей есть у смарт-процесса при любых настройках типа, например если в типе выключены воронки и стадии.
 
 Имя метода пишется в нижнем регистре: `crm.smartinvoice.field.list`, а не `crm.smartInvoice.field.list`.
 

@@ -5,19 +5,59 @@ items:
     href: index.md
   - name: Поля шаблона задачи
     href: fields.md
+  - name: Поля шаблона задачи v 3.0
+    href: fields-rest-v3.md
   - name: Добавить шаблон задачи
     href: tasks-template-add.md
+  - name: Добавить шаблон задачи v 3.0
+    href: tasks-template-add-rest-v3.md
   - name: Изменить шаблон задачи
     href: tasks-template-update.md
+  - name: Изменить шаблон задачи v 3.0
+    href: tasks-template-update-rest-v3.md
   - name: Получить шаблон задачи
     href: tasks-template-get.md
+  - name: Получить шаблон задачи v 3.0
+    href: tasks-template-get-rest-v3.md
   - name: Получить список шаблонов задач
     href: tasks-template-list.md
+  - name: Получить список шаблонов задач v 3.0
+    href: tasks-template-list-rest-v3.md
+  - name: Скопировать шаблон задачи v 3.0
+    href: tasks-template-copy-rest-v3.md
   - name: Удалить шаблон задачи
     href: tasks-template-delete.md
+  - name: Удалить шаблон задачи v 3.0
+    href: tasks-template-delete-rest-v3.md
   - name: Получить поля шаблона задачи
     href: tasks-template-fields.md
+  - name: Получить права на шаблон задачи v 3.0
+    href: tasks-template-access-get-rest-v3.md
+  - name: Получить элементы CRM шаблона задачи v 3.0
+    href: tasks-template-crm-item-list-rest-v3.md
+  - name: Получить файлы шаблона задачи v 3.0
+    href: tasks-template-file-list-rest-v3.md
+  - name: Прикрепить файлы к шаблону задачи v 3.0
+    href: tasks-template-file-attach-rest-v3.md
+  - name: Открепить файлы от шаблона задачи v 3.0
+    href: tasks-template-file-detach-rest-v3.md
+  - name: Получить историю повторений шаблона задачи v 3.0
+    href: tasks-template-history-list-rest-v3.md
+  - name: Получить количество записей истории шаблона задачи v 3.0
+    href: tasks-template-history-count-rest-v3.md
+  - name: Включить или отключить повторение шаблона задачи v 3.0
+    href: tasks-template-replication-set-state-rest-v3.md
+  - name: Сохранить значения по умолчанию для формы шаблона v 3.0
+    href: tasks-template-state-set-rest-v3.md
+  - name: Получить заготовку задачи по шаблону v 3.0
+    href: tasks-template-task-get-rest-v3.md
+  - name: Создать задачу по шаблону v 3.0
+    href: tasks-template-task-add-rest-v3.md
   - name: Чек-листы шаблонов задач
     include:
       path: checklist/b24-toc.yaml
+      mode: link
+  - name: Связи шаблонов задач
+    include:
+      path: relation/b24-toc.yaml
       mode: link

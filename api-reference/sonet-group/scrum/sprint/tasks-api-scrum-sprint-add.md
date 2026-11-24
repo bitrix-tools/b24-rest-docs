@@ -36,7 +36,7 @@
 
 Идентификатор можно получить методом [socialnetwork.api.workgroup.list](../../socialnetwork-api-workgroup-list.md). Группа является Скрамом, если у нее заполнено поле `SCRUM_MASTER_ID` ||
 || **name*** 
-[`string`](../../../data-types.md) | Название спринта ||
+[`string`](../../../data-types.md) | Название спринта. Название только из пробелов метод не принимает и возвращает ошибку `Sprint name is required` ||
 || **createdBy*** 
 [`integer`](../../../data-types.md) | Идентификатор пользователя, который создает спринт.
 
@@ -471,6 +471,7 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `0` | `Access denied` | Нет доступа к Скраму ||
 || `400` | `0` | `Group id not found` | Не передано поле `groupId` ||
+|| `400` | `0` | `Sprint name is required` | В `name` передана строка только из пробелов ||
 || `400` | `0` | `Unable to add sprint` | Не удалось создать спринт, например, не передано поле `name` или `createdBy` ||
 || `400` | `0` | `Unable to add two active sprint` | Передан статус `active`, а в Скраме уже есть активный спринт ||
 || `400` | `0` | `Incorrect sprint status` | Поле `status` не передано или содержит значение не из списка `planned`, `active`, `completed` ||

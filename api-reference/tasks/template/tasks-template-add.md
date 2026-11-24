@@ -481,6 +481,7 @@ HTTP-статус: **400**
 
 ## Продолжите изучение
 
+- [{#T}](./tasks-template-add-rest-v3.md)
 - [{#T}](./tasks-template-fields.md)
 - [{#T}](./tasks-template-get.md)
 - [{#T}](./tasks-template-list.md)
