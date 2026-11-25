@@ -15,7 +15,7 @@
 
 Метод `bizproc.task.list` получает список заданий бизнес-процессов.
 
-Администратор портала может запросить все задания или задания любого пользователя. Обычный пользователь — свои задания или подчиненного.
+Администратор Битрикс24 может запросить все задания или задания любого пользователя. Обычный пользователь — свои задания или подчиненного.
 
 Для запроса своих заданий можно не указывать фильтр по `USER_ID`.
 
@@ -72,7 +72,9 @@
 - `asc` — по возрастанию
 - `desc` — по убыванию
   
-Можно указать несколько полей для сортировки, например, `{NAME: 'ASC', ID: 'DESC'}` ||
+Можно указать несколько полей для сортировки, например, `{NAME: 'ASC', ID: 'DESC'}`
+
+Значение по умолчанию — `{"ID": "DESC"}` ||
 || **START**
 [`integer`](../../data-types.md) | Параметр используется для управления постраничной навигацией.
 
@@ -162,41 +164,6 @@
     
     // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
     
-    const parameters = {
-        select: [
-            'ID',
-            'WORKFLOW_ID',
-            'DOCUMENT_NAME',
-            'DESCRIPTION',
-            'NAME',
-            'MODIFIED',
-            'WORKFLOW_STARTED',
-            'WORKFLOW_STARTED_BY',
-            'OVERDUE_DATE',
-            'WORKFLOW_TEMPLATE_ID',
-            'WORKFLOW_TEMPLATE_NAME',
-            'WORKFLOW_STATE',
-            'STATUS',
-            'USER_ID',
-            'USER_STATUS',
-            'MODULE_ID',
-            'ENTITY',
-            'DOCUMENT_ID',
-            'ACTIVITY',
-            'ACTIVITY_NAME',
-            'DOCUMENT_URL',
-            'PARAMETERS'
-        ],
-        order: {
-            ID: 'DESC'
-        },
-        filter: {
-            'USER_ID': 1,
-            'STATUS': 0,
-            'ACTIVITY': 'RequestInformationOptionalActivity'
-        }
-    };
-    
     try {
         const generator = $b24.fetchListMethod('bizproc.task.list', parameters, 'ID');
         for await (const page of generator) {
@@ -207,41 +174,6 @@
     }
     
     // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    const parameters = {
-        select: [
-            'ID',
-            'WORKFLOW_ID',
-            'DOCUMENT_NAME',
-            'DESCRIPTION',
-            'NAME',
-            'MODIFIED',
-            'WORKFLOW_STARTED',
-            'WORKFLOW_STARTED_BY',
-            'OVERDUE_DATE',
-            'WORKFLOW_TEMPLATE_ID',
-            'WORKFLOW_TEMPLATE_NAME',
-            'WORKFLOW_STATE',
-            'STATUS',
-            'USER_ID',
-            'USER_STATUS',
-            'MODULE_ID',
-            'ENTITY',
-            'DOCUMENT_ID',
-            'ACTIVITY',
-            'ACTIVITY_NAME',
-            'DOCUMENT_URL',
-            'PARAMETERS'
-        ],
-        order: {
-            ID: 'DESC'
-        },
-        filter: {
-            'USER_ID': 1,
-            'STATUS': 0,
-            'ACTIVITY': 'RequestInformationOptionalActivity'
-        }
-    };
     
     try {
         const response = await $b24.callMethod('bizproc.task.list', parameters, 0);
@@ -782,7 +714,7 @@ HTTP-статус: **200**
 || **ENTITY**
 [`string`](../../data-types.md) | Символьный идентификатор объекта по документу ||
 || **DOCUMENT_ID**
-[`integer`](../../data-types.md) | Идентификатор документа ||
+[`string`](../../data-types.md) | Идентификатор документа, например `DEAL_1` для сделки CRM или `1:53` для элемента RPA ||
 || **ACTIVITY**
 [`string`](../../data-types.md) | Идентификатор типа задания. Возможные значения:
 
@@ -790,11 +722,13 @@ HTTP-статус: **200**
 - `ReviewActivity` — ознакомление с документом
 - `RequestInformationActivity` — запрос дополнительной информации
 - `RequestInformationOptionalActivity` — запрос дополнительной информации (с отклонением)
+
+Метод возвращает задания всех типов, например `RpaRequestActivity` для заданий RPA. Выполнить методом [bizproc.task.complete](./bizproc-task-complete.md) можно только задания четырех типов: `ReviewActivity`, `ApproveActivity`, `RequestInformationActivity`, `RequestInformationOptionalActivity`
 ||
 || **ACTIVITY_NAME**
 [`string`](../../data-types.md) | Идентификатор действия в шаблоне ||
 || **PARAMETERS**
-[`object`](../../data-types.md) | Объект с описанием [параметров задания](#parameters) ||
+[`object`](../../data-types.md) | Объект с описанием [параметров задания](#parameters). У заданий без параметров вместо объекта приходит пустой массив `[]` ||
 || **DOCUMENT_URL**
 [`string`](../../data-types.md) | Ссылка на документ ||
 |#
@@ -814,7 +748,7 @@ HTTP-статус: **200**
 - `YR` — да, при отклонении
 ||
 || **ShowComment**
-[`boolean`](../../data-types.md) | Показывать комментарий. Допустимые значения:
+[`string`](../../data-types.md) | Показывать комментарий. Допустимые значения:
 - `N` — нет
 - `Y` — да
 ||
@@ -824,8 +758,10 @@ HTTP-статус: **200**
 [`string`](../../data-types.md) | Текст кнопки Утвердить ||
 || **StatusNoLabel**
 [`string`](../../data-types.md) | Текст кнопки Отклонить ||
+|| **StatusCancelLabel**
+[`string`](../../data-types.md) | Текст кнопки отмены ||
 || **Fields**
-[`array`](../../data-types.md) | Массив объектов. Каждый объект содержит описание [поля в задании](#task-fields) ||
+[`array`](../../data-types.md) | Массив объектов. Каждый объект содержит описание [поля в задании](#task-fields). Есть только у заданий с запросом информации ||
 |#
 
 #### Объект Fields {#task-fields}
@@ -849,9 +785,9 @@ HTTP-статус: **200**
 
 Остальные типы зависят от документа, с которым работает бизнес-процесс ||
 || **Name**
-[`string` \| `object`](../../data-types.md) | Наименование параметра ||
+[`string`](../../data-types.md) или [`object`](../../data-types.md) | Наименование параметра ||
 || **Description**
-[`string` \| `object`](../../data-types.md) | Описание параметра ||
+[`string`](../../data-types.md) или [`object`](../../data-types.md) | Описание параметра ||
 || **Multiple**
 [`boolean`](../../data-types.md) | Множественность параметра. Возможные значения:
 - `true` — да
@@ -866,24 +802,28 @@ HTTP-статус: **200**
 Значения зависят от типа параметра. Примеры:
 - для типа Список `select` это варианты значений списка
 ```json
-"Options": {
-    "1": "Первый вариант",
-    "2": "Второй вариант",
-    "3": "Третий вариант"
-},
+{
+    "Options": {
+        "1": "Первый вариант",
+        "2": "Второй вариант",
+        "3": "Третий вариант"
+    }
+}
 ```
 
 - для типа Привязка к CRM `'E:ECrm'` это доступные типы объектов
 ```json
-"Options": {
-    "LEAD": "N",
-    "CONTACT": "Y",
-    "COMPANY": "Y",
-    "DEAL": "N",
-    "SMART_INVOICE": "N",
-    "DYNAMIC_136": "N",
-    "DYNAMIC_1038": "N"
-},
+{
+    "Options": {
+        "LEAD": "N",
+        "CONTACT": "Y",
+        "COMPANY": "Y",
+        "DEAL": "N",
+        "SMART_INVOICE": "N",
+        "DYNAMIC_136": "N",
+        "DYNAMIC_1038": "N"
+    }
+}
 ```
 ||
 || **Settings**
@@ -909,7 +849,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Access denied! | Метод запустил не администратор или вы не можете просматривать задания указанного сотрудника ||
+|| `ACCESS_DENIED` | Access denied! | Вы не можете просматривать задания указанного сотрудника ||
 || `ERROR_SELECT_VALIDATION_FAILURE` | Invalid data in SELECT parameter | В параметре `SELECT` переданы некорректные данные ||
 |#
 

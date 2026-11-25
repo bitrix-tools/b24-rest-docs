@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод удаляет запущенный бизнес-процесс вместе со всеми данными процесса.
+Метод `bizproc.workflow.kill` удаляет запущенный бизнес-процесс вместе со всеми данными процесса.
 
 ## Параметры метода
 
@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`integer`](../data-types.md) | Идентификатор бизнес-процесса ||
+[`string`](../data-types.md) | Непустой идентификатор бизнес-процесса. Получите его методом [bizproc.workflow.instances](./bizproc-workflow-instances.md) ||
 |#
 
 
@@ -67,11 +67,7 @@
     	);
     	
     	const result = response.getData().result;
-    	console.log('response', result.answer);
-    	if(result.error())
-    		alert("Error: " + result.error());
-    	else
-    		console.log(result);
+    	console.log(result);
     }
     catch( error )
     {
@@ -107,7 +103,7 @@
 
     ```php     
     try {
-        $workflowId = 'your_workflow_id'; // Replace with your actual workflow ID
+        $workflowId = '65e5a449e8f135.21284909';
         $result = $serviceBuilder->getBizProcScope()
             ->workflow()
             ->kill($workflowId);
@@ -189,8 +185,8 @@ HTTP-статус: **200**
         "date_start": "2024-09-16T08:41:00+00:00",
         "date_finish": "2024-09-16T08:41:00+00:00",
         "operating_reset_at": 1726476660,
-        "operating": 0,
-    },
+        "operating": 0
+    }
 }
 ```
 
@@ -214,7 +210,7 @@ HTTP-статус: **400**, **403**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied!",
+    "error_description": "Access denied!"
 }
 ```
 
@@ -226,6 +222,8 @@ HTTP-статус: **400**, **403**
 || **Статус** |**Код** | **Описание** | **Значение** ||
 || `403` | `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
 || `400` | `ERROR_WRONG_WORKFLOW_ID` | Empty workflow instance ID | Передали пустое значение в параметр `ID` ||
+|| `400` | `ERROR_WRONG_WORKFLOW_ID` | Invalid workflow instance ID (string expected) | В параметре `ID` передано непустое значение, которое не является строкой ||
+|| `400` | Пустое значение | Бизнес-процесс не найден | Бизнес-процесс с указанным `ID` не найден, уже завершен или остановлен ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

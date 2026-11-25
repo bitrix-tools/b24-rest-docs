@@ -13,13 +13,13 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `bizproc.activity.list` получает список действий, установленных приложением.
+Метод `bizproc.activity.list` получает список действий, которые установило текущее приложение. Роботы приложения в список не входят, их возвращает метод [bizproc.robot.list](../bizproc-robot/bizproc-robot-list.md).
 
 Работает только в контексте [приложения](../../../settings/app-installation/index.md).
 
 ## Параметры метода
 
-Без параметров.
+Без параметров. Постраничная навигация не поддерживается.
 
 ## Примеры кода
 
@@ -41,39 +41,12 @@
 
 
     ```js
-    // callListMethod: Получает все данные сразу. Используйте только для небольших выборок (< 1000 элементов) из-за высокой нагрузки на память.
-    
     try {
-      const response = await $b24.callListMethod(
-        'bizproc.activity.list',
-        {},
-        (progress) => { console.log('Progress:', progress) }
-      )
-      const items = response.getData() || []
-      for (const entity of items) { console.log('Entity:', entity) }
+        const response = await $b24.callMethod('bizproc.activity.list', {});
+        const codes = response.getData().result || [];
+        console.log('Коды действий:', codes);
     } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // fetchListMethod: Выбирает данные по частям с помощью итератора. Используйте для больших объемов данных для эффективного потребления памяти.
-    
-    try {
-      const generator = $b24.fetchListMethod('bizproc.activity.list', {}, 'ID')
-      for await (const page of generator) {
-        for (const entity of page) { console.log('Entity:', entity) }
-      }
-    } catch (error) {
-      console.error('Request failed', error)
-    }
-    
-    // callMethod: Ручное управление постраничной навигацией через параметр start. Используйте для точного контроля над пакетами запросов. Для больших данных менее эффективен, чем fetchListMethod.
-    
-    try {
-      const response = await $b24.callMethod('bizproc.activity.list', {}, 0)
-      const result = response.getData().result || []
-      for (const entity of result) { console.log('Entity:', entity) }
-    } catch (error) {
-      console.error('Request failed', error)
+        console.error('Ошибка запроса:', error);
     }
     ```
 
@@ -198,19 +171,19 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../../data-types.md) | Список идентификаторов действий приложения ||
+[`array`](../../data-types.md) | Массив строк с кодами `CODE` действий, установленных приложением. Если действий нет, возвращается пустой массив ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **403**
 
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied!"
+    "error_description": "Access denied! Application context required"
 }
 ```
 
@@ -220,13 +193,13 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Application context required | Необходим контекст приложения ||
+|| `ACCESS_DENIED` | Access denied! Application context required | Необходим контекст приложения ||
 || `ACCESS_DENIED` | Access denied! | Метод выполнил не администратор ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./index.md)
 - [{#T}](./bizproc-activity-add.md)

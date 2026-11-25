@@ -57,11 +57,7 @@
     		}
     	);
     	
-    	const result = response.getData().result;
-    	if(result.error())
-    		alert("Error: " + result.error());
-    	else
-    		console.log(result);
+    	console.log(response.getData().result);
     }
     catch( error )
     {
@@ -97,7 +93,7 @@
 
 	```php
 	try {
-		$templateId = 123; // Идентификатор шаблона, который нужно удалить
+		$templateId = 525; // Идентификатор шаблона, который нужно удалить
 		$result = $serviceBuilder
 			->getBizProcScope()
 			->template()
@@ -198,7 +194,7 @@ HTTP-статус: **200**
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
+HTTP-статус: **400**, **403**
 
 ```json
 {
@@ -213,9 +209,11 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Application context required | Токен доступа не из приложения ||
+|| `ACCESS_DENIED` | Access denied! Application context required | Токен доступа не из приложения ||
 || `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
 || `ERROR_TEMPLATE_NOT_FOUND` | Workflow template not found. | Не найден шаблон с заданным `ID` ||
+|| Пустое значение | You can delete ONLY templates created by current application | Шаблон создан другим приложением ||
+|| Пустое значение | Шаблон бизнес-процесса не может быть удален, так как существуют запущенные по этому шаблону бизнес-процессы | По шаблону есть запущенные бизнес-процессы. Сначала остановите или удалите их методами [bizproc.workflow.terminate](../bizproc-workflow-terminate.md) или [bizproc.workflow.kill](../bizproc-workflow-kill.md) ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

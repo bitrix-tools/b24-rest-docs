@@ -39,7 +39,7 @@
 
 Получить идентификатор можно методом [bizproc.task.list](./bizproc-task-list.md) ||
 || **STATUS***
-[`integer` \| `string` ](../../data-types.md) | Целевой статус задания. Возможные значения: 
+[`integer`](../../data-types.md) или [`string`](../../data-types.md) | Целевой статус задания. Возможные значения: 
 
 - `1` или `yes` — да, утвержден
 - `2` или `no` — нет, отклонен
@@ -64,20 +64,22 @@
 Получить описания полей в задании можно методом [bizproc.task.list](./bizproc-task-list.md) в поле `PARAMETERS.Fields` ответа. Структура описания объекта поля:
 
 ```json
-"PARAMETERS": {
-    "Fields": [
-        {
-            "Id": "field_id",
-            "Type": "type",
-            "Name": "name",
-            "Description": "description",
-            "Multiple": false,
-            "Required": true,
-            "Options": null,
-            "Settings": null,
-            "Default": "default_value"
-        }
-    ]
+{
+    "PARAMETERS": {
+        "Fields": [
+            {
+                "Id": "field_id",
+                "Type": "type",
+                "Name": "name",
+                "Description": "description",
+                "Multiple": false,
+                "Required": true,
+                "Options": null,
+                "Settings": null,
+                "Default": "default_value"
+            }
+        ]
+    }
 }
 ```
 
@@ -100,7 +102,7 @@
 ||
 |#
 
-## Пример кода
+## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
@@ -162,7 +164,7 @@
     try:
         bitrix_response = client.bizproc.task.complete(
             task_id=1501,
-            status=1,
+            status=3,
             comment="Добавлено",
             fields={
                 "contractor": "C_607",
@@ -288,7 +290,7 @@
 {% endlist %}
 
 ## Обработка ответа
- 
+
 HTTP-статус: **200**
 
 ```json
@@ -332,7 +334,7 @@ HTTP-статус: **400**
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
 
 ### Возможные коды ошибок
- 
+
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
 || `ERROR_TASK_VALIDATION` | empty TASK_ID | Не указан `ID` задания ||
@@ -342,11 +344,11 @@ HTTP-статус: **400**
 || `ERROR_TASK_TYPE` | Incorrect task type | Некорректный тип задания. Такое задание нельзя выполнить через REST ||
 || `ERROR_TASK_EXECUTION` | текст ошибки из задания | В процессе выполнения задания случилась указанная ошибка ||
 |#
- 
- {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
- ## Продолжите изучение 
- 
- - [{#T}](./index.md)
- - [{#T}](./bizproc-task-list.md)
- - [{#T}](./bizproc-task-delegate.md)
+{% include [системные ошибки](../../../_includes/system-errors.md) %}
+
+## Продолжите изучение
+
+- [{#T}](./index.md)
+- [{#T}](./bizproc-task-list.md)
+- [{#T}](./bizproc-task-delegate.md)

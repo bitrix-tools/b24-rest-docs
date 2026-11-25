@@ -25,7 +25,7 @@
 || **Название**
 `тип` | **Описание**||
 || **ID***
-[`string`](../../data-types.md) | Идентификатор шаблона, который нужно обновить ||
+[`integer`](../../data-types.md) | Идентификатор шаблона, который нужно обновить ||
 || **FIELDS***
 [`object`](../../data-types.md) | Объект с [полями](#parametr-fields) шаблона бизнес-процесса. 
 
@@ -46,14 +46,14 @@
 
 Подробнее о способах передачи файлов — в статье [{#T}](../../files/how-to-update-files.md) ||
 || **AUTO_EXECUTE**
-[`integer`](../../data-types.md) | Настройки автозапуска шаблона. Может иметь значение:
+[`string`](../../data-types.md) | Настройки автозапуска шаблона. Передавайте значение строкой, например `"0"`. Число в JSON-теле запроса метод отклонит с ошибкой `Incorrect field AUTO_EXECUTE!`. Может иметь значение:
 
 - `0` — без автозапуска
 - `1` — запуск на создание
 - `2` — запуск на изменение
 - `3` — запуск на создание и изменение
 
-По умолчанию — `0` ||
+Если не передать, текущее значение сохраняется ||
 |#
 
 ## Примеры кода
@@ -68,7 +68,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":525,"FIELDS":{"NAME":"Вывести время","DESCRIPTION":"Шаблон показывает сообщение с локальным и серверным временем","AUTO_EXECUTE":0},"auth":"**put_access_token_here**"}' \
+    -d '{"ID":525,"FIELDS":{"NAME":"Вывести время","DESCRIPTION":"Шаблон показывает сообщение с локальным и серверным временем","AUTO_EXECUTE":"0"},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/bizproc.workflow.template.update
     ```
 
@@ -85,7 +85,7 @@
     			FIELDS: {
     				NAME: 'Вывести время',
     				DESCRIPTION: 'Шаблон показывает сообщение с локальным и серверным временем',
-    				AUTO_EXECUTE: 0,
+    				AUTO_EXECUTE: '0',
     			}
     		}
     	);
@@ -110,7 +110,7 @@
             fields={
                 "NAME": "Вывести время",
                 "DESCRIPTION": "Шаблон показывает сообщение с локальным и серверным временем",
-                "AUTO_EXECUTE": 0,
+                "AUTO_EXECUTE": "0",
             },
         ).response
         result = bitrix_response.result
@@ -142,7 +142,7 @@
                     'FIELDS' => [
                         'NAME'        => 'Вывести время',
                         'DESCRIPTION' => 'Шаблон показывает сообщение с локальным и серверным временем',
-                        'AUTO_EXECUTE' => 0,
+                        'AUTO_EXECUTE' => '0',
                     ],
                 ]
             );
@@ -167,7 +167,7 @@
             FIELDS: {
                 NAME: 'Вывести время',
                 DESCRIPTION: 'Шаблон показывает сообщение с локальным и серверным временем',
-                AUTO_EXECUTE: 0,
+                AUTO_EXECUTE: '0',
             }
         },
         function(result)
@@ -192,7 +192,7 @@
             'FIELDS' => [
                 'NAME' => 'Вывести время',
                 'DESCRIPTION' => 'Шаблон показывает сообщение с локальным и серверным временем',
-                'AUTO_EXECUTE' => 0
+                'AUTO_EXECUTE' => '0'
             ]
         ]
     );
@@ -211,7 +211,7 @@
     	"FIELDS": b24.Params{
     		"NAME":         "Вывести время",
     		"DESCRIPTION":  "Шаблон показывает сообщение с локальным и серверным временем",
-    		"AUTO_EXECUTE": 0,
+    		"AUTO_EXECUTE": "0",
     	},
     })
     if err != nil {
@@ -275,7 +275,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Сообщение об ошибке** | **Описание** ||
-|| `ACCESS_DENIED` | Application context required | Токен доступа не из приложения ||
+|| `ACCESS_DENIED` | Access denied! Application context required | Токен доступа не из приложения ||
 || `ACCESS_DENIED` | Access denied! | Метод запустил не администратор ||
 || `ERROR_TEMPLATE_VALIDATION_FAILURE` | No fields to update. | Не указаны поля для обновления ||
 || `ERROR_TEMPLATE_NOT_FOUND` | Workflow template not found. | Не найден шаблон с заданным `ID` ||
