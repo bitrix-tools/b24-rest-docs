@@ -9,6 +9,10 @@ items:
     href: note-document-update.md
   - name: Получить документ
     href: note-document-get.md
+  - name: Получить актуальный текст документа
+    href: note-document-content-get.md
+  - name: Изменить текст документа
+    href: note-document-content-edit.md
   - name: Переместить документ в корзину
     href: note-document-delete.md
   - name: Восстановить документ из корзины

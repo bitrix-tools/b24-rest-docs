@@ -7,6 +7,8 @@ items:
     href: landing-landing-add-block.md
   - name: Копировать блок на страницу
     href: landing-landing-copy-block.md
+  - name: Вырезать блок на странице
+    href: landing-landing-cut-block.md
   - name: Удалить блок со страницы
     href: landing-landing-delete-block.md
   - name: Переместить блок ниже 

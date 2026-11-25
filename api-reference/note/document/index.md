@@ -69,6 +69,8 @@
 || [note.document.add](./note-document-add.md) | Создает документ ||
 || [note.document.update](./note-document-update.md) | Обновляет заголовок и содержимое документа ||
 || [note.document.get](./note-document-get.md) | Возвращает документ с содержимым в Markdown ||
+|| [note.document.content.get](./note-document-content-get.md) | Возвращает актуальный текст документа в Markdown ||
+|| [note.document.content.edit](./note-document-content-edit.md) | Изменяет текст точечными заменами или заменяет Markdown целиком ||
 || [note.document.delete](./note-document-delete.md) | Переносит документ и его дочерние страницы в корзину ||
 || [note.document.restore](./note-document-restore.md) | Восстанавливает документ и его дочерние страницы из корзины ||
 || [note.document.archive](./note-document-archive.md) | Архивирует документ и его дочерние страницы ||

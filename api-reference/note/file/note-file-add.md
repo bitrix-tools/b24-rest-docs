@@ -25,6 +25,8 @@
 
 Метод не вставляет вложение в содержимое документа автоматически. Он только сохраняет файл и привязывает его к документу.
 
+Чтобы вставить файл в текст, добавьте `assetMarkdown` из ответа в Markdown документа методом [note.document.content.edit](../document/note-document-content-edit.md). HTML-файл вставляется ссылкой, например `[[file fileId=5001]]`. Чтобы отобразить HTML-страницу непосредственно в документе, используйте `[[file fileId=5001 view=full]]`.
+
 {% endnote %}
 
 ## Параметры метода {#parameters}
@@ -41,7 +43,7 @@
 || **fileName***
 [`string`](../../data-types.md) | Имя файла с расширением.
 
-Допустимые расширения: `png`, `jpg`, `jpeg`, `gif`, `webp`, `svg`, `pdf`, `txt`, `md`, `csv`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`, `mp4`, `webm`, `mov`.
+Допустимые расширения: `png`, `jpg`, `jpeg`, `gif`, `webp`, `svg`, `pdf`, `txt`, `md`, `html`, `htm`, `csv`, `doc`, `docx`, `xls`, `xlsx`, `ppt`, `pptx`, `mp4`, `webm`, `mov`.
 
 Регистр расширения не учитывается. Файл без расширения или с другим расширением отклоняется с ошибкой `NOTE_FILE_TYPE_NOT_ALLOWED` ||
 || **fileContent***
@@ -360,7 +362,7 @@ HTTP-статус: **200**
 - `video` — MIME-тип начинается с `video/`
 - `file` — остальные MIME-типы ||
 || **assetMarkdown**
-[`string`](../../data-types.md) | Готовый Markdown-блок для вставки файла в документ через [note.document.update](../document/note-document-update.md).
+[`string`](../../data-types.md) | Готовый Markdown-блок для вставки файла в документ через [note.document.content.edit](../document/note-document-content-edit.md) или [note.document.update](../document/note-document-update.md). Блок должен стоять на отдельной строке.
 
 Перед вставкой изображения или видео блок можно дополнить параметрами масштаба и выравнивания. Подробнее о параметрах читайте в описании поля `markdown` метода [note.document.update](../document/note-document-update.md) ||
 |#

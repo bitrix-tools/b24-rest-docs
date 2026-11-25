@@ -439,7 +439,7 @@ HTTP-статус: **200**
          "dateInsert":"2024-04-11T14:17:52+03:00",
          "dateResponsibleId":"2024-04-11T14:17:52+03:00",
          "deducted":"Y",
-         "deliveryDocDate":"2024-02-13T13:05:48+03:00",
+         "deliveryDocDate":"2024-02-13T14:05:48+03:00",
          "deliveryDocNum":"DocumentNumber123456",
          "deliveryId":2,
          "deliveryName":"Доставка курьером",

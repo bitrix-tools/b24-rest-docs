@@ -27,6 +27,7 @@
 
    - [landing.landing.addblock](./landing-landing-add-block.md) — добавить новый блок из репозитория. Доступные коды блоков возвращает [landing.block.getrepository](../../block/methods/landing-block-get-repository.md)
    - [landing.landing.copyblock](./landing-landing-copy-block.md) — скопировать блок
+   - [landing.landing.cutblock](./landing-landing-cut-block.md) — записать вырезание блока в историю перед переносом
    - [landing.landing.moveblock](./landing-landing-move-block.md), [landing.landing.upblock](./landing-landing-up-block.md), [landing.landing.downblock](./landing-landing-down-block.md) — изменить положение блока
    - [landing.landing.hideblock](./landing-landing-hide-block.md) и [landing.landing.showblock](./landing-landing-show-block.md) — управлять видимостью блока
    - [landing.landing.markdeletedblock](./landing-landing-mark-deleted-block.md), [landing.landing.markundeletedblock](./landing-landing-mark-undeleted-block.md), [landing.landing.deleteblock](./landing-landing-delete-block.md) — удалить блок временно или полностью
@@ -71,6 +72,7 @@
 || **Метод** | **Описание** ||
 || [landing.landing.addblock](./landing-landing-add-block.md) | Добавляет новый блок на страницу ||
 || [landing.landing.copyblock](./landing-landing-copy-block.md) | Копирует блок на страницу ||
+|| [landing.landing.cutblock](./landing-landing-cut-block.md) | Записывает вырезание блока в историю перед переносом ||
 || [landing.landing.favoriteBlock](./landing-landing-favorite-block.md) | Сохраняет блок в «Мои блоки» ||
 || [landing.landing.unFavoriteBlock](./landing-landing-unfavorite-block.md) | Удаляет блок из «Моих блоков» ||
 |#
