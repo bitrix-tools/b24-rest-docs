@@ -4,8 +4,8 @@
 >
 > Кто может выполнять методы: чтобы пройти сценарий целиком, нужно установленное приложение с OAuth-авторизацией
 >
-> - [telephony.externalLine.add](../../api-reference/telephony/telephony-external-line-add.md), [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md), [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md) и [event.bind](../../api-reference/events/event-bind.md) — пользователь, под которым приложение получило OAuth-авторизацию
-> - [telephony.externalCall.searchCrmEntities](../../api-reference/telephony/telephony-external-call-search-crm-entities.md), [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md), [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md), [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md) и [telephony.call.attachTranscription](../../api-reference/telephony/telephony-call-attach-transcription.md) — любой пользователь
+> - [event.bind](../../api-reference/events/event-bind.md) — только в контексте приложения, через вебхук метод вернет ошибку `WRONG_AUTH_TYPE`
+> - [telephony.externalLine.add](../../api-reference/telephony/telephony-external-line-add.md), [telephony.externalCall.register](../../api-reference/telephony/telephony-external-call-register.md), [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md), [telephony.externalCall.searchCrmEntities](../../api-reference/telephony/telephony-external-call-search-crm-entities.md), [telephony.externalCall.show](../../api-reference/telephony/telephony-external-call-show.md), [telephony.externalCall.hide](../../api-reference/telephony/telephony-external-call-hide.md), [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md) и [telephony.call.attachTranscription](../../api-reference/telephony/telephony-call-attach-transcription.md) — любой пользователь
 
 {% note tip "" %}
 
@@ -20,9 +20,9 @@
 
 Сценарий состоит из шести шагов.
 
-1. Соберем приложение и обработчики для АТС и Битрикс24
+1. Соберем приложение
 2. Зарегистрируем входящий звонок
-3. Покажем карточку звонка группе сотрудников
+3. Покажем звонок группе сотрудников
 4. Направим звонок ответственному за клиента
 5. Обработаем исходящий звонок из CRM
 6. Завершим звонок и сохраним результат
@@ -31,7 +31,7 @@
 
 {% note info "" %}
 
-Методы `telephony.externalLine.add`, `telephony.externalCall.register` и `telephony.externalCall.finish` работают только в контексте приложения. Входящий вебхук для них не подходит. Событие [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md) (шаг 5) принимает ваш веб-сервер.
+Для сценария нужно приложение: подписка на событие [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md) методом `event.bind` работает только в контексте приложения, а событие (шаг 5) принимает обработчик на вашем веб-сервере.
 
 В PHP методы телефонии вызываются напрямую через ядро (`$b24->core->call(...)`). Типизированные аналоги есть в `getTelephonyScope()->externalCall()` (`show`, `hide`, `register`, `finishForUserId`) и `->externalLine()`, но они требуют объектов-значений (`CallType`, `TelephonyCallStatusCode`, `Money`, `CarbonImmutable`).
 
@@ -43,6 +43,7 @@
 
 - локальное или тиражное приложение со scope `telephony` и сохраненной OAuth-авторизацией
 - публичный HTTPS-обработчик приложения, если нужно принимать событие `ONEXTERNALCALLSTART`. Входящий вебхук не получает это событие
+- приложение указано в поле Номер для исходящего звонка по умолчанию в настройках телефонии или выбрано приложением по умолчанию в настройках пользователя, иначе событие `ONEXTERNALCALLSTART` не придет
 - идентификатор сотрудника `USER_ID`, которому будет показана карточка звонка
 - номер внешней линии `LINE_NUMBER`, например `line-1`
 - уникальный идентификатор звонка на стороне АТС `EXTERNAL_CALL_ID`
@@ -295,7 +296,7 @@
     ```
 {% endlist %}
 
-Методы `show` и `hide` возвращают `true`, если команда показа или скрытия карточки отправлена.
+Методы `show` и `hide` возвращают `true`, если команда показа или скрытия карточки отправлена, и `false`, если `CALL_ID` не передан или звонок не найден.
 
 ```json
 {
@@ -423,7 +424,7 @@
 
 Когда сотрудник нажимает на номер в CRM, Битрикс24 регистрирует звонок и отправляет приложению событие [ONEXTERNALCALLSTART](../../api-reference/telephony/events/on-external-call-start.md) с полями `CALL_ID`, `PHONE_NUMBER`, `USER_ID`, `LINE_NUMBER`, `CRM_ENTITY_TYPE`, `CRM_ENTITY_ID`, `CALL_LIST_ID`.
 
-Событие принимает ваш веб-сервер. После запуска вызова на АТС завершите тот же `CALL_ID` методом `finish`. Поле `CALL_ID` приходит в событии, поэтому для исходящего звонка не нужно повторно вызывать `register`.
+Событие принимает ваш веб-сервер. Перед обработкой сравните `auth.application_token` из события с сохраненным значением, чтобы убедиться, что запрос отправил Битрикс24. Подробнее — в статье [Безопасность в обработчиках](../../api-reference/events/safe-event-handlers.md). После запуска вызова на АТС завершите тот же `CALL_ID` методом `finish`. Поле `CALL_ID` приходит в событии, поэтому для исходящего звонка не нужно повторно вызывать `register`.
 
 {% list tabs %}
 
@@ -434,7 +435,13 @@
     const app = express()
     app.use(express.urlencoded({ extended: true }))
 
+    // application_token, сохраненный при установке приложения
+    const APP_TOKEN = process.env.B24_APP_TOKEN
+
     app.post('/events', async (req, res) => {
+        if (req.body.auth?.application_token !== APP_TOKEN) {
+            return res.status(403).send('forbidden')
+        }
         if (req.body.event === 'ONEXTERNALCALLSTART') {
             const data = req.body.data
             // ... инициировать вызов на АТС по data.PHONE_NUMBER ...
@@ -452,11 +459,17 @@
 - Python
 
     ```python
+    import os
     from flask import Flask, request
     app = Flask(__name__)
 
+    # application_token, сохраненный при установке приложения
+    APP_TOKEN = os.environ["B24_APP_TOKEN"]
+
     @app.post("/events")
     def events():
+        if request.form.get("auth[application_token]") != APP_TOKEN:
+            return "forbidden", 403
         if request.form.get("event") == "ONEXTERNALCALLSTART":
             data = request.form  # поля приходят как data[CALL_ID] и т.д.
             # ... инициировать вызов на АТС ...
@@ -469,12 +482,17 @@
         return "ok"
     ```
 
-
 - PHP
 
     ```php
     <?php
     // Обработчик события ONEXTERNALCALLSTART
+    // application_token, сохраненный при установке приложения
+    $appToken = getenv('B24_APP_TOKEN');
+    if (($_REQUEST['auth']['application_token'] ?? '') !== $appToken) {
+        http_response_code(403);
+        exit;
+    }
     if (($_REQUEST['event'] ?? '') === 'ONEXTERNALCALLSTART') {
         $data = $_REQUEST['data'];
         // ... инициировать вызов на АТС по $data['PHONE_NUMBER'] ...
@@ -494,7 +512,7 @@
 
 После разговора вызовите [telephony.externalCall.finish](../../api-reference/telephony/telephony-external-call-finish.md): метод скрывает карточку, сохраняет звонок в статистике и создает CRM-дело. Передайте `CALL_ID`, `USER_ID`, `DURATION` (сек) и `STATUS_CODE` (`200` — успешно, `304` — пропущенный).
 
-Если запись еще не готова, вызовите `finish` без записи, а позже прикрепите ее методом [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md). После записи можно добавить расшифровку методом [telephony.call.attachTranscription](../../api-reference/telephony/telephony-call-attach-transcription.md).
+В примере `callId` — идентификатор из шага 2 или из события `ONEXTERNALCALLSTART`. Если запись еще не готова, вызовите `finish` без записи, а позже прикрепите ее методом [telephony.externalCall.attachRecord](../../api-reference/telephony/telephony-external-call-attach-record.md). После записи можно добавить расшифровку методом [telephony.call.attachTranscription](../../api-reference/telephony/telephony-call-attach-transcription.md).
 
 {% list tabs %}
 
@@ -706,16 +724,17 @@
 
 #|
 || **Код или текст ошибки** | **Причина и действие** ||
-|| `WRONG_AUTH_TYPE` | Метод вызван вне контекста приложения. Проверьте OAuth-авторизацию приложения и scope `telephony` ||
+|| `WRONG_AUTH_TYPE` | Метод `event.bind` вызван через вебхук. Подпишитесь на событие с OAuth-токеном приложения ||
 || `USER_ID or USER_PHONE_INNER should be set` | В `register` или `finish` не передан сотрудник. Передайте активный `USER_ID` или внутренний номер сотрудника ||
 || `Unknown TYPE` | В `register` передан неверный тип звонка. Для входящего звонка используйте `TYPE = 2` ||
-|| `Unsupported phone number format` | Номер клиента не распознан. Передавайте телефон в международном формате без букв ||
+|| `Unsupported phone number format` | Номер клиента в `PHONE_NUMBER` передан в некорректном формате. Проверьте номер ||
+|| `User is not found or is not active` | В `register` или `finish` передан несуществующий или неактивный сотрудник. Проверьте `USER_ID` ||
 || `Line already exists` | Линия с таким `NUMBER` уже зарегистрирована. Используйте существующий `LINE_NUMBER` или измените номер линии ||
 || `CALL_ID must be a string` | В `finish` передан неверный тип `CALL_ID`. Передавайте строку, полученную из ответа `register` или события `ONEXTERNALCALLSTART` ||
-|| `Call is not found` | Звонок не найден или уже завершен. Проверьте, что `CALL_ID` сохранен из текущего звонка ||
+|| `Call is not found (call should be registered prior to finishing` | В `finish` передан `CALL_ID` незарегистрированного звонка. Зарегистрируйте звонок методом `register` и передайте `CALL_ID` из его ответа или из события `ONEXTERNALCALLSTART` ||
 || `Call is not found in the statistic table. Looks like it is not finished yet.` | Запись прикрепляется до завершения звонка. Сначала вызовите `finish`, затем `attachRecord` ||
-|| `Required parameters are not set. Request should contain or URL or FILENAME parameter` | В `attachRecord` не переданы `RECORD_URL` или `FILENAME` ||
-|| `Wrong file extension. Only wav and mp3 are allowed` | Запись передана в неподдерживаемом формате. Используйте файл `wav` или `mp3` ||
+|| `Required parameters are not set. Request should contain or URL or FILENAME parameter` | В `attachRecord` не переданы `RECORD_URL` или `FILENAME`. Передайте ссылку на запись в `RECORD_URL` или имя файла в `FILENAME` ||
+|| `Wrong file extension. Only wav and mp3 are allowed` | В `attachRecord` вместе с `FILE_CONTENT` передан `FILENAME` с расширением, отличным от `wav` и `mp3`. Укажите в `FILENAME` расширение `wav` или `mp3` ||
 || `ERROR_EVENT_NOT_FOUND` | В `event.bind` неверно указано событие. Передайте `ONEXTERNALCALLSTART` ||
 |#
 

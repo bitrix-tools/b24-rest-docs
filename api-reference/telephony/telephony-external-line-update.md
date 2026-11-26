@@ -13,13 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `telephony.externalLine.update` изменяет параметры внешней линии приложения.
-
-{% note info "" %}
-
-Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
-
-{% endnote %}
+Метод `telephony.externalLine.update` изменяет параметры внешней линии.
 
 ## Параметры метода
 
@@ -31,21 +25,26 @@
 || **NUMBER***
 [`string`](../data-types.md) | Номер внешней линии.
 
-Номер можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md) ||
+Номер можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md). Пробелы в начале и конце удаляются.
+
+Приложение изменяет только свои линии, вебхук — только линии, добавленные через входящий вебхук ||
 || **NAME**
-[`string`](../data-types.md) | Новое название внешней линии ||
+[`string`](../data-types.md) | Новое название внешней линии.
+
+Если параметр не передан, название не меняется ||
 || **CRM_AUTO_CREATE**
-[`string`](../data-types.md) | Автосоздание объекта CRM при исходящих звонках.
+[`string`](../data-types.md) | Автосоздание объекта CRM, когда сотрудник звонит через эту линию на номер из карточки CRM. Флаг не влияет на метод [telephony.externalCall.register](./telephony-external-call-register.md), в нем объект CRM создается по параметру `CRM_CREATE`.
 
 Возможные значения:
+- `Y` — включено
+- `N` — выключено
 
- `Y` — включено
- `N` — выключено ||
+Любое значение, кроме `Y`, сохраняется как `N`. Если параметр не передан, значение не меняется ||
 |#
 
 {% note info "" %}
 
-Нужно передать хотя бы одно поле для изменения: `NAME` или `CRM_AUTO_CREATE`. Иначе получите ошибку `ERROR_CORE`
+Нужно передать хотя бы одно поле для изменения: `NAME` или `CRM_AUTO_CREATE`. Иначе получите ошибку `There are no fields to update`
 
 {% endnote %}
 
@@ -54,6 +53,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"NUMBER":"74951234567","NAME":"Линия поддержки","CRM_AUTO_CREATE":"N"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/telephony.externalLine.update
+    ```
 
 - cURL (OAuth)
 
@@ -292,11 +301,18 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
-|| **ID**
-[`integer`](../data-types.md) | Идентификатор обновленной внешней линии ||
+[`object`](../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../data-types.md) | Идентификатор обновленной внешней линии. Число возвращается строкой ||
 |#
 
 ## Обработка ошибок
@@ -315,11 +331,11 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван вне контекста приложения ||
-|| `ERROR_CORE` | There are no fields to update | Не переданы поля для изменения `NAME` или `CRM_AUTO_CREATE` ||
-|| `ERROR_CORE` | NUMBER should not be empty | Не передан обязательный параметр `NUMBER` ||
-|| `ERROR_CORE` | Could not find line with number {NUMBER} | Линия с указанным номером не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не через OAuth-токен приложения и не через входящий вебхук, например из сессии браузера ||
+|| `400` | Пустое значение | There are no fields to update | Не переданы поля для изменения `NAME` или `CRM_AUTO_CREATE` ||
+|| `400` | Пустое значение | NUMBER should not be empty | Не передан обязательный параметр `NUMBER` ||
+|| `400` | Пустое значение | Could not find line with number {NUMBER} | Линия с указанным номером не найдена ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

@@ -139,6 +139,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -252,26 +253,53 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект со ссылками на страницы телефонии ||
+[`object`](../../data-types.md) | Объект со ссылками на страницы телефонии [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **detail_statistics**
 [`string`](../../data-types.md) | Ссылка на страницу детальной статистики ||
 || **buy_connector**
 [`string`](../../data-types.md) | Ссылка на страницу покупки SIP-коннектора ||
 || **edit_config**
-[`string`](../../data-types.md) | Ссылка на страницу редактирования подключенной линии. Вместо `#CONFIG_ID#` нужно подставить идентификатор настройки ||
+[`string`](../../data-types.md) | Ссылка на страницу редактирования подключенной линии. Вместо `#CONFIG_ID#` подставьте идентификатор настройки из [voximplant.sip.get](./sip/voximplant-sip-get.md) ||
 || **lines**
 [`string`](../../data-types.md) | Ссылка на страницу списка линий ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+У метода нет параметров, поэтому собственных ошибок у него нет. Метод возвращает только системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `telephony` ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./voximplant-callback-start.md)
-- [{#T}](./voximplant-infocall-start-with-sound.md)
-- [{#T}](./voximplant-infocall-start-with-text.md)
-- [{#T}](./voximplant-tts-voices-get.md)
+- [{#T}](./voximplant-statistic-get.md)
+- [{#T}](./lines/voximplant-line-get.md)
+- [{#T}](./sip/voximplant-sip-get.md)

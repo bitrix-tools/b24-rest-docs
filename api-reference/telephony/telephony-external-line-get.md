@@ -13,13 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `telephony.externalLine.get` возвращает список внешних линий приложения.
-
-{% note info "" %}
-
-Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
-
-{% endnote %}
+Метод `telephony.externalLine.get` возвращает список внешних линий.
 
 ## Параметры метода
 
@@ -30,6 +24,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/telephony.externalLine.get
+    ```
 
 - cURL (OAuth)
 
@@ -54,7 +58,7 @@
     // Shape of each ExternalLine returned in result[]
     type ExternalLine = {
       NUMBER: string
-      NAME: string
+      NAME: string | null
       CRM_AUTO_CREATE: string
     }
 
@@ -257,15 +261,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Массив внешних линий приложения ||
+[`array`](../data-types.md) | Массив внешних линий [(подробное описание)](#result).
+
+Приложение получает только свои линии, вебхук — только линии, добавленные через входящий вебхук. В массив попадают и линии, которые автоматически создал метод [telephony.externalCall.register](./telephony-external-call-register.md) по параметру `LINE_NUMBER`. Если линий нет, возвращается пустой массив ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **NUMBER**
 [`string`](../data-types.md) | Номер внешней линии ||
 || **NAME**
-[`string`](../data-types.md) | Название внешней линии ||
+[`string`](../data-types.md) | Название внешней линии. `null` у линий, которые автоматически создал метод `telephony.externalCall.register` ||
 || **CRM_AUTO_CREATE**
-[`string`](../data-types.md) | Флаг автосоздания объекта CRM ||
-|| **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`string`](../data-types.md) | Автосоздание объекта CRM, когда сотрудник звонит через эту линию на номер из карточки CRM.
+
+Возможные значения:
+- `Y` — включено
+- `N` — выключено ||
 |#
 
 ## Обработка ошибок
@@ -284,8 +301,8 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван вне контекста приложения ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не через OAuth-токен приложения и не через входящий вебхук, например из сессии браузера ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

@@ -50,7 +50,7 @@
 || **bizproc** | [Бизнес-процессы](../bizproc/index.md) | Бизнес-процессы, RPA, роботы CRM ||
 || **booking** | [Онлайн-запись](../booking/index.md) | Онлайн-запись ||
 || **calendar** | [Календарь](../calendar/index.md) | Календарь ||
-|| **call** | Телефония (совершение звонков). В скоуп входят методы: [voximplant.infocall.startwithsound](../telephony/voximplant/voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](../telephony/voximplant/voximplant-infocall-start-with-text.md)| Телефония ||
+|| **call** | Телефония (совершение звонков). В скоуп входят методы: [voximplant.callback.start](../telephony/voximplant/voximplant-callback-start.md), [voximplant.infocall.startwithsound](../telephony/voximplant/voximplant-infocall-start-with-sound.md), [voximplant.infocall.startwithtext](../telephony/voximplant/voximplant-infocall-start-with-text.md) и методы [Follow-up звонков](../telephony/follow-up/index.md) | Телефония ||
 || **cashbox** | [Кассы](../sale/cashbox/index.md) | Кассы ||
 || **catalog** | [Торговый каталог](../catalog/index.md) | Торговый каталог, складской учет ||
 || **contact_center** | [Виджет Контакт-центра](../widgets/contact-center.md) | Контакт-центр ||

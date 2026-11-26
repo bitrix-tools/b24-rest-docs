@@ -136,6 +136,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -204,18 +205,13 @@
     	return fmt.Errorf("voximplant.tts.voices.get: %w", err)
     }
 
-    var item struct {
-    	Auenglishfemale    string `json:"auenglishfemale"`
-    	Brportuguesefemale string `json:"brportuguesefemale"`
-    	Caenglishfemale    string `json:"caenglishfemale"`
-    	Cafrenchfemale     string `json:"cafrenchfemale"`
-    	Cafrenchmale       string `json:"cafrenchmale"`
-    	Chchinesefemale    string `json:"chchinesefemale"`
-    }
-    if err := json.Unmarshal(res.Result, &item); err != nil {
+    var voices map[string]string
+    if err := json.Unmarshal(res.Result, &voices); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Auenglishfemale, item.Brportuguesefemale)
+    for id, name := range voices {
+    	fmt.Printf("%s: %s\n", id, name)
+    }
     ```
 
 {% endlist %}
@@ -289,12 +285,35 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект со списком доступных голосов для синтеза речи, где ключ — идентификатор голоса, а значение — название голоса ||
+[`object`](../../data-types.md) | Объект со списком доступных голосов для синтеза речи, где ключ — идентификатор голоса, а значение — название голоса.
+
+Названия возвращаются на языке запроса, в скобках указан провайдер синтеза речи: `Amazon` или `Default`. Набор ключей фиксирован, полный список приведен в примере ответа ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+У метода нет параметров, поэтому собственных ошибок у него нет. Метод возвращает только системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `telephony` ||
+|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

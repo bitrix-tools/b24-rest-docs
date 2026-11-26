@@ -45,20 +45,22 @@
 
 ## Как начать работу с внешней телефонией
 
-1. Зарегистрируйте линию методом [telephony.externalLine.add](./telephony-external-line-add.md).
-2. При начале звонка вызовите [telephony.externalCall.register](./telephony-external-call-register.md).
-3. При необходимости откройте карточку звонка через [telephony.externalCall.show](./telephony-external-call-show.md).
-4. После завершения звонка вызовите [telephony.externalCall.finish](./telephony-external-call-finish.md) и передайте запись через [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md).
-5. Подпишитесь на [OnExternalCallStart](./events/on-external-call-start.md) и [OnExternalCallBackStart](./events/on-external-call-back-start.md), если нужно обрабатывать запуск звонков из интерфейса CRM.
+1. Зарегистрируйте линию методом [telephony.externalLine.add](./telephony-external-line-add.md)
+2. При начале звонка вызовите [telephony.externalCall.register](./telephony-external-call-register.md)
+3. При необходимости откройте карточку звонка через [telephony.externalCall.show](./telephony-external-call-show.md)
+4. После завершения звонка вызовите [telephony.externalCall.finish](./telephony-external-call-finish.md) и передайте запись через [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md)
+5. Подпишитесь на [OnExternalCallStart](./events/on-external-call-start.md) и [OnExternalCallBackStart](./events/on-external-call-back-start.md), если нужно обрабатывать запуск звонков из интерфейса CRM
+
+Полный пример интеграции — регистрация входящего звонка, показ карточки сотрудникам, маршрутизация ответственному за клиента, исходящий звонок из CRM и завершение с записью — смотрите в туториале [Как интегрировать внешнюю телефонию с Битрикс24](../../tutorials/telephony/index.md).
 
 ## Как начать работу со встроенной телефонией и SIP-коннектором
 
-1. Создайте SIP-подключение методом [voximplant.sip.add](./voximplant/sip/voximplant-sip-add.md).
-2. Проверьте подключение методами [voximplant.sip.get](./voximplant/sip/voximplant-sip-get.md) и [voximplant.sip.status](./voximplant/sip/voximplant-sip-status.md).
-3. Получите список доступных линий методом [voximplant.line.get](./voximplant/lines/voximplant-line-get.md).
-4. Назначьте исходящую линию по умолчанию через [voximplant.line.outgoing.set](./voximplant/lines/voximplant-line-outgoing-set.md) или [voximplant.line.outgoing.sip.set](./voximplant/lines/voximplant-line-outgoing-sip-set.md).
-5. Для сотрудников получите SIP-настройки методом [voximplant.user.get](./voximplant/users/voximplant-user-get.md) и при необходимости включите SIP-аппарат методом [voximplant.user.activatePhone](./voximplant/users/voximplant-user-activate-phone.md) или выключите методом [voximplant.user.deactivatePhone](./voximplant/users/voximplant-user-deactivate-phone.md).
-6. Подпишитесь на события [OnVoximplantCallInit](./voximplant/events/on-voximplant-call-init.md), [OnVoximplantCallStart](./voximplant/events/on-voximplant-call-start.md), [OnVoximplantCallEnd](./voximplant/events/on-voximplant-call-end.md), если нужно обрабатывать жизненный цикл звонка.
+1. Создайте SIP-подключение методом [voximplant.sip.add](./voximplant/sip/voximplant-sip-add.md)
+2. Проверьте подключение методами [voximplant.sip.get](./voximplant/sip/voximplant-sip-get.md) и [voximplant.sip.status](./voximplant/sip/voximplant-sip-status.md)
+3. Получите список доступных линий методом [voximplant.line.get](./voximplant/lines/voximplant-line-get.md)
+4. Назначьте исходящую линию по умолчанию через [voximplant.line.outgoing.set](./voximplant/lines/voximplant-line-outgoing-set.md) или [voximplant.line.outgoing.sip.set](./voximplant/lines/voximplant-line-outgoing-sip-set.md)
+5. Для сотрудников получите SIP-настройки методом [voximplant.user.get](./voximplant/users/voximplant-user-get.md) и при необходимости включите SIP-аппарат методом [voximplant.user.activatePhone](./voximplant/users/voximplant-user-activate-phone.md) или выключите методом [voximplant.user.deactivatePhone](./voximplant/users/voximplant-user-deactivate-phone.md)
+6. Подпишитесь на события [OnVoximplantCallInit](./voximplant/events/on-voximplant-call-init.md), [OnVoximplantCallStart](./voximplant/events/on-voximplant-call-start.md), [OnVoximplantCallEnd](./voximplant/events/on-voximplant-call-end.md), если нужно обрабатывать жизненный цикл звонка
 
 ## Виджеты
 
@@ -70,11 +72,12 @@
 
 ## Ограничения и проверки
 
-- Методы [telephony.externalCall.register](./telephony-external-call-register.md) и [telephony.externalCall.finish](./telephony-external-call-finish.md) работают только в контексте [приложения](../../settings/app-installation/index.md).
-- В [telephony.externalCall.register](./telephony-external-call-register.md) передавайте уникальный `EXTERNAL_CALL_ID` для каждого физического звонка, чтобы не получить уже существующий `CALL_ID` при повторной регистрации в течение 30 минут.
-- Вызывайте [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md) после [telephony.externalCall.finish](./telephony-external-call-finish.md), когда запись уже готова.
-- Вызывайте [telephony.call.attachTranscription](./telephony-call-attach-transcription.md) для завершенного звонка.
-- После [voximplant.line.outgoing.set](./voximplant/lines/voximplant-line-outgoing-set.md) проверяйте фактическую линию через [voximplant.line.outgoing.get](./voximplant/lines/voximplant-line-outgoing-get.md).
+- Внешняя линия привязывается к тому, кто ее добавил: приложение видит и меняет только свои линии, вебхук — только линии, добавленные через вебхук
+- В [telephony.externalCall.register](./telephony-external-call-register.md) передавайте уникальный `EXTERNAL_CALL_ID` для каждого физического звонка. Повторная регистрация с тем же `EXTERNAL_CALL_ID` возвращает `CALL_ID` незавершенного звонка, а без `EXTERNAL_CALL_ID` метод ищет совпадающую регистрацию за последние 30 минут
+- Метод [voximplant.user.get](./voximplant/users/voximplant-user-get.md) работает только в контексте приложения, через вебхук он возвращает ошибку `ACCESS_DENIED`
+- Вызывайте [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md) после [telephony.externalCall.finish](./telephony-external-call-finish.md), когда запись уже готова
+- Вызывайте [telephony.call.attachTranscription](./telephony-call-attach-transcription.md) для завершенного звонка
+- После [voximplant.line.outgoing.set](./voximplant/lines/voximplant-line-outgoing-set.md) проверяйте фактическую линию через [voximplant.line.outgoing.get](./voximplant/lines/voximplant-line-outgoing-get.md)
 
 ## Обзор методов и событий {#all-methods}
 
@@ -114,6 +117,8 @@
 {% endlist %}
 
 ### SIP и встроенная телефония
+
+Методы [voximplant.callback.start](./voximplant/voximplant-callback-start.md), [voximplant.infocall.startwithsound](./voximplant/voximplant-infocall-start-with-sound.md) и [voximplant.infocall.startwithtext](./voximplant/voximplant-infocall-start-with-text.md) требуют scope [`call`](../scopes/permissions.md), остальные методы раздела — scope `telephony`.
 
 {% list tabs %}
 

@@ -15,7 +15,7 @@
 
 Метод `voximplant.line.get` возвращает список доступных исходящих линий.
 
-Ключи ответа — идентификаторы `LINE_ID` для [voximplant.line.outgoing.set](./voximplant-line-outgoing-set.md). В списке могут быть SIP-линии.
+Ключи ответа — идентификаторы `LINE_ID` для [voximplant.line.outgoing.set](./voximplant-line-outgoing-set.md) и параметра `FROM_LINE` методов звонков.
 
 ## Параметры метода
 
@@ -136,6 +136,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -247,8 +248,10 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../../data-types.md) | Объект вида `LINE_ID: LINE_NAME`, где:
 
-- `LINE_ID` — идентификатор линии
-- `LINE_NAME` — название линии ||
+- `LINE_ID` — идентификатор линии: номер телефона для арендованного или подтвержденного номера, `regXXX` или `sipXXX` для SIP-подключения
+- `LINE_NAME` — название линии, спецсимволы HTML в нем экранированы
+
+Линии приложений вида `REST_APP:<APP_ID>` и `LINK_BASE_NUMBER` в список не входят ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -269,15 +272,14 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для получения списка исходящих линий ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для получения списка исходящих линий ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./voximplant-line-get.md)
 - [{#T}](./voximplant-line-outgoing-get.md)
 - [{#T}](./voximplant-line-outgoing-set.md)
 - [{#T}](./voximplant-line-outgoing-sip-set.md)

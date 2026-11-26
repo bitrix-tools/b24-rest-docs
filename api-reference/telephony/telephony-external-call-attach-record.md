@@ -54,6 +54,8 @@
 - `wav`
 - `mp3`
 
+Если `FILE_CONTENT` не передан, расширение проверяется при загрузке файла по `uploadUrl`: допустимы только `wav` и `mp3`
+
 Если передан `RECORD_URL`:
 - если `FILENAME` не передан, имя берется из URL
 - если расширение не `mp3`, `wav` или `flac`, оно заменяется по типу содержимого файла ||
@@ -360,15 +362,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Корневой элемент ответа ||
-|| **FILE_ID**
-[`integer`](../data-types.md) | Идентификатор прикрепленного файла ||
-|| **uploadUrl**
-[`string`](../data-types.md) | URL загрузки файла, если `FILE_CONTENT` не был передан ||
-|| **fieldName**
-[`string`](../data-types.md) | Имя поля для загрузки файла ||
+[`object`](../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **FILE_ID**
+[`integer`](../data-types.md) | Идентификатор прикрепленного файла. Возвращается, если передан `RECORD_URL` или переданы `FILENAME` и `FILE_CONTENT` ||
+|| **uploadUrl**
+[`string`](../data-types.md) | URL для загрузки файла отдельным запросом. Возвращается, если передан `FILENAME` без `FILE_CONTENT` ||
+|| **fieldName**
+[`string`](../data-types.md) | Имя поля файла в запросе загрузки по `uploadUrl`. Возвращается вместе с `uploadUrl` ||
 |#
 
 ## Обработка ошибок
@@ -387,22 +396,31 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | Required parameters are not set. Request should contain or URL or FILENAME parameter | Не переданы `RECORD_URL` и `FILENAME` ||
-|| Пустое значение | Call is not found in the statistic table. Looks like it is not finished yet. | Звонок не найден в статистике. Убедитесь, что звонок завершен ||
-|| Пустое значение | File name is empty | Пустой `FILENAME` ||
-|| Пустое значение | Wrong file extension. Only wav and mp3 are allowed | Недопустимое расширение файла в `FILENAME` при передаче `FILE_CONTENT` ||
-|| Пустое значение | File content is empty. | Пустой `FILE_CONTENT` ||
-|| Пустое значение | File content is not properly encoded. Base64 encoding is expected. | `FILE_CONTENT` передан не в Base64 ||
-|| Пустое значение | Record URL could not be parsed. | Некорректный `RECORD_URL` ||
-|| Пустое значение | Record URL scheme must be http or https. | В `RECORD_URL` указана схема, отличная от `http` и `https` ||
-|| Пустое значение | Record URL host is empty. | В `RECORD_URL` не указан домен ||
-|| Пустое значение | Record URL host could not be resolved to any address. | Домен из `RECORD_URL` не удалось преобразовать в IP-адрес. Проверьте ссылку и повторите запрос позже ||
-|| Пустое значение | Record URL resolves to a non-public address and was blocked. | Хотя бы один IP-адрес домена из `RECORD_URL` или из редиректа непубличный, например из локальной сети. Проверьте A- и AAAA-записи домена и адреса редиректов. Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl` ||
-|| Пустое значение | The record URL uses an IPv6 literal host, which is not supported by this environment. | В `RECORD_URL` указан IPv6-адрес вместо домена ||
-|| Пустое значение | Maximum number of redirects has been reached. | Ссылка из `RECORD_URL` перенаправляет больше 5 раз ||
-|| Пустое значение | Server returns HTTP error code {N} | Сервер из `RECORD_URL` вернул HTTP-статус, отличный от `200` ||
-|| Пустое значение | Неверный тип файла | Файл по `RECORD_URL` или из `FILE_CONTENT` не является аудиофайлом. Текст ошибки зависит от языка портала ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | Required parameters are not set. Request should contain or URL or FILENAME parameter | Не переданы `RECORD_URL` и `FILENAME` ||
+|| `400` | Пустое значение | Call is not found in the statistic table. Looks like it is not finished yet. | Звонок не найден в статистике. Убедитесь, что звонок завершен. Проверяется до остальных параметров ||
+|| `400` | Пустое значение | File name is empty | Пустой `FILENAME` ||
+|| `400` | Пустое значение | Wrong file extension. Only wav and mp3 are allowed | Недопустимое расширение файла в `FILENAME` при передаче `FILE_CONTENT` ||
+|| `400` | Пустое значение | File content is empty. | Пустой `FILE_CONTENT` ||
+|| `400` | Пустое значение | File content is not properly encoded. Base64 encoding is expected. | `FILE_CONTENT` передан не в Base64 ||
+|| `400` | Пустое значение | Record URL could not be parsed. | Некорректный `RECORD_URL` ||
+|| `400` | Пустое значение | Record URL scheme must be http or https. | В `RECORD_URL` указана схема, отличная от `http` и `https` ||
+|| `400` | Пустое значение | Record URL host is empty. | В `RECORD_URL` не указан домен ||
+|| `400` | Пустое значение | Record URL host could not be converted to punycode. | Домен из `RECORD_URL` не удалось преобразовать в punycode ||
+|| `400` | Пустое значение | Record URL host could not be resolved to any address. | Домен из `RECORD_URL` не удалось преобразовать в IP-адрес. Проверьте ссылку и повторите запрос позже ||
+|| `400` | Пустое значение | The record URL host did not resolve to a usable address. | Для домена из `RECORD_URL` не удалось получить адрес для подключения ||
+|| `400` | Пустое значение | Record URL resolves to a non-public address and was blocked. | Хотя бы один IP-адрес домена из `RECORD_URL` или из редиректа непубличный, например из локальной сети. Проверьте A- и AAAA-записи домена и адреса редиректов. Запись из внутренней сети передайте в `FILE_CONTENT` или загрузите по `uploadUrl` ||
+|| `400` | Пустое значение | The record URL uses an IPv6 literal host, which is not supported by this environment. | В `RECORD_URL` указан IPv6-адрес вместо домена ||
+|| `400` | Пустое значение | The record URL host resolves only to IPv6 addresses; downloading from IPv6-only hosts is not supported by this environment. | У домена из `RECORD_URL` есть только IPv6-адреса ||
+|| `400` | Пустое значение | Maximum number of redirects has been reached. | Ссылка из `RECORD_URL` перенаправляет больше 5 раз ||
+|| `400` | Пустое значение | {код}: {сообщение} | Не удалось скачать файл по `RECORD_URL`, например сервер недоступен или истек таймаут. Код и сообщение передает HTTP-клиент ||
+|| `400` | Пустое значение | Server returns HTTP error code {N} | Сервер из `RECORD_URL` вернул HTTP-статус, отличный от `200` ||
+|| `400` | Пустое значение | Неверный тип файла | Файл по `RECORD_URL` или из `FILE_CONTENT` не является аудиофайлом. Текст ошибки зависит от языка портала ||
+|| `400` | Пустое значение | Unknown error encountered while saving file. | Не удалось сохранить файл из `FILE_CONTENT` ||
+|| `400` | Пустое значение | Could not create temporary directory | Не удалось создать временную папку для файла из `RECORD_URL` ||
+|| `400` | Пустое значение | Disk module is not installed | На портале не установлен модуль Диск ||
+|| `400` | Пустое значение | Could not create shared folder for call records | Не удалось создать папку для записей звонков на Диске ||
+|| `400` | Пустое значение | CRM is not installed | На портале не установлен модуль CRM ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

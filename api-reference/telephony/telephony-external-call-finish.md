@@ -15,12 +15,6 @@
 
 Метод `telephony.externalCall.finish` завершает внешний звонок, сохраняет его в статистике и в CRM-деле.
 
-{% note info "" %}
-
-Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
-
-{% endnote %}
-
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../_includes/required.md) %}
@@ -29,7 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **CALL_ID***
-[`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md) ||
+[`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md).
+
+После успешного вызова звонок перестает быть активным. Повторный вызов с тем же `CALL_ID` вернет ошибку `Call is not found`, а методы [telephony.externalCall.show](./telephony-external-call-show.md) и [telephony.externalCall.hide](./telephony-external-call-hide.md) вернут `false` ||
 || **USER_ID***
 [`integer`](../data-types.md) | Идентификатор пользователя, который завершает звонок.
 
@@ -92,7 +88,9 @@
 
 Параметр устарел и оставлен для обратной совместимости. Рекомендуется использовать [telephony.externalCall.attachRecord](./telephony-external-call-attach-record.md).
 
-Если параметр передан, Битрикс24 скачивает и прикрепляет запись в этом же запросе, поэтому ответ метода возвращается после загрузки файла. Если скачать файл не удалось, метод все равно завершает звонок и не возвращает ошибку ||
+Если параметр передан, Битрикс24 скачивает и прикрепляет запись в этом же запросе, поэтому ответ метода возвращается после загрузки файла. Если скачать файл не удалось, метод все равно завершает звонок и не возвращает ошибку.
+
+Если в URL есть символы не в кодировке UTF-8, метод завершает звонок, но возвращает ошибку ||
 || **VOTE**
 [`integer`](../data-types.md) | Оценка звонка.
 
@@ -107,7 +105,7 @@
 - `0` — не добавлять
 - `1` — добавлять
 
-По умолчанию — `1` ||
+По умолчанию — `0` ||
 |#
 
 ## Примеры кода
@@ -115,6 +113,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"CALL_ID":"externalCall.716f1cb73def9700a23842adf9c4c568.1773130779","USER_ID":1269,"DURATION":95,"STATUS_CODE":"200","VOTE":5,"ADD_TO_CHAT":0}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/telephony.externalCall.finish
+    ```
 
 - cURL (OAuth)
 
@@ -132,7 +140,7 @@
     // This snippet is an ES module: top-level await requires type="module" or a bundler.
     // $b24 is an already-initialized SDK instance (see the SDK "Get started" guide).
     import { Text } from '@bitrix24/b24jssdk'
-    import type { B24Frame, ISODate } from '@bitrix24/b24jssdk'
+    import type { B24Frame } from '@bitrix24/b24jssdk'
 
     declare const $b24: B24Frame
 
@@ -146,19 +154,21 @@
       PORTAL_NUMBER: string
       INCOMING: string
       CALL_DURATION: number
-      CALL_START_DATE: ISODate | null
+      CALL_START_DATE: Record<string, never>
       CALL_STATUS: number
       CALL_VOTE: number
       COST: number
       COST_CURRENCY: string
       CALL_FAILED_CODE: string
       CALL_FAILED_REASON: string
-      REST_APP_ID: string
+      REST_APP_ID: string | null
       REST_APP_NAME: string
-      CRM_ACTIVITY_ID: number
+      CRM_ACTIVITY_ID: number | null
       COMMENT: string | null
-      CRM_ENTITY_TYPE: string
-      CRM_ENTITY_ID: number
+      CRM_ENTITY_TYPE?: string
+      CRM_ENTITY_ID?: number
+      CALL_RECORD_URL?: string
+      ERRORS?: { ACTIVITY_CREATION?: string }
     }
 
     try {
@@ -419,13 +429,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../data-types.md) | Данные сохраненной записи звонка ||
+[`object`](../data-types.md) | Данные сохраненной записи звонка [(подробное описание)](#result) ||
+|| **time**
+[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **ID**
 [`integer`](../data-types.md) | Идентификатор записи в статистике ||
 || **CALL_ID**
 [`string`](../data-types.md) | Идентификатор звонка ||
 || **EXTERNAL_CALL_ID**
-[`string`](../data-types.md) | Внешний идентификатор звонка на стороне интеграции ||
+[`string`](../data-types.md) | Внешний идентификатор звонка на стороне интеграции. `null`, если не передан при регистрации ||
 || **PORTAL_USER_ID**
 [`integer`](../data-types.md) | Идентификатор пользователя Битрикс24, от имени которого завершен звонок ||
 || **PHONE_NUMBER**
@@ -444,13 +463,13 @@ HTTP-статус: **200**
 || **CALL_DURATION**
 [`integer`](../data-types.md) | Длительность звонка в секундах ||
 || **CALL_START_DATE**
-[`datetime`](../data-types.md) | Дата и время начала звонка ||
+[`object`](../data-types.md) | Дата и время начала звонка. Сейчас возвращается пустым объектом `{}`. Дату начала звонка можно получить методом [voximplant.statistic.get](./voximplant/voximplant-statistic-get.md) ||
 || **CALL_STATUS**
 [`integer`](../data-types.md) | Статус завершения.
 
 Возможные значения:
-- `1` — успешный разговор
-- `0` — неуспешный/пропущенный ||
+- `1` — `DURATION` больше `0`
+- `0` — `DURATION` равен `0` ||
 || **CALL_VOTE**
 [`integer`](../data-types.md) | Оценка звонка ||
 || **COST**
@@ -477,21 +496,30 @@ HTTP-статус: **200**
 || **CALL_FAILED_REASON**
 [`string`](../data-types.md) | Текстовая причина завершения звонка ||
 || **REST_APP_ID**
-[`integer`](../data-types.md) | Идентификатор приложения ||
+[`string`](../data-types.md) | Идентификатор приложения. Для звонка, зарегистрированного через вебхук, — `null` ||
 || **REST_APP_NAME**
 [`string`](../data-types.md) | Название приложения ||
 || **CRM_ACTIVITY_ID**
-[`integer`](../data-types.md) | Идентификатор CRM-дела звонка ||
+[`integer`](../data-types.md) | Идентификатор CRM-дела звонка. Если дело не создано, текст ошибки возвращается в `ERRORS` ||
 || **COMMENT**
 [`string`](../data-types.md) | Комментарий к звонку ||
 || **CRM_ENTITY_TYPE**
-[`string`](../data-types.md) | Тип объекта CRM, связанного со звонком ||
+[`string`](../data-types.md) | Тип объекта CRM, связанного со звонком. Возвращается, если звонок связан с объектом CRM ||
 || **CRM_ENTITY_ID**
-[`integer`](../data-types.md) | Идентификатор объекта CRM, связанного со звонком ||
+[`integer`](../data-types.md) | Идентификатор объекта CRM, связанного со звонком. Возвращается, если звонок связан с объектом CRM ||
+|| **CALL_RECORD_URL**
+[`string`](../data-types.md) | URL записи из параметра `RECORD_URL`. Возвращается, если параметр передан ||
 || **ERRORS**
-[`object`](../data-types.md) | Дополнительные ошибки обработки (если возникли) ||
-|| **time**
-[`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
+[`object`](../data-types.md) | Дополнительные ошибки обработки. Возвращается, если ошибки возникли [(подробное описание)](#result-errors) ||
+|#
+
+#### Объект ERRORS {#result-errors}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ACTIVITY_CREATION**
+[`string`](../data-types.md) | Текст ошибки, если CRM-дело звонка не создано ||
 |#
 
 
@@ -511,14 +539,15 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван вне контекста приложения ||
-|| `INVALID_ARGUMENT` | CALL_ID must be a string | Параметр `CALL_ID` должен быть строкой ||
-|| `INVALID_ARGUMENT` | DURATION must be non-negative | Параметр `DURATION` меньше нуля ||
-|| `ERROR_CORE` | USER_ID or USER_PHONE_INNER should be set | Не переданы `USER_ID` и `USER_PHONE_INNER` ||
-|| `ERROR_CORE` | Call is not found (call should be registered prior to finishing | Звонок не найден, перед завершением его нужно зарегистрировать методом `telephony.externalCall.register` ||
-|| `ERROR_CORE` | User is not found or is not active | Пользователь не найден или неактивен ||
-|| `ERROR_CORE` | Unexpected database error | Ошибка сохранения статистики ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не через OAuth-токен приложения и не через входящий вебхук, например из сессии браузера ||
+|| `400` | `INVALID_ARGUMENT` | CALL_ID must be a string | Параметр `CALL_ID` не передан или передан не строкой ||
+|| `400` | `INVALID_ARGUMENT` | DURATION must be non-negative | Параметр `DURATION` меньше нуля ||
+|| `400` | Пустое значение | USER_ID or USER_PHONE_INNER should be set | Не переданы `USER_ID` и `USER_PHONE_INNER` ||
+|| `400` | Пустое значение | Call is not found (call should be registered prior to finishing | Звонок не найден, перед завершением его нужно зарегистрировать методом `telephony.externalCall.register` ||
+|| `400` | Пустое значение | User is not found or is not active | Пользователь не найден или неактивен ||
+|| `400` | Пустое значение | Unexpected database error | Ошибка сохранения статистики ||
+|| `400` | Пустое значение | RECORD_URL contains invalid symbols for UTF-8 encoding | В `RECORD_URL` есть символы не в кодировке UTF-8. Звонок при этом уже завершен и сохранен в статистике ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

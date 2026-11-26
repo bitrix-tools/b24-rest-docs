@@ -131,6 +131,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -260,8 +261,8 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для получения исходящей линии по умолчанию ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для получения исходящей линии по умолчанию ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -269,6 +270,5 @@ HTTP-статус: **403**
 ## Продолжите изучение
 
 - [{#T}](./voximplant-line-get.md)
-- [{#T}](./voximplant-line-outgoing-get.md)
 - [{#T}](./voximplant-line-outgoing-set.md)
 - [{#T}](./voximplant-line-outgoing-sip-set.md)

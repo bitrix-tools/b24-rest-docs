@@ -13,11 +13,13 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `userconsent.agreement.list` возвращает список соглашений.
+Метод `userconsent.agreement.list` возвращает список соглашений Битрикс24 с идентификаторами, которые нужны для методов [userconsent.agreement.text](./user-consent-agreement-text.md) и [userconsent.consent.add](./user-consent-consent-add.md).
 
 ## Параметры метода
 
 Без параметров.
+
+Метод не поддерживает фильтрацию, сортировку и постраничную навигацию: переданные параметры, например `start` или `filter`, игнорируются, а в ответе всегда весь список.
 
 ## Примеры кода
 
@@ -64,16 +66,9 @@
     }
 
     try {
-      // userconsent.agreement.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<AgreementItem[]>({
         method: 'userconsent.agreement.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -101,16 +96,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // userconsent.agreement.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'userconsent.agreement.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -230,12 +218,6 @@
     for _, it := range items {
     	fmt.Println(it.ID, it.Name)
     }
-
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
     ```
 
 {% endlist %}
@@ -246,114 +228,48 @@ HTTP-статус: **200**
 
 ```json
 {
-"result": [
-    {
-     "ID": "35",
-     "NAME": "Согласие на получение рассылки",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "ru"
-    },
-    {
-     "ID": "33",
-     "NAME": "Conditions d'utilisation de Bitrix24 Sites",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "fr"
-    },
-    {
-     "ID": "31",
-     "NAME": "Условия использования сервиса уведомлений",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": null
-    },
-    {
-     "ID": "29",
-     "NAME": "SASHA",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": ""
-    },
-    {
-     "ID": "27",
-     "NAME": "Условия использования Центра уведомлений Б24",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": null
-    },
-    {
-     "ID": "25",
-     "NAME": "Termos de Uso do Bitrix24 Sites",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "br"
-    },
-    {
-     "ID": "23",
-     "NAME": "Второе соглашение",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": ""
-    },
-    {
-     "ID": "21",
-     "NAME": "Bitrix24 Sites: Nutzungsbedingungen",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "de"
-    },
-    {
-     "ID": "19",
-     "NAME": "Согласие с Cookies-файлами",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "ru"
-    },
-    {
-     "ID": "17",
-     "NAME": "Cookie consent",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "en"
-    },
-    {
-     "ID": "15",
-     "NAME": "Правила використання Бітрікс24.Сайти",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "ua"
-    },
-    {
-     "ID": "13",
-     "NAME": "Test newwef",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": ""
-    },
-    {
-     "ID": "11",
-     "NAME": "Bitrix24 Sites Terms of Use",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "en"
-    },
-    {
-     "ID": "9",
-     "NAME": "Правила использования Битрикс24.Сайты",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "es"
-    },
-    {
-     "ID": "7",
-     "NAME": "Правила использования Битрикс24.Сайты",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": "ru"
-    },
-    {
-     "ID": "1",
-     "NAME": "Пример согласия на обработку персональных данных",
-     "ACTIVE": "Y",
-     "LANGUAGE_ID": ""
+    "result": [
+        {
+            "ID": "35",
+            "NAME": "Согласие на получение рассылки",
+            "ACTIVE": "Y",
+            "LANGUAGE_ID": "ru"
+        },
+        {
+            "ID": "31",
+            "NAME": "Условия использования сервиса уведомлений",
+            "ACTIVE": "Y",
+            "LANGUAGE_ID": null
+        },
+        {
+            "ID": "23",
+            "NAME": "Согласие на обработку данных в CRM-форме",
+            "ACTIVE": "Y",
+            "LANGUAGE_ID": ""
+        },
+        {
+            "ID": "17",
+            "NAME": "Cookie consent",
+            "ACTIVE": "Y",
+            "LANGUAGE_ID": "en"
+        },
+        {
+            "ID": "1",
+            "NAME": "Пример согласия на обработку персональных данных",
+            "ACTIVE": "Y",
+            "LANGUAGE_ID": ""
+        }
+    ],
+    "time": {
+        "start": 1760352862,
+        "finish": 1760352862.776508,
+        "duration": 0.776508092880249,
+        "processing": 0,
+        "date_start": "2025-10-13T13:54:22+03:00",
+        "date_finish": "2025-10-13T13:54:22+03:00",
+        "operating_reset_at": 1760353462,
+        "operating": 0
     }
-],
-"time": {
-    "start": 1760352862,
-    "finish": 1760352862.776508,
-    "duration": 0.776508092880249,
-    "processing": 0,
-    "date_start": "2025-10-13T13:54:22+03:00",
-    "date_finish": "2025-10-13T13:54:22+03:00",
-    "operating_reset_at": 1760353462,
-    "operating": 0
-}
 }
 ```
 
@@ -363,26 +279,48 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`array`](../data-types.md) | Корневой элемент ответа ||
+[`array`](../data-types.md) | Массив соглашений. Метод возвращает все соглашения Битрикс24 одним массивом, без постраничной навигации, от новых к старым по `ID`. Если соглашений нет, приходит пустой массив `[]` ||
 || **ID**
-[`integer`](../data-types.md) | Идентификатор соглашения ||
+[`integer`](../data-types.md) | Идентификатор соглашения. Приходит строкой, например `"35"`. Передавайте его в параметр `id` метода [userconsent.agreement.text](./user-consent-agreement-text.md) и в параметр `AGREEMENT_ID` метода [userconsent.consent.add](./user-consent-consent-add.md) ||
 || **NAME**
 [`string`](../data-types.md) | Название соглашения ||
 || **ACTIVE**
 [`string`](../data-types.md) | Признак активности. Возможные значения:
-- `Y` — да
-- `N` — нет ||
+- `Y` — соглашение включено
+- `N` — соглашение выключено ||
 || **LANGUAGE_ID**
-[`string`](../data-types.md) | Идентификатор языка соглашения ||
+[`string`](../data-types.md) | Код языка соглашения, например `ru` или `en`. Если язык не задан, приходит пустая строка или `null` ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
+HTTP-статус: **401**
+
+```json
+{
+    "error": "insufficient_scope",
+    "error_description": "The request requires higher privileges than provided by the webhook token"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+У метода нет параметров, поэтому собственных ошибок у него нет. Метод возвращает только системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `userconsent` ||
+|#
+
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./user-consent-agreement-text.md)
 - [{#T}](./user-consent-consent-add.md)
+- [{#T}](./index.md)

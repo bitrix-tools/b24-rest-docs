@@ -154,6 +154,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -266,6 +267,7 @@ HTTP-статус: **200**
 [`integer`](../../../data-types.md) | Результат выполнения метода.
 
 `1` — запрос обработан.
+
 Проверьте фактическую линию через [voximplant.line.outgoing.get](./voximplant-line-outgoing-get.md), так как при невалидном `LINE_ID` метод также возвращает `1` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
@@ -287,8 +289,8 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для изменения исходящей линии по умолчанию ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для изменения исходящей линии по умолчанию ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -297,5 +299,4 @@ HTTP-статус: **403**
 
 - [{#T}](./voximplant-line-get.md)
 - [{#T}](./voximplant-line-outgoing-get.md)
-- [{#T}](./voximplant-line-outgoing-set.md)
 - [{#T}](./voximplant-line-outgoing-sip-set.md)

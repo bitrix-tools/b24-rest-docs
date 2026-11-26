@@ -13,6 +13,8 @@ items:
     href: voximplant-tts-voices-get.md
   - name: Получить список истории звонков
     href: voximplant-statistic-get.md
+  - name: Получить ссылки для навигации по страницам телефонии
+    href: voximplant-url-get.md
   - name: События
     include:
       path: events/b24-toc.yaml
@@ -29,8 +31,6 @@ items:
     include:
       path: users/b24-toc.yaml
       mode: link
-  - name: Получить ссылки для навигации по страницам телефонии
-    href: voximplant-url-get.md
 
 
 

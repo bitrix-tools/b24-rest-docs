@@ -15,7 +15,7 @@
 
 Метод `voximplant.user.get` возвращает настройки пользователей.
 
-Для приложений вызов метода требует [подтверждения администратора](../../../scopes/confirmation.md).
+Метод работает только в контексте приложения. Вызов метода требует [подтверждения администратора](../../../scopes/confirmation.md).
 
 ## Параметры метода
 
@@ -27,6 +27,8 @@
 || **USER_ID***
 [```integer | integer[]```](../../../data-types.md#compound-types) | Идентификатор пользователя или массив идентификаторов пользователей.
 
+Идентификаторы пользователей, к которым нет доступа по праву Настройки пользователя — Изменение, исключаются из запроса без ошибки. Ошибка `ACCESS_DENIED` возникает, только если исключены все идентификаторы. Для несуществующих пользователей записи в ответе не возвращаются, ошибки при этом нет.
+
 Получить идентификатор можно методом [user.get](../../../user/user-get.md) ||
 |#
 
@@ -35,16 +37,6 @@
 {% include [Сноска о примерах](../../../../_includes/examples.md) %}
 
 {% list tabs %}
-
-- cURL (Webhook)
-
-    ```bash
-    curl -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -d '{"USER_ID":[1269, 1271]}' \
-    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/voximplant.user.get
-    ```
 
 - cURL (OAuth)
 
@@ -162,6 +154,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -237,11 +230,13 @@
     }
 
     var items []struct {
-    	ID           b24.ID `json:"ID"`
-    	PhoneEnabled string `json:"PHONE_ENABLED"`
-    	SipServer    string `json:"SIP_SERVER"`
-    	SipLogin     string `json:"SIP_LOGIN"`
-    	SipPassword  string `json:"SIP_PASSWORD"`
+    	ID           b24.ID  `json:"ID"`
+    	DefaultLine  *string `json:"DEFAULT_LINE"`
+    	PhoneEnabled string  `json:"PHONE_ENABLED"`
+    	SipServer    string  `json:"SIP_SERVER"`
+    	SipLogin     string  `json:"SIP_LOGIN"`
+    	SipPassword  *string `json:"SIP_PASSWORD"`
+    	InnerNumber  *string `json:"INNER_NUMBER"`
     }
     if err := json.Unmarshal(res.Result, &items); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
@@ -298,15 +293,27 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object[]`](../../../data-types.md) | Массив настроек пользователей ||
+[`object[]`](../../../data-types.md) | Массив настроек пользователей [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **ID**
 [`string`](../../../data-types.md) | Идентификатор пользователя ||
 || **DEFAULT_LINE**
-[`string`](../../../data-types.md) | Номер исходящей линии по умолчанию. Может быть `null` ||
+[`string`](../../../data-types.md) | Исходящая линия пользователя. Обычно это идентификатор линии в формате ключей [voximplant.line.get](../lines/voximplant-line-get.md) или `LINK_BASE_NUMBER`.
+
+Метод возвращает значение в том виде, в каком оно сохранено в настройках пользователя, поэтому у старых настроек здесь может быть текст, например `Номер по умолчанию`. `null`, если линия не выбрана ||
 || **PHONE_ENABLED**
 [`string`](../../../data-types.md) | Признак наличия SIP-аппарата.
 
 Возможные значения:
+
 - `Y` — SIP-аппарат у пользователя активирован
 - `N` — SIP-аппарат у пользователя не активирован ||
 || **SIP_SERVER**
@@ -314,16 +321,14 @@ HTTP-статус: **200**
 || **SIP_LOGIN**
 [`string`](../../../data-types.md) | Логин для подключения SIP-аппарата ||
 || **SIP_PASSWORD**
-[`string`](../../../data-types.md) | Пароль для подключения SIP-аппарата. Может быть `null` ||
+[`string`](../../../data-types.md) | Пароль для подключения SIP-аппарата. `null`, если пароль не задан ||
 || **INNER_NUMBER**
 [`string`](../../../data-types.md) | Внутренний номер пользователя. Может быть `null` ||
-|| **time**
-[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **401**, **403**
+HTTP-статус: **401**
 
 ```json
 {
@@ -337,11 +342,12 @@ HTTP-статус: **400**, **401**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| — | `Parameter USER_ID is not set` | Не указан обязательный параметр `USER_ID` ||
-|| `METHOD_CONFIRM_WAITING` | `Waiting for confirmation` | Ожидается подтверждение администратора Битрикс24 на вызов метода ||
-|| `METHOD_CONFIRM_DENIED` | `Method call denied` | Администратор запретил вызов метода для текущего токена ||
-|| `ACCESS_DENIED` | `Access denied! You have no permission to query selected users` | Недостаточно прав для получения настроек пользователей ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Parameter USER_ID is not set` | Не указан обязательный параметр `USER_ID` ||
+|| `401` | `METHOD_CONFIRM_WAITING` | `Waiting for confirmation` | Ожидается подтверждение администратора Битрикс24 на вызов метода ||
+|| `403` | `METHOD_CONFIRM_DENIED` | `Method call denied` | Администратор запретил вызов метода для текущего токена ||
+|| `403` | `ACCESS_DENIED` | `Access denied! You have no permission to query selected users` | Недостаточно прав для получения настроек пользователей ||
+|| `403` | `ACCESS_DENIED` | `Access denied! Application context required` | Метод вызван не из приложения, например через вебхук ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}

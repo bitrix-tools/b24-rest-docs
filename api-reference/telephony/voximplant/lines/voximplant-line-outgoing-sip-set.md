@@ -146,6 +146,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -278,9 +279,9 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_ARGUMENT` | `Specified CONFIG_ID is not found` | SIP-линия с указанным `CONFIG_ID` не найдена ||
-|| `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для изменения исходящей SIP-линии ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_ARGUMENT` | `Specified CONFIG_ID is not found` | Параметр `CONFIG_ID` не передан, меньше или равен `0` или настройка линии с таким идентификатором не найдена ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Недостаточно прав для изменения исходящей SIP-линии ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -290,4 +291,4 @@ HTTP-статус: **400**, **403**
 - [{#T}](./voximplant-line-get.md)
 - [{#T}](./voximplant-line-outgoing-get.md)
 - [{#T}](./voximplant-line-outgoing-set.md)
-- [{#T}](./voximplant-line-outgoing-sip-set.md)
+- [{#T}](../sip/voximplant-sip-get.md)

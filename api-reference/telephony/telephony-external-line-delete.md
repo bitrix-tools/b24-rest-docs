@@ -13,13 +13,7 @@
 >
 > Кто может выполнять метод: любой пользователь
 
-Метод `telephony.externalLine.delete` удаляет внешнюю линию приложения.
-
-{% note info "" %}
-
-Метод работает только в контексте [приложения](../../settings/app-installation/index.md)
-
-{% endnote %}
+Метод `telephony.externalLine.delete` удаляет внешнюю линию.
 
 ## Параметры метода
 
@@ -31,7 +25,11 @@
 || **NUMBER***
 [`string`](../data-types.md) | Номер внешней линии.
 
-Номер можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md) ||
+Номер можно получить методом [telephony.externalLine.get](./telephony-external-line-get.md). Пробелы в начале и конце удаляются.
+
+Приложение удаляет только свои линии, вебхук — только линии, добавленные через входящий вебхук.
+
+Если линию автоматически создал метод [telephony.externalCall.register](./telephony-external-call-register.md) по параметру `LINE_NUMBER`, при следующей регистрации звонка с этим номером линия создастся снова ||
 |#
 
 ## Примеры кода
@@ -39,6 +37,16 @@
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
 {% list tabs %}
+
+- cURL (Webhook)
+
+    ```bash
+    curl -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -d '{"NUMBER":"74951234567"}' \
+    https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/telephony.externalLine.delete
+    ```
 
 - cURL (OAuth)
 
@@ -272,10 +280,10 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван вне контекста приложения ||
-|| `ERROR_CORE` | NUMBER should not be empty | Не передан обязательный параметр `NUMBER` ||
-|| `ERROR_CORE` | Could not find line with number {NUMBER} | Линия с указанным номером не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `WRONG_AUTH_TYPE` | Current authorization type is denied for this method | Метод вызван не через OAuth-токен приложения и не через входящий вебхук, например из сессии браузера ||
+|| `400` | Пустое значение | NUMBER should not be empty | Не передан обязательный параметр `NUMBER` ||
+|| `400` | Пустое значение | Could not find line with number {NUMBER} | Линия с указанным номером не найдена ||
 |#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}

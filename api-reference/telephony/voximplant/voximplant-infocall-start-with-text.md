@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../scopes/permissions.md), [`call`](../../scopes/permissions.md) 
+> Scope: [`call`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом Исходящий звонок — Выполнение
 
@@ -25,15 +25,21 @@
 || **FROM_LINE***
 [`string`](../../data-types.md) | Идентификатор исходящей линии, с которой запускается звонок.
 
-Список доступных линий можно получить методом [voximplant.line.get](./lines/voximplant-line-get.md) ||
+Список доступных линий можно получить методом [voximplant.line.get](./lines/voximplant-line-get.md).
+
+Линии приложений вида `REST_APP:<APP_ID>` и внешние линии приложений не поддерживаются, метод вернет ошибку `Could not find config for number`. Линию `LINK_BASE_NUMBER` использовать нельзя ||
 || **TO_NUMBER***
-[`string`](../../data-types.md) | Номер, на который нужно выполнить звонок ||
+[`string`](../../data-types.md) | Номер, на который нужно выполнить звонок.
+
+Для SIP-линии номер передается без изменений. Для остальных линий из номера удаляются все символы, кроме цифр и символов `+`, `#`, `*`, `,`, `;`. Если после этого номер пустой, метод вернет ошибку `Phone number is not correct` ||
 || **TEXT_TO_PRONOUNCE***
 [`string`](../../data-types.md) | Текст, который будет озвучен получателю ||
 || **VOICE**
 [`string`](../../data-types.md) | Идентификатор голоса для синтеза речи.
 
-Если не передан, используется голос по умолчанию для языка портала.
+Если не передан, используется голос по умолчанию для языка запроса: для `ru` — `ruinternalfemale`, для `en` — `usenglishmale`, для `de` — `eurgermanfemale`. Для языков без своего голоса — `usenglishmale`.
+
+Скорость и громкость синтеза речи — средние, через REST API они не настраиваются
 
 Список доступных голосов можно получить методом [voximplant.tts.voices.get](./voximplant-tts-voices-get.md) ||
 |#
@@ -50,7 +56,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FROM_LINE":"reg151083","TO_NUMBER":"79991234567","TEXT_TO_PRONOUNCE":"Добрый день. Напоминаем о записи"}' \
+    -d '{"FROM_LINE":"reg151083","TO_NUMBER":"79991234567","TEXT_TO_PRONOUNCE":"Добрый день. Напоминаем о записи","VOICE":"ruinternalfemale"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/voximplant.infocall.startwithtext
     ```
 
@@ -60,7 +66,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"FROM_LINE":"reg151083","TO_NUMBER":"79991234567","TEXT_TO_PRONOUNCE":"Добрый день. Напоминаем о записи","auth":"**put_access_token_here**"}' \
+    -d '{"FROM_LINE":"reg151083","TO_NUMBER":"79991234567","TEXT_TO_PRONOUNCE":"Добрый день. Напоминаем о записи","VOICE":"ruinternalfemale","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/voximplant.infocall.startwithtext
     ```
 
@@ -86,7 +92,8 @@
         params: {
           FROM_LINE: 'reg151083',
           TO_NUMBER: '79991234567',
-          TEXT_TO_PRONOUNCE: 'Good afternoon. Reminder about your appointment',
+          TEXT_TO_PRONOUNCE: 'Добрый день. Напоминаем о записи',
+          VOICE: 'ruinternalfemale',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -120,7 +127,8 @@
             params: {
               FROM_LINE: 'reg151083',
               TO_NUMBER: '79991234567',
-              TEXT_TO_PRONOUNCE: 'Good afternoon. Reminder about your appointment',
+              TEXT_TO_PRONOUNCE: 'Добрый день. Напоминаем о записи',
+              VOICE: 'ruinternalfemale',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -153,6 +161,7 @@
             from_line='reg151083',
             to_number='79991234567',
             text_to_pronounce='Добрый день. Напоминаем о записи',
+            voice='ruinternalfemale',
         ).response
         result = bitrix_response.result
         print(result)
@@ -168,6 +177,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -180,6 +190,7 @@
                     'FROM_LINE' => 'reg151083',
                     'TO_NUMBER' => '79991234567',
                     'TEXT_TO_PRONOUNCE' => 'Добрый день. Напоминаем о записи',
+                    'VOICE' => 'ruinternalfemale',
                 ]
             );
 
@@ -202,7 +213,8 @@
         {
             FROM_LINE: 'reg151083',
             TO_NUMBER: '79991234567',
-            TEXT_TO_PRONOUNCE: 'Добрый день. Напоминаем о записи'
+            TEXT_TO_PRONOUNCE: 'Добрый день. Напоминаем о записи',
+            VOICE: 'ruinternalfemale'
         },
         function(result)
         {
@@ -229,6 +241,7 @@
             'FROM_LINE' => 'reg151083',
             'TO_NUMBER' => '79991234567',
             'TEXT_TO_PRONOUNCE' => 'Добрый день. Напоминаем о записи',
+            'VOICE' => 'ruinternalfemale',
         ]
     );
 
@@ -245,6 +258,7 @@
     	"FROM_LINE":         "reg151083",
     	"TO_NUMBER":         "79991234567",
     	"TEXT_TO_PRONOUNCE": "Добрый день. Напоминаем о записи",
+    	"VOICE":             "ruinternalfemale",
     })
     if err != nil {
     	return fmt.Errorf("voximplant.infocall.startwithtext: %w", err)
@@ -291,24 +305,31 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом запуска автозвонка ||
+[`object`](../../data-types.md) | Объект с результатом запуска автозвонка [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **RESULT**
 [`boolean`](../../data-types.md) | Признак успешного запуска.
 
 `true` — автозвонок успешно запущен ||
 || **CALL_ID**
 [`string`](../../data-types.md) | Идентификатор звонка ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_CORE",
+    "error": "",
     "error_description": "Infocall limit for this month is exceeded"
 }
 ```
@@ -318,20 +339,20 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_CORE` | `Making infocall using LINK_BASE_NUMBER is not allowed` | Нельзя запускать автозвонок через служебную линию ||
-|| `ERROR_CORE` | `Could not find config for number <LINE_ID>` | Не найдена конфигурация для указанной линии ||
-|| `ERROR_CORE` | `Infocall limit for this month is exceeded` | Превышен месячный лимит автозвонков ||
-|| `ERROR_CORE` | `Phone number is not correct` | Некорректный номер в `TO_NUMBER` ||
-|| `ERROR_CORE` | `Infocall failure` | Ошибка при запуске автозвонка ||
-|| `ACCESS_DENIED` | `Access denied` | Недостаточно прав на выполнение исходящих звонков ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Making infocall using LINK_BASE_NUMBER is not allowed` | Нельзя запускать автозвонок через служебную линию ||
+|| `400` | Пустое значение | `Could not find config for number <LINE_ID>` | Не найдена конфигурация для указанной линии ||
+|| `400` | Пустое значение | `Infocall limit for this month is exceeded` | Превышен месячный лимит автозвонков. Лимит действует на бесплатном тарифе телефонии, для SIP-линии с активным SIP-коннектором лимита нет ||
+|| `400` | Пустое значение | `Phone number is not correct` | Некорректный номер в `TO_NUMBER` ||
+|| `400` | Пустое значение | `Infocall failure` | Ошибка при запуске автозвонка ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Недостаточно прав на выполнение исходящих звонков ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./lines/voximplant-line-get.md)
 - [{#T}](./voximplant-callback-start.md)
 - [{#T}](./voximplant-infocall-start-with-sound.md)
-- [{#T}](./voximplant-infocall-start-with-text.md)
 - [{#T}](./voximplant-tts-voices-get.md)

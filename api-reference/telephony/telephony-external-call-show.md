@@ -25,7 +25,7 @@
 || **CALL_ID***
 [`string`](../data-types.md) | Идентификатор звонка из метода [telephony.externalCall.register](./telephony-external-call-register.md) ||
 || **USER_ID**
-[```integer | integer[]```](../data-types.md#compound-types) | Идентификатор пользователя или массив идентификаторов пользователей.
+[```integer | integer[]```](../data-types.md#compound-types) | Идентификатор пользователя или массив идентификаторов пользователей. Существование пользователей не проверяется.
 
 Идентификатор можно получить методом [user.get](../user/user-get.md).
 
@@ -269,12 +269,33 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../data-types.md) | `true` — карточка показана, `false` — звонок не найден ||
+[`boolean`](../data-types.md) | `true` — команда показа карточки отправлена пользователям, `false` — звонок с таким `CALL_ID` не найден или уже завершен методом [telephony.externalCall.finish](./telephony-external-call-finish.md) ||
 || **time**
 [`time`](../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
+
+HTTP-статус: **401**
+
+```json
+{
+    "error": "INVALID_CREDENTIALS",
+    "error_description": "Invalid request credentials"
+}
+```
+
+{% include notitle [обработка ошибок](../../_includes/error-info.md) %}
+
+### Возможные коды ошибок
+
+Собственных ошибок у метода нет. Если `CALL_ID` не передан или звонок с таким `CALL_ID` не найден, метод возвращает HTTP-статус `200` и `result: false`. Кроме этого, метод возвращает системные ошибки, например:
+
+#|
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `401` | `INVALID_CREDENTIALS` | Invalid request credentials | Неверный код вебхука или токен авторизации ||
+|| `401` | `insufficient_scope` | The request requires higher privileges than provided by the webhook token | У вебхука или приложения нет scope `telephony` ||
+|#
 
 {% include [системные ошибки](../../_includes/system-errors.md) %}
 

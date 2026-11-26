@@ -9,7 +9,7 @@
 
 {% endnote %}
 
-> Scope: [`telephony`](../../scopes/permissions.md)
+> Scope: [`call`](../../scopes/permissions.md)
 >
 > Кто может выполнять метод: пользователь с правом Исходящий звонок — Выполнение
 
@@ -25,15 +25,19 @@
 || **FROM_LINE***
 [`string`](../../data-types.md) | Идентификатор исходящей линии, с которой запускается обратный звонок.
 
-Список доступных линий можно получить методом [voximplant.line.get](./lines/voximplant-line-get.md) ||
+Список доступных линий можно получить методом [voximplant.line.get](./lines/voximplant-line-get.md).
+
+Можно также передать линию приложения вида `REST_APP:<APP_ID>` или номер внешней линии приложения. В этом случае звонок не запускается в Битрикс24: приложению отправляется событие [OnExternalCallBackStart](../events/on-external-call-back-start.md) ||
 || **TO_NUMBER***
-[`string`](../../data-types.md) | Номер клиента, на который нужно позвонить ||
+[`string`](../../data-types.md) | Номер клиента, на который нужно позвонить.
+
+Из номера удаляются все символы, кроме цифр и символов `+`, `#`, `*`, `,`, `;`. Если после этого номер пустой, метод вернет ошибку `Phone number is not correct` ||
 || **TEXT_TO_PRONOUNCE***
 [`string`](../../data-types.md) | Текст, который система произнесет сотруднику перед соединением с клиентом ||
 || **VOICE**
 [`string`](../../data-types.md) | Идентификатор голоса для синтеза речи.
 
-Если не передан, используется голос по умолчанию для языка портала.
+Если не передан, используется голос по умолчанию для языка запроса: для `ru` — `ruinternalfemale`, для `en` — `usenglishmale`, для `de` — `eurgermanfemale`. Для языков без своего голоса — `usenglishmale`.
 
 Список доступных голосов можно получить методом [voximplant.tts.voices.get](./voximplant-tts-voices-get.md) ||
 |#
@@ -77,7 +81,7 @@
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type CallbackStartResult = {
       RESULT: boolean
-      CALL_ID: string
+      CALL_ID: string | null
     }
 
     try {
@@ -171,6 +175,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     ```php
@@ -258,13 +263,15 @@
     }
 
     var item struct {
-    	Result bool   `json:"RESULT"`
-    	CallID string `json:"CALL_ID"`
+    	Result bool    `json:"RESULT"`
+    	CallID *string `json:"CALL_ID"`
     }
     if err := json.Unmarshal(res.Result, &item); err != nil {
     	return fmt.Errorf("разбор ответа: %w", err)
     }
-    fmt.Println(item.Result, item.CallID)
+    if item.CallID != nil {
+    	fmt.Println(item.Result, *item.CallID)
+    }
     ```
 
 {% endlist %}
@@ -298,24 +305,33 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Объект с результатом запуска обратного звонка ||
+[`object`](../../data-types.md) | Объект с результатом запуска обратного звонка [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **RESULT**
 [`boolean`](../../data-types.md) | Признак успешного запуска.
 
 `true` — обратный звонок успешно запущен ||
 || **CALL_ID**
-[`string`](../../data-types.md) | Идентификатор звонка ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`string`](../../data-types.md) | Идентификатор звонка.
+
+Для линии приложения возвращается `null`: звонок обрабатывает приложение ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**, **403**
+HTTP-статус: **400**
 
 ```json
 {
-    "error": "ERROR_CORE",
+    "error": "",
     "error_description": "Could not find line reg000000"
 }
 ```
@@ -325,18 +341,20 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ERROR_CORE` | `Could not find line <LINE_ID>` | Линия с указанным идентификатором не найдена ||
-|| `ERROR_CORE` | `Could not find config for number <LINE_ID>` | Не найдена конфигурация для указанной линии ||
-|| `ERROR_CORE` | `Phone number is not correct` | Некорректный номер в `TO_NUMBER` ||
-|| `ACCESS_DENIED` | `Access denied` | Недостаточно прав на выполнение исходящих звонков ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Could not find line <LINE_ID>` | Линия с указанным идентификатором не найдена ||
+|| `400` | Пустое значение | `Could not find config for number <LINE_ID>` | Не найдена конфигурация для указанной линии ||
+|| `400` | Пустое значение | `Phone number is not correct` | Некорректный номер в `TO_NUMBER` ||
+|| `400` | Пустое значение | Текст ошибки сервера телефонии | Сервер телефонии не смог запустить обратный звонок ||
+|| `403` | `ACCESS_DENIED` | `Access denied!` | Недостаточно прав на выполнение исходящих звонков ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
-- [{#T}](./voximplant-callback-start.md)
+- [{#T}](./lines/voximplant-line-get.md)
 - [{#T}](./voximplant-infocall-start-with-sound.md)
 - [{#T}](./voximplant-infocall-start-with-text.md)
 - [{#T}](./voximplant-tts-voices-get.md)
+- [{#T}](../events/on-external-call-back-start.md)
