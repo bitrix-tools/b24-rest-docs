@@ -79,6 +79,8 @@
 
 Товарные позиции через `fields` не передаются: их добавляют методами [crm.<тип>.productrow.*](../product-rows/crm-entity-product-row-list-rest-v3.md) после создания элемента.
 
+Реквизит клиента метод в сделку не подставляет, даже если у компании из `companyId` есть реквизит. Чтобы выбрать реквизит, после создания сделки вызовите [crm.deal.clientrequisite.set](../requisites/crm-entity-client-requisite-set-rest-v3.md).
+
 ### Обязательные поля {#required-fields}
 
 Без этих полей метод вернет ошибку и элемент не создаст:
