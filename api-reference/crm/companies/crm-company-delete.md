@@ -29,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор компании ||
+[`integer`](../../data-types.md) | Идентификатор компании. После приведения к целому числу должен быть больше 0 ||
 |#
 
 ## Примеры кода
@@ -44,7 +44,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":50}' \
+    -d '{"id":50}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.company.delete
     ```
 
@@ -54,7 +54,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":50,"auth":"**put_access_token_here**"}' \
+    -d '{"id":50,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.company.delete
     ```
 
@@ -182,7 +182,7 @@
     $result = CRest::call(
         'crm.company.delete',
         [
-            'ID' => 50
+            'id' => 50
         ]
     );
 
@@ -258,9 +258,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `Access denied` | У пользователя нет права на «Удаление» компаний ||
-|| Пустое значение | `Company is not found` | Компания не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | Параметр `id` не передан или после приведения к целому числу его значение не больше 0 ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права на «Удаление» компаний ||
+|| `400` | Пустое значение | Пустое значение | Компания с указанным `id` не найдена ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
@@ -272,9 +273,3 @@ HTTP-статус: **400**
 - [{#T}](./crm-company-get.md)
 - [{#T}](./crm-company-list.md)
 - [{#T}](./crm-company-fields.md)
-
-
-
-
-
-

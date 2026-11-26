@@ -1,4 +1,4 @@
-# При удалении пользовательского поля onCrmCompanyUserFieldDelete
+# Событие при удалении пользовательского поля компаний onCrmCompanyUserFieldDelete
 
 {% note tip "" %}
 
@@ -11,9 +11,15 @@
 
 > Scope: [`crm`](../../../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
+> Кто может подписаться: любой пользователь, для офлайн-событий нужны права администратора
 
 Событие `ONCRMCOMPANYUSERFIELDDELETE` сработает при удалении пользовательского поля для компаний.
+
+{% note info "" %}
+
+События не будут отправляться в приложение, пока установка не завершена. [Проверьте установку приложения](../../../../../settings/app-installation/installation-finish.md).
+
+{% endnote %}
 
 ## Что получает обработчик
 
@@ -40,7 +46,6 @@
         "status": "L",
         "client_endpoint": "https://some-domain.bitrix24.com/rest/",
         "member_id": "a223c6b3710f85df22e9377d6c4f7553",
-        "refresh_token": "4s386p3q0tr8dy89xvmt96234v3dljg8",
         "application_token": "51856fefc120afa4b628cc82d3935cce"
     }
 }
@@ -64,9 +69,9 @@
 
 Структура описана [ниже](#fields) ||
 || **ts**
-[`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) ||
+[`timestamp`](../../../../data-types.md) | Дата и время отправки события из [очереди событий](../../../../events/index.md) в формате Unix timestamp ||
 || **auth**
-[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о портале, на котором произошло событие.
+[`object`](../../../../data-types.md) | Объект, содержащий параметры авторизации и данные о Битрикс24, в котором произошло событие.
 
 Структура описана [ниже](#auth) ||
 |#
@@ -79,9 +84,11 @@
 || **ID**
 [`integer`](../../../../data-types.md) | Идентификатор удаленного пользовательского поля ||
 || **ENTITY_ID**
-[`string`](../../../../data-types.md) | Идентификатор объекта, к которому относилось пользовательское поле. В данном случае — `CRM_COMPANY` ||
+[`userFieldEntityId`](../../../data-types.md#object_type) | Тип объекта CRM, к которому привязано пользовательское поле.
+
+В данном случае — `CRM_COMPANY` ||
 || **FIELD_NAME**
-[`string`](../../../../data-types.md) | Название удаленного пользовательского поля ||
+[`string`](../../../../data-types.md) | Код удаленного пользовательского поля ||
 |#
 
 ### Параметр auth {#auth}
@@ -92,5 +99,7 @@
 
 - [{#T}](../../../../events/index.md)
 - [{#T}](../../../../events/event-bind.md)
+- [{#T}](./index.md)
 - [{#T}](./on-crm-company-user-field-add.md)
 - [{#T}](./on-crm-company-user-field-update.md)
+- [{#T}](./on-crm-company-user-field-set-enum-values.md)

@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь
+> Кто может выполнять метод: пользователь с правом чтения хотя бы одного типа объектов CRM или смарт-процесса в цифровом рабочем месте
 
 {% note warning "DEPRECATED" %}
 
@@ -799,117 +799,44 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **ID**
-[`integer`](../../data-types.md) | Идентификатор компании ||
-|| **TITLE**
-[`string`](../../data-types.md) | Название компании ||
-|| **COMPANY_TYPE**
-[`crm_status`](../data-types.md) | Тип компании. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=COMPANY_TYPE` ||
-|| **LOGO**
-[`file`](../../data-types.md) | Логотип ||
-|| **ADDRESS**
-[`string`](../../data-types.md) | Фактический адрес. Устарел, используется для совместимости. Для работы с адресом используйте [реквизиты](../requisites/index.md).
-
-Устаревшие адресные поля:
-- `ADDRESS_2` — адрес (стр. 2)
-- `ADDRESS_CITY` — город
-- `ADDRESS_POSTAL_CODE` — почтовый индекс
-- `ADDRESS_REGION` — район
-- `ADDRESS_PROVINCE` — область
-- `ADDRESS_COUNTRY` — страна
-- `ADDRESS_COUNTRY_CODE` — код страны
-- `ADDRESS_LOC_ADDR_ID` — идентификатор адреса местоположения
-- `ADDRESS_LEGAL` — юридический адрес
-- `REG_ADDRESS` — юридический адрес
-- `REG_ADDRESS_2` — юридический адрес (стр. 2)
-- `REG_ADDRESS_CITY` — юридический адрес город
-- `REG_ADDRESS_POSTAL_CODE` — юридический адрес почтовый индекс
-- `REG_ADDRESS_REGION` — юридический адрес район
-- `REG_ADDRESS_PROVINCE` — юридический адрес область
-- `REG_ADDRESS_COUNTRY` — юридический адрес страна
-- `REG_ADDRESS_COUNTRY_CODE` — юридический адрес код страны
-- `REG_ADDRESS_LOC_ADDR_ID` — юридический адрес идентификатор адреса местоположения ||
-|| **BANKING_DETAILS**
-[`string`](../../data-types.md) | Банковские реквизиты ||
-|| **INDUSTRY**
-[`crm_status`](../data-types.md) | Сфера деятельности. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=INDUSTRY` ||
-|| **EMPLOYEES**
-[`crm_status`](../data-types.md) | Количество сотрудников. Значения можно получить методом [crm.status.list](../status/crm-status-list.md) с фильтром по `ENTITY_ID=EMPLOYEES` ||
-|| **CURRENCY_ID**
-[`crm_currency`](../data-types.md) | Валюта ||
-|| **REVENUE**
-[`double`](../../data-types.md) | Годовой оборот ||
-|| **OPENED**
-[`char`](../../data-types.md) | Доступна ли компания для всех. Возможные значения: `Y` или `N` ||
-|| **COMMENTS**
-[`string`](../../data-types.md) | Комментарий ||
-|| **HAS_PHONE**
-[`char`](../../data-types.md) | Задан телефон ||
-|| **HAS_EMAIL**
-[`char`](../../data-types.md) | Задан e-mail ||
-|| **HAS_IMOL**
-[`char`](../../data-types.md) | Задана открытая линия ||
-|| **IS_MY_COMPANY**
-[`char`](../../data-types.md) | Признак «Моя компания». Возможные значения: `Y` или `N` ||
-|| **ASSIGNED_BY_ID**
-[`user`](../../data-types.md) | Ответственный ||
-|| **CREATED_BY_ID**
-[`user`](../../data-types.md) | Кем создана ||
-|| **MODIFY_BY_ID**
-[`user`](../../data-types.md) | Кем изменена ||
-|| **DATE_CREATE**
-[`datetime`](../../data-types.md) | Дата создания ||
-|| **DATE_MODIFY**
-[`datetime`](../../data-types.md) | Дата изменения ||
-|| **CONTACT_ID**
-[`crm_contact`](../data-types.md) | Контакт. Множественное ||
-|| **LEAD_ID**
-[`crm_lead`](../data-types.md) | Идентификатор лида, связанного с компанией ||
-|| **ORIGINATOR_ID**
-[`string`](../../data-types.md) | Идентификатор источника данных. Используется только для привязки к внешнему источнику ||
-|| **ORIGIN_ID**
-[`string`](../../data-types.md) | Идентификатор элемента в источнике данных. Используется только для привязки к внешнему источнику ||
-|| **ORIGIN_VERSION**
-[`string`](../../data-types.md) | Оригинальная версия. Используется для защиты данных от случайного перетирания внешней системой ||
-|| **UTM_SOURCE**
-[`string`](../../data-types.md) | Рекламная система. Yandex-Direct, Google-Adwords и другие ||
-|| **UTM_MEDIUM**
-[`string`](../../data-types.md) | Тип трафика. Возможные значения:
-- `CPC` — объявления
-- `CPM` — баннеры ||
-|| **UTM_CAMPAIGN**
-[`string`](../../data-types.md) | Обозначение рекламной кампании ||
-|| **UTM_CONTENT**
-[`string`](../../data-types.md) | Содержание кампании. Например, для контекстных объявлений ||
-|| **UTM_TERM**
-[`string`](../../data-types.md) | Условие поиска кампании. Например, ключевые слова контекстной рекламы ||
-||**PARENT_ID_...** | Поля связей.
-
-Если на портале есть смарт-процессы, связанные с компаниями, для каждого такого смарт-процесса существует поле, хранящее связь между этим смарт-процессом и компанией. Само поле хранит идентификатор элемента такого смарт-процесса ||
-|| **LAST_ACTIVITY_TIME**
-[`datetime`](../../data-types.md) | Последняя активность ||
-|| **LAST_ACTIVITY_BY**
-[`user`](../../data-types.md) | Автор последней активности в таймлайне ||
-|| **LAST_COMMUNICATION_TIME**
-[`string`](../../data-types.md) | Дата последней коммуникации ||
-|| **PHONE**
-[`crm_multifield`](../data-types.md) | Телефон. Множественное ||
-|| **EMAIL**
-[`crm_multifield`](../data-types.md) | E-mail. Множественное ||
-|| **WEB**
-[`crm_multifield`](../data-types.md) | Сайт. Множественное ||
-|| **IM**
-[`crm_multifield`](../data-types.md) | Мессенджер. Множественное ||
-|| **LINK**
-[`crm_multifield`](../data-types.md) | LINK. Множественное ||
-||**UF_...**  | Пользовательские поля. Например, `UF_CRM_25534736`.
-
-В зависимости от настроек портала у компаний может быть набор пользовательских полей определенных типов.
-
-Добавить пользовательское поле в компанию можно с помощью метода [crm.company.userfield.add](./userfields/crm-company-userfield-add.md) ||
+|| **result**
+[`object`](../../data-types.md) | Объект: ключ — код поля компании, значение — его описание ||
 || **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
 |#
+
+#### Описание поля
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **type**
+[`string`](../../data-types.md) | Тип поля. Подробнее — в справочниках [общих типов](../../data-types.md) и [типов CRM](../data-types.md) ||
+|| **isRequired**
+[`boolean`](../../data-types.md) | `true` — поле обязательное ||
+|| **isReadOnly**
+[`boolean`](../../data-types.md) | `true` — поле доступно только для чтения ||
+|| **isImmutable**
+[`boolean`](../../data-types.md) | `true` — значение можно задать только при создании ||
+|| **isMultiple**
+[`boolean`](../../data-types.md) | `true` — поле множественное ||
+|| **isDynamic**
+[`boolean`](../../data-types.md) | `true` — пользовательское поле ||
+|| **title**
+[`string`](../../data-types.md) | Название поля ||
+|| **statusType**
+[`string`](../../data-types.md) | Идентификатор справочника для типа `crm_status` ||
+|| **items**
+[`object[]`](../../data-types.md) | Варианты списка для типа `enumeration`: `ID` — идентификатор, `VALUE` — название ||
+|| **settings**
+[`object`](../../data-types.md) | Настройки поля, если заданы. Состав зависит от поля и его типа ||
+|| **listLabel**, **formLabel**, **filterLabel**
+[`string`](../../data-types.md) | Подписи пользовательского поля для списка, формы и фильтра, если заданы ||
+|| **isDeprecated**
+[`boolean`](../../data-types.md) | `true` — поле устарело. Возвращается только для устаревших полей ||
+|#
+
+Поля компании описаны в методе [crm.company.add](crm-company-add.md#parameter-fields). Пример значений полей возвращает метод [crm.company.get](crm-company-get.md).
 
 ## Обработка ошибок
 
@@ -927,8 +854,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `Access denied` | У пользователя нет прав на «Чтение» компаний ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | Нет права чтения ни одного типа объектов CRM и смарт-процессов цифровых рабочих мест ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
@@ -936,12 +863,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-company-add.md)
+- [{#T}](./crm-company-update.md)
 - [{#T}](./crm-company-get.md)
 - [{#T}](./crm-company-list.md)
-- [{#T}](./crm-company-update.md)
 - [{#T}](./crm-company-delete.md)
-
-
-
-
-

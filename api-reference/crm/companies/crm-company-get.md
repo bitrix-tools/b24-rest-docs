@@ -21,6 +21,8 @@
 
 Метод `crm.company.get` возвращает компанию по идентификатору.
 
+Метод возвращает только компании из общего направления. Компании из других направлений получайте методом [crm.item.get](../universal/crm-item-get.md) с `entityTypeId=4`.
+
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
@@ -29,7 +31,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`integer`](../../data-types.md) | Идентификатор компании ||
+[`integer`](../../data-types.md) | Идентификатор компании. После приведения к целому числу должен быть больше 0 ||
 |#
 
 ## Примеры кода
@@ -44,7 +46,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":12}' \
+    -d '{"id":12}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.company.get
     ```
 
@@ -54,7 +56,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":12,"auth":"**put_access_token_here**"}' \
+    -d '{"id":12,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.company.get
     ```
 
@@ -195,7 +197,7 @@
     $result = CRest::call(
         'crm.company.get',
         [
-            'ID' => 12
+            'id' => 12
         ]
     );
 
@@ -313,9 +315,36 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа, возвращает поля компании. Описание полей компании можно получить методом [crm.company.fields](./crm-company-fields.md) ||
+[`object`](../../data-types.md) | Поля компании. Ключевые поля описаны [ниже](#company), полный список — в [crm.company.fields](./crm-company-fields.md) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект company {#company}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../data-types.md) | Идентификатор компании ||
+|| **TITLE**
+[`string`](../../data-types.md) | Название компании ||
+|| **COMPANY_TYPE**
+[`crm_status`](../data-types.md) | Тип компании ||
+|| **ASSIGNED_BY_ID**
+[`user`](../../data-types.md) | Идентификатор ответственного ||
+|| **DATE_CREATE**
+[`datetime`](../../data-types.md) | Дата создания ||
+|| **DATE_MODIFY**
+[`datetime`](../../data-types.md) | Дата изменения ||
+|| **PHONE**
+[`crm_multifield[]`](../data-types.md#crm_multifield) | Телефоны ||
+|| **EMAIL**
+[`crm_multifield[]`](../data-types.md#crm_multifield) | Адреса электронной почты ||
+|| **WEB**
+[`crm_multifield[]`](../data-types.md#crm_multifield) | Сайты ||
+|| **IM**
+[`crm_multifield[]`](../data-types.md#crm_multifield) | Мессенджеры ||
 |#
 
 ## Обработка ошибок
@@ -334,9 +363,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| Пустое значение | `Access denied` | У пользователя нет прав на «Чтение» компаний ||
-|| Пустое значение | `Not found` | Компания не найдена ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `ID is not defined or invalid.` | Параметр `id` не передан или после приведения к целому числу его значение не больше 0 ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права на «Чтение» компаний ||
+|| `400` | Пустое значение | `Not found` | Компания с переданным `id` не найдена или относится не к общему направлению ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
@@ -344,12 +374,7 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./crm-company-add.md)
-- [{#T}](./crm-company-list.md)
 - [{#T}](./crm-company-update.md)
+- [{#T}](./crm-company-list.md)
 - [{#T}](./crm-company-delete.md)
 - [{#T}](./crm-company-fields.md)
-
-
-
-
-
