@@ -35,7 +35,7 @@ B24PySDK поддерживает:
 - [Основные модули SDK](#modules)
 - [Установка](#install)
 - [Использование со входящими вебхуками](#webhook)
-- [Получение bitrix_token в маркетных приложениях](#market-token)
+- [Получение bitrix_token в тиражных приложениях](#market-token)
 - [Получение bitrix_token в локальных приложениях](#local-token)
 - [Жизненный цикл OAuth-токена](#oauth-token-lifecycle)
 - [Версии REST API](#rest-versions)
@@ -71,15 +71,23 @@ B24PySDK состоит из нескольких групп модулей, к�
 - `b24pysdk.events` и `b24pysdk.signals` - события SDK, например обновление OAuth-токена или автоматическая смена домена портала после редиректа. Для прямой подписки на сигналы установите дополнительный набор зависимостей `signals`.
 - `b24pysdk.log` и `b24pysdk.Config` - настройка таймаутов, повторов, часового пояса и логирования.
 
+{% note warning "" %}
+
+Код входящего вебхука, `client_secret` и OAuth-токены дают доступ к данным Битрикс24. Храните их в переменных окружения или в менеджере секретов, не записывайте в код и не выводите в логи. Примеры на странице берут домен и ключи из переменных окружения `B24_DOMAIN`, `B24_WEBHOOK_TOKEN`, `B24_CLIENT_ID` и `B24_CLIENT_SECRET`.
+
+{% endnote %}
+
 Базовый импорт для большинства сценариев выглядит так:
 
 ```python
+import os
+
 from b24pysdk import BitrixWebhook, Client
 from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
 bitrix_token = BitrixWebhook(
-    domain="example.bitrix24.com",
-    webhook_token="1/webhook_key",
+    domain=os.environ["B24_DOMAIN"],
+    webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
 )
 
 client = Client(bitrix_token)
@@ -121,14 +129,16 @@ pip install "b24pysdk[signals]"
 
 ## Использование со входящими вебхуками {#webhook}
 
-Чтобы подключить SDK к входящему вебхуку, передайте домен портала и код вебхука в формате `user_id/webhook_key`. Например, для вебхука `https://example.bitrix24.com/rest/1/abcdef/` доменом будет `example.bitrix24.com`, а кодом вебхука - `1/abcdef`.
+Чтобы подключить SDK к входящему вебхуку, передайте домен портала и код вебхука в формате `user_id/webhook_key`. Например, для вебхука `https://example.bitrix24.com/rest/1/abcdef/` доменом будет `example.bitrix24.com`, а кодом вебхука — `1/abcdef`. Задайте их в переменных окружения `B24_DOMAIN` и `B24_WEBHOOK_TOKEN`:
 
 ```python
+import os
+
 from b24pysdk import BitrixWebhook, Client
 
 bitrix_token = BitrixWebhook(
-    domain="example.bitrix24.com",
-    webhook_token="1/webhook_key",
+    domain=os.environ["B24_DOMAIN"],
+    webhook_token=os.environ["B24_WEBHOOK_TOKEN"],
 )
 
 client = Client(bitrix_token)
@@ -165,46 +175,56 @@ result = response["result"]
 
 В этом случае вы сами указываете имя REST-метода и параметры запроса. SDK выполнит авторизованный HTTP-вызов, обработает сетевые ошибки и вернет JSON-ответ REST API. Автодополнение конкретной обертки метода в IDE не будет работать.
 
-## Получение bitrix_token в маркетных приложениях {#market-token}
+## Получение bitrix_token в тиражных приложениях {#market-token}
 
-Для маркетного приложения используйте `BitrixApp` и OAuth-токены, которые Битрикс24 передал приложению. Домен портала передается явно:
+Для тиражного приложения используйте `BitrixApp` и OAuth-токены, которые Битрикс24 передал приложению. Домен портала передается явно:
 
 ```python
+import os
+
 from b24pysdk import BitrixApp, BitrixToken, Client
 
 bitrix_app = BitrixApp(
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
+    client_id=os.environ["B24_CLIENT_ID"],
+    client_secret=os.environ["B24_CLIENT_SECRET"],
 )
 
+# token_store — ваше хранилище токенов: база данных, файл или менеджер секретов
+saved = token_store.load(member_id)
+
 bitrix_token = BitrixToken(
-    domain="example.bitrix24.com",
-    auth_token="put-access-token-here",
-    refresh_token="put-refresh-token-here",
+    domain=saved["domain"],
+    auth_token=saved["access_token"],
+    refresh_token=saved["refresh_token"],
     bitrix_app=bitrix_app,
 )
 
 client = Client(bitrix_token)
 ```
 
-Значения `client_id` и `client_secret` берутся из настроек приложения. `auth_token` — текущий access token, `refresh_token` нужен SDK для автоматического обновления OAuth-токена.
+Значения `client_id` и `client_secret` возьмите из настроек приложения. В `auth_token` передайте текущий access token. По `refresh_token` SDK сам обновляет OAuth-токен. Новые токены сохраняйте в хранилище. Как подписаться на их обновление, описано в разделе [События токена](#token-events).
 
 ## Получение bitrix_token в локальных приложениях {#local-token}
 
-Для локального приложения используйте `BitrixAppLocal` и `BitrixTokenLocal`. В отличие от маркетного приложения, `BitrixAppLocal` привязан к конкретному порталу:
+Для локального приложения используйте `BitrixAppLocal` и `BitrixTokenLocal`. В отличие от тиражного приложения, `BitrixAppLocal` привязан к конкретному порталу:
 
 ```python
+import os
+
 from b24pysdk import BitrixAppLocal, BitrixTokenLocal, Client
 
 bitrix_app = BitrixAppLocal(
-    domain="example.bitrix24.com",
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
+    domain=os.environ["B24_DOMAIN"],
+    client_id=os.environ["B24_CLIENT_ID"],
+    client_secret=os.environ["B24_CLIENT_SECRET"],
 )
 
+# token_store — ваше хранилище токенов: база данных, файл или менеджер секретов
+saved = token_store.load(member_id)
+
 bitrix_token = BitrixTokenLocal(
-    auth_token="put-access-token-here",
-    refresh_token="put-refresh-token-here",
+    auth_token=saved["access_token"],
+    refresh_token=saved["refresh_token"],
     bitrix_app=bitrix_app,
 )
 
@@ -450,7 +470,7 @@ deals = client.crm.deal.list(
 
 ## Прямые вызовы без обертки {#direct-calls}
 
-Если в SDK еще нет обертки для нужного REST-метода, можно вызвать API напрямую через методы `bitrix_token.call_*()`. Эти методы выполняют запрос сразу и возвращают исходный ответ в формате REST API:
+Если в SDK еще нет обертки для нужного REST-метода, можно вызвать API напрямую через методы `bitrix_token.call_*()`. Эти методы возвращают исходный ответ в формате REST API:
 
 ```python
 result = bitrix_token.call_method(
@@ -485,7 +505,7 @@ batches_result = bitrix_token.call_batches([
 ])
 ```
 
-Методы `Client` сначала создают объект запроса, а сам REST-вызов выполняется при обращении к результату. Методы `bitrix_token.call_*()` отправляют запрос сразу.
+Методы `Client` сначала создают объект запроса, а сам REST-вызов выполняется при обращении к результату. Методы `bitrix_token.call_*()` отправляют запрос сразу. Исключение — `call_list_fast()`: он возвращает генератор в `result`, и записи загружаются при обходе генератора.
 
 ## Batch-запросы {#batch}
 
@@ -505,7 +525,7 @@ print(batch_request.result.result["deal"])
 print(batch_request.result.result["fields"])
 ```
 
-Команды можно передать и списком. Тогда результат будет списком в том же порядке:
+Команды можно передать и списком. Если команды выполнились без ошибок, результат будет списком в том же порядке. Если ошибкой завершилась одна из первых команд, `result` придет словарем с индексами успешных команд, например `{"1": ...}`. Поэтому для разбора ответа удобнее именованные команды, как в примере выше. Со списком обрабатывайте обе формы:
 
 ```python
 requests_data = [
@@ -515,28 +535,37 @@ requests_data = [
 
 batch_request = client.call_batch(requests_data)
 
-for result in batch_request.result.result:
+results = batch_request.result.result
+
+if isinstance(results, dict):
+    results = results.values()
+
+for result in results:
     print(result)
 ```
 
-Если команд больше 50, используйте `client.call_batches()`. SDK разобьет запросы на несколько batch-вызовов. `call_batches()` тоже принимает словарь или список:
+Если команд больше 50, используйте `client.call_batches()`. SDK разобьет запросы на несколько batch-вызовов. `call_batches()` тоже принимает словарь или список. Если в списке больше 50 команд, `result` будет не списком, а словарем с ключами `"0"`, `"1"` и так далее. Передавайте команды словарем — тогда результаты в `result` придут с вашими ключами:
 
 ```python
-requests = [
-    client.crm.deal.get(bitrix_id=1),
-    client.crm.deal.get(bitrix_id=2),
-    client.crm.deal.get(bitrix_id=3),
-]
+deal_ids = [1, 2, 3]
+
+requests = {
+    f"deal_{deal_id}": client.crm.deal.get(bitrix_id=deal_id)
+    for deal_id in deal_ids
+}
 
 batches_request = client.call_batches(requests)
 
-for deal in batches_request.result.result:
-    print(deal)
+# если все команды завершились ошибкой, result — пустой список
+deals = batches_request.result.result or {}
+
+for key, deal in deals.items():
+    print(key, deal)
 ```
 
 Batch-запросы принимают такие же ленивые объекты запросов, которые возвращают обычные методы SDK.
 
-У `client.call_batch()` есть параметры `halt` и `ignore_size_limit`. `halt` управляет остановкой batch при ошибке команды, а `ignore_size_limit=True` отключает проверку лимита размера запроса на стороне SDK.
+У `client.call_batch()` есть параметры `halt` и `ignore_size_limit`. `halt` управляет остановкой batch при ошибке команды, а `ignore_size_limit` — тем, что происходит, если команд больше 50. По умолчанию SDK выбрасывает `ValueError`. С `ignore_size_limit=True` SDK отправит только первые 50 команд, остальные отбросит и запишет предупреждение в лог.
 
 В batch-ответе доступны:
 
@@ -552,11 +581,11 @@ Batch-запросы принимают такие же ленивые объе�
 
 ## Обработка ошибок {#errors}
 
-Все исключения SDK наследуются от `BitrixSDKException`. Основные типы ошибок отличаются уровнем, на котором произошел сбой, и набором доступных полей:
+Ошибки запроса, ответа и REST API наследуются от `BitrixSDKException`. Ошибки аргументов SDK выбрасывает как обычные `TypeError` и `ValueError`: например, если у параметра обертки неверный тип или в `call_batch()` больше 50 команд. Основные типы ошибок отличаются уровнем, на котором произошел сбой, и набором доступных полей:
 
 | Тип ошибки | Когда возникает | Основные поля |
 | --- | --- | --- |
-| `BitrixRequestError`, `BitrixRequestTimeout` | Запрос не дошел до Битрикс24: проблема сети или таймаут | `message`, для таймаута - `timeout` |
+| `BitrixRequestError`, `BitrixRequestTimeout` | Ответ от Битрикс24 не получен: ошибка сети или таймаут. При таймауте запрос мог успеть выполниться | `message`, для таймаута - `timeout` |
 | `BitrixResponseError` | Битрикс24 ответил, но ответ нельзя обработать как успешный | HTTP-данные ответа и `message` |
 | `BitrixResponseJSONDecodeError` | Ответ нельзя разобрать как ожидаемый JSON | HTTP-данные ответа и `message` |
 | `BitrixAPIError` из `b24pysdk.errors` | REST API v1/v2 вернул ошибку | `error`, `error_description` |
@@ -647,12 +676,14 @@ except BitrixAPIError as error:
 Типизированные модели входящих данных можно использовать и без интеграций с веб-фреймворками. Передайте словарь входящих параметров в `from_dict()`, а при необходимости проверьте данные приложения через `validate_against_app_info()`:
 
 ```python
+import os
+
 from b24pysdk import BitrixApp
 from b24pysdk.credentials import OAuthEventData, OAuthPlacementData, OAuthWorkflowData
 
 bitrix_app = BitrixApp(
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
+    client_id=os.environ["B24_CLIENT_ID"],
+    client_secret=os.environ["B24_CLIENT_SECRET"],
 )
 
 placement_data = OAuthPlacementData.from_dict(placement_payload)
@@ -1170,7 +1201,7 @@ Fast-менеджер может использовать генератор с 
 users = users.to_list()
 ```
 
-`start()` в fast-режиме не используется.
+В fast-режиме не вызывайте `start()`: SDK выбросит `BitrixObjectError`.
 
 Явная сортировка для fast-режима должна соответствовать полному первичному ключу и иметь единое направление.
 
@@ -1436,10 +1467,16 @@ result = users.update()
 
 Объекты без локальных изменений пропускаются.
 
-Можно удалить все объекты списка, если метод API поддерживает удаление:
+Можно удалить все объекты списка, если их тип поддерживает удаление. У `User` удаления нет, поэтому `users.delete()` выбросит `BitrixObjectError`. Пример для подразделений:
 
 ```python
-result = users.delete()
+departments = (
+    Department.objects
+    .filter(bitrix_pk__in=[10, 11])
+    .to_list()
+)
+
+result = departments.delete()
 ```
 
 ### Batch-создание
@@ -1623,7 +1660,7 @@ project = ProjectElement.objects.add(
 
 Если нужны методы менеджера под конкретное приложение, менеджер можно сразу специализировать под конкретный тип объекта.
 
-Дополнительный `Generic` / `TypeVar` для обычного случая не нужен:
+Дополнительный `Generic` / `TypeVar` для обычного случая не нужен. Этот пример заменяет определение `ProjectElement` выше, а не дополняет его: второй класс для того же списка SDK не зарегистрирует и выбросит `TypeError`.
 
 ```python
 from b24pysdk.objects.list.element import (
@@ -1729,7 +1766,7 @@ result = ProjectElement.objects.add_many([
 
 У обобщенного класса универсального списка тип списка уже фиксирован, а конкретный `IBLOCK_ID` может быть `None`.
 
-В прикладном подклассе:
+В прикладном подклассе (здесь фрагмент того же `ProjectElement`, а не второе определение):
 
 ```python
 class ProjectElement(ListElement):
@@ -1749,7 +1786,7 @@ None
 
 Поэтому пользовательский `ProjectElement` не заменяет модель всех остальных универсальных списков.
 
-Если новый класс повторно регистрируется для той же точной пары `OBJECT_KEY + discriminator`, он должен наследовать класс, который уже зарегистрирован для этой пары.
+Если новый класс повторно регистрируется для той же точной пары `OBJECT_KEY + discriminator`, он должен наследовать класс, который уже зарегистрирован для этой пары. Иначе SDK выбросит `TypeError`.
 
 Не забывайте импортировать модуль с пользовательскими объектами до первого использования.
 
@@ -1839,6 +1876,8 @@ def workflow_view(request: WorkflowRequest):
 Проверка входящих данных через `app.info`:
 
 ```python
+import os
+
 from django.http import JsonResponse
 
 from b24pysdk import BitrixApp
@@ -1846,8 +1885,8 @@ from b24pysdk.integrations.django.decorators import event_required
 from b24pysdk.integrations.django.types import EventRequest
 
 bitrix_app = BitrixApp(
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
+    client_id=os.environ["B24_CLIENT_ID"],
+    client_secret=os.environ["B24_CLIENT_SECRET"],
 )
 
 
@@ -1935,6 +1974,7 @@ async def workflow_handler(
 Если нужно передать `bitrix_app`, используйте `get_*_dependency(...)` с нужным аргументом:
 
 ```python
+import os
 from typing import Annotated
 
 from fastapi import Depends, FastAPI
@@ -1946,8 +1986,8 @@ from b24pysdk.integrations.fastapi.dependencies import get_event_dependency
 app = FastAPI()
 
 bitrix_app = BitrixApp(
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
+    client_id=os.environ["B24_CLIENT_ID"],
+    client_secret=os.environ["B24_CLIENT_SECRET"],
 )
 
 
@@ -2029,6 +2069,8 @@ def workflow_handler():
 Проверка входящих данных через `app.info`:
 
 ```python
+import os
+
 from flask import Flask
 
 from b24pysdk import BitrixApp
@@ -2038,8 +2080,8 @@ from b24pysdk.integrations.flask.dependencies import get_oauth_event_data
 app = Flask(__name__)
 
 bitrix_app = BitrixApp(
-    client_id="put-your-client-id-here",
-    client_secret="put-your-client-secret-here",
+    client_id=os.environ["B24_CLIENT_ID"],
+    client_secret=os.environ["B24_CLIENT_SECRET"],
 )
 
 
@@ -2070,7 +2112,13 @@ from b24pysdk.events import OAuthTokenRenewedEvent, PortalDomainChangedEvent
 
 
 def on_token_renewed(event: OAuthTokenRenewedEvent):
-    print(event.renewed_oauth_token.oauth_token.access_token)
+    renewed = event.renewed_oauth_token
+    # token_store — ваше хранилище токенов: база данных, файл или менеджер секретов
+    token_store.save(
+        renewed.member_id,
+        access_token=renewed.oauth_token.access_token,
+        refresh_token=renewed.oauth_token.refresh_token,
+    )
 
 
 def on_domain_changed(event: PortalDomainChangedEvent):
