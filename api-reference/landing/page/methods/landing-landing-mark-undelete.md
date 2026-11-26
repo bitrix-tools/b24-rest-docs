@@ -13,8 +13,9 @@
 >
 > Кто может выполнять метод: пользователь с правом «удаления» сайта
 
-Метод `landing.landing.markUnDelete` восстанавливает страницу из корзины и снимает признак удаления.
-После восстановления страница остается непубликованной (`ACTIVE = "N"`).
+Метод `landing.landing.markUnDelete` восстанавливает страницу из корзины. Восстановленная страница не опубликована (`ACTIVE = "N"`) — опубликовать ее можно методом [landing.landing.publication](./landing-landing-publication.md).
+
+Метод можно вызвать и для страницы не из корзины: он снимет ее с публикации и вернет ее идентификатор.
 
 ## Параметры метода
 
@@ -24,13 +25,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Для страниц сайтов типов `PAGE`, `STORE` и `SMN` параметр не нужен. Для страниц сайтов типов `GROUP`, `KNOWLEDGE` и `MAINPAGE` передайте соответствующее значение `scope` [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет страницу Базы знаний и вернет ошибку `ACCESS_DENIED`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **lid***
-[`integer`](../../../data-types.md) | Идентификатор страницы.
+[`integer`](../../../data-types.md) | Идентификатор страницы в корзине.
 
-Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md), а также из результата методов [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) и [landing.landing.copy](./landing-landing-copy.md) ||
+Страницы из корзины вернет метод [landing.landing.getList](./landing-landing-get-list.md) с фильтром `DELETED: "Y"`. Идентификатор также есть в результате методов [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) и [landing.landing.copy](./landing-landing-copy.md) ||
 |#
 
 ## Примеры кода
@@ -47,7 +48,7 @@
       -d '{
         "lid": 2227
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.markUnDelete.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.markUnDelete.json"
     ```
 
 - cURL (OAuth)
@@ -59,7 +60,7 @@
         "lid": 2227,
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.markUnDelete.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.markUnDelete.json"
     ```
 
 - JS (TS)
@@ -269,7 +270,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../../../data-types.md) | Идентификатор страницы, которая восстановлена из корзины ||
+[`integer`](../../../data-types.md) | Идентификатор страницы из `lid` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -281,7 +282,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Доступ на удаление страницы запрещен."
+    "error_description": "Выполнение операции запрещено"
 }
 ```
 
@@ -292,7 +293,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `MISSING_PARAMS` | Не передан обязательный параметр `lid` ||
-|| `ACCESS_DENIED` | Недостаточно прав для изменения поля `DELETED` у страницы ||
+|| `ACCESS_DENIED` | Нет права «удаление» для сайта страницы, страницы с таким `lid` нет или для страницы Базы знаний не передан `scope` ||
 || `TYPE_ERROR` | Ошибка типа данных в параметрах вызова метода ||
 || `SYSTEM_ERROR` | Внутренняя ошибка при выполнении метода ||
 |#

@@ -9,22 +9,28 @@
 
 {% endnote %}
 
-Дополнительные поля страницы передаются в массиве `ADDITIONAL_FIELDS` при вызове методов [landing.landing.add](./methods/landing-landing-add.md) и [landing.landing.update](./methods/landing-landing-update.md).
+Дополнительные поля — это настройки страницы: цветовая тема и шрифты, мета-теги для поисковиков и соцсетей, счетчики аналитики, свой код и стили. Например, через них к странице подключают Яндекс Метрику.
 
-Заполненные значения можно получить через метод [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md).
+Записать поля можно методом [landing.landing.update](./methods/landing-landing-update.md) в объекте `fields.ADDITIONAL_FIELDS`, прочитать заполненные — методом [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md). Новой странице поля записывают так же, сразу после создания методом [landing.landing.add](./methods/landing-landing-add.md).
+
+> Scope: [`landing`](../../scopes/permissions.md)
+>
+> Кто может получить поля: пользователь с правом «просмотр» сайта. Для изменения полей нужны права «редактирование» и «изменение настроек» сайта
 
 {% note info "" %}
 
-Метод `landing.landing.getadditionalfields` возвращает только непустые поля страницы.
-
-Для записи используйте коды полей в массиве `ADDITIONAL_FIELDS`, например:
+Чтобы записать поля, передайте в `lid` идентификатор страницы из метода [landing.landing.add](./methods/landing-landing-add.md) или [landing.landing.getList](./methods/landing-landing-get-list.md), а в `fields.ADDITIONAL_FIELDS` — коды полей и значения. Пример запроса:
 
 ```json
 {
-    "ADDITIONAL_FIELDS": {
-        "METAROBOTS_INDEX": "Y",
-        "METAMAIN_USE": "Y",
-        "METAMAIN_TITLE": "Заголовок страницы"
+    "lid": 349,
+    "fields": {
+        "ADDITIONAL_FIELDS": {
+            "METAROBOTS_INDEX": "Y",
+            "METAMAIN_USE": "Y",
+            "METAMAIN_TITLE": "Заголовок страницы",
+            "METAOG_IMAGE": 41003
+        }
     }
 }
 ```
@@ -33,12 +39,14 @@
 
 ## Что нужно знать
 
-- набор полей зависит от типа сайта, настроек и установленных модулей, поэтому не все поля доступны на каждом сайте
-- служебные поля могут приходить в ответе метода чтения, но их не задают вручную
+- на сайте доступны не все поля: набор зависит от типа сайта, настроек и установленных модулей
+- служебные поля, например `FONTS_CODE` и `SPEED_ASSETS`, могут прийти в ответе метода [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md), но передавать их в [landing.landing.update](./methods/landing-landing-update.md) не нужно
 - для полей-флагов используют значения `Y` и `N`
-- если поле пустое, метод `landing.landing.getadditionalfields` не вернет его в ответе
-- поля `METAOG_IMAGE`, `BACKGROUND_PICTURE` и `FAVICON_PICTURE` связаны с файлами
-- поля `SETTINGS_*` относятся к настройкам каталога и торгового раздела
+- флаг `*_USE` включает свою группу полей: например, `METAMAIN_TITLE` попадет на страницу, только если `METAMAIN_USE` равно `Y`
+- если поле пустое, метод [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md) не вернет его в ответе
+- поля `METAOG_IMAGE`, `BACKGROUND_PICTURE` и `FAVICON_PICTURE` хранят изображение: запишите в них идентификатор файла из метода [landing.block.uploadfile](../block/methods/landing-block-upload-file.md), например `41003`. В `METAOG_IMAGE` и `BACKGROUND_PICTURE` можно записать и ссылку на изображение
+- при чтении поля-изображения, в которое записан идентификатор файла, приложение получит ссылку на файл, а вебхук — идентификатор строкой, например `"41003"`. Записанную ссылку на изображение приложение и вебхук получат как есть
+- поля `SETTINGS_*` — настройки каталога и торгового раздела. Если в Битрикс24 установлен модуль каталога, метод [landing.landing.getadditionalfields](./methods/landing-landing-get-additional-fields.md) вернет их у страниц сайтов и магазинов со значениями по умолчанию, даже если их не задавали. Поля с пустым значением по умолчанию, например `SETTINGS_IBLOCK_ID`, в ответ не попадут. У страниц Базы знаний полей `SETTINGS_*` нет
 
 ## Тема и шрифты
 
@@ -64,11 +72,11 @@
 || **THEMEFONTS_COLOR_H**
 [`string`](../../data-types.md) | Цвет заголовков в HEX-формате ||
 || **THEMEFONTS_LINE_HEIGHT**
-[`string`](../../data-types.md) | Межстрочный интервал. Поддерживаются значения от `0.7` до `2` ||
+[`string`](../../data-types.md) | Межстрочный интервал: от `0.7` до `2` с шагом `0.1` ||
 || **THEMEFONTS_FONT_WEIGHT**
-[`string`](../../data-types.md) | Насыщенность основного текста. Поддерживаются значения от `100` до `900` ||
+[`string`](../../data-types.md) | Насыщенность основного текста: от `100` до `900` с шагом `100` ||
 || **THEMEFONTS_FONT_WEIGHT_H**
-[`string`](../../data-types.md) | Насыщенность заголовков. Поддерживаются значения от `100` до `900` ||
+[`string`](../../data-types.md) | Насыщенность заголовков: от `100` до `900` с шагом `100` ||
 || **FONTS_CODE**
 [`string`](../../data-types.md) | Служебное поле с HTML для подключения шрифтов. Может присутствовать в ответе метода чтения ||
 |#
@@ -79,11 +87,11 @@
 || **Поле**
 `тип` | **Описание** ||
 || **METAOG_TITLE**
-[`string`](../../data-types.md) | Заголовок для Open Graph, тег `og:title` ||
+[`string`](../../data-types.md) | Заголовок превью страницы в соцсетях и мессенджерах, тег Open Graph `og:title` ||
 || **METAOG_DESCRIPTION**
-[`string`](../../data-types.md) | Описание для Open Graph, тег `og:description` ||
+[`string`](../../data-types.md) | Описание превью страницы в соцсетях и мессенджерах, тег Open Graph `og:description` ||
 || **METAOG_IMAGE**
-[`string`](../../data-types.md) | Изображение для Open Graph, тег `og:image`. Обычно метод чтения возвращает URL файла ||
+[`string`](../../data-types.md) \| [`integer`](../../data-types.md) | Изображение для Open Graph, тег `og:image`. При записи передайте идентификатор файла или ссылку на изображение. Если записан идентификатор, при чтении приложение получит ссылку на файл, а вебхук — сам идентификатор ||
 || **METAMAIN_USE**
 [`string`](../../data-types.md) | Включить собственные мета-теги страницы: `Y` или `N` ||
 || **METAMAIN_TITLE**
@@ -105,9 +113,9 @@
 || **METAYANDEXVERIFICATION_META**
 [`string`](../../data-types.md) | Полный тег подтверждения Яндекс Вебмастера ||
 || **ROBOTS_USE**
-[`string`](../../data-types.md) | Включить пользовательский `robots.txt`: `Y` или `N` ||
+[`string`](../../data-types.md) | Включить пользовательский `robots.txt`: `Y` или `N`. У страницы поле не действует — задайте его сайту методом [landing.site.update](../site/landing-site-update.md) ||
 || **ROBOTS_CONTENT**
-[`string`](../../data-types.md) | Содержимое пользовательского `robots.txt` ||
+[`string`](../../data-types.md) | Содержимое пользовательского `robots.txt`. Как и `ROBOTS_USE`, действует только у сайта ||
 |#
 
 ## Фон, анимация, иконка и представление страницы
@@ -118,17 +126,17 @@
 || **BACKGROUND_USE**
 [`string`](../../data-types.md) | Включить настройки фона страницы: `Y` или `N` ||
 || **BACKGROUND_PICTURE**
-[`string`](../../data-types.md) | Фоновое изображение страницы. Обычно метод чтения возвращает URL файла ||
+[`string`](../../data-types.md) \| [`integer`](../../data-types.md) | Фоновое изображение страницы. При записи передайте идентификатор файла или ссылку на изображение. Если записан идентификатор, при чтении приложение получит ссылку на файл, а вебхук — сам идентификатор ||
 || **BACKGROUND_POSITION**
 [`string`](../../data-types.md) | Режим вывода фона. Поддерживаются значения `center`, `repeat`, `center_repeat_y`, `no_repeat` ||
 || **BACKGROUND_COLOR**
 [`string`](../../data-types.md) | Цвет фона страницы в HEX-формате ||
 || **FAVICON_PICTURE**
-[`string`](../../data-types.md) | Изображение favicon. Обычно метод чтения возвращает URL файла ||
+[`string`](../../data-types.md) \| [`integer`](../../data-types.md) | Изображение favicon — значка страницы во вкладке браузера. При записи передайте идентификатор файла: ссылку на изображение метод сохранит, но значок на странице не появится. Если записан идентификатор, при чтении приложение получит ссылку на файл, а вебхук — сам идентификатор ||
 || **VIEW_USE**
 [`string`](../../data-types.md) | Включить специальное представление страницы: `Y` или `N` ||
 || **VIEW_TYPE**
-[`string`](../../data-types.md) | Тип представления. Поддерживаются значения `no`, `ltr`, `all`, `mobile`, `adaptive` ||
+[`string`](../../data-types.md) | Тип представления: `no` — без отступов, `ltr` — отступ вверху и по бокам, `all` — отступы со всех сторон, `mobile` — для мобильных устройств, `adaptive` — адаптивный контейнер ||
 || **PADDING_TOPBOTTOM**
 [`string`](../../data-types.md) | Вертикальные внешние отступы страницы. Поддерживаются значения `N`, `u-outer-space-v1`, `u-outer-space-v2` ||
 || **PADDING_LEFTRIGHT**
@@ -136,7 +144,7 @@
 || **LAYOUT_BREAKPOINT**
 [`string`](../../data-types.md) | Точка переключения адаптивного представления. Поддерживаются значения `mobile`, `tablet`, `desktop`, `all` ||
 || **TRANSITION_COLOR**
-[`string`](../../data-types.md) | Цвет фона для анимации появления страницы ||
+[`string`](../../data-types.md) | Цвет фона для анимации появления страницы. У страницы поле не действует — задайте его сайту методом [landing.site.update](../site/landing-site-update.md) ||
 || **UP_SHOW**
 [`string`](../../data-types.md) | Показывать кнопку возврата вверх: `Y` или `N` ||
 |#
@@ -192,9 +200,9 @@
 || **CSSBLOCK_FILE**
 [`string`](../../data-types.md) | Ссылка на внешний CSS-файл ||
 || **CUSTOMCSS_CSS_CODE**
-[`string`](../../data-types.md) | Дополнительный пользовательский CSS-код из отдельного hook ||
+[`string`](../../data-types.md) | Дополнительный пользовательский CSS-код из отдельного хука ||
 || **CUSTOMCSS_CSS_URL**
-[`string`](../../data-types.md) | Ссылка на внешний CSS-файл из отдельного hook ||
+[`string`](../../data-types.md) | Ссылка на внешний CSS-файл из отдельного хука ||
 |#
 
 ## Карты
@@ -203,13 +211,13 @@
 || **Поле**
 `тип` | **Описание** ||
 || **GMAP_USE**
-[`string`](../../data-types.md) | Включить Google Maps API: `Y` или `N` ||
+[`string`](../../data-types.md) | Включить Google Maps API: `Y` или `N`. У страницы поле не действует — задайте его сайту методом [landing.site.update](../site/landing-site-update.md) ||
 || **GMAP_CODE**
-[`string`](../../data-types.md) | API-ключ Google Maps ||
+[`string`](../../data-types.md) | API-ключ Google Maps. Как и `GMAP_USE`, действует только у сайта ||
 || **YMAP_USE**
-[`string`](../../data-types.md) | Включить API Яндекс Карт: `Y` или `N` ||
+[`string`](../../data-types.md) | Включить API Яндекс Карт: `Y` или `N`. У страницы поле не действует — задайте его сайту методом [landing.site.update](../site/landing-site-update.md) ||
 || **YMAP_CODE**
-[`string`](../../data-types.md) | API-ключ Яндекс Карт ||
+[`string`](../../data-types.md) | API-ключ Яндекс Карт. Как и `YMAP_USE`, действует только у сайта ||
 |#
 
 ## Виджет Битрикс24
@@ -218,9 +226,9 @@
 || **Поле**
 `тип` | **Описание** ||
 || **B24BUTTON_USE**
-[`string`](../../data-types.md) | Включить виджет Битрикс24: `Y` или `N` ||
+[`string`](../../data-types.md) | Включить виджет Битрикс24 — кнопку на странице, через которую посетитель связывается с компанией: `Y` или `N` ||
 || **B24BUTTON_CODE**
-[`string`](../../data-types.md) | Код или URL скрипта виджета ||
+[`string`](../../data-types.md) | Ссылка на скрипт виджета, который Битрикс24 подключает на странице ||
 || **B24BUTTON_COLOR**
 [`string`](../../data-types.md) | Источник цвета виджета. Поддерживаются значения `site`, `button`, `custom` ||
 || **B24BUTTON_COLOR_VALUE**
@@ -235,9 +243,9 @@
 || **Поле**
 `тип` | **Описание** ||
 || **COOKIES_USE**
-[`string`](../../data-types.md) | Показывать баннер cookies: `Y` или `N` ||
+[`string`](../../data-types.md) | Показывать баннер cookies: `Y` или `N`. У страницы поля `COOKIES_*` не действуют — задайте их сайту методом [landing.site.update](../site/landing-site-update.md) ||
 || **COOKIES_AGREEMENT_ID**
-[`string`](../../data-types.md) | Использовать соглашение в баннере cookies: `Y` или `N` ||
+[`string`](../../data-types.md) \| [`integer`](../../data-types.md) | Идентификатор соглашения, текст которого показывает баннер cookies. Список соглашений возвращает метод [userconsent.agreement.list](../../user-consent/user-consent-agreement-list.md) ||
 || **COOKIES_COLOR_BG**
 [`string`](../../data-types.md) | Цвет фона баннера cookies в HEX-формате ||
 || **COOKIES_COLOR_TEXT**
@@ -245,7 +253,7 @@
 || **COOKIES_POSITION**
 [`string`](../../data-types.md) | Положение баннера cookies. Поддерживаются значения `bottom_left`, `bottom_right` ||
 || **COOKIES_MODE**
-[`string`](../../data-types.md) | Режим баннера cookies. Поддерживаются значения `A` и `I` ||
+[`string`](../../data-types.md) | Режим баннера cookies: `A` — нужно согласие посетителя, `I` — только сообщение о сборе cookies ||
 || **COPYRIGHT_SHOW**
 [`string`](../../data-types.md) | Показывать подпись или служебный футер: `Y` или `N` ||
 || **COPYRIGHT_CODE**
@@ -260,14 +268,14 @@
 || **SPEED_ASSETS**
 [`string`](../../data-types.md) | Служебное поле со списком ресурсов для оптимизации ||
 || **SPEED_USE_LAZY**
-[`string`](../../data-types.md) | Использовать lazy load: `Y` или `N` ||
+[`string`](../../data-types.md) | Использовать lazy load: `Y` или `N`. У страницы поле не действует — задайте его сайту методом [landing.site.update](../site/landing-site-update.md) ||
 || **SPEED_USE_WEBPACK**
-[`string`](../../data-types.md) | Использовать webpack-режим сборки ресурсов: `Y` или `N` ||
+[`string`](../../data-types.md) | Использовать webpack-режим сборки ресурсов: `Y` или `N`. Как и `SPEED_USE_LAZY`, действует только у сайта ||
 |#
 
 ## Настройки каталога и торгового раздела
 
-Эти поля формирует хук `SETTINGS`. Они зависят от установленных модулей каталога, валют и торгового функционала. Часть полей из этой группы может быть недоступна на конкретном сайте.
+Набор полей этой группы зависит от того, какие модули установлены: каталог, валюты, торговля.
 
 #|
 || **Поле**
@@ -277,13 +285,13 @@
 || **SETTINGS_SECTION_ID**
 [`string`](../../data-types.md) \| [`integer`](../../data-types.md) | Идентификатор раздела каталога ||
 || **SETTINGS_HIDE_NOT_AVAILABLE**
-[`string`](../../data-types.md) | Режим скрытия недоступных товаров ||
+[`string`](../../data-types.md) | Как показывать недоступные товары: `Y` — не показывать, `L` — в конце списка, `N` — в общем списке ||
 || **SETTINGS_HIDE_NOT_AVAILABLE_OFFERS**
-[`string`](../../data-types.md) | Скрывать недоступные варианты товара: `Y` или `N` ||
+[`string`](../../data-types.md) | Как показывать недоступные торговые предложения: `Y` — не показывать, `L` — показывать только с возможностью подписки, `N` — показывать все ||
 || **SETTINGS_PRODUCT_SUBSCRIPTION**
 [`string`](../../data-types.md) | Включить подписку на товар: `Y` или `N` ||
 || **SETTINGS_USE_PRODUCT_QUANTITY**
-[`string`](../../data-types.md) | Включить учет остатков товара: `Y` или `N` ||
+[`string`](../../data-types.md) | Разрешить покупателю указывать количество товара: `Y` или `N` ||
 || **SETTINGS_DISPLAY_COMPARE**
 [`string`](../../data-types.md) | Показывать сравнение товаров: `Y` или `N` ||
 || **SETTINGS_PRICE_CODE**
@@ -299,7 +307,7 @@
 || **SETTINGS_USE_PRICE_COUNT**
 [`string`](../../data-types.md) | Включить диапазоны цен: `Y` или `N` ||
 || **SETTINGS_SHOW_PRICE_COUNT**
-[`integer`](../../data-types.md) | Количество цен для вывода ||
+[`integer`](../../data-types.md) | Количество товара, для которого выбирать цену, если у товара есть диапазоны цен ||
 || **SETTINGS_USE_ENHANCED_ECOMMERCE**
 [`string`](../../data-types.md) | Включить расширенную электронную торговлю: `Y` или `N` ||
 || **SETTINGS_DATA_LAYER_NAME**

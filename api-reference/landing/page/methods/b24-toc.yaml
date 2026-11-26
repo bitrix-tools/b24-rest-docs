@@ -11,23 +11,23 @@ items:
     href: landing-landing-copy.md
   - name: Удалить страницу
     href: landing-landing-delete.md
-  - name: Получить дополнительные поля
+  - name: Получить дополнительные поля страницы
     href: landing-landing-get-additional-fields.md
   - name: Получить список страниц
     href: landing-landing-get-list.md
-  - name: Получить путь до превью страницы
+  - name: Получить URL превью страницы
     href: landing-landing-get-preview.md
-  - name: Получить веб-адрес страницы
+  - name: Получить публичный URL страницы
     href: landing-landing-get-public-url.md
   - name: Пометить страницу как удаленную
     href: landing-landing-mark-delete.md
-  - name: Пометить страницу как неудаленную
+  - name: Восстановить страницу из корзины
     href: landing-landing-mark-undelete.md
   - name: Переместить страницу
     href: landing-landing-move.md
   - name: Опубликовать страницу
     href: landing-landing-publication.md
-  - name: Удалить блоки и изображения страницы
+  - name: Удалить блоки и очистить файловые привязки изображений страницы
     href: landing-landing-remove-entities.md
   - name: Получить идентификатор страницы по публичному URL
     href: landing-landing-resolve-id-by-public-url.md

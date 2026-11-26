@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Значение `scope` должно соответствовать типу сайта [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет страницу Базы знаний и вернет ошибку `LANDING_NOT_EXIST`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **lid***
 [`integer`](../../../data-types.md) | Идентификатор страницы.
 
@@ -46,7 +46,7 @@
       -d '{
         "lid": 351
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.unpublic.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.unpublic.json"
     ```
 
 - cURL (OAuth)
@@ -58,7 +58,7 @@
         "lid": 351,
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.unpublic.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.unpublic.json"
     ```
 
 - JS (TS)
@@ -291,7 +291,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `MISSING_PARAMS` | Не передан обязательный параметр `lid` ||
-|| `LANDING_NOT_EXIST` | Страница не найдена: в `lid` передан идентификатор несуществующей, удаленной или недоступной страницы. Для страниц Базы знаний, групп и вайба убедитесь, что передан параметр `scope` ||
+|| `LANDING_NOT_EXIST` | Страница не найдена: страницы с таким `lid` нет, она в корзине, недоступна текущему пользователю или для страницы Базы знаний не передан `scope` ||
 || `ACCESS_DENIED` | Недостаточно прав для изменения поля `ACTIVE` у страницы ||
 || `TYPE_ERROR` | Ошибка типа данных в параметрах вызова метода ||
 || `SYSTEM_ERROR` | Внутренняя ошибка при выполнении метода ||

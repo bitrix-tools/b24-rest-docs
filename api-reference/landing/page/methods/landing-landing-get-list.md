@@ -17,7 +17,7 @@
 
 {% note warning %}
 
-По умолчанию метод возвращает только страницы на неудаленных сайтах с `DELETED = "N"`. Чтобы получить удаленные страницы, передайте в фильтре `DELETED` или `=DELETED`. Это работает только для страниц на неудаленных сайтах: страницы удаленных сайтов метод не возвращает
+По умолчанию метод не возвращает страницы из корзины. Чтобы получить только их, передайте в фильтре `DELETED: "Y"`, а чтобы получить все страницы — `DELETED: ["Y", "N"]`. Страницы сайтов, которые лежат в корзине, метод не возвращает
 
 {% endnote %}
 
@@ -29,9 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Для обычных страниц параметр не нужен. Для `GROUP`, `KNOWLEDGE` и `MAINPAGE` передают соответствующий `scope`. Подробнее о выборе значения в статье [Работа с типами сайтов и скоупами](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` страниц Базы знаний в ответе не будет. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **params**
 [`object`](../../../data-types.md) | Параметры выборки страниц [(подробное описание)](#params) ||
 |#
@@ -44,7 +44,9 @@
 || **select**
 [`string[]`](../../../data-types.md) | Список полей для выборки из [полей объекта Страница](../fields.md). Если параметр не передан или равен `null`, используется `["*"]`.
 
-Метод принимает только простые имена полей страницы. Элементы с `.` игнорируются ||
+Метод принимает только простые имена полей страницы. Элементы с `.` игнорируются.
+
+Если перечисляете поля в `select`, добавьте `ID`: без него метод вернет только одну страницу, а флаги `get_preview`, `get_urls` и `check_area` не сработают ||
 || **filter**
 [`object`](../../../data-types.md) | Фильтр по полям из [полей объекта Страница](../fields.md). Если параметр не передан или передан в неверном формате, выборка выполняется без пользовательских условий. Ключи с `.` и `CHECK_PERMISSIONS` игнорируются.
 
@@ -56,15 +58,17 @@
 || **group**
 [`array`](../../../data-types.md) | Группировка в формате ORM. Собственного значения по умолчанию у метода нет ||
 || **limit**
-[`integer`](../../../data-types.md) | Ограничение количества строк выборки на уровне ORM. Метод не задает собственный лимит по умолчанию ||
+[`integer`](../../../data-types.md) | Сколько страниц вернуть. Без `limit` метод вернет все подходящие страницы за один вызов ||
 || **offset**
-[`integer`](../../../data-types.md) | Смещение выборки на уровне ORM ||
+[`integer`](../../../data-types.md) | Сколько страниц пропустить. С `limit` и `offset` список можно получать частями: например, `limit: 50` и `offset: 50` пропустят первые 50 страниц и вернут следующие 50.
+
+Стандартной постраничной навигации REST у метода нет: параметр `start` он не учитывает, `next` и `total` в ответе не приходят ||
 || **get_preview**
-[`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если значение приводится к `true`, в каждый элемент результата добавляется поле `PREVIEW` со ссылкой на превью страницы ||
+[`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если значение приводится к `true`, в каждый элемент результата добавляется поле `PREVIEW` со ссылкой на превью страницы. Флаг работает, только если `select` не передан, равен `["*"]` или содержит `ID` ||
 || **get_urls**
-[`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если значение приводится к `true`, в каждый элемент результата добавляется поле `PUBLIC_URL` с публичным адресом страницы ||
+[`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если значение приводится к `true`, в каждый элемент результата добавляется поле `PUBLIC_URL` с публичным адресом страницы. Флаг работает, только если `select` не передан, равен `["*"]` или содержит `ID` ||
 || **check_area**
-[`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если значение приводится к `true`, в каждый элемент результата добавляется поле `IS_AREA`, которое показывает, является ли страница включаемой областью ||
+[`boolean`](../../../data-types.md) \| [`integer`](../../../data-types.md) | Если значение приводится к `true`, в каждый элемент результата добавляется поле `IS_AREA`, которое показывает, является ли страница включаемой областью. Флаг работает, только если `select` не передан, равен `["*"]` или содержит `ID` ||
 |#
 
 ## Примеры кода
@@ -98,7 +102,7 @@
           "check_area": true
         }
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.getList.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.getList.json"
     ```
 
 - cURL (OAuth)
@@ -127,7 +131,7 @@
         },
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.getList.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.getList.json"
     ```
 
 - JS (TS)
@@ -153,11 +157,7 @@
     }
 
     try {
-      // landing.landing.getList returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+      // landing.landing.getList returns all matching pages in one call; use params.limit and params.offset to get them in parts
       const response = await $b24.actions.v2.call.make<LandingItem[]>({
         method: 'landing.landing.getList',
         params: {
@@ -179,7 +179,6 @@
             get_preview: true,
             check_area: true,
           },
-          start: 0,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -208,11 +207,7 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // landing.landing.getList returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
+          // landing.landing.getList returns all matching pages in one call; use params.limit and params.offset to get them in parts
           const response = await $b24.actions.v2.call.make({
             method: 'landing.landing.getList',
             params: {
@@ -234,7 +229,6 @@
                 get_preview: true,
                 check_area: true,
               },
-              start: 0,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -460,16 +454,22 @@ HTTP-статус: **200**
         {
             "ID": "985",
             "TITLE": "Новость детально",
-            "SITE_ID": "3",
+            "SITE_ID": "205",
             "DATE_MODIFY": "10/10/2022 03:25:30 pm",
-            "DOMAIN_ID": "5"
+            "DOMAIN_ID": "5",
+            "PUBLIC_URL": "https://mysite.bitrix24site.ru/news-detail/",
+            "PREVIEW": "https://mysite.bitrix24site.ru/news-detail/preview.jpg",
+            "IS_AREA": false
         },
         {
             "ID": "573",
-            "TITLE": "Page vide",
-            "SITE_ID": "3",
+            "TITLE": "Главная",
+            "SITE_ID": "205",
             "DATE_MODIFY": "10/10/2022 03:25:30 pm",
-            "DOMAIN_ID": "5"
+            "DOMAIN_ID": "5",
+            "PUBLIC_URL": "https://mysite.bitrix24site.ru/",
+            "PREVIEW": "https://mysite.bitrix24site.ru/preview.jpg",
+            "IS_AREA": false
         }
     ],
     "time": {
@@ -504,7 +504,7 @@ HTTP-статус: **200**
 || **FIELD**
 [`string`](../../../data-types.md) \| `null` | Любое поле страницы из [полей объекта Страница](../fields.md), если оно запрошено в `params.select` или если `params.select` не передан ||
 || **DOMAIN_ID**
-[`string`](../../../data-types.md) \| `null` | Идентификатор домена сайта, к которому привязана страница. Присутствует в ответе, даже если оно не указано в `params.select` ||
+[`string`](../../../data-types.md) \| `null` | Идентификатор домена сайта, к которому привязана страница. Возвращается, даже если поля нет в `params.select` ||
 || **PUBLIC_URL**
 [`string`](../../../data-types.md) \| `null` | Публичный адрес страницы. Возвращается только если включен флаг `get_urls` ||
 || **PREVIEW**
@@ -520,7 +520,7 @@ HTTP-статус: **400**
 ```json
 {
     "error": "ACCESS_DENIED",
-    "error_description": "Access denied"
+    "error_description": "Недостаточно прав."
 }
 ```
 

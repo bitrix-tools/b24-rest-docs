@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с доступом к разделу «Сайты и магазины»
 
-Метод `landing.landing.resolveIdByPublicUrl` возвращает идентификатор страницы по ее публичному URL в рамках указанного сайта.
+Метод `landing.landing.resolveIdByPublicUrl` возвращает идентификатор страницы по ее публичному URL на сайте `siteId`. Неопубликованные страницы метод тоже находит, страницы из корзины — нет.
 
 ## Параметры метода
 
@@ -23,13 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Значение `scope` должно соответствовать типу сайта [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет страницу Базы знаний и вернет `null`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **landingUrl***
-[`string`](../../../data-types.md) | Относительный публичный URL страницы внутри сайта `siteId`, например `/catalog/sale/`.
+[`string`](../../../data-types.md) | Публичный URL страницы без домена — путь от корня сайта `siteId`, например `/catalog/sale/`. У главной страницы путь `/`. Слеши в начале и в конце пути и регистр букв не важны: `/catalog/sale/`, `/catalog/sale` и `catalog/sale` найдут одну и ту же страницу.
 
-Передавайте путь от корня сайта без домена ||
+Полный адрес с доменом из метода [landing.landing.getpublicurl](./landing-landing-get-public-url.md) подходит только для страниц сайта типа `VIBE`, кроме главной страницы этого сайта. Для остальных страниц по такому адресу метод вернет `null` ||
 || **siteId***
 [`integer`](../../../data-types.md) | Идентификатор сайта, в рамках которого нужно найти страницу.
 
@@ -51,7 +51,7 @@
         "landingUrl": "/catalog/sale/",
         "siteId": 1817
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.resolveIdByPublicUrl.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.resolveIdByPublicUrl.json"
     ```
 
 - cURL (OAuth)
@@ -64,7 +64,7 @@
         "siteId": 1817,
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.resolveIdByPublicUrl.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.resolveIdByPublicUrl.json"
     ```
 
 - JS (TS)
@@ -305,7 +305,7 @@ HTTP-статус: **400**
 
 #|
 || **Код** | **Описание** ||
-|| `MISSING_PARAMS` | Не переданы обязательные параметры `landingUrl`, `siteId` или один из них ||
+|| `MISSING_PARAMS` | Не передан обязательный параметр `landingUrl` или `siteId` ||
 || `ACCESS_DENIED` | Недостаточно прав для вызова метода ||
 || `TYPE_ERROR` | Ошибка типа данных в параметрах вызова метода ||
 || `SYSTEM_ERROR` | Внутренняя ошибка при выполнении метода ||

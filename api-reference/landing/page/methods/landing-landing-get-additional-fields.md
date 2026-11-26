@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «просмотр» сайта
 
-Метод `landing.landing.getadditionalfields` получает [дополнительные поля](../additional-fields.md) страницы.
+Метод `landing.landing.getadditionalfields` возвращает непустые [дополнительные поля](../additional-fields.md) страницы, например мета-теги и цветовую тему.
 
 ## Параметры метода
 
@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Значение `scope` должно соответствовать типу сайта [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет страницу Базы знаний и вернет ошибку `LANDING_NOT_EXIST`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **lid***
 [`integer`](../../../data-types.md) | Идентификатор страницы.
 
@@ -46,7 +46,7 @@
       -d '{
         "lid": 349
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.getadditionalfields.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.getadditionalfields.json"
     ```
 
 - cURL (OAuth)
@@ -58,7 +58,7 @@
         "lid": 349,
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.getadditionalfields.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.getadditionalfields.json"
     ```
 
 - JS (TS)
@@ -72,7 +72,8 @@
     declare const $b24: B24Frame
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
-    type AdditionalFieldsResult = Record<string, string | number | boolean | string[]>
+    // result is an empty array [] when the page has no filled fields, e.g. a Knowledge Base page without meta tags
+    type AdditionalFieldsResult = Record<string, unknown> | []
 
     try {
       const response = await $b24.actions.v2.call.make<AdditionalFieldsResult>({
@@ -236,6 +237,12 @@
     	return fmt.Errorf("landing.landing.getadditionalfields: %w", err)
     }
 
+    // У страницы без заполненных полей, например у страницы Базы знаний без мета-тегов, result — пустой массив []
+    if string(res.Result) == "[]" {
+    	fmt.Println("дополнительных полей нет")
+    	return nil
+    }
+
     var item struct {
     	FontsCode     string `json:"FONTS_CODE"`
     	GacounterUse  string `json:"GACOUNTER_USE"`
@@ -280,8 +287,8 @@ HTTP-статус: **200**
         "finish": 1773722096.682451,
         "duration": 0.6824510097503662,
         "processing": 0,
-        "date_start": "2026-03-17T12:34:56+03:00",
-        "date_finish": "2026-03-17T12:34:56+03:00",
+        "date_start": "2026-03-17T07:34:56+03:00",
+        "date_finish": "2026-03-17T07:34:56+03:00",
         "operating_reset_at": 1773722696,
         "operating": 0.11843705177307129
     }
@@ -294,22 +301,38 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) \| [`array`](../../../data-types.md) | Набор дополнительных полей страницы в формате `{"<КОД_ПОЛЯ>": "<ЗНАЧЕНИЕ>"}`.
-
-Если у страницы нет доступных непустых дополнительных полей, метод возвращает пустой массив `[]` [(подробное описание)](#result) ||
+[`object`](../../../data-types.md) \| [`array`](../../../data-types.md) | Дополнительные поля страницы в формате `{"<КОД_ПОЛЯ>": "<ЗНАЧЕНИЕ>"}`. Пустые поля в ответ не попадают: если непустых полей нет, метод вернет пустой массив `[]` [(подробное описание)](#result) ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 #### Объект result {#result}
 
+Ключ объекта — код поля. В таблице — часто используемые поля, все коды и значения описаны в статье [Дополнительные поля страницы](../additional-fields.md).
+
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **<КОД_ПОЛЯ>**
-[`string`](../../../data-types.md) \| [`integer`](../../../data-types.md) \| [`boolean`](../../../data-types.md) \| [`array`](../../../data-types.md) \| [`object`](../../../data-types.md) | Пара «код поля → значение поля». Метод возвращает только поля с непустыми значениями.  
-
-Доступные коды полей перечислены в разделе [Дополнительные поля страницы](../additional-fields.md) ||
+|| **METAMAIN_USE**
+[`string`](../../../data-types.md) | Включены ли собственные мета-теги страницы: `Y` или `N` ||
+|| **METAMAIN_TITLE**
+[`string`](../../../data-types.md) | Значение тега `title` ||
+|| **METAMAIN_DESCRIPTION**
+[`string`](../../../data-types.md) | Значение тега `description` ||
+|| **METAOG_TITLE**
+[`string`](../../../data-types.md) | Заголовок превью страницы в соцсетях и мессенджерах, тег Open Graph `og:title` ||
+|| **METAOG_DESCRIPTION**
+[`string`](../../../data-types.md) | Описание превью страницы в соцсетях и мессенджерах, тег Open Graph `og:description` ||
+|| **METAOG_IMAGE**
+[`string`](../../../data-types.md) | Изображение для Open Graph, тег `og:image`. Если в поле записан идентификатор файла, приложение получит ссылку на файл, а вебхук — сам идентификатор ||
+|| **METAROBOTS_INDEX**
+[`string`](../../../data-types.md) | Разрешена ли индексация страницы: `Y` или `N` ||
+|| **THEME_CODE**
+[`string`](../../../data-types.md) | Код цветовой темы страницы из раздела [Цветовые темы страницы](../color-themes.md) ||
+|| **VIEW_TYPE**
+[`string`](../../../data-types.md) | Тип представления страницы: `no`, `ltr`, `all`, `mobile` или `adaptive` ||
+|| **SETTINGS_\***
+[`string`](../../../data-types.md) \| [`integer`](../../../data-types.md) \| [`array`](../../../data-types.md) | Настройки каталога и торгового раздела. Если в Битрикс24 установлен модуль каталога, у страниц сайтов и магазинов эти поля приходят со значениями по умолчанию, даже если их не задавали. Поля с пустым значением по умолчанию не приходят. У страниц Базы знаний полей `SETTINGS_*` нет. Тип зависит от поля, например `SETTINGS_PRICE_CODE` — массив кодов типов цен, `SETTINGS_SHOW_PRICE_COUNT` — число ||
 |#
 
 ## Обработка ошибок

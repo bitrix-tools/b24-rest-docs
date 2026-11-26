@@ -23,15 +23,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Для страниц сайтов типов `PAGE`, `STORE` и `SMN` параметр не нужен. Для страниц сайтов типов `GROUP`, `KNOWLEDGE` и `MAINPAGE` передайте соответствующее значение `scope` [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет страницу Базы знаний и вернет ошибку `LANDING_NOT_EXIST`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **lid***
 [`integer`](../../../data-types.md) | Идентификатор страницы, которую нужно обновить.
 
 Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md), а также из результата методов [landing.landing.add](./landing-landing-add.md), [landing.landing.addByTemplate](./landing-landing-add-by-template.md) и [landing.landing.copy](./landing-landing-copy.md) ||
 || **fields***
-[`object`](../../../data-types.md) | Набор полей страницы для обновления [(подробное описание)](#fields) ||
+[`object`](../../../data-types.md) | Набор полей страницы для обновления [(подробное описание)](#fields).
+
+Поля `ACTIVE`, `RULE`, `TPL_CODE`, `INITIATOR_APP_CODE` и `VIEWS` этим методом изменить нельзя: метод пропустит их без ошибки и вернет `true`. Опубликовать страницу или снять ее с публикации можно методами [landing.landing.publication](./landing-landing-publication.md) и [landing.landing.unpublic](./landing-landing-unpublic.md) ||
 |#
 
 ### Параметр fields {#fields}
@@ -42,7 +44,7 @@
 || **TITLE**
 [`string`](../../../data-types.md) | Название страницы ||
 || **CODE**
-[`string`](../../../data-types.md) | Символьный код страницы. Код не может содержать символ `/` и не должен быть в формате `<буквы, цифры или _>_<число>_<число>`, например `code_12_34`.
+[`string`](../../../data-types.md) | Символьный код страницы. В коде нельзя использовать `/` и [запрещенные символы](#errors): кавычки, `$`, скобки и другие. Код не может иметь вид `<буквы, цифры или _>_<число>_<число>`, например `code_12_34`.
 
 Если передать пустую строку и не указать поле `FOLDER`, метод вернет ошибку. Если поле `FOLDER` передано с любым значением, ошибки не будет ||
 || **DESCRIPTION**
@@ -50,7 +52,7 @@
 || **XML_ID**
 [`string`](../../../data-types.md) | Внешний идентификатор страницы ||
 || **SITE_ID**
-[`integer`](../../../data-types.md) | Идентификатор сайта, к которому нужно привязать страницу. Если параметр не передан, используется текущий сайт страницы. 
+[`integer`](../../../data-types.md) | Идентификатор сайта, к которому нужно привязать страницу. Если параметр не передан, используется текущий сайт страницы.
 
 Чтобы перенести страницу на другой сайт, нужны право «удаление» на текущем сайте страницы и право «редактирование» на новом сайте.
 
@@ -68,16 +70,15 @@
 
 Идентификатор шаблона представления можно получить методом [landing.template.getlist](../../template/landing-template-get-list.md) ||
 || **DELETED**
-[`string`](../../../data-types.md) | Управляет состоянием страницы в корзине. При передаче этого поля страница становится неактивной. 
+[`string`](../../../data-types.md) | Помещает страницу в корзину. С любым значением поля страница становится неактивной:
+`Y` — страница уходит в корзину
+`N` — страница остается вне корзины
 
-`Y` — страница помещается в корзину и становится неактивной.
-`N` — страница восстанавливается из корзины, но остается неактивной, пока ее не опубликуют отдельно.
-
-Для удаления и восстановления страницы лучше использовать методы [landing.landing.markDelete](./landing-landing-mark-delete.md) и [landing.landing.markUnDelete](./landing-landing-mark-undelete.md).
+Вернуть страницу из корзины этим методом нельзя: он ее не найдет и вернет ошибку `LANDING_NOT_EXIST`. Для удаления и восстановления страницы используйте методы [landing.landing.markDelete](./landing-landing-mark-delete.md) и [landing.landing.markUnDelete](./landing-landing-mark-undelete.md).
 
 Если страница установлена главной в настройках сайта и в этом сайте есть другие неудаленные страницы, метод вернет ошибку `CANT_DELETE_MAIN` ||
 || **DATE_PUBLIC**
-[`string`](../../../data-types.md) | Дата и время публикации страницы. 
+[`string`](../../../data-types.md) | Дата и время публикации страницы.
 
 Для изменения этого поля нужно право «публикация» на сайт. Изменение поля не публикует страницу, а только обновляет дату публикации.
 
@@ -106,7 +107,7 @@
           "XML_ID": "promo-2026-landing"
         }
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.update.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.update.json"
     ```
 
 - cURL (OAuth)
@@ -124,7 +125,7 @@
         },
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.update.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.update.json"
     ```
 
 - JS (TS)
@@ -143,9 +144,9 @@
         params: {
           lid: 349,
           fields: {
-            TITLE: 'Spring Promo 2026',
+            TITLE: 'Весенняя акция 2026',
             CODE: 'spring-sale-2026',
-            DESCRIPTION: 'Updated promo page description',
+            DESCRIPTION: 'Обновленное описание страницы акции',
             XML_ID: 'promo-2026-landing',
           },
         },
@@ -181,9 +182,9 @@
             params: {
               lid: 349,
               fields: {
-                TITLE: 'Spring Promo 2026',
+                TITLE: 'Весенняя акция 2026',
                 CODE: 'spring-sale-2026',
-                DESCRIPTION: 'Updated promo page description',
+                DESCRIPTION: 'Обновленное описание страницы акции',
                 XML_ID: 'promo-2026-landing',
               },
             },
@@ -217,9 +218,9 @@
         bitrix_response = client.landing.landing.update(
             lid=349,
             fields={
-                "TITLE": "Spring Promo 2026",
+                "TITLE": "Весенняя акция 2026",
                 "CODE": "spring-sale-2026",
-                "DESCRIPTION": "Updated promo page description",
+                "DESCRIPTION": "Обновленное описание страницы акции",
                 "XML_ID": "promo-2026-landing",
             },
         ).response
@@ -394,11 +395,12 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
+### Возможные коды ошибок {#errors}
 
 #|
 || **Код** | **Описание** ||
 || `MISSING_PARAMS` | Не передан обязательный параметр `lid` или `fields` ||
+|| `LANDING_NOT_EXIST` | Страница с идентификатором `lid` не существует или недоступна. Та же ошибка придет, если для страницы Базы знаний не передан `scope` ||
 || `ACCESS_DENIED` | Недостаточно прав для изменения страницы или конкретного поля. Например, для `fields.DELETED` нужно право «удаление» сайта, а для `fields.DATE_PUBLIC` нужно право «публикация» сайта.
 
 Если в `fields.SITE_ID` передан другой сайт, а у пользователя нет права «удаление» на текущем сайте или права «редактирование» на новом, приходит ошибка с текстом «Недостаточно прав для перемещения страницы на другой сайт.» ||
@@ -406,6 +408,7 @@ HTTP-статус: **400**
 || `FOLDER_NOT_FOUND` | В `fields.FOLDER_ID` передана папка, которая не относится к текущему сайту страницы или не существует ||
 || `SLASH_IS_NOT_ALLOWED` | В `fields.CODE` передан символ `/` ||
 || `CANT_BE_EMPTY` | В `fields.CODE` передана пустая строка `''`, и в том же запросе отсутствует ключ `fields.FOLDER` ||
+|| `WRONG_CODE_CHARS` | В `fields.CODE` есть запрещенные символы: одинарные, двойные или обратные кавычки, `$`, `\`, `<`, `>`, круглые или фигурные скобки, а также управляющие символы, например перенос строки ||
 || `WRONG_CODE_FORMAT` | В `fields.CODE` передано значение в формате `<буквы, цифры или _>_<число>_<число>`, например `code_12_34` или `my_page_1_2` ||
 || `CANT_DELETE_MAIN` | Нельзя пометить как удаленную главную страницу сайта, если в сайте есть другие неудаленные страницы ||
 || `TYPE_ERROR` | Ошибка типа данных в параметрах вызова метода ||

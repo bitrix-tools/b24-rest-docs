@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «редактирование» сайта
 
-Метод `landing.landing.addByTemplate` создает страницу в указанном сайте по коду шаблона и возвращает идентификатор созданной страницы. Новая страница создается неактивной (`ACTIVE = N`). 
+Метод `landing.landing.addByTemplate` создает страницу на сайте по коду шаблона и возвращает ее идентификатор. Новая страница создается неопубликованной (`ACTIVE = "N"`). Исключение — если в `fields.ID` передана опубликованная страница: тогда новая опубликуется сразу. Опубликовать страницу позже можно методом [landing.landing.publication](./landing-landing-publication.md).
 
 Если нужно полностью управлять полями создаваемой страницы, используйте [landing.landing.add](./landing-landing-add.md).
 
@@ -25,17 +25,17 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Значение `scope` должно соответствовать типу сайта [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет сайт Базы знаний и вернет ошибку `SITE_ERROR`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **siteId***
 [`integer`](../../../data-types.md) | Идентификатор сайта, в котором нужно создать страницу.
 
 Идентификатор сайта можно получить методом [landing.site.getList](../../site/landing-site-get-list.md) или из результата метода [landing.site.add](../../site/landing-site-add.md) ||
 || **code***
-[`string`](../../../data-types.md) | Код шаблона страницы.
+[`string`](../../../data-types.md) | Код шаблона страницы, например `krayt.monotovar@KraytPetShop`. Список шаблонов, доступных в Битрикс24, вернет метод [landing.demos.getPageList](../../demos/landing-demos-get-page-list.md).
 
-Список доступных шаблонов можно получить методом [landing.demos.getPageList](../../demos/landing-demos-get-page-list.md). Код зависит от шаблонов, доступных в Битрикс24. Например, значение может выглядеть как `krayt.monotovar@KraytPetShop` ||
+Если шаблона с таким кодом нет, страница не создастся, а в `result` придет `null` без ошибки ||
 || **fields**
 [`object`](../../../data-types.md) | Дополнительные параметры создания страницы [(подробное описание)](#fields) ||
 |#
@@ -56,27 +56,29 @@
 
 Значение записывается в дополнительные поля `METAOG_DESCRIPTION` и `METAMAIN_DESCRIPTION`, но не в поле `DESCRIPTION` самой страницы ||
 || **ID**
-[`integer`](../../../data-types.md) | Идентификатор существующей страницы или папки в том же сайте.
+[`integer`](../../../data-types.md) | Идентификатор существующей страницы в том же сайте. От нее новая страница получит папку и публикацию.
 
-Если передать папку, новая страница создастся в ней. Если передать страницу из папки, новая страница создастся в той же папке. Для элемента без папки метод возьмет значение из `fields.FOLDER_ID`, если этот параметр указан. 
+Если страница лежит в папке, новая страница создастся в той же папке, а параметр `fields.FOLDER_ID` не учитывается. Для страницы без папки метод возьмет значение из `fields.FOLDER_ID`, если этот параметр указан.
 
-Если передан активный элемент, новая страница после создания опубликуется автоматически. Если `ID` указывает на папку или на элемент с заполненным `FOLDER_ID`, параметр `fields.FOLDER_ID` не учитывается.
+Если передана опубликованная страница, новая страница после создания опубликуется автоматически.
 
-Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md), идентификатор папки — методом [landing.site.getFolders](../../site/landing-site-get-folders.md) ||
+Идентификатор страницы можно получить методом [landing.landing.getList](./landing-landing-get-list.md).
+
+Идентификатор папки из [landing.site.getFolders](../../site/landing-site-get-folders.md) сюда не подходит: в `fields.ID` метод ищет страницу и обычно возвращает ошибку `LANDING_ERROR`. Папку передавайте в `fields.FOLDER_ID` ||
 || **FOLDER_ID**
-[`integer`](../../../data-types.md) | Идентификатор папки, в которой нужно создать страницу. Папка должна относиться к тому же сайту, что и `siteId`, иначе метод вернет ошибку.
+[`integer`](../../../data-types.md) | Идентификатор папки, в которой нужно создать страницу. Папка должна быть на сайте из `siteId`, иначе метод вернет ошибку `FOLDER_NOT_FOUND`.
 
 Идентификатор папки можно получить методом [landing.site.getFolders](../../site/landing-site-get-folders.md).
 
-Параметр используется, если папка создания не определилась по `fields.ID` ||
+Если страница из `fields.ID` лежит в папке, параметр не учитывается ||
 || **SITE_TYPE**
 [`string`](../../../data-types.md) | Тип шаблонов, из которого создается страница. Используются типы сайтов из статьи [Работа с типами сайтов и скоупами](../../types.md).
 
 Если не передавать, берется тип сайта. Для сайтов типов `STORE` и `SMN` по умолчанию используется значение `PAGE` ||
 || **ADD_IN_MENU**
-[`string`](../../../data-types.md) | Флаг добавления созданной страницы в меню сайта. Поддерживаются `Y` и `N`.
+[`string`](../../../data-types.md) | Добавить ли созданную страницу в меню сайта: `Y` — добавить, `N` — нет. По умолчанию `N`.
 
-Логика срабатывает только при значении `Y`, если страница еще не добавляется в меню через `BLOCK_ID` и `MENU_CODE`, и если передан `TITLE` ||
+Страница попадет в меню, только если передан `TITLE` и она не добавляется в меню блока через `BLOCK_ID` и `MENU_CODE` ||
 || **BLOCK_ID**
 [`integer`](../../../data-types.md) | Вместе с `MENU_CODE` добавляет ссылку на созданную страницу в меню блока с указанным идентификатором ||
 || **MENU_CODE**
@@ -103,7 +105,7 @@
           "FOLDER_ID": 95
         }
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.addByTemplate.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.addByTemplate.json"
     ```
 
 - cURL (OAuth)
@@ -121,7 +123,7 @@
         },
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.addByTemplate.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.addByTemplate.json"
     ```
 
 - JS (TS)
@@ -135,14 +137,14 @@
     declare const $b24: B24Frame
 
     try {
-      const response = await $b24.actions.v2.call.make<number>({
+      const response = await $b24.actions.v2.call.make<number | null>({
         method: 'landing.landing.addByTemplate',
         params: {
           siteId: 157,
           code: 'krayt.monotovar@KraytPetShop',
           fields: {
-            TITLE: 'Spring sale',
-            DESCRIPTION: 'SEO page description',
+            TITLE: 'Весенняя акция',
+            DESCRIPTION: 'SEO-описание страницы акции',
             FOLDER_ID: 95,
           },
         },
@@ -179,8 +181,8 @@
               siteId: 157,
               code: 'krayt.monotovar@KraytPetShop',
               fields: {
-                TITLE: 'Spring sale',
-                DESCRIPTION: 'SEO page description',
+                TITLE: 'Весенняя акция',
+                DESCRIPTION: 'SEO-описание страницы акции',
                 FOLDER_ID: 95,
               },
             },
@@ -215,8 +217,8 @@
             site_id=157,
             code="krayt.monotovar@KraytPetShop",
             fields={
-                "TITLE": "Spring sale",
-                "DESCRIPTION": "SEO page description",
+                "TITLE": "Весенняя акция",
+                "DESCRIPTION": "SEO-описание страницы акции",
                 "FOLDER_ID": 95,
             },
         ).response
@@ -373,7 +375,7 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`integer`](../../../data-types.md) | Идентификатор созданной страницы ||
+[`integer`](../../../data-types.md) \| `null` | Идентификатор созданной страницы. Если шаблона с кодом из `code` нет, метод вернет `null` ||
 || **time**
 [`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
@@ -384,10 +386,12 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "SITE_ERROR",
-    "error_description": "Сайт не найден, или доступ к нему запрещен"
+    "error": "Сайт не найден, или доступ к нему запрещен",
+    "error_description": "SITE_ERROR"
 }
 ```
+
+У ошибок из таблицы код приходит в `error_description`, а текст — в `error`, как в примере выше. Исключение — `MISSING_PARAMS`: ее код приходит в `error`, как у системных ошибок, например `TYPE_ERROR`, и у других методов.
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
@@ -396,8 +400,8 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** ||
 || `MISSING_PARAMS` | Не переданы обязательные параметры вызова: в запросе отсутствует `siteId`, `code` или оба параметра ||
-|| `SITE_ERROR` | Сайт не найден, или доступ к нему запрещен: в `siteId` передан несуществующий сайт или у пользователя нет доступа к нему ||
-|| `LANDING_ERROR` | Страница или папка не найдена: в `fields.ID` передан идентификатор элемента, которого нет в указанном сайте ||
+|| `SITE_ERROR` | Сайт не найден, или доступ к нему запрещен: не передан нужный `scope`, в `siteId` передан несуществующий сайт или у пользователя нет доступа к нему ||
+|| `LANDING_ERROR` | Страница не найдена: в `fields.ID` передан идентификатор, под которым на сайте из `siteId` нет страницы. Так бывает, если передать идентификатор папки из [landing.site.getFolders](../../site/landing-site-get-folders.md) ||
 || `ACCESS_DENIED` | Доступ на создание страницы запрещен: у пользователя нет права «редактирование» для указанного сайта ||
 || `FOLDER_NOT_FOUND` | Папка не найдена: в `fields.FOLDER_ID` передана папка, которая не относится к указанному сайту или не существует ||
 || `WRONG_DATA` | Некорректные данные шаблона: для переданного `code` не удалось получить данные шаблона страницы ||

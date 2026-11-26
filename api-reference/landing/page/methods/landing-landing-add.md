@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: пользователь с правом «редактирование» сайта
 
-Метод `landing.landing.add` добавляет страницу или папку в указанный сайт и возвращает идентификатор созданного объекта. Новый объект создается неактивным (`ACTIVE = N`).
+Метод `landing.landing.add` добавляет страницу или папку в указанный сайт и возвращает идентификатор созданного объекта. Новый объект создается неактивным (`ACTIVE = N`). Дополнительные поля страницы, например мета-теги и цветовую тему, задают после создания методом [landing.landing.update](./landing-landing-update.md).
 
 ## Параметры метода
 
@@ -23,9 +23,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **scope**
-[`string`](../../../data-types.md) | Внутренний скоуп лендингов. Он не связан с REST-скоупом `landing` в названии метода.
+[`string`](../../../data-types.md) | Внутренний параметр лендингов: тип сайтов, с которыми работает метод. Он не связан с REST-скоупом `landing`.
 
-Значение `scope` должно соответствовать типу сайта [(подробное описание)](../../types.md) ||
+Для страниц Базы знаний передайте `KNOWLEDGE`, для страниц Базы знаний группы — `GROUP`, регистр не важен. Без `scope` метод не найдет сайт Базы знаний и вернет ошибку `SITE_NOT_FOUND`. Для сайтов типов `PAGE`, `STORE`, `SMN` и `VIBE` параметр не нужен [(подробное описание)](../../types.md) ||
 || **fields***
 [`object`](../../../data-types.md) | Набор полей новой страницы или папки [(подробное описание)](#fields) ||
 |#
@@ -44,13 +44,13 @@
 
 Идентификатор сайта можно получить методом [landing.site.getList](../../site/landing-site-get-list.md) или из результата метода [landing.site.add](../../site/landing-site-add.md) ||
 || **CODE**
-[`string`](../../../data-types.md) | Символьный код страницы. Он не должен содержать символ `/` и не должен быть в формате `<символы>_<число>_<число>`, например `code_12_34`.
+[`string`](../../../data-types.md) | Символьный код страницы — часть ее адреса. Код не должен содержать `/` и [запрещенные символы](#errors) — кавычки, `$`, скобки и другие. Нельзя передавать код в формате `<буквы, цифры или _>_<число>_<число>`, например `code_12_34`.
 
 Если поле не передать или передать строку только из пробелов, код сгенерируется из `TITLE`. Если после транслитерации код окажется пустым, будет сгенерирована строка из 12 символов.
 
-Пустую строку `''` без параметра `FOLDER` передавать нельзя — метод вернет ошибку. Если параметр `FOLDER` передан с любым значением, пустая строка допускается, и код сгенерируется из `TITLE`.
+Пустую строку `''` без параметра `FOLDER` передавать нельзя — метод вернет ошибку `CANT_BE_EMPTY`. Если параметр `FOLDER` передан с любым значением, пустая строка допускается, и код сгенерируется из `TITLE`.
 
-Если после создания такой код уже используется в пределах сайта или папки, к нему добавится суффикс вида `_<4 случайных символа>` ||
+Если код уже занят в пределах сайта или папки, к нему добавится суффикс вида `_<4 случайных символа>` ||
 || **DESCRIPTION**
 [`string`](../../../data-types.md) | Произвольное описание страницы ||
 || **XML_ID**
@@ -58,7 +58,9 @@
 || **SITEMAP**
 [`string`](../../../data-types.md) | Флаг включения страницы в карту сайта. Поддерживаются `Y` и `N`, по умолчанию `N` ||
 || **FOLDER**
-[`string`](../../../data-types.md) | Используется, если вместо страницы нужно создать папку. Поддерживаются `Y` и `N`, по умолчанию `N` ||
+[`string`](../../../data-types.md) | Создать папку вместе со страницей. Поддерживаются `Y` и `N`, по умолчанию `N`.
+
+Со значением `Y` и без `FOLDER_ID` Битрикс24 в том же вызове создаст папку с названием и кодом страницы, а новую страницу сделает ее индексной. В ответе придет идентификатор страницы, у нее будет `FOLDER = N`, а в `FOLDER_ID` — идентификатор новой папки. Если вместе с `Y` передать `FOLDER_ID`, у новой страницы будет `FOLDER = Y` — признак папки-страницы [(подробное описание)](../fields.md) ||
 || **FOLDER_ID**
 [`integer`](../../../data-types.md) | Идентификатор папки, в которой нужно создать страницу. Папка должна принадлежать тому же сайту, что и `SITE_ID`.
 
@@ -68,7 +70,7 @@
 
 Идентификатор шаблона представления можно получить методом [landing.template.getlist](../../template/landing-template-get-list.md) ||
 || **ADDITIONAL_FIELDS**
-[`object`](../../../data-types.md) | Дополнительные поля страницы. Доступные коды и значения описаны в статье [Дополнительные поля страницы](../additional-fields.md) ||
+[`object`](../../../data-types.md) | Дополнительные поля страницы. Их задают после создания методом [landing.landing.update](./landing-landing-update.md): в `lid` передайте идентификатор новой страницы, в `fields.ADDITIONAL_FIELDS` — коды и значения полей из статьи [Дополнительные поля страницы](../additional-fields.md) ||
 || **BLOCK_ID**
 [`integer`](../../../data-types.md) | Вместе с `MENU_CODE` используется, чтобы после создания страницы добавить ссылку в меню блока с указанным идентификатором ||
 || **MENU_CODE**
@@ -91,13 +93,10 @@
           "TITLE": "Весенняя акция",
           "SITE_ID": 292,
           "CODE": "spring-sale",
-          "DESCRIPTION": "Страница для сезонной акции",
-          "ADDITIONAL_FIELDS": {
-            "THEME_CODE": "wedding"
-          }
+          "DESCRIPTION": "Страница для сезонной акции"
         }
       }' \
-      "https://**put.your-domain-here**/rest/**user_id**/**webhook_code**/landing.landing.add.json"
+      "https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/landing.landing.add.json"
     ```
 
 - cURL (OAuth)
@@ -110,14 +109,11 @@
           "TITLE": "Весенняя акция",
           "SITE_ID": 292,
           "CODE": "spring-sale",
-          "DESCRIPTION": "Страница для сезонной акции",
-          "ADDITIONAL_FIELDS": {
-            "THEME_CODE": "wedding"
-          }
+          "DESCRIPTION": "Страница для сезонной акции"
         },
         "auth": "**put_access_token_here**"
       }' \
-      "https://**put.your-domain-here**/rest/landing.landing.add.json"
+      "https://**put_your_bitrix24_address**/rest/landing.landing.add.json"
     ```
 
 - JS (TS)
@@ -135,13 +131,10 @@
         method: 'landing.landing.add',
         params: {
           fields: {
-            TITLE: 'Spring Sale',
+            TITLE: 'Весенняя акция',
             SITE_ID: 292,
             CODE: 'spring-sale',
-            DESCRIPTION: 'Page for seasonal promotion',
-            ADDITIONAL_FIELDS: {
-              THEME_CODE: 'wedding',
-            },
+            DESCRIPTION: 'Страница для сезонной акции',
           },
         },
         requestId: Text.getUuidRfc4122()
@@ -175,13 +168,10 @@
             method: 'landing.landing.add',
             params: {
               fields: {
-                TITLE: 'Spring Sale',
+                TITLE: 'Весенняя акция',
                 SITE_ID: 292,
                 CODE: 'spring-sale',
-                DESCRIPTION: 'Page for seasonal promotion',
-                ADDITIONAL_FIELDS: {
-                  THEME_CODE: 'wedding',
-                },
+                DESCRIPTION: 'Страница для сезонной акции',
               },
             },
             requestId: B24Js.Text.getUuidRfc4122()
@@ -213,13 +203,10 @@
     try:
         bitrix_response = client.landing.landing.add(
             fields={
-                "TITLE": "Spring Sale",
+                "TITLE": "Весенняя акция",
                 "SITE_ID": 292,
                 "CODE": "spring-sale",
-                "DESCRIPTION": "Page for seasonal promotion",
-                "ADDITIONAL_FIELDS": {
-                    "THEME_CODE": "wedding",
-                },
+                "DESCRIPTION": "Страница для сезонной акции",
             },
         ).response
         result = bitrix_response.result
@@ -249,9 +236,6 @@
                         'SITE_ID' => 292,
                         'CODE' => 'spring-sale',
                         'DESCRIPTION' => 'Страница для сезонной акции',
-                        'ADDITIONAL_FIELDS' => [
-                            'THEME_CODE' => 'wedding',
-                        ],
                     ],
                 ]
             );
@@ -278,9 +262,6 @@
                 SITE_ID: 292,
                 CODE: 'spring-sale',
                 DESCRIPTION: 'Страница для сезонной акции',
-                ADDITIONAL_FIELDS: {
-                    THEME_CODE: 'wedding'
-                }
             }
         },
         function(result)
@@ -310,9 +291,6 @@
                 'SITE_ID' => 292,
                 'CODE' => 'spring-sale',
                 'DESCRIPTION' => 'Страница для сезонной акции',
-                'ADDITIONAL_FIELDS' => [
-                    'THEME_CODE' => 'wedding',
-                ],
             ],
         ]
     );
@@ -339,9 +317,6 @@
     		"SITE_ID":     292,
     		"CODE":        "spring-sale",
     		"DESCRIPTION": "Страница для сезонной акции",
-    		"ADDITIONAL_FIELDS": b24.Params{
-    			"THEME_CODE": "wedding",
-    		},
     	},
     })
     if err != nil {
@@ -407,7 +382,7 @@ HTTP-статус: **400**
 
 {% include notitle [обработка ошибок](../../../../_includes/error-info.md) %}
 
-### Возможные коды ошибок
+### Возможные коды ошибок {#errors}
 
 #|
 || **Код** | **Описание** ||
@@ -416,8 +391,9 @@ HTTP-статус: **400**
 || `SITE_NOT_FOUND` | Сайт не найден: в `fields.SITE_ID` передан несуществующий идентификатор сайта ||
 || `FOLDER_NOT_FOUND` | Папка не найдена: в `fields.FOLDER_ID` передана папка, которая не относится к указанному сайту или не существует ||
 || `SLASH_IS_NOT_ALLOWED` | Слеш запрещен в адресе лендинга: в `fields.CODE` передан символ `/` ||
-|| `CANT_BE_EMPTY` | Адрес страницы не может быть пустым: в `fields.CODE` передана пустая строка `''` ||
-|| `WRONG_CODE_FORMAT` | Недопустимый адрес страницы: в `fields.CODE` передано значение в формате `<символы>_<число>_<число>`, например `code_12_34` ||
+|| `CANT_BE_EMPTY` | Адрес страницы не может быть пустым: в `fields.CODE` передана пустая строка `''`, а `fields.FOLDER` не передан ||
+|| `WRONG_CODE_CHARS` | Адрес страницы содержит запрещенные символы: в `fields.CODE` переданы одинарные, двойные или обратные кавычки, `$`, `\`, `<`, `>`, круглые или фигурные скобки, а также управляющие символы, например перенос строки ||
+|| `WRONG_CODE_FORMAT` | Недопустимый адрес страницы: в `fields.CODE` передано значение в формате `<буквы, цифры или _>_<число>_<число>`, например `code_12_34` ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
