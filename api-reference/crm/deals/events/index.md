@@ -11,9 +11,14 @@
 
 События дают возможность приложениям реагировать на изменения практически в реальном времени: получать уведомления о создании, изменении, удалении и перемещении сделок.
 
-Обработчик получает только идентификатор сделки в поле `data.FIELDS.ID`. Значения полей события не передают, поэтому в обработчике запрашивайте сделку методом [crm.deal.get](../crm-deal-get.md). Исключение — событие [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md): вместе с идентификатором оно передает новую воронку `CATEGORY_ID` и новую стадию `STAGE_ID`.
+События создания, изменения и удаления передают только идентификатор сделки в поле `data.FIELDS.ID`. Событие [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) вместе с идентификатором передает новую воронку `CATEGORY_ID` и новую стадию `STAGE_ID`. Остальные данные сделки запрашивайте в обработчике методом [crm.deal.get](../crm-deal-get.md). После удаления сделка уже недоступна, поэтому нужные данные сохраняйте заранее.
 
-Перемещение сделки в другую воронку не вызывает событие [onCrmDealUpdate](./on-crm-deal-update.md) — оно отслеживается только событием [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md). Смена стадии внутри одной воронки, наоборот, приходит как обычное изменение сделки.
+Какое событие придет при смене воронки, зависит от способа:
+
+- перенос из карточки сделки или роботом «Сменить воронку» — только [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md), без [onCrmDealUpdate](./on-crm-deal-update.md)
+- метод [crm.item.update](../../universal/crm-item-update.md) с новым `categoryId` — только [onCrmDealUpdate](./on-crm-deal-update.md)
+
+Смена стадии внутри одной воронки приходит как [onCrmDealUpdate](./on-crm-deal-update.md).
 
 Настройки пользовательских полей и шаблоны регулярных сделок отслеживают отдельные группы событий: [события пользовательских полей сделок](../user-defined-fields/events/index.md) и [события регулярных сделок](../recurring-deals/events/index.md).
 
@@ -40,12 +45,12 @@
 
 > Scope: [`crm`](../../../scopes/permissions.md)
 >
-> Кто может подписаться: любой пользователь
+> Кто может подписаться: любой пользователь, для офлайн-событий нужны права администратора
 
 #|
 || **Событие** | **Вызывается** ||
 || [onCrmDealAdd](./on-crm-deal-add.md) | При создании сделки вручную или методом [crm.deal.add](../crm-deal-add.md) ||
-|| [onCrmDealUpdate](./on-crm-deal-update.md) | При изменении сделки вручную или методом [crm.deal.update](../crm-deal-update.md) ||
+|| [onCrmDealUpdate](./on-crm-deal-update.md) | При изменении сделки вручную или методами [crm.deal.update](../crm-deal-update.md) и [crm.item.update](../../universal/crm-item-update.md) ||
 || [onCrmDealDelete](./on-crm-deal-delete.md) | При удалении сделки вручную или методом [crm.deal.delete](../crm-deal-delete.md) ||
-|| [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) | При изменении воронки сделки вручную или методом [crm.item.update](../../universal/crm-item-update.md) ||
+|| [onCrmDealMoveToCategory](./on-crm-deal-move-to-category.md) | При переносе сделки в другую воронку из карточки сделки или роботом «Сменить воронку» ||
 |#
