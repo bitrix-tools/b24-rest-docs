@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
-> Кто может выполнять метод: пользователь с правом на изменение главного элемента и правом на удаление остальных объединяемых элементов
+> Кто может выполнять метод: пользователь с правами на чтение и изменение главного элемента и на чтение и удаление остальных объединяемых элементов
 
 Метод `crm.entity.mergeBatch` объединяет несколько элементов в один. 
 
@@ -26,7 +26,7 @@
 [`object`](../../data-types.md) | Объект с элементами для объединения [(подробное описание)](#params) ||
 |#
 
-### Параметр params{#params}
+### Параметр params {#params}
 
 #|
 || **Название**
@@ -39,9 +39,9 @@
 - `4` — [компания](../companies/index.md)
 - `7` — [предложение](../quote/index.md)
 - `31` — [счет](../universal/invoice.md)
-- `128` — [смарт-процесс](../universal/index.md). Идентификатор конкретного смарт-процесса можно узнать методами [crm.enum.ownertype](../auxiliary/enum/crm-enum-owner-type.md) и [crm.type.list](../universal/user-defined-object-types/crm-type-list.md) ||
+- идентификатор конкретного типа [смарт-процесса](../universal/index.md), например `128`. Узнать его можно методами [crm.enum.ownertype](../auxiliary/enum/crm-enum-owner-type.md) и [crm.type.list](../universal/user-defined-object-types/crm-type-list.md) ||
 || **entityIds***
-[`integer[]`](../../data-types.md) | Массив идентификаторов элементов, которые необходимо объединить. Минимум два элемента ||
+[`integer[]`](../../data-types.md) | Массив идентификаторов элементов, которые необходимо объединить. Передавайте не менее двух различных идентификаторов существующих элементов ||
 |#
 
 ### Особенности работы метода
@@ -49,10 +49,10 @@
 Объединять можно только элементы одного типа: лид с лидом, контакт с контактом, элемент смарт-процесса с ID 128 c элементом смарт-процесса с ID 128.
 
 Полное автоматическое объединение доступно в нескольких случаях: 
-- элементы идентичны друг другу,
-- элементы не идентичны, но разница в значениях полей не требует ручной обработки. Например, в одном элементе поле заполнено, а в другом это же поле пустое — будет сохранено значение из заполненного поля.
+- элементы идентичны друг другу
+- элементы не идентичны, но разница в значениях полей не требует ручной обработки. Например, в одном элементе поле заполнено, а в другом это же поле пустое — будет сохранено значение из заполненного поля
 
-Главным элементом при объединении будет тот, `ID` которого указан первым в массиве `entityIds`. В главный элемент будет перенесена информация из других элементов. Все элементы кроме главного будут удалены после успешного объединения. 
+Ненайденные идентификаторы исключаются из объединения. Главным становится первый из оставшихся элементов: в него переносится информация из других элементов. Остальные найденные элементы будут удалены после успешного объединения.
 
 Права проверяются по каждому элементу отдельно. Для главного элемента нужны права на чтение и изменение, для остальных — на чтение и удаление. Администратору права не проверяют.
 
@@ -111,8 +111,8 @@
 
     // Shape of the payload returned in result (match the "response handling" section of the page)
     type MergeBatchResult = {
-      STATUS: 'SUCCESS' | 'CONFLICT' | 'ERROR'
-      ENTITY_IDS: number[]
+      STATUS: 'SUCCESS' | 'CONFLICT' | 'ERROR' | 'NOT_FOUND'
+      ENTITY_IDS?: number[]
     }
 
     try {
@@ -132,7 +132,12 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Merge status:', result.STATUS, '| Deleted entity IDs:', result.ENTITY_IDS)
+        console.info('Merge status:', result.STATUS)
+        if (result.STATUS === 'SUCCESS') {
+          console.info('Entity IDs in merge request:', result.ENTITY_IDS)
+        } else {
+          console.warn('Merge not completed:', result.STATUS)
+        }
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -169,7 +174,12 @@
           }
 
           const result = response.getData().result
-          console.info('Merge status:', result.STATUS, '| Deleted entity IDs:', result.ENTITY_IDS)
+          console.info('Merge status:', result.STATUS)
+          if (result.STATUS === 'SUCCESS') {
+            console.info('Entity IDs in merge request:', result.ENTITY_IDS)
+          } else {
+            console.warn('Merge not completed:', result.STATUS)
+          }
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -332,15 +342,25 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) | Результат объединения [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **STATUS**
 [`string`](../../data-types.md) | Статус выполнения операции. Возможные значения:
 - `SUCCESS` — объединение прошло успешно
 - `CONFLICT` — возник конфликт данных, автоматическое объединение невозможно
-- `ERROR` — произошла [ошибка](#errors) ||
+- `ERROR` — произошла [ошибка](#errors)
+- `NOT_FOUND` — главный элемент не найден при повторной проверке перед объединением ||
 || **ENTITY_IDS**
-[`integer[]`](../../data-types.md) | Массив идентификаторов элементов, которые были удалены при объединении ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+[`integer[]`](../../data-types.md) | Идентификаторы найденных элементов, переданных для объединения с главным элементом. Повтор главного ID может попасть в `ENTITY_IDS` без удаления элемента; при `NOT_FOUND` поле отсутствует ||
 |#
 
 ## Обработка ошибок
@@ -349,8 +369,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": 0,
-    "error_description": "The parameter entityIds must contains at least two elements."
+    "error": "0",
+    "error_description": "The parameter entityTypeId is required."
 }
 ```
 
@@ -359,18 +379,20 @@ HTTP-статус: **400**
 ### Возможные коды ошибок {#errors}
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `403` | `Access denied` | У пользователя нет прав на изменение или удаление элементов CRM ||
-|| `400` | `The parameter entityTypeId is required.` | Не указан обязательный параметр `entityTypeId` ||
-|| `400` | `The parameter entityIds does not contains valid elements.` | Не переданы или не найдены элементы для объединения ||
-|| `400` | `The parameter entityIds must contains at least two elements.` | Для объединения требуется минимум два элемента ||
-|| `400` | `Owner was not found` | Объект не найден ||
-|| `400` | `Entity type {entityTypeName} is not supported` | Указан неподдерживаемый тип объекта ||
-|| `400` | `CRM_FEATURE_RESTRICTION_ERROR` | Ограничение тарифа ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `0` | `Access denied.` | Пользователь не авторизован для работы с CRM ||
+|| `400` | `0` | `The parameter entityTypeId is required.` | Не указан обязательный параметр `entityTypeId` ||
+|| `400` | `0` | `The parameter entityIds does not contains valid elements.` | Передан пустой массив `entityIds` или среди переданных идентификаторов не найдены элементы для объединения ||
+|| `400` | `0` | `The parameter entityIds must contains at least two elements.` | Для объединения требуется минимум два элемента ||
+|| `400` | `OWNER_NOT_FOUND` | `Owner was not found` | Не найден тип объекта CRM с указанным `entityTypeId` ||
+|| `400` | `0` | `Internal server error.` | Внутренняя ошибка, в том числе при неподдерживаемом типе объекта ||
+|| `400` | `0` | Локализованное сообщение `CRM_FEATURE_RESTRICTION_ERROR` | Ограничение тарифа ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
 - [{#T}](./crm-duplicate-find-by-comm.md)
+- [{#T}](./volatile-type/index.md)

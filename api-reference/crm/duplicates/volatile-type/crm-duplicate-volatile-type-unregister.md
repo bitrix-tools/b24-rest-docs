@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор Битрикс24 или администратор CRM
 
-Метод `crm.duplicate.volatileType.unregister` удаляет нестандартное поле из поиска дубликатов.
+Метод `crm.duplicate.volatileType.unregister` удаляет дополнительное поле из поиска дубликатов.
 
 ## Параметры метода
 
@@ -25,6 +25,10 @@
 || **id***
 [`integer`](../../../data-types.md) | Идентификатор записи о поле, которую нужно удалить. Получить идентификаторы записей добавленных к поиску дубликатов полей можно методом [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md) ||
 |#
+
+### Особенности работы метода
+
+После отключения поле исчезает из настроек поиска дубликатов в интерфейсе Битрикс24. Запускается фоновая очистка данных поиска дубликатов по отключенному полю.
 
 ## Примеры кода
 
@@ -38,7 +42,7 @@
     curl -X POST \
          -H "Content-Type: application/json" \
          -H "Accept: application/json" \
-         -d '{"id":101}' \
+         -d '{"id":33554432}' \
          https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/crm.duplicate.volatileType.unregister
     ```
 
@@ -48,7 +52,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"id":101,"auth":"**put_access_token_here**"}' \
+    -d '{"id":33554432,"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/crm.duplicate.volatileType.unregister
     ```
 
@@ -66,7 +70,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'crm.duplicate.volatileType.unregister',
         params: {
-          id: 101,
+          id: 33554432,
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -98,7 +102,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'crm.duplicate.volatileType.unregister',
             params: {
-              id: 101,
+              id: 33554432,
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -127,7 +131,7 @@
     from b24pysdk.errors import BitrixAPIError, BitrixSDKException
 
     try:
-        bitrix_response = client.crm.duplicate.volatile_type.unregister(bitrix_id=101).response
+        bitrix_response = client.crm.duplicate.volatile_type.unregister(bitrix_id=33554432).response
         result = bitrix_response.result
         print(result)
     except BitrixAPIError as error:
@@ -153,7 +157,7 @@
             ->call(
                 'crm.duplicate.volatileType.unregister',
                 [
-                    'id' => 101,
+                    'id' => 33554432,
                 ]
             );
     
@@ -173,7 +177,7 @@
     BX24.callMethod(
         "crm.duplicate.volatileType.unregister",
         {
-            id: 101
+            id: 33554432
         },
         function(result) {
             if(result.error())
@@ -192,7 +196,7 @@
     $result = CRest::call(
         'crm.duplicate.volatileType.unregister',
         [
-            'id' => 101
+            'id' => 33554432
         ]
     );
 
@@ -206,7 +210,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "crm.duplicate.volatileType.unregister", b24.Params{
-    	"id": 101,
+    	"id": 33554432,
     })
     if err != nil {
     	return fmt.Errorf("crm.duplicate.volatileType.unregister: %w", err)
@@ -268,9 +272,9 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `TYPE_IS_NOT_ASSIGNED` | This type is not assigned | Запись с переданным `id` не найдена. Актуальные идентификаторы возвращает [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md) ||
-|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `TYPE_IS_NOT_ASSIGNED` | This type is not assigned | Запись с переданным `id` не найдена. Актуальные идентификаторы возвращает [crm.duplicate.volatileType.list](./crm-duplicate-volatile-type-list.md) ||
+|| `400` | `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}

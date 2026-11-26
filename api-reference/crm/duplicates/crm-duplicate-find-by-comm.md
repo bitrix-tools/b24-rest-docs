@@ -11,7 +11,7 @@
 
 > Scope: [`crm`](../../scopes/permissions.md)
 > 
-> Кто может выполнять метод: пользователь с правом на чтение элементов CRM
+> Кто может выполнять метод: пользователь с правом на чтение лидов, контактов или компаний — хотя бы одного из этих типов
 
 Метод `crm.duplicate.findbycomm` возвращает идентификаторы лидов, контактов и компаний, содержащих телефоны или email-адреса из заданного списка. Поиск не учитывает добавочный номер телефона.
 
@@ -29,7 +29,7 @@
 || **values***
 [`string[]`](../../data-types.md) | Массив email или телефонов.  
 
-Максимальное количество значений — 20 ||
+Метод обрабатывает не более 20 различных непустых строковых значений. Пустые и нестроковые значения, а также повторяющиеся критерии поиска пропускаются ||
 || **entity_type**
 [`string`](../../data-types.md) | Тип объекта. Возможные значения:
 - `LEAD` — лид
@@ -41,7 +41,7 @@
 
 ### Особенности работы метода
 
-Если по одному объекту найдено 20 и более дублей, остальные типы не возвращаются. Например, если не указан `entity_type` и ожидаем дубли по всем трем объектам, но у нас в лидах 20 или более дублей, контакт и компания возвращены не будут. Если в контактах будет 20 или более дублей, мы получим дубли по лидам и контактам, а компания будет отсутствовать в выборке.
+Для каждого обработанного значения метод ищет до 20 совпадений суммарно по выбранным типам объектов. Если лимит исчерпан, часть совпадений может не попасть в ответ. Разбивайте запросы по типам объектов, если нужно проверить каждый тип.
 
 ## Примеры кода
 
@@ -84,7 +84,7 @@
       LEAD?: number[]
       CONTACT?: number[]
       COMPANY?: number[]
-    }
+    } | []
 
     try {
       const response = await $b24.actions.v2.call.make<FindByCommResult>({
@@ -102,7 +102,7 @@
         console.error(response.getErrorMessages().join('; '))
       } else {
         const result = response.getData()!.result
-        console.info('Contacts with duplicate phone:', result.CONTACT)
+        console.info('Contacts with duplicate phone:', Array.isArray(result) ? [] : result.CONTACT ?? [])
       }
     } catch (error) {
       // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
@@ -138,7 +138,7 @@
           }
 
           const result = response.getData().result
-          console.info('Contacts with duplicate phone:', result.CONTACT)
+          console.info('Contacts with duplicate phone:', Array.isArray(result) ? [] : result.CONTACT ?? [])
         } catch (error) {
           // Thrown on transport or SDK failures (AjaxError, SdkError, etc.)
           console.error(error)
@@ -255,10 +255,11 @@
     	return fmt.Errorf("crm.duplicate.findbycomm: %w", err)
     }
 
-    // Метод заворачивает ответ в объект с ключом "CONTACT".
+    // Ключ CONTACT присутствует, только если найдены контакты.
     raw, ok := b24.Unwrap(res.Result, "CONTACT")
     if !ok {
-    	return fmt.Errorf("в ответе нет ключа CONTACT")
+    	fmt.Println("Совпадения не найдены")
+    	return nil
     }
 
     fmt.Printf("%s\n", raw)
@@ -295,14 +296,25 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`object`](../../data-types.md) или [`array`](../../data-types.md) | Найденные элементы [(подробное описание)](#result) ||
+|| **time**
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+В `result` возвращаются только типы объектов, для которых найдены совпадения. Если совпадений нет, `result` содержит пустой массив `[]`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **LEAD**
 [`integer[]`](../../data-types.md) | Массив идентификаторов найденных лидов ||
 || **CONTACT**
 [`integer[]`](../../data-types.md) | Массив идентификаторов найденных контактов ||
 || **COMPANY**
 [`integer[]`](../../data-types.md) | Массив идентификаторов найденных компаний ||
-|| **time**
-[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -311,8 +323,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error": "Communication type is not defined",
-    "error_description": "Parameter 'type' is required."
+    "error": "",
+    "error_description": "Communication type is not defined."
 }
 ```
 
@@ -321,11 +333,12 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `403` | `Access denied` | У пользователя нет прав на чтение элементов CRM ||
-|| `400` | `Communication type is not defined` | Не указан обязательный параметр `type` ||
-|| `400` | `Communication type '{type}' is not supported in current context` | Указан неподдерживаемый тип коммуникации ||
-|| `400` | `Communication values is not defined` | Не указан обязательный параметр `values` ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | Пустое значение | `Access denied.` | У пользователя нет права на чтение ни лидов, ни контактов, ни компаний ||
+|| `400` | Пустое значение | `Communication type is not defined.` | Не указан обязательный параметр `type` ||
+|| `400` | Пустое значение | `Communication type '{type}' is not supported in current context.` | Указан неподдерживаемый тип коммуникации ||
+|| `400` | Пустое значение | `Communication values is not defined.` | Параметр `values` не указан, не является массивом или содержит пустой массив ||
+|| `400` | Пустое значение | `Deal is not supported in current context.` | В параметре `entity_type` указан тип `DEAL` ||
 |#
 
 {% include [системные ошибки](./../../../_includes/system-errors.md) %}

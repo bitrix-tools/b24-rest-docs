@@ -14,7 +14,7 @@
 * «Общий вид» — вид карточки для всех сотрудников
 * «Мой вид» — личная настройка карточки сотрудника
 
-Для каждого вида карточки можно настроить секции, внутри секции — перечень полей. Например создать секцию «Контактные данные» и вывести в ней поля «Телефон» и «Почта». Для полей, которые не относятся к контактным данным, создать другую секцию.
+Для каждого вида карточки можно настроить секции, внутри секции — перечень полей. Например, создать секцию «Контактные данные» и вывести в ней поля «Телефон» и «Почта». Для полей, которые не относятся к контактным данным, создать другую секцию.
 
 > Быстрый переход: [все методы](#all-methods)
 >
@@ -22,37 +22,66 @@
 
 ## Актуальная версия API
 
-Развитие методов `crm.lead.details.configuration.*` остановлено. Для новой разработки используйте универсальные методы [crm.item.details.configuration.*](../../universal/item-details-configuration/index.md) и передавайте в них `entityTypeId: 1` — это идентификатор типа объекта «Лид». Параметр `entityTypeId` позволяет одной группой методов настраивать карточки любого объекта CRM.
+Развитие методов `crm.lead.details.configuration.*` остановлено. Для новой разработки используйте [методы видов карточки REST 3.0](../../rest-v3/detail-page-layout/index.md). Методы `crm.lead.details.configuration.*` продолжают работать в существующих интеграциях.
 
 #|
 || **Метод с остановленным развитием** | **Чем заменить** ||
-|| `crm.lead.details.configuration.get` | [crm.item.details.configuration.get](../../universal/item-details-configuration/crm-item-details-configuration-get.md) ||
-|| `crm.lead.details.configuration.set` | [crm.item.details.configuration.set](../../universal/item-details-configuration/crm-item-details-configuration-set.md) ||
-|| `crm.lead.details.configuration.reset` | [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md) ||
-|| `crm.lead.details.configuration.forceCommonScopeForAll` | [crm.item.details.configuration.forceCommonScopeForAll](../../universal/item-details-configuration/crm-item-details-configuration-forceCommonScopeForAll.md) ||
+|| `crm.lead.details.configuration.get` | [crm.lead.detailpagelayout.get](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-get-rest-v3.md) ||
+|| `crm.lead.details.configuration.set` | [crm.lead.detailpagelayout.update](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-update-rest-v3.md) ||
+|| `crm.lead.details.configuration.reset` | [crm.item.details.configuration.reset](../../universal/item-details-configuration/crm-item-details-configuration-reset.md) с `entityTypeId: 1`; в REST 3.0 аналога нет ||
+|| `crm.lead.details.configuration.forceCommonScopeForAll` | [crm.lead.detailpagelayout.setcommonforall](../../rest-v3/detail-page-layout/crm-entity-detail-page-layout-set-common-for-all-rest-v3.md) ||
 |#
 
-Методы `crm.lead.details.configuration.*` продолжают работать, оставляйте их только в существующих интеграциях.
+У повторных лидов в REST 3.0 свои виды: `personal_returning_customer` и `common_returning_customer`.
 
 ## Как настроить карточку
 
-1. Получите идентификаторы полей, которые нужно вывести в карточку, методом [crm.lead.fields](../crm-lead-fields.md). В настройках карточки используются те же имена, что и в ответе этого метода: `TITLE`, `STATUS_ID`, `PHONE` и другие.
-2. Посмотрите текущую структуру карточки методом [crm.lead.details.configuration.get](./crm-lead-details-configuration-get.md) — она вернет список секций с вложенными полями.
-3. Передайте новую структуру методом [crm.lead.details.configuration.set](./crm-lead-details-configuration-set.md). В параметре `data` перечислите секции, в `elements` каждой секции — поля.
+1. Получите идентификаторы полей, которые нужно вывести в карточку, методом [crm.lead.fields](../crm-lead-fields.md): `TITLE`, `STATUS_ID`, `PHONE` и другие. Кроме полей лида, в карточке есть составные элементы, например `CLIENT` и `OPPORTUNITY_WITH_CURRENCY`, — их имена есть в ответе [crm.lead.details.configuration.get](./crm-lead-details-configuration-get.md).
+2. Посмотрите текущую структуру карточки методом [crm.lead.details.configuration.get](./crm-lead-details-configuration-get.md) — она вернет список секций с вложенными полями или `null`, если сохраненной конфигурации нет.
+3. Передайте новую структуру методом [crm.lead.details.configuration.set](./crm-lead-details-configuration-set.md). Новая структура заменяет сохраненную конфигурацию выбранного вида целиком.
 4. Если результат не подошел, вернитесь к настройкам по умолчанию методом [crm.lead.details.configuration.reset](./crm-lead-details-configuration-reset.md).
 5. Чтобы принудительно применить общий вид карточки ко всем сотрудникам и удалить их личные настройки, вызовите [crm.lead.details.configuration.forceCommonScopeForAll](./crm-lead-details-configuration-force-common-scope-for-all.md).
 
-## Область настроек
+## Структура конфигурации карточки
 
-Область настроек задает параметр `scope`:
+Конфигурация — массив секций с вложенными полями в `elements`. Пример поля `result` в ответе [crm.lead.details.configuration.get](./crm-lead-details-configuration-get.md) с одной секцией и двумя полями лида:
+
+```json
+{
+    "result": [
+        {
+            "name": "lead_info",
+            "title": "О лиде",
+            "type": "section",
+            "elements": [
+                {"name": "TITLE"},
+                {"name": "STATUS_ID"}
+            ]
+        }
+    ]
+}
+```
 
 #|
-|| **Значение** | **Что настраивает** | **Что нужно передать дополнительно** ||
-|| `P` | Личный вид карточки сотрудника. Значение по умолчанию | `userId` — идентификатор сотрудника. Если не передать, методы работают с настройками того, кто вызывает метод ||
-|| `C` | Общий вид карточки для всех сотрудников | — ||
+|| **Уровень** | **Поля** | **Описание** ||
+|| Секция | `name`, `title`, `type`, `elements` | `name` — имя секции, `title` — заголовок, `type` — тип `section`, `elements` — массив полей лида ||
+|| Поле секции | `name` | Идентификатор поля лида из `crm.lead.fields` или имя элемента карточки из ответа `crm.lead.details.configuration.get` ||
 |#
 
-От области зависят и права: свои личные настройки читает и меняет любой пользователь, а общие и чужие — только пользователь с правом «Разрешить изменять настройки» в CRM. Это одно общее право роли на весь модуль CRM, отдельно для лидов его выдать нельзя.
+Метод [crm.lead.details.configuration.set](./crm-lead-details-configuration-set.md) принимает массив секций из `result` в параметре `data`.
+
+## Область настроек
+
+Вид карточки выбирает параметр `scope`, а сотрудника — `userId`. По умолчанию `scope` равен `P`, то есть методы работают с личными настройками вызывающего пользователя.
+
+#|
+|| **Вид карточки** | **Что передать** | **Кто может читать** | **Кто может изменять и сбрасывать** ||
+|| Общий вид — карточка для всех сотрудников | `scope = C` | Любой пользователь | Пользователь с правом «Разрешить изменять настройки» или «Управление общим видом карточки» ||
+|| Свой личный вид | `scope = P` без `userId` | Любой пользователь | Любой пользователь ||
+|| Личный вид другого сотрудника | `scope = P` и `userId` этого сотрудника | Администратор CRM | Администратор CRM ||
+|#
+
+Администратор CRM — пользователь с правом «Разрешить изменять настройки». Оба права выдаются на весь CRM, отдельно для лидов их выдать нельзя. Метод `forceCommonScopeForAll` доступен пользователю с любым из этих прав.
 
 ## Связь карточки лидов с другими объектами
 
@@ -72,7 +101,7 @@
 || `2` | Повторный лид ||
 |#
 
-Если не передать `extras`, методы работают с карточкой простого лида.
+Параметр `extras` необязательный. Если не передать `extras` или ключ `leadCustomerType` в нем, методы работают с карточкой простого лида.
 
 ## Обзор методов {#all-methods}
 
