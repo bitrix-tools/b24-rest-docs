@@ -44,6 +44,8 @@
 || **lastOutcomeId**
 [`integer`](../../data-types.md) | Идентификатор самого нового результата анализа, который нужно учитывать. Результаты новее не возвращаются. Это значение `LAST_OUTCOME_ID` из параметров сообщения Follow-up в чате звонка. Параметр нужен, если анализ перезапускали без новой расшифровки: тогда `outcomeId` у запусков одинаковый.
 
+Можно передать вместе с `outcomeId`, тогда действуют обе границы. Существует ли результат с таким идентификатором, метод не проверяет: значение работает как верхняя граница.
+
 Для звонков Синка параметр не учитывается.
 
 По умолчанию — без ограничения ||
@@ -330,7 +332,15 @@ HTTP-статус: **200**
             "createdAt": "2026-01-15T11:05:00+00:00",
             "tracks": [ /* TrackDto */ ],
             "transcription": { "language": "ru", "segments": [ /* TranscriptionSegmentDto */ ] },
-            "overview": { "topic": "Планирование спринта", "actionItems": [ /* ... */ ] },
+            "overview": {
+                "topic": "Планирование спринта",
+                "actionItems": [
+                    { "actionItem": "Выкатить MVP к пятнице", "quote": "...", "quoteAuthorId": 7, "quoteAuthorName": "Иван Петров", "quoteStart": "00:12:41" }
+                ],
+                "contextualSuggestions": [
+                    { "text": "Создать задачу", "kind": "put", "inputDraft": "Выкатить MVP к пятнице" }
+                ]
+            },
             "summary": { "segments": [ /* SummarySegmentDto */ ] },
             "insights": { "speakerEvaluationAvailable": true, "speakerAnalysis": [ /* ... */ ] },
             "evaluation": { "efficiencyValue": 75, "criteria": { /* ... */ } }

@@ -453,7 +453,7 @@ HTTP-статус: **200**
                 "overview": {
                     "topic": "Планирование спринта",
                     "actionItems": [
-                        { "actionItem": "Выкатить MVP к пятнице", "quote": "..." }
+                        { "actionItem": "Выкатить MVP к пятнице", "quote": "...", "quoteAuthorId": 7, "quoteAuthorName": "Иван Петров", "quoteStart": "00:12:41" }
                     ]
                 }
             }

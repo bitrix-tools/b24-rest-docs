@@ -54,7 +54,7 @@
 
 При сравнении не учитываются пробелы и табуляция в конце строк, переводы строк приводятся к `\n`.
 
-Если без `replaceAll` совпадений несколько, метод вернет `NOTE_CONTENT_MATCH_AMBIGUOUS`. Области замен не должны пересекаться, в том числе одинаковый `old` нельзя передать в двух заменах ||
+Если совпадений несколько, а `replaceAll` не передан или равен `false`, метод вернет `NOTE_CONTENT_MATCH_AMBIGUOUS`. Области замен не должны пересекаться, в том числе одинаковый `old` нельзя передать в двух заменах ||
 || **new***
 [`string`](../../data-types.md) | Новый фрагмент Markdown ||
 || **replaceAll**
@@ -308,7 +308,7 @@ HTTP-статус: **409**
 
 Поле с ошибкой передается в `details.field`, номер замены — в `details.editIndex` ||
 || `409` | `NOTE_CONTENT_MATCH_NOT_FOUND` | Фрагмент `old` не найден в актуальном Markdown. Номер замены передается в `details.editIndex` ||
-|| `409` | `NOTE_CONTENT_MATCH_AMBIGUOUS` | Найдено несколько вхождений `old`, а `replaceAll` не передан. Число совпадений передается в `details.matches`, номер замены — в `details.editIndex` ||
+|| `409` | `NOTE_CONTENT_MATCH_AMBIGUOUS` | Найдено несколько вхождений `old`, а `replaceAll` не передан или равен `false`. Число совпадений передается в `details.matches`, номер замены — в `details.editIndex` ||
 || `400` | `NOTE_CONTENT_EDITS_OVERLAP` | Области нескольких замен пересекаются. Номера замен передаются в массиве `details.editIndexes` ||
 || `409` | `NOTE_CONTENT_BLOCK_UNSUPPORTED` | Замена или новый `markdown` изменяет блок из `opaqueBlocks`, либо граница `old` проходит внутри такого блока. Блок можно оставить без изменений или удалить целиком. Номер и тип блока передаются в `details.blockIndex` и `details.nodeType` ||
 || `409` | `NOTE_CONTENT_FORMAT_UNSUPPORTED` | Содержимое документа хранится в устаревшем формате, который метод не поддерживает ||
