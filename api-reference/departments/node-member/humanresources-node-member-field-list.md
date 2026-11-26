@@ -29,7 +29,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **select**
-[`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе.
+[`array`](../../data-types.md) | Список полей описания, которые нужно вернуть в ответе, например `["name","type"]`. Если параметр не передан, приходят все поля описания.
 
 Доступные поля:
 
@@ -42,6 +42,7 @@
 - `filterable` — признак доступности в фильтре
 - `sortable` — признак доступности в сортировке
 - `editable` — признак редактируемости
+- `editableGroups` — группы редактируемости
 - `multiple` — признак множественного значения
 - `elementType` — тип элемента для составных полей ||
 |#
@@ -52,9 +53,9 @@
 
 {% note info "" %}
 
-Вызов нового api отличается добавлением параметра `/api/` в запросе:
+Вызов нового API отличается добавлением параметра `/api/` в запросе:
 
-`https://{адрес_установки}/rest/api/{user_id}/{токен_вебхука}/humanresources.node.member.field.list`
+`https://{адрес_установки}/rest/api/{id_пользователя}/{токен_вебхука}/humanresources.node.member.field.list`
 
 {% endnote %}
 
@@ -209,6 +210,7 @@
     except Exception as error:
         print(f"Непредвиденная ошибка: {error}")
     ```
+
 - PHP
 
     SDK пока не поддерживают в вызовах адрес /rest/api/. Используйте прямые HTTP-запросы, например, через curl, fetch.
@@ -336,63 +338,99 @@ HTTP-статус: **200**
     "result": {
         "items": [
             {
-                "description": null,
-                "filterable": false,
                 "name": "userId",
-                "sortable": false,
+                "type": "int",
                 "title": "userId",
-                "type": "int"
+                "description": null,
+                "validationRules": [],
+                "requiredGroups": null,
+                "filterable": false,
+                "sortable": false,
+                "editable": false,
+                "editableGroups": null,
+                "multiple": false,
+                "elementType": null
             },
             {
-                "description": null,
-                "filterable": false,
                 "name": "name",
-                "sortable": false,
+                "type": "string",
                 "title": "name",
-                "type": "string"
+                "description": null,
+                "validationRules": [],
+                "requiredGroups": null,
+                "filterable": false,
+                "sortable": false,
+                "editable": false,
+                "editableGroups": null,
+                "multiple": false,
+                "elementType": null
             },
             {
-                "description": null,
-                "filterable": false,
                 "name": "workPosition",
-                "sortable": false,
+                "type": "string",
                 "title": "workPosition",
-                "type": "string"
+                "description": null,
+                "validationRules": [],
+                "requiredGroups": null,
+                "filterable": false,
+                "sortable": false,
+                "editable": false,
+                "editableGroups": null,
+                "multiple": false,
+                "elementType": null
             },
             {
-                "description": null,
-                "filterable": false,
                 "name": "role",
-                "sortable": false,
+                "type": "string",
                 "title": "role",
-                "type": "string"
+                "description": null,
+                "validationRules": [],
+                "requiredGroups": null,
+                "filterable": false,
+                "sortable": false,
+                "editable": false,
+                "editableGroups": null,
+                "multiple": false,
+                "elementType": null
             },
             {
-                "description": null,
-                "filterable": false,
                 "name": "avatar",
-                "sortable": false,
+                "type": "string",
                 "title": "avatar",
-                "type": "string"
+                "description": null,
+                "validationRules": [],
+                "requiredGroups": null,
+                "filterable": false,
+                "sortable": false,
+                "editable": false,
+                "editableGroups": null,
+                "multiple": false,
+                "elementType": null
             },
             {
-                "description": null,
-                "filterable": false,
                 "name": "url",
-                "sortable": false,
+                "type": "string",
                 "title": "url",
-                "type": "string"
+                "description": null,
+                "validationRules": [],
+                "requiredGroups": null,
+                "filterable": false,
+                "sortable": false,
+                "editable": false,
+                "editableGroups": null,
+                "multiple": false,
+                "elementType": null
             }
         ]
     },
     "time": {
-        "start": 1780406700,
-        "finish": 1780406700.118491,
-        "duration": 0.11849093437194824,
+        "start": 1795686063,
+        "finish": 1795686063.709102,
+        "duration": 0.7091019153594971,
         "processing": 0,
-        "date_start": "2026-06-02T16:25:00+03:00",
-        "date_finish": "2026-06-02T16:25:00+03:00",
-        "operating_reset_at": 1780407300,
+        "date_start": "2026-11-26T12:41:03+03:00",
+        "date_finish": "2026-11-26T12:41:03+03:00",
+        "operating_reset_at": 1795686660,
         "operating": 0
     }
 }
@@ -406,12 +444,77 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Объект с данными ответа ||
 || **items**
-[`array`](../../data-types.md) | Массив объектов с описанием полей. Структура ответа зависит от `select` ||
+[`array`](../../data-types.md) | Массив объектов с описанием полей участника. [Описание объекта](#field) ||
 || **time**
 [`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
+#### Объект с описанием поля {#field}
+
+Ключи объекта зависят от `select`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **name**
+[`string`](../../data-types.md) | Имя поля участника, например `userId` ||
+|| **type**
+[`string`](../../data-types.md) | Тип данных поля, например `int` или `string` ||
+|| **title**
+[`string`](../../data-types.md) | Заголовок поля. У полей участника совпадает с именем поля ||
+|| **description**
+[`string`](../../data-types.md) | Описание поля. У полей участника приходит `null` ||
+|| **validationRules**
+[`array`](../../data-types.md) | Правила валидации значения. У полей участника приходит пустой массив ||
+|| **requiredGroups**
+[`array`](../../data-types.md) | Группы обязательности поля. У полей участника приходит `null` ||
+|| **filterable**
+[`boolean`](../../data-types.md) | Можно ли использовать поле в фильтре ||
+|| **sortable**
+[`boolean`](../../data-types.md) | Можно ли сортировать по полю ||
+|| **editable**
+[`boolean`](../../data-types.md) | Можно ли изменять значение поля ||
+|| **editableGroups**
+[`array`](../../data-types.md) | Группы, в которых поле можно изменять. У полей участника приходит `null` ||
+|| **multiple**
+[`boolean`](../../data-types.md) | Является ли поле множественным ||
+|| **elementType**
+[`string`](../../data-types.md) | Тип элемента для составных полей. У полей участника приходит `null` ||
+|#
+
+#### Поля участника {#member-fields}
+
+Эти поля приходят в массиве `members` метода [humanresources.node.get](../node/humanresources-node-get.md). Ни одно из них нельзя использовать в фильтре и сортировке или изменить: у всех `filterable`, `sortable` и `editable` равны `false`.
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **userId**
+[`integer`](../../data-types.md) | Идентификатор пользователя ||
+|| **name**
+[`string`](../../data-types.md) | Имя участника ||
+|| **workPosition**
+[`string`](../../data-types.md) | Должность ||
+|| **role**
+[`string`](../../data-types.md) | Код роли участника, например `MEMBER_HEAD`. [Коды ролей](./index.md#roles) ||
+|| **avatar**
+[`string`](../../data-types.md) | Ссылка на аватар ||
+|| **url**
+[`string`](../../data-types.md) | Ссылка на профиль пользователя ||
+|#
+
 ## Обработка ошибок
+
+HTTP-статус: **400**
+
+```json
+{
+    "error": {
+        "code": "BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION",
+        "message": "Неизвестное поле `foo` для сущности `DtoFieldDto`"
+    }
+}
+```
 
 {% include notitle [обработка ошибок](../../../_includes/error-info-v3.md) %}
 
@@ -423,14 +526,23 @@ HTTP-статус: **200**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Неизвестное поле `#FIELD#` для объекта `DtoFieldDto` | Передайте только поля описания из списка ||
+|| `-` | Неизвестное поле `foo` для сущности `DtoFieldDto` | Передайте только поля описания из списка параметра `select`. Число в `select`, например `[1]`, тоже вернет эту ошибку ||
 |#
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_INVALIDSELECTEXCEPTION`
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `select` | Не удается распознать выражение select `#SELECT#` | Передайте `select` как массив строк ||
+|| `-` | Не удается распознать выражение select `["name"]` | Элемент `select` передан массивом или объектом. Передайте `select` как массив строк, например `["name","type"]` ||
+|#
+
+#### Ошибки доступа
+
+Код ошибки: `BITRIX_REST_V3_EXCEPTION_INSUFFICIENTSCOPEEXCEPTION`
+
+#|
+|| **Поле** | **Описание ошибки** | **Как исправить** ||
+|| `-` | Недостаточно прав доступа: отсутствует необходимый scope | Добавьте scope `humanresources` вебхуку или приложению ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -438,6 +550,7 @@ HTTP-статус: **200**
 ## Продолжите изучение
 
 - [{#T}](./humanresources-node-member-field-get.md)
+- [{#T}](./humanresources-node-member-add.md)
 - [{#T}](./index.md)
 
 <!-- Generated by skill-1-gen-docs from source: C:\Users\g.m.tagirova\github\b24-rest-docs\api-reference\rest-v3\OpenAPI.md; C:\Users\g.m.tagirova\original-bitrix\modules\humanresources\lib\Rest\Dto\NodeMemberDto.php -->

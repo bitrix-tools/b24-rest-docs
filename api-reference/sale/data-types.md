@@ -1344,6 +1344,8 @@
 
 - `Y` — активна
 - `N` — неактивна ||
+|| **LOGOTYPE**
+[`integer`](../data-types.md) | Идентификатор файла логотипа или `null` ||
 |#
 
 ### sale_delivery_config_value_item
@@ -1541,8 +1543,14 @@
 - `bx_conturofd` — Контур ОФД ||
 || **EMAIL**
 [`string`](../data-types.md) | Адрес электронной почты, на который будут отправляться уведомления в случае возникновения ошибок при печати чеков ||
+|| **NUMBER_KKM**
+[`string`](../data-types.md) | Внешний идентификатор кассы ||
 || **KKM_ID**
-[`string`](../data-types.md) | Марка ККМ ||
+[`string`](../data-types.md) | Код модели ККМ, например `atol` ||
+|| **DATE_CREATE**
+[`datetime`](../data-types.md) | Дата создания кассы ||
+|| **DATE_LAST_CHECK**
+[`datetime`](../data-types.md) | Дата последнего чека или `null` ||
 || **SORT**
 [`string`](../data-types.md) | Сортировка ||
 || **USE_OFFLINE**

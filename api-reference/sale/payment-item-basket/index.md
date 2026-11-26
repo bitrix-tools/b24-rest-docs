@@ -33,6 +33,12 @@
 
 **Корзина.** Значение `quantity` не может превышать количество элемента в корзине: на большее значение методы [sale.paymentitembasket.add](./sale-payment-item-basket-add.md) и [sale.paymentitembasket.update](./sale-payment-item-basket-update.md) вернут ошибку с кодом `0` и описанием «Недостаточное количество товара в корзине». Проверка идет по каждой привязке отдельно: сумму количества по всем оплатам Битрикс24 не ограничивает. Количество элемента возвращает метод [sale.basketitem.list](../basket-item/sale-basket-item-list.md) в поле `quantity`.
 
+## Ограничения и особенности
+
+- `quantity` обязателен в [sale.paymentitembasket.add](./sale-payment-item-basket-add.md) и в каждом вызове [sale.paymentitembasket.update](./sale-payment-item-basket-update.md)
+- Оплату и элемент корзины в существующей привязке изменить нельзя: `update` молча игнорирует `paymentId` и `basketId`. Удалите привязку и создайте новую
+- При удалении заказа методом [sale.order.delete](../order/sale-order-delete.md) его привязки удаляются автоматически
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`sale`](../../scopes/permissions.md)

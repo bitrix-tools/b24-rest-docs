@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод `sale.delivery.config.update` обновляет настройки службы доставки.
+Метод `sale.delivery.config.update` задает значения настроек службы доставки.
+
+{% note info "" %}
+
+Метод работает только со службами и профилями, созданными на основе REST-обработчиков. Для остальных служб метод возвращает ошибку `ACCESS_DENIED`.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,16 +29,24 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_delivery_service.ID`](../../data-types.md) | Идентификатор службы доставки.
- ||
+[`sale_delivery_service.ID`](../../data-types.md#sale_delivery_service) | Идентификатор службы доставки или профиля.
+
+Получить идентификатор можно методом [sale.delivery.getlist](./sale-delivery-get-list.md) или из ответа [sale.delivery.add](./sale-delivery-add.md) ||
 || **CONFIG**
-[`object[]`](../../../data-types.md) | Значения настроек службы доставки (подробное описание приведено [ниже](#parametr-config)).
-Сама структура настроек (код, название, тип данных) задается при создании или обновлении обработчика службы доставки методами:
-- [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md)
-- [sale.delivery.handler.update](../handler/sale-delivery-handler-update.md)||
+[`object[]`](../../../data-types.md) | Полный набор значений настроек службы. [Описание элемента](#config).
+
+Набор настроек объявлен в `SETTINGS.CONFIG` обработчика. Получить его можно методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md), текущие значения — методом [sale.delivery.config.get](./sale-delivery-config-get.md) ||
 |#
 
-### Параметр CONFIG
+{% note warning "" %}
+
+Метод заменяет набор настроек целиком. Настройки, которые не переданы в `CONFIG`, удаляются. Если не передать `CONFIG`, удаляются все значения. Чтобы изменить одну настройку, получите текущие значения методом [sale.delivery.config.get](./sale-delivery-config-get.md) и передайте их вместе с новым значением.
+
+Для профиля передавайте и настройку `PROFILE_TYPE` с кодом профиля обработчика, иначе она будет удалена.
+
+{% endnote %}
+
+### Элемент CONFIG {#config}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -40,9 +54,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../../../data-types.md) | Символьный код настройки ||
+[`string`](../../../data-types.md) | Символьный код настройки — поле `CODE` элемента `SETTINGS.CONFIG` обработчика, например `SETTING_1`.
+
+Метод не сверяет код с настройками обработчика и сохраняет любой переданный код ||
 || **VALUE***
-[`any`](../../../data-types.md) | Значение настройки ||
+[`any`](../../../data-types.md) | Значение настройки. Пустая строка не допускается.
+
+Метод не проверяет значение по типу настройки, например для `ENUM` сохраняется любое значение ||
 |#
 
 ## Примеры кода
@@ -247,13 +265,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating delivery config: ' . $e->getMessage();
@@ -409,8 +427,8 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-   "error":"ERROR_DELIVERY_NOT_FOUND",
-   "error_description":"Delivery not found"
+    "error": "ERROR_CHECK_FAILURE",
+    "error_description": "Config item VALUE is not specified"
 }
 ```
 
@@ -419,11 +437,14 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ERROR_DELIVERY_NOT_FOUND` | Служба доставки с указанным идентификатором (ID) не найдена | 400 ||
-|| `ERROR_CHECK_FAILURE` | Ошибка валидации входящих параметров (детали в описании ошибки) | 400 ||
-|| `ERROR_DELIVERY_CONFIG_UPDATE` | Ошибка при попытке обновления значений настроек службы доставки | 400 ||
-|| `ACCESS_DENIED` | Недостаточно прав для обновления настроек службы доставки | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter ID is not defined | Не передан параметр `ID` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter CONFIG must be of array type | Параметр `CONFIG` передан не массивом ||
+|| `400` | `ERROR_CHECK_FAILURE` | Config item CODE is not specified | В элементе `CONFIG` не передан `CODE` или передана пустая строка ||
+|| `400` | `ERROR_CHECK_FAILURE` | Config item VALUE is not specified | В элементе `CONFIG` не передано `VALUE` или передана пустая строка ||
+|| `400` | `ERROR_DELIVERY_NOT_FOUND` | Delivery not found | Служба доставки с указанным `ID` не найдена ||
+|| `400` | `ERROR_DELIVERY_CONFIG_UPDATE` | Текст ошибки сохранения | Не удалось сохранить настройки, текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM, служба создана не на основе REST-обработчика или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -431,7 +452,7 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./sale-delivery-add.md)
-- [{#T}](./sale-delivery-delete.md)
 - [{#T}](./sale-delivery-update.md)
-- [{#T}](./sale-delivery-config-get.md)
 - [{#T}](./sale-delivery-get-list.md)
+- [{#T}](./sale-delivery-delete.md)
+- [{#T}](./sale-delivery-config-get.md)

@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод `sale.delivery.update` обновляет службу доставки.
+Метод `sale.delivery.update` обновляет службу доставки или ее профиль.
+
+{% note info "" %}
+
+Метод работает только со службами и профилями, созданными на основе REST-обработчиков. Для остальных служб метод возвращает ошибку `ACCESS_DENIED`.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,26 +29,36 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_delivery_service.ID`](../../data-types.md) | Идентификатор службы доставки.
-Получить идентификаторы служб доставки можно с помощью метода [`sale.delivery.getlist`](sale-delivery-get-list.md)
-  ||
+[`sale_delivery_service.ID`](../../data-types.md#sale_delivery_service) | Идентификатор службы доставки или профиля.
+
+Получить идентификатор можно методом [sale.delivery.getlist](./sale-delivery-get-list.md) или из ответа [sale.delivery.add](./sale-delivery-add.md) ||
 || **NAME**
-[`string`](../../../data-types.md) | Название службы доставки ||
+[`string`](../../../data-types.md) | Название службы доставки. Пустое значение вызывает ошибку ||
 || **CURRENCY**
-[`crm_currency.CURRENCY`](../../../crm/data-types.md) | Символьный код валюты службы доставки ||
+[`crm_currency.CURRENCY`](../../../crm/data-types.md#crm_currency) | Символьный код валюты, например `USD`.
+
+Получить коды валют можно методом [crm.currency.list](../../../crm/currency/crm-currency-list.md). Метод не проверяет, что валюта существует. Валюта профилей службы при этом не меняется ||
 || **DESCRIPTION**
 [`string`](../../../data-types.md) | Описание службы доставки ||
 || **SORT**
-[`integer`](../../../data-types.md) | Сортировка ||
+[`integer`](../../../data-types.md) | Сортировка. Нечисловое значение сохраняется как `0` ||
 || **ACTIVE**
-[`string`](../../../data-types.md) | Индикатор активности службы доставки.
-Возможные значения:
-- `Y` — да
-- `N` — нет
-||
+[`string`](../../../data-types.md) | Активность службы доставки. Возможные значения:
+- `Y` — активна
+- `N` — неактивна
+
+Любое значение, кроме `Y`, сохраняется как `N` ||
 || **LOGOTYPE**
-[`string`](../../../data-types.md) | Логотип службы доставки (base64-encoded строка) ||
+[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) | Логотип службы доставки. Передайте содержимое файла в формате Base64 строкой или массивом `["имя_файла.png", "содержимое в Base64"]`.
+
+Пустая строка удаляет логотип ||
 |#
+
+{% note info "" %}
+
+Поля службы передавайте на верхнем уровне запроса, без обертки `FIELDS`. Метод меняет только переданные поля. Если не передать ни одного поля или передать их внутри `FIELDS`, метод вернет `true` и ничего не изменит.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -56,7 +72,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":196,"FIELDS":{"NAME":"Uber Taxi New Name","CURRENCY":"USD","DESCRIPTION":"Uber Taxi New Description","SORT":"100","ACTIVE":"N","LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCC"}}' \
+    -d '{"ID":196,"NAME":"Uber Taxi New Name","CURRENCY":"USD","DESCRIPTION":"Uber Taxi New Description","SORT":100,"ACTIVE":"N","LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.delivery.update
     ```
 
@@ -66,7 +82,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"ID":196,"FIELDS":{"NAME":"Uber Taxi New Name","CURRENCY":"USD","DESCRIPTION":"Uber Taxi New Description","SORT":"100","ACTIVE":"N","LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCC","auth":"**put_access_token_here**"}' \
+    -d '{"ID":196,"NAME":"Uber Taxi New Name","CURRENCY":"USD","DESCRIPTION":"Uber Taxi New Description","SORT":100,"ACTIVE":"N","LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.delivery.update
     ```
 
@@ -88,9 +104,9 @@
           NAME: 'Uber Taxi New Name',
           CURRENCY: 'USD',
           DESCRIPTION: 'Uber Taxi New Description',
-          SORT: '100',
+          SORT: 100,
           ACTIVE: 'N',
-          LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM-VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E-AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc-SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA-/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt-3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2-8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ-EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr-ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv-ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt-JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h-Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf-AAAAAElFTkSuQmCC',
+          LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -126,9 +142,9 @@
               NAME: 'Uber Taxi New Name',
               CURRENCY: 'USD',
               DESCRIPTION: 'Uber Taxi New Description',
-              SORT: '100',
+              SORT: 100,
               ACTIVE: 'N',
-              LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM-VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E-AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc-SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA-/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt-3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2-8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ-EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr-ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv-ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt-JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h-Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf-AAAAAElFTkSuQmCC',
+              LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -162,9 +178,9 @@
             name='Uber Taxi New Name',
             currency='USD',
             description='Uber Taxi New Description',
-            sort='100',
+            sort=100,
             active=False,
-            logotype='iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCC',
+            logotype='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
         ).response
         result = bitrix_response.result
         print(result)
@@ -183,7 +199,6 @@
 
 - PHP
 
-
     ```php
     try {
         $response = $b24Service
@@ -192,21 +207,21 @@
                 'sale.delivery.update',
                 [
                     'ID'          => 196,
-                    'NAME'        => "Uber Taxi New Name",
-                    'CURRENCY'    => "USD",
-                    'DESCRIPTION' => "Uber Taxi New Description",
-                    'SORT'        => "100",
-                    'ACTIVE'      => "N",
-                    'LOGOTYPE'    => "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM-VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E-AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc-SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA-/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt-3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2-8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ-EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr-ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv-ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt-JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h-Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf-AAAAAElFTkSuQmCC",
+                    'NAME'        => 'Uber Taxi New Name',
+                    'CURRENCY'    => 'USD',
+                    'DESCRIPTION' => 'Uber Taxi New Description',
+                    'SORT'        => 100,
+                    'ACTIVE'      => 'N',
+                    'LOGOTYPE'    => 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating delivery: ' . $e->getMessage();
@@ -217,14 +232,15 @@
 
     ```js
     BX24.callMethod(
-        'sale.delivery.update', {
+        'sale.delivery.update',
+        {
             ID: 196,
-            NAME: "Uber Taxi New Name",
-            CURRENCY: "USD",
-            DESCRIPTION: "Uber Taxi New Description",
-            SORT: "100",
-            ACTIVE: "N",
-            LOGOTYPE: "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM-VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E-AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc-SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA-/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt-3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2-8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ-EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr-ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv-ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt-JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h-Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf-AAAAAElFTkSuQmCC",
+            NAME: 'Uber Taxi New Name',
+            CURRENCY: 'USD',
+            DESCRIPTION: 'Uber Taxi New Description',
+            SORT: 100,
+            ACTIVE: 'N',
+            LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
         },
         function(result) {
             if (result.error()) {
@@ -245,20 +261,42 @@
         'sale.delivery.update',
         [
             'ID' => 196,
-            'FIELDS' => [
-                'NAME' => "Uber Taxi New Name",
-                'CURRENCY' => "USD",
-                'DESCRIPTION' => "Uber Taxi New Description",
-                'SORT' => "100",
-                'ACTIVE' => "N",
-                'LOGOTYPE' => "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/-///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV-Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3-+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ-ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ-Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT-qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN-Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9-iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3-Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+-FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX-99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF-TkSuQmCC"
-            ]
+            'NAME' => 'Uber Taxi New Name',
+            'CURRENCY' => 'USD',
+            'DESCRIPTION' => 'Uber Taxi New Description',
+            'SORT' => 100,
+            'ACTIVE' => 'N',
+            'LOGOTYPE' => 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
         ]
     );
 
     echo '<PRE>';
     print_r($result);
     echo '</PRE>';
+    ```
+
+- Go
+
+    ```go
+    // client и ctx уже созданы — см. раздел «SDK для Go»
+    res, err := client.Core().Call(ctx, "sale.delivery.update", b24.Params{
+    	"ID":          196,
+    	"NAME":        "Uber Taxi New Name",
+    	"CURRENCY":    "USD",
+    	"DESCRIPTION": "Uber Taxi New Description",
+    	"SORT":        100,
+    	"ACTIVE":      "N",
+    	"LOGOTYPE":    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
+    })
+    if err != nil {
+    	return fmt.Errorf("sale.delivery.update: %w", err)
+    }
+
+    var ok bool
+    if err := json.Unmarshal(res.Result, &ok); err != nil {
+    	return fmt.Errorf("разбор ответа: %w", err)
+    }
+    fmt.Println("выполнено:", ok)
     ```
 
 {% endlist %}
@@ -269,15 +307,15 @@ HTTP-статус: **200**
 
 ```json
 {
-   "result":true,
-   "time":{
-      "start":1713950516.938559,
-      "finish":1713950517.279213,
-      "duration":0.3406538963317871,
-      "processing":0.0717771053314209,
-      "date_start":"2024-04-24T12:21:56+03:00",
-      "date_finish":"2024-04-24T12:21:57+03:00"
-   }
+    "result": true,
+    "time": {
+        "start": 1713950516.938559,
+        "finish": 1713950517.279213,
+        "duration": 0.3406538963317871,
+        "processing": 0.0717771053314209,
+        "date_start": "2024-04-24T12:21:56+03:00",
+        "date_finish": "2024-04-24T12:21:57+03:00"
+    }
 }
 ```
 
@@ -287,9 +325,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат обновления службы доставки ||
+[`boolean`](../../../data-types.md) | `true`, если служба доставки обновлена ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -298,8 +336,8 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-   "error":"ERROR_DELIVERY_NOT_FOUND",
-   "error_description":"Delivery not found"
+    "error": "ERROR_DELIVERY_NOT_FOUND",
+    "error_description": "Delivery not found"
 }
 ```
 
@@ -308,11 +346,12 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ERROR_CHECK_FAILURE` | Ошибка валидации входящих параметров (детали в описании ошибки) | 400 ||
-|| `ERROR_DELIVERY_UPDATE` | Ошибка при попытке обновления службы доставки | 400 ||
-|| `ERROR_DELIVERY_NOT_FOUND` | Служба доставки с указанным идентификатором (ID) не найдена | 400 ||
-|| `ACCESS_DENIED` | Недостаточно прав для обновления службы доставки | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter ID is not defined | Не передан параметр `ID` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter NAME should not be empty | В `NAME` передана пустая строка ||
+|| `400` | `ERROR_DELIVERY_NOT_FOUND` | Delivery not found | Служба доставки с указанным `ID` не найдена ||
+|| `400` | `ERROR_DELIVERY_UPDATE` | Текст ошибки сохранения | Не удалось сохранить службу доставки, текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM, служба создана не на основе REST-обработчика или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -320,7 +359,7 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./sale-delivery-add.md)
+- [{#T}](./sale-delivery-get-list.md)
 - [{#T}](./sale-delivery-delete.md)
 - [{#T}](./sale-delivery-config-update.md)
 - [{#T}](./sale-delivery-config-get.md)
-- [{#T}](./sale-delivery-get-list.md)

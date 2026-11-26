@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.propertyRelation.add` добавляет привязку свойства. 
+Метод `sale.propertyRelation.add` привязывает свойство заказа к платежной системе, службе доставки, лендингу или торговой платформе.
 
 ## Параметры метода
 
@@ -23,27 +23,33 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для создания привязки свойства ||
+[`object`](../../data-types.md) | Поля новой привязки [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр**
+|| **Название**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../data-types.md) | Идентификатор объекта ||
+[`integer`](../../data-types.md) | Идентификатор объекта привязки. Где его получить, зависит от `entityType`.
+
+Метод не проверяет, что объект существует. Нечисловое значение сохраняется как `null` ||
 || **entityType***
-[`string`](../../data-types.md) | Тип объекта:
-- `P` — платежная система
-- `D` — доставка
-- `L` — лендинг
-- `T` — торговая платформа ||
+[`string`](../../data-types.md) | Тип объекта привязки:
+- `P` — платежная система, идентификатор из [sale.paysystem.list](../../pay-system/sale-pay-system-list.md)
+- `D` — служба доставки, идентификатор из [sale.delivery.getlist](../delivery/delivery/sale-delivery-get-list.md)
+- `L` — лендинг, идентификатор из [landing.landing.getList](../../landing/page/methods/landing-landing-get-list.md)
+- `T` — торговая платформа, идентификатор из [sale.tradePlatform.list](../trade-platform/sale-trade-platform-list.md)
+
+Метод не проверяет значение: любой символ сохраняется, у строки длиннее одного символа сохраняется только первый, а в ответе приходит пустой массив `[]` ||
 || **propertyId***
-[`sale_order_property.id`](../data-types.md) | Идентификатор свойства ||
+[`sale_order_property.id`](../data-types.md#sale_order_property) | Идентификатор свойства заказа. Получить идентификатор можно методом [sale.property.list](../property/sale-property-list.md) ||
 |#
+
+Тройка `entityType`, `entityId`, `propertyId` должна быть уникальной. Изменить привязку нельзя: удалите ее методом [sale.propertyRelation.deleteByFilter](./sale-property-relation-delete-by-filter.md) и создайте новую.
 
 ## Примеры кода
 
@@ -204,7 +210,7 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -319,14 +325,25 @@ HTTP-статус: **200**
 ### Возвращаемые данные
 
 #|
-|| **Значение** / **Тип** | **Описание** ||
+|| **Название**
+`тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа
- ||
-|| **propertyRelation**
-[`sale_order_property_relation`](../data-types.md) | Объект с информацией о созданной привязке ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит ключ `propertyRelation` — созданную привязку [(подробное описание)](#propertyrelation) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект propertyRelation {#propertyrelation}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **entityId**
+[`integer`](../../data-types.md) | Идентификатор объекта привязки ||
+|| **entityType**
+[`string`](../../data-types.md) | Тип объекта привязки: `P`, `D`, `L` или `T` ||
+|| **propertyId**
+[`integer`](../../data-types.md) | Идентификатор свойства заказа ||
 |#
 
 ## Обработка ошибок
@@ -335,8 +352,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"Required fields: entityId"
+    "error": "201650000001",
+    "error_description": "Duplicate entry for key [propertyId, entityId, entityType]"
 }
 ```
 
@@ -345,19 +362,17 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201650000001` | Привязка с указанными значениями `entityId`, `entityType`, `propertyId` уже существует
- ||
-|| `201650000002` | Свойство не существует. Некорректное значение переданного параметра `propertyId` || 
-|| `200040300020` | Недостаточно прав для создания привязки свойства || 
-|| `100` | Не указан или пустой параметр `fields` || 
-|| `0` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `201650000001` | Duplicate entry for key [propertyId, entityId, entityType] | Такая привязка уже существует ||
+|| `400` | `201650000002` | property id is not exists | Свойство с указанным `propertyId` не найдено ||
+|| `400` | `0` | Required fields: entityId, entityType | Не переданы обязательные поля, в тексте перечислены пропущенные ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `200040300020` | Access Denied | Нет права на изменение в модуле Интернет-магазин ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./sale-property-relation-list.md)
 - [{#T}](./sale-property-relation-delete-by-filter.md)

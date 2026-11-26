@@ -34,14 +34,20 @@
 || **Название**
 `тип` | **Описание** ||
 || **paymentId***
-[`sale_order_payment.id`](../data-types.md) | Идентификатор оплаты ||
+[`sale_order_payment.id`](../data-types.md#sale_order_payment) | Идентификатор оплаты. Получить идентификатор можно методом [sale.payment.list](../payment/sale-payment-list.md) ||
 || **basketId***
-[`sale_basket_item.id`](../data-types.md) | Идентификатор элемента корзины ||
-|| **quantity**
-[`double`](../../data-types.md) | Количество товара ||
+[`sale_basket_item.id`](../data-types.md#sale_basket_item) | Идентификатор элемента корзины того же заказа, что и оплата. Получить идентификатор можно методом [sale.basketitem.list](../basket-item/sale-basket-item-list.md) ||
+|| **quantity***
+[`double`](../../data-types.md) | Количество товара в оплате. Не больше количества элемента в корзине ||
 || **xmlId**
-[`string`](../../data-types.md) | Внешний идентификатор записи ||
+[`string`](../../data-types.md) | Внешний идентификатор привязки. Если не передан, генерируется автоматически в формате `bx_6b0805611d92c` ||
 |#
+
+{% note info "" %}
+
+При добавлении оплаты методом [sale.payment.add](../payment/sale-payment-add.md) Битрикс24 может сам привязать к ней элементы корзины. Проверьте привязки методом [sale.paymentitembasket.list](./sale-payment-item-basket-list.md): повторная привязка той же пары вернет ошибку `201250000001`.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -209,15 +215,15 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding payment item to basket: ' . $e->getMessage();
@@ -340,11 +346,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **paymentItemBasket**
-[`sale_payment_item_basket`](../data-types.md) | Объект с информацией о добавленной привязке элемента корзины к оплате ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит ключ `paymentItemBasket` — созданную привязку [(подробное описание)](#paymentitembasket) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект paymentItemBasket {#paymentitembasket}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор привязки ||
+|| **paymentId**
+[`integer`](../../data-types.md) | Идентификатор оплаты ||
+|| **basketId**
+[`integer`](../../data-types.md) | Идентификатор элемента корзины ||
+|| **quantity**
+[`double`](../../data-types.md) | Количество товара в оплате ||
+|| **xmlId**
+[`string`](../../data-types.md) | Внешний идентификатор привязки ||
+|| **dateInsert**
+[`datetime`](../../data-types.md) | Дата создания привязки ||
 |#
 
 ## Обработка ошибок
@@ -363,14 +386,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201250000001` | Элемент с указанными значениями полей `paymentId` и `basketId` уже существует ||
-|| `201240400002` | Оплата не найдена. Некорректное значение переданного параметра `paymentId` ||
-|| `201240400003` | Элемент корзины не найден. Некорректное значение переданного параметра `basketId` ||
-|| `200040300020` | Недостаточно прав для добавления привязки элемента корзины к оплате ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не переданы обязательные поля ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `201250000001` | Duplicate entry for key [basketId, paymentId] | Элемент корзины уже привязан к этой оплате ||
+|| `400` | `201240400002` | payment not exists | Оплата не найдена или относится к другому заказу ||
+|| `400` | `201240400003` | basket item not exists | Элемент корзины не найден ||
+|| `400` | `201240400004` | basket item is not linked to the order | Элемент корзины не привязан к заказу ||
+|| `400` | `0` | Required fields: paymentId, basketId, quantity | Не переданы обязательные поля, в тексте перечислены пропущенные ||
+|| `400` | `0` | Недостаточное количество товара в корзине | `quantity` больше количества элемента в корзине ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `200040300020` | Access Denied | Нет права на изменение в модуле Интернет-магазин ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -12,7 +12,7 @@
 Службы доставки автоматизируют расчет стоимости доставки, создание заказов и отслеживание их статусов. Чтобы подключить новую службу доставки, сначала создайте [обработчик](../handler/index.md) службы доставки.
 
 > Быстрый переход: [все методы](#all-methods)
-> 
+>
 > Пользовательская документация: [Службы доставки](https://helpdesk.bitrix24.ru/open/17225250/)
 
 {% note tip "Частые кейсы и сценарии" %}
@@ -23,7 +23,11 @@
 
 ## Связь служб доставки с другими объектами
 
-**Обработчики служб доставки.** Укажите символьный код обработчика службы доставки. Получить символьные коды обработчиков можно методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md).
+**Обработчики служб доставки.** Служба создается на основе REST-обработчика: его символьный код передается в параметре `REST_CODE` метода [sale.delivery.add](./sale-delivery-add.md). Получить символьные коды обработчиков можно методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md). Обработчик задает адреса для расчета и заказа доставки, профили и список настроек службы.
+
+**Профили доставки.** При создании службы для каждого профиля обработчика автоматически создается дочерняя служба доставки. Идентификаторы профилей возвращаются в ключе `profiles` ответа [sale.delivery.add](./sale-delivery-add.md), у профилей в поле `PARENT_ID` указан идентификатор родительской службы. Найти профили службы можно методом [sale.delivery.getlist](./sale-delivery-get-list.md) с фильтром по `PARENT_ID`.
+
+**Настройки службы.** Значения настроек, которые объявлены в `SETTINGS.CONFIG` обработчика, задаются методом [sale.delivery.config.update](./sale-delivery-config-update.md) и читаются методом [sale.delivery.config.get](./sale-delivery-config-get.md).
 
 **Дополнительные услуги.** Добавьте дополнительные услуги для службы доставки, например, услугу «Доставка до двери». Используйте методы [sale.delivery.extra.service.*](../extra-service/index.md).
 
@@ -39,24 +43,32 @@
 
 ## Как начать работу
 
-1. Создайте обработчик службы доставки методом [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md).
-2. Создайте службу доставки методом [sale.delivery.add](./sale-delivery-add.md), указав символьный код обработчика.
-3. Настройте параметры службы методом [sale.delivery.config.update](./sale-delivery-config-update.md).
-4. Проверьте список служб методом [sale.delivery.getlist](./sale-delivery-get-list.md).
-5. Если служба больше не используется, удалите ее методом [sale.delivery.delete](./sale-delivery-delete.md).
+1. Создайте обработчик службы доставки методом [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md) или получите код существующего методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md).
+2. Создайте службу доставки методом [sale.delivery.add](./sale-delivery-add.md), указав код обработчика в `REST_CODE`. Сохраните идентификаторы службы и профилей из ответа.
+3. Задайте значения настроек службы методом [sale.delivery.config.update](./sale-delivery-config-update.md) и проверьте их методом [sale.delivery.config.get](./sale-delivery-config-get.md).
+4. Измените название, валюту, активность или логотип методом [sale.delivery.update](./sale-delivery-update.md).
+5. Проверьте список служб методом [sale.delivery.getlist](./sale-delivery-get-list.md).
+6. Если служба больше не используется, удалите ее методом [sale.delivery.delete](./sale-delivery-delete.md). Вместе со службой удаляются ее профили.
+
+## Ограничения и особенности
+
+- Методы `update`, `delete`, `config.update` и `config.get` работают только со службами и профилями, созданными на основе REST-обработчиков. Для остальных служб, например «Самовывоз», методы возвращают ошибку `ACCESS_DENIED`. Метод `getlist` возвращает все службы доставки
+- Приложение может изменять только службы, созданные на основе своих обработчиков
+- Имена параметров передавайте в верхнем регистре: `NAME`, `CURRENCY`, `SELECT`. Параметры в нижнем регистре метод не распознает
+- Метод `config.update` заменяет набор настроек целиком: настройки, которые не переданы в `CONFIG`, удаляются
 
 ## Обзор методов {#all-methods}
 
 > Scope: [`delivery`](../../../scopes/permissions.md)
 >
-> Кто может выполнять методы: администратор
+> Кто может выполнять методы: администратор CRM
 
 #|
 || **Метод** | **Описание** ||
 || [sale.delivery.add](./sale-delivery-add.md) | Добавляет службу доставки ||
 || [sale.delivery.update](./sale-delivery-update.md) | Обновляет службу доставки ||
-|| [sale.delivery.config.update](./sale-delivery-config-update.md) | Обновляет настройки службы доставки ||
-|| [sale.delivery.config.get](./sale-delivery-config-get.md) | Возвращает настройки службы доставки ||
 || [sale.delivery.getlist](./sale-delivery-get-list.md) | Возвращает список служб доставки ||
 || [sale.delivery.delete](./sale-delivery-delete.md) | Удаляет службу доставки ||
+|| [sale.delivery.config.update](./sale-delivery-config-update.md) | Обновляет настройки службы доставки ||
+|| [sale.delivery.config.get](./sale-delivery-config-get.md) | Возвращает настройки службы доставки ||
 |#

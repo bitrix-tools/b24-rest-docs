@@ -155,7 +155,7 @@
                 'sale.paymentitembasket.getfields',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -281,9 +281,9 @@ HTTP-статус: **200**
 || **result**
 [`object`](../../data-types.md) | Корневой элемент ответа ||
 || **paymentItemBasket**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — идентификатор поля объекта [sale_payment_item_basket](../data-types.md), а `value` — объект типа [rest_field_description](../data-types.md) ||
+[`object`](../../data-types.md) | Описание полей привязки в формате `{"поле": описание}`. Поля: `id`, `paymentId`, `basketId`, `quantity`, `xmlId`, `dateInsert`. Описание поля — объект [rest_field_description](../data-types.md#rest_field_description) с ключами `type`, `isRequired`, `isReadOnly`, `isImmutable` ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -292,8 +292,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":0,
-    "error_description":"error"
+    "error": "200040300010",
+    "error_description": "Access Denied"
 }
 ```
 
@@ -302,9 +302,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для чтения доступных полей привязок элементов корзины к оплатам ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `200040300010` | Access Denied | Нет права на чтение в модуле Интернет-магазин ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

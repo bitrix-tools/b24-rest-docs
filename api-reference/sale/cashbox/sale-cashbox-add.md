@@ -13,82 +13,94 @@
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод `sale.cashbox.add` добавляет кассу.
+Метод `sale.cashbox.add` добавляет кассу, которая работает через REST-обработчик.
 
 ## Параметры метода
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
- 
+
 #|
 || **Название**
 `тип` | **Описание** ||
 || **NAME***
 [`string`](../../data-types.md) | Название кассы ||
 || **REST_CODE***
-[`sale_cashbox_handler.CODE`](../data-types.md#sale_cashbox_handler) | Код REST-обработчика кассы. Указывается при добавлении обработчика в методе [sale.cashbox.handler.add](./sale-cashbox-handler-add.md) в параметре `CODE` ||
+[`sale_cashbox_handler.CODE`](../data-types.md#sale_cashbox_handler) | Код REST-обработчика кассы — параметр `CODE` метода [sale.cashbox.handler.add](./sale-cashbox-handler-add.md).
+
+Получить коды обработчиков можно методом [sale.cashbox.handler.list](./sale-cashbox-handler-list.md) ||
 || **EMAIL***
-[`string`](../../data-types.md) | Адрес электронной почты, на который будут отправляться уведомления в случае возникновения ошибок при печати чеков ||
+[`string`](../../data-types.md) | Email для уведомлений об ошибках печати чеков. Формат адреса не проверяется ||
 || **OFD**
-[`string`](../../data-types.md) | Код обработчика ОФД. Доступные обработчики ОФД: 
-- `bx_firstofd` — Первый ОФД 
-- `bx_platformaofd` — Платформа ОФД 
+[`string`](../../data-types.md) | Код оператора фискальных данных. Возможные значения:
+- `bx_firstofd` — Первый ОФД
+- `bx_platformaofd` — Платформа ОФД
 - `bx_yarusofd` — ОФД ЯРУС
-- `bx_taxcomofd` — Такском ОФД 
-- `bx_ofdruofd` — OFD.RU 
-- `bx_tenzorofd` — Тензор ОФД 
-- `bx_conturofd` — Контур ОФД 
+- `bx_taxcomofd` — Такском ОФД
+- `bx_ofdruofd` — OFD.RU
+- `bx_tenzorofd` — Тензор ОФД
+- `bx_conturofd` — Контур ОФД
 
-По умолчанию без ОФД
-||
+Другой код вызывает ошибку `Ofd handler not found`. По умолчанию касса работает без ОФД ||
 || **OFD_SETTINGS**
-[`object`](../../data-types.md) | Настройки ОФД (подробное описание приведено [ниже](#ofd_settings)). 
+[`object`](../../data-types.md) | Настройки ОФД [(подробное описание)](#ofd_settings).
 
-По умолчанию пустой массив 
-||
+По умолчанию — пустой объект ||
 || **NUMBER_KKM**
-[`string`](../../data-types.md) | Внешний идентификатор кассы.
+[`string`](../../data-types.md) | Внешний идентификатор кассы. Передается в обработчик в ключе `number_kkm` запроса на `PRINT_URL`.
 
-По умолчанию пуст ||
+По умолчанию — пустая строка ||
+|| **KKM_ID**
+[`string`](../../data-types.md) | Код модели ККМ, например `atol`.
+
+По умолчанию — пустая строка ||
 || **ACTIVE**
 [`string`](../../data-types.md) | Активность кассы. Возможные значения:
-- `Y` — да
-- `N` — нет
-  
-Значение по умолчанию: `N` ||
+- `Y` — активна
+- `N` — неактивна
+
+Любое значение, кроме `Y`, сохраняется как `N`. Значение по умолчанию — `N` ||
 || **SORT**
-[`integer`](../../data-types.md) | Сортировка. По умолчанию `100` ||
+[`integer`](../../data-types.md) | Сортировка. Нечисловое значение заменяется на `100`.
+
+Значение по умолчанию — `100` ||
 || **USE_OFFLINE**
 [`string`](../../data-types.md) | Используется ли касса офлайн. Возможные значения:
 - `Y` — да
 - `N` — нет
-  
-Значение по умолчанию: `N`
-||
-|| **SETTINGS**
-[`array`](../../data-types.md) | Настройки кассы в соответствии со структурой настроек, переданной в ключе `CONFIG` поля `SETTINGS` метода [sale.cashbox.handler.add](./sale-cashbox-handler-add.md).
 
-По умолчанию пусты ||
+Любое значение, кроме `Y`, сохраняется как `N`. Значение по умолчанию — `N` ||
+|| **SETTINGS**
+[`object`](../../data-types.md) | Значения настроек кассы по структуре `SETTINGS.CONFIG` обработчика в формате `{"код раздела": {"код настройки": "значение"}}`, например `{"AUTH": {"LOGIN": "user", "PASSWORD": "secret"}}`.
+
+Получить структуру можно методом [sale.cashbox.handler.list](./sale-cashbox-handler-list.md). Метод не проверяет заполнение обязательных настроек.
+
+По умолчанию — пустой объект ||
 |#
+
+{% note info "" %}
+
+Новая касса доступна для работы, поле `ENABLED` равно `Y`.
+
+{% endnote %}
 
 ### Параметр OFD_SETTINGS {#ofd_settings}
 
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **Настройки для всех ОФД** |  ||
 || **OFD_MODE**
-[`object`](../../data-types.md) | Настройки, относящиеся к режиму работы ОФД. Передается параметр `IS_TEST` ([`string`](../../data-types.md) со значениями `Y/N`) — режим работы ОФД: 
-- `Y` — тестовый режим 
+[`object`](../../data-types.md) | Режим работы ОФД, для всех ОФД. Содержит ключ `IS_TEST` со значениями:
+- `Y` — тестовый режим
 - `N` — рабочий режим ||
-|| **Дополнительные настройки для OFD.RU** |  ||
-|| **SELLER_INFO**
-[`object`](../../data-types.md) | Настройки раздела «Информация о продавце». Передается обязательный параметр `INN` ([`string`](../../data-types.md)) — ИНН продавца
-||
-|| **Дополнительные настройки для ОФД ЯРУС** |  ||
+|| **SELLER**
+[`object`](../../data-types.md) | Информация о продавце, только для `bx_ofdruofd`. Содержит ключ `INN` — ИНН продавца, обязателен для OFD.RU ||
 || **AUTH**
-[`object`](../../data-types.md) | Настройки авторизации. Передается параметр `INN` ([`string`](../../data-types.md)) — ключ безопасности
-||
+[`object`](../../data-types.md) | Авторизация, только для `bx_yarusofd`. Содержит ключ `INN` — ключ безопасности ||
 |#
+
+Пример: `{"OFD_MODE": {"IS_TEST": "N"}, "SELLER": {"INN": "7700000000"}}`.
+
+Метод сохраняет `OFD_SETTINGS` без проверки: ключи и обязательные значения не сверяются с выбранным ОФД
 
 ## Примеры кода
 
@@ -102,7 +114,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"NAME":"Rest-касса","REST_CODE":"restcashbox01","EMAIL":"user@example.com","NUMBER_KKM":"123","ACTIVE":"Y","SORT":100,"OFD":"bx_ofdruofd","OFD_SETTINGS":{"OFD_MODE":{"IS_TEST":"N"}},"SETTINGS":{"AUTH":{"KEYWORD":"top_secret!","PREFERENCE":"SECOND"},"INTERACTION":{"MODE":"ACTIVE"}}}' \
+    -d '{"NAME":"Rest-касса","REST_CODE":"restcashbox01","EMAIL":"user@example.com","NUMBER_KKM":"123","ACTIVE":"Y","SORT":100,"OFD":"bx_firstofd","OFD_SETTINGS":{"OFD_MODE":{"IS_TEST":"N"}},"SETTINGS":{"AUTH":{"KEYWORD":"top_secret!","PREFERENCE":"SECOND"},"INTERACTION":{"MODE":"ACTIVE"}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.cashbox.add
     ```
 
@@ -112,7 +124,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"NAME":"Rest-касса","REST_CODE":"restcashbox01","EMAIL":"user@example.com","NUMBER_KKM":"123","ACTIVE":"Y","SORT":100,"OFD":"bx_ofdruofd","OFD_SETTINGS":{"OFD_MODE":{"IS_TEST":"N"}},"SETTINGS":{"AUTH":{"KEYWORD":"top_secret!","PREFERENCE":"SECOND"},"INTERACTION":{"MODE":"ACTIVE"}},"auth":"**put_access_token_here**"}' \
+    -d '{"NAME":"Rest-касса","REST_CODE":"restcashbox01","EMAIL":"user@example.com","NUMBER_KKM":"123","ACTIVE":"Y","SORT":100,"OFD":"bx_firstofd","OFD_SETTINGS":{"OFD_MODE":{"IS_TEST":"N"}},"SETTINGS":{"AUTH":{"KEYWORD":"top_secret!","PREFERENCE":"SECOND"},"INTERACTION":{"MODE":"ACTIVE"}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.cashbox.add
     ```
 
@@ -136,7 +148,7 @@
           NUMBER_KKM: '123',
           ACTIVE: 'Y',
           SORT: 100,
-          OFD: 'bx_ofdruofd',
+          OFD: 'bx_firstofd',
           OFD_SETTINGS: {
             OFD_MODE: {
               IS_TEST: 'N',
@@ -188,7 +200,7 @@
               NUMBER_KKM: '123',
               ACTIVE: 'Y',
               SORT: 100,
-              OFD: 'bx_ofdruofd',
+              OFD: 'bx_firstofd',
               OFD_SETTINGS: {
                 OFD_MODE: {
                   IS_TEST: 'N',
@@ -248,7 +260,7 @@
             number_kkm="123",
             active=True,
             sort=100,
-            ofd="bx_ofdruofd",
+            ofd="bx_firstofd",
             ofd_settings={
                 "OFD_MODE": {
                     "IS_TEST": "N",
@@ -286,7 +298,7 @@
                     'NUMBER_KKM' => '123',
                     'ACTIVE'     => 'Y',
                     'SORT'       => 100,
-                    'OFD'        => 'bx_ofdruofd',
+                    'OFD'        => 'bx_firstofd',
                     'OFD_SETTINGS' => [
                         'OFD_MODE' => [
                             'IS_TEST' => 'N'
@@ -303,15 +315,15 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding cashbox: ' . $e->getMessage();
@@ -330,7 +342,7 @@
             "NUMBER_KKM": "123",
             "ACTIVE": "Y",
             "SORT": 100,
-            "OFD": "bx_ofdruofd",
+            "OFD": "bx_firstofd",
             "OFD_SETTINGS":
             {
                 "OFD_MODE":
@@ -375,7 +387,7 @@
             'NUMBER_KKM' => '123',
             'ACTIVE' => 'Y',
             'SORT' => 100,
-            'OFD' => 'bx_ofdruofd',
+            'OFD' => 'bx_firstofd',
             'OFD_SETTINGS' =>
             [
                 'OFD_MODE' =>
@@ -414,7 +426,7 @@
     	"NUMBER_KKM": "123",
     	"ACTIVE":     "Y",
     	"SORT":       100,
-    	"OFD":        "bx_ofdruofd",
+    	"OFD":        "bx_firstofd",
     	"OFD_SETTINGS": b24.Params{
     		"OFD_MODE": b24.Params{
     			"IS_TEST": "N",
@@ -477,7 +489,7 @@ HTTP-статус: **200**
 || **result**
 [`sale_cashbox.ID`](../data-types.md#sale_cashbox) | Идентификатор добавленной кассы ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -496,10 +508,14 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ACCESS_DENIED` | Недостаточно прав для добавления кассы | 403 ||
-|| `ERROR_CHECK_FAILURE` | Не указано значение обязательного поля либо значение одного из полей указано неверно | 400 ||
-|| `ERROR_CASHBOX_ADD` | Прочие ошибки. Более подробную информацию об ошибке можно найти в `error_description` | 400 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter NAME is not defined | Не передан параметр `NAME` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter REST_CODE is not defined | Не передан параметр `REST_CODE` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Rest handler with code nosuch not found | Обработчик с кодом из `REST_CODE` не найден ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter EMAIL is not defined | Не передан параметр `EMAIL` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Ofd handler not found | В `OFD` передан неизвестный код ОФД ||
+|| `400` | `ERROR_CASHBOX_ADD` | Текст ошибки сохранения | Не удалось сохранить кассу, текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

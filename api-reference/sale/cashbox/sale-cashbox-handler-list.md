@@ -165,7 +165,7 @@
                 'sale.cashbox.handler.list',
                 []
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -265,7 +265,7 @@ HTTP-статус: **200**
                                 "DISABLED": "N",
                                 "MULTIPLE": "N",
                                 "MULTILINE": "Y"
-                            },
+                            }
                         }
                     },
                     "INTERACTION": {
@@ -305,9 +305,26 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`sale_cashbox_handler[]`](../data-types.md#sale_cashbox_handler) | Cписок обработчиков, зарегистрированных в системе  ||
+[`object[]`](../../data-types.md) | Список REST-обработчиков касс, в том числе созданных другими приложениями [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`string`](../../data-types.md) | Идентификатор обработчика ||
+|| **NAME**
+[`string`](../../data-types.md) | Название ||
+|| **CODE**
+[`string`](../../data-types.md) | Код обработчика. Передается в `REST_CODE` метода [sale.cashbox.add](./sale-cashbox-add.md) ||
+|| **SORT**
+[`string`](../../data-types.md) | Сортировка ||
+|| **SETTINGS**
+[`object`](../../data-types.md) | Настройки обработчика: `PRINT_URL`, `CHECK_URL`, `HTTP_VERSION`, если задан, `SUPPORTS_FFD105` и `CONFIG`. Структура описана в параметре [SETTINGS](./sale-cashbox-handler-add.md#settings) метода `sale.cashbox.handler.add` ||
 |#
 
 ## Обработка ошибок
@@ -326,8 +343,8 @@ HTTP-статус: **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ACCESS_DENIED` | Недостаточно прав для получения списка обработчиков | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

@@ -23,18 +23,21 @@
 
 ## Порядок работы с участниками
 
-1. Получите описание полей методом [humanresources.node.member.field.list](./humanresources-node-member-field-list.md) и [humanresources.node.member.field.get](./humanresources-node-member-field-get.md), если нужно заранее проверить состав доступных полей участника
-2. Определите нужный отдел или команду и получите `nodeId` методом [humanresources.node.list](../node/humanresources-node-list.md). Если идентификатор уже известен, проверьте данные отдела или команды методом [humanresources.node.get](../node/humanresources-node-get.md)
-3. Получите идентификаторы пользователей методом [user.get](../../user/user-get.md), если нужно подготовить `userIds` для добавления, переноса или удаления участников
-4. Добавьте пользователей в нужный отдел или команду методом [humanresources.node.member.add](./humanresources-node-member-add.md)
-5. Используйте [humanresources.node.member.set](./humanresources-node-member-set.md), если нужно задать полный состав участников по ролям в одном запросе
-6. Перенесите участников в другой отдел или команду методом [humanresources.node.member.move](./humanresources-node-member-move.md), если нужно сменить их место в структуре
-7. Удалите участников методом [humanresources.node.member.remove](./humanresources-node-member-remove.md), если они больше не должны входить в отдел или команду
+1. Получите `nodeId` отдела или команды методом [humanresources.node.list](../node/humanresources-node-list.md)
+2. Получите идентификаторы пользователей методом [user.get](../../user/user-get.md)
+3. Выберите метод по задаче:
+   - добавить сотрудников или сменить им роль — [humanresources.node.member.add](./humanresources-node-member-add.md). Остальные участники не меняются, сотрудники остаются в прежних отделах
+   - задать полный состав по ролям — [humanresources.node.member.set](./humanresources-node-member-set.md). Участники, которых нет в запросе, удаляются из отдела или команды
+   - перевести сотрудников в другое место — [humanresources.node.member.move](./humanresources-node-member-move.md). Сотрудники убираются из всех своих отделов и остаются только в целевом
+   - убрать пользователей — [humanresources.node.member.remove](./humanresources-node-member-remove.md). Остальные участники не меняются
+4. Проверьте состав отдела или команды методом [humanresources.node.get](../node/humanresources-node-get.md): передайте `members` в `select`. Методы `add`, `set` и `move` пропускают неподходящие идентификаторы без ошибки, поэтому `success: true` не гарантирует, что все пользователи добавлены
 
 ## Ограничения раздела
 
-- Доступ к просмотру и изменению участников зависит от прав текущего пользователя
+- Методы `add`, `set` и `move` работают только с сотрудниками — пользователями, которые уже состоят хотя бы в одном отделе. Другие идентификаторы пропускаются без ошибки, а метод все равно возвращает `success: true`
+- Сотрудника нельзя удалить из его единственного отдела: методы `set` и `remove` вернут ошибку или причину отказа
 - Метод [humanresources.node.member.add](./humanresources-node-member-add.md) назначает одну роль для всех пользователей из `userIds`
+- Права зависят от типа объекта: для отдела нужны права «Добавление сотрудников в отдел» и «Удаление сотрудников из отдела», для команды — «Добавление участников в команду» и «Удаление участников из команды». Методы полей доступны любому пользователю
 
 {% note tip "Пользовательская документация" %}
 
@@ -48,7 +51,21 @@
 
 **Пользователи.** Для добавления, переноса и удаления участников используются `userIds` — идентификаторы пользователей. Получить их можно методом [user.get](../../user/user-get.md). В методе [humanresources.node.member.add](./humanresources-node-member-add.md) `userIds` передаются одним списком, а в [humanresources.node.member.set](./humanresources-node-member-set.md) — в виде объекта со списками по ролям.
 
-**Роли участников.** Роль определяет место пользователя в отделе или команде: руководитель, заместитель или сотрудник. Коды ролей передаются в параметре `role` метода [humanresources.node.member.add](./humanresources-node-member-add.md) и в ключах объекта `userIds` метода [humanresources.node.member.set](./humanresources-node-member-set.md).
+**Роли участников.** Роль определяет место пользователя в отделе или команде: руководитель, заместитель или сотрудник. Коды ролей передаются в параметре `role` методов [humanresources.node.member.add](./humanresources-node-member-add.md) и [humanresources.node.member.move](./humanresources-node-member-move.md) и в ключах объекта `userIds` метода [humanresources.node.member.set](./humanresources-node-member-set.md). Набор ролей зависит от типа объекта: роль команды для отдела и роль отдела для команды вернут ошибку `INVALID_ROLE`.
+
+### Коды ролей {#roles}
+
+#|
+|| **Код** | **Тип объекта** | **Роль** ||
+|| `MEMBER_HEAD` | Отдел | Руководитель отдела ||
+|| `MEMBER_DEPUTY_HEAD` | Отдел | Заместитель руководителя ||
+|| `MEMBER_EMPLOYEE` | Отдел | Сотрудник ||
+|| `MEMBER_TEAM_HEAD` | Команда | Руководитель команды ||
+|| `MEMBER_TEAM_DEPUTY_HEAD` | Команда | Заместитель руководителя команды ||
+|| `MEMBER_TEAM_EMPLOYEE` | Команда | Участник команды ||
+|#
+
+Пример `role` в методе `add`: `"role": "MEMBER_EMPLOYEE"`. Пример `userIds` в методе `set`: `{"MEMBER_HEAD": [7], "MEMBER_EMPLOYEE": [18, 25]}`.
 
 ## Обзор методов {#all-methods}
 

@@ -23,7 +23,7 @@
 || **Название**
 `тип` | **Описание** ||
 || **id***
-[`sale_payment_item_basket.id`](../data-types.md) | Идентификатор привязки элемента корзины к оплате ||
+[`sale_payment_item_basket.id`](../data-types.md#sale_payment_item_basket) | Идентификатор привязки. Получить идентификатор можно методом [sale.paymentitembasket.list](./sale-payment-item-basket-list.md) ||
 |#
 
 ## Примеры кода
@@ -170,15 +170,15 @@
                     'id' => 1186,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting payment item basket: ' . $e->getMessage();
@@ -285,11 +285,28 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **paymentItemBasket**
-[`sale_payment_item_basket`](../data-types.md) | Информация о привязке элемента корзины к оплате ||
+[`object`](../../data-types.md) | Корневой элемент ответа. Содержит ключ `paymentItemBasket` — привязку [(подробное описание)](#paymentitembasket) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект paymentItemBasket {#paymentitembasket}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
+[`integer`](../../data-types.md) | Идентификатор привязки ||
+|| **paymentId**
+[`integer`](../../data-types.md) | Идентификатор оплаты ||
+|| **basketId**
+[`integer`](../../data-types.md) | Идентификатор элемента корзины ||
+|| **quantity**
+[`double`](../../data-types.md) | Количество товара в оплате ||
+|| **xmlId**
+[`string`](../../data-types.md) | Внешний идентификатор привязки ||
+|| **dateInsert**
+[`datetime`](../../data-types.md) | Дата создания привязки ||
 |#
 
 ## Обработка ошибок
@@ -308,11 +325,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201240400001` | Привязка элемента корзины к оплате не найдена ||
-|| `200040300010` | Недостаточно прав для чтения данных о привязке элемента корзины к оплате ||
-|| `100` | Не указан параметр `id` ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `201240400001` | payment item is not exists | Привязка с указанным `id` не найдена ||
+|| `400` | `100` | Could not find value for parameter {id} | Не передан параметр `id` ||
+|| `400` | `200040300010` | Access Denied | Нет права на чтение в модуле Интернет-магазин ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

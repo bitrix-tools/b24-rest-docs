@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор CRM (право «Разрешить изменять настройки»)
 
-Метод `sale.cashbox.check.apply` сохраняет результат печати чека, напечатанного на REST-кассе. UUID чека сохраняется при его печати из ответа `PRINT_URL`, указанного при добавлении обработчика. Пример сценария — в туториале [Как подключить кассу к Битрикс24](../../../tutorials/sale/cashbox-add-example.md).
+Метод `sale.cashbox.check.apply` сохраняет результат печати чека на REST-кассе.
 
 ## Параметры метода
 
@@ -23,9 +23,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **UUID***
-[`string`](../../data-types.md) | UUID чека ||
+[`string`](../../data-types.md) | Идентификатор чека, который страница `PRINT_URL` обработчика вернула в ключе `UUID`. Пример сценария — в туториале [Как подключить кассу к Битрикс24](../../../tutorials/sale/cashbox-add-example.md) ||
+|| **STATUS**
+[`string`](../../data-types.md) | Результат печати. Значение `ERROR` помечает чек как ненапечатанный, любое другое значение — как напечатанный ||
+|| **ERROR**
+[`string`](../../data-types.md) | Текст ошибки печати. Используется при `STATUS` = `ERROR` ||
 || **PRINT_END_TIME**
-[`string`](../../data-types.md) | Время окончания печати чека ||
+[`integer`](../../data-types.md) | Время окончания печати чека в формате Unix timestamp ||
 || **REG_NUMBER_KKT**
 [`string`](../../data-types.md) | Регистрационный номер ККТ ||
 || **FISCAL_DOC_ATTR**
@@ -40,6 +44,8 @@
 [`string`](../../data-types.md) | Номер смены ||
 |#
 
+Если чек уже отмечен как напечатанный, метод вернет `true` и не изменит его.
+
 ## Примеры кода
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
@@ -52,7 +58,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"UUID":"check|example.com|1","PRINT_END_TIME":"1609459200","REG_NUMBER_KKT":"1234567891011121","FISCAL_DOC_ATTR":"1234567890","FISCAL_DOC_NUMBER":"12345","FISCAL_RECEIPT_NUMBER":"123","FN_NUMBER":"1234567891011121","SHIFT_NUMBER":"1"}' \
+    -d '{"UUID":"00112233-4455-6677-8899-aabbccddeeff","PRINT_END_TIME":"1609459200","REG_NUMBER_KKT":"1234567891011121","FISCAL_DOC_ATTR":"1234567890","FISCAL_DOC_NUMBER":"12345","FISCAL_RECEIPT_NUMBER":"123","FN_NUMBER":"1234567891011121","SHIFT_NUMBER":"1"}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.cashbox.check.apply
     ```
 
@@ -62,7 +68,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"UUID":"check|example.com|1","PRINT_END_TIME":"1609459200","REG_NUMBER_KKT":"1234567891011121","FISCAL_DOC_ATTR":"1234567890","FISCAL_DOC_NUMBER":"12345","FISCAL_RECEIPT_NUMBER":"123","FN_NUMBER":"1234567891011121","SHIFT_NUMBER":"1","auth":"**put_access_token_here**"}' \
+    -d '{"UUID":"00112233-4455-6677-8899-aabbccddeeff","PRINT_END_TIME":"1609459200","REG_NUMBER_KKT":"1234567891011121","FISCAL_DOC_ATTR":"1234567890","FISCAL_DOC_NUMBER":"12345","FISCAL_RECEIPT_NUMBER":"123","FN_NUMBER":"1234567891011121","SHIFT_NUMBER":"1","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.cashbox.check.apply
     ```
 
@@ -80,7 +86,7 @@
       const response = await $b24.actions.v2.call.make<boolean>({
         method: 'sale.cashbox.check.apply',
         params: {
-          UUID: 'check|example.com|1',
+          UUID: '00112233-4455-6677-8899-aabbccddeeff',
           PRINT_END_TIME: '1609459200',
           REG_NUMBER_KKT: '1234567891011121',
           FISCAL_DOC_ATTR: '1234567890',
@@ -119,7 +125,7 @@
           const response = await $b24.actions.v2.call.make({
             method: 'sale.cashbox.check.apply',
             params: {
-              UUID: 'check|example.com|1',
+              UUID: '00112233-4455-6677-8899-aabbccddeeff',
               PRINT_END_TIME: '1609459200',
               REG_NUMBER_KKT: '1234567891011121',
               FISCAL_DOC_ATTR: '1234567890',
@@ -156,7 +162,7 @@
 
     try:
         bitrix_response = client.sale.cashbox.check.apply(
-            uuid="check|example.com|1",
+            uuid="00112233-4455-6677-8899-aabbccddeeff",
             print_end_time="1609459200",
             reg_number_kkt="1234567891011121",
             fiscal_doc_attr="1234567890",
@@ -189,7 +195,7 @@
             ->call(
                 'sale.cashbox.check.apply',
                 [
-                    'UUID'                => 'check|example.com|1',
+                    'UUID'                => '00112233-4455-6677-8899-aabbccddeeff',
                     'PRINT_END_TIME'      => '1609459200',
                     'REG_NUMBER_KKT'      => '1234567891011121',
                     'FISCAL_DOC_ATTR'     => '1234567890',
@@ -199,7 +205,7 @@
                     'SHIFT_NUMBER'        => '1',
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -216,7 +222,7 @@
     BX24.callMethod(
         "sale.cashbox.check.apply",
         {
-            'UUID':'check|example.com|1',
+            'UUID':'00112233-4455-6677-8899-aabbccddeeff',
             'PRINT_END_TIME':'1609459200',
             'REG_NUMBER_KKT':'1234567891011121',
             'FISCAL_DOC_ATTR':'1234567890',
@@ -243,7 +249,7 @@
     $result = CRest::call(
         'sale.cashbox.check.apply',
         [
-            'UUID' => 'check|example.com|1',
+            'UUID' => '00112233-4455-6677-8899-aabbccddeeff',
             'PRINT_END_TIME' => '1609459200',
             'REG_NUMBER_KKT' => '1234567891011121',
             'FISCAL_DOC_ATTR' => '1234567890',
@@ -264,7 +270,7 @@
     ```go
     // client и ctx уже созданы — см. раздел «SDK для Go»
     res, err := client.Core().Call(ctx, "sale.cashbox.check.apply", b24.Params{
-    	"UUID":                  "check|example.com|1",
+    	"UUID":                  "00112233-4455-6677-8899-aabbccddeeff",
     	"PRINT_END_TIME":        "1609459200",
     	"REG_NUMBER_KKT":        "1234567891011121",
     	"FISCAL_DOC_ATTR":       "1234567890",
@@ -312,9 +318,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат сохранения печати чека ||
+[`boolean`](../../data-types.md) | `true`, если результат печати сохранен ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -322,9 +328,9 @@ HTTP-статус: **200**
 HTTP-статус: **400**, **403**
 
 ```json
-{ 
-    "error": "ERROR_CHECK_NOT_FOUND", 
-    "error_description": "Check not found" 
+{
+    "error": "ERROR_CHECK_NOT_FOUND",
+    "error_description": "Check not found"
 }
 ```
 
@@ -333,11 +339,11 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ACCESS_DENIED` | Недостаточно прав для сохранения результата печати чека | 403 ||
-|| `ERROR_CHECK_FAILURE` | Не указано значение поля `UUID` | 400 ||
-|| `ERROR_CHECK_NOT_FOUND` | Не найден чек с указанным `UUID` | 400 ||
-|| `ERROR_CHECK_APPLY` | Прочие ошибки. Более подробную информацию об ошибке можно найти в `error_description` | 400 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter UUID is not defined | Не передан параметр `UUID` ||
+|| `400` | `ERROR_CHECK_NOT_FOUND` | Check not found | Чек с указанным `UUID` не найден ||
+|| `400` | `ERROR_CHECK_APPLY` | Error loading order | Не удалось сохранить результат, например не загрузился заказ чека. Текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

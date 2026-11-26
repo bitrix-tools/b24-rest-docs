@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор
 
-Метод `sale.propertyRelation.deleteByFilter` удаляет привязку свойства. 
+Метод `sale.propertyRelation.deleteByFilter` удаляет привязку свойства заказа.
 
 ## Параметры метода
 
@@ -23,27 +23,29 @@
 || **Название**
 `тип` | **Описание** ||
 || **fields***
-[`object`](../../data-types.md) | Значения полей для удаления привязки свойства ||
+[`object`](../../data-types.md) | Поля привязки, которую нужно удалить [(подробное описание)](#fields) ||
 |#
 
-### Параметр fields
+### Параметр fields {#fields}
 
 {% include [Сноска об обязательных параметрах](../../../_includes/required.md) %}
 
 #|
-|| **Параметр**
+|| **Название**
 `тип` | **Описание** ||
 || **entityId***
-[`integer`](../../data-types.md) | Идентификатор сущности ||
+[`integer`](../../data-types.md) | Идентификатор объекта привязки ||
 || **entityType***
-[`string`](../../data-types.md) | Тип сущности:
+[`string`](../../data-types.md) | Тип объекта привязки:
 - `P` — платежная система
-- `D` — доставка
+- `D` — служба доставки
 - `L` — лендинг
 - `T` — торговая платформа ||
 || **propertyId***
-[`sale_order_property.id`](../data-types.md) | Идентификатор свойства ||
+[`sale_order_property.id`](../data-types.md#sale_order_property) | Идентификатор свойства заказа ||
 |#
+
+Метод удаляет одну привязку с точным совпадением всех трех полей. Получить привязки можно методом [sale.propertyRelation.list](./sale-property-relation-list.md). При удалении свойства методом [sale.property.delete](../property/sale-property-delete.md) его привязки удаляются автоматически.
 
 ## Примеры кода
 
@@ -195,7 +197,7 @@
                     ]
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
@@ -210,14 +212,14 @@
 
     ```js
     BX24.callMethod(
-        'sale.propertyRelation.deleteByFilter', 
+        'sale.propertyRelation.deleteByFilter',
         {
             fields: {
                 entityId: 6,
                 entityType: 'D',
                 propertyId: 40
             }
-        }, 
+        },
         function(result)
         {
             if(result.error())
@@ -297,9 +299,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат удаления привязки свойства ||
+[`boolean`](../../data-types.md) | `true`, если привязка удалена ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -308,8 +310,8 @@ HTTP-статус: **400**
 
 ```json
 {
-    "error":201640400004,
-    "error_description":"property relation is not exists"
+    "error": "201640400004",
+    "error_description": "property relation is not exists"
 }
 ```
 
@@ -318,17 +320,15 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** ||
-|| `201640400004` | Привязка свойства с указанными параметрами не найдена ||
-|| `200040300010` | Недостаточно прав для удаления привязки свойства ||
-|| `100` | Не указан или пустой параметр `fields` ||
-|| `0` | Не указан обязательный параметр ||
-|| `0` | Другие ошибки (например, фатальные ошибки) ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `201640400004` | property relation is not exists | Привязка с указанными полями не найдена ||
+|| `400` | `100` | Could not find value for parameter {fields} | Не передан параметр `fields` ||
+|| `400` | `200040300020` | Access Denied | Нет права на изменение в модуле Интернет-магазин ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 
-## Продолжите изучение 
+## Продолжите изучение
 
 - [{#T}](./sale-property-relation-add.md)
 - [{#T}](./sale-property-relation-list.md)

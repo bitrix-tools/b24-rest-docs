@@ -22,14 +22,34 @@
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **ID*** 
-[`sale_cashbox_handler.ID`](../data-types.md#sale_cashbox_handler) | Идентификатор обновляемого обработчика ||
-|| **FIELDS*** 
-[`object`](../../data-types.md) | Значения обновляемых полей.
+|| **ID***
+[`sale_cashbox_handler.ID`](../data-types.md#sale_cashbox_handler) | Идентификатор обработчика.
 
-Поля, доступные к обновлению: `NAME`, `SORT`, `SETTINGS` (смотрите поля [sale_cashbox_handler](../data-types.md#sale_cashbox_handler)) 
-||
+Получить идентификатор можно методом [sale.cashbox.handler.list](./sale-cashbox-handler-list.md) ||
+|| **FIELDS***
+[`object`](../../data-types.md) | Поля обработчика, которые нужно изменить [(подробное описание)](#fields) ||
 |#
+
+### Параметр FIELDS {#fields}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **NAME**
+[`string`](../../data-types.md) | Название обработчика. Пустое значение вызывает ошибку ||
+|| **SORT**
+[`integer`](../../data-types.md) | Сортировка. Нечисловое значение сохраняется как `0` ||
+|| **SETTINGS**
+[`object`](../../data-types.md) | Настройки обработчика: `PRINT_URL`, `CHECK_URL`, `HTTP_VERSION`, `SUPPORTS_FFD105`, `CONFIG`. Структура описана в параметре [SETTINGS](./sale-cashbox-handler-add.md#settings) метода `sale.cashbox.handler.add`.
+
+Переданные настройки объединяются с сохраненными: непереданные ключи не меняются, новые разделы `CONFIG` добавляются. Удалить раздел или настройку из `CONFIG` этим методом нельзя ||
+|#
+
+{% note warning "" %}
+
+Метод меняет и `CODE`, если передать его в `FIELDS`. Не меняйте код обработчика, к которому привязаны кассы: кассы хранят код обработчика и находят его по этому коду.
+
+{% endnote %}
 
 ## Примеры кода
 
@@ -316,15 +336,15 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error updating cashbox handler: ' . $e->getMessage();
@@ -334,12 +354,12 @@
 - BX24.js
 
     ```js
-    BX24.callMethod( 
-    "sale.cashbox.handler.update", 
-    { 
-        "ID": 1, 
-        "FIELDS": 
-        { 
+    BX24.callMethod(
+    "sale.cashbox.handler.update",
+    {
+        "ID": 1,
+        "FIELDS":
+        {
             "NAME": "Моя REST-касса с новым именем",
             "SORT": 200,
             "SETTINGS": {
@@ -387,15 +407,15 @@
                 },
                 "SUPPORTS_FFD105": "N"
             }
-        } 
-    }, 
-        function(result) 
-    { 
-        if(result.error()) 
-            console.error(result.error()); 
-        else 
-            console.dir(result.data()); 
-    } 
+        }
+    },
+        function(result)
+    {
+        if(result.error())
+            console.error(result.error());
+        else
+            console.dir(result.data());
+    }
     );
     ```
 
@@ -574,9 +594,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../data-types.md) | Результат обновления полей REST-обработчика кассы ||
+[`boolean`](../../data-types.md) | `true`, если обработчик обновлен ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -595,11 +615,15 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ACCESS_DENIED` | Недостаточно прав для обновления обработчика либо приложение пытается изменить обработчик, добавленный другим приложением | 403 ||
-|| `ERROR_CHECK_FAILURE` | Не указано значение полей `ID` или `FIELDS` | 400 ||
-|| `ERROR_HANDLER_NOT_FOUND` | Обработчик с указанным `ID` не найден | 400 ||
-|| `ERROR_HANDLER_UPDATE` | Прочие ошибки. Более подробную информацию об ошибке можно найти в `error_description` | 400 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter ID is not defined | Не передан параметр `ID` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter FIELDS is not defined | Не передан параметр `FIELDS` или передан пустой объект ||
+|| `400` | `ERROR_CHECK_FAILURE` | The value of SETTINGS[PRINT_URL] is not valid | В `SETTINGS.PRINT_URL` или `SETTINGS.CHECK_URL` передана пустая строка ||
+|| `400` | `ERROR_CHECK_FAILURE` | The value of SETTINGS[HTTP_VERSION] is not valid | В `SETTINGS.HTTP_VERSION` передано значение, отличное от `1.0` и `1.1` ||
+|| `400` | `ERROR_CHECK_FAILURE` | The config provided in SETTINGS[CONFIG] is not valid | В `SETTINGS.CONFIG` передана настройка с неизвестным типом или неверной структурой ||
+|| `400` | `ERROR_HANDLER_NOT_FOUND` | Handler not found | Обработчик с указанным `ID` не найден ||
+|| `400` | `ERROR_HANDLER_UPDATE` | Не заполнено обязательное поле "Название" | В `NAME` передана пустая строка. Код возвращается и при других ошибках сохранения, текст — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

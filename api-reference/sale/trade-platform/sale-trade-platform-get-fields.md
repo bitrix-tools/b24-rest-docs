@@ -11,9 +11,15 @@
 
 > Scope: [`sale`](../../scopes/permissions.md)
 >
-> Кто может выполнять метод: любой пользователь с правом «Просмотр каталога товаров»
+> Кто может выполнять метод: любой пользователь
 
-Метод `sale.tradePlatform.getFields` возвращает доступные поля источников заказов.
+Метод `sale.tradePlatform.getFields` возвращает описание полей источника заказа: тип и признаки обязательности и доступности для изменения.
+
+{% note info "" %}
+
+Источники заказов доступны через REST только для чтения. Признаки `isRequired` и `isReadOnly` описывают поля в базе данных, при вызове [sale.tradePlatform.list](./sale-trade-platform-list.md) их учитывать не нужно.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -37,7 +43,7 @@
 
 - cURL (OAuth)
 
-    ```
+    ```http
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -222,34 +228,75 @@
 HTTP-статус: **200**
 
 ```json
-{ 
-    "result": { 
-        "tradePlatform": { 
-            "catalogSectionTabClassName": { 
+{
+    "result": {
+        "tradePlatform": {
+            "active": {
                 "isImmutable": false,
-                "isReadOnly": false, 
-                "isRequired": false, 
-                "type": "string" 
-            }, 
-            "class": { 
-                "isImmutable": false, 
-                "isReadOnly": false, 
-                "isRequired": false, 
-                "type": "string" 
-            } 
-            // ... прочие поля 
-        } 
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "char"
+            },
+            "catalogSectionTabClassName": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "class": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "code": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "description": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "id": {
+                "isImmutable": false,
+                "isReadOnly": true,
+                "isRequired": false,
+                "type": "integer"
+            },
+            "name": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": true,
+                "type": "string"
+            },
+            "settings": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            },
+            "xmlId": {
+                "isImmutable": false,
+                "isReadOnly": false,
+                "isRequired": false,
+                "type": "string"
+            }
+        }
     },
-    "time": {  
-        "start": 1712135957.057659,  
-        "finish": 1712135957.407821,  
-        "duration": 0.3501620292663574,  
-        "processing": 0.011919021606445312,  
-        "date_start": "2024-04-03T11:19:17+02:00",  
-        "date_finish": "2024-04-03T11:19:17+02:00",  
-        "operating_reset_at": 1705765533,  
-        "operating": 3.3076241016387939  
-    }  
+    "time": {
+        "start": 1712135957.057659,
+        "finish": 1712135957.407821,
+        "duration": 0.3501620292663574,
+        "processing": 0.011919021606445312,
+        "date_start": "2024-04-03T11:19:17+03:00",
+        "date_finish": "2024-04-03T11:19:17+03:00",
+        "operating_reset_at": 1705765533,
+        "operating": 3.3076241016387939
+    }
 }
 ```
 
@@ -259,32 +306,25 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../data-types.md) | Корневой элемент ответа ||
-|| **tradePlatform**
-[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`. Где `field` — идентификатор поля объекта [sale_order_trade_platform](../data-types.md#sale_order_trade_platform), а `value` — объект типа [rest_field_description](../data-types.md#rest_field_description) ||
+[`object`](../../data-types.md) | Корневой элемент ответа [(подробное описание)](#result) ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **tradePlatform**
+[`object`](../../data-types.md) | Объект в формате `{"field_1": "value_1", ... "field_N": "value_N"}`, где `field` — поле объекта [sale_order_trade_platform](../data-types.md#sale_order_trade_platform), а `value` — объект [rest_field_description](../data-types.md#rest_field_description).
+
+Метод возвращает поля `active`, `catalogSectionTabClassName`, `class`, `code`, `description`, `id`, `name`, `settings`, `xmlId` ||
 |#
 
 ## Обработка ошибок
 
-HTTP-статус: **400**
-
-```json
-{
-    "error":200040300010,
-    "error_description":"Access Denied"
-}
-```
-
 {% include notitle [обработка ошибок](../../../_includes/error-info.md) %}
-
-### Возможные коды ошибок
-
-#|
-|| **Код** | **Описание** ||
-|| `200040300010` | Недостаточно прав для выполнения метода ||
-|#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
 

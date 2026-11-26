@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод `sale.delivery.delete` удаляет службу доставки.
+Метод `sale.delivery.delete` удаляет службу доставки или ее профиль.
+
+{% note info "" %}
+
+Метод работает только со службами и профилями, созданными на основе REST-обработчиков. Для остальных служб метод возвращает ошибку `ACCESS_DENIED`.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,8 +29,12 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_delivery_service.ID`](../../data-types.md) | Идентификатор службы доставки   ||
+[`sale_delivery_service.ID`](../../data-types.md#sale_delivery_service) | Идентификатор службы доставки или профиля.
+
+Получить идентификатор можно методом [sale.delivery.getlist](./sale-delivery-get-list.md) или из ответа [sale.delivery.add](./sale-delivery-add.md) ||
 |#
+
+Вместе со службой удаляются все ее профили. Чтобы удалить только один профиль, передайте его идентификатор.
 
 ## Примеры кода
 
@@ -158,15 +168,15 @@
                     'ID' => 196,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error deleting delivery: ' . $e->getMessage();
@@ -251,9 +261,9 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`boolean`](../../../data-types.md) | Результат удаления службы доставки ||
+[`boolean`](../../../data-types.md) | `true`, если служба доставки удалена ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -262,8 +272,8 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-   "error":"ERROR_DELIVERY_NOT_FOUND",
-   "error_description":"Delivery not found"
+    "error": "ERROR_DELIVERY_NOT_FOUND",
+    "error_description": "Delivery not found"
 }
 ```
 
@@ -272,11 +282,11 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ERROR_DELIVERY_NOT_FOUND` | Служба доставки с указанным идентификатором (ID) не найдена | 400 ||
-|| `ERROR_CHECK_FAILURE` | Ошибка валидации входящих параметров (детали в описании ошибки) | 400 ||
-|| `ERROR_DELIVERY_DELETE` | Ошибка при попытке удаления службы доставки | 400 ||
-|| `ACCESS_DENIED` | Недостаточно прав для удаления службы доставки | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter ID is not defined | Не передан параметр `ID` ||
+|| `400` | `ERROR_DELIVERY_NOT_FOUND` | Delivery not found | Служба доставки с указанным `ID` не найдена ||
+|| `400` | `ERROR_DELIVERY_DELETE` | Текст ошибки удаления | Не удалось удалить службу доставки, текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM, служба создана не на основе REST-обработчика или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -285,6 +295,6 @@ HTTP-статус: **400**, **403**
 
 - [{#T}](./sale-delivery-add.md)
 - [{#T}](./sale-delivery-update.md)
+- [{#T}](./sale-delivery-get-list.md)
 - [{#T}](./sale-delivery-config-update.md)
 - [{#T}](./sale-delivery-config-get.md)
-- [{#T}](./sale-delivery-get-list.md)

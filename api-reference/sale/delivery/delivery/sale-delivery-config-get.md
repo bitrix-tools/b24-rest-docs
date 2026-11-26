@@ -13,7 +13,13 @@
 >
 > Кто может выполнять метод: администратор CRM
 
-Метод `sale.delivery.config.get` получает настройки службы доставки.
+Метод `sale.delivery.config.get` возвращает значения настроек службы доставки.
+
+{% note info "" %}
+
+Метод работает только со службами и профилями, созданными на основе REST-обработчиков. Для остальных служб метод возвращает ошибку `ACCESS_DENIED`.
+
+{% endnote %}
 
 ## Параметры метода
 
@@ -23,8 +29,9 @@
 || **Название**
 `тип` | **Описание** ||
 || **ID***
-[`sale_delivery_service.ID`](../../data-types.md) | Идентификатор службы доставки.
- ||
+[`sale_delivery_service.ID`](../../data-types.md#sale_delivery_service) | Идентификатор службы доставки или профиля.
+
+Получить идентификатор можно методом [sale.delivery.getlist](./sale-delivery-get-list.md) или из ответа [sale.delivery.add](./sale-delivery-add.md) ||
 |#
 
 ## Примеры кода
@@ -165,15 +172,15 @@
                     'ID' => 196,
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
         // Нужная вам логика обработки данных
         processData($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error getting delivery config: ' . $e->getMessage();
@@ -288,23 +295,22 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object[]`](../../../data-types.md) | Значения настроек службы доставки.
-Сама структура настроек (код, название, тип данных) задается при создании или обновлении обработчика службы доставки методами:
-- [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md)
-- [sale.delivery.handler.update](../handler/sale-delivery-handler-update.md) ||
+[`object[]`](../../../data-types.md) | Массив сохраненных значений настроек [(подробное описание)](#result).
+
+Возвращаются только настройки, которые заданы в [sale.delivery.config.update](./sale-delivery-config-update.md) или [sale.delivery.add](./sale-delivery-add.md). Если значений нет, возвращается пустой массив. У профиля возвращается настройка `PROFILE_TYPE` с кодом профиля обработчика ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
-### Ключ result
+#### Элемент result {#result}
 
 #|
 || **Название**
 `тип` | **Описание** ||
 || **CODE**
-[`string`](../../../data-types.md) | Символьный код настройки ||
+[`string`](../../../data-types.md) | Символьный код настройки. Названия и типы настроек описаны в `SETTINGS.CONFIG` обработчика, получить их можно методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md) ||
 || **VALUE**
-[`any`](../../../data-types.md) | Значение настройки ||
+[`any`](../../../data-types.md) | Значение настройки в том виде, в каком оно сохранено. Числа и даты, переданные строкой, возвращаются строкой ||
 |#
 
 ## Обработка ошибок
@@ -313,8 +319,8 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-   "error":"ERROR_DELIVERY_NOT_FOUND",
-   "error_description":"Delivery not found"
+    "error": "ERROR_DELIVERY_NOT_FOUND",
+    "error_description": "Delivery not found"
 }
 ```
 
@@ -323,10 +329,10 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ERROR_DELIVERY_NOT_FOUND` | Служба доставки с указанным идентификатором (ID) не найдена | 400 ||
-|| `ERROR_CHECK_FAILURE` | Ошибка валидации входящих параметров (детали в описании ошибки) | 400 ||
-|| `ACCESS_DENIED` | Недостаточно прав для получения настроек службы доставки | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter ID is not defined | Не передан параметр `ID` ||
+|| `400` | `ERROR_DELIVERY_NOT_FOUND` | Delivery not found | Служба доставки с указанным `ID` не найдена ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM, служба создана не на основе REST-обработчика или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -334,7 +340,7 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./sale-delivery-add.md)
-- [{#T}](./sale-delivery-delete.md)
 - [{#T}](./sale-delivery-update.md)
-- [{#T}](./sale-delivery-config-update.md)
 - [{#T}](./sale-delivery-get-list.md)
+- [{#T}](./sale-delivery-delete.md)
+- [{#T}](./sale-delivery-config-update.md)

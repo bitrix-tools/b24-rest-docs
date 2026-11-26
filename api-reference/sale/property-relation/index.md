@@ -57,6 +57,13 @@
 
 **Лендинги.** Для привязки с `entityType = L` нужен идентификатор лендинга в `entityId`. Идентификатор можно получить методом [landing.landing.getList](../../landing/page/methods/landing-landing-get-list.md).
 
+## Ограничения и особенности
+
+- Привязку нельзя изменить: удалите ее и создайте новую
+- Метод `add` не проверяет `entityType` и существование объекта `entityId`: проверяйте значения до вызова
+- При удалении свойства методом [sale.property.delete](../property/sale-property-delete.md) его привязки удаляются автоматически
+- Имена полей передавайте в camelCase: `propertyId`, `entityType`, `entityId`
+
 ## Обзор методов {#all-methods}
 
 > Scope: [`sale`](../../scopes/permissions.md)

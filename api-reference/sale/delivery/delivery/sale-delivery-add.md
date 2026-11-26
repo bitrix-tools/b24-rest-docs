@@ -23,32 +23,42 @@
 || **Название**
 `тип` | **Описание** ||
 || **REST_CODE***
-[`string`](../../../data-types.md) | Символьный код обработчика службы доставки (см. поле `CODE` объекта [`sale_delivery_handler`](../../data-types.md)). ||
+[`string`](../../../data-types.md) | Символьный код REST-обработчика службы доставки — поле `CODE` объекта [sale_delivery_handler](../../data-types.md#sale_delivery_handler).
+
+Получить коды обработчиков можно методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md), создать обработчик — методом [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md) ||
 || **NAME***
 [`string`](../../../data-types.md) | Название службы доставки ||
 || **CURRENCY***
-[`crm_currency.CURRENCY`](../../../crm/data-types.md) | Символьный код валюты службы доставки ||
-|| **DESCRIPTION**
-[`string`](../../../data-types.md) | Описание службы доставки ||
-|| **SORT**
-[`integer`](../../../data-types.md) | Сортировка ||
-|| **ACTIVE**
-[`string`](../../../data-types.md) | Индикатор активности службы доставки.
-Возможные значения:
-- `Y` — да
-- `N` — нет
+[`crm_currency.CURRENCY`](../../../crm/data-types.md#crm_currency) | Символьный код валюты службы доставки, например `RUB`.
 
-Если не передано, то по умолчанию `Y` ||
+Получить коды валют можно методом [crm.currency.list](../../../crm/currency/crm-currency-list.md). Метод не проверяет, что валюта существует, и сохраняет любой переданный код ||
+|| **DESCRIPTION**
+[`string`](../../../data-types.md) | Описание службы доставки.
+
+Значение по умолчанию — пустая строка ||
+|| **SORT**
+[`integer`](../../../data-types.md) | Сортировка. Нечисловое значение сохраняется как `0`.
+
+Значение по умолчанию — `100` ||
+|| **ACTIVE**
+[`string`](../../../data-types.md) | Активность службы доставки. Возможные значения:
+- `Y` — активна
+- `N` — неактивна
+
+Другое значение вызывает ошибку `ERROR_DELIVERY_ADD`.
+
+Значение по умолчанию — `Y` ||
 || **CONFIG**
-[`object[]`](../../../data-types.md) | Значения настроек службы доставки (подробное описание приведено [ниже](#parametr-config)).
-Сама структура настроек (код, название, тип данных) задается при создании или обновлении обработчика службы доставки методами:
-- [sale.delivery.handler.add](../handler/sale-delivery-handler-add.md)
-- [sale.delivery.handler.update](../handler/sale-delivery-handler-update.md)||
+[`object[]`](../../../data-types.md) | Массив значений настроек службы доставки. [Описание элемента](#config).
+
+Набор настроек объявлен в `SETTINGS.CONFIG` обработчика. Получить его можно методом [sale.delivery.handler.list](../handler/sale-delivery-handler-list.md) ||
 || **LOGOTYPE**
-[`string`](../../../data-types.md) | Логотип службы доставки (base64-encoded строка) ||
+[`string`](../../../data-types.md) \| [`array`](../../../data-types.md) | Логотип службы доставки. Передайте содержимое файла в формате Base64 строкой или массивом `["имя_файла.png", "содержимое в Base64"]` ||
 |#
 
-### Параметр CONFIG
+Профили службы создаются автоматически: для каждого профиля обработчика метод создает дочернюю службу доставки с той же валютой. Название и описание профиля берутся из обработчика.
+
+### Элемент CONFIG {#config}
 
 {% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
 
@@ -56,9 +66,13 @@
 || **Название**
 `тип` | **Описание** ||
 || **CODE***
-[`string`](../../../data-types.md) | Символьный код настройки ||
+[`string`](../../../data-types.md) | Символьный код настройки — поле `CODE` элемента `SETTINGS.CONFIG` обработчика, например `SETTING_1`.
+
+Метод не сверяет код с настройками обработчика и сохраняет любой переданный код ||
 || **VALUE***
-[`any`](../../../data-types.md) | Значение настройки ||
+[`any`](../../../data-types.md) | Значение настройки. Пустая строка не допускается.
+
+Метод не проверяет значение по типу настройки, например для `ENUM` сохраняется любое значение ||
 |#
 
 ## Примеры кода
@@ -73,7 +87,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"REST_CODE":"uber","NAME":"Uber Taxi","CURRENCY":"RUB","DESCRIPTION":"Uber Taxi Description","SORT":"500","ACTIVE":"Y","CONFIG":[{"CODE":"SETTING_1","VALUE":"SETTING_1 string value"},{"CODE":"SETTING_2","VALUE":"Y"},{"CODE":"SETTING_3","VALUE":199.99},{"CODE":"SETTING_4","VALUE":"Option3Code"},{"CODE":"SETTING_5","VALUE":"10.04.2024"},{"CODE":"SETTING_6","VALUE":"0000144961"}],"LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"}' \
+    -d '{"REST_CODE":"uber","NAME":"Uber Taxi","CURRENCY":"RUB","DESCRIPTION":"Uber Taxi Description","SORT":"500","ACTIVE":"Y","CONFIG":[{"CODE":"SETTING_1","VALUE":"SETTING_1 string value"},{"CODE":"SETTING_2","VALUE":"Y"},{"CODE":"SETTING_3","VALUE":199.99},{"CODE":"SETTING_4","VALUE":"Option3Code"},{"CODE":"SETTING_5","VALUE":"10.04.2024"},{"CODE":"SETTING_6","VALUE":"0000144961"}],"LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.delivery.add
     ```
 
@@ -83,7 +97,7 @@
     curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"REST_CODE":"uber","NAME":"Uber Taxi","CURRENCY":"RUB","DESCRIPTION":"Uber Taxi Description","SORT":"500","ACTIVE":"Y","CONFIG":[{"CODE":"SETTING_1","VALUE":"SETTING_1 string value"},{"CODE":"SETTING_2","VALUE":"Y"},{"CODE":"SETTING_3","VALUE":199.99},{"CODE":"SETTING_4","VALUE":"Option3Code"},{"CODE":"SETTING_5","VALUE":"10.04.2024"},{"CODE":"SETTING_6","VALUE":"0000144961"}],"LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC","auth":"**put_access_token_here**"}' \
+    -d '{"REST_CODE":"uber","NAME":"Uber Taxi","CURRENCY":"RUB","DESCRIPTION":"Uber Taxi Description","SORT":"500","ACTIVE":"Y","CONFIG":[{"CODE":"SETTING_1","VALUE":"SETTING_1 string value"},{"CODE":"SETTING_2","VALUE":"Y"},{"CODE":"SETTING_3","VALUE":199.99},{"CODE":"SETTING_4","VALUE":"Option3Code"},{"CODE":"SETTING_5","VALUE":"10.04.2024"},{"CODE":"SETTING_6","VALUE":"0000144961"}],"LOGOTYPE":"iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==","auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.delivery.add
     ```
 
@@ -139,7 +153,7 @@
             { CODE: 'SETTING_5', VALUE: '10.04.2024' },
             { CODE: 'SETTING_6', VALUE: '0000144961' },
           ],
-          LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC',
+          LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
         },
         requestId: Text.getUuidRfc4122()
       })
@@ -185,7 +199,7 @@
                 { CODE: 'SETTING_5', VALUE: '10.04.2024' },
                 { CODE: 'SETTING_6', VALUE: '0000144961' },
               ],
-              LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC',
+              LOGOTYPE: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
             },
             requestId: B24Js.Text.getUuidRfc4122()
           })
@@ -249,7 +263,7 @@
             sort=500,
             active=True,
             config=config,
-            logotype='iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/\xad///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV\xadKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3\xad+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ\xadib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ\xadSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT\xadqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN\xadTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9\xadiDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3\xadVl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+\xadFaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX\xad99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf\xadAAAAAElFTkSuQmCC',
+            logotype='iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
         ).response
         result = bitrix_response.result
         print(result)
@@ -308,16 +322,16 @@
                             'VALUE' => "0000144961",
                         ],
                     ],
-                    'LOGOTYPE'     => "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC",
+                    'LOGOTYPE'     => "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding delivery method: ' . $e->getMessage();
@@ -360,7 +374,7 @@
                     VALUE: "0000144961",
                 },
             ],
-    LOGOTYPE: "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xfAAAAAElF­TkSuQmCCiVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BM­VEX37ff////58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7E­AAAOxAGVKw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCoc­SfQFGKP3+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA­/q2TwrXZib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt­3qSQtwdJSsku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+2­8tICq4rTqXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQ­EFhV3CCNTph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKr­ihqje7Y9iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guv­ayybW1i3Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWt­JSyP21r+FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0h­Ptw86hMX99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC",
+    LOGOTYPE: "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
         },
         function(result) {
             if (result.error()) {
@@ -394,7 +408,7 @@
                 ['CODE' => "SETTING_5", 'VALUE' => "10.04.2024"],
                 ['CODE' => "SETTING_6", 'VALUE' => "0000144961"],
             ],
-            'LOGOTYPE' => "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC"
+            'LOGOTYPE' => "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
         ]
     );
 
@@ -440,7 +454,7 @@
     			"VALUE": "0000144961",
     		},
     	},
-    	"LOGOTYPE": "iVBORw0KGgoAAAANSUhEUgAAAMgAAADIBAMAAABfdrOtAAAAG1BMVEX37ff/­///58fn9+v3+/P779vv8+Pz47/j68/oDfe+3AAAACXBIWXMAAA7EAAAOxAGV­Kw4bAAABrUlEQVR4nO3UT0/CMBjH8ccx2I56IFynkHg1SgxHHCocSfQFGKP3­+e++xL1wn7bPUCAeKF5Mvp+EluX3ZN3ariIAAAAAAAAAAAAAAAAA/q2TwrXZ­ib94LTbj5GdgVbtKxhdXS+2uL270ajQbL9fz4WzcXwVWtbNeIdmt3qSQtwdJ­Ssku1/NHkfdVEKriHFey0G4haS3+ty4ZtEGoipMW+VS7T2m0zc+28tICq4rT­qXtuJV7kWdvsUJtuoc1Hm08ssKo4B1Wn1i6tJu5qrj9dA8lWEzOQEFhV3CCN­Tph2naJ0V+eu0SV+ry3WWQqBVcUNsgiP16ndS4SnzuffL5LWEgKrihqje7Y9­iDTN6mZ38geDNNX2dEm338b5XPafrmRuj/dj4fULfGoXeFTJ/guvayybW1i3­Vl7aM7h+3y2c+y07FfeZjaT9GHVrNYXPG/fkIbCqCPf+9d1WKiWtJSyP21r+­FaTrZ8+CULW7XliCUe0PyIUdkD29qQzdv7A0FoSq3R0fqaU78d0hPtw86hMX­99vAqqJlp757/W3vhMCqAAAAAAAAAAAAAAAAAPxbX82/SILlk9xf­AAAAAElFTkSuQmCC",
+    	"LOGOTYPE": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==",
     })
     if err != nil {
     	return fmt.Errorf("sale.delivery.add: %w", err)
@@ -509,13 +523,45 @@ HTTP-статус: **200**
 || **Название**
 `тип` | **Описание** ||
 || **result**
-[`object`](../../../data-types.md) | Корневой элемент ответа ||
-|| **parent**
-[`sale_delivery_service`](../../data-types.md) | Объект с информацией о добавленной службе доставки ||
-|| **profiles**
-[`sale_delivery_service[]`](../../data-types.md) | Массив объектов с информацией о добавленных дочерних службах доставок (профилей доставок) ||
+[`object`](../../../data-types.md) | Созданная служба доставки и ее профили [(подробное описание)](#result) ||
 || **time**
-[`time`](../../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **parent**
+[`object`](../../../data-types.md) | Созданная служба доставки [(подробное описание)](#delivery) ||
+|| **profiles**
+[`object[]`](../../../data-types.md) | Профили службы доставки, созданные по профилям обработчика. Структура элемента такая же, как у `parent` [(подробное описание)](#delivery).
+
+Если у обработчика нет профилей, возвращается пустой массив ||
+|#
+
+#### Объект службы доставки {#delivery}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **ID**
+[`integer`](../../../data-types.md) | Идентификатор службы доставки ||
+|| **PARENT_ID**
+[`integer`](../../../data-types.md) | Идентификатор родительской службы. У службы верхнего уровня — `null`, у профиля — идентификатор службы из `parent` ||
+|| **NAME**
+[`string`](../../../data-types.md) | Название ||
+|| **ACTIVE**
+[`string`](../../../data-types.md) | Активность: `Y` — активна, `N` — неактивна ||
+|| **DESCRIPTION**
+[`string`](../../../data-types.md) | Описание ||
+|| **CURRENCY**
+[`string`](../../../data-types.md) | Символьный код валюты ||
+|| **SORT**
+[`integer`](../../../data-types.md) | Сортировка ||
+|| **LOGOTYPE**
+[`integer`](../../../data-types.md) | Идентификатор файла логотипа или `null`, если логотип не задан ||
 |#
 
 ## Обработка ошибок
@@ -524,8 +570,8 @@ HTTP-статус: **400**, **403**
 
 ```json
 {
-   "error":"ERROR_CHECK_FAILURE",
-   "error_description":"Parameter NAME is not defined"
+    "error": "ERROR_HANDLER_NOT_FOUND",
+    "error_description": "Handler \"nosuch\" not exists"
 }
 ```
 
@@ -534,11 +580,16 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ERROR_CHECK_FAILURE` | Ошибка валидации входящих параметров (детали в описании ошибки) | 400 ||
-|| `ERROR_DELIVERY_ADD` | Ошибка при попытке добавления службы доставки | 400 ||
-|| `ERROR_HANDLER_NOT_FOUND` | Обработчик службы доставки с указанным кодом `REST_CODE` не найден | 400 ||
-|| `ACCESS_DENIED` | Недостаточно прав для добавления службы доставки | 403 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter REST_CODE is not defined | Не передан параметр `REST_CODE` или имя параметра передано не в верхнем регистре ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter NAME is not defined | Не передан параметр `NAME` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter CURRENCY is not defined | Не передан параметр `CURRENCY` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter CONFIG must be of array type | Параметр `CONFIG` передан не массивом ||
+|| `400` | `ERROR_CHECK_FAILURE` | Config item CODE is not specified | В элементе `CONFIG` не передан `CODE` или передана пустая строка ||
+|| `400` | `ERROR_CHECK_FAILURE` | Config item VALUE is not specified | В элементе `CONFIG` не передано `VALUE` или передана пустая строка ||
+|| `400` | `ERROR_HANDLER_NOT_FOUND` | Handler "nosuch" not exists | Обработчик с кодом из `REST_CODE` не найден ||
+|| `400` | `ERROR_DELIVERY_ADD` | Неправильное значение для "Активность" | В `ACTIVE` передано значение, отличное от `Y` и `N`. Код возвращается и при других ошибках сохранения службы, текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM или обработчик создан другим приложением ||
 |#
 
 {% include [системные ошибки](../../../../_includes/system-errors.md) %}
@@ -546,8 +597,8 @@ HTTP-статус: **400**, **403**
 ## Продолжите изучение
 
 - [{#T}](./sale-delivery-update.md)
+- [{#T}](./sale-delivery-get-list.md)
 - [{#T}](./sale-delivery-delete.md)
 - [{#T}](./sale-delivery-config-update.md)
 - [{#T}](./sale-delivery-config-get.md)
-- [{#T}](./sale-delivery-get-list.md)
 - [{#T}](../../../../tutorials/sale/delivery-in-crm.md)

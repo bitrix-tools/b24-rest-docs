@@ -27,15 +27,11 @@
 || **NAME***
 [`string`](../../data-types.md) | Название REST-обработчика ||
 || **SORT**
-[`integer`](../../data-types.md) | Сортировка. Значение по умолчанию: `100` ||
-|| **SUPPORTS_FFD105**
-[`string`](../../data-types.md) | Поддерживает ли касса формат фискальных данных версии 1.05. Возможные значения:
-- `Y` — да
-- `N` — нет
-  
-Значение по умолчанию: `N` ||
+[`integer`](../../data-types.md) | Сортировка.
+
+Значение по умолчанию — `100` ||
 || **SETTINGS***
-[`object`](../../data-types.md) | Настройки обработчика (подробное описание приведено [ниже](#settings)) ||
+[`object`](../../data-types.md) | Настройки обработчика [(подробное описание)](#settings) ||
 |#
 
 ### Параметр SETTINGS {#settings}
@@ -50,14 +46,23 @@
 || **CHECK_URL***
 [`string`](../../data-types.md) | Адрес, по которому происходит проверка статуса чека ||
 || **HTTP_VERSION**
-[`string`](../../data-types.md) | Версия протокола HTTP, используемая для запросов. Возможные значения: `1.0`, `1.1`. 
+[`string`](../../data-types.md) | Версия протокола HTTP для запросов на `PRINT_URL` и `CHECK_URL`. Возможные значения:
+- `1.0`
+- `1.1`
 
-Если параметр не заполнен, то для запросов используется HTTP `1.0` ||
+Другое значение вызывает ошибку. Если параметр не передан, используется HTTP `1.0` ||
+|| **SUPPORTS_FFD105**
+[`string`](../../data-types.md) | Поддерживает ли касса формат фискальных данных версии 1.05. Возможные значения:
+- `Y` — да
+- `N` — нет
+
+Значение по умолчанию — `N`.
+
+Передавайте параметр внутри `SETTINGS`: на верхнем уровне запроса он не сохраняется ||
 || **CONFIG***
-[`object`](../../data-types.md) | Структура настроек (подробное описание приведено [ниже](#settingsconfig)), которые пользователь сможет устанавливать и изменять на странице редактирования кассы, а также при добавлении или обновлении кассы через REST. 
+[`object`](../../data-types.md) | Структура настроек кассы, которые пользователь заполняет в форме кассы или передает в `SETTINGS` метода [sale.cashbox.add](./sale-cashbox-add.md) [(подробное описание)](#settingsconfig).
 
-Каждый ключ в этом параметре задает один раздел на странице настроек, ключ является кодом раздела. Значения объекта описывают раздел и содержащиеся в нем настройки
-||
+Ключ объекта — код раздела настроек, значение — описание раздела ||
 |#
 
 ### Параметр SETTINGS\[CONFIG] {#settingsconfig}
@@ -70,10 +75,9 @@
 || **LABEL***
 [`string`](../../data-types.md) | Заголовок раздела ||
 || **ITEMS***
-[`object`](../../data-types.md) | Список настроек раздела (подробное описание приведено [ниже](#settingsconfigitems)). 
+[`object`](../../data-types.md) | Настройки раздела [(подробное описание)](#settingsconfigitems).
 
-Ключ является кодом настройки, значение — описанием настройки 
-||
+Ключ объекта — код настройки, значение — описание настройки. Метод не проверяет, что `ITEMS` передан: раздел без настроек сохраняется ||
 |#
 
 ### Параметр SETTINGS\[CONFIG]\[код раздела]\[ITEMS] {#settingsconfigitems}
@@ -85,53 +89,49 @@
 `тип` | **Описание** ||
 || **TYPE***
 [`string`](../../data-types.md) | Тип настройки. Возможные значения:
-
 - `STRING` — строка
 - `NUMBER` — число с плавающей точкой
-- `Y/N` — строка, принимающая значения `Y` или `N`
-- `ENUM` — список строковых значений
-- `DATE` — дата ||
+- `Y/N` — флажок со значениями `Y` или `N`
+- `ENUM` — список значений
+- `DATE` — дата
+
+Другой тип вызывает ошибку `The config provided in SETTINGS[CONFIG] is not valid` ||
 || **LABEL***
 [`string`](../../data-types.md) | Название настройки ||
-|| **REQUIRED***
-[`string`](../../data-types.md) | Является ли настройка обязательной. Возможные значения:
-
+|| **REQUIRED**
+[`string`](../../data-types.md) | Обязательна ли настройка в форме кассы. Возможные значения:
 - `Y` — да
 - `N` — нет
-||
+
+Значение по умолчанию — `N`. Методы [sale.cashbox.add](./sale-cashbox-add.md) и [sale.cashbox.update](./sale-cashbox-update.md) не проверяют заполнение обязательных настроек ||
 ||  **DISABLED**
-[`string`](../../data-types.md) | Отключена ли возможность редактирования настройки. Возможные значения:
-
+[`string`](../../data-types.md) | Запрещено ли редактировать настройку. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-Значение по умолчанию: `N` ||
+Значение по умолчанию — `N` ||
 ||  **MULTIPLE**
-[`string`](../../data-types.md) | Является ли настройка множественной. Возможные значения:
-
+[`string`](../../data-types.md) | Множественная ли настройка. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-Значение по умолчанию: `N` ||
+Значение по умолчанию — `N` ||
 ||  **MULTILINE**
-[`string`](../../data-types.md) | Является ли поле многострочным. Используется для типа `STRING`. Возможные значения:
-
+[`string`](../../data-types.md) | Многострочное ли поле. Используется для типа `STRING`. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-Значение по умолчанию: `N` ||
+Значение по умолчанию — `N` ||
 ||  **OPTIONS***
-[`object`](../../data-types.md) | Список возможных значений свойства. Используется для типа `ENUM`. 
+[`object`](../../data-types.md) | Варианты значения. Обязателен для типа `ENUM`.
 
-Ключ объекта — значение свойства, значение ключа — название значения, отображаемое в интерфейсе ||
+Ключ объекта — код варианта, значение — название варианта в интерфейсе. Код варианта сохраняется в верхнем регистре ||
 ||  **TIME**
-[`string`](../../data-types.md) | Есть ли возможность выбрать время. Используется для типа `DATE`. Возможные значения:
-
+[`string`](../../data-types.md) | Можно ли выбрать время. Используется для типа `DATE`. Возможные значения:
 - `Y` — да
 - `N` — нет
 
-Значение по умолчанию: `N`
-||
+Значение по умолчанию — `N` ||
 |#
 
 ## Примеры кода
@@ -143,20 +143,20 @@
 - cURL (Webhook)
 
     ```bash
-    -X POST \
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CODE":"restcashbox01","NAME":"REST-касса 01","SORT":100,"SUPPORTS_FFD105":"Y","SETTINGS":{"PRINT_URL":"http://example.com/rest_print.php","CHECK_URL":"http://example.com/rest_check.php","HTTP_VERSION":"1.1","CONFIG":{"AUTH":{"LABEL":"Авторизация","ITEMS":{"KEYWORD":{"TYPE":"STRING","LABEL":"Кодовое слово"},"PREFERENCE":{"TYPE":"ENUM","LABEL":"Множественный выбор","REQUIRED":"Y","OPTIONS":{"FIRST":"Первый","SECOND":"Второй","THIRD":"Третий"}}}},"INTERACTION":{"LABEL":"Настройки взаимодействия с кассой","ITEMS":{"MODE":{"TYPE":"ENUM","LABEL":"Режим работы с кассой","OPTIONS":{"ACTIVE":"боевой","TEST":"тестовый"}}}}}}}' \
+    -d '{"CODE":"restcashbox01","NAME":"REST-касса 01","SORT":100,"SETTINGS":{"SUPPORTS_FFD105":"Y","PRINT_URL":"http://example.com/rest_print.php","CHECK_URL":"http://example.com/rest_check.php","HTTP_VERSION":"1.1","CONFIG":{"AUTH":{"LABEL":"Авторизация","ITEMS":{"KEYWORD":{"TYPE":"STRING","LABEL":"Кодовое слово"},"PREFERENCE":{"TYPE":"ENUM","LABEL":"Множественный выбор","REQUIRED":"Y","OPTIONS":{"FIRST":"Первый","SECOND":"Второй","THIRD":"Третий"}}}},"INTERACTION":{"LABEL":"Настройки взаимодействия с кассой","ITEMS":{"MODE":{"TYPE":"ENUM","LABEL":"Режим работы с кассой","OPTIONS":{"ACTIVE":"боевой","TEST":"тестовый"}}}}}}}' \
     https://**put_your_bitrix24_address**/rest/**put_your_user_id_here**/**put_your_webhook_here**/sale.cashbox.handler.add
     ```
 
 - cURL (OAuth)
 
     ```bash
-    -X POST \
+    curl -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
-    -d '{"CODE":"restcashbox01","NAME":"REST-касса 01","SORT":100,"SUPPORTS_FFD105":"Y","SETTINGS":{"PRINT_URL":"http://example.com/rest_print.php","CHECK_URL":"http://example.com/rest_check.php","HTTP_VERSION":"1.1","CONFIG":{"AUTH":{"LABEL":"Авторизация","ITEMS":{"KEYWORD":{"TYPE":"STRING","LABEL":"Кодовое слово"},"PREFERENCE":{"TYPE":"ENUM","LABEL":"Множественный выбор","REQUIRED":"Y","OPTIONS":{"FIRST":"Первый","SECOND":"Второй","THIRD":"Третий"}}}},"INTERACTION":{"LABEL":"Настройки взаимодействия с кассой","ITEMS":{"MODE":{"TYPE":"ENUM","LABEL":"Режим работы с кассой","OPTIONS":{"ACTIVE":"боевой","TEST":"тестовый"}}}}}},"auth":"**put_access_token_here**"}' \
+    -d '{"CODE":"restcashbox01","NAME":"REST-касса 01","SORT":100,"SETTINGS":{"SUPPORTS_FFD105":"Y","PRINT_URL":"http://example.com/rest_print.php","CHECK_URL":"http://example.com/rest_check.php","HTTP_VERSION":"1.1","CONFIG":{"AUTH":{"LABEL":"Авторизация","ITEMS":{"KEYWORD":{"TYPE":"STRING","LABEL":"Кодовое слово"},"PREFERENCE":{"TYPE":"ENUM","LABEL":"Множественный выбор","REQUIRED":"Y","OPTIONS":{"FIRST":"Первый","SECOND":"Второй","THIRD":"Третий"}}}},"INTERACTION":{"LABEL":"Настройки взаимодействия с кассой","ITEMS":{"MODE":{"TYPE":"ENUM","LABEL":"Режим работы с кассой","OPTIONS":{"ACTIVE":"боевой","TEST":"тестовый"}}}}}},"auth":"**put_access_token_here**"}' \
     https://**put_your_bitrix24_address**/rest/sale.cashbox.handler.add
     ```
 
@@ -177,11 +177,11 @@
           CODE: 'restcashbox01',
           NAME: 'REST cashbox 01',
           SORT: 100,
-          SUPPORTS_FFD105: 'Y',
           SETTINGS: {
             PRINT_URL: 'http://example.com/rest_print.php',
             CHECK_URL: 'http://example.com/rest_check.php',
             HTTP_VERSION: '1.1',
+            SUPPORTS_FFD105: 'Y',
             CONFIG: {
               AUTH: {
                 LABEL: 'Authorization',
@@ -251,11 +251,11 @@
               CODE: 'restcashbox01',
               NAME: 'REST cashbox 01',
               SORT: 100,
-              SUPPORTS_FFD105: 'Y',
               SETTINGS: {
                 PRINT_URL: 'http://example.com/rest_print.php',
                 CHECK_URL: 'http://example.com/rest_check.php',
                 HTTP_VERSION: '1.1',
+                SUPPORTS_FFD105: 'Y',
                 CONFIG: {
                   AUTH: {
                     LABEL: 'Authorization',
@@ -322,6 +322,7 @@
         "PRINT_URL": "http://example.com/rest_print.php",
         "CHECK_URL": "http://example.com/rest_check.php",
         "HTTP_VERSION": "1.1",
+        "SUPPORTS_FFD105": "Y",
         "CONFIG": {
             "AUTH": {
                 "LABEL": "Авторизация",
@@ -363,7 +364,6 @@
             code="restcashbox01",
             name="REST-касса 01",
             sort=100,
-            supports_ffd105=True,
             settings=settings,
         ).response
         result = bitrix_response.result
@@ -393,11 +393,11 @@
                     'CODE'          => 'restcashbox01',
                     'NAME'          => 'REST-касса 01',
                     'SORT'          => 100,
-                    'SUPPORTS_FFD105' => 'Y',
                     'SETTINGS'      => [
                         'PRINT_URL'    => 'http://example.com/rest_print.php',
                         'CHECK_URL'    => 'http://example.com/rest_check.php',
                         'HTTP_VERSION' => '1.1',
+                        'SUPPORTS_FFD105' => 'Y',
                         'CONFIG'       => [
                             'AUTH'       => [
                                 'LABEL' => 'Авторизация',
@@ -435,14 +435,13 @@
                     ],
                 ]
             );
-    
+
         $result = $response
             ->getResponseData()
             ->getResult();
-    
+
         echo 'Success: ' . print_r($result, true);
-        console.dir($result);
-    
+
     } catch (Throwable $e) {
         error_log($e->getMessage());
         echo 'Error adding cashbox handler: ' . $e->getMessage();
@@ -458,12 +457,12 @@
             "CODE": "restcashbox01",
             "NAME": "REST-касса 01",
             "SORT": 100,
-            "SUPPORTS_FFD105": "Y",
             "SETTINGS":
             {
                 "PRINT_URL": "http://example.com/rest_print.php",
                 "CHECK_URL": "http://example.com/rest_check.php",
                 "HTTP_VERSION": "1.1",
+                "SUPPORTS_FFD105": "Y",
                 "CONFIG":
                 {
                     "AUTH": {
@@ -522,12 +521,12 @@
             'CODE' => 'restcashbox01',
             'NAME' => 'REST-касса 01',
             'SORT' => 100,
-            'SUPPORTS_FFD105' => 'Y',
             'SETTINGS' =>
             [
                 'PRINT_URL' => 'http://example.com/rest_print.php',
                 'CHECK_URL' => 'http://example.com/rest_check.php',
                 'HTTP_VERSION' => '1.1',
+                'SUPPORTS_FFD105' => 'Y',
                 'CONFIG' =>
                 [
                     'AUTH' =>
@@ -589,11 +588,11 @@
     	"CODE":            "restcashbox01",
     	"NAME":            "REST-касса 01",
     	"SORT":            100,
-    	"SUPPORTS_FFD105": "Y",
     	"SETTINGS": b24.Params{
     		"PRINT_URL":    "http://example.com/rest_print.php",
     		"CHECK_URL":    "http://example.com/rest_check.php",
     		"HTTP_VERSION": "1.1",
+    		"SUPPORTS_FFD105": "Y",
     		"CONFIG": b24.Params{
     			"AUTH": b24.Params{
     				"LABEL": "Авторизация",
@@ -677,7 +676,7 @@ HTTP-статус: **200**
 || **result**
 [`sale_cashbox_handler.ID`](../data-types.md#sale_cashbox_handler) | Идентификатор созданного обработчика ||
 || **time**
-[`time`](../../data-types.md) | Информация о времени выполнения запроса ||
+[`time`](../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -696,11 +695,16 @@ HTTP-статус: **400**, **403**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Статус** ||
-|| `ACCESS_DENIED` | Недостаточно прав для добавления обработчика | 403 ||
-|| `ERROR_CHECK_FAILURE` | Не указано значение обязательного поля либо значение одного из полей указано неверно | 400 ||
-|| `ERROR_HANDLER_ALREADY_EXIST` | Обработчик с кодом, указанным в параметре `CODE`, уже существует в системе | 400 ||
-|| `ERROR_HANDLER_ADD` | Прочие ошибки. Более подробную информацию об ошибке можно найти в `error_description` | 400 ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter CODE is not defined | Не передан параметр `CODE` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter NAME is not defined | Не передан параметр `NAME` ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter SETTINGS is not defined or empty | Не передан параметр `SETTINGS` или передан пустой объект ||
+|| `400` | `ERROR_CHECK_FAILURE` | Parameter SETTINGS[PRINT_URL] is not defined | Не передан `SETTINGS.PRINT_URL`. Так же метод сообщает о пропущенных `CHECK_URL` и `CONFIG` ||
+|| `400` | `ERROR_CHECK_FAILURE` | The value of SETTINGS[HTTP_VERSION] is not valid | В `SETTINGS.HTTP_VERSION` передано значение, отличное от `1.0` и `1.1` ||
+|| `400` | `ERROR_CHECK_FAILURE` | The config provided in SETTINGS[CONFIG] is not valid | В `SETTINGS.CONFIG` передана настройка с неизвестным типом или неверной структурой ||
+|| `400` | `ERROR_HANDLER_ALREADY_EXIST` | Handler already exists! | Обработчик с кодом из `CODE` уже существует ||
+|| `400` | `ERROR_HANDLER_ADD` | Текст ошибки сохранения | Не удалось сохранить обработчик, текст ошибки — в `error_description` ||
+|| `403` | `ACCESS_DENIED` | Access denied! | У пользователя нет прав администратора CRM ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}
@@ -711,7 +715,7 @@ HTTP-статус: **400**, **403**
 
 ### Пример данных, отправляемых на PRINT_URL
 
-```
+```json
 {
     "type": "sell",
     "calculated_sign": "income",
@@ -793,29 +797,35 @@ HTTP-статус: **400**, **403**
 - `fullprepaymentreturn` — возврат 100% предоплаты безналичными
 - `fullprepaymentreturncash` — возврат 100% предоплаты наличными ||
 || **operation**
-[`string`](../../data-types.md) | Признак прихода/расхода. Значения:
+[`string`](../../data-types.md) | Признак прихода или расхода. Значения:
 - `income` — приход
 - `consumption` — расход ||
-|| **calculated**
-[`string`](../../data-types.md) | Аналогично `operation` (для совместимости) ||
+|| **calculated_sign**
+[`string`](../../data-types.md) | То же значение, что в `operation` ||
 || **unique_id**
-[`integer`](../../data-types.md) | ID чека в базе данных портала ||
+[`integer`](../../data-types.md) | Идентификатор чека в Битрикс24 ||
+|| **currency**
+[`string`](../../data-types.md) | Код валюты чека ||
 || **items**
-[`object`](../../data-types.md) | Массив товаров в чеке (подробное описание приведено [ниже](#items)) ||
+[`object[]`](../../data-types.md) | Позиции чека: товары и доставка [(подробное описание)](#items) ||
 || **date_create**
-[`integer`](../../data-types.md) | Дата создания чека (`timestamp`) ||
+[`integer`](../../data-types.md) | Дата создания чека в формате Unix timestamp ||
 || **payments**
-[`object`](../../data-types.md) | Массив оплат (подробное описание приведено [ниже](#payments)) ||
+[`object[]`](../../data-types.md) | Оплаты [(подробное описание)](#payments) ||
 || **client_email**
-[`string`](../../data-types.md) | E-mail клиента (при наличии) ||
+[`string`](../../data-types.md) | Email клиента. Передается, если он есть в заказе ||
 || **client_phone**
-[`string`](../../data-types.md) | Номер телефона клиента (при наличии) ||
+[`string`](../../data-types.md) | Телефон клиента. Передается, если он есть в заказе ||
 || **total_sum**
-[`double`](../../data-types.md) | Общая сумма по чеку ||
+[`double`](../../data-types.md) | Общая сумма чека ||
 || **uuid**
-[`string`](../../data-types.md) | Идентификатор документа во внешней системе (портал *Битрикс24*) ||
+[`string`](../../data-types.md) | Идентификатор чека в Битрикс24 в формате `check|<домен>|<unique_id>` ||
+|| **number_kkm**
+[`string`](../../data-types.md) | Внешний идентификатор кассы — поле `NUMBER_KKM` кассы ||
 || **service_email**
-[`string`](../../data-types.md) | Email (из настроек кассы) ||
+[`string`](../../data-types.md) | Email из настроек кассы — поле `EMAIL` кассы ||
+|| **cashbox_params**
+[`object`](../../data-types.md) | Значения настроек кассы из параметра `SETTINGS` метода [sale.cashbox.add](./sale-cashbox-add.md). Структура соответствует `SETTINGS.CONFIG` обработчика: `{"код раздела": {"код настройки": "значение"}}` ||
 |#
 
 #### Параметр items {#items}
@@ -831,12 +841,16 @@ HTTP-статус: **400**, **403**
 [`double`](../../data-types.md) | Цена продажи ||
 || **sum**
 [`double`](../../data-types.md) | Сумма позиции ||
+|| **currency**
+[`string`](../../data-types.md) | Код валюты позиции ||
 || **quantity**
 [`double`](../../data-types.md) | Количество товара ||
+|| **measure_code**
+[`string`](../../data-types.md) | Код единицы измерения, например `796` — штука ||
 || **vat**
-[`integer`](../../data-types.md) | Идентификатор налога. Он может быть использован в методе [catalog.vat.get](../../catalog/vat/catalog-vat-get.md) для получения информации по налогу ||
+[`integer`](../../data-types.md) | Идентификатор ставки НДС. Получить данные ставки можно методом [catalog.vat.get](../../catalog/vat/catalog-vat-get.md) ||
 || **vat_sum**
-[`double`](../../data-types.md) | Cумма налога ||
+[`double`](../../data-types.md) | Сумма налога ||
 || **barcode**
 [`string`](../../data-types.md) | Штрихкод. Используется при включенном складском учете и передаче товара с уникальным штрихкодом ||
 || **nomenclature_code**
@@ -844,7 +858,7 @@ HTTP-статус: **400**, **403**
 || **marking_code**
 [`string`](../../data-types.md) | Код товарной номенклатуры (при наличии) ||
 || **payment_object**
-[`string`](../../data-types.md) | Признак предмета расчета. Стандартные значения: 
+[`string`](../../data-types.md) | Признак предмета расчета. Стандартные значения:
 - `commodity` — товар
 - `commodity_marking` — товар, подлежащий маркировке и имеющий код маркировки
 - `service` — услуга
@@ -862,8 +876,9 @@ HTTP-статус: **400**, **403**
 || **supplier_info**
 [`array`](../../data-types.md) | Агентские реквизиты при использовании агентских схем (подробное описание приведено [ниже](#supplier_info)) ||
 || **discount**
-[`array`](../../data-types.md) | Скидка на товар. Ключ является устаревшим и больше не используется. 
-В массиве передается параметр `discount` ([`double`](../../data-types.md)) — размер скидки в денежном выражении ||
+[`object`](../../data-types.md) | Скидка на позицию. Устаревший ключ.
+
+Содержит `discount` — размер скидки в денежном выражении и `discount_type` — тип скидки ||
 |#
 
 ##### Параметр supplier_info {#supplier_info}
@@ -886,10 +901,12 @@ HTTP-статус: **400**, **403**
 `тип` | **Описание** ||
 || **type**
 [`string`](../../data-types.md) | Тип оплаты. Значения:
-- `cash` — оплата наличными
-- `cashless` — безналичный расчет ||
+- `cash` — наличными
+- `cashless` — безналичный расчет
+- `advance` — зачет аванса
+- `credit` — в кредит ||
 || **is_cash**
-[`string`](../../data-types.md) | Производится ли оплата наличными (`Y/N`). Ключ является устаревшим, вместо него рекомендуется использовать `type` ||
+[`string`](../../data-types.md) | Оплата наличными: `Y` — да, `N` — нет. Устаревший ключ, используйте `type` ||
 || **sum**
 [`double`](../../data-types.md) | Сумма оплаты ||
 || **currency**
@@ -904,7 +921,7 @@ HTTP-статус: **400**, **403**
 
 ### Пример данных, отправляемых на CHECK_URL
 
-```
+```json
 {
     "uuid": "00112233-4455-6677-8899-aabbccddeeff"
 }
@@ -916,8 +933,10 @@ HTTP-статус: **400**, **403**
 || **Название**
 `тип` | **Описание** ||
 || **uuid**
-[`string`](../../data-types.md) | Идентификатор чека ||
+[`string`](../../data-types.md) | Идентификатор чека, который вернула страница `PRINT_URL` в ключе `UUID` ||
 |#
+
+Формат ответов страниц `PRINT_URL` и `CHECK_URL` с примерами описан в туториале [Как подключить кассу к Битрикс24](../../../tutorials/sale/cashbox-add-example.md).
 
 ## Продолжите изучение
 
