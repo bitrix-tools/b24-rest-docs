@@ -7,7 +7,7 @@ items:
     href: crm-duplicate-find-by-comm.md
   - name: Объединить дубликаты
     href: crm-entity-merge-batch.md
-  - name: Настройки поиска дубликатов по любым полям 
+  - name: Настройки поиска дубликатов по дополнительным полям
     include:
       path: volatile-type/b24-toc.yaml
       mode: link

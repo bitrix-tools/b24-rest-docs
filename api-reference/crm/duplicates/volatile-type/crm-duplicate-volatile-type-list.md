@@ -1,4 +1,4 @@
-# Получить список нестандартных полей, участвующих в поиске дубликатов crm.duplicate.volatileType.list
+# Получить список полей, подключенных к поиску дубликатов crm.duplicate.volatileType.list
 
 {% note tip "" %}
 
@@ -13,7 +13,7 @@
 >
 > Кто может выполнять метод: администратор Битрикс24 или администратор CRM
 
-Метод `crm.duplicate.volatileType.list` возвращает список нестандартных полей, которые уже используются для поиска дубликатов в лидах, контактах и компаниях.
+Метод `crm.duplicate.volatileType.list` возвращает список полей, подключенных к поиску дубликатов в лидах, контактах и компаниях. Наличие поля в списке не означает, что его индексация завершена.
 
 ## Параметры метода
 
@@ -63,16 +63,9 @@
     }
 
     try {
-      // crm.duplicate.volatileType.list returns a single page (max 50 records). For the whole result set
-      // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-      // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-      // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-      // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
       const response = await $b24.actions.v2.call.make<VolatileTypeItem[]>({
         method: 'crm.duplicate.volatileType.list',
-        params: {
-          start: 0,
-        },
+        params: {},
         requestId: Text.getUuidRfc4122()
       })
 
@@ -100,16 +93,9 @@
           // Initialize the SDK inside a Bitrix24 frame
           const $b24 = await B24Js.initializeB24Frame()
 
-          // crm.duplicate.volatileType.list returns a single page (max 50 records). For the whole result set
-          // use a list helper: $b24.actions.v2.callList.make() returns every record as one
-          // array, $b24.actions.v2.fetchList.make() yields them in chunks (async generator).
-          // NOTE: the list helpers do not accept `order` (it is excluded from their params, so
-          // passing it is a TS error) — keep this call.make + `start` variant when sort matters.
           const response = await $b24.actions.v2.call.make({
             method: 'crm.duplicate.volatileType.list',
-            params: {
-              start: 0,
-            },
+            params: {},
             requestId: B24Js.Text.getUuidRfc4122()
           })
 
@@ -160,29 +146,6 @@
 
     try:
         bitrix_response = client.crm.duplicate.volatile_type.list().as_list().response
-        result = bitrix_response.result
-        for item in result:
-            print(item)
-    except BitrixAPIError as error:
-        print(
-            "Ошибка Bitrix API",
-            f"error: {error.error}",
-            f"error_description: {error.error_description}",
-            sep="\n",
-        )
-    except BitrixSDKException as error:
-        print(f"Ошибка Bitrix SDK: {error.message}")
-    except Exception as error:
-        print(f"Непредвиденная ошибка: {error}")
-    ```
-
-    Пример `as_list_fast`
-
-    ```python
-    from b24pysdk.errors import BitrixAPIError, BitrixSDKException
-
-    try:
-        bitrix_response = client.crm.duplicate.volatile_type.list().as_list_fast(descending=True).response
         result = bitrix_response.result
         for item in result:
             print(item)
@@ -271,12 +234,6 @@
     for _, it := range items {
     	fmt.Println(it.ID, it.EntityTypeID)
     }
-
-    // Total и Next заполняют списочные методы; для полного
-    // обхода списка есть client.Core().Pages и Scan.
-    if res.Total != nil {
-    	fmt.Println("всего:", *res.Total)
-    }
     ```
 
 {% endlist %}
@@ -289,7 +246,7 @@ HTTP-статус: **200**
 {
     "result": [
         {
-            "id": 3355,
+            "id": 33554432,
             "entityTypeId": 1,
             "fieldCode": "TITLE"
         }
@@ -312,13 +269,23 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
+|| **result**
+[`array`](../../../data-types.md) | Список подключенных полей целиком, без постраничной навигации. Если полей нет, возвращается пустой массив. Структура элемента описана [ниже](#result-item) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Элемент массива result {#result-item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
 || **id**
-[`integer`](../../../data-types.md) | Идентификатор записи ||
+[`integer`](../../../data-types.md) | Идентификатор записи о подключенном поле ||
 || **entityTypeId**
-[`integer`](../../../data-types.md) | Тип объекта ||
+[`integer`](../../../data-types.md) | Тип объекта CRM ||
 || **fieldCode**
 [`string`](../../../data-types.md) | Код поля ||
-|| **time**[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -337,8 +304,8 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}

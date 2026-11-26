@@ -28,12 +28,12 @@
 - `3` — [контакт](../../contacts/index.md)
 - `4` — [компания](../../companies/index.md) ||
 || **fieldCode*** 
-[`string`](../../../data-types.md) | Код поля, который нужно добавить в поиск дубликатов. Например  `TITLE`, `RQ.RU.NAME`, `UF_CRM_1750854801`. Получить список доступных полей можно методом [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) ||
+[`string`](../../../data-types.md) | Код поля, который нужно добавить в поиск дубликатов. Например, `TITLE`, `RQ.RU.NAME`, `UF_CRM_1750854801`. Получить список доступных полей можно методом [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) ||
 |#
 
 ### Особенности работы метода
 
-Суммарно можно зарегистрировать семь нестандартных полей для поиска дубликатов. Например, если уже добавили три поля для контактов и четыре поля для компаний, при попытке добавить еще одно поле для любого типа объекта получите ошибку `MAX_TYPES_COUNT_EXCEEDED`.
+Суммарно можно зарегистрировать семь дополнительных полей для поиска дубликатов. Например, если уже добавили три поля для контактов и четыре поля для компаний, при попытке добавить еще одно поле для любого типа объекта получите ошибку `MAX_TYPES_COUNT_EXCEEDED`.
 
 Повторный вызов метода для уже зарегистрированного поля не занимает новый слот — метод вернет `id` существующей записи.
 
@@ -255,7 +255,7 @@ HTTP-статус: **200**
 ```json
 {
     "result": {
-        "id": 3355
+        "id": 33554432
     },
     "time": {
         "start": 1750934251.736599,
@@ -275,9 +275,19 @@ HTTP-статус: **200**
 #|
 || **Название**
 `тип` | **Описание** ||
-|| **id** 
+|| **result**
+[`object`](../../../data-types.md) | Объект с идентификатором записи. Структура описана [ниже](#result-item) ||
+|| **time**
+[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
+|#
+
+#### Объект result {#result-item}
+
+#|
+|| **Название**
+`тип` | **Описание** ||
+|| **id**
 [`integer`](../../../data-types.md) | Идентификатор записи для поля, добавленного в поиск дубликатов ||
-|| **time**[`time`](../../../data-types.md#time) | Информация о времени выполнения запроса ||
 |#
 
 ## Обработка ошибок
@@ -296,10 +306,10 @@ HTTP-статус: **400**
 ### Возможные коды ошибок
 
 #|
-|| **Код** | **Описание** | **Значение** ||
-|| `FIELD_NOT_FOUND` | Field not found | Поле с указанным `fieldCode` недоступно для переданного `entityTypeId`. Список доступных полей возвращает [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) ||
-|| `MAX_TYPES_COUNT_EXCEEDED` | There is already a maximum number of volatile types | Заняты все семь слотов дополнительных полей. Освободите слот методом [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) ||
-|| `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
+|| **Статус** | **Код** | **Описание** | **Значение** ||
+|| `400` | `FIELD_NOT_FOUND` | Field not found | Поле с указанным `fieldCode` недоступно для переданного `entityTypeId`. Список доступных полей возвращает [crm.duplicate.volatileType.fields](./crm-duplicate-volatile-type-fields.md) ||
+|| `400` | `MAX_TYPES_COUNT_EXCEEDED` | There is already a maximum number of volatile types | Заняты все семь слотов дополнительных полей. Освободите слот методом [crm.duplicate.volatileType.unregister](./crm-duplicate-volatile-type-unregister.md) ||
+|| `400` | `ACCESS_DENIED` | Access denied | Метод доступен только администратору Битрикс24 или администратору CRM ||
 |#
 
 {% include [системные ошибки](./../../../../_includes/system-errors.md) %}
