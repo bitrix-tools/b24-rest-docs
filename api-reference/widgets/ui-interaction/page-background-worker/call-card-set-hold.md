@@ -139,7 +139,7 @@ BX24.placement.call('CallCardSetHold', {held: true}, function (result) {
 
 - до события `BackgroundCallCard::initialized`
 - после закрытия карточки
-- во время звонка, который зарегистрирован не методом `telephony.externalCall.register`, например звонка самого Битрикс24 ||
+- во время звонка, который зарегистрирован не методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md), например звонка самого Битрикс24 ||
 || `missing field held` | Не передан обязательный параметр `held` | Ошибка параметра в десктоп-приложении Битрикс24. Из-за особенностей реализации следом может прийти второй ответ — пустой массив ||
 |#
 

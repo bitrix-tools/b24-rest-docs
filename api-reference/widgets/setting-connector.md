@@ -13,7 +13,7 @@
 
 Виджет выводит интерфейс приложения на странице настройки пользовательского коннектора открытых линий. Здесь пользователь подключает свой канал связи: вводит логин внешнего сервиса, выбирает аккаунт или подтверждает доступ.
 
-Обработчик подключается не методом `placement.bind`, а параметром `PLACEMENT_HANDLER` метода [imconnector.register](../imopenlines/imconnector/imconnector-register.md). Битрикс24 сам создает привязку к точке, когда регистрирует коннектор.
+Обработчик подключается не методом [placement.bind](./placement-bind.md), а параметром `PLACEMENT_HANDLER` метода [imconnector.register](../imopenlines/imconnector/imconnector-register.md). Битрикс24 сам создает привязку к точке, когда регистрирует коннектор.
 
 {% note info "" %}
 
@@ -82,7 +82,7 @@ Array
 || **REGISTER_STATUS**
 [`boolean`](../data-types.md) | Канал во внешнем сервисе зарегистрирован. `CONNECTION_STATUS` и `REGISTER_STATUS` выставляет метод [imconnector.activate](../imopenlines/imconnector/imconnector-activate.md) с `ACTIVE: 1`, когда коннектор включают на линии ||
 || **ERROR_STATUS**
-[`boolean`](../data-types.md) | У коннектора есть ошибка. Признак выставляет метод `imconnector.set.error` ||
+[`boolean`](../data-types.md) | У коннектора есть ошибка ||
 || **STATUS**
 [`boolean`](../data-types.md) | Итоговый статус: `true`, когда коннектор включен, соединение и регистрация подтверждены, а ошибок нет. То же значение возвращает метод [imconnector.status](../imopenlines/imconnector/imconnector-status.md) ||
 |#
@@ -96,7 +96,7 @@ Array
 - в `PLACEMENT_HANDLER` метода [imconnector.register](../imopenlines/imconnector/imconnector-register.md) укажите адрес страницы настройки
 - Битрикс24 создаст привязку к точке `SETTING_CONNECTOR` и свяжет ее с коннектором
 
-Метод `imconnector.register` вызывают только из приложения: вебхук получит ошибку `WRONG_AUTH_TYPE`. Кроме `PLACEMENT_HANDLER` обязательны `ID`, `NAME` и иконка `ICON[DATA_IMAGE]`. `ID` не должен содержать точку.
+Метод [imconnector.register](../imopenlines/imconnector/imconnector-register.md) вызывают только из приложения: вебхук получит ошибку `WRONG_AUTH_TYPE`. Кроме `PLACEMENT_HANDLER` обязательны `ID`, `NAME` и иконка `ICON[DATA_IMAGE]`. `ID` не должен содержать точку.
 
 {% include [Сноска о примерах](../../_includes/examples.md) %}
 
@@ -121,7 +121,7 @@ BX24.callMethod(
 );
 ```
 
-Повторный вызов `imconnector.register` с тем же `ID` и новым адресом не заменяет привязку, а добавляет вторую. Чтобы сменить адрес, удалите старую привязку методом [placement.unbind](./placement-unbind.md) с `PLACEMENT: 'SETTING_CONNECTOR'` и старым адресом в `HANDLER`, затем зарегистрируйте коннектор заново. Метод [imconnector.unregister](../imopenlines/imconnector/imconnector-unregister.md) удаляет коннектор вместе с его привязкой.
+Повторный вызов [imconnector.register](../imopenlines/imconnector/imconnector-register.md) с тем же `ID` и новым адресом не заменяет привязку, а добавляет вторую. Чтобы сменить адрес, удалите старую привязку методом [placement.unbind](./placement-unbind.md) с `PLACEMENT: 'SETTING_CONNECTOR'` и старым адресом в `HANDLER`, затем зарегистрируйте коннектор заново. Метод [imconnector.unregister](../imopenlines/imconnector/imconnector-unregister.md) удаляет коннектор вместе с его привязкой.
 
 Параметры `OPTIONS` точка не поддерживает: способа передать их при регистрации коннектора нет.
 
@@ -129,9 +129,9 @@ BX24.callMethod(
 
 #|
 || **Ошибка** | **Как решить** ||
-|| Обработчик привязали методом `placement.bind` | Метод примет код `SETTING_CONNECTOR` и создаст привязку, но на странице настройки она не появится. Битрикс24 показывает ту привязку, которую создал сам при регистрации коннектора ||
+|| Обработчик привязали методом [placement.bind](./placement-bind.md) | Метод примет код `SETTING_CONNECTOR` и создаст привязку, но на странице настройки она не появится. Битрикс24 показывает ту привязку, которую создал сам при регистрации коннектора ||
 || Страницу настройки ищут до подключения линии | Пока в слайдере коннектора не нажали *Подключить* и не выбрали открытую линию, интерфейса приложения на странице нет ||
-|| Идентификатор коннектора не совпадает с сохраненным | Метод `imconnector.register` приводит `ID` к нижнему регистру, а в `PLACEMENT_OPTIONS` приходит уже приведенное значение. Сравнивайте значения в одном регистре ||
+|| Идентификатор коннектора не совпадает с сохраненным | Метод [imconnector.register](../imopenlines/imconnector/imconnector-register.md) приводит `ID` к нижнему регистру, а в `PLACEMENT_OPTIONS` приходит уже приведенное значение. Сравнивайте значения в одном регистре ||
 |#
 
 ## Продолжите изучение

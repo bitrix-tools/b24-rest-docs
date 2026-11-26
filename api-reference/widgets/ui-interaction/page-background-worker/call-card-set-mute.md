@@ -139,7 +139,7 @@ BX24.placement.call('CallCardSetMute', {muted: true}, function (result) {
 
 - до события `BackgroundCallCard::initialized`
 - после закрытия карточки
-- во время звонка, который зарегистрирован не методом `telephony.externalCall.register`, например звонка самого Битрикс24 ||
+- во время звонка, который зарегистрирован не методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md), например звонка самого Битрикс24 ||
 || `missing field muted` | Не передан обязательный параметр `muted` | В десктоп-приложении Битрикс24 поле `muted` обязательно. Этот код приходит одним объектом, без обертки в массив ||
 |#
 

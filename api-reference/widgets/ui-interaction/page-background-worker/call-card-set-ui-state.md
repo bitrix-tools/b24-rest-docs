@@ -163,7 +163,7 @@ BX24.placement.call('CallCardSetUiState', {uiState: 'connected'}, function (resu
 
 - до события `BackgroundCallCard::initialized`
 - после закрытия карточки
-- во время звонка, который зарегистрирован не методом `telephony.externalCall.register`, например звонка самого Битрикс24 ||
+- во время звонка, который зарегистрирован не методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md), например звонка самого Битрикс24 ||
 || `Invalid ui state` | Некорректное значение `uiState` | Переданного значения нет ни в списке поддерживаемых состояний, ни среди служебных `idle`, `externalCard` и `sipPhoneError` ||
 |#
 

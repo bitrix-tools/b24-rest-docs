@@ -130,7 +130,7 @@ BX24.placement.call('CallCardSetCardTitle', {title: 'Клиент на лини�
 
 - до события `BackgroundCallCard::initialized`
 - после закрытия карточки
-- во время звонка, который зарегистрирован не методом `telephony.externalCall.register`, например звонка самого Битрикс24 ||
+- во время звонка, который зарегистрирован не методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md), например звонка самого Битрикс24 ||
 || `missing field title` | Не передан обязательный параметр `title` | В десктоп-приложении Битрикс24 поле `title` обязательно ||
 |#
 

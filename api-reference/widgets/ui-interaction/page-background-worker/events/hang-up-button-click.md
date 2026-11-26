@@ -15,7 +15,7 @@
 
 Событие `BackgroundCallCard::hangupButtonClick` возникает, когда оператор нажимает кнопку «Завершить» в карточке звонка.
 
-Кнопка есть в состояниях `connectingIncoming`, `connectingOutgoing`, `connected` и `transferConnected`. Эти состояния включает приложение командой [CallCardSetUiState](../call-card-set-ui-state.md). Событие только сообщает о нажатии: Битрикс24 не завершает звонок и не закрывает карточку. Приложение завершает разговор в своем WebRTC-клиенте, фиксирует окончание звонка методом [telephony.externalCall.finish](../../../../telephony/telephony-external-call-finish.md) и закрывает карточку командой [CallCardClose](../call-card-close.md). Событие не передает `CALL_ID`: сохраните его заранее — он есть в ответе `telephony.externalCall.register` и в событии [BackgroundCallCard::initialized](./initialized.md).
+Кнопка есть в состояниях `connectingIncoming`, `connectingOutgoing`, `connected` и `transferConnected`. Эти состояния включает приложение командой [CallCardSetUiState](../call-card-set-ui-state.md). Событие только сообщает о нажатии: Битрикс24 не завершает звонок и не закрывает карточку. Приложение завершает разговор в своем WebRTC-клиенте, фиксирует окончание звонка методом [telephony.externalCall.finish](../../../../telephony/telephony-external-call-finish.md) и закрывает карточку командой [CallCardClose](../call-card-close.md). Событие не передает `CALL_ID`: сохраните его заранее — он есть в ответе [telephony.externalCall.register](../../../../telephony/telephony-external-call-register.md) и в событии [BackgroundCallCard::initialized](./initialized.md).
 
 {% note info "" %}
 

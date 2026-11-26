@@ -30,7 +30,7 @@
 5. Дождитесь события [BackgroundCallCard::initialized](./events/initialized.md). До него карточки нет, и команды управления карточкой вернут ошибку `Call card is undefined`. Без карточки работает только [CallCardGetListUiStates](./call-card-get-list-ui-states.md)
 6. Управляйте карточкой командами через [BX24.placement.call](../bx24-placement-call.md) и подписывайтесь на действия оператора через [BX24.placement.bindEvent](../bx24-placement-bind-event.md)
 
-Четвертый шаг обязателен. Команды и события работают только с карточкой внешнего звонка, которую показал метод `telephony.externalCall.register`. При обычном звонке Битрикс24 карточка выглядит так же, но события `BackgroundCallCard::*` не приходят, а команды отвечают ошибкой `Call card is undefined`.
+Четвертый шаг обязателен. Команды и события работают только с карточкой внешнего звонка, которую показал метод [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md). При обычном звонке Битрикс24 карточка выглядит так же, но события `BackgroundCallCard::*` не приходят, а команды отвечают ошибкой `Call card is undefined`.
 
 Минимальный рабочий цикл: приложение ждет создания карточки, переводит ее в нужное состояние и слушает кнопки оператора.
 
@@ -120,7 +120,7 @@ BX24.ready(function () {
 
 #|
 || **Проблема** | **Причина и что сделать** ||
-|| Команда возвращает `Call card is undefined` | Карточки звонка нет или звонок не зарегистрирован методом `telephony.externalCall.register`. Вызывайте команды только после события [BackgroundCallCard::initialized](./events/initialized.md) ||
+|| Команда возвращает `Call card is undefined` | Карточки звонка нет или звонок не зарегистрирован методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md). Вызывайте команды только после события [BackgroundCallCard::initialized](./events/initialized.md) ||
 || Функция обратного вызова не срабатывает вовсе | Виджет открыт не в точке встраивания `PAGE_BACKGROUND_WORKER` либо имя команды набрано с ошибкой. Сверьте список доступных команд методом [BX24.placement.getInterface](../bx24-placement-get-interface.md). У команд `CallCardStartTimer` и `CallCardStopTimer` молчание в браузере — штатное поведение при успехе ||
 || Виджет в нужной точке встраивания, но события не приходят и команды дают `Call card is undefined` | Звонок не внешний. Карточку должен поднять сам обработчик методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md); для звонков самого Битрикс24 этот интерфейс не работает ||
 || Команда `CallCardSetUiState` возвращает `Invalid ui state` | Состояние отсутствует в списке поддерживаемых. Получите список командой [CallCardGetListUiStates](./call-card-get-list-ui-states.md) ||

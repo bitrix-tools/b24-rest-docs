@@ -27,7 +27,7 @@
 
 ## Что получает обработчик
 
-Данные передаются в функцию обратного вызова метода `BX24.placement.bindEvent` {.b24-info}
+Данные передаются в функцию обратного вызова метода [BX24.placement.bindEvent](../../bx24-placement-bind-event.md) {.b24-info}
 
 ```js
 callback({

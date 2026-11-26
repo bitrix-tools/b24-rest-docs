@@ -102,10 +102,11 @@
 
 ## Продолжите изучение
 
-- [{#T}](./get-status.md)
+- [{#T}](./index.md)
+- [{#T}](../bx24-placement-bind-event.md)
 - [{#T}](./disable-auto-close.md)
 - [{#T}](./enable-auto-close.md)
+- [{#T}](./get-status.md)
 - [{#T}](./call-card-entity-changed.md)
 - [{#T}](./call-card-call-state-changed.md)
-- [{#T}](./index.md)
 - [{#T}](../../telephony/call-card.md)

@@ -15,6 +15,12 @@
 
 Команда `getStatus` возвращает текущие данные карточки звонка.
 
+По ответу приложение может:
+
+- хранить свои данные о разговоре, например заметки оператора, по ключу `CALL_ID`
+- показать рядом с разговором данные клиента по `CRM_ENTITY_TYPE` и `CRM_ENTITY_ID`
+- найти по `CRM_BINDINGS` объекты CRM, к которым привязан звонок: клиента и, например, его сделку
+
 {% note info "" %}
 
 Команда работает в контексте приложения, открытого в точке встраивания `CALL_CARD`. Это команда js-интерфейса, а не метод REST: вызвать ее запросом к `/rest/` нельзя.
@@ -103,25 +109,24 @@ BX24.placement.call('getStatus', {}, function (result) {
 
 ```json
 {
-    "CALL_ID": "E45D40253D1C2D2F.1774588815.822533",
-    "PHONE_NUMBER": "+79999996666",
-    "LINE_NUMBER": "reg151083",
-    "LINE_NAME": "",
+    "CALL_ID": "externalCall.440f80efd51b08c719713286819ab5d7.1795683625",
+    "PHONE_NUMBER": "+79990001199",
+    "LINE_NUMBER": "74951112233",
+    "LINE_NAME": "Отдел продаж",
     "CRM_ENTITY_TYPE": "CONTACT",
-    "CRM_ENTITY_ID": 797,
-    "CRM_ACTIVITY_ID": 12043,
+    "CRM_ENTITY_ID": 4597,
     "CRM_BINDINGS": [
         {
-        "ENTITY_TYPE": "DEAL",
-        "ENTITY_ID": 4615
+            "ENTITY_TYPE": "DEAL",
+            "ENTITY_ID": 9221
         },
         {
-        "ENTITY_TYPE": "COMPANY",
-        "ENTITY_ID": 643
+            "ENTITY_TYPE": "CONTACT",
+            "ENTITY_ID": 4597
         }
     ],
-    "CALL_DIRECTION": "outgoing",
-    "CALL_STATE": "idle",
+    "CALL_DIRECTION": "incoming",
+    "CALL_STATE": "connected",
     "CALL_LIST_MODE": false
 }
 ```

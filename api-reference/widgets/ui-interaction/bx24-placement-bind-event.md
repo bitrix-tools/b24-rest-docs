@@ -19,7 +19,7 @@
 BX24.placement.bindEvent(event, callback);
 ```
 
-Это события интерфейса, а не [события REST](../../events/index.md): обработчик выполняется в браузере, в коде виджета, и его не регистрируют методом `event.bind`.
+Это события интерфейса, а не [события REST](../../events/index.md): обработчик выполняется в браузере, в коде виджета, и его не регистрируют методом [event.bind](../../events/event-bind.md).
 
 ## Параметры
 
@@ -54,6 +54,8 @@ BX24.placement.bindEvent(event, callback);
 
 {% include [Сноска о примерах](../../../_includes/examples.md) %}
 
+Пример подписывает виджет, открытый в карточке звонка `CALL_CARD`, на смену состояния звонка.
+
 {% list tabs %}
 
 - BX24.js
@@ -61,10 +63,6 @@ BX24.placement.bindEvent(event, callback);
     ```js
     BX24.ready(function () {
         BX24.init(function () {
-            BX24.placement.bindEvent('BackgroundCallCard::initialized', function (eventData) {
-                console.log(eventData);
-            });
-
             BX24.placement.bindEvent('CallCard::CallStateChanged', function (callState) {
                 console.log(callState);
             });
@@ -102,6 +100,14 @@ BX24.placement.bindEvent(event, callback);
     ```
 
 {% endlist %}
+
+Фоновый виджет `PAGE_BACKGROUND_WORKER` подписывается так же, только на свои события `BackgroundCallCard::*`:
+
+```js
+BX24.placement.bindEvent('BackgroundCallCard::initialized', function (eventData) {
+    console.log(eventData);
+});
+```
 
 ## Результат
 

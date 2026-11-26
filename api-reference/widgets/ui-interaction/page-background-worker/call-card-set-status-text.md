@@ -132,7 +132,7 @@ BX24.placement.call('CallCardSetStatusText', {statusText: 'Соединение 
 
 - до события `BackgroundCallCard::initialized`
 - после закрытия карточки
-- во время звонка, который зарегистрирован не методом `telephony.externalCall.register`, например звонка самого Битрикс24 ||
+- во время звонка, который зарегистрирован не методом [telephony.externalCall.register](../../../telephony/telephony-external-call-register.md), например звонка самого Битрикс24 ||
 || `missing field statusText` | Не передан обязательный параметр `statusText` | В десктоп-приложении Битрикс24 поле `statusText` обязательно ||
 |#
 

@@ -23,25 +23,18 @@
 
 ## Что получает обработчик
 
-Данные передаются в функцию обратного вызова метода `BX24.placement.bindEvent` {.b24-info}
+Данные передаются в функцию обратного вызова метода [BX24.placement.bindEvent](../bx24-placement-bind-event.md) {.b24-info}
 
 ```js
-callback(
-    "idle",
-    {
-        "failedCode": "486"
-    }
-);
+callback("idle");
 ```
 
 ## Параметры обработчика события
 
-{% include [Сноска об обязательных параметрах](../../../../_includes/required.md) %}
-
 #|
 || **Параметр**
 `тип` | **Описание** ||
-|| **callState***
+|| **callState**
 [`string`](../../../data-types.md) | Текущее состояние звонка.
 
 Возможные значения:
@@ -49,22 +42,9 @@ callback(
 - `idle` — соединение отсутствует
 - `connecting` — выполняется установка соединения
 - `connected` — соединение установлено ||
-|| **additionalParams**
-[`object`](../../../data-types.md) | Дополнительные данные [(подробное описание)](#additional_params).
-
-Аргумент приходит всегда: если дополнительных данных нет, это пустой объект. Звездочкой отмечены обязательные параметры подписки, а не аргументы обработчика ||
 |#
 
-### Параметр additionalParams{#additional_params}
-
-#|
-|| **Параметр**
-`тип` | **Описание** ||
-|| **failedCode**
-[`string`](../../../data-types.md) | Код завершения звонка. Передается только при неуспешном завершении, когда `callState = idle`.
-
-Значение — код протокола SIP. Например, `486` — абонент занят, `480` — абонент недоступен ||
-|#
+Других аргументов обработчик не получает: код причины, по которой звонок не состоялся, в виджет не передается.
 
 ## Параметры подписки
 
@@ -94,7 +74,7 @@ callback(
     ```js
     BX24.ready(function () {
         BX24.init(function () {
-            BX24.placement.bindEvent('CallCard::CallStateChanged', function (callState, additionalParams) {
+            BX24.placement.bindEvent('CallCard::CallStateChanged', function (callState) {
                 console.log(callState);
             });
         });
@@ -109,8 +89,8 @@ callback(
 
     declare const $b24: B24Frame
 
-    await $b24.placement.bindEvent('CallCard::CallStateChanged', (callState: string, additionalParams: { failedCode?: string }) => {
-      console.log(callState, additionalParams.failedCode)
+    await $b24.placement.bindEvent('CallCard::CallStateChanged', (callState: string) => {
+      console.log(callState)
     })
     ```
 
@@ -123,7 +103,7 @@ callback(
       document.addEventListener('DOMContentLoaded', async () => {
         const $b24 = await B24Js.initializeB24Frame()
 
-        await $b24.placement.bindEvent('CallCard::CallStateChanged', (callState, additionalParams) => {
+        await $b24.placement.bindEvent('CallCard::CallStateChanged', (callState) => {
           console.log(callState)
         })
       })
@@ -142,10 +122,11 @@ callback(
 
 ## Продолжите изучение
 
+- [{#T}](./index.md)
+- [{#T}](../bx24-placement-bind-event.md)
 - [{#T}](./get-status.md)
 - [{#T}](./disable-auto-close.md)
 - [{#T}](./enable-auto-close.md)
 - [{#T}](./call-card-entity-changed.md)
 - [{#T}](./call-card-before-close.md)
-- [{#T}](./index.md)
 - [{#T}](../../telephony/call-card.md)
