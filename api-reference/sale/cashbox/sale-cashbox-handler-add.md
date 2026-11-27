@@ -819,7 +819,7 @@ HTTP-статус: **400**, **403**
 || **total_sum**
 [`double`](../../data-types.md) | Общая сумма чека ||
 || **uuid**
-[`string`](../../data-types.md) | Идентификатор чека в Битрикс24 в формате `check|<домен>|<unique_id>` ||
+[`string`](../../data-types.md) | Идентификатор чека в Битрикс24 в формате ```check|<домен>|<unique_id>``` ||
 || **number_kkm**
 [`string`](../../data-types.md) | Внешний идентификатор кассы — поле `NUMBER_KKM` кассы ||
 || **service_email**
