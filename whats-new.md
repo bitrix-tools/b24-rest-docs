@@ -2,6 +2,10 @@
 
 ## 2026
 
+### 27 ноября, 2026
+
+- Добавили методы КЭДО в REST 3.0: [sign.b2e.template.*](./api-reference/sign/index.md#templates) отправляют сотруднику документ по шаблону компании или комплекту шаблонов, [sign.b2e.legal.*](./api-reference/sign/index.md#legal) записывают в профиль сотрудника информацию для документов
+
 ### 25 ноября, 2026
 
 - Добавили метод [landing.landing.cutblock](./api-reference/landing/page/block-methods/landing-landing-cut-block.md): записывает вырезание блока в историю для последующего переноса

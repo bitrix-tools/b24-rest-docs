@@ -19,17 +19,21 @@
 
 Методы `sign.b2e.*` работают с документами раздела КЭДО — Подписание с сотрудниками. С их помощью можно отправить документ на подписание, получить данные документа, список провайдеров подписи компании и списки подписанных документов.
 
+Методы `sign.b2e.template.*` и `sign.b2e.legal.*` относятся к [REST 3.0](../rest-v3.md). Они отправляют сотрудникам документы по готовым шаблонам компании и записывают в профиль сотрудника информацию для документов.
+
 Методы `sign.b2e.provider.*` подключают к Битрикс24 собственные провайдеры подписи. Их вызывает администратор. Методы работают, только если КЭДО доступен на Битрикс24.
 
 Методы `humanresources.hcmlink.*` управляют данными интеграции КЭДО с системами кадрового учета через HCM Link: компаниями, сотрудниками, сопоставлениями и значениями полей.
 
-Методы [sign.b2e.document.send](./sign-b2e-document-send.md), [sign.b2e.document.get](./sign-b2e-document-get.md) и [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md) работают и в [приложении](../../settings/app-installation/index.md), и через [входящий вебхук](../../local-integrations/local-webhooks.md). Остальные методы раздела, в том числе `humanresources.hcmlink.*`, доступны только приложению: вызов через вебхук они отклоняют с ошибкой `WRONG_AUTH_TYPE`.
+Методы [sign.b2e.document.send](./sign-b2e-document-send.md), [sign.b2e.document.get](./sign-b2e-document-get.md), [sign.b2e.company.provider.list](./sign-b2e-company-provider-list.md) и методы REST 3.0 `sign.b2e.template.*` и `sign.b2e.legal.*` работают и в [приложении](../../settings/app-installation/index.md), и через [входящий вебхук](../../local-integrations/local-webhooks.md). Остальные методы раздела, в том числе `humanresources.hcmlink.*`, доступны только приложению: вызов через вебхук они отклоняют с ошибкой `WRONG_AUTH_TYPE`.
 
 ## Как выбрать группу методов
 
 #|
 || **Если нужно** | **Используйте** ||
 || Отправлять документы на подписание и получать информацию о подписании | Методы `sign.b2e.*` ||
+|| Отправить сотруднику документ по готовому шаблону компании или комплекту шаблонов | Методы [sign.b2e.template.*](#templates) ||
+|| Заполнить в профиле сотрудника информацию для документов: должность, СНИЛС, ИНН | Методы [sign.b2e.legal.*](#legal) ||
 || Подключить к Битрикс24 собственный провайдер подписи | Методы [sign.b2e.provider.*](#providers) ||
 || Отслеживать изменение статусов документа и участников подписания | События `OnSignB2e*` ||
 || Передавать данные из системы кадрового учета для заполнения документов КЭДО | Методы [humanresources.hcmlink.*](./hcm-link/index.md) ||
@@ -108,6 +112,36 @@
     |#
 
 {% endlist %}
+
+### Шаблоны и комплекты {#templates}
+
+> Scope: [`sign.b2e`, `crm`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: зависит от метода
+
+Методы относятся к REST 3.0 и вызываются по адресу `/rest/api/`.
+
+#|
+|| **Метод** | **Описание** ||
+|| [sign.b2e.template.list](./sign-b2e-template-list.md) | Возвращает шаблоны компании, по которым можно отправить документ ||
+|| [sign.b2e.template.send](./sign-b2e-template-send.md) | Отправляет сотруднику документ по шаблону ||
+|| [sign.b2e.template.folder.tail](./sign-b2e-template-folder-tail.md) | Возвращает список комплектов шаблонов ||
+|| [sign.b2e.template.folder.get](./sign-b2e-template-folder-get.md) | Возвращает шаблоны комплекта ||
+|#
+
+### Информация для документов {#legal}
+
+> Scope: [`sign.b2e`, `user`](../scopes/permissions.md)
+>
+> Кто может выполнять метод: зависит от метода
+
+Методы относятся к REST 3.0 и вызываются по адресу `/rest/api/`.
+
+#|
+|| **Метод** | **Описание** ||
+|| [sign.b2e.legal.field.list](./sign-b2e-legal-field-list.md) | Возвращает список полей информации для документов ||
+|| [sign.b2e.legal.profile.update](./sign-b2e-legal-profile-update.md) | Записывает информацию для документов в профиль сотрудника ||
+|#
 
 ### Внешние провайдеры подписи {#providers}
 

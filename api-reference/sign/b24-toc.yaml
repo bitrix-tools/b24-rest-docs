@@ -11,6 +11,22 @@ items:
     href: sign-b2e-hcmlink-document-get.md
   - name: Получить список провайдеров компании
     href: sign-b2e-company-provider-list.md
+  - name: Шаблоны и комплекты
+    items:
+      - name: Получить список шаблонов для отправки
+        href: sign-b2e-template-list.md
+      - name: Отправить документ по шаблону
+        href: sign-b2e-template-send.md
+      - name: Получить список комплектов шаблонов
+        href: sign-b2e-template-folder-tail.md
+      - name: Получить шаблоны комплекта
+        href: sign-b2e-template-folder-get.md
+  - name: Информация для документов
+    items:
+      - name: Получить список полей информации для документов
+        href: sign-b2e-legal-field-list.md
+      - name: Записать информацию для документов в профиль сотрудника
+        href: sign-b2e-legal-profile-update.md
   - name: Добавить провайдера подписи
     href: sign-b2e-provider-add.md
   - name: Изменить провайдера подписи
