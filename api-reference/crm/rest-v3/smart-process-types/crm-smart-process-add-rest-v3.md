@@ -91,11 +91,27 @@
 [`boolean`](../../../data-types.md) | Делать новые воронки доступными для всех ||
 || **startCatalogFormId**
 [`integer`](../../../data-types.md) | CRM-форма для каталога запуска процессов. При создании типа можно передать только `null` или `0`: форму выбирают методом [crm.smartprocess.update](./crm-smart-process-update-rest-v3.md) ||
+|| **relations**
+[`object`](./crm-smart-process-get-rest-v3.md#relations) | Связи типа с другими объектами CRM. Допускаются ключи `parent` и `child`, внутри каждого — массив объектов с `entityTypeId` и `isChildrenListEnabled`. Поле `isPredefined` при записи не передается.
+
+Список заменяет прежние связи целиком: если ключ `parent` или `child` не передан, связи этого направления удаляются. Системные связи с `isPredefined: true` сохраняются, передавать их нельзя ||
+|| **linkedUserFields**
+[`object`](./crm-smart-process-get-rest-v3.md#linked-user-fields) | Привязки к пользовательским полям календаря и задач. Ключи: ```CALENDAR_EVENT|UF_CRM_CAL_EVENT```, ```TASKS_TASK|UF_CRM_TASK```, ```TASKS_TASK_TEMPLATE|UF_CRM_TASK```, значения — `true` или `false`.
+
+Объект заменяет прежние привязки целиком: ключи, которые не переданы, получают `false` ||
+|| **primaryCustomSectionId**
+[`integer`](../../../data-types.md) | Основное цифровое рабочее место типа. Если передано вместе с `customSectionIds`, должно входить в этот список. Если не передано, основным становится первое место из `customSectionIds`.
+
+При изменении типа без `customSectionIds` основным можно сделать только место, в котором тип уже размещен. Значение `null` метод пропускает ||
+|| **customSectionIds**
+[`integer[]`](../../../data-types.md) | Цифровые рабочие места типа. Идентификаторы — положительные целые числа без повторов.
+
+Список заменяет прежний целиком. Пустой массив убирает тип из всех цифровых рабочих мест ||
 |#
 
 Признаки передаются как `true` или `false`. Если признак не передан, он выключен, кроме `isSetOpenPermissions`: по умолчанию он включен. Значения по умолчанию у созданного типа возвращает метод [crm.smartprocess.get](./crm-smart-process-get-rest-v3.md).
 
-Поля `entityTypeId`, `createdBy`, `updatedBy`, `createdTime`, `updatedTime`, `customSectionId`, `isPaymentsEnabled` метод не принимает: идентификатор типа Битрикс24 назначает сам, остальные поля только для чтения. Связи `relations`, привязки `linkedUserFields` и цифровые рабочие места `customSections` этот метод тоже не задает. Как их настроить, описано в [обзоре группы](./index.md#limits).
+Поля `entityTypeId`, `createdBy`, `updatedBy`, `createdTime`, `updatedTime` и `isPaymentsEnabled` метод не принимает: идентификатор типа Битрикс24 назначает сам, остальные поля только для чтения. Списки `relations`, `linkedUserFields` и `customSectionIds` задаются целиком и заменяют прежние при изменении типа.
 
 {% note info "" %}
 
@@ -449,8 +465,10 @@ HTTP-статус: **400**
 || `fields.daysBeforeClose` | Invalid smart process field. | Передайте в `daysBeforeClose` число от `0` до `365` или `null`. Та же ошибка приходит на `code` длиннее 255 символов ||
 || `fields` | Invalid smart process fields. | Уберите `startCatalogFormId` больше `0`: форму выбирают после создания типа методом [crm.smartprocess.update](./crm-smart-process-update-rest-v3.md) ||
 || `DESCRIPTION_TOO_LONG` | Описание должно быть не больше 1000 символов | Сократите `description` до 1000 символов ||
-|| `relations` | В поле `relations` требуется тип данных `SmartProcessRelationsDto` для такого запроса | Уберите `relations` из `fields`: связи этот метод не задает. Так же метод отвечает на `linkedUserFields` ||
-|| `RESTRICTION` | RESTRICTION | Битрикс24 не сохранил тип. Например, на тарифе исчерпан лимит смарт-процессов или нельзя включить переданный признак, например `isPersonEnabled` ||
+|| `fields.relations` | Invalid smart process field. | Проверьте структуру связей: `parent` и `child` содержат объекты с положительным `entityTypeId` и булевым `isChildrenListEnabled`. Для `linkedUserFields`, `primaryCustomSectionId` и `customSectionIds` проверьте формат по таблице параметров ||
+|| `fields.relations` | The requested relations are unavailable. | Оставьте доступные связи. Для `linkedUserFields` сообщение — `The requested linked user fields are unavailable.`, для рабочих мест — `The requested workplace is unavailable.` ||
+|| `fields.primaryCustomSectionId` | The primary workplace must be in the list. | Добавьте `primaryCustomSectionId` в список `customSectionIds` или не передавайте его: основным станет первое место списка ||
+|| `RESTRICTION` | The smart process change is restricted. | Битрикс24 не сохранил тип. Например, на тарифе исчерпан лимит смарт-процессов или нельзя включить переданный признак: так метод отвечает на `"isPersonEnabled": true` ||
 |#
 
 #### Ошибки валидации объекта
@@ -460,7 +478,7 @@ HTTP-статус: **400**
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
 || `title` | Не заполнено обязательное поле "title" | Передайте `title` в `fields` ||
-|| `entityTypeId` | Поле "entityTypeId" не доступно к заполнению | Уберите `entityTypeId` из `fields`: идентификатор типа назначается автоматически. Так же метод отвечает на другие поля только для чтения, например `isPaymentsEnabled` и `customSectionId` ||
+|| `entityTypeId` | Поле "entityTypeId" не доступно к заполнению | Уберите `entityTypeId` из `fields`: идентификатор типа назначается автоматически. Так же метод отвечает на другие поля только для чтения, например `isPaymentsEnabled` ||
 |#
 
 #### Ошибка неизвестного поля
@@ -469,7 +487,7 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `-` | Неизвестное поле `foo` для сущности `SmartProcessDto` | Проверьте имя поля по [таблице параметра fields](#fields). Ошибку с именем поля `0` вызывает `fields`, переданный строкой вместо объекта ||
+|| `-` | Неизвестное поле `foo` для сущности `SmartProcessDto` | Проверьте имя поля по [таблице параметра fields](#fields). Ошибку с именем поля `0` вызывает `fields`, переданный строкой вместо объекта. Так же метод отвечает на устаревшие поля `customSectionId` и `customSections` ||
 |#
 
 #### Ошибка доступа {#access-denied}

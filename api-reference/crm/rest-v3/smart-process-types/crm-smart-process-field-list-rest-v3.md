@@ -356,7 +356,7 @@ HTTP-статус: **200**
 || **type**
 [`string`](../../../data-types.md) | Тип данных: `int`, `string`, `bool`, `object` или `array`. У дат `createdTime` и `updatedTime` — `object`, хотя в ответе дата приходит строкой в формате ISO 8601 ||
 || **elementType**
-[`string`](../../../data-types.md) | Тип элемента у полей `additionalCustomSectionIds` и `customSections`. У остальных полей — `null` ||
+[`string`](../../../data-types.md) | Тип элемента у поля `customSectionIds`. У остальных полей — `null` ||
 || **multiple**
 [`boolean`](../../../data-types.md) | Множественное ли поле. У всех полей типа смарт-процесса — `false` ||
 || **title**

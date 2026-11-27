@@ -5,6 +5,8 @@
 ### 27 ноября, 2026
 
 - Добавили методы КЭДО в REST 3.0: [sign.b2e.template.*](./api-reference/sign/index.md#templates) отправляют сотруднику документ по шаблону компании или комплекту шаблонов, [sign.b2e.legal.*](./api-reference/sign/index.md#legal) записывают в профиль сотрудника информацию для документов
+- Добавили методы CRM в REST 3.0: письма [crm.activity.email.*](./api-reference/crm/rest-v3/activities/index.md) и письма элемента `crm.<тип>.activity.email.*`, [стадии предложений](./api-reference/crm/rest-v3/categories/index.md#quote-stages-methods) `crm.quote.stage.*`, [комментарии таймлайна](./api-reference/crm/rest-v3/timeline-comments/index.md) `crm.<тип>.timeline.comment.*` и удаление типа смарт-процесса [crm.smartprocess.delete](./api-reference/crm/rest-v3/smart-process-types/crm-smart-process-delete-rest-v3.md)
+- Методы `crm.activity.mail.getContent` и `crm.activity.mail.getThread` удалены, используйте [crm.activity.email.get](./api-reference/crm/rest-v3/activities/crm-activity-email-get-rest-v3.md) и [crm.activity.email.getthread](./api-reference/crm/rest-v3/activities/crm-activity-email-get-thread-rest-v3.md). Метод `crm.activity.mail.reply` устарел, его заменяет [crm.activity.email.reply](./api-reference/crm/rest-v3/activities/crm-activity-email-reply-rest-v3.md)
 
 ### 25 ноября, 2026
 

@@ -38,6 +38,8 @@
 
 Метод меняет только переданные поля, остальные настройки типа остаются прежними. Если передать пустой объект `fields`, метод вернет `true` и ничего не изменит.
 
+Связи `relations`, привязки `linkedUserFields` и список рабочих мест `customSectionIds` метод заменяет целиком. Например, `"relations": {"parent": [...]}` без ключа `child` удалит все несистемные дочерние связи типа. Как передавать эти поля, описано в [таблице параметра fields](./crm-smart-process-add-rest-v3.md#fields).
+
 Поле `title` при изменении необязательно, но пустую строку в нем передать нельзя. Чтобы удалить описание, передайте в `description` значение `null` или пустую строку. Чтобы убрать срок завершения элементов, передайте `"daysBeforeClose": null`.
 
 В `startCatalogFormId` можно передать идентификатор CRM-формы этого типа, которая доступна в каталоге запуска процессов. Значение `null` или `0` снимает выбор формы.
@@ -391,8 +393,10 @@ HTTP-статус: **400**
 || `isClientEnabled` | В поле `isClientEnabled` требуется тип данных `bool` для такого запроса | Передайте признак как `true` или `false`, а не `"Y"` ||
 || `fields.daysBeforeClose` | Invalid smart process field. | Передайте в `daysBeforeClose` число от `0` до `365` или `null`. Та же ошибка приходит на `code` длиннее 255 символов ||
 || `DESCRIPTION_TOO_LONG` | Описание должно быть не больше 1000 символов | Сократите `description` до 1000 символов ||
-|| `relations` | В поле `relations` требуется тип данных `SmartProcessRelationsDto` для такого запроса | Уберите `relations` из `fields`: связи этот метод не меняет. Так же метод отвечает на `linkedUserFields` ||
-|| `RESTRICTION` | RESTRICTION | Битрикс24 не сохранил тип. Например, настройки типа недоступны на тарифе или нельзя включить переданный признак: так метод отвечает на `"isPersonEnabled": true` у обычного смарт-процесса ||
+|| `fields.relations` | Invalid smart process field. | Проверьте структуру `relations`, `linkedUserFields`, `primaryCustomSectionId` и `customSectionIds` [по таблице параметров](./crm-smart-process-add-rest-v3.md#fields). Списки заменяют прежние целиком ||
+|| `fields.relations` | The requested relations are unavailable. | Оставьте доступные связи. Для `linkedUserFields` сообщение — `The requested linked user fields are unavailable.`, для рабочих мест — `The requested workplace is unavailable.` Та же ошибка приходит, если без `customSectionIds` передать в `primaryCustomSectionId` место, в котором тип не размещен ||
+|| `fields.primaryCustomSectionId` | The primary workplace must be in the list. | Добавьте `primaryCustomSectionId` в список `customSectionIds` или не передавайте его: основным станет первое место списка ||
+|| `RESTRICTION` | The smart process change is restricted. | Настройки типа недоступны на тарифе или нельзя включить переданный признак: так метод отвечает на `"isPersonEnabled": true` у обычного смарт-процесса ||
 |#
 
 #### Ошибки валидации объекта
@@ -401,10 +405,10 @@ HTTP-статус: **400**
 
 #|
 || **Поле** | **Описание ошибки** | **Как исправить** ||
-|| `customSectionId` | Поле "customSectionId" не доступно к заполнению | Уберите поле из `fields`: оно только для чтения. Так же метод отвечает на `entityTypeId`, `isPaymentsEnabled` и другие поля только для чтения ||
+|| `entityTypeId` | Поле "entityTypeId" не доступно к заполнению | Уберите поле из `fields`: оно только для чтения, как и `isPaymentsEnabled`. На устаревшее поле `customSectionId` метод отвечает [ошибкой неизвестного поля](#unknown-field) ||
 |#
 
-#### Ошибка неизвестного поля
+#### Ошибка неизвестного поля {#unknown-field}
 
 Код ошибки: `BITRIX_REST_V3_EXCEPTION_UNKNOWNDTOPROPERTYEXCEPTION`
 

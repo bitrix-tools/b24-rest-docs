@@ -103,4 +103,4 @@
 
 [*ключ_task]: Кроме этого, доступны еще три устаревших скоупа — tasks, tasks_extended, tasksmobile. Их не нужно использовать.
 
-[*ключ_sonet]: Скоуп socialnetwork не дает доступа ни к одному методу. Для работы с рабочими группами указывайте sonet_group.
+[*ключ_sonet]: Скоуп socialnetwork используется методами socialnetwork.api.workgroup.*. Для методов sonet_group.* указывайте sonet_group.

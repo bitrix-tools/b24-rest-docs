@@ -93,15 +93,16 @@ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_y
 || `crm.company.contact.items.set` | [crm.company.update](./rest-v3/items/crm-entity-update-rest-v3.md) с массивом `contactsId` ||
 || `crm.company.contact.items.delete` | [crm.company.update](./rest-v3/items/crm-entity-update-rest-v3.md) с пустым массивом `contactsId` ||
 || `crm.category.*` | [crm.deal.category.*](./rest-v3/categories/index.md) ||
-|| `crm.status.*` | Справочники — [crm.dictionary.<справочник>.*](./rest-v3/dictionaries/index.md), стадии сделок и смарт-процессов — [crm.deal.category.stage.*](./rest-v3/categories/index.md) ||
+|| `crm.status.*` | Справочники — [crm.dictionary.<справочник>.*](./rest-v3/dictionaries/index.md), стадии сделок и смарт-процессов — [crm.deal.category.stage.*](./rest-v3/categories/index.md), стадии предложений — [crm.quote.stage.*](./rest-v3/categories/index.md#quote-stages-methods) ||
 || `crm.requisite.*` | [crm.company.requisite.*](./rest-v3/requisites/index.md) и `crm.contact.requisite.*` ||
 || `crm.requisite.bankdetail.*` | [crm.company.requisite.bankrequisite.*](./rest-v3/requisites/index.md) ||
 || `crm.requisite.link.*` | [crm.deal.clientrequisite.*](./rest-v3/requisites/index.md) — реквизиты клиента, `crm.deal.mycompanyrequisite.*` — реквизиты моей компании ||
 || `crm.address.*` | Адреса контактов, компаний и лидов — [crm.company.address.*](./rest-v3/addresses/index.md), адреса реквизитов — [crm.company.requisite.address.*](./rest-v3/requisites/index.md) ||
 || `crm.activity.binding.add`, `delete` | [crm.activity.binding.bind](./rest-v3/activities/crm-activity-binding-bind-rest-v3.md), [crm.activity.binding.unbind](./rest-v3/activities/crm-activity-binding-unbind-rest-v3.md) ||
 || `crm.enum.addresstype` | [crm.dictionary.addresstype.list](./rest-v3/dictionaries/crm-dictionary-list-rest-v3.md) ||
-|| `crm.type.add`, `update`, `get`, `list`, `fields` | [crm.smartprocess.add](./rest-v3/smart-process-types/crm-smart-process-add-rest-v3.md), [update](./rest-v3/smart-process-types/crm-smart-process-update-rest-v3.md), [get](./rest-v3/smart-process-types/crm-smart-process-get-rest-v3.md), [list](./rest-v3/smart-process-types/crm-smart-process-list-rest-v3.md), [field.list](./rest-v3/smart-process-types/crm-smart-process-field-list-rest-v3.md). Тип находят по `entityTypeId`, а не по `id` ||
+|| `crm.type.add`, `update`, `get`, `list`, `delete`, `fields` | [crm.smartprocess.add](./rest-v3/smart-process-types/crm-smart-process-add-rest-v3.md), [update](./rest-v3/smart-process-types/crm-smart-process-update-rest-v3.md), [get](./rest-v3/smart-process-types/crm-smart-process-get-rest-v3.md), [list](./rest-v3/smart-process-types/crm-smart-process-list-rest-v3.md), [delete](./rest-v3/smart-process-types/crm-smart-process-delete-rest-v3.md), [field.list](./rest-v3/smart-process-types/crm-smart-process-field-list-rest-v3.md). Тип находят по `entityTypeId`, а не по `id` ||
 || `crm.stagehistory.list` | [crm.deal.stagehistory.list](./rest-v3/history/crm-entity-stage-history-list-rest-v3.md) ||
+|| `crm.timeline.comment.add`, `get`, `list` | [crm.deal.timeline.comment.add](./rest-v3/timeline-comments/crm-entity-timeline-comment-add-rest-v3.md), [get](./rest-v3/timeline-comments/crm-entity-timeline-comment-get-rest-v3.md), [list](./rest-v3/timeline-comments/crm-entity-timeline-comment-list-rest-v3.md). Тип элемента задается в имени метода, файлы к комментарию не прикрепляются ||
 |#
 
 ## Чего пока нет в REST 3.0 {#previous-only}
@@ -112,7 +113,7 @@ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_y
 || **Задача** | **Метод предыдущей версии** ||
 || Работать с документами CRM и документами КЭДО | [crm.item.*](./universal/index.md) ||
 || Работать с воронками счетов и документов | [crm.category.*](./universal/category/index.md) ||
-|| Работать со стадиями лидов, предложений и счетов, со справочником статусов списков обзвона | [crm.status.*](./status/index.md) ||
+|| Работать со стадиями лидов и счетов, со справочником статусов списков обзвона | [crm.status.*](./status/index.md) ||
 || Создать пользовательское поле типа «Список» или «Файл» | `crm.deal.userfield.add`, `crm.lead.userfield.add`, `crm.contact.userfield.add`, `crm.company.userfield.add`, `crm.quote.userfield.add` ||
 || Задать порядок контактов в сделке или сделать компанию контакта основной при добавлении | `crm.deal.contact.add`, `crm.lead.contact.add`, `crm.quote.contact.add`, `crm.contact.company.add`, `crm.company.contact.add` ||
 || Работать с пользовательскими полями реквизитов | [crm.requisite.userfield.*](./requisites/user-fields/index.md) ||
@@ -120,10 +121,11 @@ https://**put_your_bitrix24_address**/rest/api/**put_your_user_id_here**/**put_y
 || Выбрать реквизит моей компании в предложении или смарт-процессе | [crm.requisite.link.*](./requisites/links/index.md) ||
 || Получить все поля дела, в том числе настройки и данные провайдера, получить список дел без прав администратора | [crm.activity.get](./timeline/activities/activity-base/crm-activity-get.md), [crm.activity.list](./timeline/activities/activity-base/crm-activity-list.md) ||
 || Создать или изменить дело | [Таймлайн и дела](./timeline/index.md) ||
+|| Изменить или удалить комментарий таймлайна, прикрепить к комментарию файлы | [crm.timeline.comment.*](./timeline/comments/index.md) ||
 || Сбросить вид карточки к настройкам по умолчанию | `crm.deal.details.configuration.reset`, `crm.lead.details.configuration.reset`, `crm.contact.details.configuration.reset`, `crm.company.details.configuration.reset`, `crm.item.details.configuration.reset` ||
 || Получить короткие коды типов объектов `D`, `L`, `C` | [crm.enum.ownertype](./auxiliary/enum/crm-enum-owner-type.md) ||
 || Узнать режим работы CRM без прав администратора | [crm.settings.mode.get](./crm-settings-mode-get.md) ||
-|| Удалить тип смарт-процесса или получить его внутренний `id` | [crm.type.delete](./universal/user-defined-object-types/crm-type-delete.md), [crm.type.list](./universal/user-defined-object-types/crm-type-list.md) ||
+|| Получить внутренний `id` типа смарт-процесса | [crm.type.list](./universal/user-defined-object-types/crm-type-list.md) ||
 || Работать с таймлайном, генератором документов, автоматизацией, валютами, списками обзвона, дубликатами, сквозной аналитикой, цифровыми рабочими местами, оплатами и доставками | Методы этих разделов в [обзоре CRM](./index.md#all-methods) ||
 |#
 

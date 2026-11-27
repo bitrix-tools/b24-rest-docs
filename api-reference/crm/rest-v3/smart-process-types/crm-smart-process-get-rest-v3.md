@@ -34,7 +34,7 @@
 Идентификаторы типов возвращает метод [crm.smartprocess.list](./crm-smart-process-list-rest-v3.md) ||
 |#
 
-Метод всегда возвращает все поля типа, вместе со связями `relations`, привязками к пользовательским полям `linkedUserFields` и цифровыми рабочими местами `customSections`. Параметр `select` метод не учитывает и пропускает без ошибки. Чтобы получить только часть полей, используйте метод [crm.smartprocess.list](./crm-smart-process-list-rest-v3.md) с фильтром по `entityTypeId` и параметром `select`.
+Метод всегда возвращает все поля типа, вместе со связями `relations`, привязками к пользовательским полям `linkedUserFields` и цифровыми рабочими местами `primaryCustomSectionId`, `customSectionIds`. Параметр `select` метод не учитывает и пропускает без ошибки. Чтобы получить только часть полей, используйте метод [crm.smartprocess.list](./crm-smart-process-list-rest-v3.md) с фильтром по `entityTypeId` и параметром `select`.
 
 Имя метода пишется в нижнем регистре: `crm.smartprocess.get`. На имя `crm.smartProcess.get` метод отвечает ошибкой [«Метод не найден»](#method-not-found).
 
@@ -292,7 +292,7 @@ HTTP-статус: **200**
             "updatedBy": 1,
             "createdTime": "2025-07-01T11:26:42+03:00",
             "updatedTime": "2026-09-29T14:33:45+03:00",
-            "customSectionId": null,
+            "primaryCustomSectionId": null,
             "daysBeforeClose": null,
             "startCatalogFormId": null,
             "isCategoriesEnabled": true,
@@ -316,7 +316,7 @@ HTTP-статус: **200**
             "isCreateByFormEnabled": false,
             "isPersonEnabled": false,
             "isSetOpenPermissions": false,
-            "additionalCustomSectionIds": [],
+            "customSectionIds": [],
             "description": null,
             "relations": {
                 "parent": [
@@ -363,15 +363,7 @@ HTTP-статус: **200**
                 "CALENDAR_EVENT|UF_CRM_CAL_EVENT": true,
                 "TASKS_TASK|UF_CRM_TASK": true,
                 "TASKS_TASK_TEMPLATE|UF_CRM_TASK": true
-            },
-            "customSections": [
-                {
-                    "id": 1,
-                    "title": "Закупки",
-                    "isSelected": false,
-                    "isAdditional": false
-                }
-            ]
+            }
         }
     },
     "time": {
@@ -421,10 +413,10 @@ HTTP-статус: **200**
 [`datetime`](../../../data-types.md) | Дата и время создания типа ||
 || **updatedTime**
 [`datetime`](../../../data-types.md) | Дата и время последнего изменения типа ||
-|| **customSectionId**
-[`integer`](../../../data-types.md) | Идентификатор цифрового рабочего места, в котором размещен тип. Если тип размещен в CRM — `null` ||
-|| **additionalCustomSectionIds**
-[`integer[]`](../../../data-types.md) | Идентификаторы цифровых рабочих мест, в которые тип добавлен дополнительно. В список попадают только места, которые видит пользователь ||
+|| **primaryCustomSectionId**
+[`integer`](../../../data-types.md) | Идентификатор основного цифрового рабочего места. Если тип не размещен в цифровых рабочих местах — `null` ||
+|| **customSectionIds**
+[`integer[]`](../../../data-types.md) | Идентификаторы всех цифровых рабочих мест типа. Первым идет основное место `primaryCustomSectionId`. Если тип не размещен в цифровых рабочих местах — пустой массив ||
 || **daysBeforeClose**
 [`integer`](../../../data-types.md) | Сколько дней с момента создания отводится элементу до завершения: от `0` до `365`. Если срок не задан — `null` ||
 || **startCatalogFormId**
@@ -475,8 +467,6 @@ HTTP-статус: **200**
 [`object`](#relations) | Связи типа с другими объектами CRM. [Описание объекта](#relations) ||
 || **linkedUserFields**
 [`object`](#linked-user-fields) | Пользовательские поля других модулей, в которых можно выбрать элемент типа. [Описание объекта](#linked-user-fields) ||
-|| **customSections**
-[`object[]`](#custom-sections) | Цифровые рабочие места, которые видит пользователь, с признаком размещения в них типа. [Описание объекта](#custom-sections) ||
 |#
 
 #### Объект relations {#relations}
@@ -518,21 +508,6 @@ HTTP-статус: **200**
 [`boolean`](../../../data-types.md) | Привязка к CRM в задаче ||
 || ```TASKS_TASK_TEMPLATE|UF_CRM_TASK```
 [`boolean`](../../../data-types.md) | Привязка к CRM в шаблоне задачи ||
-|#
-
-#### Объект цифрового рабочего места {#custom-sections}
-
-#|
-|| **Название**
-`тип` | **Описание** ||
-|| **id**
-[`integer`](../../../data-types.md) | Идентификатор цифрового рабочего места ||
-|| **title**
-[`string`](../../../data-types.md) | Название цифрового рабочего места ||
-|| **isSelected**
-[`boolean`](../../../data-types.md) | Размещен ли тип в этом рабочем месте. Совпадает с полем `customSectionId` ||
-|| **isAdditional**
-[`boolean`](../../../data-types.md) | Добавлен ли тип в это рабочее место дополнительно. Совпадает со списком `additionalCustomSectionIds` ||
 |#
 
 ## Обработка ошибок

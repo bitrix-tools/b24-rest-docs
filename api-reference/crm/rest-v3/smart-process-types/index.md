@@ -40,9 +40,9 @@
 
 **Доступ.** Читать тип может администратор CRM, администратор этого смарт-процесса, пользователь с правом на чтение элементов типа или с правом управлять смарт-процессами. Типы без доступа метод [crm.smartprocess.list](./crm-smart-process-list-rest-v3.md) пропускает. Создавать и изменять типы может администратор CRM или пользователь с правом управлять смарт-процессами.
 
-**Что задают методы записи.** Методы [crm.smartprocess.add](./crm-smart-process-add-rest-v3.md) и [crm.smartprocess.update](./crm-smart-process-update-rest-v3.md) меняют название, код, описание, срок завершения элементов и признаки возможностей типа. Связи `relations`, привязки к пользовательским полям `linkedUserFields`, признак приема платежей `isPaymentsEnabled` и цифровые рабочие места эти методы не меняют. Связи и привязки настраивает метод прошлой версии [crm.type.update](../../universal/user-defined-object-types/crm-type-update.md), цифровые рабочие места — методы [crm.automatedsolution.*](../../automated-solution/index.md).
+**Что задают методы записи.** Методы [crm.smartprocess.add](./crm-smart-process-add-rest-v3.md) и [crm.smartprocess.update](./crm-smart-process-update-rest-v3.md) меняют название, код, описание, срок завершения элементов, признаки возможностей, связи `relations`, привязки `linkedUserFields` и цифровые рабочие места `primaryCustomSectionId`, `customSectionIds`. Признак приема платежей `isPaymentsEnabled` эти методы не меняют.
 
-**Удаление.** Метода удаления типа в REST 3.0 нет. Тип удаляет метод прошлой версии [crm.type.delete](../../universal/user-defined-object-types/crm-type-delete.md): ему нужен `id` типа из [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md), а не `entityTypeId`.
+**Удаление.** Метод [crm.smartprocess.delete](./crm-smart-process-delete-rest-v3.md) удаляет тип по `entityTypeId`. Перед удалением необходимо удалить элементы типа. Связи с другими типами и размещение в цифровых рабочих местах Битрикс24 убирает вместе с типом.
 
 **Имена методов.** Имена пишутся в нижнем регистре: `crm.smartprocess.list`. На `crm.smartProcess.list` Битрикс24 отвечает ошибкой «Метод не найден».
 
@@ -58,11 +58,11 @@
 
 **Другие типы CRM.** Объект `relations` в ответе [crm.smartprocess.get](./crm-smart-process-get-rest-v3.md#relations) показывает, к каким типам можно привязать элемент смарт-процесса и какие элементы можно привязать к нему.
 
-**Цифровые рабочие места.** Поля `customSectionId`, `additionalCustomSectionIds` и `customSections` показывают, в каких цифровых рабочих местах размещен тип. Рабочими местами управляют методы [crm.automatedsolution.*](../../automated-solution/index.md).
+**Цифровые рабочие места.** Поля `primaryCustomSectionId` и `customSectionIds` задают основное и остальные цифровые рабочие места типа. Справочник мест возвращают методы [crm.automatedsolution.*](../../automated-solution/index.md).
 
 ## Методы прошлой версии
 
-По адресу `/rest/` с типами смарт-процессов работают методы [crm.type.*](../../universal/user-defined-object-types/index.md). В REST 3.0 признаки передаются как `true` и `false`, а не `Y` и `N`, тип находят по `entityTypeId`, а `select`, `filter`, `order` и `pagination` записываются в формате [REST 3.0](../../../rest-v3.md). Методы прошлой версии по-прежнему нужны, чтобы удалить тип, изменить его связи и привязки к пользовательским полям или узнать `id` типа: он входит в имена пользовательских полей вида `UF_CRM_<id>_<код>`.
+По адресу `/rest/` с типами смарт-процессов работают методы [crm.type.*](../../universal/user-defined-object-types/index.md). В REST 3.0 признаки передаются как `true` и `false`, а не `Y` и `N`, тип находят по `entityTypeId`, а `select`, `filter`, `order` и `pagination` записываются в формате [REST 3.0](../../../rest-v3.md). Метод прошлой версии [crm.type.list](../../universal/user-defined-object-types/crm-type-list.md) нужен, чтобы узнать `id` типа: он входит в имена пользовательских полей вида `UF_CRM_<id>_<код>`.
 
 ## Обзор методов {#all-methods}
 
@@ -76,6 +76,7 @@
 || **Метод** | **Описание** ||
 || [crm.smartprocess.add](./crm-smart-process-add-rest-v3.md) | Создает тип смарт-процесса ||
 || [crm.smartprocess.update](./crm-smart-process-update-rest-v3.md) | Изменяет настройки типа смарт-процесса ||
+|| [crm.smartprocess.delete](./crm-smart-process-delete-rest-v3.md) | Удаляет тип, в котором нет элементов ||
 || [crm.smartprocess.get](./crm-smart-process-get-rest-v3.md) | Возвращает настройки типа смарт-процесса по `entityTypeId` ||
 || [crm.smartprocess.list](./crm-smart-process-list-rest-v3.md) | Возвращает типы смарт-процессов с фильтром, сортировкой и постраничной навигацией ||
 |#

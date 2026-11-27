@@ -128,7 +128,7 @@
 || [crm.activity.binding.*](./binding/index.md) | [crm.activity.binding.bind](../../rest-v3/activities/crm-activity-binding-bind-rest-v3.md), [unbind](../../rest-v3/activities/crm-activity-binding-unbind-rest-v3.md), [move](../../rest-v3/activities/crm-activity-binding-move-rest-v3.md), [list](../../rest-v3/activities/crm-activity-binding-list-rest-v3.md) REST 3.0 | Параметры и ответ в формате REST 3.0 описаны на страницах методов ||
 |#
 
-Остальные методы REST 3.0 для дел — завершение [crm.activity.complete](../../rest-v3/activities/crm-activity-complete-rest-v3.md), возврат в работу [crm.activity.uncomplete](../../rest-v3/activities/crm-activity-uncomplete-rest-v3.md), методы элемента `crm.<тип>.activity.*` и работа с письмами `crm.activity.mail.*` — перечислены в [обзоре дел REST 3.0](../../rest-v3/activities/index.md).
+Остальные методы REST 3.0 для дел — завершение [crm.activity.complete](../../rest-v3/activities/crm-activity-complete-rest-v3.md), возврат в работу [crm.activity.uncomplete](../../rest-v3/activities/crm-activity-uncomplete-rest-v3.md), методы элемента `crm.<тип>.activity.*` и работа с письмами `crm.activity.email.*` — перечислены в [обзоре дел REST 3.0](../../rest-v3/activities/index.md).
 
 ## Обзор методов и событий {#all-methods}
 

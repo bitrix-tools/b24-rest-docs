@@ -13,6 +13,12 @@
 >
 > Кто может выполнять метод: пользователь с правом на просмотр письма и с доступным почтовым ящиком для отправки
 
+{% note warning "DEPRECATED" %}
+
+Развитие метода остановлено. Используйте [crm.activity.email.reply](./crm-activity-email-reply-rest-v3.md).
+
+{% endnote %}
+
 {% note info "" %}
 
 Метод относится к REST 3.0. Особенности вызова и формат ответа новой версии API описаны в [обзоре REST 3.0](../../../rest-v3.md).
@@ -412,5 +418,5 @@ HTTP-статус: **400**
 ## Продолжите изучение
 
 - [{#T}](./index.md)
-- [{#T}](./crm-activity-mail-get-content-rest-v3.md)
-- [{#T}](./crm-activity-mail-get-thread-rest-v3.md)
+- [{#T}](./crm-activity-email-get-rest-v3.md)
+- [{#T}](./crm-activity-email-get-thread-rest-v3.md)

@@ -45,7 +45,7 @@
 || Смарт-процесс | `smartprocess<entityTypeId>`, например `smartprocess1038` ||
 |#
 
-У моей компании и документов КЭДО методов дел нет. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Имена методов пишутся в нижнем регистре: `crm.deal.activity.get`. Исключение — методы писем `crm.activity.mail.getContent` и `crm.activity.mail.getThread`: их имена пишутся с заглавными буквами, как в таблице методов.
+У моей компании и документов КЭДО методов дел нет. Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Имена методов пишутся в нижнем регистре: `crm.deal.activity.get`, `crm.activity.email.getthread`.
 
 ## Связь с другими объектами
 
@@ -55,7 +55,7 @@
 
 **Сотрудники.** В `assignedById` — ответственный, в `authorId` — автор, в `editorId` — последний, кто изменял дело. Данные сотрудников можно получить методом [user.get](../../../user/user-get.md).
 
-**Почта.** Письма CRM — дела с `providerId` равным `CRM_EMAIL`. Текст письма возвращает [crm.activity.mail.getContent](./crm-activity-mail-get-content-rest-v3.md), всю переписку — [crm.activity.mail.getThread](./crm-activity-mail-get-thread-rest-v3.md), ответ отправляет [crm.activity.mail.reply](./crm-activity-mail-reply-rest-v3.md).
+**Почта.** Письма CRM — дела с `providerId` равным `CRM_EMAIL`. Письмо возвращает [crm.activity.email.get](./crm-activity-email-get-rest-v3.md), переписку — [crm.activity.email.getthread](./crm-activity-email-get-thread-rest-v3.md), ответ отправляет [crm.activity.email.reply](./crm-activity-email-reply-rest-v3.md). Получить и отправить письмо от имени элемента можно методами `crm.<тип>.activity.email.*`.
 
 **Телефония.** Звонки — дела с `providerId` равным `VOXIMPLANT_CALL`. Кроме полей дела, методы [crm.<тип>.activity.call.get](./crm-entity-activity-call-get-rest-v3.md) и [crm.<тип>.activity.call.list](./crm-entity-activity-call-list-rest-v3.md) возвращают направление, длительность, исход звонка, запись, комментарий, оценку, линию и номер. Методы работают только на чтение. У моей компании и документов КЭДО их нет.
 
@@ -191,7 +191,10 @@
 
 #|
 || **Метод** | **Описание** ||
-|| [crm.activity.mail.getContent](./crm-activity-mail-get-content-rest-v3.md) | Возвращает текст и адресатов письма ||
-|| [crm.activity.mail.getThread](./crm-activity-mail-get-thread-rest-v3.md) | Возвращает цепочку писем ||
-|| [crm.activity.mail.reply](./crm-activity-mail-reply-rest-v3.md) | Отправляет ответ на письмо ||
+|| [crm.activity.email.get](./crm-activity-email-get-rest-v3.md) | Возвращает письмо по идентификатору ||
+|| [crm.activity.email.getthread](./crm-activity-email-get-thread-rest-v3.md) | Возвращает доступные письма цепочки ||
+|| [crm.activity.email.reply](./crm-activity-email-reply-rest-v3.md) | Отправляет ответ на письмо ||
+|| [crm.<тип>.activity.email.get](./crm-entity-activity-email-get-rest-v3.md) | Возвращает письмо в контексте типа объекта ||
+|| [crm.<тип>.activity.email.list](./crm-entity-activity-email-list-rest-v3.md) | Возвращает письма элемента ||
+|| [crm.<тип>.activity.email.send](./crm-entity-activity-email-send-rest-v3.md) | Отправляет письмо от имени элемента CRM ||
 |#

@@ -25,3 +25,15 @@ items:
     href: crm-entity-category-stage-delete-rest-v3.md
   - name: Заменить стадии воронки
     href: crm-entity-category-stage-replace-rest-v3.md
+  - name: Добавить стадию предложений
+    href: crm-quote-stage-add-rest-v3.md
+  - name: Изменить стадию предложений
+    href: crm-quote-stage-update-rest-v3.md
+  - name: Получить стадию предложений по идентификатору
+    href: crm-quote-stage-get-rest-v3.md
+  - name: Получить стадии предложений
+    href: crm-quote-stage-list-rest-v3.md
+  - name: Удалить стадию предложений
+    href: crm-quote-stage-delete-rest-v3.md
+  - name: Заменить стадии предложений
+    href: crm-quote-stage-replace-rest-v3.md

@@ -51,9 +51,17 @@ items:
         href: crm-activity-binding-list-rest-v3.md
   - name: Письма
     items:
-      - name: Получить текст письма
-        href: crm-activity-mail-get-content-rest-v3.md
+      - name: Получить письмо
+        href: crm-activity-email-get-rest-v3.md
       - name: Получить цепочку писем
-        href: crm-activity-mail-get-thread-rest-v3.md
+        href: crm-activity-email-get-thread-rest-v3.md
       - name: Ответить на письмо
+        href: crm-activity-email-reply-rest-v3.md
+      - name: Ответить на письмо (устаревший метод)
         href: crm-activity-mail-reply-rest-v3.md
+      - name: Получить письмо элемента
+        href: crm-entity-activity-email-get-rest-v3.md
+      - name: Получить список писем элемента
+        href: crm-entity-activity-email-list-rest-v3.md
+      - name: Отправить письмо элемента
+        href: crm-entity-activity-email-send-rest-v3.md

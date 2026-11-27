@@ -41,6 +41,10 @@ items:
     include:
       path: rest-v3/activities/b24-toc.yaml
       mode: link
+  - name: Комментарии таймлайна
+    include:
+      path: rest-v3/timeline-comments/b24-toc.yaml
+      mode: link
   - name: История изменений
     include:
       path: rest-v3/history/b24-toc.yaml

@@ -591,7 +591,7 @@ HTTP-статус: **400**
 #|
 || **Код** | **Описание** | **Значение** ||
 || `ERROR_REQUIRED_PARAMETERS_MISSING` | Required parameter `X` is missing | Обязательный параметр не передан ||
-|| `ACCESS_DENIED` | Access denied | Недостаточно прав для чтения раздела ||
+|| `ACCESS_DENIED` | Access denied | Недостаточно прав для чтения коллекции разделов или раздела с указанным `IBLOCK_SECTION_ID` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

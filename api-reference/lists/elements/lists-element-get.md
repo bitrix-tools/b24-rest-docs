@@ -653,7 +653,7 @@ HTTP-статус: **400**
 || **Статус** | **Код** | **Описание** | **Значение** ||
 || `400` | `ERROR_REQUIRED_PARAMETERS_MISSING` | Required parameter `X` is missing | Обязательный параметр не передан ||
 || `400` | `ERROR_IBLOCK_NOT_FOUND` | Iblock not found | Инфоблок не найден ||
-|| `400` | `ACCESS_DENIED` | Access denied | Недостаточно прав для чтения элемента ||
+|| `400` | `ACCESS_DENIED` | Access denied | Недостаточно прав для чтения коллекции элементов или элемента с указанным `ELEMENT_ID`/`ELEMENT_CODE` ||
 |#
 
 {% include [системные ошибки](../../../_includes/system-errors.md) %}

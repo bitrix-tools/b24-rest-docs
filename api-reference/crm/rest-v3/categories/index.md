@@ -29,9 +29,10 @@
 || **Методы** | **Типы объектов** ||
 || `crm.<тип>.category.*` | Сделка `deal`, контакт `contact`, компания `company`, смарт-процесс `smartprocess<entityTypeId>` ||
 || `crm.<тип>.category.stage.*` | Сделка `deal`, смарт-процесс `smartprocess<entityTypeId>` ||
+|| `crm.quote.stage.*` | Предложение. Тип объекта уже входит в имя метода ||
 |#
 
-У смарт-процесса методы воронок есть, только если в настройках типа включены воронки, а методы стадий — если включены и воронки, и стадии. У лида, предложения, счета и моей компании методов воронок и стадий нет.
+У смарт-процесса методы воронок есть, только если в настройках типа включены воронки, а методы стадий — если включены и воронки, и стадии. У лида, счета и моей компании методов стадий нет. Стадиями предложений управляет отдельная группа [crm.quote.stage.*](#quote-stages-methods): у предложений одна воронка, поэтому `categoryId` в этих методах нет.
 
 Идентификаторы типов смарт-процессов `entityTypeId` возвращает метод [crm.smartprocess.list](../smart-process-types/crm-smart-process-list-rest-v3.md). Имена методов пишутся в нижнем регистре: `crm.smartprocess1038.category.list`.
 
@@ -156,11 +157,24 @@
 || [crm.<тип>.category.stage.field.get](#field-methods) | Возвращает описание поля стадии по имени ||
 |#
 
+### Стадии предложений {#quote-stages-methods}
+
+#|
+|| **Метод** | **Описание** ||
+|| [crm.quote.stage.add](./crm-quote-stage-add-rest-v3.md) | Добавляет стадию предложений ||
+|| [crm.quote.stage.update](./crm-quote-stage-update-rest-v3.md) | Изменяет стадию предложений ||
+|| [crm.quote.stage.get](./crm-quote-stage-get-rest-v3.md) | Возвращает стадию предложений по идентификатору ||
+|| [crm.quote.stage.list](./crm-quote-stage-list-rest-v3.md) | Возвращает стадии предложений ||
+|| [crm.quote.stage.delete](./crm-quote-stage-delete-rest-v3.md) | Удаляет стадию предложений без элементов ||
+|| [crm.quote.stage.replace](./crm-quote-stage-replace-rest-v3.md) | Задает набор стадий предложений одним запросом ||
+|#
+
 ### Описание полей воронки и стадии {#field-methods}
 
 Описание полей с признаками обязательности и изменяемости возвращают методы:
 
 - поля воронки — `crm.<тип>.category.field.list` и `crm.<тип>.category.field.get`
 - поля стадии — `crm.<тип>.category.stage.field.list` и `crm.<тип>.category.stage.field.get`
+- поля стадии предложений — `crm.quote.stage.field.list` и `crm.quote.stage.field.get`
 
 Формат ответа такой же, как у метода [crm.<тип>.field.list](../fields/crm-entity-field-list-rest-v3.md).

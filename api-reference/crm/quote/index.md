@@ -44,7 +44,7 @@
 ## Как начать работу
 
 1. Получите описание полей предложения методом [crm.quote.fields](./crm-quote-fields.md) — он вернет системные и пользовательские поля с их типами
-2. Узнайте доступные стадии методом [crm.status.list](../status/crm-status-list.md) с фильтром `ENTITY_ID = QUOTE_STATUS`, а список валют — методом [crm.currency.list](../currency/crm-currency-list.md)
+2. Узнайте доступные стадии методом REST 3.0 [crm.quote.stage.list](../rest-v3/categories/crm-quote-stage-list-rest-v3.md) или методом [crm.status.list](../status/crm-status-list.md) с фильтром `ENTITY_ID = QUOTE_STATUS`, а список валют — методом [crm.currency.list](../currency/crm-currency-list.md)
 3. Создайте предложение методом [crm.quote.add](./crm-quote-add.md): передайте тему `TITLE`, стадию `STATUS_ID`, компанию клиента `COMPANY_ID` или контакты `CONTACT_IDS` и вашу компанию `MYCOMPANY_ID`
 4. Добавьте товарные позиции методом [crm.quote.productrows.set](./crm-quote-product-rows-set.md), проверить их состав можно методом [crm.quote.productrows.get](./crm-quote-product-rows-get.md)
 5. Подпишитесь на [события предложений](./events/index.md), чтобы получать уведомления об изменениях в приложение
